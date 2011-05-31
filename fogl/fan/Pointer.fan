@@ -9,7 +9,6 @@
 const class Pointer
 {
   native Int val()
-  internal Void setVal(Int i)
 }
 
 const class Buffer : Pointer {}

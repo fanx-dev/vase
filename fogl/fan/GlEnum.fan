@@ -11,7 +11,6 @@ const class GlEnum
   internal new make(){}
 
   native GlEnum mix(GlEnum e)
-  native Int val()
 }
 
 **************************************************************************

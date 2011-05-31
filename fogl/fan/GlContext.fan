@@ -34,7 +34,7 @@ class GlContext
 // Common
 //////////////////////////////////////////////////////////////////////////
 
-  native Void clearColor(Int a, Int r, Int g, Int b)
+  native Void clearColor(Float r, Float g, Float b, Float a)
 
   native Void enable(GlEnum e)
 
