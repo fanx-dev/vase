@@ -7,12 +7,15 @@
 //
 
 
-fan.fogl.DisplayPeer = fan.sys.Obj.$extend(fan.sys.Obj);
-fan.fogl.DisplayPeer.prototype.$ctor = function(self) {}
+fan.fogl.GlDisplayPeer = fan.sys.Obj.$extend(fan.sys.Obj);
+fan.fogl.GlDisplayPeer.prototype.$ctor = function(self) {}
 
-function fan.fogl.DisplayPeer.prototype.initGL(self, canvas) {
+function fan.fogl.GlDisplayPeer.prototype.initGL(self, canvas) {
     try {
-        self.gl = canvas.getContext("experimental-webgl");
+        gl = canvas.getContext("experimental-webgl");
+        cx = new fan.fogl.GlContext();
+        cx.peer.gl = gl;
+        this.gl = cx;
         //self.gl.viewportWidth = canvas.width;
         //self.gl.viewportHeight = canvas.height;
     } catch (e) {
@@ -22,7 +25,7 @@ function fan.fogl.DisplayPeer.prototype.initGL(self, canvas) {
     }
 }
 
-fan.fogl.DisplayPeer.prototype.create = function(self)
+fan.fogl.GlDisplayPeer.prototype.open = function(self)
 {
   // check for alt root
   var rootId = fan.sys.Env.cur().vars().get("fwt.window.root")
@@ -47,16 +50,15 @@ fan.fogl.DisplayPeer.prototype.create = function(self)
 
   //create canvas
   c = document.createElement("canvas");
-  c.width  = 600;
-  c.height = 500;
+  c.width  = self.w;
+  c.height = self.h;
   shell.appendChild(c);
 
   initGL(self, c);
+  self.init(this.gl);
 }
 
-fan.fogl.DisplayPeer.prototype.repaint = function(self)
+fan.fogl.GlDisplayPeer.prototype.repaint = function(self)
 {
-  cx = new fan.fogl.GlContext();
-  cx.peer.gl = gl
-  self.onPaint(cx);
+  self.onPaint(this.gl);
 }

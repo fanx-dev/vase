@@ -7,11 +7,15 @@
 //
 
 
-class Display
+class GlDisplay
 {
-  native Void create()
+  Int w := 800
+  Int h := 600
+
+  native Void open()
 
   native Void repaint()
 
+  virtual Void init(GlContext gl) {}
   virtual Void onPaint(GlContext gl) {}
 }
