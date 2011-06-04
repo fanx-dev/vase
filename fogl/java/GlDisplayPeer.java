@@ -24,9 +24,9 @@ class GlDisplayPeer
     return new GlDisplayPeer();
   }
 
-  public void open(GlDisplay self)
+  public void open(GlDisplay self) throws Exception
   {
-    Display.setDisplayMode(new DisplayMode(self.w(), self.h()));
+    Display.setDisplayMode(new DisplayMode((int)self.w(), (int)self.h()));
     Display.setVSyncEnabled(true);
     Display.setTitle("Shader Setup");
     Display.create();
@@ -34,17 +34,17 @@ class GlDisplayPeer
     gl = new GlContext();
     self.init(gl);
 
-    while(!done)
+    while(true)
     {
-      if(Display.isCloseRequested()) done = true;
-      render();
+      if(Display.isCloseRequested()) break;
+      repaint(self);
       Display.update();
     }
 
     Display.destroy();
   }
 
-  public void repaint()
+  public void repaint(GlDisplay self)
   {
     self.onPaint(gl);
   }

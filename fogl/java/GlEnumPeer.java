@@ -8,42 +8,23 @@
 
 package fan.fogl;
 
-import fan.sys.*;
-
-static import org.lwjgl.opengl.GL11.*;
 
 class GlEnumPeer
 {
-  int val;
+  private int value;
 
   public static GlEnumPeer make(GlEnum self)
   {
     return new GlEnumPeer();
   }
 
-  GlEnum mix(GlEnum e)
+  public GlEnum mix(GlEnum e)
   {
     GlEnum e2 = GlEnum.make();
-    e2.peer.val =  this.val | e.peer.vl;
+    e2.peer.value =  this.value | e.peer.value;
     return e2;
   }
-}
 
-//************************************************************************
-// GlEnumFactoryPeer
-//************************************************************************
-
-class GlEnumFactoryPeer
-{
-  public static GlEnumFactoryPeer make(GlEnumFactory self)
-  {
-    return new GlEnumFactoryPeer();
-  }
-
-  GlEnum deepTest(GlEnumFactory self)
-  {
-    e = GlEnum.make();
-    e.peer.val = GL_DEPTH_TEST;
-    return e;
-  }
+  public int getValue(){ return value; }
+  public void setValue(int v){ value = v; }
 }
