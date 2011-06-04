@@ -19,87 +19,31 @@ class Main
     path = Env.cur.args[0].toUri
     File inFile := File(path)
 
-    printJava(inFile)
-    printJs(inFile)
-    printFantom(inFile)
-    printFantom2(inFile)
-  }
-
-  private Void printJava(File inFile)
-  {
-    File outFile := File(path + `gen/const.java`)
-    out := outFile.out
-    inFile.eachLine |line| { print(out, line, 0) }
-    out.close
-  }
-
-  private Void printJs(File inFile)
-  {
-    File outFile := File(path + `gen/const.js`)
-    out := outFile.out
-    inFile.eachLine |line| { print(out, line, 1) }
-    out.close
-  }
-
-  private Void printFantom(File inFile)
-  {
     File outFile := File(path + `gen/const.fan`)
     out := outFile.out
-    inFile.eachLine |line| { print(out, line, 2) }
+    inFile.eachLine |line| { print(out, line) }
     out.close
   }
 
-  private Void printFantom2(File inFile)
-  {
-    File outFile := File(path + `gen/const2.fan`)
-    out := outFile.out
-    inFile.eachLine |line| { print(out, line, 3) }
-    out.close
-  }
-
-  private Void print(OutStream out, Str line, Int flag)
+  private Void print(OutStream out, Str line)
   {
     if (line.isSpace) { out.printLine; return }
     if (comment(out, line)) return
 
     i := line.index("=")
+    last := line.index(";")
     key := line[0..<i]
+    value := line[i+1..<last].trim
 
     upperName := key.trim
     lowerName := lower(upperName)
 
-    switch(flag)
-    {
-    case 0:
-      out.printLine(java(upperName, lowerName))
-    case 1:
-      out.printLine(js(upperName, lowerName))
-    case 2:
-      out.printLine(fantom(upperName, lowerName))
-    case 3:
-      out.printLine(fantom2(upperName, lowerName))
-    }
+    out.printLine(fantom(upperName, lowerName, value))
   }
 
-  private Str java(Str upperName, Str lowerName)
+  private Str fantom(Str upperName, Str lowerName, Str value)
   {
-    "  GlEnum gl${lowerName}(GlEnumFactory self){ return makeEnum(GL_$upperName); }"
-  }
-
-  private Str js(Str upperName, Str lowerName)
-  {
-    namespace := "fan.fogl.GlEnumFactoryPeer"
-    return "${namespace}.prototype.gl${lowerName}(self){ return ${namespace}.makeEnum(self.m_gl.$upperName); }"
-  }
-
-  private Str fantom(Str upperName, Str lowerName)
-  {
-    "  native GlEnum gl${lowerName}()"
-  }
-
-  private Str fantom2(Str upperName, Str lowerName)
-  {
-    "  const GlEnum gl${lowerName} := enums.gl${lowerName}"
+    "  static const GlEnum gl${lowerName} := GlEnum($value)"
   }
 
 //////////////////////////////////////////////////////////////////////////

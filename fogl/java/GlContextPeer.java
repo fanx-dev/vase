@@ -29,7 +29,7 @@ class GlContextPeer
     return new GlContextPeer();
   }
 
-  public void clearColor(GlContext self, double r, double g, double b, long a)
+  public void clearColor(GlContext self, double r, double g, double b, double a)
   {
     glClearColor((float)r, (float)g, (float)b, (float)a);
   }
@@ -40,7 +40,7 @@ class GlContextPeer
 
   public void enable(GlContext self, GlEnum cap)
   {
-    glEnable(cap.peer.getValue());
+    glEnable((int)cap.val);
   }
 
   public void viewport(GlContext self, long x, long y, long width, long height)
@@ -50,17 +50,17 @@ class GlContextPeer
 
   public void clear(GlContext self, GlEnum mask)
   {
-    glClear(mask.peer.getValue());
+    glClear((int)mask.val);
   }
 
   public void vertexAttribPointer(GlContext self, long indx, long size, GlEnum type, boolean normalized, long stride, long offset)
   {
-    glVertexAttribPointer((int)indx, (int)size, type.peer.getValue(), normalized, (int)stride, offset);
+    glVertexAttribPointer((int)indx, (int)size, (int)type.val, normalized, (int)stride, offset);
   }
 
   public void drawArrays(GlContext self, GlEnum mode, long first, long count)
   {
-    glDrawArrays(mode.peer.getValue(), (int)first, (int)count);
+    glDrawArrays((int)mode.val, (int)first, (int)count);
   }
 
 //////////////////////////////////////////////////////////////////////////
@@ -77,7 +77,7 @@ class GlContextPeer
 
   public void bindBuffer(GlContext self, GlEnum target, Buffer buffer)
   {
-    glBindBuffer(target.peer.getValue(), buffer.peer.getValue());
+    glBindBuffer((int)target.val, buffer.peer.getValue());
   }
 
   public void bufferData(GlContext self, GlEnum target, ArrayBuffer data, GlEnum usage)
@@ -85,23 +85,23 @@ class GlContextPeer
     java.nio.Buffer d = data.getData();
     if (d instanceof java.nio.FloatBuffer)
     {
-      glBufferData(target.peer.getValue(), (java.nio.FloatBuffer)d, usage.peer.getValue());
+      glBufferData((int)target.val, (java.nio.FloatBuffer)d, (int)usage.val);
     }
     else if (d instanceof java.nio.DoubleBuffer)
     {
-      glBufferData(target.peer.getValue(), (java.nio.DoubleBuffer)d, usage.peer.getValue());
+      glBufferData((int)target.val, (java.nio.DoubleBuffer)d, (int)usage.val);
     }
     else if(d instanceof java.nio.IntBuffer)
     {
-      glBufferData(target.peer.getValue(), (java.nio.IntBuffer)d, usage.peer.getValue());
+      glBufferData((int)target.val, (java.nio.IntBuffer)d, (int)usage.val);
     }
     else if(d instanceof java.nio.ShortBuffer)
     {
-      glBufferData(target.peer.getValue(), (java.nio.ShortBuffer)d, usage.peer.getValue());
+      glBufferData((int)target.val, (java.nio.ShortBuffer)d, (int)usage.val);
     }
     else if(d instanceof java.nio.ByteBuffer)
     {
-      glBufferData(target.peer.getValue(), (java.nio.ByteBuffer)d, usage.peer.getValue());
+      glBufferData((int)target.val, (java.nio.ByteBuffer)d, (int)usage.val);
     }
     else
     {
@@ -115,7 +115,7 @@ class GlContextPeer
 
   public Shader createShader(GlContext self, GlEnum type)
   {
-    int i = ARBShaderObjects.glCreateShaderObjectARB(type.peer.getValue());
+    int i = ARBShaderObjects.glCreateShaderObjectARB((int)type.val);
     Shader shader = Shader.make();
     shader.peer.setValue(i);
     return shader;
@@ -133,7 +133,7 @@ class GlContextPeer
 
   public long getShaderParameter(GlContext self, Shader shader, GlEnum pname)
   {
-    int i = ARBShaderObjects.glGetObjectParameteriARB(shader.peer.getValue(), pname.peer.getValue());
+    int i = ARBShaderObjects.glGetObjectParameteriARB(shader.peer.getValue(), (int)pname.val);
     return i;
   }
 
@@ -163,7 +163,7 @@ class GlContextPeer
 
   public long getProgramParameter(GlContext self, Program program, GlEnum pname)
   {
-    int i = ARBShaderObjects.glGetObjectParameteriARB(program.peer.getValue(), pname.peer.getValue());
+    int i = ARBShaderObjects.glGetObjectParameteriARB(program.peer.getValue(), (int)pname.val);
     return i;
   }
 

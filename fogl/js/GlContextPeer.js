@@ -22,7 +22,7 @@ fan.fogl.GlContextPeer.prototype.clearColor = function(self, r, g, b, a)
 
 fan.fogl.GlContextPeer.prototype.enable = function(self, cap)
 {
-  this.gl.enable(cap.peer.getValue());
+  this.gl.enable(cap.val);
 }
 
 fan.fogl.GlContextPeer.prototype.viewport = function(self, x, y, width, height)
@@ -32,7 +32,7 @@ fan.fogl.GlContextPeer.prototype.viewport = function(self, x, y, width, height)
 
 fan.fogl.GlContextPeer.prototype.clear = function(self, mask)
 {
-  this.gl.clear(mask.peer.getValue());
+  this.gl.clear(mask.val);
 }
 
 fan.fogl.GlContextPeer.prototype.vertexAttribPointer = function(self, index, size, type, normalized, stride, offset)
@@ -42,7 +42,7 @@ fan.fogl.GlContextPeer.prototype.vertexAttribPointer = function(self, index, siz
 
 fan.fogl.GlContextPeer.prototype.drawArrays = function(self, mode, first, count)
 {
-  this.gl.drawArrays(mode.peer.getValue(), first, count);
+  this.gl.drawArrays(mode.val, first, count);
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -58,12 +58,12 @@ fan.fogl.GlContextPeer.prototype.createBuffer = function(self)
 
 fan.fogl.GlContextPeer.prototype.bindBuffer = function(self, target, buffer)
 {
-  this.gl.bindBuffer(target.peer.getValue(), buffer.peer.getValue());
+  this.gl.bindBuffer(target.val, buffer.peer.getValue());
 }
 
 fan.fogl.GlContextPeer.prototype.bufferData = function(self, target, data, usage)
 {
-  this.gl.bufferData(target.peer.getValue(), data.getData(), usage.peer.getValue());
+  this.gl.bufferData(target.val, data.getData(), usage.val);
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -90,7 +90,7 @@ fan.fogl.GlContextPeer.prototype.compileShader(self, shader)
 
 fan.fogl.GlContextPeer.prototype.getShaderParameter(self, shader, pname)
 {
-  return this.gl.getShaderParameter(shader.peer.getValue(), pname.peer.getValue());
+  return this.gl.getShaderParameter(shader.peer.getValue(), pname.val);
 }
 
 fan.fogl.GlContextPeer.prototype.getShaderInfoLog(self, shader)
@@ -118,7 +118,7 @@ fan.fogl.GlContextPeer.prototype.linkProgram(self, program)
 
 fan.fogl.GlContextPeer.prototype.getProgramParameter(self, program, pname)
 {
-  return this.gl.getProgramParameter(program.peer.getValue(), pname.peer.getValue());
+  return this.gl.getProgramParameter(program.peer.getValue(), pname.val);
 }
 
 fan.fogl.GlContextPeer.prototype.validateProgram(self, program)

@@ -45,7 +45,8 @@ SRC_ALPHA_SATURATE   = 0x0308;
 /* BlendEquationSeparate */
 FUNC_ADD   = 0x8006;
 BLEND_EQUATION  = 0x8009;
-BLEND_EQUATION_RGB   = 0x8009;   /* same as BLEND_EQUATION */
+/* same as BLEND_EQUATION */
+BLEND_EQUATION_RGB   = 0x8009;
 BLEND_EQUATION_ALPHA = 0x883D;
 
 /* BlendSubtract */
