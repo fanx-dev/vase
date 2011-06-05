@@ -43,7 +43,7 @@ class Main
 
   private Str fantom(Str upperName, Str lowerName, Str value)
   {
-    "  static const GlEnum gl${lowerName} := GlEnum($value)"
+    "  static const GlEnum ${lowerName.decapitalize} := GlEnum($value)"
   }
 
 //////////////////////////////////////////////////////////////////////////

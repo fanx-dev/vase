@@ -6,7 +6,7 @@
 //   2011-5-29  Jed Young  Creation
 //
 
-
+@Js
 class GlContext
 {
 

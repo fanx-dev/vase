@@ -6,6 +6,7 @@
 //   2011-5-29  Jed Young  Creation
 //
 
+@Js
 const class GlIndex { internal native Int val() }
 
 **
@@ -14,6 +15,7 @@ const class GlIndex { internal native Int val() }
 ** bound as if by calling glBindBuffer (OpenGL ES 2.0 §2.9, man page) and
 ** destroyed as if by calling glDeleteBuffers (OpenGL ES 2.0 §2.9, man page) .
 **
+@Js
 const class Buffer : GlIndex {}
 
 **
@@ -22,6 +24,7 @@ const class Buffer : GlIndex {}
 ** used as if by calling glUseProgram (OpenGL ES 2.0 §2.10.3, man page) and
 ** destroyed as if by calling glDeleteProgram (OpenGL ES 2.0 §2.10.3, man page) .
 **
+@Js
 const class Program : GlIndex {}
 
 **
@@ -30,9 +33,11 @@ const class Program : GlIndex {}
 ** attached to a Program as if by calling glAttachShader (OpenGL ES 2.0 §2.10.3, man page) and
 ** destroyed as if by calling glDeleteShader (OpenGL ES 2.0 §2.10.1, man page) .
 **
+@Js
 const class Shader : GlIndex {}
 
 **
 ** The UniformLocation interface represents the location of a uniform variable in a shader program.
 **
+@Js
 const class UniformLocation : GlIndex {}
