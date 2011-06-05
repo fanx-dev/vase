@@ -156,7 +156,7 @@ class GlContextPeer
     ARBShaderObjects.glAttachObjectARB(program.peer.getValue(), shader.peer.getValue());
   }
 
-  public void linkProgram(GlContext self, Shader program)
+  public void linkProgram(GlContext self, Program program)
   {
     ARBShaderObjects.glLinkProgramARB(program.peer.getValue());
   }
@@ -167,7 +167,7 @@ class GlContextPeer
     return i;
   }
 
-  public void validateProgram(Program program)
+  public void validateProgram(GlContext self, Program program)
   {
     ARBShaderObjects.glValidateProgramARB(program.peer.getValue());
   }

@@ -47,7 +47,7 @@ class GlContext
 
   native Program createProgram()
   native Void attachShader(Program program, Shader shader)
-  native Void linkProgram(Shader program)
+  native Void linkProgram(Program program)
   native Int getProgramParameter(Program program, GlEnum pname)
   native Void validateProgram(Program program);
   native Void useProgram(Program program)

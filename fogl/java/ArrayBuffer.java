@@ -12,8 +12,10 @@ import fan.sys.*;
 
 import java.nio.*;
 
+import org.lwjgl.BufferUtils;
 
-class ArrayBuffer extends FanObj
+
+public class ArrayBuffer extends FanObj
 {
   private java.nio.Buffer data;
 
@@ -25,18 +27,9 @@ class ArrayBuffer extends FanObj
   }
   public static void makeFloat$(ArrayBuffer self, List list)
   {
-    self.data = FloatBuffer.wrap(toFloatArray(list));
-  }
-
-  public static ArrayBuffer makeDouble(List list)
-  {
-    ArrayBuffer buffer = new ArrayBuffer();
-    makeDouble$(buffer, list);
-    return buffer;
-  }
-  public static void makeDouble$(ArrayBuffer self, List list)
-  {
-    self.data = DoubleBuffer.wrap(toDoubleArray(list));
+    FloatBuffer buf = BufferUtils.createFloatBuffer((int)list.size());
+    buf.put(toFloatArray(list));
+    self.data = buf;
   }
 
   public static ArrayBuffer makeInt(List list)
@@ -47,30 +40,11 @@ class ArrayBuffer extends FanObj
   }
   public static void makeInt$(ArrayBuffer self, List list)
   {
-    self.data = IntBuffer.wrap(toIntArray(list));
+    IntBuffer buf = BufferUtils.createIntBuffer((int)list.size());
+    buf.put(toIntArray(list));
+    self.data = buf;
   }
 
-  public static ArrayBuffer makeShort(List list)
-  {
-    ArrayBuffer buffer = new ArrayBuffer();
-    makeShort$(buffer, list);
-    return buffer;
-  }
-  public static void makeShort$(ArrayBuffer self, List list)
-  {
-    self.data = ShortBuffer.wrap(toShortArray(list));
-  }
-
-  public static ArrayBuffer makeByte(List list)
-  {
-    ArrayBuffer buffer = new ArrayBuffer();
-    makeByte$(buffer, list);
-    return buffer;
-  }
-  public static void makeByte$(ArrayBuffer self, List list)
-  {
-    self.data = ByteBuffer.wrap(toByteArray(list));
-  }
 
 //////////////////////////////////////////////////////////////////////////
 // methods
@@ -97,18 +71,8 @@ class ArrayBuffer extends FanObj
     int[] a = new int[size];
     for (int i=0; i<size; ++i)
     {
-      a[i] = (Integer)list.get(i);
-    }
-    return a;
-  }
-
-  static long[] toLongArray(fan.sys.List list)
-  {
-    int size = (int)list.size();
-    long[] a = new long[size];
-    for (int i=0; i<size; ++i)
-    {
-      a[i] = (Long)list.get(i);
+      long v = (Long)list.get(i);
+      a[i] = (int)v;
     }
     return a;
   }
@@ -119,7 +83,8 @@ class ArrayBuffer extends FanObj
     short[] a = new short[size];
     for (int i=0; i<size; ++i)
     {
-      a[i] = (Short)list.get(i);
+      long v = (Long)list.get(i);
+      a[i] = (short)v;
     }
     return a;
   }
@@ -130,7 +95,8 @@ class ArrayBuffer extends FanObj
     float[] a = new float[size];
     for (int i=0; i<size; ++i)
     {
-      a[i] = (Float)list.get(i);
+      double v = (Double)list.get(i);
+      a[i] = (float)v;
     }
     return a;
   }
@@ -141,7 +107,8 @@ class ArrayBuffer extends FanObj
     double[] a = new double[size];
     for (int i=0; i<size; ++i)
     {
-      a[i] = (Double)list.get(i);
+      double v = (Double)list.get(i);
+      a[i] = v;
     }
     return a;
   }
@@ -152,7 +119,8 @@ class ArrayBuffer extends FanObj
     byte[] a = new byte[size];
     for (int i=0; i<size; ++i)
     {
-      a[i] = (Byte)list.get(i);
+      long v = (Long)list.get(i);
+      a[i] = (byte)v;
     }
     return a;
   }

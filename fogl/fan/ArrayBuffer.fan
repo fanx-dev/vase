@@ -11,12 +11,6 @@ native class ArrayBuffer
 {
   new makeFloat(Float[] data)
 
-  new makeDouble(Float[] data)
-
   new makeInt(Int[] data)
-
-  new makeShort(Int[] data)
-
-  new makeByte(Int[] data)
 }
 
