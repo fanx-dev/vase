@@ -16,61 +16,61 @@ fan.fogl.ArrayBuffer.prototype.data = null;
 // ctor
 //////////////////////////////////////////////////////////////////////////
 
-fan.fogl.ArrayBuffer.makeFloat(list)
+fan.fogl.ArrayBuffer.makeFloat = function(list)
 {
   var self = new fan.fogl.ArrayBuffer();
   makeFloat$(self, list);
   return self;
 }
-fan.fogl.ArrayBuffer.makeFloat$(self, list)
+fan.fogl.ArrayBuffer.makeFloat$ = function(self, list)
 {
   var data = list.m_values
   self.data = new Float32Array(data);
 }
 
-fan.fogl.ArrayBuffer.makeDouble(list)
+fan.fogl.ArrayBuffer.makeDouble = function(list)
 {
   var self = new fan.fogl.ArrayBuffer();
   makeDouble$(self, list);
   return self;
 }
-fan.fogl.ArrayBuffer.makeDouble$(self, list)
+fan.fogl.ArrayBuffer.makeDouble$ = function(self, list)
 {
   var data = list.m_values
   self.data = new Float64Array(data);
 }
 
-fan.fogl.ArrayBuffer.makeInt(list)
+fan.fogl.ArrayBuffer.makeInt = function(list)
 {
   var self = new fan.fogl.ArrayBuffer();
   makeInt$(self, list);
   return self;
 }
-fan.fogl.ArrayBuffer.makeInt$(self, list)
+fan.fogl.ArrayBuffer.makeInt$ = function(self, list)
 {
   var data = list.m_values
   self.data = new Int32Array(data);
 }
 
-fan.fogl.ArrayBuffer.makeShort(list)
+fan.fogl.ArrayBuffer.makeShort = function(list)
 {
   var self = new fan.fogl.ArrayBuffer();
   makeShort$(self, list);
   return self;
 }
-fan.fogl.ArrayBuffer.makeShort$(self, list)
+fan.fogl.ArrayBuffer.makeShort$ = function(self, list)
 {
   var data = list.m_values
   self.data = new Int16Array(data);
 }
 
-fan.fogl.ArrayBuffer.makeByte(list)
+fan.fogl.ArrayBuffer.makeByte = function(list)
 {
   var self = new fan.fogl.ArrayBuffer();
   makeByte$(self, list);
   return self;
 }
-fan.fogl.ArrayBuffer.makeByte$(self, list)
+fan.fogl.ArrayBuffer.makeByte$ = function(self, list)
 {
   var data = list.m_values
   self.data = new Int8Array(data);
@@ -80,10 +80,10 @@ fan.fogl.ArrayBuffer.makeByte$(self, list)
 // methods
 //////////////////////////////////////////////////////////////////////////
 
-fan.fogl.ArrayBuffer.prototype.typeof$()
+fan.fogl.ArrayBuffer.prototype.typeof$ = function()
 {
   if (type == null) type = Type.find("fogl::ArrayBuffer");
   return type;
 }
 
-fan.fogl.ArrayBuffer.prototype.getData(){ return data; }
+fan.fogl.ArrayBuffer.prototype.getData = function(){ return data; }

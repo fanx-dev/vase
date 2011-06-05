@@ -70,7 +70,7 @@ fan.fogl.GlContextPeer.prototype.bufferData = function(self, target, data, usage
 // shader
 //////////////////////////////////////////////////////////////////////////
 
-fan.fogl.GlContextPeer.prototype.createShader(self, type)
+fan.fogl.GlContextPeer.prototype.createShader = function(self, type)
 {
   var i = this.gl.createShader(type.peer.getValue());
   var shader = Shader.make();
@@ -78,27 +78,27 @@ fan.fogl.GlContextPeer.prototype.createShader(self, type)
   return shader;
 }
 
-fan.fogl.GlContextPeer.prototype.shaderSource(self, shader, source)
+fan.fogl.GlContextPeer.prototype.shaderSource = function(self, shader, source)
 {
   this.gl.shaderSource(shader.peer.getValue(), source);
 }
 
-fan.fogl.GlContextPeer.prototype.compileShader(self, shader)
+fan.fogl.GlContextPeer.prototype.compileShader = function(self, shader)
 {
   this.gl.compileShader(shader.peer.getValue());
 }
 
-fan.fogl.GlContextPeer.prototype.getShaderParameter(self, shader, pname)
+fan.fogl.GlContextPeer.prototype.getShaderParameter = function(self, shader, pname)
 {
   return this.gl.getShaderParameter(shader.peer.getValue(), pname.val);
 }
 
-fan.fogl.GlContextPeer.prototype.getShaderInfoLog(self, shader)
+fan.fogl.GlContextPeer.prototype.getShaderInfoLog = function(self, shader)
 {
   return this.gl.getShaderInfoLog(shader.peer.getValue());
 }
 
-fan.fogl.GlContextPeer.prototype.createProgram(self)
+fan.fogl.GlContextPeer.prototype.createProgram = function(self)
 {
   var i = this.gl.createProgram();
   var program = Program.make();
@@ -106,27 +106,27 @@ fan.fogl.GlContextPeer.prototype.createProgram(self)
   return program;
 }
 
-fan.fogl.GlContextPeer.prototype.attachShader(self, program, shader)
+fan.fogl.GlContextPeer.prototype.attachShader = function(self, program, shader)
 {
   this.gl.attachShader(program.peer.getValue(), shader.peer.getValue());
 }
 
-fan.fogl.GlContextPeer.prototype.linkProgram(self, program)
+fan.fogl.GlContextPeer.prototype.linkProgram = function(self, program)
 {
   this.gl.linkProgram(program.peer.getValue());
 }
 
-fan.fogl.GlContextPeer.prototype.getProgramParameter(self, program, pname)
+fan.fogl.GlContextPeer.prototype.getProgramParameter = function(self, program, pname)
 {
   return this.gl.getProgramParameter(program.peer.getValue(), pname.val);
 }
 
-fan.fogl.GlContextPeer.prototype.validateProgram(self, program)
+fan.fogl.GlContextPeer.prototype.validateProgram = function(self, program)
 {
   this.gl.validateProgram(program.peer.getValue());
 }
 
-fan.fogl.GlContextPeer.prototype.useProgram(self, program)
+fan.fogl.GlContextPeer.prototype.useProgram = function(self, program)
 {
   this.gl.useProgram(program.peer.getValue());
 }
@@ -135,7 +135,7 @@ fan.fogl.GlContextPeer.prototype.useProgram(self, program)
 // uniform
 //////////////////////////////////////////////////////////////////////////
 
-fan.fogl.GlContextPeer.prototype.getUniformLocation(self, program, name)
+fan.fogl.GlContextPeer.prototype.getUniformLocation = function(self, program, name)
 {
   var i = this.gl.getUniformLocation(program.peer.getValue(), name);
   var location = UniformLocation.make();
@@ -143,7 +143,7 @@ fan.fogl.GlContextPeer.prototype.getUniformLocation(self, program, name)
   return location;
 }
 
-fan.fogl.GlContextPeer.prototype.uniformMatrix4fv(self, location, transpose, value)
+fan.fogl.GlContextPeer.prototype.uniformMatrix4fv = function(self, location, transpose, value)
 {
   this.gl.uniformMatrix4fv(location.peer.getValue(), transpose, value.getData());
 }
@@ -152,12 +152,12 @@ fan.fogl.GlContextPeer.prototype.uniformMatrix4fv(self, location, transpose, val
 // vertexShader
 //////////////////////////////////////////////////////////////////////////
 
-fan.fogl.GlContextPeer.prototype.getAttribLocation(self, program, name)
+fan.fogl.GlContextPeer.prototype.getAttribLocation = function(self, program, name)
 {
   this.gl.getAttribLocation(program.peer.getValue(), name);
 }
 
-fan.fogl.GlContextPeer.prototype.enableVertexAttribArray(Int index)
+fan.fogl.GlContextPeer.prototype.enableVertexAttribArray = function(self, index)
 {
   this.gl.enableVertexAttribArray(index);
 }
