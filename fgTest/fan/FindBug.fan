@@ -13,7 +13,7 @@ using fogl
 **
 class Display : GlDisplay
 {
-  Void main()
+  static Void main()
   {
     Display().open
   }
@@ -31,8 +31,11 @@ class Display : GlDisplay
   }
 
   GlContext? gl
-  Buffer? triangleVertexPositionBuffer
-  Int? vertexPositionAttribute
+  Buffer? triangleVertexPositionBuffer := Buffer()
+  Int? vertexPositionAttribute := 0
+
+  UniformLocation? pMatrixUniform
+  UniformLocation? mvMatrixUniform
 
   override Void onPaint(GlContext gl)
   {
@@ -40,35 +43,60 @@ class Display : GlDisplay
 
     echo(triangleVertexPositionBuffer->val)
     echo(vertexPositionAttribute)
+    echo("----")
 
 
     gl.clear(GlEnum.colorBufferBit.mix(GlEnum.depthBufferBit))
+    gl.enableVertexAttribArray(vertexPositionAttribute)
 
     gl.bindBuffer(GlEnum.arrayBuffer, triangleVertexPositionBuffer)
     gl.vertexAttribPointer(vertexPositionAttribute, 3, GlEnum.float, false, 0, 0)
+
+
+
+    Float[] mvMatrix  :=
+    [
+       1f,  0f,  0f, 0f,
+       0f,  1f,  0f, 0f,
+       0f,  0f,  1f, 0f,
+     -1.5f, 0f, -7f, 1f,
+    ]
+
+    Float[] pMatrix  :=
+    [
+       2.4142136573791504f,  0f,                   0f,                      0f,
+       0f,                   2.4142136573791504f,  0f,                      0f,
+       0f,                   0f,                   -1.0020020008087158f,   -1f,
+       0f,                   0f,                    -0.20020020008087158f,  0f,
+    ]
+
+    gl.uniformMatrix4fv(pMatrixUniform, false, ArrayBuffer.makeFloat(pMatrix))
+    gl.uniformMatrix4fv(mvMatrixUniform, false, ArrayBuffer.makeFloat(mvMatrix))
+
+
+
     gl.drawArrays(GlEnum.triangles, 0, 3)
   }
 
   private Void initShader()
   {
-    fStr := Str<|
-                  varying vec4 vertColor;
+    fStr := Str<|varying vec4 vertColor;
 
-                  void main(void) {
-                      gl_FragColor = vertColor;
-                  }
+                 void main(void) {
+                    gl_FragColor = vertColor;
+                 }
                  |>
 
-    vStr := Str<|     varying vec4 vertColor;
-                      attribute vec3 aVertexPosition;
+    vStr := Str<|varying vec4 vertColor;
+                 attribute vec3 aVertexPosition;
 
-                      //uniform mat4 uMVMatrix;
-                      //uniform mat4 uPMatrix;
+                 uniform mat4 uMVMatrix;
+                 uniform mat4 uPMatrix;
 
-                      void main(void) {
-                          gl_Position = vec4(aVertexPosition, 1.0);
-                          vertColor = vec4(0.6, 0.3, 0.4, 1.0);
-                      }
+                 void main(void) {
+                    gl_Position = uPMatrix * uMVMatrix * vec4(aVertexPosition, 1.0);
+                    vertColor = vec4(0.6, 0.3, 0.4, 1.0);
+                 }
                  |>
 
     fragmentShader := getShader(GlEnum.fragmentShader, fStr)
@@ -87,6 +115,9 @@ class Display : GlDisplay
     gl.useProgram(shaderProgram)
     vertexPositionAttribute = gl.getAttribLocation(shaderProgram, "aVertexPosition")
     gl.enableVertexAttribArray(vertexPositionAttribute)
+
+    pMatrixUniform = gl.getUniformLocation(shaderProgram, "uPMatrix")
+    mvMatrixUniform = gl.getUniformLocation(shaderProgram, "uMVMatrix")
   }
 
   private Void initBuffer()
@@ -97,10 +128,11 @@ class Display : GlDisplay
     [
        0.0f,  1.0f,  1.0f,
       -1.0f, -1.0f,  0.0f,
-       1.0f, -1.0f,  -1.0f
+       1.0f, -1.0f,  -1.0f,
     ]
 
-    gl.bufferData(GlEnum.arrayBuffer, ArrayBuffer.makeFloat(vertices), GlEnum.staticDraw)
+    arrayBuffer := ArrayBuffer.makeFloat(vertices)
+    gl.bufferData(GlEnum.arrayBuffer, arrayBuffer, GlEnum.staticDraw)
   }
 
   private Shader getShader(GlEnum type, Str source)

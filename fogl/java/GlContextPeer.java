@@ -19,8 +19,6 @@ import static org.lwjgl.opengl.GL20.*;
 import static org.lwjgl.opengl.GL21.*;
 import static org.lwjgl.opengl.GL30.*;
 import static org.lwjgl.opengl.GL31.*;
-import org.lwjgl.opengl.ARBShaderObjects;
-import org.lwjgl.opengl.ARBVertexShader;
 
 class GlContextPeer
 {
@@ -115,7 +113,7 @@ class GlContextPeer
 
   public Shader createShader(GlContext self, GlEnum type)
   {
-    int i = ARBShaderObjects.glCreateShaderObjectARB((int)type.val);
+    int i = glCreateShader((int)type.val);
     Shader shader = Shader.make();
     shader.peer.setValue(i);
     return shader;
@@ -123,29 +121,29 @@ class GlContextPeer
 
   public void shaderSource(GlContext self, Shader shader, String source)
   {
-    ARBShaderObjects.glShaderSourceARB(shader.peer.getValue(), source);
+    glShaderSource(shader.peer.getValue(), source);
   }
 
   public void compileShader(GlContext self, Shader shader)
   {
-    ARBShaderObjects.glCompileShaderARB(shader.peer.getValue());
+    glCompileShader(shader.peer.getValue());
   }
 
   public long getShaderParameter(GlContext self, Shader shader, GlEnum pname)
   {
-    int i = ARBShaderObjects.glGetObjectParameteriARB(shader.peer.getValue(), (int)pname.val);
+    int i = glGetShader(shader.peer.getValue(), (int)pname.val);
     return i;
   }
 
   public String getShaderInfoLog(GlContext self, Shader shader)
   {
-    return ARBShaderObjects.glGetInfoLogARB(shader.peer.getValue(), 1024);
+    return glGetShaderInfoLog(shader.peer.getValue(), 1024);
   }
 
 
   public Program createProgram(GlContext self)
   {
-    int i = ARBShaderObjects.glCreateProgramObjectARB();
+    int i = glCreateProgram();
     Program p = Program.make();
     p.peer.setValue(i);
     return p;
@@ -153,28 +151,28 @@ class GlContextPeer
 
   public void attachShader(GlContext self, Program program, Shader shader)
   {
-    ARBShaderObjects.glAttachObjectARB(program.peer.getValue(), shader.peer.getValue());
+    glAttachShader(program.peer.getValue(), shader.peer.getValue());
   }
 
   public void linkProgram(GlContext self, Program program)
   {
-    ARBShaderObjects.glLinkProgramARB(program.peer.getValue());
+    glLinkProgram(program.peer.getValue());
   }
 
   public long getProgramParameter(GlContext self, Program program, GlEnum pname)
   {
-    int i = ARBShaderObjects.glGetObjectParameteriARB(program.peer.getValue(), (int)pname.val);
+    int i = glGetProgram(program.peer.getValue(), (int)pname.val);
     return i;
   }
 
   public void validateProgram(GlContext self, Program program)
   {
-    ARBShaderObjects.glValidateProgramARB(program.peer.getValue());
+    glValidateProgram(program.peer.getValue());
   }
 
   public void useProgram(GlContext self, Program program)
   {
-    ARBShaderObjects.glUseProgramObjectARB(program.peer.getValue());
+    glUseProgram(program.peer.getValue());
   }
 
 //////////////////////////////////////////////////////////////////////////
@@ -183,7 +181,7 @@ class GlContextPeer
 
   public UniformLocation getUniformLocation(GlContext self, Program program, String name)
   {
-    int i = ARBShaderObjects.glGetUniformLocationARB(program.peer.getValue(), name);
+    int i = glGetUniformLocation(program.peer.getValue(), name);
     UniformLocation location = UniformLocation.make();
     location.peer.setValue(i);
     return location;
@@ -194,7 +192,7 @@ class GlContextPeer
     java.nio.Buffer d = value.getData();
     if (d instanceof java.nio.FloatBuffer)
     {
-      ARBShaderObjects.glUniformMatrix4ARB(location.peer.getValue(), transpose, (java.nio.FloatBuffer)d);
+      glUniformMatrix4(location.peer.getValue(), transpose, (java.nio.FloatBuffer)d);
     }
     else
     {
@@ -208,11 +206,11 @@ class GlContextPeer
 
   public long getAttribLocation(GlContext self, Program program, String name)
   {
-    return ARBVertexShader.glGetAttribLocationARB(program.peer.getValue(), name);
+    return glGetAttribLocation(program.peer.getValue(), name);
   }
 
   public void enableVertexAttribArray(GlContext self, long index)
   {
-    ARBVertexShader.glEnableVertexAttribArrayARB((int)index);
+    glEnableVertexAttribArray((int)index);
   }
 }

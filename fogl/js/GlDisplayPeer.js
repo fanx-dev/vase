@@ -10,21 +10,27 @@
 fan.fogl.GlDisplayPeer = fan.sys.Obj.$extend(fan.sys.Obj);
 fan.fogl.GlDisplayPeer.prototype.$ctor = function(self) {}
 
-fan.fogl.GlDisplayPeer.prototype.initGL = function(self, canvas) {
-    try
-    {
-        var gl = canvas.getContext("experimental-webgl");
-        cx = new fan.fogl.GlContext();
-        cx.peer.gl = gl;
-        this.gl = cx;
-        //self.gl.viewportWidth = canvas.width;
-        //self.gl.viewportHeight = canvas.height;
-    }
-    catch(e){}
+fan.fogl.GlDisplayPeer.prototype.initGL = function(self, canvas)
+{
+  try
+  {
+    var gl = canvas.getContext("experimental-webgl");
+    cx = new fan.fogl.GlContext();
+    cx.peer.gl = gl;
+    this.gl = cx;
+    //self.gl.viewportWidth = canvas.width;
+    //self.gl.viewportHeight = canvas.height;
+  }
+  catch(e){}
 
-    if (!this.gl.peer.gl) {
-        alert("Could not initialise WebGL, sorry :-(");
-    }
+  if (!this.gl.peer.gl) {
+    alert("Could not initialise WebGL, sorry :-(");
+  }
+}
+
+fan.fogl.GlDisplayPeer.prototype.repaint = function(self)
+{
+  self.onPaint(this.gl);
 }
 
 fan.fogl.GlDisplayPeer.prototype.open = function(self)
@@ -63,7 +69,3 @@ fan.fogl.GlDisplayPeer.prototype.open = function(self)
   setInterval(loop, 15);
 }
 
-fan.fogl.GlDisplayPeer.prototype.repaint = function(self)
-{
-  self.onPaint(this.gl);
-}

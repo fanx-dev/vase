@@ -31,7 +31,7 @@ class GlDisplayPeer
     Display.setTitle("Shader Setup");
     Display.create();
 
-    gl = new GlContext();
+    gl = GlContext.make();
     self.init(gl);
 
     while(true)
