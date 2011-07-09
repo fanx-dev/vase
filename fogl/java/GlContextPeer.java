@@ -129,10 +129,10 @@ class GlContextPeer
     glCompileShader(shader.peer.getValue());
   }
 
-  public long getShaderParameter(GlContext self, Shader shader, GlEnum pname)
+  public boolean getShaderParameter(GlContext self, Shader shader, GlEnum pname)
   {
     int i = glGetShader(shader.peer.getValue(), (int)pname.val);
-    return i;
+    return i != 0;
   }
 
   public String getShaderInfoLog(GlContext self, Shader shader)
@@ -159,10 +159,10 @@ class GlContextPeer
     glLinkProgram(program.peer.getValue());
   }
 
-  public long getProgramParameter(GlContext self, Program program, GlEnum pname)
+  public boolean getProgramParameter(GlContext self, Program program, GlEnum pname)
   {
     int i = glGetProgram(program.peer.getValue(), (int)pname.val);
-    return i;
+    return i != 0;
   }
 
   public void validateProgram(GlContext self, Program program)

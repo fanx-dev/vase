@@ -42,9 +42,9 @@ class Display : GlDisplay
   {
     this.gl = gl
 
-    echo(triangleVertexPositionBuffer->val)
-    echo(vertexPositionAttribute)
-    echo("----")
+    //echo(triangleVertexPositionBuffer->val)
+    //echo(vertexPositionAttribute)
+    //echo("----")
 
 
     gl.clear(GlEnum.colorBufferBit.mix(GlEnum.depthBufferBit))
@@ -82,7 +82,12 @@ class Display : GlDisplay
 
   private Void initShader()
   {
-    fStr := Str<|varying vec4 vertColor;
+    fStr := Str<|
+                 #ifdef GL_ES
+                 precision highp float;
+                 #endif
+
+                 varying vec4 vertColor;
 
                  void main(void) {
                     gl_FragColor = vertColor;
@@ -110,7 +115,7 @@ class Display : GlDisplay
     gl.linkProgram(shaderProgram)
     gl.validateProgram(shaderProgram)
 
-    if (gl.getProgramParameter(shaderProgram, GlEnum.linkStatus) == 0) {
+    if (!gl.getProgramParameter(shaderProgram, GlEnum.linkStatus)) {
         throw Err("Could not initialise shaders")
     }
 
@@ -144,7 +149,7 @@ class Display : GlDisplay
     gl.shaderSource(shader, source)
     gl.compileShader(shader)
 
-    if (gl.getShaderParameter(shader, GlEnum.compileStatus) == 0) {
+    if (!gl.getShaderParameter(shader, GlEnum.compileStatus)) {
         throw Err(gl.getShaderInfoLog(shader))
     }
 

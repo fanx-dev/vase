@@ -139,7 +139,7 @@ fan.fogl.GlContextPeer.prototype.getUniformLocation = function(self, program, na
 {
   var i = this.gl.getUniformLocation(program.peer.getValue(), name);
   var location = fan.fogl.UniformLocation.make();
-  location.peer.serValue(i);
+  location.peer.setValue(i);
   return location;
 }
 
@@ -154,7 +154,7 @@ fan.fogl.GlContextPeer.prototype.uniformMatrix4fv = function(self, location, tra
 
 fan.fogl.GlContextPeer.prototype.getAttribLocation = function(self, program, name)
 {
-  this.gl.getAttribLocation(program.peer.getValue(), name);
+  return this.gl.getAttribLocation(program.peer.getValue(), name);
 }
 
 fan.fogl.GlContextPeer.prototype.enableVertexAttribArray = function(self, index)

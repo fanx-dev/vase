@@ -17,7 +17,6 @@ const class Index : Controller
   Void index()
   {
     m->name = "world"
-    m->compileJs = compileJs(`Display.fwt`)
     render
   }
 }

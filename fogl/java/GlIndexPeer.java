@@ -15,7 +15,7 @@ class GlIndexPeer
 
   public static GlIndexPeer make(GlIndex self){ return new GlIndexPeer(); }
 
-  public long val(GlIndex self){ return value; }
+  public Object val(GlIndex self){ return value; }
 
   public int getValue(){ return value; }
   public void setValue(int v){ value = v; }

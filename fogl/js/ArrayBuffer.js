@@ -9,7 +9,7 @@
 
 fan.fogl.ArrayBuffer = fan.sys.Obj.$extend(fan.sys.Obj);
 fan.fogl.ArrayBuffer.prototype.$ctor = function(self) {}
-fan.fogl.ArrayBuffer.type = null;
+fan.fogl.ArrayBuffer.prototype.$typeof = function() { return fan.fogl.ArrayBuffer.$type; }
 fan.fogl.ArrayBuffer.prototype.data = null;
 
 //////////////////////////////////////////////////////////////////////////
@@ -80,10 +80,5 @@ fan.fogl.ArrayBuffer.makeByte = function(list)
 // methods
 //////////////////////////////////////////////////////////////////////////
 
-fan.fogl.ArrayBuffer.prototype.typeof$ = function()
-{
-  if (type == null) type = Type.find("fogl::ArrayBuffer");
-  return type;
-}
 
 fan.fogl.ArrayBuffer.prototype.getData = function(){ return this.data; }

@@ -42,13 +42,13 @@ class GlContext
   native Shader createShader(GlEnum type)
   native Void shaderSource(Shader shader, Str source)
   native Void compileShader(Shader shader)
-  native Int getShaderParameter(Shader shader, GlEnum pname)
+  native Bool getShaderParameter(Shader shader, GlEnum pname)
   native Str getShaderInfoLog(Shader shader)
 
   native Program createProgram()
   native Void attachShader(Program program, Shader shader)
   native Void linkProgram(Program program)
-  native Int getProgramParameter(Program program, GlEnum pname)
+  native Bool getProgramParameter(Program program, GlEnum pname)
   native Void validateProgram(Program program);
   native Void useProgram(Program program)
 

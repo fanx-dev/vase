@@ -9,13 +9,14 @@
 
 fan.fogl.GlDisplayPeer = fan.sys.Obj.$extend(fan.sys.Obj);
 fan.fogl.GlDisplayPeer.prototype.$ctor = function(self) {}
+fan.fogl.GlDisplayPeer.prototype.gl = null;
 
 fan.fogl.GlDisplayPeer.prototype.initGL = function(self, canvas)
 {
   try
   {
     var gl = canvas.getContext("experimental-webgl");
-    cx = new fan.fogl.GlContext();
+    cx = fan.fogl.GlContext.make();
     cx.peer.gl = gl;
     this.gl = cx;
     //self.gl.viewportWidth = canvas.width;
@@ -58,9 +59,10 @@ fan.fogl.GlDisplayPeer.prototype.open = function(self)
 
   //create canvas
   var c = document.createElement("canvas");
-  c.width  = self.w;
-  c.height = self.h;
+  c.width  = self.m_w;
+  c.height = self.m_h;
   shell.appendChild(c);
+  this.root.appendChild(shell);
 
   this.initGL(self, c);
   self.init(this.gl);
