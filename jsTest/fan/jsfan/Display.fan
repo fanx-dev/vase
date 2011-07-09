@@ -1,3 +1,4 @@
+#! /usr/bin/env fan
 //
 // Copyright (c) 2011, chunquedong
 // Licensed under the Academic Free License version 3.0
