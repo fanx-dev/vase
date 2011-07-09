@@ -48,13 +48,18 @@ class Display : GlDisplay
 
 
     gl.clear(GlEnum.colorBufferBit.mix(GlEnum.depthBufferBit))
-    gl.enableVertexAttribArray(vertexPositionAttribute)
+    setMatrixUniforms
+
+    //gl.enableVertexAttribArray(vertexPositionAttribute)
 
     gl.bindBuffer(GlEnum.arrayBuffer, triangleVertexPositionBuffer)
     gl.vertexAttribPointer(vertexPositionAttribute, 3, GlEnum.float, false, 0, 0)
 
+    gl.drawArrays(GlEnum.triangles, 0, 3)
+  }
 
-
+  private Void setMatrixUniforms()
+  {
     Float[] mvMatrix  :=
     [
        1f,  0f,  0f, 0f,
@@ -73,10 +78,6 @@ class Display : GlDisplay
 
     gl.uniformMatrix4fv(pMatrixUniform, false, ArrayBuffer.makeFloat(pMatrix))
     gl.uniformMatrix4fv(mvMatrixUniform, false, ArrayBuffer.makeFloat(mvMatrix))
-
-
-
-    gl.drawArrays(GlEnum.triangles, 0, 3)
   }
 
   private Void initShader()
@@ -96,7 +97,7 @@ class Display : GlDisplay
 
                  void main(void) {
                     gl_Position = uPMatrix * uMVMatrix * vec4(aVertexPosition, 1.0);
-                    vertColor = vec4(0.6, 0.3, 0.4, 1.0);
+                    vertColor = vec4(0.8, 0.3, 0.9, 1.0);
                  }
                  |>
 
@@ -127,9 +128,9 @@ class Display : GlDisplay
     gl.bindBuffer(GlEnum.arrayBuffer, triangleVertexPositionBuffer)
     Float[] vertices :=
     [
-       0.0f,  1.0f,  1.0f,
-      -1.0f, -1.0f,  0.0f,
-       1.0f, -1.0f,  -1.0f,
+      0.0f,  1.0f,  0.0f,
+     -1.0f, -1.0f,  0.0f,
+      1.0f, -1.0f,  0.0f,
     ]
 
     arrayBuffer := ArrayBuffer.makeFloat(vertices)

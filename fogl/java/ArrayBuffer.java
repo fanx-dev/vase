@@ -29,6 +29,7 @@ public class ArrayBuffer extends FanObj
   {
     FloatBuffer buf = BufferUtils.createFloatBuffer((int)list.size());
     buf.put(toFloatArray(list));
+    buf.flip();
     self.data = buf;
   }
 
@@ -42,6 +43,7 @@ public class ArrayBuffer extends FanObj
   {
     IntBuffer buf = BufferUtils.createIntBuffer((int)list.size());
     buf.put(toIntArray(list));
+    buf.flip();
     self.data = buf;
   }
 
