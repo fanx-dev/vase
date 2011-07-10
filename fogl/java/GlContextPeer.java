@@ -80,7 +80,7 @@ class GlContextPeer
 
   public void bufferData(GlContext self, GlEnum target, ArrayBuffer data, GlEnum usage)
   {
-    java.nio.Buffer d = data.getData();
+    java.nio.Buffer d = data.peer.getValue();
     if (d instanceof java.nio.FloatBuffer)
     {
       glBufferData((int)target.val, (java.nio.FloatBuffer)d, (int)usage.val);
@@ -189,7 +189,7 @@ class GlContextPeer
 
   public void uniformMatrix4fv(GlContext self, UniformLocation location, boolean transpose, ArrayBuffer value)
   {
-    java.nio.Buffer d = value.getData();
+    java.nio.Buffer d = value.peer.getValue();
     if (d instanceof java.nio.FloatBuffer)
     {
       glUniformMatrix4(location.peer.getValue(), transpose, (java.nio.FloatBuffer)d);

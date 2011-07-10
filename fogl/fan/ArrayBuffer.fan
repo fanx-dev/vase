@@ -7,10 +7,10 @@
 //
 
 @Js
-native class ArrayBuffer
+class ArrayBuffer
 {
-  new makeFloat(Float[] data)
+  native static ArrayBuffer makeFloat(Float[] data)
 
-  new makeInt(Int[] data)
+  native static ArrayBuffer makeInt(Int[] data)
 }
 

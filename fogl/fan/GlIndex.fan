@@ -7,7 +7,7 @@
 //
 
 @Js
-const class GlIndex { internal native Obj val() }
+const class GlIndex { internal native Obj? val() }
 
 **
 ** The Buffer interface represents an OpenGL Buffer Object.

@@ -15,13 +15,15 @@ import java.nio.*;
 import org.lwjgl.BufferUtils;
 
 
-public class ArrayBuffer extends FanObj
+public class ArrayBufferPeer
 {
   private java.nio.Buffer data;
 
+  public static ArrayBufferPeer make(ArrayBuffer self) { return new ArrayBufferPeer(); }
+
   public static ArrayBuffer makeFloat(List list)
   {
-    ArrayBuffer buffer = new ArrayBuffer();
+    ArrayBuffer buffer = ArrayBuffer.make();
     makeFloat$(buffer, list);
     return buffer;
   }
@@ -30,12 +32,12 @@ public class ArrayBuffer extends FanObj
     FloatBuffer buf = BufferUtils.createFloatBuffer((int)list.size());
     buf.put(toFloatArray(list));
     buf.flip();
-    self.data = buf;
+    self.peer.data = buf;
   }
 
   public static ArrayBuffer makeInt(List list)
   {
-    ArrayBuffer buffer = new ArrayBuffer();
+    ArrayBuffer buffer = ArrayBuffer.make();
     makeInt$(buffer, list);
     return buffer;
   }
@@ -44,24 +46,14 @@ public class ArrayBuffer extends FanObj
     IntBuffer buf = BufferUtils.createIntBuffer((int)list.size());
     buf.put(toIntArray(list));
     buf.flip();
-    self.data = buf;
+    self.peer.data = buf;
   }
-
 
 //////////////////////////////////////////////////////////////////////////
 // methods
 //////////////////////////////////////////////////////////////////////////
 
-  // boiler plate for reflection
-  public Type typeof()
-  {
-    if (type == null) type = Type.find("fogl::ArrayBuffer");
-    return type;
-  }
-  private static Type type;
-
-  // methods
-  public java.nio.Buffer getData() { return data; }
+  public java.nio.Buffer getValue() { return data; }
 
 //////////////////////////////////////////////////////////////////////////
 // util

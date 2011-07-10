@@ -5,48 +5,4 @@
 // History:
 //   2011-5-29  Jed Young  Creation
 //
-/*
-using fogl
 
-**
-** fan D:/code/Hg/fan3d/fogl/FindBug.fan
-**
-class FindBug : GlDisplay
-{
-    public static Void main(Str[] args)
-    {
-      FindBug f := FindBug();
-      f.open();
-    }
-
-    Buffer? triangleVertexPositionBuffer //:= Buffer.make();
-
-    override public Void init(GlContext gl)
-    {
-      triangleVertexPositionBuffer = gl.createBuffer();
-      gl.bindBuffer(GlEnum.arrayBuffer, triangleVertexPositionBuffer);
-
-      Float[] vertices :=
-      [
-         0.0f,  1.0f,  1.0f,
-        -1.0f, -1.0f,  0.0f,
-         1.0f, -1.0f,  -1.0f
-      ];
-      //List vertices := List.make(Float#, a);
-
-      ArrayBuffer arrayBuffer := ArrayBuffer.makeFloat(vertices);
-      gl.bufferData(GlEnum.arrayBuffer, arrayBuffer, GlEnum.staticDraw);
-    }
-
-    override public Void onPaint(GlContext gl)
-    {
-      Int? vertexPositionAttribute := 0;
-
-      gl.enableVertexAttribArray(vertexPositionAttribute);
-      gl.bindBuffer(GlEnum.arrayBuffer, triangleVertexPositionBuffer);
-
-      //GlEnum type := GlEnum();  type.val = 0x1406;
-      gl.vertexAttribPointer(vertexPositionAttribute, 3, GlEnum.float, false, 0, 0);
-      gl.drawArrays(GlEnum.triangles, 0, 3);
-    }
-}

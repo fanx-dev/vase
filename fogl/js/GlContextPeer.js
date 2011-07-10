@@ -63,7 +63,7 @@ fan.fogl.GlContextPeer.prototype.bindBuffer = function(self, target, buffer)
 
 fan.fogl.GlContextPeer.prototype.bufferData = function(self, target, data, usage)
 {
-  this.gl.bufferData(target.m_val, data.getData(), usage.m_val);
+  this.gl.bufferData(target.m_val, data.peer.getValue(), usage.m_val);
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -145,7 +145,7 @@ fan.fogl.GlContextPeer.prototype.getUniformLocation = function(self, program, na
 
 fan.fogl.GlContextPeer.prototype.uniformMatrix4fv = function(self, location, transpose, value)
 {
-  this.gl.uniformMatrix4fv(location.peer.getValue(), transpose, value.getData());
+  this.gl.uniformMatrix4fv(location.peer.getValue(), transpose, value.peer.getValue());
 }
 
 //////////////////////////////////////////////////////////////////////////
