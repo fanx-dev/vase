@@ -10,7 +10,8 @@ internal class MatrixTest : Test
 {
   Void testMatrixInvert()
   {
-    Matrix a := Matrix(3, 3, "a")
+    Matrix a := Matrix.makeZero(3, 3)
+    a.name = "a"
     a.set(0, 0, 5f)
     a.set(0, 1, 1f)
     a.set(0, 2, 1f)
@@ -41,7 +42,7 @@ internal class MatrixTest : Test
 
     verify(b.approx(d))
 
-    Matrix u := Matrix.indentity(c.m)
+    Matrix u := Matrix.makeIndentity(c.m)
     verify(c.approx(u))
   }
 

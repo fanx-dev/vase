@@ -24,6 +24,7 @@ const class MatrixErr : Err
 @Js
 class Matrix
 {
+  ** value of matrix elements
   private Float[][] a
 
   ** num of rows
@@ -33,13 +34,34 @@ class Matrix
   Int n
 
   ** name for debug
-  Str name
+  Str? name
 
-  new make(Int am, Int an, Str aName := "matrix")
+  **
+  ** make matrix by given list, there is no copy.
+  **
+  new make(Float[][] list)
+  {
+    m = list.size
+
+    //check dimensional
+    n = list.first.size
+    for (i := 1; i < m; ++i)
+    {
+      if (n != list[i].size)
+      {
+        throw MatrixErr("sawtooth matrix")
+      }
+    }
+    a = list
+  }
+
+  **
+  ** make a matrix that all elements is zero
+  **
+  new makeZero(Int am, Int an)
   {
     m = am
     n = an
-    name = aName
 
     list := [,]
     for (i := 0; i < m; i++)
@@ -68,11 +90,25 @@ class Matrix
   }
 
   **
+  ** return a one-dimensional list
+  **
+  Float[] flatten()
+  {
+    f := Float[,] { capacity = m * n }
+
+    for (i := 0; i < m; i++)
+      for (j := 0; j < n; j++)
+        f.add(get(i, j))
+
+    return f
+  }
+
+  **
   ** return a copy of this matrix
   **
   Matrix clone()
   {
-    Matrix b := Matrix(m, n)
+    Matrix b := Matrix.makeZero(m, n)
     for (i := 0; i < m; i++)
     {
       for (j := 0; j < n; j++)
@@ -86,9 +122,9 @@ class Matrix
   **
   ** unit Matrix
   **
-  static Matrix indentity(Int n)
+  static Matrix makeIndentity(Int n)
   {
-    Matrix b := Matrix(n, n, n.toStr + "unit")
+    Matrix b := Matrix.makeZero(n, n)
     for (i := 0; i < n; i++)
     {
       b.set(i, i, 1f)
@@ -170,7 +206,7 @@ class Matrix
   **
   Matrix transpose()
   {
-    Matrix c := Matrix(n, m)
+    Matrix c := Matrix.makeZero(n, m)
 
     for (i := 0; i < n; i++)
       for (j := 0; j < m; j++)
@@ -189,7 +225,7 @@ class Matrix
     Int n2 := b.n
     if ((m != m2) || (n != n2)) throw MatrixErr("Dimension don't match")
 
-    Matrix c := Matrix(m, n)
+    Matrix c := Matrix.makeZero(m, n)
 
     for (i := 0; i < m; i++)
       for (j := 0; j < n; j++)
@@ -204,7 +240,7 @@ class Matrix
   @Operator
   Matrix multFloat(Float k)
   {
-    Matrix c := Matrix(m, n)
+    Matrix c := Matrix.makeZero(m, n)
 
     for (i := 0; i < m; i++)
       for (j := 0; j < n; j++)
@@ -222,7 +258,7 @@ class Matrix
     m2 := b.m
     n2 := b.n
     if (n != m2) throw MatrixErr("Dimension don't match")
-    Matrix c := Matrix(m, n2)
+    Matrix c := Matrix.makeZero(m, n2)
 
     for (i := 0; i < m; i++)
     {
@@ -247,7 +283,7 @@ class Matrix
   {
     if (m != n) throw MatrixErr("Dimension don't match")
 
-    Matrix b := Matrix(m, n)
+    Matrix b := Matrix.makeZero(m, n)
     Matrix a := this.clone
 
     Int i := 0
@@ -345,14 +381,14 @@ class Matrix
   }
 
   **
-  ** algebraic cofactor matrix
+  ** algebraic cofactor
   **
-  Matrix cofactorMatrix(Int ai, Int aj)
+  Float cofactor(Int ai, Int aj)
   {
     if (m != n) throw MatrixErr("Dimension don't match")
 
     n2 := n - 1
-    Matrix b := Matrix(n2, n2)
+    Matrix b := Matrix.makeZero(n2, n2)
 
     // left up
     for (Int i := 0; i < ai; i++)
@@ -398,7 +434,7 @@ class Matrix
         b.set(i, 0, -b.get(i, 0))
       }
     }
-    return b
+    return b.determinant
   }
 
   **
@@ -412,7 +448,7 @@ class Matrix
     Float d := 0f
     for (i := 0; i < n; i++)
     {
-      d += get(1, i) * cofactorMatrix(1, i).determinant
+      d += get(1, i) * cofactor(1, i)
     }
     return d
   }
@@ -422,11 +458,11 @@ class Matrix
   **
   Matrix adjoint()
   {
-    c := Matrix(m, n)
+    c := Matrix.makeZero(m, n)
 
     for (i := 0; i < m; i++)
       for (j := 0; j < n; j++)
-        c.set(i, j, cofactorMatrix(j, i).determinant)
+        c.set(i, j, cofactor(j, i))
 
     return c
   }
