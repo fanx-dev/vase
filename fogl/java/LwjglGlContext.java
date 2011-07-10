@@ -20,14 +20,10 @@ import static org.lwjgl.opengl.GL21.*;
 import static org.lwjgl.opengl.GL30.*;
 import static org.lwjgl.opengl.GL31.*;
 
-class GlContextPeer
+class LwjglGlContext implements GlContext
 {
-  public static GlContextPeer make(GlContext self)
-  {
-    return new GlContextPeer();
-  }
 
-  public void clearColor(GlContext self, double r, double g, double b, double a)
+  public void clearColor(double r, double g, double b, double a)
   {
     glClearColor((float)r, (float)g, (float)b, (float)a);
   }
@@ -36,27 +32,27 @@ class GlContextPeer
 // common
 //////////////////////////////////////////////////////////////////////////
 
-  public void enable(GlContext self, GlEnum cap)
+  public void enable(GlEnum cap)
   {
     glEnable((int)cap.val);
   }
 
-  public void viewport(GlContext self, long x, long y, long width, long height)
+  public void viewport(long x, long y, long width, long height)
   {
     glViewport((int)x, (int)y, (int)width, (int)height);
   }
 
-  public void clear(GlContext self, GlEnum mask)
+  public void clear(GlEnum mask)
   {
     glClear((int)mask.val);
   }
 
-  public void vertexAttribPointer(GlContext self, long indx, long size, GlEnum type, boolean normalized, long stride, long offset)
+  public void vertexAttribPointer(long indx, long size, GlEnum type, boolean normalized, long stride, long offset)
   {
     glVertexAttribPointer((int)indx, (int)size, (int)type.val, normalized, (int)stride, offset);
   }
 
-  public void drawArrays(GlContext self, GlEnum mode, long first, long count)
+  public void drawArrays(GlEnum mode, long first, long count)
   {
     glDrawArrays((int)mode.val, (int)first, (int)count);
   }
@@ -65,7 +61,7 @@ class GlContextPeer
 // buffer
 //////////////////////////////////////////////////////////////////////////
 
-  public Buffer createBuffer(GlContext self)
+  public Buffer createBuffer()
   {
     int i = glGenBuffers();
     Buffer buf = Buffer.make();
@@ -73,12 +69,12 @@ class GlContextPeer
     return buf;
   }
 
-  public void bindBuffer(GlContext self, GlEnum target, Buffer buffer)
+  public void bindBuffer(GlEnum target, Buffer buffer)
   {
     glBindBuffer((int)target.val, buffer.peer.getValue());
   }
 
-  public void bufferData(GlContext self, GlEnum target, ArrayBuffer data, GlEnum usage)
+  public void bufferData(GlEnum target, ArrayBuffer data, GlEnum usage)
   {
     java.nio.Buffer d = data.peer.getValue();
     if (d instanceof java.nio.FloatBuffer)
@@ -111,7 +107,7 @@ class GlContextPeer
 // shader
 //////////////////////////////////////////////////////////////////////////
 
-  public Shader createShader(GlContext self, GlEnum type)
+  public Shader createShader(GlEnum type)
   {
     int i = glCreateShader((int)type.val);
     Shader shader = Shader.make();
@@ -119,29 +115,29 @@ class GlContextPeer
     return shader;
   }
 
-  public void shaderSource(GlContext self, Shader shader, String source)
+  public void shaderSource(Shader shader, String source)
   {
     glShaderSource(shader.peer.getValue(), source);
   }
 
-  public void compileShader(GlContext self, Shader shader)
+  public void compileShader(Shader shader)
   {
     glCompileShader(shader.peer.getValue());
   }
 
-  public boolean getShaderParameter(GlContext self, Shader shader, GlEnum pname)
+  public boolean getShaderParameter(Shader shader, GlEnum pname)
   {
     int i = glGetShader(shader.peer.getValue(), (int)pname.val);
     return i != 0;
   }
 
-  public String getShaderInfoLog(GlContext self, Shader shader)
+  public String getShaderInfoLog(Shader shader)
   {
     return glGetShaderInfoLog(shader.peer.getValue(), 1024);
   }
 
 
-  public Program createProgram(GlContext self)
+  public Program createProgram()
   {
     int i = glCreateProgram();
     Program p = Program.make();
@@ -149,28 +145,28 @@ class GlContextPeer
     return p;
   }
 
-  public void attachShader(GlContext self, Program program, Shader shader)
+  public void attachShader(Program program, Shader shader)
   {
     glAttachShader(program.peer.getValue(), shader.peer.getValue());
   }
 
-  public void linkProgram(GlContext self, Program program)
+  public void linkProgram(Program program)
   {
     glLinkProgram(program.peer.getValue());
   }
 
-  public boolean getProgramParameter(GlContext self, Program program, GlEnum pname)
+  public boolean getProgramParameter(Program program, GlEnum pname)
   {
     int i = glGetProgram(program.peer.getValue(), (int)pname.val);
     return i != 0;
   }
 
-  public void validateProgram(GlContext self, Program program)
+  public void validateProgram(Program program)
   {
     glValidateProgram(program.peer.getValue());
   }
 
-  public void useProgram(GlContext self, Program program)
+  public void useProgram(Program program)
   {
     glUseProgram(program.peer.getValue());
   }
@@ -179,7 +175,7 @@ class GlContextPeer
 // uniform
 //////////////////////////////////////////////////////////////////////////
 
-  public UniformLocation getUniformLocation(GlContext self, Program program, String name)
+  public UniformLocation getUniformLocation(Program program, String name)
   {
     int i = glGetUniformLocation(program.peer.getValue(), name);
     UniformLocation location = UniformLocation.make();
@@ -187,7 +183,7 @@ class GlContextPeer
     return location;
   }
 
-  public void uniformMatrix4fv(GlContext self, UniformLocation location, boolean transpose, ArrayBuffer value)
+  public void uniformMatrix4fv(UniformLocation location, boolean transpose, ArrayBuffer value)
   {
     java.nio.Buffer d = value.peer.getValue();
     if (d instanceof java.nio.FloatBuffer)
@@ -204,12 +200,12 @@ class GlContextPeer
 // vertexShader
 //////////////////////////////////////////////////////////////////////////
 
-  public long getAttribLocation(GlContext self, Program program, String name)
+  public long getAttribLocation(Program program, String name)
   {
     return glGetAttribLocation(program.peer.getValue(), name);
   }
 
-  public void enableVertexAttribArray(GlContext self, long index)
+  public void enableVertexAttribArray(long index)
   {
     glEnableVertexAttribArray((int)index);
   }

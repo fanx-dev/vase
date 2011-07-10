@@ -16,15 +16,15 @@ fan.fogl.GlDisplayPeer.prototype.initGL = function(self, canvas)
   try
   {
     var gl = canvas.getContext("experimental-webgl");
-    cx = fan.fogl.GlContext.make();
-    cx.peer.gl = gl;
-    this.gl = cx;
+    this.gl = new fan.fogl.WebGlContext();
+    this.gl.gl = gl;
+
     //self.gl.viewportWidth = canvas.width;
     //self.gl.viewportHeight = canvas.height;
   }
   catch(e){}
 
-  if (!this.gl.peer.gl) {
+  if (!this.gl.gl) {
     alert("Could not initialise WebGL, sorry :-(");
   }
 }

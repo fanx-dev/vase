@@ -10,7 +10,7 @@
 using fogl
 
 **
-** fan D:/code/Hg/fan3d/fogl/GlTest.fan
+** fan D:/code/Hg/fan3d/jsTest/fan/jsfan/Display.fan
 **
 @Js
 class Display : GlDisplay

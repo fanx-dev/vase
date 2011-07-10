@@ -7,62 +7,62 @@
 //
 
 @Js
-class GlContext
+mixin GlContext
 {
 
 //////////////////////////////////////////////////////////////////////////
 // Common
 //////////////////////////////////////////////////////////////////////////
 
-  native Void clearColor(Float red, Float green, Float blue, Float alpha)
+  abstract Void clearColor(Float red, Float green, Float blue, Float alpha)
 
-  native Void enable(GlEnum cap)
+  abstract Void enable(GlEnum cap)
 
-  native Void viewport(Int x, Int y, Int width, Int height)
+  abstract Void viewport(Int x, Int y, Int width, Int height)
 
-  native Void clear(GlEnum mask)
+  abstract Void clear(GlEnum mask)
 
-  native Void vertexAttribPointer(Int indx, Int size, GlEnum type, Bool normalized, Int stride, Int offset)
+  abstract Void vertexAttribPointer(Int indx, Int size, GlEnum type, Bool normalized, Int stride, Int offset)
 
-  native Void drawArrays(GlEnum mode, Int first, Int count)
+  abstract Void drawArrays(GlEnum mode, Int first, Int count)
 
 //////////////////////////////////////////////////////////////////////////
 // Buffer
 //////////////////////////////////////////////////////////////////////////
 
-  native Buffer createBuffer()
-  native Void bindBuffer(GlEnum target, Buffer buffer)
-  native Void bufferData(GlEnum target, ArrayBuffer data, GlEnum usage)
+  abstract Buffer createBuffer()
+  abstract Void bindBuffer(GlEnum target, Buffer buffer)
+  abstract Void bufferData(GlEnum target, ArrayBuffer data, GlEnum usage)
 
 
 //////////////////////////////////////////////////////////////////////////
 // Shader
 //////////////////////////////////////////////////////////////////////////
 
-  native Shader createShader(GlEnum type)
-  native Void shaderSource(Shader shader, Str source)
-  native Void compileShader(Shader shader)
-  native Bool getShaderParameter(Shader shader, GlEnum pname)
-  native Str getShaderInfoLog(Shader shader)
+  abstract Shader createShader(GlEnum type)
+  abstract Void shaderSource(Shader shader, Str source)
+  abstract Void compileShader(Shader shader)
+  abstract Bool getShaderParameter(Shader shader, GlEnum pname)
+  abstract Str getShaderInfoLog(Shader shader)
 
-  native Program createProgram()
-  native Void attachShader(Program program, Shader shader)
-  native Void linkProgram(Program program)
-  native Bool getProgramParameter(Program program, GlEnum pname)
-  native Void validateProgram(Program program);
-  native Void useProgram(Program program)
+  abstract Program createProgram()
+  abstract Void attachShader(Program program, Shader shader)
+  abstract Void linkProgram(Program program)
+  abstract Bool getProgramParameter(Program program, GlEnum pname)
+  abstract Void validateProgram(Program program);
+  abstract Void useProgram(Program program)
 
 //////////////////////////////////////////////////////////////////////////
 // Uniform
 //////////////////////////////////////////////////////////////////////////
 
-  native UniformLocation getUniformLocation(Program program, Str name)
-  native Void uniformMatrix4fv(UniformLocation location, Bool transpose, ArrayBuffer value)
+  abstract UniformLocation getUniformLocation(Program program, Str name)
+  abstract Void uniformMatrix4fv(UniformLocation location, Bool transpose, ArrayBuffer value)
 
 //////////////////////////////////////////////////////////////////////////
 // VertexShader
 //////////////////////////////////////////////////////////////////////////
 
-  native Int getAttribLocation(Program program, Str name)
-  native Void enableVertexAttribArray(Int index)
+  abstract Int getAttribLocation(Program program, Str name)
+  abstract Void enableVertexAttribArray(Int index)
 }

@@ -28,10 +28,10 @@ class GlDisplayPeer
   {
     Display.setDisplayMode(new DisplayMode((int)self.w(), (int)self.h()));
     Display.setVSyncEnabled(true);
-    Display.setTitle("Shader Setup");
+    Display.setTitle("fan3d");
     Display.create();
 
-    gl = GlContext.make();
+    gl = new LwjglGlContext();
     self.init(gl);
 
     while(true)

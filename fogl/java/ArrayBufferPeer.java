@@ -15,7 +15,7 @@ import java.nio.*;
 import org.lwjgl.BufferUtils;
 
 
-public class ArrayBufferPeer
+class ArrayBufferPeer
 {
   private java.nio.Buffer data;
 

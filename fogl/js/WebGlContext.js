@@ -7,40 +7,40 @@
 //
 
 
-fan.fogl.GlContextPeer = fan.sys.Obj.$extend(fan.sys.Obj);
-fan.fogl.GlContextPeer.prototype.$ctor = function(self) {}
-fan.fogl.GlContextPeer.prototype.gl = null;
+fan.fogl.WebGlContext = fan.sys.Obj.$extend(fan.sys.Obj);
+fan.fogl.WebGlContext.prototype.$ctor = function(self) {}
+fan.fogl.WebGlContext.prototype.gl = null;
 
 //////////////////////////////////////////////////////////////////////////
 // common
 //////////////////////////////////////////////////////////////////////////
 
-fan.fogl.GlContextPeer.prototype.clearColor = function(self, r, g, b, a)
+fan.fogl.WebGlContext.prototype.clearColor = function(r, g, b, a)
 {
   this.gl.clearColor(r, g, b, a);
 }
 
-fan.fogl.GlContextPeer.prototype.enable = function(self, cap)
+fan.fogl.WebGlContext.prototype.enable = function(cap)
 {
   this.gl.enable(cap.m_val);
 }
 
-fan.fogl.GlContextPeer.prototype.viewport = function(self, x, y, width, height)
+fan.fogl.WebGlContext.prototype.viewport = function(x, y, width, height)
 {
   this.gl.viewport(x, y, width, height);
 }
 
-fan.fogl.GlContextPeer.prototype.clear = function(self, mask)
+fan.fogl.WebGlContext.prototype.clear = function(mask)
 {
   this.gl.clear(mask.m_val);
 }
 
-fan.fogl.GlContextPeer.prototype.vertexAttribPointer = function(self, index, size, type, normalized, stride, offset)
+fan.fogl.WebGlContext.prototype.vertexAttribPointer = function(index, size, type, normalized, stride, offset)
 {
   this.gl.vertexAttribPointer(index, size, type.m_val, normalized, stride, offset);
 }
 
-fan.fogl.GlContextPeer.prototype.drawArrays = function(self, mode, first, count)
+fan.fogl.WebGlContext.prototype.drawArrays = function(mode, first, count)
 {
   this.gl.drawArrays(mode.m_val, first, count);
 }
@@ -49,19 +49,19 @@ fan.fogl.GlContextPeer.prototype.drawArrays = function(self, mode, first, count)
 // buffer
 //////////////////////////////////////////////////////////////////////////
 
-fan.fogl.GlContextPeer.prototype.createBuffer = function(self)
+fan.fogl.WebGlContext.prototype.createBuffer = function()
 {
   var buf = fan.fogl.Buffer.make();
   buf.peer.setValue(this.gl.createBuffer());
   return buf;
 }
 
-fan.fogl.GlContextPeer.prototype.bindBuffer = function(self, target, buffer)
+fan.fogl.WebGlContext.prototype.bindBuffer = function(target, buffer)
 {
   this.gl.bindBuffer(target.m_val, buffer.peer.getValue());
 }
 
-fan.fogl.GlContextPeer.prototype.bufferData = function(self, target, data, usage)
+fan.fogl.WebGlContext.prototype.bufferData = function(target, data, usage)
 {
   this.gl.bufferData(target.m_val, data.peer.getValue(), usage.m_val);
 }
@@ -70,7 +70,7 @@ fan.fogl.GlContextPeer.prototype.bufferData = function(self, target, data, usage
 // shader
 //////////////////////////////////////////////////////////////////////////
 
-fan.fogl.GlContextPeer.prototype.createShader = function(self, type)
+fan.fogl.WebGlContext.prototype.createShader = function(type)
 {
   var i = this.gl.createShader(type.m_val);
   var shader = fan.fogl.Shader.make();
@@ -78,27 +78,27 @@ fan.fogl.GlContextPeer.prototype.createShader = function(self, type)
   return shader;
 }
 
-fan.fogl.GlContextPeer.prototype.shaderSource = function(self, shader, source)
+fan.fogl.WebGlContext.prototype.shaderSource = function(shader, source)
 {
   this.gl.shaderSource(shader.peer.getValue(), source);
 }
 
-fan.fogl.GlContextPeer.prototype.compileShader = function(self, shader)
+fan.fogl.WebGlContext.prototype.compileShader = function(shader)
 {
   this.gl.compileShader(shader.peer.getValue());
 }
 
-fan.fogl.GlContextPeer.prototype.getShaderParameter = function(self, shader, pname)
+fan.fogl.WebGlContext.prototype.getShaderParameter = function(shader, pname)
 {
   return this.gl.getShaderParameter(shader.peer.getValue(), pname.m_val);
 }
 
-fan.fogl.GlContextPeer.prototype.getShaderInfoLog = function(self, shader)
+fan.fogl.WebGlContext.prototype.getShaderInfoLog = function(shader)
 {
   return this.gl.getShaderInfoLog(shader.peer.getValue());
 }
 
-fan.fogl.GlContextPeer.prototype.createProgram = function(self)
+fan.fogl.WebGlContext.prototype.createProgram = function()
 {
   var i = this.gl.createProgram();
   var program = fan.fogl.Program.make();
@@ -106,27 +106,27 @@ fan.fogl.GlContextPeer.prototype.createProgram = function(self)
   return program;
 }
 
-fan.fogl.GlContextPeer.prototype.attachShader = function(self, program, shader)
+fan.fogl.WebGlContext.prototype.attachShader = function(program, shader)
 {
   this.gl.attachShader(program.peer.getValue(), shader.peer.getValue());
 }
 
-fan.fogl.GlContextPeer.prototype.linkProgram = function(self, program)
+fan.fogl.WebGlContext.prototype.linkProgram = function(program)
 {
   this.gl.linkProgram(program.peer.getValue());
 }
 
-fan.fogl.GlContextPeer.prototype.getProgramParameter = function(self, program, pname)
+fan.fogl.WebGlContext.prototype.getProgramParameter = function(program, pname)
 {
   return this.gl.getProgramParameter(program.peer.getValue(), pname.m_val);
 }
 
-fan.fogl.GlContextPeer.prototype.validateProgram = function(self, program)
+fan.fogl.WebGlContext.prototype.validateProgram = function(program)
 {
   this.gl.validateProgram(program.peer.getValue());
 }
 
-fan.fogl.GlContextPeer.prototype.useProgram = function(self, program)
+fan.fogl.WebGlContext.prototype.useProgram = function(program)
 {
   this.gl.useProgram(program.peer.getValue());
 }
@@ -135,7 +135,7 @@ fan.fogl.GlContextPeer.prototype.useProgram = function(self, program)
 // uniform
 //////////////////////////////////////////////////////////////////////////
 
-fan.fogl.GlContextPeer.prototype.getUniformLocation = function(self, program, name)
+fan.fogl.WebGlContext.prototype.getUniformLocation = function(program, name)
 {
   var i = this.gl.getUniformLocation(program.peer.getValue(), name);
   var location = fan.fogl.UniformLocation.make();
@@ -143,7 +143,7 @@ fan.fogl.GlContextPeer.prototype.getUniformLocation = function(self, program, na
   return location;
 }
 
-fan.fogl.GlContextPeer.prototype.uniformMatrix4fv = function(self, location, transpose, value)
+fan.fogl.WebGlContext.prototype.uniformMatrix4fv = function(location, transpose, value)
 {
   this.gl.uniformMatrix4fv(location.peer.getValue(), transpose, value.peer.getValue());
 }
@@ -152,12 +152,12 @@ fan.fogl.GlContextPeer.prototype.uniformMatrix4fv = function(self, location, tra
 // vertexShader
 //////////////////////////////////////////////////////////////////////////
 
-fan.fogl.GlContextPeer.prototype.getAttribLocation = function(self, program, name)
+fan.fogl.WebGlContext.prototype.getAttribLocation = function(program, name)
 {
   return this.gl.getAttribLocation(program.peer.getValue(), name);
 }
 
-fan.fogl.GlContextPeer.prototype.enableVertexAttribArray = function(self, index)
+fan.fogl.WebGlContext.prototype.enableVertexAttribArray = function(index)
 {
   this.gl.enableVertexAttribArray(index);
 }
