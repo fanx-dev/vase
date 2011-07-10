@@ -6,6 +6,9 @@
 //   2011-5-29  Jed Young  Creation
 //
 
+**
+** windows system op
+**
 @Js
 class GlDisplay
 {

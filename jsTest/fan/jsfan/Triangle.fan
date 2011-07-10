@@ -8,16 +8,17 @@
 //
 
 using fogl
+using fan3dMath
 
 **
-** fan D:/code/Hg/fan3d/jsTest/fan/jsfan/Display.fan
+** fan D:/code/Hg/fan3d/jsTest/fan/jsfan/Triangle.fan
 **
 @Js
-class Display : GlDisplay
+class Triangle : GlDisplay
 {
   Void main()
   {
-    Display().open
+    open
   }
 
   override Void init(GlContext gl)
@@ -43,15 +44,8 @@ class Display : GlDisplay
   {
     this.gl = gl
 
-    //echo(triangleVertexPositionBuffer->val)
-    //echo(vertexPositionAttribute)
-    //echo("----")
-
-
     gl.clear(GlEnum.colorBufferBit.mix(GlEnum.depthBufferBit))
     setMatrixUniforms
-
-    //gl.enableVertexAttribArray(vertexPositionAttribute)
 
     gl.bindBuffer(GlEnum.arrayBuffer, triangleVertexPositionBuffer)
     gl.vertexAttribPointer(vertexPositionAttribute, 3, GlEnum.float, false, 0, 0)
@@ -61,21 +55,8 @@ class Display : GlDisplay
 
   private Void setMatrixUniforms()
   {
-    Float[] mvMatrix  :=
-    [
-       1f,  0f,  0f, 0f,
-       0f,  1f,  0f, 0f,
-       0f,  0f,  1f, 0f,
-     -1.5f, 0f, -7f, 1f,
-    ]
-
-    Float[] pMatrix  :=
-    [
-       2.4142136573791504f,  0f,                   0f,                      0f,
-       0f,                   2.4142136573791504f,  0f,                      0f,
-       0f,                   0f,                   -1.0020020008087158f,   -1f,
-       0f,                   0f,                    -0.20020020008087158f,  0f,
-    ]
+    Float[] mvMatrix  := Transform().translate(-1.5f, 0.0f, -7.0f).top.flatten
+    Float[] pMatrix  := Transform.makePerspective(45f, w.toFloat/h.toFloat, 0.1f, 100.0f).flatten
 
     gl.uniformMatrix4fv(pMatrixUniform, false, ArrayBuffer.makeFloat(pMatrix))
     gl.uniformMatrix4fv(mvMatrixUniform, false, ArrayBuffer.makeFloat(mvMatrix))

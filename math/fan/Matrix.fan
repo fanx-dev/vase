@@ -96,9 +96,9 @@ class Matrix
   {
     f := Float[,] { capacity = m * n }
 
-    for (i := 0; i < m; i++)
-      for (j := 0; j < n; j++)
-        f.add(get(i, j))
+    for (i := 0; i < n; i++)
+      for (j := 0; j < m; j++)
+        f.add(get(j, i))
 
     return f
   }

@@ -34,6 +34,7 @@ class Build : build::BuildPod
       "sql 1.0",
       "slanDao 1.0",
       "fogl 1.0",
+      "fan3dMath 1.0",
     ]
     resDirs =
     [

@@ -7,6 +7,9 @@
 //   2011-06-04  Jed Young  Using literal
 //
 
+**
+** define all OpenGL constant
+**
 @Js
 const class GlEnum
 {

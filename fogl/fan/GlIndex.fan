@@ -6,6 +6,9 @@
 //   2011-5-29  Jed Young  Creation
 //
 
+**
+** GlIndex is a int value. like a resource handle.
+**
 @Js
 const class GlIndex { internal native Obj? val() }
 

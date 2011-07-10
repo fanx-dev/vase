@@ -6,6 +6,9 @@
 //   2011-5-29  Jed Young  Creation
 //
 
+**
+** wrapping a native buffer
+**
 @Js
 class ArrayBuffer
 {
