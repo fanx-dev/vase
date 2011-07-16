@@ -14,7 +14,7 @@ class Transform
 {
   private Matrix[] stack := [ Matrix.makeIndentity(4) ]
 
-  Matrix top() { stack.first }
+  Matrix top() { stack.peek }
   This set(Matrix m) { stack.set(stack.size - 1, m); return this }
 
   Matrix pop() { stack.pop }
@@ -32,21 +32,21 @@ class Transform
 
   This translate(Float x, Float y, Float z)
   {
-    m := makeTranslate(x, y, z) * top
+    m := top * makeTranslate(x, y, z)
     set(m)
     return this
   }
 
   This scale(Float x, Float y, Float z)
   {
-    m := makeScale(x, y, z) * top
+    m := top * makeScale(x, y, z)
     set(m)
     return this
   }
 
   This rotate(Float theta, Float vx, Float vy, Float vz)
   {
-    m := makeRotate(theta, vx, vy, vz) * top
+    m := top * makeRotate(theta, vx, vy, vz)
     set(m)
     return this
   }
