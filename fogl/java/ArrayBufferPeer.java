@@ -49,6 +49,18 @@ class ArrayBufferPeer
     self.peer.data = buf;
   }
 
+  public static ArrayBuffer makeShort(List list)
+  {
+    ArrayBuffer buffer = ArrayBuffer.make();
+
+    ShortBuffer buf = BufferUtils.createShortBuffer((int)list.size());
+    buf.put(toShortArray(list));
+    buf.flip();
+    buffer.peer.data = buf;
+
+    return buffer;
+  }
+
 //////////////////////////////////////////////////////////////////////////
 // methods
 //////////////////////////////////////////////////////////////////////////

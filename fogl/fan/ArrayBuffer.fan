@@ -15,5 +15,7 @@ class ArrayBuffer
   native static ArrayBuffer makeFloat(Float[] data)
 
   native static ArrayBuffer makeInt(Int[] data)
+
+  native static ArrayBuffer makeShort(Int[] data)
 }
 

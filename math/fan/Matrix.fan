@@ -67,7 +67,7 @@ class Matrix
     for (i := 0; i < m; i++)
     {
       row := Float[,]
-      for (j := 0; j < n; j++) row.add(0f)
+      row.fill(0f, n)
       list.add(row)
     }
     a = list

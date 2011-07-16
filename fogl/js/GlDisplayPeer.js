@@ -11,6 +11,8 @@ fan.fogl.GlDisplayPeer = fan.sys.Obj.$extend(fan.sys.Obj);
 fan.fogl.GlDisplayPeer.prototype.$ctor = function(self) {}
 fan.fogl.GlDisplayPeer.prototype.gl = null;
 
+var lastGl = null;
+
 fan.fogl.GlDisplayPeer.prototype.initGL = function(self, canvas)
 {
   try
@@ -18,6 +20,7 @@ fan.fogl.GlDisplayPeer.prototype.initGL = function(self, canvas)
     var gl = canvas.getContext("experimental-webgl");
     this.gl = new fan.fogl.WebGlContext();
     this.gl.gl = gl;
+    lastGl = gl;
 
     //self.gl.viewportWidth = canvas.width;
     //self.gl.viewportHeight = canvas.height;

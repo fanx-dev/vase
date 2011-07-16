@@ -25,6 +25,7 @@ mixin GlContext
   abstract Void vertexAttribPointer(Int indx, Int size, GlEnum type, Bool normalized, Int stride, Int offset)
 
   abstract Void drawArrays(GlEnum mode, Int first, Int count)
+  abstract Void drawElements(GlEnum mode, Int count, GlEnum type, Int offset)
 
 //////////////////////////////////////////////////////////////////////////
 // Buffer
@@ -130,7 +131,7 @@ mixin GlContext
 //void detachShader(WebGLProgram program, WebGLShader shader);
 //void disable(GLenum cap);
 //void disableVertexAttribArray(GLuint index);
-//void drawElements(GLenum mode, GLsizei count, GLenum type, GLintptr offset);
+//-void drawElements(GLenum mode, GLsizei count, GLenum type, GLintptr offset);
 //
 //void finish();
 //void flush();

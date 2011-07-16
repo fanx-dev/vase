@@ -44,9 +44,9 @@ class Transform
     return this
   }
 
-  This rotate(Float theta, Float vx, Float vy, Float vz)
+  This rotate(Float theta, Float x, Float y, Float z)
   {
-    m := top * makeRotate(theta, vx, vy, vz)
+    m := top * makeRotate(theta * Float.pi / 180f, x, y, z)
     set(m)
     return this
   }
@@ -141,11 +141,17 @@ class Transform
       return m
   }
 
-  static Matrix makeRotate(Float theta, Float vx, Float vy, Float vz)
+  static Matrix makeRotate(Float theta, Float x, Float y, Float z)
   {
      s := (theta).sin
      c := (theta).cos
      nc := 1 - c
+
+     v := Vector(x, y, z)
+     nv := v.normalize
+     vx := nv.x
+     vy := nv.y
+     vz := nv.z
 
      m := Matrix.make([ [vx * vx * nc + c,      vx * vy * nc - vz * s,            vx * vz * nc + vy * s, 0f],
                         [vy * vx * nc + vz * s, vy * vy * nc + c, vy * vz * nc - vx * s,                 0f],

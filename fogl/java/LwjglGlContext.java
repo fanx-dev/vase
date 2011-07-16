@@ -57,6 +57,11 @@ class LwjglGlContext implements GlContext
     glDrawArrays((int)mode.val, (int)first, (int)count);
   }
 
+  public void drawElements(GlEnum mode, long count, GlEnum type, long offset)
+  {
+    glDrawElements((int)mode.val, (int)count, (int)type.val, offset);
+  }
+
 //////////////////////////////////////////////////////////////////////////
 // buffer
 //////////////////////////////////////////////////////////////////////////

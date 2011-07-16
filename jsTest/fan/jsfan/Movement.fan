@@ -107,7 +107,7 @@ class Movement : GlDisplay
   Int lastTime := 0
   private Void animate()
   {
-    timeNow := DateTime.nowTicks / 100000000
+    timeNow := DateTime.nowTicks / 1000000
     if (lastTime != 0)
     {
       elapsed := timeNow - lastTime

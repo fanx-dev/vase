@@ -45,6 +45,11 @@ fan.fogl.WebGlContext.prototype.drawArrays = function(mode, first, count)
   this.gl.drawArrays(mode.m_val, first, count);
 }
 
+fan.fogl.WebGlContext.prototype.drawElements = function(mode, count, type, offset)
+{
+  this.gl.drawElements(mode.m_val, count, type.m_val, offset);
+}
+
 //////////////////////////////////////////////////////////////////////////
 // buffer
 //////////////////////////////////////////////////////////////////////////
