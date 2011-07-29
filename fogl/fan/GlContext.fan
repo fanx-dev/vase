@@ -59,6 +59,7 @@ mixin GlContext
 
   abstract UniformLocation getUniformLocation(Program program, Str name)
   abstract Void uniformMatrix4fv(UniformLocation location, Bool transpose, ArrayBuffer value)
+  abstract Void uniform1i(UniformLocation location, Int x)
 
 //////////////////////////////////////////////////////////////////////////
 // VertexShader
@@ -66,6 +67,19 @@ mixin GlContext
 
   abstract Int getAttribLocation(Program program, Str name)
   abstract Void enableVertexAttribArray(Int index)
+
+//////////////////////////////////////////////////////////////////////////
+// Texture
+//////////////////////////////////////////////////////////////////////////
+
+  abstract Texture createTexture()
+  abstract Void bindTexture(GlEnum target, Texture? texture)
+  abstract Void pixelStorei(GlEnum pname, Int param)
+  abstract Void texImage2D(GlEnum target, Int level, GlEnum internalformat,
+                           GlEnum format, GlEnum type, Image image)
+  abstract Void texParameterf(GlEnum target, GlEnum pname, Float param)
+  abstract Void texParameteri(GlEnum target, GlEnum pname, Int param)
+  abstract Void activeTexture(GlEnum texture)
 
 
 //////////////////////////////////////////////////////////////////////////
@@ -83,11 +97,9 @@ mixin GlContext
 //DOMString[ ] getSupportedExtensions();
 //object getExtension(DOMString name);
 //
-//void activeTexture(GLenum texture);
 //void bindAttribLocation(WebGLProgram program, GLuint index, DOMString name);
 //void bindFramebuffer(GLenum target, WebGLFramebuffer framebuffer);
 //void bindRenderbuffer(GLenum target, WebGLRenderbuffer renderbuffer);
-//void bindTexture(GLenum target, WebGLTexture texture);
 //void blendColor(GLclampf red, GLclampf green, GLclampf blue, GLclampf alpha);
 //void blendEquation(GLenum mode);
 //void blendEquationSeparate(GLenum modeRGB, GLenum modeAlpha);
@@ -114,7 +126,6 @@ mixin GlContext
 //
 //WebGLFramebuffer createFramebuffer();
 //WebGLRenderbuffer createRenderbuffer();
-//WebGLTexture createTexture();
 //
 //void cullFace(GLenum mode);
 //
@@ -179,7 +190,6 @@ mixin GlContext
 //GLboolean isShader(WebGLShader shader);
 //GLboolean isTexture(WebGLTexture texture);
 //void lineWidth(GLfloat width);
-//void pixelStorei(GLenum pname, GLint param);
 //void polygonOffset(GLfloat factor, GLfloat units);
 //
 //void readPixels(GLint x, GLint y, GLsizei width, GLsizei height,
@@ -203,15 +213,13 @@ mixin GlContext
 //                GLenum type, ArrayBufferView pixels);
 //void texImage2D(GLenum target, GLint level, GLenum internalformat,
 //                GLenum format, GLenum type, ImageData pixels);
-//void texImage2D(GLenum target, GLint level, GLenum internalformat,
+//-void texImage2D(GLenum target, GLint level, GLenum internalformat,
 //                GLenum format, GLenum type, HTMLImageElement image);
 //void texImage2D(GLenum target, GLint level, GLenum internalformat,
 //                GLenum format, GLenum type, HTMLCanvasElement canvas);
 //void texImage2D(GLenum target, GLint level, GLenum internalformat,
 //                GLenum format, GLenum type, HTMLVideoElement video);
 //
-//void texParameterf(GLenum target, GLenum pname, GLfloat param);
-//void texParameteri(GLenum target, GLenum pname, GLint param);
 //
 //void texSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffset,
 //                   GLsizei width, GLsizei height,

@@ -433,9 +433,9 @@ const class GlEnum
   static const GlEnum invalidFramebufferOperation := GlEnum(0x0506)
 
 // WebGL-specific enums
-//UNPACK_FLIP_Y_WEBGL  = 0x9240;
-//UNPACK_PREMULTIPLY_ALPHA_WEBGL = 0x9241;
-//CONTEXT_LOST_WEBGL   = 0x9242;
-//UNPACK_COLORSPACE_CONVERSION_WEBGL = 0x9243;
-//BROWSER_DEFAULT_WEBGL= 0x9244;
+  static const GlEnum unpackFlipYWebgl := GlEnum(0x9240)
+  static const GlEnum unpackPremultiplyAlphaWebgl := GlEnum(0x9241)
+  static const GlEnum contextLostWebgl := GlEnum(0x9242)
+  static const GlEnum unpackColorspaceConversionWebgl := GlEnum(0x9243)
+  static const GlEnum browserDefaultWebgl := GlEnum(0x9244)
 }

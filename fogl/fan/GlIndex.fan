@@ -22,6 +22,24 @@ const class GlIndex { internal native Obj? val() }
 const class Buffer : GlIndex {}
 
 **
+** The WebGLFramebuffer interface represents an OpenGL Framebuffer Object.
+** The underlying object is created as if by calling glGenFramebuffers (OpenGL ES 2.0 §4.4.1, man page) ,
+** bound as if by calling glBindFramebuffer (OpenGL ES 2.0 §4.4.1, man page)
+** and destroyed as if by calling glDeleteFramebuffers (OpenGL ES 2.0 §4.4.1, man page) .
+**
+@Js
+const class Framebuffer : GlIndex {}
+
+**
+** The WebGLRenderbuffer interface represents an OpenGL Renderbuffer Object.
+** The underlying object is created as if by calling glGenRenderbuffers (OpenGL ES 2.0 §4.4.3, man page) ,
+** bound as if by calling glBindRenderbuffer (OpenGL ES 2.0 §4.4.3, man page)
+** and destroyed as if by calling glDeleteRenderbuffers (OpenGL ES 2.0 §4.4.3, man page) .
+**
+@Js
+const class Renderbuffer : GlIndex {}
+
+**
 ** The Program interface represents an OpenGL Program Object.
 ** The underlying object is created as if by calling glCreateProgram (OpenGL ES 2.0 §2.10.3, man page) ,
 ** used as if by calling glUseProgram (OpenGL ES 2.0 §2.10.3, man page) and
@@ -44,3 +62,12 @@ const class Shader : GlIndex {}
 **
 @Js
 const class UniformLocation : GlIndex {}
+
+**
+** The WebGLTexture interface represents an OpenGL Texture Object.
+** The underlying object is created as if by calling glGenTextures (OpenGL ES 2.0 §3.7.13, man page) ,
+** bound as if by calling glBindTexture (OpenGL ES 2.0 §3.7.13, man page)
+** and destroyed as if by calling glDeleteTextures (OpenGL ES 2.0 §3.7.13, man page) .
+**
+@Js
+const class Texture : GlIndex {}

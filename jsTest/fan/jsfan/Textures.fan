@@ -4,17 +4,17 @@
 // Licensed under the Academic Free License version 3.0
 //
 // History:
-//   2011-07-16  Jed Young  Creation
+//   2011-07-29  Jed Young  Creation
 //
 
 using fogl
 using fan3dMath
 
 **
-** fan D:/code/Hg/fan3d/jsTest/fan/jsfan/RealObject.fan
+** fan D:/code/Hg/fan3d/jsTest/fan/jsfan/Texture.fan
 **
 @Js
-class RealObject : GlDisplay
+class Textures : GlDisplay
 {
   Void main()
   {
@@ -27,32 +27,50 @@ class RealObject : GlDisplay
 
     initShader
     initBuffer
+    initTexture
 
     gl.clearColor(0f, 0f, 0.3f, 1f)
     gl.enable(GlEnum.depthTest)
     gl.viewport(0, 0, w, h)
   }
 
+  Void initTexture()
+  {
+    neheTexture = gl.createTexture()
+    image := Image(`/public/nehe.gif`)
+    image.load
+    {
+      gl.bindTexture(GlEnum.texture2d, neheTexture)
+      gl.pixelStorei(GlEnum.unpackFlipYWebgl, 1)
+      gl.texImage2D(GlEnum.texture2d, 0, GlEnum.rgba, GlEnum.rgba, GlEnum.unsignedByte, image)
+      gl.texParameteri(GlEnum.texture2d, GlEnum.textureMagFilter, GlEnum.nearest.val)
+      gl.texParameteri(GlEnum.texture2d, GlEnum.textureMinFilter, GlEnum.nearest.val)
+      gl.bindTexture(GlEnum.texture2d, null)
+    }
+  }
+
   GlContext? gl
 
-  Buffer? pyramidVertexPositionBuffer
-  Buffer? pyramidVertexColorBuffer
+  Buffer? cubeVertexTextureCoordBuffer
   Buffer? cubeVertexPositionBuffer
-  Buffer? cubeVertexColorBuffer
   Buffer? cubeVertexIndexBuffer
   Int[]? cubeVertexIndices
 
   Int? vertexPositionAttribute
-  Int? vertexColorAttribute
+  Int? textureCoordAttribute
 
   UniformLocation? pMatrixUniform
   UniformLocation? mvMatrixUniform
+  UniformLocation? samplerUniform
 
   Float[]? mvMatrix
   Float[]? pMatrix
 
-  Float rPyramid := 0f
-  Float rCube := 0f
+  Float xRot := 0f
+  Float yRot := 0f
+  Float zRot := 0f
+
+  Texture? neheTexture
 
   override Void onPaint(GlContext gl)
   {
@@ -61,36 +79,25 @@ class RealObject : GlDisplay
     pMatrix = Transform.makePerspective(45f, w.toFloat/h.toFloat, 0.1f, 100.0f).flatten
     transform := Transform()
 
-    //triangle
-    transform.translate(-1.5f, 0.0f, -8.0f)
-    transform.push
-    transform.rotate(rPyramid, 0f, 1f, 0f)
-    mvMatrix = transform.top.flatten
-
-    gl.bindBuffer(GlEnum.arrayBuffer, pyramidVertexPositionBuffer)
-    gl.vertexAttribPointer(vertexPositionAttribute, 3, GlEnum.float, false, 0, 0)
-    gl.bindBuffer(GlEnum.arrayBuffer, pyramidVertexColorBuffer);
-    gl.vertexAttribPointer(vertexColorAttribute, 4, GlEnum.float, false, 0, 0)
-
-    setMatrixUniforms
-    gl.drawArrays(GlEnum.triangles, 0, 12)
-    transform.pop
-
     //square
-    transform.translate(3.0f, 0.0f, 0.0f)
-    transform.push
-    transform.rotate(rCube, 1f, 1f, 1f)
+    transform.translate(0.0f, 0.0f, -5.0f)
+    transform.rotate(xRot, 1f, 0f, 0f)
+    transform.rotate(yRot, 0f, 1f, 0f)
+    transform.rotate(zRot, 0f, 0f, 1f)
     mvMatrix = transform.top.flatten
 
     gl.bindBuffer(GlEnum.arrayBuffer, cubeVertexPositionBuffer)
     gl.vertexAttribPointer(vertexPositionAttribute, 3, GlEnum.float, false, 0, 0)
-    gl.bindBuffer(GlEnum.arrayBuffer, cubeVertexColorBuffer)
-    gl.vertexAttribPointer(vertexColorAttribute, 4, GlEnum.float, false, 0, 0)
-    gl.bindBuffer(GlEnum.elementArrayBuffer, cubeVertexIndexBuffer)
+    gl.bindBuffer(GlEnum.arrayBuffer, cubeVertexTextureCoordBuffer)
+    gl.vertexAttribPointer(textureCoordAttribute, 2, GlEnum.float, false, 0, 0)
 
+    gl.activeTexture(GlEnum.texture0)
+    gl.bindTexture(GlEnum.texture2d, neheTexture)
+    gl.uniform1i(samplerUniform, 0)
+
+    gl.bindBuffer(GlEnum.elementArrayBuffer, cubeVertexIndexBuffer)
     setMatrixUniforms
     gl.drawElements(GlEnum.triangles, cubeVertexIndices.size, GlEnum.unsignedShort, 0)
-    transform.pop
 
     animate
   }
@@ -109,8 +116,9 @@ class RealObject : GlDisplay
     {
       elapsed := timeNow - lastTime
 
-      rPyramid += (90 * elapsed).toFloat / 1000.0f
-      rCube += (75 * elapsed).toFloat / 1000.0f
+      xRot += (90 * elapsed) / 1000.0f
+      yRot += (90 * elapsed) / 1000.0f
+      zRot += (90 * elapsed) / 1000.0f
     }
     lastTime = timeNow;
   }
@@ -122,24 +130,25 @@ class RealObject : GlDisplay
                   precision highp float;
                   #endif
 
-                  varying vec4 vColor;
+                  varying vec2 vTextureCoord;
+                  uniform sampler2D uSampler;
 
                   void main(void) {
-                    gl_FragColor = vColor;
+                    gl_FragColor = texture2D(uSampler, vec2(vTextureCoord.s, vTextureCoord.t));
                   }
                  |>
 
     vStr := Str<|   attribute vec3 aVertexPosition;
-                    attribute vec4 aVertexColor;
+                    attribute vec2 aTextureCoord;
 
                     uniform mat4 uMVMatrix;
                     uniform mat4 uPMatrix;
 
-                    varying vec4 vColor;
+                    varying vec2 vTextureCoord;
 
                     void main(void) {
                       gl_Position = uPMatrix * uMVMatrix * vec4(aVertexPosition, 1.0);
-                      vColor = aVertexColor;
+                      vTextureCoord = aTextureCoord;
                     }
                  |>
 
@@ -160,68 +169,20 @@ class RealObject : GlDisplay
     vertexPositionAttribute = gl.getAttribLocation(shaderProgram, "aVertexPosition")
     gl.enableVertexAttribArray(vertexPositionAttribute)
 
-    vertexColorAttribute = gl.getAttribLocation(shaderProgram, "aVertexColor")
-    gl.enableVertexAttribArray(vertexColorAttribute)
+    textureCoordAttribute = gl.getAttribLocation(shaderProgram, "aTextureCoord")
+    gl.enableVertexAttribArray(textureCoordAttribute)
 
     pMatrixUniform = gl.getUniformLocation(shaderProgram, "uPMatrix")
     mvMatrixUniform = gl.getUniformLocation(shaderProgram, "uMVMatrix")
+    samplerUniform = gl.getUniformLocation(shaderProgram, "uSampler")
   }
 
   private Void initBuffer()
   {
-    //triangle
-    pyramidVertexPositionBuffer = gl.createBuffer
-    gl.bindBuffer(GlEnum.arrayBuffer, pyramidVertexPositionBuffer)
-    Float[] vertices :=
-    [
-      // Front face
-       0.0f,  1.0f,  0.0f,
-      -1.0f, -1.0f,  1.0f,
-       1.0f, -1.0f,  1.0f,
-      // Right face
-       0.0f,  1.0f,  0.0f,
-       1.0f, -1.0f,  1.0f,
-       1.0f, -1.0f, -1.0f,
-      // Back face
-       0.0f,  1.0f,  0.0f,
-       1.0f, -1.0f, -1.0f,
-      -1.0f, -1.0f, -1.0f,
-      // Left face
-       0.0f,  1.0f,  0.0f,
-      -1.0f, -1.0f, -1.0f,
-      -1.0f, -1.0f,  1.0f,
-    ]
-
-    arrayBuffer := ArrayBuffer.makeFloat(vertices)
-    gl.bufferData(GlEnum.arrayBuffer, arrayBuffer, GlEnum.staticDraw)
-
-    pyramidVertexColorBuffer = gl.createBuffer
-    gl.bindBuffer(GlEnum.arrayBuffer, pyramidVertexColorBuffer)
-    Float[] colors :=
-    [
-      // Front face
-      1.0f, 0.0f, 0.0f, 1.0f,
-      0.0f, 1.0f, 0.0f, 1.0f,
-      0.0f, 0.0f, 1.0f, 1.0f,
-      // Right face
-      1.0f, 0.0f, 0.0f, 1.0f,
-      0.0f, 0.0f, 1.0f, 1.0f,
-      0.0f, 1.0f, 0.0f, 1.0f,
-      // Back face
-      1.0f, 0.0f, 0.0f, 1.0f,
-      0.0f, 1.0f, 0.0f, 1.0f,
-      0.0f, 0.0f, 1.0f, 1.0f,
-      // Left face
-      1.0f, 0.0f, 0.0f, 1.0f,
-      0.0f, 0.0f, 1.0f, 1.0f,
-      0.0f, 1.0f, 0.0f, 1.0f,
-    ]
-    gl.bufferData(GlEnum.arrayBuffer, ArrayBuffer.makeFloat(colors), GlEnum.staticDraw)
-
     //square
     cubeVertexPositionBuffer = gl.createBuffer
     gl.bindBuffer(GlEnum.arrayBuffer, cubeVertexPositionBuffer)
-    vertices = [
+    vertices := [
       // Front face
       -1.0f, -1.0f,  1.0f,
        1.0f, -1.0f,  1.0f,
@@ -260,27 +221,48 @@ class RealObject : GlDisplay
     ]
     gl.bufferData(GlEnum.arrayBuffer, ArrayBuffer.makeFloat(vertices), GlEnum.staticDraw)
 
-    cubeVertexColorBuffer = gl.createBuffer
-    gl.bindBuffer(GlEnum.arrayBuffer, cubeVertexColorBuffer)
 
+    cubeVertexTextureCoordBuffer = gl.createBuffer
+    gl.bindBuffer(GlEnum.arrayBuffer, cubeVertexTextureCoordBuffer)
+    textureCoords := [
+      // Front face
+      0.0f, 0.0f,
+      1.0f, 0.0f,
+      1.0f, 1.0f,
+      0.0f, 1.0f,
 
-    colors2 := [
-      [1.0f, 0.0f, 0.0f, 1.0f],     // Front face
-      [1.0f, 1.0f, 0.0f, 1.0f],     // Back face
-      [0.0f, 1.0f, 0.0f, 1.0f],     // Top face
-      [1.0f, 0.5f, 0.5f, 1.0f],     // Bottom face
-      [1.0f, 0.0f, 1.0f, 1.0f],     // Right face
-      [0.0f, 0.0f, 1.0f, 1.0f],     // Left face
-    ];
-    unpackedColors := [,]
-    colors2.each | color, i |
-    {
-      for (j := 0; j < 4; j++)
-      {
-        unpackedColors.addAll(color)
-      }
-    }
-    gl.bufferData(GlEnum.arrayBuffer, ArrayBuffer.makeFloat(unpackedColors), GlEnum.staticDraw);
+      // Back face
+      1.0f, 0.0f,
+      1.0f, 1.0f,
+      0.0f, 1.0f,
+      0.0f, 0.0f,
+
+      // Top face
+      0.0f, 1.0f,
+      0.0f, 0.0f,
+      1.0f, 0.0f,
+      1.0f, 1.0f,
+
+      // Bottom face
+      1.0f, 1.0f,
+      0.0f, 1.0f,
+      0.0f, 0.0f,
+      1.0f, 0.0f,
+
+      // Right face
+      1.0f, 0.0f,
+      1.0f, 1.0f,
+      0.0f, 1.0f,
+      0.0f, 0.0f,
+
+      // Left face
+      0.0f, 0.0f,
+      1.0f, 0.0f,
+      1.0f, 1.0f,
+      0.0f, 1.0f,
+    ]
+    gl.bufferData(GlEnum.arrayBuffer, ArrayBuffer.makeFloat(textureCoords), GlEnum.staticDraw)
+
 
     cubeVertexIndexBuffer = gl.createBuffer()
     gl.bindBuffer(GlEnum.elementArrayBuffer, cubeVertexIndexBuffer)

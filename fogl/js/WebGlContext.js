@@ -153,6 +153,11 @@ fan.fogl.WebGlContext.prototype.uniformMatrix4fv = function(location, transpose,
   this.gl.uniformMatrix4fv(location.peer.getValue(), transpose, value.peer.getValue());
 }
 
+fan.fogl.WebGlContext.prototype.uniform1i = function(location, x)
+{
+  this.gl.uniform1i(location.peer.getValue(), x);
+}
+
 //////////////////////////////////////////////////////////////////////////
 // vertexShader
 //////////////////////////////////////////////////////////////////////////
@@ -167,4 +172,44 @@ fan.fogl.WebGlContext.prototype.enableVertexAttribArray = function(index)
   this.gl.enableVertexAttribArray(index);
 }
 
+//////////////////////////////////////////////////////////////////////////
+// Texture
+//////////////////////////////////////////////////////////////////////////
 
+fan.fogl.WebGlContext.prototype.createTexture = function()
+{
+  var i = this.gl.createTexture();
+  var tex = fan.fogl.Texture.make();
+  tex.peer.setValue(i);
+  return tex;
+}
+
+fan.fogl.WebGlContext.prototype.bindTexture = function(target, texture)
+{
+  if (texture)
+    this.gl.bindTexture(target.m_val, texture.peer.getValue());
+  else
+    this.gl.bindTexture(target.m_val, null);
+}
+fan.fogl.WebGlContext.prototype.pixelStorei = function(pname, param)
+{
+  this.gl.pixelStorei(pname.m_val, param);
+}
+fan.fogl.WebGlContext.prototype.texImage2D = function(target, level, internalformat,
+                                                      format, type, image)
+{
+  this.gl.texImage2D(target.m_val, level, internalformat.m_val, format.m_val, type.m_val, image.peer.image);
+}
+
+fan.fogl.WebGlContext.prototype.texParameterf = function(target, pname, param)
+{
+  this.gl.texParameterf(target.m_val, pname.m_val, param);
+}
+fan.fogl.WebGlContext.prototype.texParameteri = function(target, pname, param)
+{
+  this.gl.texParameterf(target.m_val, pname.m_val, param);
+}
+fan.fogl.WebGlContext.prototype.activeTexture = function(texture)
+{
+  this.gl.activeTexture(texture.m_val);
+}

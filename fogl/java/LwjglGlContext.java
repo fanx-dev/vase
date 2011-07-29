@@ -201,6 +201,11 @@ class LwjglGlContext implements GlContext
     }
   }
 
+  public void uniform1i(UniformLocation location, long x)
+  {
+    glUniform1i(location.peer.getValue(), (int)x);
+  }
+
 //////////////////////////////////////////////////////////////////////////
 // vertexShader
 //////////////////////////////////////////////////////////////////////////
@@ -213,5 +218,51 @@ class LwjglGlContext implements GlContext
   public void enableVertexAttribArray(long index)
   {
     glEnableVertexAttribArray((int)index);
+  }
+
+//////////////////////////////////////////////////////////////////////////
+// Texture
+//////////////////////////////////////////////////////////////////////////
+
+  public Texture createTexture()
+  {
+    int i = glGenTextures();
+    Texture p = Texture.make();
+    p.peer.setValue(i);
+    return p;
+  }
+
+  public void bindTexture(GlEnum target, Texture texture)
+  {
+    if (texture != null)
+      glBindTexture((int)target.val, texture.peer.getValue());
+    else
+      glBindTexture((int)target.val, 0);
+  }
+
+  public void pixelStorei(GlEnum pname, long param)
+  {
+    glPixelStorei((int)pname.val, (int)param);
+  }
+
+  public void texImage2D(GlEnum target, long level, GlEnum internalformat,
+                         GlEnum format, GlEnum type, Image image)
+  {
+    //glTexImage2D((int)target.val, (int)level, (int)internalformat.val, (int)format.val, (int)format.val, 0L/*TODO*/);
+  }
+
+  public void texParameterf(GlEnum target, GlEnum pname, double param)
+  {
+    glTexParameterf((int)target.val, (int)pname.val, (float)param);
+  }
+
+  public void texParameteri(GlEnum target, GlEnum pname, long param)
+  {
+    glTexParameteri((int)target.val, (int)pname.val, (int)param);
+  }
+
+  public void activeTexture(GlEnum texture)
+  {
+    glActiveTexture((int)texture.val);
   }
 }
