@@ -77,6 +77,8 @@ mixin GlContext
   abstract Void pixelStorei(GlEnum pname, Int param)
   abstract Void texImage2D(GlEnum target, Int level, GlEnum internalformat,
                            GlEnum format, GlEnum type, Image image)
+  abstract Void texImage2DBuffer(GlEnum target, Int level, GlEnum internalformat, Int width, Int height, Int border,
+                           GlEnum format, GlEnum type, ArrayBuffer pixels)
   abstract Void texParameterf(GlEnum target, GlEnum pname, Float param)
   abstract Void texParameteri(GlEnum target, GlEnum pname, Int param)
   abstract Void activeTexture(GlEnum texture)
@@ -208,7 +210,7 @@ mixin GlContext
 //void stencilOp(GLenum fail, GLenum zfail, GLenum zpass);
 //void stencilOpSeparate(GLenum face, GLenum fail, GLenum zfail, GLenum zpass);
 //
-//void texImage2D(GLenum target, GLint level, GLenum internalformat,
+//-void texImage2D(GLenum target, GLint level, GLenum internalformat,
 //                GLsizei width, GLsizei height, GLint border, GLenum format,
 //                GLenum type, ArrayBufferView pixels);
 //void texImage2D(GLenum target, GLint level, GLenum internalformat,

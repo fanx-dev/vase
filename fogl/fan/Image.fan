@@ -14,5 +14,8 @@ class Image
   new make(Uri uri) { this.uri = uri }
 
   native Void load(|This| f)
+
+  native Int width()
+  native Int height()
 }
 

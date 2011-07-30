@@ -248,7 +248,64 @@ class LwjglGlContext implements GlContext
   public void texImage2D(GlEnum target, long level, GlEnum internalformat,
                          GlEnum format, GlEnum type, Image image)
   {
-    //glTexImage2D((int)target.val, (int)level, (int)internalformat.val, (int)format.val, (int)format.val, 0L/*TODO*/);
+    java.nio.Buffer d = image.peer.getValue();
+
+    int ta = (int)target.val;
+    int l = (int)level;
+    int i = (int)internalformat.val;
+    int w = (int)image.width();
+    int h = (int)image.height();
+    int b = 0;
+    int f = (int)format.val;
+    int t = (int)type.val;
+
+    texImage2D(ta, l, i, w, h, b, f, t, d);
+  }
+
+  public void texImage2DBuffer(GlEnum target, long level, GlEnum internalformat, long width, long height, long border,
+                         GlEnum format, GlEnum type, ArrayBuffer pixels)
+  {
+    java.nio.Buffer d = pixels.peer.getValue();
+
+    int ta = (int)target.val;
+    int l = (int)level;
+    int i = (int)internalformat.val;
+    int w = (int)width;
+    int h = (int)height;
+    int b = (int)border;
+    int f = (int)format.val;
+    int t = (int)type.val;
+
+    texImage2D(ta, l, i, w, h, b, f, t, d);
+  }
+
+  private void texImage2D(int ta, int l, int i, int w, int h, int b,
+    int f, int t, java.nio.Buffer d)
+  {
+    if (d instanceof java.nio.FloatBuffer)
+    {
+      glTexImage2D(ta, l, i, w, h, b, f, t, (java.nio.FloatBuffer)d);
+    }
+    else if (d instanceof java.nio.DoubleBuffer)
+    {
+      glTexImage2D(ta, l, i, w, h, b, f, t, (java.nio.DoubleBuffer)d);
+    }
+    else if(d instanceof java.nio.IntBuffer)
+    {
+      glTexImage2D(ta, l, i, w, h, b, f, t, (java.nio.IntBuffer)d);
+    }
+    else if(d instanceof java.nio.ShortBuffer)
+    {
+      glTexImage2D(ta, l, i, w, h, b, f, t, (java.nio.ShortBuffer)d);
+    }
+    else if(d instanceof java.nio.ByteBuffer)
+    {
+      glTexImage2D(ta, l, i, w, h, b, f, t, (java.nio.ByteBuffer)d);
+    }
+    else
+    {
+      throw UnsupportedErr.make("unsupported type");
+    }
   }
 
   public void texParameterf(GlEnum target, GlEnum pname, double param)

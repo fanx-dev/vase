@@ -198,7 +198,14 @@ fan.fogl.WebGlContext.prototype.pixelStorei = function(pname, param)
 fan.fogl.WebGlContext.prototype.texImage2D = function(target, level, internalformat,
                                                       format, type, image)
 {
+  console.log(image);
   this.gl.texImage2D(target.m_val, level, internalformat.m_val, format.m_val, type.m_val, image.peer.image);
+}
+
+fan.fogl.WebGlContext.prototype.texImage2DBuffer = function(target, level, internalformat, width, height, border,
+                         format, type, pixels)
+{
+  this.gl.texImage2D(target.m_val, level, internalformat.m_val, width, height, border, format.m_val, type.m_val, pixels);
 }
 
 fan.fogl.WebGlContext.prototype.texParameterf = function(target, pname, param)
@@ -207,7 +214,7 @@ fan.fogl.WebGlContext.prototype.texParameterf = function(target, pname, param)
 }
 fan.fogl.WebGlContext.prototype.texParameteri = function(target, pname, param)
 {
-  this.gl.texParameterf(target.m_val, pname.m_val, param);
+  this.gl.texParameteri(target.m_val, pname.m_val, param);
 }
 fan.fogl.WebGlContext.prototype.activeTexture = function(texture)
 {

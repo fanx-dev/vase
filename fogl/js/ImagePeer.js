@@ -20,3 +20,12 @@ fan.fogl.ImagePeer.prototype.load = function(self, func)
   this.image.src = self.m_uri.toStr();
 }
 
+fan.fogl.ImagePeer.prototype.width = function(self)
+{
+  return self.peer.image.width;
+}
+
+fan.fogl.ImagePeer.prototype.height = function(self)
+{
+  return self.peer.image.height;
+}

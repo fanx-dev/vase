@@ -11,7 +11,7 @@ using fogl
 using fan3dMath
 
 **
-** fan D:/code/Hg/fan3d/jsTest/fan/jsfan/Texture.fan
+** fan D:/code/Hg/fan3d/jsTest/fan/jsfan/Textures.fan /D:/code/Hg/fan3d/jsTest
 **
 @Js
 class Textures : GlDisplay
@@ -37,11 +37,20 @@ class Textures : GlDisplay
   Void initTexture()
   {
     neheTexture = gl.createTexture()
-    image := Image(`/public/nehe.gif`)
+
+    path  := Env.cur.args.first
+    uri := path == null ? `/public/nehe.gif` : `$path/public/nehe.gif`
+    echo(uri)
+
+    image := Image(uri)
     image.load
     {
+      echo(image.width)
+      echo(image.height)
+
       gl.bindTexture(GlEnum.texture2d, neheTexture)
-      gl.pixelStorei(GlEnum.unpackFlipYWebgl, 1)
+      //gl.pixelStorei(GlEnum.unpackFlipYWebgl, 1)
+      //gl.pixelStorei(GlEnum.unpackAlignment, 1)
       gl.texImage2D(GlEnum.texture2d, 0, GlEnum.rgba, GlEnum.rgba, GlEnum.unsignedByte, image)
       gl.texParameteri(GlEnum.texture2d, GlEnum.textureMagFilter, GlEnum.nearest.val)
       gl.texParameteri(GlEnum.texture2d, GlEnum.textureMinFilter, GlEnum.nearest.val)
