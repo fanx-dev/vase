@@ -37,6 +37,17 @@ fan.fogl.GlDisplayPeer.prototype.repaint = function(self)
   self.onPaint(this.gl);
 }
 
+window.requestAnimFrame = (function() {
+  return window.requestAnimationFrame ||
+         window.webkitRequestAnimationFrame ||
+         window.mozRequestAnimationFrame ||
+         window.oRequestAnimationFrame ||
+         window.msRequestAnimationFrame ||
+         function(/* function FrameRequestCallback */ callback, /* DOMElement Element */ element) {
+           window.setTimeout(callback, 1000/60);
+         };
+})();
+
 fan.fogl.GlDisplayPeer.prototype.open = function(self)
 {
   // check for alt root
@@ -70,7 +81,7 @@ fan.fogl.GlDisplayPeer.prototype.open = function(self)
   this.initGL(self, c);
   self.init(this.gl);
 
-  var loop = function() { self.repaint(); };
-  setInterval(loop, 15);
+  var tick = function() { requestAnimFrame(tick); self.repaint(); };
+  tick();
 }
 

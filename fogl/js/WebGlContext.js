@@ -198,7 +198,6 @@ fan.fogl.WebGlContext.prototype.pixelStorei = function(pname, param)
 fan.fogl.WebGlContext.prototype.texImage2D = function(target, level, internalformat,
                                                       format, type, image)
 {
-  console.log(image);
   this.gl.texImage2D(target.m_val, level, internalformat.m_val, format.m_val, type.m_val, image.peer.image);
 }
 
