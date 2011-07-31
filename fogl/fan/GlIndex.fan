@@ -71,3 +71,6 @@ const class UniformLocation : GlIndex {}
 **
 @Js
 const class Texture : GlIndex {}
+
+@Js
+const class ActiveInfo : GlIndex {}

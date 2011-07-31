@@ -27,6 +27,35 @@ mixin GlContext
   abstract Void drawArrays(GlEnum mode, Int first, Int count)
   abstract Void drawElements(GlEnum mode, Int count, GlEnum type, Int offset)
 
+  abstract Void blendEquation(GLenum mode)
+  abstract Void blendEquationSeparate(GLenum modeRGB, GLenum modeAlpha)
+  void blendFunc(GLenum sfactor, GLenum dfactor)
+  void blendFuncSeparate(GLenum srcRGB, GLenum dstRGB, GLenum srcAlpha, GLenum dstAlpha)
+  void clearDepth(GLclampf depth)
+  void clearStencil(GLint s)
+  void colorMask(GLboolean red, GLboolean green, GLboolean blue, GLboolean alpha)
+  void cullFace(GLenum mode)
+  void depthFunc(GLenum func)
+  void depthMask(GLboolean flag)
+  void depthRange(GLclampf zNear, GLclampf zFar)
+  void disable(GLenum cap)
+  void frontFace(GLenum mode)
+  any getParameter(GLenum pname)
+  GLenum getError()
+  void hint(GLenum target, GLenum mode)
+  GLboolean isEnabled(GLenum cap)
+  void lineWidth(GLfloat width)
+  void polygonOffset(GLfloat factor, GLfloat units)
+  void sampleCoverage(GLclampf value, GLboolean invert)
+  void stencilFunc(GLenum func, GLint ref, GLuint mask)
+  void stencilFuncSeparate(GLenum face, GLenum func, GLint ref, GLuint mask)
+  void stencilMask(GLuint mask)
+  void stencilMaskSeparate(GLenum face, GLuint mask)
+  void stencilOp(GLenum fail, GLenum zfail, GLenum zpass)
+  void stencilOpSeparate(GLenum face, GLenum fail, GLenum zfail, GLenum zpass)
+
+  void scissor(GLint x, GLint y, GLsizei width, GLsizei height)
+
 //////////////////////////////////////////////////////////////////////////
 // Buffer
 //////////////////////////////////////////////////////////////////////////
