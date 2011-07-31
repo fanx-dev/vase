@@ -8,7 +8,7 @@
 //
 
 **
-** define all OpenGL constant
+** Define all OpenGL constant
 **
 @Js
 const class GlEnum

@@ -34,11 +34,11 @@ class Triangle : GlDisplay
   }
 
   GlContext? gl
-  Buffer? triangleVertexPositionBuffer := Buffer()
+  GlBuffer? triangleVertexPositionBuffer
   Int? vertexPositionAttribute := 0
 
-  UniformLocation? pMatrixUniform
-  UniformLocation? mvMatrixUniform
+  GlUniformLocation? pMatrixUniform
+  GlUniformLocation? mvMatrixUniform
 
   override Void onPaint(GlContext gl)
   {
@@ -124,7 +124,7 @@ class Triangle : GlDisplay
     gl.bufferData(GlEnum.arrayBuffer, arrayBuffer, GlEnum.staticDraw)
   }
 
-  private Shader getShader(GlEnum type, Str source)
+  private GlShader getShader(GlEnum type, Str source)
   {
     shader := gl.createShader(type)
 

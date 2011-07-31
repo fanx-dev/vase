@@ -60,17 +60,17 @@ class Textures : GlDisplay
 
   GlContext? gl
 
-  Buffer? cubeVertexTextureCoordBuffer
-  Buffer? cubeVertexPositionBuffer
-  Buffer? cubeVertexIndexBuffer
+  GlBuffer? cubeVertexTextureCoordBuffer
+  GlBuffer? cubeVertexPositionBuffer
+  GlBuffer? cubeVertexIndexBuffer
   Int[]? cubeVertexIndices
 
   Int? vertexPositionAttribute
   Int? textureCoordAttribute
 
-  UniformLocation? pMatrixUniform
-  UniformLocation? mvMatrixUniform
-  UniformLocation? samplerUniform
+  GlUniformLocation? pMatrixUniform
+  GlUniformLocation? mvMatrixUniform
+  GlUniformLocation? samplerUniform
 
   Float[]? mvMatrix
   Float[]? pMatrix
@@ -79,7 +79,7 @@ class Textures : GlDisplay
   Float yRot := 0f
   Float zRot := 0f
 
-  Texture? neheTexture
+  GlTexture? neheTexture
 
   override Void onPaint(GlContext gl)
   {
@@ -287,7 +287,7 @@ class Textures : GlDisplay
 
   }
 
-  private Shader getShader(GlEnum type, Str source)
+  private GlShader getShader(GlEnum type, Str source)
   {
     shader := gl.createShader(type)
 

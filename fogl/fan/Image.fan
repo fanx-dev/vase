@@ -6,6 +6,9 @@
 //   2011-07-29  Jed Young  Creation
 //
 
+**
+** Image represents a graphical image.
+**
 @Js
 class Image
 {

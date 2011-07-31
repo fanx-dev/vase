@@ -7,7 +7,7 @@
 //
 
 **
-** wrapping a native buffer
+** Wrapping a native array buffer.
 **
 @Js
 class ArrayBuffer

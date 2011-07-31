@@ -35,18 +35,18 @@ class RealObject : GlDisplay
 
   GlContext? gl
 
-  Buffer? pyramidVertexPositionBuffer
-  Buffer? pyramidVertexColorBuffer
-  Buffer? cubeVertexPositionBuffer
-  Buffer? cubeVertexColorBuffer
-  Buffer? cubeVertexIndexBuffer
+  GlBuffer? pyramidVertexPositionBuffer
+  GlBuffer? pyramidVertexColorBuffer
+  GlBuffer? cubeVertexPositionBuffer
+  GlBuffer? cubeVertexColorBuffer
+  GlBuffer? cubeVertexIndexBuffer
   Int[]? cubeVertexIndices
 
   Int? vertexPositionAttribute
   Int? vertexColorAttribute
 
-  UniformLocation? pMatrixUniform
-  UniformLocation? mvMatrixUniform
+  GlUniformLocation? pMatrixUniform
+  GlUniformLocation? mvMatrixUniform
 
   Float[]? mvMatrix
   Float[]? pMatrix
@@ -296,7 +296,7 @@ class RealObject : GlDisplay
 
   }
 
-  private Shader getShader(GlEnum type, Str source)
+  private GlShader getShader(GlEnum type, Str source)
   {
     shader := gl.createShader(type)
 

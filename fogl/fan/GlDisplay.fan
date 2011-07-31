@@ -7,7 +7,7 @@
 //
 
 **
-** windows system op
+** Windows system op
 **
 @Js
 class GlDisplay

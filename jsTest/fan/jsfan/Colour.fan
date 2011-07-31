@@ -35,16 +35,16 @@ class Colour : GlDisplay
 
   GlContext? gl
 
-  Buffer? triangleVertexPositionBuffer
-  Buffer? triangleVertexColorBuffer
-  Buffer? squareVertexPositionBuffer;
-  Buffer? squareVertexColorBuffer;
+  GlBuffer? triangleVertexPositionBuffer
+  GlBuffer? triangleVertexColorBuffer
+  GlBuffer? squareVertexPositionBuffer;
+  GlBuffer? squareVertexColorBuffer;
 
   Int? vertexPositionAttribute
   Int? vertexColorAttribute
 
-  UniformLocation? pMatrixUniform
-  UniformLocation? mvMatrixUniform
+  GlUniformLocation? pMatrixUniform
+  GlUniformLocation? mvMatrixUniform
 
   Float[]? mvMatrix
   Float[]? pMatrix
@@ -182,7 +182,7 @@ class Colour : GlDisplay
     gl.bufferData(GlEnum.arrayBuffer, ArrayBuffer.makeFloat(colors), GlEnum.staticDraw);
   }
 
-  private Shader getShader(GlEnum type, Str source)
+  private GlShader getShader(GlEnum type, Str source)
   {
     shader := gl.createShader(type)
 

@@ -20,24 +20,14 @@ fan.fogl.WebGlContext.prototype.isContextLost = function(){ return this.gl.isCon
 fan.fogl.WebGlContext.prototype.getSupportedExtensions = function(){ return this.gl.getSupportedExtensions(); }
 fan.fogl.WebGlContext.prototype.getExtension = function(name){ return this.gl.getExtension(name); }
 //fan.fogl.WebGlContext.prototype.bindTexture = function(target, texture){ this.gl.bindTexture(target.m_val, texture.peer.getValue()); }
+fan.fogl.WebGlContext.prototype.bufferDataEmpty = function(target, size, usage){ this.gl.bufferData(target.m_val, size, usage.m_val); }
 fan.fogl.WebGlContext.prototype.bufferData = function(target, data, usage){ this.gl.bufferData(target.m_val, data.peer.getValue(), usage.m_val); }
 //fan.fogl.WebGlContext.prototype.bufferData = function(target, data, usage){ this.gl.bufferData(target.m_val, data.peer.getValue(), usage.m_val); }
-fan.fogl.WebGlContext.prototype.bufferDataEmpty = function(target, size, usage){ this.gl.bufferData(target.m_val, size, usage.m_val); }
 fan.fogl.WebGlContext.prototype.bufferSubData = function(target, offset, data){ this.gl.bufferSubData(target.m_val, offset, data.peer.getValue()); }
 //fan.fogl.WebGlContext.prototype.bufferSubData = function(target, offset, data){ this.gl.bufferSubData(target.m_val, offset, data.peer.getValue()); }
 fan.fogl.WebGlContext.prototype.checkFramebufferStatus = function(target){ return this.gl.checkFramebufferStatus(target.m_val); }
-fan.fogl.WebGlContext.prototype.getActiveAttrib = function(program, index){
-    var i = this.gl.getActiveAttrib(program.peer.getValue(), index);
-    var p = fan.fogl.ActiveInfo.make();
-    p.peer.setValue(i);
-    return p;
-  }
-fan.fogl.WebGlContext.prototype.getActiveUniform = function(program, index){
-    var i = this.gl.getActiveUniform(program.peer.getValue(), index);
-    var p = fan.fogl.ActiveInfo.make();
-    p.peer.setValue(i);
-    return p;
-  }
+fan.fogl.WebGlContext.prototype.getActiveAttrib = function(program, index){    var i = this.gl.getActiveAttrib(program.peer.getValue(), index);    var p = fan.fogl.GlActiveInfo.make();    p.peer.setValue(i);    return p;  }
+fan.fogl.WebGlContext.prototype.getActiveUniform = function(program, index){    var i = this.gl.getActiveUniform(program.peer.getValue(), index);    var p = fan.fogl.GlActiveInfo.make();    p.peer.setValue(i);    return p;  }
 fan.fogl.WebGlContext.prototype.getAttachedShaders = function(program){ return this.gl.getAttachedShaders(program.peer.getValue()); }
 fan.fogl.WebGlContext.prototype.getParameter = function(pname){ return this.gl.getParameter(pname.m_val); }
 fan.fogl.WebGlContext.prototype.getBufferParameter = function(target, pname){ return this.gl.getBufferParameter(target.m_val, pname.m_val); }
@@ -54,6 +44,7 @@ fan.fogl.WebGlContext.prototype.getUniform = function(program, location){ return
 fan.fogl.WebGlContext.prototype.getVertexAttrib = function(index, pname){ return this.gl.getVertexAttrib(index, pname.m_val); }
 fan.fogl.WebGlContext.prototype.getVertexAttribOffset = function(index, pname){ return this.gl.getVertexAttribOffset(index, pname.m_val); }
 fan.fogl.WebGlContext.prototype.readPixels = function(x, y, width, height, format, type, pixels){ this.gl.readPixels(x, y, width, height, format.m_val, type.m_val, pixels.peer.getValue()); }
+
 fan.fogl.WebGlContext.prototype.texImage2DBuffer = function(target, level, internalformat, width, height, border, format, type, pixels){ this.gl.texImage2D(target.m_val, level, internalformat.m_val, width, height, border, format.m_val, type.m_val, pixels.peer.getValue()); }
 fan.fogl.WebGlContext.prototype.texImage2DPixels = function(target, level, internalformat, format, type, pixels){ this.gl.texImage2D(target.m_val, level, internalformat.m_val, format.m_val, type.m_val, pixels); }
 fan.fogl.WebGlContext.prototype.texImage2D = function(target, level, internalformat, format, type, image){ this.gl.texImage2D(target.m_val, level, internalformat.m_val, format.m_val, type.m_val, image.peer.image); }
@@ -131,42 +122,12 @@ fan.fogl.WebGlContext.prototype.colorMask = function(red, green, blue, alpha){ t
 fan.fogl.WebGlContext.prototype.compileShader = function(shader){ this.gl.compileShader(shader.peer.getValue()); }
 fan.fogl.WebGlContext.prototype.copyTexImage2D = function(target, level, internalformat, x, y, width, height, border){ this.gl.copyTexImage2D(target.m_val, level, internalformat.m_val, x, y, width, height, border); }
 fan.fogl.WebGlContext.prototype.copyTexSubImage2D = function(target, level, xoffset, yoffset, x, y, width, height){ this.gl.copyTexSubImage2D(target.m_val, level, xoffset, yoffset, x, y, width, height); }
-fan.fogl.WebGlContext.prototype.createBuffer = function(){
-    var i = this.gl.createBuffer();
-    var p = fan.fogl.Buffer.make();
-    p.peer.setValue(i);
-    return p;
-  }
-fan.fogl.WebGlContext.prototype.createFramebuffer = function(){
-    var i = this.gl.createFramebuffer();
-    var p = fan.fogl.Framebuffer.make();
-    p.peer.setValue(i);
-    return p;
-  }
-fan.fogl.WebGlContext.prototype.createProgram = function(){
-    var i = this.gl.createProgram();
-    var p = fan.fogl.Program.make();
-    p.peer.setValue(i);
-    return p;
-  }
-fan.fogl.WebGlContext.prototype.createRenderbuffer = function(){
-    var i = this.gl.createRenderbuffer();
-    var p = fan.fogl.Renderbuffer.make();
-    p.peer.setValue(i);
-    return p;
-  }
-fan.fogl.WebGlContext.prototype.createShader = function(type){
-    var i = this.gl.createShader(type.m_val);
-    var p = fan.fogl.Shader.make();
-    p.peer.setValue(i);
-    return p;
-  }
-fan.fogl.WebGlContext.prototype.createTexture = function(){
-    var i = this.gl.createTexture();
-    var p = fan.fogl.Texture.make();
-    p.peer.setValue(i);
-    return p;
-  }
+fan.fogl.WebGlContext.prototype.createBuffer = function(){    var i = this.gl.createBuffer();    var p = fan.fogl.GlBuffer.make();    p.peer.setValue(i);    return p;  }
+fan.fogl.WebGlContext.prototype.createFramebuffer = function(){    var i = this.gl.createFramebuffer();    var p = fan.fogl.GlFramebuffer.make();    p.peer.setValue(i);    return p;  }
+fan.fogl.WebGlContext.prototype.createProgram = function(){    var i = this.gl.createProgram();    var p = fan.fogl.GlProgram.make();    p.peer.setValue(i);    return p;  }
+fan.fogl.WebGlContext.prototype.createRenderbuffer = function(){    var i = this.gl.createRenderbuffer();    var p = fan.fogl.GlRenderbuffer.make();    p.peer.setValue(i);    return p;  }
+fan.fogl.WebGlContext.prototype.createShader = function(type){    var i = this.gl.createShader(type.m_val);    var p = fan.fogl.GlShader.make();    p.peer.setValue(i);    return p;  }
+fan.fogl.WebGlContext.prototype.createTexture = function(){    var i = this.gl.createTexture();    var p = fan.fogl.GlTexture.make();    p.peer.setValue(i);    return p;  }
 fan.fogl.WebGlContext.prototype.cullFace = function(mode){ this.gl.cullFace(mode.m_val); }
 fan.fogl.WebGlContext.prototype.deleteBuffer = function(buffer){ this.gl.deleteBuffer(buffer.peer.getValue()); }
 fan.fogl.WebGlContext.prototype.deleteFramebuffer = function(framebuffer){ this.gl.deleteFramebuffer(framebuffer.peer.getValue()); }
@@ -191,12 +152,7 @@ fan.fogl.WebGlContext.prototype.framebufferTexture2D = function(target, attachme
 fan.fogl.WebGlContext.prototype.frontFace = function(mode){ this.gl.frontFace(mode.m_val); }
 fan.fogl.WebGlContext.prototype.generateMipmap = function(target){ this.gl.generateMipmap(target.m_val); }
 fan.fogl.WebGlContext.prototype.getAttribLocation = function(program, name){ return this.gl.getAttribLocation(program.peer.getValue(), name); }
-fan.fogl.WebGlContext.prototype.getUniformLocation = function(program, name){
-    var i = this.gl.getUniformLocation(program.peer.getValue(), name);
-    var p = fan.fogl.UniformLocation.make();
-    p.peer.setValue(i);
-    return p;
-  }
+fan.fogl.WebGlContext.prototype.getUniformLocation = function(program, name){    var i = this.gl.getUniformLocation(program.peer.getValue(), name);    var p = fan.fogl.GlUniformLocation.make();    p.peer.setValue(i);    return p;  }
 fan.fogl.WebGlContext.prototype.hint = function(target, mode){ this.gl.hint(target.m_val, mode.m_val); }
 fan.fogl.WebGlContext.prototype.isBuffer = function(buffer){ return this.gl.isBuffer(buffer.peer.getValue()); }
 fan.fogl.WebGlContext.prototype.isEnabled = function(cap){ return this.gl.isEnabled(cap.m_val); }

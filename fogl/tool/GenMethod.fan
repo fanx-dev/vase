@@ -4,7 +4,7 @@
 // Licensed under the Academic Free License version 3.0
 //
 // History:
-//   2011-06-04  Jed Young  Creation
+//   2011-07-31  Jed Young  Creation
 //
 
 **************************************************************************
@@ -241,7 +241,7 @@ class Main
         s += "{ return ${upperName}($jps); }"
       }
     }
-    out.printLine(s)
+    out.printLine(s.replace("\n", ""))
   }
 
   private Void printJs(OutStream out, FMethod method)
@@ -274,7 +274,7 @@ class Main
       }
     }
 
-    out.printLine(s)
+    out.printLine(s.replace("\n", ""))
   }
 
 //////////////////////////////////////////////////////////////////////////
@@ -296,24 +296,24 @@ class Main
     "DOMString" : "Str",
     "boolean" : "Bool",
     "GLenum" : "GlEnum",
-    "WebGLProgram" : "Program",
+    "WebGLProgram" : "GlProgram",
     "ArrayBufferView" : "ArrayBuffer",
     "ArrayBuffer" : "ArrayBuffer",
     "GLint" : "Int",
     "GLsizei" : "Int",
-    "WebGLBuffer" : "Buffer",
-    "WebGLFramebuffer" : "Framebuffer",
-    "WebGLRenderbuffer" : "Renderbuffer",
-    "WebGLShader" : "Shader",
-    "WebGLTexture" : "Texture",
+    "WebGLBuffer" : "GlBuffer",
+    "WebGLFramebuffer" : "GlFramebuffer",
+    "WebGLRenderbuffer" : "GlRenderbuffer",
+    "WebGLShader" : "GlShader",
+    "WebGLTexture" : "GlTexture",
     "GLboolean" : "Bool",
     "GLclampf" : "Float",
     "GLuint" : "Int",
-    "WebGLUniformLocation" : "UniformLocation",
+    "WebGLUniformLocation" : "GlUniformLocation",
     "GLboolean" : "Bool",
     "GLboolean" : "Bool",
     "GLfloat" : "Float",
-    "WebGLActiveInfo" : "ActiveInfo",
+    "WebGLActiveInfo" : "GlActiveInfo",
     "float" : "Float",
     "long" : "Int",
     "Float32Array" : "ArrayBuffer",

@@ -19,7 +19,7 @@ const class GlIndex { internal native Obj? val() }
 ** destroyed as if by calling glDeleteBuffers (OpenGL ES 2.0 §2.9, man page) .
 **
 @Js
-const class Buffer : GlIndex {}
+const class GlBuffer : GlIndex {}
 
 **
 ** The WebGLFramebuffer interface represents an OpenGL Framebuffer Object.
@@ -28,7 +28,7 @@ const class Buffer : GlIndex {}
 ** and destroyed as if by calling glDeleteFramebuffers (OpenGL ES 2.0 §4.4.1, man page) .
 **
 @Js
-const class Framebuffer : GlIndex {}
+const class GlFramebuffer : GlIndex {}
 
 **
 ** The WebGLRenderbuffer interface represents an OpenGL Renderbuffer Object.
@@ -37,7 +37,7 @@ const class Framebuffer : GlIndex {}
 ** and destroyed as if by calling glDeleteRenderbuffers (OpenGL ES 2.0 §4.4.3, man page) .
 **
 @Js
-const class Renderbuffer : GlIndex {}
+const class GlRenderbuffer : GlIndex {}
 
 **
 ** The Program interface represents an OpenGL Program Object.
@@ -46,7 +46,7 @@ const class Renderbuffer : GlIndex {}
 ** destroyed as if by calling glDeleteProgram (OpenGL ES 2.0 §2.10.3, man page) .
 **
 @Js
-const class Program : GlIndex {}
+const class GlProgram : GlIndex {}
 
 **
 ** The Shader interface represents an OpenGL Shader Object.
@@ -55,13 +55,13 @@ const class Program : GlIndex {}
 ** destroyed as if by calling glDeleteShader (OpenGL ES 2.0 §2.10.1, man page) .
 **
 @Js
-const class Shader : GlIndex {}
+const class GlShader : GlIndex {}
 
 **
 ** The UniformLocation interface represents the location of a uniform variable in a shader program.
 **
 @Js
-const class UniformLocation : GlIndex {}
+const class GlUniformLocation : GlIndex {}
 
 **
 ** The WebGLTexture interface represents an OpenGL Texture Object.
@@ -70,7 +70,7 @@ const class UniformLocation : GlIndex {}
 ** and destroyed as if by calling glDeleteTextures (OpenGL ES 2.0 §3.7.13, man page) .
 **
 @Js
-const class Texture : GlIndex {}
+const class GlTexture : GlIndex {}
 
 @Js
-const class ActiveInfo : GlIndex {}
+const class GlActiveInfo : GlIndex {}

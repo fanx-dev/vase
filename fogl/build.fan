@@ -14,7 +14,7 @@ class Build : BuildPod
   new make()
   {
     podName  = "fogl"
-    summary  = "Fantom OpenGL Binding"
+    summary  = "Fantom OpenGL/WebGL Binding"
     depends  = ["sys 1.0"]
     srcDirs  = [`fan/`, `test/`]
     javaDirs = [`java/`]
