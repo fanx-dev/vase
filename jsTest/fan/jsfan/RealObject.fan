@@ -152,7 +152,7 @@ class RealObject : GlDisplay
     gl.linkProgram(shaderProgram)
     gl.validateProgram(shaderProgram)
 
-    if (!gl.getProgramParameter(shaderProgram, GlEnum.linkStatus)) {
+    if (gl.getProgramParameter(shaderProgram, GlEnum.linkStatus) == 0) {
         throw Err("Could not initialise shaders")
     }
 
@@ -303,7 +303,7 @@ class RealObject : GlDisplay
     gl.shaderSource(shader, source)
     gl.compileShader(shader)
 
-    if (!gl.getShaderParameter(shader, GlEnum.compileStatus)) {
+    if (gl.getShaderParameter(shader, GlEnum.compileStatus) == 0) {
         throw Err(gl.getShaderInfoLog(shader))
     }
 

@@ -119,11 +119,11 @@ class Main
       printJava(outJava, it)
     }
 
-    errList.each { printFan(Env.cur.out, it) }
+    errList.each { Env.cur.out.print("//"); printFan(Env.cur.out, it) }
     echo("*******Js")
     errList.each { printJs(Env.cur.out, it) }
     echo("*******Java")
-    errList.each { printJava(Env.cur.out, it) }
+    errList.each { Env.cur.out.print("//"); printJava(Env.cur.out, it) }
 
     closeOutStream
   }
@@ -188,10 +188,12 @@ class Main
   {
     ftype := toFanType(m)
     if (ftype != null && specialType.contains(ftype)) return true
+    if (ftype != null && ftype.endsWith("[]")) return true
     r := m.params.any |s->Bool|
     {
       ftype = toFanType(s)
       if (ftype != null && specialType.contains(ftype)) return true
+      if (ftype != null && ftype.endsWith("[]")) return true
       return false
     }
     return r
@@ -206,7 +208,7 @@ class Main
     type := toFanType(method)
 
     ps := method.params.map{ "${toFanType(it)} $it.name" }.join(", ")
-    s :=  "$type $method.name($ps)"
+    s :=  "  abstract $type $method.name($ps)"
     out.printLine(s)
   }
 
@@ -216,7 +218,7 @@ class Main
 
     ps := method.params.map{ "${toJavaType(it)} $it.name" }.join(", ")
     jps := method.params.map { toJavaParam(it) }.join(", ")
-    s :=  "$jtype $method.name($ps)"
+    s :=  "  public $jtype $method.name($ps)"
     upperName := "gl" + method.name.capitalize
     if (jtype == "void")
     {
@@ -229,10 +231,10 @@ class Main
         s +=
          "{
               int i = ${upperName}($jps);
-              $method.type p = ${method.type}.make();
+              ${jtype} p = ${jtype}.make();
               p.peer.setValue(i);
               return p;
-          }"
+            }"
       }
       else
       {
@@ -246,8 +248,32 @@ class Main
   {
     type := toFanType(method)
     ps := method.params.map { it.name }.join(", ")
-    jsps := method.params.map { toJsParam(it) }.join(", ")
-    s := "fan.fogl.WebGlContext.prototype.$method.name = function($ps){ return this.gl.${method.name}($jsps); }"
+    jps := method.params.map { toJsParam(it) }.join(", ")
+    s := "fan.fogl.WebGlContext.prototype.$method.name = function($ps)"
+    upperName := "this.gl.${method.name}"
+
+    if (method.type == "void")
+    {
+      s += "{ ${upperName}($jps); }"
+    }
+    else
+    {
+      if(indexObj.contains(method.type))
+      {
+        s +=
+         "{
+              var i = ${upperName}($jps);
+              var p = fan.fogl.${type}.make();
+              p.peer.setValue(i);
+              return p;
+            }"
+      }
+      else
+      {
+        s += "{ return ${upperName}($jps); }"
+      }
+    }
+
     out.printLine(s)
   }
 
@@ -316,6 +342,16 @@ class Main
   [
     "bindTexture",
     "texImage2D",
+    "getShaderInfoLog",
+    "isContextLost",
+    "checkFramebufferStatus",
+    "getActiveAttrib",
+    "getActiveUniform",
+    "getError",
+    "getProgramInfoLog",
+    "getShaderSource",
+    "getVertexAttribOffset",
+    "bufferData",
   ]
 
   const Str[] specialType :=

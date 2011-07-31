@@ -9,311 +9,183 @@
 @Js
 mixin GlContext
 {
+  abstract Void bindTexture(GlEnum target, Texture? texture)
+  abstract Void bufferData(GlEnum target, ArrayBuffer data, GlEnum usage)
+  abstract Int getProgramParameter(Program program, GlEnum pname)
+  abstract Int getShaderParameter(Shader shader, GlEnum pname)
+  abstract Str getShaderInfoLog(Shader shader)
+  abstract Void uniformMatrix4fv(UniformLocation location, Bool transpose, ArrayBuffer value)
+  abstract Void texImage2DBuffer(GlEnum target, Int level, GlEnum internalformat, Int width, Int height, Int border, GlEnum format, GlEnum type, ArrayBuffer pixels)
+  abstract Void texImage2D(GlEnum target, Int level, GlEnum internalformat, GlEnum format, GlEnum type, Image image)
+
 
 //////////////////////////////////////////////////////////////////////////
-// Common
+// special
 //////////////////////////////////////////////////////////////////////////
 
-  abstract Void clearColor(Float red, Float green, Float blue, Float alpha)
+//  abstract null getContextAttributes()
+//  abstract Bool isContextLost()
+//  abstract Str[] getSupportedExtensions()
+//  abstract null getExtension(Str name)
+//  -abstract Void bindTexture(GlEnum target, Texture texture)
+//  -abstract Void bufferData(GlEnum target, ArrayBuffer data, GlEnum usage)
+//  -abstract Void bufferData(GlEnum target, ArrayBuffer data, GlEnum usage)
+//  abstract Void bufferData(GlEnum target, Int size, GlEnum usage)
+//  abstract Void bufferSubData(GlEnum target, Int offset, ArrayBuffer data)
+//  abstract Void bufferSubData(GlEnum target, Int offset, ArrayBuffer data)
+//  abstract GlEnum checkFramebufferStatus(GlEnum target)
+//  abstract ActiveInfo getActiveAttrib(Program program, Int index)
+//  abstract ActiveInfo getActiveUniform(Program program, Int index)
+//  abstract Shader[] getAttachedShaders(Program program)
+//  abstract null getParameter(GlEnum pname)
+//  abstract null getBufferParameter(GlEnum target, GlEnum pname)
+//  abstract GlEnum getError()
+//  abstract null getFramebufferAttachmentParameter(GlEnum target, GlEnum attachment, GlEnum pname)
+//  -abstract null getProgramParameter(Program program, GlEnum pname)
+//  abstract Str getProgramInfoLog(Program program)
+//  abstract null getRenderbufferParameter(GlEnum target, GlEnum pname)
+//  -abstract null getShaderParameter(Shader shader, GlEnum pname)
+//  -abstract Str getShaderInfoLog(Shader shader)
+//  abstract Str getShaderSource(Shader shader)
+//  abstract null getTexParameter(GlEnum target, GlEnum pname)
+//  abstract null getUniform(Program program, UniformLocation location)
+//  abstract null getVertexAttrib(Int index, GlEnum pname)
+//  abstract Int getVertexAttribOffset(Int index, GlEnum pname)
+//  abstract Void readPixels(Int x, Int y, Int width, Int height, GlEnum format, GlEnum type, ArrayBuffer pixels)
+//  -abstract Void texImage2D(GlEnum target, Int level, GlEnum internalformat, Int width, Int height, Int border, GlEnum format, GlEnum type, ArrayBuffer pixels)
+//  abstract Void texImage2D(GlEnum target, Int level, GlEnum internalformat, GlEnum format, GlEnum type, null pixels)
+//  abstract Void texImage2D(GlEnum target, Int level, GlEnum internalformat, GlEnum format, GlEnum type, Image image)
+//  abstract Void texImage2D(GlEnum target, Int level, GlEnum internalformat, GlEnum format, GlEnum type, null canvas)
+//  abstract Void texImage2D(GlEnum target, Int level, GlEnum internalformat, GlEnum format, GlEnum type, null video)
+//  abstract Void texSubImage2D(GlEnum target, Int level, Int xoffset, Int yoffset, Int width, Int height, GlEnum format, GlEnum type, ArrayBuffer pixels)
+//  abstract Void texSubImage2D(GlEnum target, Int level, Int xoffset, Int yoffset, GlEnum format, GlEnum type, null pixels)
+//  abstract Void texSubImage2D(GlEnum target, Int level, Int xoffset, Int yoffset, GlEnum format, GlEnum type, Image image)
+//  abstract Void texSubImage2D(GlEnum target, Int level, Int xoffset, Int yoffset, GlEnum format, GlEnum type, null canvas)
+//  abstract Void texSubImage2D(GlEnum target, Int level, Int xoffset, Int yoffset, GlEnum format, GlEnum type, null video)
+//  abstract Void uniform1fv(UniformLocation location, ArrayBuffer v)
+//  abstract Void uniform1fv(UniformLocation location, Float[] v)
+//  abstract Void uniform1iv(UniformLocation location, ArrayBuffer v)
+//  abstract Void uniform1iv(UniformLocation location, Int[] v)
+//  abstract Void uniform2fv(UniformLocation location, ArrayBuffer v)
+//  abstract Void uniform2fv(UniformLocation location, Float[] v)
+//  abstract Void uniform2iv(UniformLocation location, ArrayBuffer v)
+//  abstract Void uniform2iv(UniformLocation location, Int[] v)
+//  abstract Void uniform3fv(UniformLocation location, ArrayBuffer v)
+//  abstract Void uniform3fv(UniformLocation location, Float[] v)
+//  abstract Void uniform3iv(UniformLocation location, ArrayBuffer v)
+//  abstract Void uniform3iv(UniformLocation location, Int[] v)
+//  abstract Void uniform4fv(UniformLocation location, ArrayBuffer v)
+//  abstract Void uniform4fv(UniformLocation location, Float[] v)
+//  abstract Void uniform4iv(UniformLocation location, ArrayBuffer v)
+//  abstract Void uniform4iv(UniformLocation location, Int[] v)
+//  abstract Void uniformMatrix2fv(UniformLocation location, Bool transpose, ArrayBuffer value)
+//  abstract Void uniformMatrix2fv(UniformLocation location, Bool transpose, Float[] value)
+//  abstract Void uniformMatrix3fv(UniformLocation location, Bool transpose, ArrayBuffer value)
+//  abstract Void uniformMatrix3fv(UniformLocation location, Bool transpose, Float[] value)
+//  -abstract Void uniformMatrix4fv(UniformLocation location, Bool transpose, ArrayBuffer value)
+//  abstract Void uniformMatrix4fv(UniformLocation location, Bool transpose, Float[] value)
+//  abstract Void vertexAttrib1fv(Int indx, ArrayBuffer values)
+//  abstract Void vertexAttrib1fv(Int indx, Float[] values)
+//  abstract Void vertexAttrib2fv(Int indx, ArrayBuffer values)
+//  abstract Void vertexAttrib2fv(Int indx, Float[] values)
+//  abstract Void vertexAttrib3fv(Int indx, ArrayBuffer values)
+//  abstract Void vertexAttrib3fv(Int indx, Float[] values)
+//  abstract Void vertexAttrib4fv(Int indx, ArrayBuffer values)
+//  abstract Void vertexAttrib4fv(Int indx, Float[] values)
 
-  abstract Void enable(GlEnum cap)
+//////////////////////////////////////////////////////////////////////////
+// Gen
+//////////////////////////////////////////////////////////////////////////
 
-  abstract Void viewport(Int x, Int y, Int width, Int height)
-
+  abstract Void activeTexture(GlEnum texture)
+  abstract Void attachShader(Program program, Shader shader)
+  abstract Void bindAttribLocation(Program program, Int index, Str name)
+  abstract Void bindBuffer(GlEnum target, Buffer buffer)
+  abstract Void bindFramebuffer(GlEnum target, Framebuffer framebuffer)
+  abstract Void bindRenderbuffer(GlEnum target, Renderbuffer renderbuffer)
+  abstract Void blendColor(Float red, Float green, Float blue, Float alpha)
+  abstract Void blendEquation(GlEnum mode)
+  abstract Void blendEquationSeparate(GlEnum modeRGB, GlEnum modeAlpha)
+  abstract Void blendFunc(GlEnum sfactor, GlEnum dfactor)
+  abstract Void blendFuncSeparate(GlEnum srcRGB, GlEnum dstRGB, GlEnum srcAlpha, GlEnum dstAlpha)
   abstract Void clear(GlEnum mask)
-
-  abstract Void vertexAttribPointer(Int indx, Int size, GlEnum type, Bool normalized, Int stride, Int offset)
-
+  abstract Void clearColor(Float red, Float green, Float blue, Float alpha)
+  abstract Void clearDepth(Float depth)
+  abstract Void clearStencil(Int s)
+  abstract Void colorMask(Bool red, Bool green, Bool blue, Bool alpha)
+  abstract Void compileShader(Shader shader)
+  abstract Void copyTexImage2D(GlEnum target, Int level, GlEnum internalformat, Int x, Int y, Int width, Int height, Int border)
+  abstract Void copyTexSubImage2D(GlEnum target, Int level, Int xoffset, Int yoffset, Int x, Int y, Int width, Int height)
+  abstract Buffer createBuffer()
+  abstract Framebuffer createFramebuffer()
+  abstract Program createProgram()
+  abstract Renderbuffer createRenderbuffer()
+  abstract Shader createShader(GlEnum type)
+  abstract Texture createTexture()
+  abstract Void cullFace(GlEnum mode)
+  abstract Void deleteBuffer(Buffer buffer)
+  abstract Void deleteFramebuffer(Framebuffer framebuffer)
+  abstract Void deleteProgram(Program program)
+  abstract Void deleteRenderbuffer(Renderbuffer renderbuffer)
+  abstract Void deleteShader(Shader shader)
+  abstract Void deleteTexture(Texture texture)
+  abstract Void depthFunc(GlEnum func)
+  abstract Void depthMask(Bool flag)
+  abstract Void depthRange(Float zNear, Float zFar)
+  abstract Void detachShader(Program program, Shader shader)
+  abstract Void disable(GlEnum cap)
+  abstract Void disableVertexAttribArray(Int index)
   abstract Void drawArrays(GlEnum mode, Int first, Int count)
   abstract Void drawElements(GlEnum mode, Int count, GlEnum type, Int offset)
-
-  abstract Void blendEquation(GLenum mode)
-  abstract Void blendEquationSeparate(GLenum modeRGB, GLenum modeAlpha)
-  void blendFunc(GLenum sfactor, GLenum dfactor)
-  void blendFuncSeparate(GLenum srcRGB, GLenum dstRGB, GLenum srcAlpha, GLenum dstAlpha)
-  void clearDepth(GLclampf depth)
-  void clearStencil(GLint s)
-  void colorMask(GLboolean red, GLboolean green, GLboolean blue, GLboolean alpha)
-  void cullFace(GLenum mode)
-  void depthFunc(GLenum func)
-  void depthMask(GLboolean flag)
-  void depthRange(GLclampf zNear, GLclampf zFar)
-  void disable(GLenum cap)
-  void frontFace(GLenum mode)
-  any getParameter(GLenum pname)
-  GLenum getError()
-  void hint(GLenum target, GLenum mode)
-  GLboolean isEnabled(GLenum cap)
-  void lineWidth(GLfloat width)
-  void polygonOffset(GLfloat factor, GLfloat units)
-  void sampleCoverage(GLclampf value, GLboolean invert)
-  void stencilFunc(GLenum func, GLint ref, GLuint mask)
-  void stencilFuncSeparate(GLenum face, GLenum func, GLint ref, GLuint mask)
-  void stencilMask(GLuint mask)
-  void stencilMaskSeparate(GLenum face, GLuint mask)
-  void stencilOp(GLenum fail, GLenum zfail, GLenum zpass)
-  void stencilOpSeparate(GLenum face, GLenum fail, GLenum zfail, GLenum zpass)
-
-  void scissor(GLint x, GLint y, GLsizei width, GLsizei height)
-
-//////////////////////////////////////////////////////////////////////////
-// Buffer
-//////////////////////////////////////////////////////////////////////////
-
-  abstract Buffer createBuffer()
-  abstract Void bindBuffer(GlEnum target, Buffer buffer)
-  abstract Void bufferData(GlEnum target, ArrayBuffer data, GlEnum usage)
-
-
-//////////////////////////////////////////////////////////////////////////
-// Shader
-//////////////////////////////////////////////////////////////////////////
-
-  abstract Shader createShader(GlEnum type)
-  abstract Void shaderSource(Shader shader, Str source)
-  abstract Void compileShader(Shader shader)
-  abstract Bool getShaderParameter(Shader shader, GlEnum pname)
-  abstract Str getShaderInfoLog(Shader shader)
-
-  abstract Program createProgram()
-  abstract Void attachShader(Program program, Shader shader)
-  abstract Void linkProgram(Program program)
-  abstract Bool getProgramParameter(Program program, GlEnum pname)
-  abstract Void validateProgram(Program program);
-  abstract Void useProgram(Program program)
-
-//////////////////////////////////////////////////////////////////////////
-// Uniform
-//////////////////////////////////////////////////////////////////////////
-
-  abstract UniformLocation getUniformLocation(Program program, Str name)
-  abstract Void uniformMatrix4fv(UniformLocation location, Bool transpose, ArrayBuffer value)
-  abstract Void uniform1i(UniformLocation location, Int x)
-
-//////////////////////////////////////////////////////////////////////////
-// VertexShader
-//////////////////////////////////////////////////////////////////////////
-
-  abstract Int getAttribLocation(Program program, Str name)
+  abstract Void enable(GlEnum cap)
   abstract Void enableVertexAttribArray(Int index)
-
-//////////////////////////////////////////////////////////////////////////
-// Texture
-//////////////////////////////////////////////////////////////////////////
-
-  abstract Texture createTexture()
-  abstract Void bindTexture(GlEnum target, Texture? texture)
+  abstract Void finish()
+  abstract Void flush()
+  abstract Void framebufferRenderbuffer(GlEnum target, GlEnum attachment, GlEnum renderbuffertarget, Renderbuffer renderbuffer)
+  abstract Void framebufferTexture2D(GlEnum target, GlEnum attachment, GlEnum textarget, Texture texture, Int level)
+  abstract Void frontFace(GlEnum mode)
+  abstract Void generateMipmap(GlEnum target)
+  abstract Int getAttribLocation(Program program, Str name)
+  abstract UniformLocation getUniformLocation(Program program, Str name)
+  abstract Void hint(GlEnum target, GlEnum mode)
+  abstract Bool isBuffer(Buffer buffer)
+  abstract Bool isEnabled(GlEnum cap)
+  abstract Bool isFramebuffer(Framebuffer framebuffer)
+  abstract Bool isProgram(Program program)
+  abstract Bool isRenderbuffer(Renderbuffer renderbuffer)
+  abstract Bool isShader(Shader shader)
+  abstract Bool isTexture(Texture texture)
+  abstract Void lineWidth(Float width)
+  abstract Void linkProgram(Program program)
   abstract Void pixelStorei(GlEnum pname, Int param)
-  abstract Void texImage2D(GlEnum target, Int level, GlEnum internalformat,
-                           GlEnum format, GlEnum type, Image image)
-  abstract Void texImage2DBuffer(GlEnum target, Int level, GlEnum internalformat, Int width, Int height, Int border,
-                           GlEnum format, GlEnum type, ArrayBuffer pixels)
+  abstract Void polygonOffset(Float factor, Float units)
+  abstract Void renderbufferStorage(GlEnum target, GlEnum internalformat, Int width, Int height)
+  abstract Void sampleCoverage(Float value, Bool invert)
+  abstract Void scissor(Int x, Int y, Int width, Int height)
+  abstract Void shaderSource(Shader shader, Str source)
+  abstract Void stencilFunc(GlEnum func, Int ref, Int mask)
+  abstract Void stencilFuncSeparate(GlEnum face, GlEnum func, Int ref, Int mask)
+  abstract Void stencilMask(Int mask)
+  abstract Void stencilMaskSeparate(GlEnum face, Int mask)
+  abstract Void stencilOp(GlEnum fail, GlEnum zfail, GlEnum zpass)
+  abstract Void stencilOpSeparate(GlEnum face, GlEnum fail, GlEnum zfail, GlEnum zpass)
   abstract Void texParameterf(GlEnum target, GlEnum pname, Float param)
   abstract Void texParameteri(GlEnum target, GlEnum pname, Int param)
-  abstract Void activeTexture(GlEnum texture)
-
-
-//////////////////////////////////////////////////////////////////////////
-// unimplemented methods
-//////////////////////////////////////////////////////////////////////////
-
-//
-//readonly attribute HTMLCanvasElement canvas;
-//readonly attribute GLsizei drawingBufferWidth;
-//readonly attribute GLsizei drawingBufferHeight;
-//
-//WebGLContextAttributes getContextAttributes();
-//boolean isContextLost();
-//
-//DOMString[ ] getSupportedExtensions();
-//object getExtension(DOMString name);
-//
-//void bindAttribLocation(WebGLProgram program, GLuint index, DOMString name);
-//void bindFramebuffer(GLenum target, WebGLFramebuffer framebuffer);
-//void bindRenderbuffer(GLenum target, WebGLRenderbuffer renderbuffer);
-//void blendColor(GLclampf red, GLclampf green, GLclampf blue, GLclampf alpha);
-//void blendEquation(GLenum mode);
-//void blendEquationSeparate(GLenum modeRGB, GLenum modeAlpha);
-//void blendFunc(GLenum sfactor, GLenum dfactor);
-//void blendFuncSeparate(GLenum srcRGB, GLenum dstRGB,
-//                       GLenum srcAlpha, GLenum dstAlpha);
-//
-//-void bufferData(GLenum target, GLsizeiptr size, GLenum usage);
-//-void bufferData(GLenum target, ArrayBufferView data, GLenum usage);
-//-void bufferData(GLenum target, ArrayBuffer data, GLenum usage);
-//void bufferSubData(GLenum target, GLintptr offset, ArrayBufferView data);
-//void bufferSubData(GLenum target, GLintptr offset, ArrayBuffer data);
-//
-//GLenum checkFramebufferStatus(GLenum target);
-//void clearDepth(GLclampf depth);
-//void clearStencil(GLint s);
-//void colorMask(GLboolean red, GLboolean green, GLboolean blue, GLboolean alpha);
-//
-//void copyTexImage2D(GLenum target, GLint level, GLenum internalformat,
-//                    GLint x, GLint y, GLsizei width, GLsizei height,
-//                    GLint border);
-//void copyTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffset,
-//                       GLint x, GLint y, GLsizei width, GLsizei height);
-//
-//WebGLFramebuffer createFramebuffer();
-//WebGLRenderbuffer createRenderbuffer();
-//
-//void cullFace(GLenum mode);
-//
-//void deleteBuffer(WebGLBuffer buffer);
-//void deleteFramebuffer(WebGLFramebuffer framebuffer);
-//void deleteProgram(WebGLProgram program);
-//void deleteRenderbuffer(WebGLRenderbuffer renderbuffer);
-//void deleteShader(WebGLShader shader);
-//void deleteTexture(WebGLTexture texture);
-//
-//void depthFunc(GLenum func);
-//void depthMask(GLboolean flag);
-//void depthRange(GLclampf zNear, GLclampf zFar);
-//void detachShader(WebGLProgram program, WebGLShader shader);
-//void disable(GLenum cap);
-//void disableVertexAttribArray(GLuint index);
-//-void drawElements(GLenum mode, GLsizei count, GLenum type, GLintptr offset);
-//
-//void finish();
-//void flush();
-//void framebufferRenderbuffer(GLenum target, GLenum attachment,
-//                             GLenum renderbuffertarget,
-//                             WebGLRenderbuffer renderbuffer);
-//void framebufferTexture2D(GLenum target, GLenum attachment, GLenum textarget,
-//                          WebGLTexture texture, GLint level);
-//void frontFace(GLenum mode);
-//
-//void generateMipmap(GLenum target);
-//
-//WebGLActiveInfo getActiveAttrib(WebGLProgram program, GLuint index);
-//WebGLActiveInfo getActiveUniform(WebGLProgram program, GLuint index);
-//WebGLShader[ ] getAttachedShaders(WebGLProgram program);
-//
-//
-//any getParameter(GLenum pname);
-//any getBufferParameter(GLenum target, GLenum pname);
-//
-//GLenum getError();
-//
-//any getFramebufferAttachmentParameter(GLenum target, GLenum attachment,
-//                                      GLenum pname);
-//DOMString getProgramInfoLog(WebGLProgram program);
-//any getRenderbufferParameter(GLenum target, GLenum pname);
-//
-//DOMString getShaderSource(WebGLShader shader);
-//
-//any getTexParameter(GLenum target, GLenum pname);
-//
-//any getUniform(WebGLProgram program, WebGLUniformLocation location);
-//
-//
-//any getVertexAttrib(GLuint index, GLenum pname);
-//
-//GLsizeiptr getVertexAttribOffset(GLuint index, GLenum pname);
-//
-//void hint(GLenum target, GLenum mode);
-//GLboolean isBuffer(WebGLBuffer buffer);
-//GLboolean isEnabled(GLenum cap);
-//GLboolean isFramebuffer(WebGLFramebuffer framebuffer);
-//GLboolean isProgram(WebGLProgram program);
-//GLboolean isRenderbuffer(WebGLRenderbuffer renderbuffer);
-//GLboolean isShader(WebGLShader shader);
-//GLboolean isTexture(WebGLTexture texture);
-//void lineWidth(GLfloat width);
-//void polygonOffset(GLfloat factor, GLfloat units);
-//
-//void readPixels(GLint x, GLint y, GLsizei width, GLsizei height,
-//                GLenum format, GLenum type, ArrayBufferView pixels);
-//
-//void renderbufferStorage(GLenum target, GLenum internalformat,
-//                         GLsizei width, GLsizei height);
-//void sampleCoverage(GLclampf value, GLboolean invert);
-//void scissor(GLint x, GLint y, GLsizei width, GLsizei height);
-//
-//
-//void stencilFunc(GLenum func, GLint ref, GLuint mask);
-//void stencilFuncSeparate(GLenum face, GLenum func, GLint ref, GLuint mask);
-//void stencilMask(GLuint mask);
-//void stencilMaskSeparate(GLenum face, GLuint mask);
-//void stencilOp(GLenum fail, GLenum zfail, GLenum zpass);
-//void stencilOpSeparate(GLenum face, GLenum fail, GLenum zfail, GLenum zpass);
-//
-//-void texImage2D(GLenum target, GLint level, GLenum internalformat,
-//                GLsizei width, GLsizei height, GLint border, GLenum format,
-//                GLenum type, ArrayBufferView pixels);
-//void texImage2D(GLenum target, GLint level, GLenum internalformat,
-//                GLenum format, GLenum type, ImageData pixels);
-//-void texImage2D(GLenum target, GLint level, GLenum internalformat,
-//                GLenum format, GLenum type, HTMLImageElement image);
-//void texImage2D(GLenum target, GLint level, GLenum internalformat,
-//                GLenum format, GLenum type, HTMLCanvasElement canvas);
-//void texImage2D(GLenum target, GLint level, GLenum internalformat,
-//                GLenum format, GLenum type, HTMLVideoElement video);
-//
-//
-//void texSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffset,
-//                   GLsizei width, GLsizei height,
-//                   GLenum format, GLenum type, ArrayBufferView pixels);
-//void texSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffset,
-//                   GLenum format, GLenum type, ImageData pixels);
-//void texSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffset,
-//                   GLenum format, GLenum type, HTMLImageElement image);
-//void texSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffset,
-//                   GLenum format, GLenum type, HTMLCanvasElement canvas);
-//void texSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffset,
-//                   GLenum format, GLenum type, HTMLVideoElement video);
-//
-//void uniform1f(WebGLUniformLocation location, GLfloat x);
-//void uniform1fv(WebGLUniformLocation location, Float32Array v);
-//void uniform1fv(WebGLUniformLocation location, float[] v);
-//void uniform1i(WebGLUniformLocation location, GLint x);
-//void uniform1iv(WebGLUniformLocation location, Int32Array v);
-//void uniform1iv(WebGLUniformLocation location, long[] v);
-//void uniform2f(WebGLUniformLocation location, GLfloat x, GLfloat y);
-//void uniform2fv(WebGLUniformLocation location, Float32Array v);
-//void uniform2fv(WebGLUniformLocation location, float[] v);
-//void uniform2i(WebGLUniformLocation location, GLint x, GLint y);
-//void uniform2iv(WebGLUniformLocation location, Int32Array v);
-//void uniform2iv(WebGLUniformLocation location, long[] v);
-//void uniform3f(WebGLUniformLocation location, GLfloat x, GLfloat y, GLfloat z);
-//void uniform3fv(WebGLUniformLocation location, Float32Array v);
-//void uniform3fv(WebGLUniformLocation location, float[] v);
-//void uniform3i(WebGLUniformLocation location, GLint x, GLint y, GLint z);
-//void uniform3iv(WebGLUniformLocation location, Int32Array v);
-//void uniform3iv(WebGLUniformLocation location, long[] v);
-//void uniform4f(WebGLUniformLocation location, GLfloat x, GLfloat y, GLfloat z, GLfloat w);
-//void uniform4fv(WebGLUniformLocation location, Float32Array v);
-//void uniform4fv(WebGLUniformLocation location, float[] v);
-//void uniform4i(WebGLUniformLocation location, GLint x, GLint y, GLint z, GLint w);
-//void uniform4iv(WebGLUniformLocation location, Int32Array v);
-//void uniform4iv(WebGLUniformLocation location, long[] v);
-//
-//void uniformMatrix2fv(WebGLUniformLocation location, GLboolean transpose,
-//                      Float32Array value);
-//void uniformMatrix2fv(WebGLUniformLocation location, GLboolean transpose,
-//                      float[] value);
-//void uniformMatrix3fv(WebGLUniformLocation location, GLboolean transpose,
-//                      Float32Array value);
-//void uniformMatrix3fv(WebGLUniformLocation location, GLboolean transpose,
-//                      float[] value);
-//-void uniformMatrix4fv(WebGLUniformLocation location, GLboolean transpose,
-//                      Float32Array value);
-//-void uniformMatrix4fv(WebGLUniformLocation location, GLboolean transpose,
-//                      float[] value);
-//
-//
-//void vertexAttrib1f(GLuint indx, GLfloat x);
-//void vertexAttrib1fv(GLuint indx, Float32Array values);
-//void vertexAttrib1fv(GLuint indx, float[] values);
-//void vertexAttrib2f(GLuint indx, GLfloat x, GLfloat y);
-//void vertexAttrib2fv(GLuint indx, Float32Array values);
-//void vertexAttrib2fv(GLuint indx, float[] values);
-//void vertexAttrib3f(GLuint indx, GLfloat x, GLfloat y, GLfloat z);
-//void vertexAttrib3fv(GLuint indx, Float32Array values);
-//void vertexAttrib3fv(GLuint indx, float[] values);
-//void vertexAttrib4f(GLuint indx, GLfloat x, GLfloat y, GLfloat z, GLfloat w);
-//void vertexAttrib4fv(GLuint indx, Float32Array values);
-//void vertexAttrib4fv(GLuint indx, float[] values);
+  abstract Void uniform1f(UniformLocation location, Float x)
+  abstract Void uniform1i(UniformLocation location, Int x)
+  abstract Void uniform2f(UniformLocation location, Float x, Float y)
+  abstract Void uniform2i(UniformLocation location, Int x, Int y)
+  abstract Void uniform3f(UniformLocation location, Float x, Float y, Float z)
+  abstract Void uniform3i(UniformLocation location, Int x, Int y, Int z)
+  abstract Void uniform4f(UniformLocation location, Float x, Float y, Float z, Float w)
+  abstract Void uniform4i(UniformLocation location, Int x, Int y, Int z, Int w)
+  abstract Void useProgram(Program program)
+  abstract Void validateProgram(Program program)
+  abstract Void vertexAttrib1f(Int indx, Float x)
+  abstract Void vertexAttrib2f(Int indx, Float x, Float y)
+  abstract Void vertexAttrib3f(Int indx, Float x, Float y, Float z)
+  abstract Void vertexAttrib4f(Int indx, Float x, Float y, Float z, Float w)
+  abstract Void vertexAttribPointer(Int indx, Int size, GlEnum type, Bool normalized, Int stride, Int offset)
+  abstract Void viewport(Int x, Int y, Int width, Int height)
 
 }
