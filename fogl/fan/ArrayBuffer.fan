@@ -12,7 +12,7 @@
 @Js
 enum class NumType
 {
-  tInt(4), tShort(2), tLong(8), tDouble(8), tFloat(4), tChar(2), tByte(1)
+  tInt(4), tShort(2), tLong(8), tDouble(8), tFloat(4), tByte(1)
 
   private new make(Int size) { this.size = size }
   const Int size;
@@ -24,22 +24,12 @@ enum class NumType
 @Js
 class ArrayBuffer
 {
-  native Int size
-  native Int pos
-  native Endian endian
-  native NumType type
-
-  native Int capacity()
-  native Bool isDirect()
+  native Int size()
+  native NumType type()
 
   native static ArrayBuffer allocateDirect(Int size, NumType type := NumType.tByte)
-  native static ArrayBuffer allocate(Int size, NumType type := NumType.tByte)
 
-  native This flip()
-  native Int remaining()
-
-  native This readTo(Num[] dst, Int offset := 0, Int length := dst.size)
-  native This writeFrom(Num[] src, Int offset := 0, Int length := src.size)
+  native This createView(NumType v, Int offset := 0, Int size := this.size / this.type.size)
 
   native Int getInt(Int index)
   native This setInt(Int index, Int v)
@@ -56,7 +46,6 @@ class ArrayBuffer
   {
     buf := ArrayBuffer.allocateDirect(data.size, NumType.tFloat)
     buf.putFloat(data)
-    buf.flip
     return buf
   }
 
@@ -64,7 +53,6 @@ class ArrayBuffer
   {
     buf := ArrayBuffer.allocateDirect(data.size, NumType.tInt)
     buf.putInt(data)
-    buf.flip
     return buf
   }
 
@@ -72,7 +60,6 @@ class ArrayBuffer
   {
     buf := ArrayBuffer.allocateDirect(data.size, NumType.tShort)
     buf.putShort(data)
-    buf.flip
     return buf
   }
 }

@@ -19,6 +19,8 @@ class ArrayBufferPeer
 {
   private java.nio.Buffer bufferView;
   private ByteBuffer rawData;
+  private int offset;
+  private int size;
 
   public static ArrayBufferPeer make(ArrayBuffer self) { return new ArrayBufferPeer(); }
 
@@ -26,11 +28,7 @@ class ArrayBufferPeer
 // fields
 //////////////////////////////////////////////////////////////////////////
 
-  public long size(ArrayBuffer self) { return getValue().limit(); }
-  public void size(ArrayBuffer self, long v) { getValue().limit((int)v); }
-
-  public long pos(ArrayBuffer self) { return getValue().position(); }
-  public void pos(ArrayBuffer self, long v) { getValue().position((int)v); }
+  public long size(ArrayBuffer self) { return size; }
 
   public Endian endian(ArrayBuffer self)
   {
@@ -64,10 +62,6 @@ class ArrayBufferPeer
     {
       return NumType.tShort;
     }
-    else if(d instanceof java.nio.CharBuffer)
-    {
-      return NumType.tChar;
-    }
     else if(d instanceof java.nio.LongBuffer)
     {
       return NumType.tLong;
@@ -77,50 +71,18 @@ class ArrayBufferPeer
       throw UnsupportedErr.make("unsupported type");
     }
   }
-
-  public void type(ArrayBuffer self, NumType v)
-  {
-    if (type(self) == v) return;
-
-    if(v == NumType.tByte)
-    {
-      bufferView = null;
-    }
-    else if (v == NumType.tFloat)
-    {
-      bufferView = rawData.asFloatBuffer();
-    }
-    else if (v == NumType.tDouble)
-    {
-      bufferView = rawData.asDoubleBuffer();
-    }
-    else if(v == NumType.tInt)
-    {
-      bufferView = rawData.asIntBuffer();
-    }
-    else if(v == NumType.tShort)
-    {
-      bufferView = rawData.asShortBuffer();
-    }
-    else if(v == NumType.tChar)
-    {
-      bufferView = rawData.asCharBuffer();
-    }
-    else if(v == NumType.tLong)
-    {
-      bufferView = rawData.asLongBuffer();
-    }
-    else
-    {
-      throw UnsupportedErr.make("unsupported type");
-    }
-  }
-
+/*
   public long capacity(ArrayBuffer self) { return getValue().capacity(); }
   public boolean isDirect(ArrayBuffer self) { return getValue().isDirect(); }
 
   public ArrayBuffer flip(ArrayBuffer self) { getValue().flip(); return self; }
   public long remaining(ArrayBuffer self) { return getValue().remaining(); }
+*/
+  private void reset()
+  {
+    getValue().position(this.offset);
+    getValue().limit(this.size);
+  }
 
 //////////////////////////////////////////////////////////////////////////
 // ctor
@@ -128,10 +90,15 @@ class ArrayBufferPeer
 
   public static ArrayBuffer allocateDirect(long size, NumType type)
   {
-    ArrayBuffer ab = ArrayBuffer.make();
     int capacity = (int)(size * type.size);
-    ab.peer.rawData = ByteBuffer.allocateDirect(capacity).order(ByteOrder.nativeOrder());
-    ab.type(type);
+    ByteBuffer buf = ByteBuffer.allocateDirect(capacity).order(ByteOrder.nativeOrder());
+    buf.clear();
+
+    ArrayBuffer ab = ArrayBuffer.make();
+    ab.peer.rawData = buf;
+    if (type != NumType.tByte) ab.peer.bufferView = asView(buf, type);
+    ab.peer.offset = 0;
+    ab.peer.size = (int)size;
     return ab;
   }
   public static ArrayBuffer allocateDirect(long size)
@@ -139,21 +106,67 @@ class ArrayBufferPeer
     return allocateDirect(size, NumType.tByte);
   }
 
-  public static ArrayBuffer allocate(long size, NumType type)
+  private static java.nio.Buffer asView(ByteBuffer buf, NumType v)
   {
-    ArrayBuffer ab = ArrayBuffer.make();
-    int capacity = (int)(size * type.size);
-    ab.peer.rawData = ByteBuffer.allocate(capacity).order(ByteOrder.nativeOrder());
-    ab.type(type);
-    return ab;
+    if (v == NumType.tByte)
+    {
+      return buf.slice();
+    }
+    else if (v == NumType.tFloat)
+    {
+      return buf.asFloatBuffer();
+    }
+    else if (v == NumType.tDouble)
+    {
+      return buf.asDoubleBuffer();
+    }
+    else if(v == NumType.tInt)
+    {
+      return buf.asIntBuffer();
+    }
+    else if(v == NumType.tShort)
+    {
+      return buf.asShortBuffer();
+    }
+    else if(v == NumType.tLong)
+    {
+      return buf.asLongBuffer();
+    }
+    else
+    {
+      throw UnsupportedErr.make("unsupported type");
+    }
   }
-  public static ArrayBuffer allocate(long size)
+
+  public ArrayBuffer createView(ArrayBuffer self, NumType type, long offset, long size)
   {
-    return allocate(size, NumType.tByte);
+    if (type(self) != NumType.tByte) throw UnsupportedErr.make("only ByteBuffer can create view");
+
+    this.rawData.position((int)offset);
+    this.rawData.limit((int)(offset + size * type.size));
+
+    ArrayBuffer view = ArrayBuffer.make();
+    view.peer.rawData = this.rawData;
+    view.peer.bufferView = asView(rawData, type);
+    view.peer.offset = (int)offset;
+    view.peer.size = (int)size;
+    reset();
+
+    return view;
+  }
+
+  public ArrayBuffer createView(ArrayBuffer self, NumType type, long offset)
+  {
+    return createView(self, type, offset, this.size / type.size);
+  }
+
+  public ArrayBuffer createView(ArrayBuffer self, NumType type)
+  {
+    return createView(self, type, this.offset);
   }
 
 //////////////////////////////////////////////////////////////////////////
-// read/write
+// random read/write
 //////////////////////////////////////////////////////////////////////////
 
   public long getInt(ArrayBuffer self, long index)
@@ -188,18 +201,21 @@ class ArrayBufferPeer
   {
     FloatBuffer buf = (FloatBuffer)getValue();
     buf.put(toFloatArray(list));
+    reset();
     return self;
   }
   public ArrayBuffer putInt(ArrayBuffer self, List list)
   {
     IntBuffer buf = (IntBuffer)getValue();
     buf.put(toIntArray(list));
+    reset();
     return self;
   }
   public ArrayBuffer putShort(ArrayBuffer self, List list)
   {
     ShortBuffer buf = (ShortBuffer)getValue();
     buf.put(toShortArray(list));
+    reset();
     return self;
   }
 
