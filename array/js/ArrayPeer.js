@@ -9,88 +9,25 @@
 
 fan.array.ArrayPeer = fan.sys.Obj.$extend(fan.sys.Obj);
 fan.array.ArrayPeer.prototype.$ctor = function(self) {}
-fan.array.ArrayPeer.prototype.rawData = null;
-fan.array.ArrayPeer.prototype.bufferView = null;
+fan.array.ArrayPeer.prototype.array = null;
 
 //////////////////////////////////////////////////////////////////////////
 // native
 //////////////////////////////////////////////////////////////////////////
 
-fan.array.ArrayPeer.prototype.m_size;
-fan.array.ArrayPeer.prototype.size = function(self) { return this.m_size; }
+fan.array.ArrayPeer.prototype.size = function(self) { return this.array.length; }
 
-fan.array.ArrayPeer.prototype.m_offset;
-
-fan.array.ArrayPeer.prototype.m_endian = fan.sys.Endian.big;
-fan.array.ArrayPeer.prototype.endian = function(self) { return this.m_endian; }
-fan.array.ArrayPeer.prototype.endian$  = function(self, v) { this.m_endian = v; }
-fan.array.ArrayPeer.prototype.isLittleEndian = function() { return this.m_endian == fan.sys.Endian.little; }
-
-fan.array.ArrayPeer.prototype.type = function(self)
-{
-  var d = this.bufferView;
-  if (d == null) return fan.array.NumType.m_tByte;
-  else if (d instanceof Int8Array) return fan.array.NumType.m_tByte;
-  else if (d instanceof Uint8Array) return fan.array.NumType.m_tByte;
-  else if (d instanceof Int16Array) return fan.array.NumType.m_tShort;
-  else if (d instanceof Uint16Array) return fan.array.NumType.m_tShort;
-  else if (d instanceof Int32Array) return fan.array.NumType.m_tInt;
-  else if (d instanceof Uint32Array) return fan.array.NumType.m_tInt;
-  else if (d instanceof Float32Array) return fan.array.NumType.m_tFloat;
-  else throw fan.sys.Err.make("unknow type");
-}
-
-fan.array.ArrayPeer.prototype.reset = function()
-{
-  this.m_size = this.bufferView.length;
-  this.m_offset = this.bufferView.byteOffset;
-}
+fan.array.ArrayPeer.prototype.type = function(self) { return this.type; };
 
 //////////////////////////////////////////////////////////////////////////
 // ctor
 //////////////////////////////////////////////////////////////////////////
 
-fan.array.ArrayPeer.asView = function(rawData, v, offset, size)
+fan.array.ArrayPeer.allocate = function(size, type)
 {
-  var view;
-  if (fan.array.NumType.m_tByte == v) view = new Int8Array(rawData, offset, size);
-  else if (fan.array.NumType.m_tShort == v) view = new Int16Array(rawData, offset, size);
-  else if (fan.array.NumType.m_tInt == v) view = new Int32Array(rawData, offset, size);
-  else if (fan.array.NumType.m_tFloat == v) view = new Float32Array(rawData, offset, size);
-  else throw fan.sys.Err.make("unknow type");
-  return view;
-}
-fan.array.ArrayPeer.prototype.createView = function(self, type, offset, size)
-{
-  if (this.type(self) != fan.array.NumType.m_tByte) throw UnsupportedErr.make("only ByteBuffer can create view");
-
-  var view = fan.array.Array.make();
-  var peer = view.peer;
-  peer.rawData = this.rawData;
-  if (!offset) offset = this.m_offset;
-  if (!size) size = this.m_size / type.m_size;
-  peer.bufferView = asView(rawData, type, offset, size);
-  peer.reset();
-  return view;
-}
-
-fan.array.ArrayPeer.allocateDirect = function(size, type)
-{
-  if (!type) type = fan.array.NumType.m_tByte;
-  var capacity = (size * type.m_size);
-  var buf = new Array(capacity);
-  var self = fan.array.Array.make();
-  self.peer.rawData = buf;
-
-  if (type == fan.array.NumType.m_tByte)
-  {
-    self.peer.bufferView = new Int8Array(buf);
-    self.peer.reset();
-    return self;
-  }
-  self.peer.bufferView = fan.array.ArrayPeer.asView(buf, type, 0, size);
-  self.peer.reset();
-  return self;
+  if (!type) type = fan.array.NumType.m_tInt;
+  this.type = type;
+  this.array = new Array(size);
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -100,23 +37,23 @@ fan.array.ArrayPeer.allocateDirect = function(size, type)
 fan.array.ArrayPeer.prototype.getInt = function(self, index)
 {
   if (this.type(self) != fan.array.NumType.m_tInt) throw UnsupportedErr.make("not Int buffer");
-  return this.bufferView[index];
+  return this.array[index];
 }
 fan.array.ArrayPeer.prototype.setInt = function(self, index, v)
 {
   if (this.type(self) != fan.array.NumType.m_tInt) throw UnsupportedErr.make("not Int buffer");
-  this.bufferView.set[index] = v;
+  this.array[index] = v;
   return self;
 }
 fan.array.ArrayPeer.prototype.getFloat = function(self, index)
 {
   if (this.type(self) != fan.array.NumType.m_tFloat) throw UnsupportedErr.make("not Float buffer");
-  return this.bufferView[index];
+  return this.array[index];
 }
 fan.array.ArrayPeer.prototype.setFloat = function(self, index, v)
 {
   if (this.type(self) != fan.array.NumType.m_tFloat) throw UnsupportedErr.make("not Float buffer");
-  this.bufferView.set[index] = v;
+  this.array[index] = v;
   return self;
 }
 
@@ -124,27 +61,79 @@ fan.array.ArrayPeer.prototype.setFloat = function(self, index, v)
 // batch read/write
 //////////////////////////////////////////////////////////////////////////
 
-fan.array.ArrayPeer.prototype.putFloat = function(self, data)
+fan.array.ArrayPeer.prototype.fromList = function(self, list)
 {
-  this.bufferView.set(data.m_values);
-  return self;
+  var size = list.size();
+  var array
+  if (list.of == fan.sys.Int.$type)
+  {
+    Array.make(size, fan.array.NumType.m_tInt);
+  }
+  else if(list.of == fan.sys.Float.$type)
+  {
+    Array.make(size, fan.array.NumType.m_tFloat);
+  }
+  else
+  {
+    throw UnsupportedErr.make("Unknow type: " + list.of);
+  }
+
+  for (int i = 0; i < size; ++i)
+  {
+    array.peer.array[0] = list.get(0);
+  }
+  return array;
 }
-fan.array.ArrayPeer.prototype.putInt = function(self, data)
+fan.array.ArrayPeer.prototype.toList = function(self)
 {
-  this.bufferView.set(data.m_values);
-  return self;
+  var size = this.size(self);
+  var type = this.type(self);
+
+  if (type == NumType.tByte || type == NumType.tInt || type == NumType.tShort || type == NumType.tLong)
+  {
+    var list = fan.sys.List.make(fan.sys.Int.$type, size);
+    for (var i = 0; i < size; ++i)
+    {
+      list.add(this.getInt(self, i));
+    }
+    return list;
+  }
+  else if (type == NumType.tFloat || type == NumType.tDouble)
+  {
+    var list = fan.sys.List.make(fan.sys.Float.$type, size);
+    for (var i = 0; i < size; ++i)
+    {
+      list.add(this.getFloat(self, i));
+    }
+    return list;
+  }
+  else
+  {
+    throw UnsupportedErr.make("unsupported type");
+  }
 }
-fan.array.ArrayPeer.prototype.putShort = function(self, data)
+fan.array.ArrayPeer.prototype.copyTo = function(self, dst, dstOffset, srcOffset, size)
 {
-  this.bufferView.set(data.m_values);
-  return self;
+  if (!dstOffset) dstOffset = 0;
+  if (!srcOffset) srcOffset = 0;
+  if (!size) size = this.size(self);
+
+  if (self.type() != dst.type()) throw ArgErr.make("Must have same type");
+  if (size > self.size()-srcOffset || size > dst.size()-dstOffset) throw IndexErr.make("out of range: "+size);
+
+  for(var i=0; i < size; ++i)
+  {
+    dst.peer.array[i+dstOffset] = this.array[i+srcOffset];
+  }
 }
 
-//////////////////////////////////////////////////////////////////////////
+
+
+  //////////////////////////////////////////////////////////////////////////
 // methods
 //////////////////////////////////////////////////////////////////////////
 
 fan.array.ArrayPeer.prototype.getValue = function()
 {
-  return this.bufferView;
+  return this.array;
 }
