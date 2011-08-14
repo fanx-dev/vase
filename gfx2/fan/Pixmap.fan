@@ -20,7 +20,7 @@ mixin Pixmap : Image2
 
   abstract Image toImage()
 
-  abstract Void save(OutStream out, Str format := "png")
+  abstract Void save(OutStream out, MimeType format := MimeType.forExt("png"))
   static Pixmap load(InStream in) { GfxEnv2.cur.load(in); }
 
   static Pixmap fromUri(Uri uri) { GfxEnv2.cur.fromUri(uri); }

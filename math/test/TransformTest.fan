@@ -10,7 +10,7 @@ internal class TransformTest : Test
 {
   Void testPerspective()
   {
-    pMatrix := Transform.makePerspective(45f, 1f, 0.1f, 100.0f)
+    pMatrix := Transform3D.makePerspective(45f, 1f, 0.1f, 100.0f)
     expected := Matrix.make(
     [
        [2.4142136573791504f,  0f,                   0f,                      0f],
@@ -24,7 +24,7 @@ internal class TransformTest : Test
 
   Void testTranslate()
   {
-    mvMatrix := Transform().translate(-1.5f, 0.0f, -7.0f).top
+    mvMatrix := Transform3D().translate(-1.5f, 0.0f, -7.0f).top
     expected := Matrix.make(
     [
       [ 1f,   0f,  0f, 0f],

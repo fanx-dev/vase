@@ -7,47 +7,44 @@
 //
 
 **
-** model/view matrix and projection
+** AffineTransform
 **
 @Js
 class Transform2D
 {
-  private Matrix[] stack := [ Matrix.makeIndentity(4) ]
-
-  Matrix top() { stack.peek }
-  This set(Matrix m) { stack.set(stack.size - 1, m); return this }
-
-  Matrix pop() { stack.pop }
-
-  This push()
-  {
-    dup := top.clone
-    stack.push(dup)
-    return this
-  }
+  Matrix matrix := Matrix.makeIndentity(3)
 
 //////////////////////////////////////////////////////////////////////////
 // Transform
 //////////////////////////////////////////////////////////////////////////
 
-  This translate(Float x, Float y, Float z)
+  This translate(Float tx, Float ty)
   {
-    m := top * makeTranslate(x, y, z)
-    set(m)
+    matrix := matrix * makeTranslate(tx, ty)
     return this
   }
 
-  This scale(Float x, Float y, Float z)
+  This scale(Float x0, Float y0, Float sx, Float sy)
   {
-    m := top * makeScale(x, y, z)
-    set(m)
+    matrix := matrix * makeScale(x0, y0, sx, sy)
     return this
   }
 
-  This rotate(Float theta, Float x, Float y, Float z)
+  This symmetry(Float a, Float b, Float d, Float e)
   {
-    m := top * makeRotate(theta * Float.pi / 180f, x, y, z)
-    set(m)
+    matrix := matrix * makeSymmetry(a, b, d, e)
+    return this
+  }
+
+  This rotate(Float x, Float y, Float thta)
+  {
+    matrix := matrix * makeRotate(x, y, thta)
+    return this
+  }
+
+  This shear(Float b, Float d)
+  {
+    matrix := matrix * makeShear(b, d)
     return this
   }
 
@@ -55,109 +52,75 @@ class Transform2D
 // Make Transform
 //////////////////////////////////////////////////////////////////////////
 
-  static Matrix makeTranslate(Float x, Float y, Float z)
+  **
+  ** translate
+  **
+  static Matrix makeTranslate(Float tx, Float ty)
   {
-    m := Matrix.makeIndentity(4)
-    m.set(0, 3, x)
-    m.set(1, 3, y)
-    m.set(2, 3, z)
-    return m
+    at := Matrix.makeIndentity(3)
+    at.set(0, 0, 1f)
+    at.set(1, 1, 1f)
+    at.set(2, 2, 1f)
+    at.set(2, 0, tx)
+    at.set(2, 1, ty)
+    return at
   }
 
-  static Matrix makeScale(Float x, Float y, Float z)
+  **
+  ** scale at x0,y0 point
+  **
+  static Matrix makeScale(Float x0, Float y0, Float sx, Float sy)
   {
-    m := Matrix.makeZero(4, 4)
-    m.set(0, 0, x)
-    m.set(1, 1, y)
-    m.set(2, 2, z)
-    m.set(3, 3, 1f)
-    return m
+    at := Matrix.makeIndentity(3)
+    at.set(0, 0, sx)
+    at.set(1, 1, sy)
+    at.set(2, 2, 1f)
+    at.set(2, 0, (1 - sx) * x0)
+    at.set(2, 1, (1 - sy) * y0)
+    return at
   }
 
-  static Matrix makeFrustum(Float left, Float right,
-                            Float bottom, Float top,
-                            Float znear, Float zfar)
+  **
+  ** symmetry is a mirror inversion
+  **
+  static Matrix makeSymmetry(Float a, Float b, Float d, Float e)
   {
-    X := 2 * znear / (right - left)
-    Y := 2 * znear / (top - bottom)
-    A := (right + left) / (right - left)
-    B := (top + bottom) / (top - bottom)
-    C := -(zfar + znear) / (zfar - znear)
-    D := -2 * zfar * znear / (zfar - znear)
-
-    return Matrix.make([
-                         [X,  0f,  A,  0f],
-                         [0f,  Y,  B,  0f],
-                         [0f, 0f,  C,   D],
-                         [0f, 0f, -1f, 0f],
-                       ])
+    at := Matrix.makeIndentity(3)
+    at.set(0, 0, a)
+    at.set(1, 1, e)
+    at.set(2, 2, 1f)
+    at.set(0, 1, d)
+    at.set(1, 0, b)
+    return at
   }
 
-  static Matrix makePerspective(Float fovy, Float aspect, Float znear, Float zfar)
+  **
+  ** roate at x,y with thta radians
+  **
+  static Matrix makeRotate(Float x, Float y, Float thta)
   {
-    ymax := znear * (fovy* Float.pi / 360f).tan
-    ymin := -ymax
-    xmin := ymin * aspect
-    xmax := ymax * aspect
-
-    return makeFrustum(xmin, xmax, ymin, ymax, znear, zfar)
+    at := Matrix.makeIndentity(3)
+    at.set(0, 0, (thta).cos)
+    at.set(1, 1, (thta).cos)
+    at.set(2, 2, 1f)
+    at.set(0, 1, (thta).sin)
+    at.set(1, 0, -(thta).sin)
+    at.set(2, 0, (1 - (thta).cos) * x + (y * (thta).sin))
+    at.set(2, 1, (1 + (thta).cos) * y - (x * (thta).sin))
+    return at
   }
 
-  static Matrix makeOrtho(Float left, Float right, Float bottom, Float top, Float znear, Float zfar)
+  **
+  ** shear
+  **
+  static Matrix makeShear(Float b, Float d)
   {
-    tx := - (right + left) / (right - left)
-    ty := - (top + bottom) / (top - bottom)
-    tz := - (zfar + znear) / (zfar - znear)
-
-    a := 2 / (right - left)
-    b := 2 / (top - bottom)
-    c := -2 / (zfar - znear)
-
-    return Matrix.make([
-                         [a,  0f, 0f, tx],
-                         [0f,  b, 0f, ty],
-                         [0f, 0f,  c, tz],
-                         [0f, 0f, 0f, 1f ],
-                       ])
-  }
-
-  static Matrix makeLookAt( Float ex, Float ey, Float ez,
-                            Float cx, Float cy, Float cz,
-                            Float ux, Float uy, Float uz)
-  {
-      eye := Vector(ex, ey, ez)
-      center := Vector(cx, cy, cz)
-      up := Vector(ux, uy, uz)
-
-      z := eye.minus(center).normalize
-      x := up.crossProduct(z).normalize
-      y := z.crossProduct(x).normalize
-
-      m := Matrix.make([[x.x, y.x, z.x, 0f],
-                        [x.y, y.y, z.y, 0f],
-                        [x.z, y.z, z.z, 0f],
-                        [0f,   0f,  0f, 1f]])
-
-      return m
-  }
-
-  static Matrix makeRotate(Float theta, Float x, Float y, Float z)
-  {
-     s := (theta).sin
-     c := (theta).cos
-     nc := 1 - c
-
-     v := Vector(x, y, z)
-     nv := v.normalize
-     vx := nv.x
-     vy := nv.y
-     vz := nv.z
-
-     m := Matrix.make([ [vx * vx * nc + c,      vx * vy * nc - vz * s,            vx * vz * nc + vy * s, 0f],
-                        [vy * vx * nc + vz * s, vy * vy * nc + c, vy * vz * nc - vx * s,                 0f],
-                        [vx * vz * nc - vy * s, vy * vz * nc + vx * s,            vz * vz * nc + c,      0f],
-                        [0f,                    0f,                               0f,                    1f]])
-
-     return m
+    at := Matrix.makeIndentity(3)
+    at.set(0, 0, 1f)
+    at.set(1, 1, 1f)
+    at.set(2, 2, 1f)
+    at.set(0, 1, d)
+    at.set(1, 0, b)
+    return at
   }
 }

@@ -10,7 +10,7 @@
 ** model/view matrix and projection
 **
 @Js
-class Transform
+class Transform3D
 {
   private Matrix[] stack := [ Matrix.makeIndentity(4) ]
 
