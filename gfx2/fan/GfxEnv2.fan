@@ -10,7 +10,7 @@ using concurrent
 using gfx
 
 **
-** GfxEnv models an implementation of the gfx graphics API.
+** GfxEnv2 models an implementation of the gfx2 graphics API.
 **
 @NoDoc
 @Js
@@ -35,7 +35,11 @@ abstract const class GfxEnv2
     return null
   }
 
-  abstract Pixmap load(InStream in);
-  abstract Pixmap fromUri(Uri uri);
-  abstract Pixmap makePixmap(Size size);
+//////////////////////////////////////////////////////////////////////////
+// Image op
+//////////////////////////////////////////////////////////////////////////
+
+  abstract Pixmap load(InStream in)
+  abstract Pixmap fromUri(Uri uri)
+  abstract Pixmap makePixmap(Size size)
 }

@@ -10,7 +10,7 @@ package fan.array;
 
 import fan.sys.*;
 
-class ArrayPeer
+public class ArrayPeer
 {
   private Object array;
   private NumType type;

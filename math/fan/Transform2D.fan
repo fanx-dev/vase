@@ -14,6 +14,9 @@ class Transform2D
 {
   Matrix matrix := Matrix.makeIndentity(3)
 
+  Float get(Int x, Int y) { return matrix.get(x, y); }
+  Transform2D clone() { return Transform2D { it.matrix = this.matrix.clone } }
+
 //////////////////////////////////////////////////////////////////////////
 // Transform
 //////////////////////////////////////////////////////////////////////////

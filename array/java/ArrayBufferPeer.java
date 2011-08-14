@@ -11,7 +11,7 @@ package fan.array;
 import fan.sys.*;
 import java.nio.*;
 
-class ArrayBufferPeer
+public class ArrayBufferPeer
 {
   private java.nio.Buffer bufferView;
   private ByteBuffer rawData;

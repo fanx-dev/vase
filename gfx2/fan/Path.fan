@@ -3,7 +3,7 @@
 // Licensed under the Academic Free License version 3.0
 //
 // History:
-//   2011-08-11  Jed Young  Creation
+//   2011-08-13  Jed Young  Creation
 //
 
 using gfx
@@ -11,6 +11,7 @@ using gfx
 **
 ** represent paths through the two-dimensional coordinate system
 **
+@Js
 class Path
 {
   PathStep[] steps := [,]
@@ -37,47 +38,41 @@ class Path
     steps.add(PathCubicTo { it.cx1=cx1; it.cy1=cy1; it.cx2=cx2; it.cy2=cy2; it.x=x; it.y=y })
     return this
   }
-  This arcTo(Float x1, Float y1, Float x2, Float y2, Float radius)
-  {
-    steps.add(PathArcTo { it.x1=x1; it.y1=y1; it.x2=x2; it.y2=y2; it.radius=radius })
-    return this
-  }
 }
 
 **************************************************************************
 ** step
 **************************************************************************
-
+@NoDoc
+@Js
 const mixin PathStep
 {
 }
-
+@NoDoc
+@Js
 const class PathMoveTo : PathStep
 {
   const Float x; const Float y
   new make(|This| f) { f(this) }
 }
-
+@NoDoc
+@Js
 const class PathLineTo : PathStep
 {
   const Float x; const Float y
   new make(|This| f) { f(this) }
 }
-
+@NoDoc
+@Js
 const class PathQuadTo : PathStep
 {
   const Float cx; const Float cy; const Float x; const Float y
   new make(|This| f) { f(this) }
 }
-
+@NoDoc
+@Js
 const class PathCubicTo : PathStep
 {
   const Float cx1; const Float cy1; const Float cx2; const Float cy2; const Float x; const Float y
-  new make(|This| f) { f(this) }
-}
-
-const class PathArcTo : PathStep
-{
-  const Float x1; const Float y1; const Float x2; const Float y2; const Float radius
   new make(|This| f) { f(this) }
 }
