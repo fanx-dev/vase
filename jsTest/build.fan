@@ -35,6 +35,9 @@ class Build : build::BuildPod
       "slanDao 1.0",
       "fogl 1.0",
       "fan3dMath 1.0",
+      "array 1.0",
+      "gfx2 1.0",
+      "gfx2Imp 1.0",
     ]
     resDirs =
     [

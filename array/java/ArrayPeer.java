@@ -62,6 +62,7 @@ public class ArrayPeer
   public static Array allocate(long size, NumType type)
   {
     Array array = Array.make();
+    array.peer.type = type;
 
     int n = (int)size;
     if (type == NumType.tByte)
@@ -195,6 +196,7 @@ public class ArrayPeer
   {
     Array array = Array.make();
     array.peer.array = ArrayUtil.listToArray(list, type);
+    array.peer.type = type;
     return array;
   }
 

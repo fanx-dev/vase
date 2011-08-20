@@ -25,7 +25,7 @@ import org.eclipse.swt.events.*;
 public class Canvas2Peer extends CanvasPeer implements PaintListener
 {
 
-  public static CanvasPeer make(fan.fwt.Canvas self)
+  public static Canvas2Peer make(Canvas2 self)
     throws Exception
   {
     Canvas2Peer peer = new Canvas2Peer();

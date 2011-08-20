@@ -17,7 +17,13 @@ class Path
   PathStep[] steps := [,]
 
   This clear() { steps.clear; return this }
+  Bool contains(Float x, Float y) { return GfxEnv2.cur.contains(this, x, y); }
 
+  This close()
+  {
+    steps.add(PathClose())
+    return this
+  }
   This moveTo(Float x, Float y)
   {
     steps.add(PathMoveTo { it.x=x; it.y=y })
@@ -75,4 +81,10 @@ const class PathCubicTo : PathStep
 {
   const Float cx1; const Float cy1; const Float cx2; const Float cy2; const Float x; const Float y
   new make(|This| f) { f(this) }
+}
+
+@NoDoc
+@Js
+const class PathClose : PathStep
+{
 }

@@ -40,12 +40,17 @@ public class FwtEnv2Peer
   }
   public Pixmap fromUri(FwtEnv2 self, Uri uri)
   {
-    return load(self, uri.toFile().in());
+    return load(self, ((fan.sys.File)uri.get()).in());
   }
   public Pixmap makePixmap(FwtEnv2 self, Size size)
   {
     Image image = new Image(getDisplay(), (int)size.w, (int)size.h);
     return new PixmapImp(image);
+  }
+
+  public boolean contains(FwtEnv2 self, Path path, double x, double y)
+  {
+    return FwtGraphics2.toSwtPath(path).contains((float)x, (float)y, fan.fwt.Fwt.get().scratchGC(), false);
   }
 
   public static Display getDisplay() { return Display.getCurrent(); }

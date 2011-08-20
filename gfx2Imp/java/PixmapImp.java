@@ -20,23 +20,35 @@ import fanx.interop.Interop;
 
 public class PixmapImp implements Pixmap
 {
+  private boolean imageChanged = false;
   private org.eclipse.swt.graphics.Image image;
-  public org.eclipse.swt.graphics.Image getImage(){ return image; };
+  private org.eclipse.swt.graphics.ImageData imageData;
+  public org.eclipse.swt.graphics.Image getImage()
+  {
+    if (!imageChanged) return image;
+
+    //create new image
+    image.dispose();
+    image = new org.eclipse.swt.graphics.Image(FwtEnv2Peer.getDisplay(), imageData);
+    imageChanged = false;
+    return image;
+  }
 
   public PixmapImp(org.eclipse.swt.graphics.Image m)
   {
     image = m;
+    imageData = m.getImageData();
   }
 
   public Size size()
   {
-    Rectangle r = image.getBounds();
-    return Size.make(r.width, r.height);
+    //Rectangle r = image.getBounds();
+    return Size.make(imageData.width, imageData.height);
   }
 
   public fan.gfx.Color getPixel(long x, long y)
   {
-    ImageData data= image.getImageData();
+    ImageData data= imageData;
     PaletteData palette = data.palette;
     RGB rgb = palette.getRGB(data.getPixel((int)x, (int)y));
     int alpha = data.getAlpha((int)x, (int)y);
@@ -44,13 +56,15 @@ public class PixmapImp implements Pixmap
   }
   public void setPixel(long x, long y, fan.gfx.Color value)
   {
-    ImageData data= image.getImageData();
+    ImageData data= imageData;
     PaletteData palette = data.palette;
     RGB rgb = new RGB((int)value.r(), (int)value.g(), (int)value.b());
     int alpha = (int)value.a();
     int pixel = palette.getPixel(rgb);
     data.setPixel((int)x, (int)y, pixel);
+    //System.out.println(pixel);
     data.setAlpha((int)x, (int)y, alpha);
+    imageChanged = true;
   }
 
   public fan.gfx.Image toImage() { throw UnsupportedErr.make(); }
@@ -61,7 +75,7 @@ public class PixmapImp implements Pixmap
   public void save(OutStream out, MimeType format)
   {
     ImageLoader loader = new ImageLoader();
-    loader.data = new ImageData[] { image.getImageData() };
+    loader.data = new ImageData[] { imageData };
     OutputStream jout = Interop.toJava(out);
 
     int swtFormat = SWT.IMAGE_PNG;
@@ -89,6 +103,6 @@ public class PixmapImp implements Pixmap
   {
     int w = (int)size().w;
     int h = (int)size().h;
-    return new FwtGraphics2(new GC(image), 0, 0, w, h);
+    return new FwtGraphics2(new GC(getImage()), 0, 0, w, h);
   }
 }

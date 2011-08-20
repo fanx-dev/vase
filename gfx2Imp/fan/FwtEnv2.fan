@@ -8,7 +8,6 @@
 
 using gfx
 using gfx2
-using concurrent
 
 **
 ** FwtEnv the gfx environment implementation for the Fantom Widget Toolkit.
@@ -20,9 +19,5 @@ internal const class FwtEnv2 : GfxEnv2
   override native Pixmap load(InStream in)
   override native Pixmap fromUri(Uri uri)
   override native Pixmap makePixmap(Size size)
-
-  static
-  {
-    Actor.locals["gfx.env2"] = FwtEnv2.make()
-  }
+  override native Bool contains(Path path, Float x, Float y)
 }

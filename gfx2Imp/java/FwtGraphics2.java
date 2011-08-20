@@ -82,6 +82,12 @@ public class FwtGraphics2 extends FwtGraphics implements Graphics2
     return this;
   }
 
+  public FwtGraphics2 setClipping(Path path)
+  {
+    gc.setClipping(toSwtPath(path));
+    return this;
+  }
+
   /**
    * auto free resource
    */
@@ -123,6 +129,10 @@ public class FwtGraphics2 extends FwtGraphics implements Graphics2
       {
         PathCubicTo s = (PathCubicTo)step;
         swtPath.cubicTo((float)s.cx1, (float)s.cy1, (float)s.cx2, (float)s.cy2, (float)s.x, (float)s.y);
+      }
+      else if (step instanceof PathClose)
+      {
+        swtPath.close();
       }
       else
       {

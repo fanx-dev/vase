@@ -10,6 +10,8 @@ using fwt
 using gfx2
 using gfx
 
+using concurrent
+
 **
 ** Canvas2 to suppert gfx2
 **
@@ -17,6 +19,11 @@ using gfx
 @Serializable
 class Canvas2 : Canvas
 {
+  ** init the GfxEnv
+  static
+  {
+    Actor.locals["gfx.env2"] = FwtEnv2.make()
+  }
 
   **
   ** This callback is invoked when the widget should be repainted.

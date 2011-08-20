@@ -42,4 +42,6 @@ abstract const class GfxEnv2
   abstract Pixmap load(InStream in)
   abstract Pixmap fromUri(Uri uri)
   abstract Pixmap makePixmap(Size size)
+
+  abstract Bool contains(Path path, Float x, Float y)
 }

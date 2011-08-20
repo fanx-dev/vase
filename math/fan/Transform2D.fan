@@ -7,7 +7,20 @@
 //
 
 **
-** AffineTransform
+** AffineTransform.
+** This matrix is a transpose of java.awt.geom.AffineTransform.
+**
+**                             m00 m10 0
+**  (x1, y1, 1) = (x y 1)  *   m01 m11 0
+**                             m02 m12 1
+**
+** But the awt/swt Transform like this:
+**
+**      [ x']   [  m00  m01  m02  ] [ x ]   [ m00x + m01y + m02 ]
+**      [ y'] = [  m10  m11  m12  ] [ y ] = [ m10x + m11y + m12 ]
+**      [ 1 ]   [   0    0    1   ] [ 1 ]   [         1         ]
+**
+** Don't like Transform2D, The Transform3D using the second way.
 **
 @Js
 class Transform2D
@@ -23,31 +36,31 @@ class Transform2D
 
   This translate(Float tx, Float ty)
   {
-    matrix := matrix * makeTranslate(tx, ty)
+    matrix = matrix * makeTranslate(tx, ty)
     return this
   }
 
   This scale(Float x0, Float y0, Float sx, Float sy)
   {
-    matrix := matrix * makeScale(x0, y0, sx, sy)
+    matrix = matrix * makeScale(x0, y0, sx, sy)
     return this
   }
 
   This symmetry(Float a, Float b, Float d, Float e)
   {
-    matrix := matrix * makeSymmetry(a, b, d, e)
+    matrix = matrix * makeSymmetry(a, b, d, e)
     return this
   }
 
   This rotate(Float x, Float y, Float thta)
   {
-    matrix := matrix * makeRotate(x, y, thta)
+    matrix = matrix * makeRotate(x, y, thta)
     return this
   }
 
   This shear(Float b, Float d)
   {
-    matrix := matrix * makeShear(b, d)
+    matrix = matrix * makeShear(b, d)
     return this
   }
 

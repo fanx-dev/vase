@@ -12,10 +12,12 @@
 @Js
 class Array
 {
+  internal new make(){}
+
   native Int size()
   native NumType type()
 
-  native static ArrayBuffer allocate(Int size, NumType type := NumType.tInt)
+  native static Array allocate(Int size, NumType type := NumType.tInt)
 
   native Int getInt(Int index)
   native This setInt(Int index, Int v)

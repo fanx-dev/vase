@@ -52,4 +52,9 @@ mixin Graphics2 : Graphics
   ** the transform that is currently being used
   **
   abstract This setTransform(Transform2D trans)
+
+  **
+  ** Sets the area of the receiver which can be changed by drawing operations to the path specified by the argument.
+  **
+  abstract This setClipping(Path path)
 }

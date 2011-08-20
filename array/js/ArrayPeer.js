@@ -67,11 +67,11 @@ fan.array.ArrayPeer.prototype.fromList = function(self, list)
   var array
   if (list.of == fan.sys.Int.$type)
   {
-    Array.make(size, fan.array.NumType.m_tInt);
+    array = fan.array.Array.make(size, fan.array.NumType.m_tInt);
   }
   else if(list.of == fan.sys.Float.$type)
   {
-    Array.make(size, fan.array.NumType.m_tFloat);
+    array = fan.array.Array.make(size, fan.array.NumType.m_tFloat);
   }
   else
   {
