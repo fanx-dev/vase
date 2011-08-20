@@ -55,7 +55,7 @@ fan.fwt.CanvasPeer.prototype.sync = function(self)
     // repaint canvas using Canvas.onPaint callback
     var g = new fan.fwt.Graphics();
     g.widget = self;
-    g.paint(c, self.bounds(), function() { self.onPaint(g) })
+    g.paint(c, self.bounds(), function() { self.onPaint(g); self.onPaint2(g); })
   }
   else
   {
