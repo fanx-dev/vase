@@ -9,12 +9,17 @@
 fan.gfx2Imp.PixmapImp = fan.sys.Obj.$extend(fan.sys.Obj);
 fan.gfx2Imp.PixmapImp.prototype.$ctor = function() {}
 
+fan.gfx2Imp.PixmapImp.prototype.$typeof = function()
+{
+  return fan.gfx2.Pixmap.$type;
+}
+
 fan.gfx2Imp.PixmapImp.prototype.imageData = null;
 fan.gfx2Imp.PixmapImp.prototype.image = null;
 fan.gfx2Imp.PixmapImp.prototype.loaded = false;
 
 fan.gfx2Imp.PixmapImp.prototype.m_size = null;
-fan.gfx2Imp.PixmapImp.prototype.size = function() { return m_size; }
+fan.gfx2Imp.PixmapImp.prototype.size = function() { return this.m_size; }
 
 fan.gfx2Imp.PixmapImp.prototype.getImage = function()
 {
@@ -49,31 +54,13 @@ fan.gfx2Imp.PixmapImp.prototype.toImage = function()
   throw fan.sys.UnsupportedErr.make();
 }
 
-fan.gfx2Imp.PixmapImp.fromUri = function(uri)
-{
-  var p = new fan.gfx2Imp.PixmapImp();
-  p.image = new Image();
-  p.image.onload = function()
-  {
-    loaded = true;
-  }
-  p.image.src = self.m_uri.toStr();
-}
-
-fan.gfx2Imp.PixmapImp.make = function(size)
-{
-  var p = new fan.gfx2Imp.PixmapImp();
-  p.m_size = size;
-  return p;
-}
-
 fan.gfx2Imp.PixmapImp.graphics = function()
 {
   var canvas = document.createElement("canvas");
   canvas.width = this.m_size.m_w;
   canvas.height = this.m_size.m_h;
 
-  var g = new fan.fwt.Graphics();
+  var g = new fan.gfx2Imp.Graphics2();
   g.paint(canvas, fan.gfx.Rect.make(0, 0, this.m_size.m_w, this.m_size.m_h), function() {})
   return g;
 }
@@ -81,4 +68,16 @@ fan.gfx2Imp.PixmapImp.graphics = function()
 fan.gfx2Imp.PixmapImp.prototype.save = function(out, format)
 {
   //TODO
+}
+
+fan.gfx2Imp.PixmapImp.prototype.load = function(f)
+{
+  this.image = new Image();
+  this.image.onload = function()
+  {
+    this.m_size = fan.gfx.Size.make(p.image.width, p.image.height);
+    this.loaded = true;
+    f.call(this);
+  }
+  this.image.src = fan.fwt.WidgetPeer.uriToImageSrc(uri);
 }

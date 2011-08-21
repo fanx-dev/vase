@@ -9,23 +9,10 @@
 /**
  * CanvasPeer.
  */
-fan.fwt.CanvasPeer = fan.sys.Obj.$extend(fan.fwt.WidgetPeer);
-fan.fwt.CanvasPeer.prototype.$ctor = function(self) {}
+fan.gfx2Imp.Canvas2Peer = fan.sys.Obj.$extend(fan.fwt.CanvasPeer);
+fan.gfx2Imp.Canvas2Peer.prototype.$ctor = function(self) {}
 
-fan.fwt.CanvasPeer.prototype.create = function(parentElem)
-{
-  // test for native canvas support
-  this.hasCanvas = document.createElement("canvas").getContext != null;
-  return fan.fwt.WidgetPeer.prototype.create.call(this, parentElem);
-}
-
-fan.fwt.CanvasPeer.prototype.toPng = function(self)
-{
-  if (!this.hasCanvas) return null;
-  return this.elem.firstChild.toDataURL("image/png");
-}
-
-fan.fwt.CanvasPeer.prototype.sync = function(self)
+fan.gfx2Imp.Canvas2Peer.prototype.sync = function(self)
 {
   // short-circuit if not properly layed out
   var size = this.m_size
@@ -53,7 +40,7 @@ fan.fwt.CanvasPeer.prototype.sync = function(self)
     }
 
     // repaint canvas using Canvas.onPaint callback
-    var g = new fan.fwt.Graphics();
+    var g = new fan.gfx2Imp.Graphics2();
     g.widget = self;
     g.paint(c, self.bounds(), function() { self.onPaint(g); self.onPaint2(g); })
   }

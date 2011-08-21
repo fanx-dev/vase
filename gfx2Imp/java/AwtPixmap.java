@@ -69,6 +69,11 @@ public class AwtPixmap implements Pixmap
     {
       save(out, MimeType.forExt("png"));
     }
+    public Pixmap load(Func f)
+    {
+      f.call(this);
+      return this;
+    }
 
     /**
      * get graphics context from image

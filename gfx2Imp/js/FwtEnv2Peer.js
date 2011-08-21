@@ -9,19 +9,22 @@
 fan.gfx2Imp.FwtEnv2Peer = fan.sys.Obj.$extend(fan.sys.Obj);
 fan.gfx2Imp.FwtEnv2Peer.prototype.$ctor = function(self) {}
 
-fan.gfx2Imp.FwtEnv2Peer.prototype.load = function(self, input)
-{
-}
 fan.gfx2Imp.FwtEnv2Peer.prototype.fromUri = function(self, uri)
 {
+  var p = new fan.gfx2Imp.PixmapImp();
+  p.m_uri = uri;
+  return p;
 }
 fan.gfx2Imp.FwtEnv2Peer.prototype.makePixmap = function(self, size)
 {
+  var p = new fan.gfx2Imp.PixmapImp();
+  p.m_size = size;
+  return p;
 }
 fan.gfx2Imp.FwtEnv2Peer.prototype.contains = function(self, path, x, y)
 {
   var canvas = document.createElement("canvas");
   var cx = canvas.getContext("2d");
-  fan.fwt.Graphics.doJsPath(cx, path);
+  fan.gfx2Imp.Graphics2.doJsPath(cx, path);
   return cx.isPointInPath(x, y);
 }

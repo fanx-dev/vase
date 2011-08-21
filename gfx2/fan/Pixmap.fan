@@ -47,9 +47,9 @@ mixin Pixmap : Image2
   abstract Void save(OutStream out, MimeType format := MimeType.forExt("png"))
 
   **
-  ** load from inStream. not valid in javascript.
+  ** load it
   **
-  static Pixmap load(InStream in) { GfxEnv2.cur.load(in); }
+  abstract This load(|This| f)
 
   **
   ** make form uri

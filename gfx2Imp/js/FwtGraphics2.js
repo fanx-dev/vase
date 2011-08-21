@@ -6,13 +6,21 @@
 //   2011-08-20  Jed Young  Creation
 //
 
-fan.fwt.Graphics.prototype.drawImage2 = function(image, x, y)
+fan.gfx2Imp.Graphics2 = fan.sys.Obj.$extend(fan.fwt.Graphics);
+fan.gfx2Imp.Graphics2.prototype.$ctor = function() {}
+
+fan.gfx2Imp.Graphics2.prototype.$typeof = function()
+{
+  return fan.gfx2.Graphics2.$type;
+}
+
+fan.gfx2Imp.Graphics2.prototype.drawImage2 = function(image, x, y)
 {
   this.cx.drawImage(image.getImage(), 0, 0);
   return this;
 }
 
-fan.fwt.Graphics.prototype.copyImage2 = function(Image2 image, Rect src, Rect dest)
+fan.gfx2Imp.Graphics2.prototype.copyImage2 = function(image, src, dest)
 {
   var jsImg = fan.fwt.FwtEnvPeer.loadImage(fanImg);
   if (jsImg.width > 0 && jsImg.height > 0)
@@ -20,21 +28,21 @@ fan.fwt.Graphics.prototype.copyImage2 = function(Image2 image, Rect src, Rect de
   return this;
 }
 
-fan.fwt.Graphics.prototype.drawPath = function(path)
+fan.gfx2Imp.Graphics2.prototype.drawPath = function(path)
 {
-  fan.fwt.Graphics.doJsPath(this.cx, path);
+  fan.gfx2Imp.Graphics2.doJsPath(this.cx, path);
   this.cx.stroke();
   return this;
 }
 
-fan.fwt.Graphics.prototype.fillPath = function(path)
+fan.gfx2Imp.Graphics2.prototype.fillPath = function(path)
 {
-  fan.fwt.Graphics.doJsPath(this.cx, path);
+  fan.gfx2Imp.Graphics2.doJsPath(this.cx, path);
   this.cx.fill();
   return this;
 }
 
-fan.fwt.Graphics.prototype.drawPolyline2 = function(p)
+fan.gfx2Imp.Graphics2.prototype.drawPolyline2 = function(p)
 {
   this.cx.beginPath();
   var size = p.size();
@@ -42,8 +50,8 @@ fan.fwt.Graphics.prototype.drawPolyline2 = function(p)
   var y;
   for (var i=0; i < size; i+=2)
   {
-    x = p.get(i);
-    y = p.get(i+1);
+    x = p.getInt(i);
+    y = p.getInt(i+1);
     if (i == 0) this.cx.moveTo(x, y);
     else this.cx.lineTo(x, y);
   }
@@ -51,7 +59,7 @@ fan.fwt.Graphics.prototype.drawPolyline2 = function(p)
   return this;
 }
 
-fan.fwt.Graphics.prototype.fillPolygon2 = function(p)
+fan.gfx2Imp.Graphics2.prototype.fillPolygon2 = function(p)
 {
   this.cx.beginPath();
   var size = p.size();
@@ -59,8 +67,8 @@ fan.fwt.Graphics.prototype.fillPolygon2 = function(p)
   var y;
   for (var i=0; i < size; i+=2)
   {
-    x = p.get(i);
-    y = p.get(i+1);
+    x = p.getInt(i);
+    y = p.getInt(i+1);
     if (i == 0) this.cx.moveTo(x, y);
     else this.cx.lineTo(x, y);
   }
@@ -69,15 +77,15 @@ fan.fwt.Graphics.prototype.fillPolygon2 = function(p)
   return this;
 }
 
-fan.fwt.Graphics.prototype.setTransform = function(trans)
+fan.gfx2Imp.Graphics2.prototype.setTransform = function(trans)
 {
-  fan.fwt.Graphics.doJsTransform(this.cs, trans);
+  fan.gfx2Imp.Graphics2.doJsTransform(this.cx, trans);
   return this;
 }
 
-fan.fwt.Graphics.prototype.setClipping = function(path)
+fan.gfx2Imp.Graphics2.prototype.setClipping = function(path)
 {
-  fan.fwt.Graphics.doJsPath(this.cx, path);
+  fan.gfx2Imp.Graphics2.doJsPath(this.cx, path);
   this.cx.clip();
   return this;
 }
@@ -87,34 +95,34 @@ fan.fwt.Graphics.prototype.setClipping = function(path)
 // Util
 //////////////////////////////////////////////////////////////////////////
 
-fan.fwt.Graphics.doJsPath = function(cx, path)
+fan.gfx2Imp.Graphics2.doJsPath = function(cx, path)
 {
   var size = path.steps().size();
   cx.beginPath();
 
   for (var i =0; i < size; ++i)
   {
-    var step = path.steps().get(i);
+    var s = path.steps().get(i);
 
-    if (step instanceof fan.gfx2.PathMoveTo)
+    if (s instanceof fan.gfx2.PathMoveTo)
     {
       cx.moveTo(s.x, s.y);
     }
-    else if (step instanceof fan.gfx2.PathLineTo)
+    else if (s instanceof fan.gfx2.PathLineTo)
     {
       cx.lineTo(s.x, s.y);
     }
-    else if (step instanceof fan.gfx2.PathQuadTo)
+    else if (s instanceof fan.gfx2.PathQuadTo)
     {
       cx.quadraticCurveTo(s.cx, s.cy, s.x, s.y);
     }
-    else if (step instanceof fan.gfx2.PathCubicTo)
+    else if (s instanceof fan.gfx2.PathCubicTo)
     {
       cx.bezierCurveTo(s.cx1, s.cy1, s.cx2, s.cy2, s.x, s.y);
     }
-    else if (step instanceof fan.gfx2.PathClose)
+    else if (s instanceof fan.gfx2.PathClose)
     {
-      cs.closePath();
+      cx.closePath();
     }
     else
     {
@@ -123,7 +131,7 @@ fan.fwt.Graphics.doJsPath = function(cx, path)
   }
 }
 
-fan.fwt.Graphics.doJsTransform = function(cx, trans)
+fan.gfx2Imp.Graphics2.doJsTransform = function(cx, trans)
 {
   cx.setTransform(
        trans.get(0,0),

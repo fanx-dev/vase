@@ -17,7 +17,7 @@ fan.array.ArrayPeer.prototype.array = null;
 
 fan.array.ArrayPeer.prototype.size = function(self) { return this.array.length; }
 
-fan.array.ArrayPeer.prototype.type = function(self) { return this.type; };
+fan.array.ArrayPeer.prototype.type = function(self) { return this.m_type; };
 
 //////////////////////////////////////////////////////////////////////////
 // ctor
@@ -25,9 +25,11 @@ fan.array.ArrayPeer.prototype.type = function(self) { return this.type; };
 
 fan.array.ArrayPeer.allocate = function(size, type)
 {
+  var a = fan.array.Array.make();
   if (!type) type = fan.array.NumType.m_tInt;
-  this.type = type;
-  this.array = new Array(size);
+  a.peer.m_type = type;
+  a.peer.array = new Array(size);
+  return a;
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -67,18 +69,18 @@ fan.array.ArrayPeer.prototype.fromList = function(self, list)
   var array
   if (list.of == fan.sys.Int.$type)
   {
-    array = fan.array.Array.make(size, fan.array.NumType.m_tInt);
+    array = fan.array.Array.allocate(size, fan.array.NumType.m_tInt);
   }
   else if(list.of == fan.sys.Float.$type)
   {
-    array = fan.array.Array.make(size, fan.array.NumType.m_tFloat);
+    array = fan.array.Array.allocate(size, fan.array.NumType.m_tFloat);
   }
   else
   {
     throw UnsupportedErr.make("Unknow type: " + list.of);
   }
 
-  for (int i = 0; i < size; ++i)
+  for (var i = 0; i < size; ++i)
   {
     array.peer.array[0] = list.get(0);
   }
@@ -127,9 +129,7 @@ fan.array.ArrayPeer.prototype.copyTo = function(self, dst, dstOffset, srcOffset,
   }
 }
 
-
-
-  //////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////
 // methods
 //////////////////////////////////////////////////////////////////////////
 

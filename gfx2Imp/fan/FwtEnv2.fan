@@ -16,7 +16,6 @@ using gfx2
 @Js
 internal const class FwtEnv2 : GfxEnv2
 {
-  override native Pixmap load(InStream in)
   override native Pixmap fromUri(Uri uri)
   override native Pixmap makePixmap(Size size)
   override native Bool contains(Path path, Float x, Float y)

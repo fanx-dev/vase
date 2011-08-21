@@ -39,7 +39,6 @@ abstract const class GfxEnv2
 // Image op
 //////////////////////////////////////////////////////////////////////////
 
-  abstract Pixmap load(InStream in)
   abstract Pixmap fromUri(Uri uri)
   abstract Pixmap makePixmap(Size size)
 

@@ -31,6 +31,7 @@ class Gfx2Test : Canvas2
 
     //image filter
     p := Pixmap.fromUri(`fan://icons/x16/folder.png`)
+
     for (i:=0; i < p.size.w; ++i)
     {
       for (j:=0; j < p.size.h; ++j)
