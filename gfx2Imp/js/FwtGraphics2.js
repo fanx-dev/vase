@@ -16,15 +16,21 @@ fan.gfx2Imp.Graphics2.prototype.$typeof = function()
 
 fan.gfx2Imp.Graphics2.prototype.drawImage2 = function(image, x, y)
 {
-  this.cx.drawImage(image.getImage(), 0, 0);
+  var g = this.cx;
+  image.getImage(function()
+  {
+    g.drawImage(image.m_image, x, y)
+  });
   return this;
 }
 
 fan.gfx2Imp.Graphics2.prototype.copyImage2 = function(image, src, dest)
 {
-  var jsImg = fan.fwt.FwtEnvPeer.loadImage(fanImg);
-  if (jsImg.width > 0 && jsImg.height > 0)
-    this.cx.drawImage(jsImg, src.m_x, src.m_y, src.m_w, src.m_h, dst.m_x, dst.m_y, dst.m_w, dst.m_h)
+  var g = this.cx;
+  image.getImage(function()
+  {
+    g.drawImage(image.m_image, src.m_x, src.m_y, src.m_w, src.m_h, dst.m_x, dst.m_y, dst.m_w, dst.m_h)
+  });
   return this;
 }
 
@@ -99,26 +105,25 @@ fan.gfx2Imp.Graphics2.doJsPath = function(cx, path)
 {
   var size = path.steps().size();
   cx.beginPath();
-
   for (var i =0; i < size; ++i)
   {
     var s = path.steps().get(i);
 
     if (s instanceof fan.gfx2.PathMoveTo)
     {
-      cx.moveTo(s.x, s.y);
+      cx.moveTo(s.m_x, s.m_y);
     }
     else if (s instanceof fan.gfx2.PathLineTo)
     {
-      cx.lineTo(s.x, s.y);
+      cx.lineTo(s.m_x, s.m_y);
     }
     else if (s instanceof fan.gfx2.PathQuadTo)
     {
-      cx.quadraticCurveTo(s.cx, s.cy, s.x, s.y);
+      cx.quadraticCurveTo(s.m_cx, s.m_cy, s.m_x, s.m_y);
     }
     else if (s instanceof fan.gfx2.PathCubicTo)
     {
-      cx.bezierCurveTo(s.cx1, s.cy1, s.cx2, s.cy2, s.x, s.y);
+      cx.bezierCurveTo(s.m_cx1, s.m_cy1, s.m_cx2, s.m_cy2, s.m_x, s.m_y);
     }
     else if (s instanceof fan.gfx2.PathClose)
     {

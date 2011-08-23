@@ -31,19 +31,23 @@ class Gfx2Test : Canvas2
 
     //image filter
     p := Pixmap.fromUri(`fan://icons/x16/folder.png`)
-
-    for (i:=0; i < p.size.w; ++i)
+    p.load
     {
-      for (j:=0; j < p.size.h; ++j)
+      for (i:=0; i < p.size.w; ++i)
       {
-        c := p.getPixel(i,j)
-        nc := Color.makeArgb(c.a, c.r, 0, 0)
+        for (j:=0; j < p.size.h; ++j)
+        {
+          c := p.getPixel(i,j)
+          nc := Color.makeArgb(c.a, c.r, 0, 0)
 
-        p.setPixel(i, j, nc)
-        c = p.getPixel(i,j)
+          echo(c)
+
+          p.setPixel(i, j, nc)
+          c = p.getPixel(i,j)
+        }
       }
+      g.drawImage2(p, 10, 10)
     }
-    g.drawImage2(p, 10, 10)
 
     //path test
     path := Path().moveTo(20f, 20f).lineTo(20f, 30f).

@@ -17,9 +17,7 @@ fan.gfx2Imp.FwtEnv2Peer.prototype.fromUri = function(self, uri)
 }
 fan.gfx2Imp.FwtEnv2Peer.prototype.makePixmap = function(self, size)
 {
-  var p = new fan.gfx2Imp.PixmapImp();
-  p.m_size = size;
-  return p;
+  return fan.gfx2Imp.PixmapImp.make(size);
 }
 fan.gfx2Imp.FwtEnv2Peer.prototype.contains = function(self, path, x, y)
 {

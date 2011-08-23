@@ -46,36 +46,7 @@ fan.gfx2Imp.Canvas2Peer.prototype.sync = function(self)
   }
   else
   {
-    if (this.fxLoaded == true)
-    {
-      // find applet tag
-      var app = document.getElementById("app");
-      if (app != null && size.m_w > 0 && size.m_h > 0)
-      {
-        app.width  = size.m_w;
-        app.height = size.m_h;
-
-        var g = new JfxGraphics(app.script);
-        app.script.init();
-        self.onPaint(g);
-        app.script.commit();
-      }
-    }
-    else
-    {
-      this.fxLoaded = true;
-      var s = javafxString({
-        codebase: fan.sys.UriPodBase + "fwt/res/javafx/",
-        archive: "Canvas.jar",
-        draggable: true,
-        width:  200,
-        height: 200,
-        code: "fan.fwt.Canvas",
-        name: "Canvas",
-        id: "app"
-      });
-      this.elem.innerHTML = s;
-    }
+    console.log("don't suppert canvas2d");
   }
 
   fan.fwt.WidgetPeer.prototype.sync.call(this, self);
