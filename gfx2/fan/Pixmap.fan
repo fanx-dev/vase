@@ -47,14 +47,14 @@ mixin Pixmap : Image2
   abstract Void save(OutStream out, MimeType format := MimeType.forExt("png"))
 
   **
-  ** load it
+  ** is loaded
   **
-  abstract This load(|This| f)
+  abstract Bool isLoaded()
 
   **
   ** make form uri
   **
-  static Pixmap fromUri(Uri uri) { GfxEnv2.cur.fromUri(uri); }
+  static Pixmap fromUri(Uri uri, |This| onLoad) { GfxEnv2.cur.fromUri(uri, onLoad); }
 
   **
   ** make an empty image

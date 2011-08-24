@@ -95,11 +95,7 @@ public class PixmapImp implements Pixmap
   {
     save(out, MimeType.forExt("png"));
   }
-  public Pixmap load(Func f)
-  {
-    f.call(this);
-    return this;
-  }
+  public boolean isLoaded() { return true; }
 
   /**
    * get graphics context from image

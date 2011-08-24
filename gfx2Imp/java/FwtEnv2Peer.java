@@ -38,9 +38,11 @@ public class FwtEnv2Peer
     Image image = new Image(getDisplay(), jin);
     return new PixmapImp(image);
   }
-  public Pixmap fromUri(FwtEnv2 self, Uri uri)
+  public Pixmap fromUri(FwtEnv2 self, Uri uri, Func onLoad)
   {
-    return load(self, ((fan.sys.File)uri.get()).in());
+    Pixmap p = load(self, ((fan.sys.File)uri.get()).in());
+    onLoad.call(p);
+    return p;
   }
   public Pixmap makePixmap(FwtEnv2 self, Size size)
   {

@@ -21,33 +21,30 @@ using array
 @Js
 class Gfx2Test : Canvas2
 {
+  Pixmap p := Pixmap.fromUri(`fan://icons/x16/folder.png`) |p|
+  {
+    //image filter
+    for (i:=0; i < p.size.w; ++i)
+    {
+      for (j:=0; j < p.size.h; ++j)
+      {
+        c := p.getPixel(i,j)
+        nc := Color.makeArgb(c.a, c.r, 0, 0)
+        p.setPixel(i, j, nc)
+      }
+    }
+  }
+
   override Void onPaint(Graphics gc)
   {
     Graphics2 g := gc
 
     //transform
-    trans := Transform2D().scale(0f, 0f, 2f, 2f).translate(10f, 40f).rotate(10f, 10f, 0.5f)
+    trans := Transform2D().scale(0f, 0f, 3f, 3f).translate(10f, 40f).rotate(10f, 10f, 0.5f)
     g.setTransform(trans)
 
-    //image filter
-    p := Pixmap.fromUri(`fan://icons/x16/folder.png`)
-    p.load
-    {
-      for (i:=0; i < p.size.w; ++i)
-      {
-        for (j:=0; j < p.size.h; ++j)
-        {
-          c := p.getPixel(i,j)
-          nc := Color.makeArgb(c.a, c.r, 0, 0)
 
-          echo(c)
-
-          p.setPixel(i, j, nc)
-          c = p.getPixel(i,j)
-        }
-      }
-      g.drawImage2(p, 10, 10)
-    }
+    g.drawImage2(p, 10, 10)
 
     //path test
     path := Path().moveTo(20f, 20f).lineTo(20f, 30f).
@@ -68,7 +65,6 @@ class Gfx2Test : Canvas2
     a.setInt(2, 50)
     a.setInt(3, 70)
     g.drawPolyline2(a)
-
   }
 
   static Void main()

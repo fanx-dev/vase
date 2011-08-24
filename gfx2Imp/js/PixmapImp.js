@@ -17,31 +17,34 @@ fan.gfx2Imp.PixmapImp.prototype.$typeof = function()
 fan.gfx2Imp.PixmapImp.prototype.m_imageData = null;
 fan.gfx2Imp.PixmapImp.prototype.m_image = null;
 fan.gfx2Imp.PixmapImp.prototype.m_isImageData = false;
+fan.gfx2Imp.PixmapImp.prototype.m_isLoaded = false;
 fan.gfx2Imp.PixmapImp.prototype.m_uri = null;
+fan.gfx2Imp.PixmapImp.prototype.m_imageChanged = false;
 
 fan.gfx2Imp.PixmapImp.prototype.m_size = null;
 fan.gfx2Imp.PixmapImp.prototype.size = function() { return this.m_size; }
 
-fan.gfx2Imp.PixmapImp.prototype.getImage = function(f)
+fan.gfx2Imp.PixmapImp.prototype.getImage = function(widget)
 {
-  if (this.m_image)
+  if (this.m_image && !this.m_imageChanged)
   {
-    f.call();
+    this.m_imageChanged = false;
+    return this.m_image;
+  }
+
+  if (!this.m_isImageData && !this.m_isLoaded)
+  {
+    fan.fwt.FwtEnvPeer.loadImage(this, widget);
     return;
   }
 
   var canvas = this.getCanvas();
   this.m_cx = canvas.getContext("2d");
-  this.m_cx.putImageData(m_imageData, 0, 0);
-  this.m_uri = canvas.toDataURL();
+  this.m_cx.putImageData(this.m_imageData, 0, 0);
+  this.m_uri = fan.sys.Uri.fromStr(canvas.toDataURL());
 
-  var image = new Image();
-  image.onload = function()
-  {
-    f.call();
-  }
-  this.m_image = image;
-  image.src = this.m_uri;
+  this.m_image = fan.fwt.FwtEnvPeer.loadImage(this, widget);
+  return this.m_image;
 }
 
 fan.gfx2Imp.PixmapImp.prototype.getImageData = function()
@@ -65,30 +68,29 @@ fan.gfx2Imp.PixmapImp.make = function(size)
   p.m_cx = canvas.getContext("2d");
   p.m_imageData = cx.getImageData(0, 0, size.m_w, size.m_h);
   p.m_isImageData = true;
+  p.m_isLoaded = true;
   return p;
 }
 
 fan.gfx2Imp.PixmapImp.prototype.getPixel = function(x, y)
 {
-  var index = x * this.getImageData().width + y;
-  var rgba = this.m_imageData.data[index];
-
-  var a = rgba & 0xff;
-  var rgb = rgba >> 8;
-  var argb = (a << 24) | rgb;
-  return fan.gfx.Color.makeArgb(argb);
+  var index = (y * this.getImageData().width + x)*4;
+  var r = this.getImageData().data[index];
+  var g = this.getImageData().data[index +1];
+  var b = this.getImageData().data[index +2];
+  var a = this.getImageData().data[index +3];
+  return fan.gfx.Color.makeArgb(a, r, g, b);
 }
 
 fan.gfx2Imp.PixmapImp.prototype.setPixel = function(x, y, value)
 {
-  var argb = value.m_argb;
-  var aMask = 0xff << 24;
-  var a = aMask & argb;
-  var rgb = (~aMask) & argb
-  var rgba = (rgb << 8) | a;
+  var index = (y * this.getImageData().width + x)*4;
+  this.getImageData().data[index] = value.r();
+  this.getImageData().data[index+1] = value.g();
+  this.getImageData().data[index+2] = value.b();
+  this.getImageData().data[index+3] = value.a();
 
-  var index = x * this.getImageData().width + y;
-  var rgba = this.getImageData().data[index] = rgba;
+  this.m_imageChanged = true;
 }
 
 fan.gfx2Imp.PixmapImp.prototype.toImage = function()
@@ -111,13 +113,13 @@ fan.gfx2Imp.PixmapImp.prototype.graphics = function()
 {
   var canvas = this.getCanvas();
   var g = new fan.gfx2Imp.Graphics2();
-  var isImageData = this.m_isImageData;
-  var image = this.m_isImageData ? this.m_imageData : this.m_image;
+  var imageData = this.m_imageData;
+  var image = this.m_image;
   g.paint(canvas, fan.gfx.Rect.make(0, 0, this.m_size.m_w, this.m_size.m_h), function()
   {
-    if (isImageData)
-     g.putImageData(image, 0, 0);
-    else
+    if (imageData)
+     g.putImageData(imageData, 0, 0);
+    else if(image)
      g.drawImage(image, 0, 0);
   });
   return g;
@@ -128,17 +130,5 @@ fan.gfx2Imp.PixmapImp.prototype.save = function(out, format)
   //TODO
 }
 
-fan.gfx2Imp.PixmapImp.prototype.load = function(f)
-{
-  if (this.m_isImageData) { f.call(this); return; }
+fan.gfx2Imp.PixmapImp.prototype.isLoaded = function() { return this.m_isLoaded; }
 
-  var image = new Image();
-  var p = this;
-  image.onload = function()
-  {
-    p.m_size = fan.gfx.Size.make(image.width, image.height);
-    f.call(this);
-  }
-  this.m_image = image;
-  image.src = fan.fwt.WidgetPeer.uriToImageSrc(this.m_uri);
-}

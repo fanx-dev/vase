@@ -16,21 +16,17 @@ fan.gfx2Imp.Graphics2.prototype.$typeof = function()
 
 fan.gfx2Imp.Graphics2.prototype.drawImage2 = function(image, x, y)
 {
-  var g = this.cx;
-  image.getImage(function()
-  {
-    g.drawImage(image.m_image, x, y)
-  });
+  var jsImg = image.getImage(this.widget);
+  if (jsImg.width > 0 && jsImg.height > 0)
+    this.cx.drawImage(jsImg, x, y)
   return this;
 }
 
 fan.gfx2Imp.Graphics2.prototype.copyImage2 = function(image, src, dest)
 {
-  var g = this.cx;
-  image.getImage(function()
-  {
-    g.drawImage(image.m_image, src.m_x, src.m_y, src.m_w, src.m_h, dst.m_x, dst.m_y, dst.m_w, dst.m_h)
-  });
+  var jsImg = image.getImage(this.widget);
+  if (jsImg.width > 0 && jsImg.height > 0)
+    this.cx.drawImage(jsImg, src.m_x, src.m_y, src.m_w, src.m_h, dst.m_x, dst.m_y, dst.m_w, dst.m_h)
   return this;
 }
 

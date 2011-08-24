@@ -39,7 +39,7 @@ abstract const class GfxEnv2
 // Image op
 //////////////////////////////////////////////////////////////////////////
 
-  abstract Pixmap fromUri(Uri uri)
+  abstract Pixmap fromUri(Uri uri, |Pixmap| onLoad)
   abstract Pixmap makePixmap(Size size)
 
   abstract Bool contains(Path path, Float x, Float y)
