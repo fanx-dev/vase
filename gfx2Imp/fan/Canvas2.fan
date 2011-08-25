@@ -36,4 +36,6 @@ class Canvas2 : Canvas
   // to force native peer
   private native Void dummyCanvas()
 
+  native Void setCaret(Int x, Int y, Int w, Int h)
+
 }

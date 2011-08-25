@@ -49,4 +49,9 @@ public class Canvas2Peer extends CanvasPeer implements PaintListener
     g.dispose();
   }
 
+  public void setCaret(Canvas2 self, long x, long y, long w, long h)
+  {
+    Caret caret = new Caret((Canvas)this.control(), SWT.NONE);
+    caret.setBounds((int)x, (int)y, (int)w, (int)h);
+  }
 }

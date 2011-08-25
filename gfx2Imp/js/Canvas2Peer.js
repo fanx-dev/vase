@@ -12,7 +12,22 @@
 fan.gfx2Imp.Canvas2Peer = fan.sys.Obj.$extend(fan.fwt.CanvasPeer);
 fan.gfx2Imp.Canvas2Peer.prototype.$ctor = function(self) {}
 
-fan.gfx2Imp.Canvas2Peer.prototype.sync = function(self)
+fan.gfx2Imp.Canvas2Peer.prototype.setCaret = function(self, x, y, w, h)
+{
+  var c = this.getCanvas();
+  if (!c) return;
+  var cx = c.getContext("2d");
+  try
+  {
+    cx.setCaretSelectionRect(c, x, y, w, h);
+  }
+  catch(e)
+  {
+    console.log("caret isn't supported");
+  }
+}
+
+fan.gfx2Imp.Canvas2Peer.prototype.getCanvas = function()
 {
   // short-circuit if not properly layed out
   var size = this.m_size
@@ -39,15 +54,24 @@ fan.gfx2Imp.Canvas2Peer.prototype.sync = function(self)
       div.appendChild(c);
     }
 
-    // repaint canvas using Canvas.onPaint callback
-    var g = new fan.gfx2Imp.Graphics2();
-    g.widget = self;
-    g.paint(c, self.bounds(), function() { self.onPaint(g); self.onPaint2(g); })
+    return c;
   }
   else
   {
     console.log("don't suppert canvas2d");
+    return null;
   }
+}
+
+fan.gfx2Imp.Canvas2Peer.prototype.sync = function(self)
+{
+  var c = this.getCanvas();
+  if (!c) return;
+
+  // repaint canvas using Canvas.onPaint callback
+  var g = new fan.gfx2Imp.Graphics2();
+  g.widget = self;
+  g.paint(c, self.bounds(), function() { self.onPaint(g); self.onPaint2(g); })
 
   fan.fwt.WidgetPeer.prototype.sync.call(this, self);
 }
