@@ -20,6 +20,7 @@ fan.gfx2Imp.PixmapImp.prototype.m_isImageData = false;
 fan.gfx2Imp.PixmapImp.prototype.m_isLoaded = false;
 fan.gfx2Imp.PixmapImp.prototype.m_uri = null;
 fan.gfx2Imp.PixmapImp.prototype.m_imageChanged = false;
+fan.gfx2Imp.PixmapImp.prototype.m_painted = false;
 
 fan.gfx2Imp.PixmapImp.prototype.m_size = null;
 fan.gfx2Imp.PixmapImp.prototype.size = function() { return this.m_size; }
@@ -39,8 +40,12 @@ fan.gfx2Imp.PixmapImp.prototype.getImage = function(widget)
   }
 
   var canvas = this.getCanvas();
-  this.m_cx = canvas.getContext("2d");
-  this.m_cx.putImageData(this.m_imageData, 0, 0);
+  if(!this.m_painted)
+  {
+    this.m_cx = canvas.getContext("2d");
+    this.m_cx.putImageData(this.m_imageData, 0, 0);
+    this.m_painted = false;
+  }
   this.m_uri = fan.sys.Uri.fromStr(canvas.toDataURL());
 
   this.m_image = fan.fwt.FwtEnvPeer.loadImage(this, widget);
@@ -65,8 +70,8 @@ fan.gfx2Imp.PixmapImp.make = function(size)
   p.m_canvas = document.createElement("canvas");
   p.m_canvas.width = size.m_w;
   p.m_canvas.height = size.m_h;
-  p.m_cx = canvas.getContext("2d");
-  p.m_imageData = cx.getImageData(0, 0, size.m_w, size.m_h);
+  p.m_cx = p.m_canvas.getContext("2d");
+  p.m_imageData = p.m_cx.getImageData(0, 0, size.m_w, size.m_h);
   p.m_isImageData = true;
   p.m_isLoaded = true;
   return p;
@@ -118,11 +123,19 @@ fan.gfx2Imp.PixmapImp.prototype.graphics = function()
   g.paint(canvas, fan.gfx.Rect.make(0, 0, this.m_size.m_w, this.m_size.m_h), function()
   {
     if (imageData)
-     g.putImageData(imageData, 0, 0);
+     g.cx.putImageData(imageData, 0, 0);
     else if(image)
-     g.drawImage(image, 0, 0);
+     g.cx.drawImage(image, 0, 0);
   });
+  this.m_painted = true;
+  this.m_imageChanged = true;
   return g;
+}
+
+fan.gfx2Imp.PixmapImp.prototype.flush = function()
+{
+  this.m_uri = fan.sys.Uri.fromStr(canvas.toDataURL());
+  this.m_image = fan.fwt.FwtEnvPeer.loadImage(this, widget);
 }
 
 fan.gfx2Imp.PixmapImp.prototype.save = function(out, format)
