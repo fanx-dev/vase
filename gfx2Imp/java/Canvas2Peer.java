@@ -35,7 +35,9 @@ public class Canvas2Peer extends CanvasPeer implements PaintListener
 
   public Widget create(Widget parent)
   {
-    Canvas c = new Canvas((Composite)parent, SWT.NO_BACKGROUND);
+    int style = SWT.NO_BACKGROUND;
+    if (((Canvas2)self).buffered()) style |= SWT.DOUBLE_BUFFERED;
+    Canvas c = new Canvas((Composite)parent, style);
     c.addPaintListener(this);
     return c;
   }

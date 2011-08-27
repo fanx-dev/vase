@@ -38,4 +38,9 @@ class Canvas2 : Canvas
 
   native Void setCaret(Int x, Int y, Int w, Int h)
 
+  **
+  ** hint double buffered
+  **
+  Bool buffered := false
+
 }
