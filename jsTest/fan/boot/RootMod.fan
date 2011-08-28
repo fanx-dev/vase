@@ -10,22 +10,20 @@ using slanWeb::SlanApp
 using slanWeb::SlanRouteMod
 using slanWeb::SlanLogMod
 using webmod
+using concurrent
 
 **
 ** root mod
 **
 const class RootMod : PipelineMod
 {
-  new make(SlanApp? slanApp := null) : super(|PipelineMod pp|
+  new make() : super(|PipelineMod pp|
   {
+    Actor.locals["slanWeb.slanApp"] = SlanApp.makeProduct(this.typeof.pod.name)
+
     pp.steps =
     [
-      SlanRouteMod(slanApp ?: SlanApp.makeProduct(Main#.pod.name))
-      {
-        //you can add your mod at here
-        it["doc"] = FileMod { file = Env.cur.homeDir + `doc/` }
-        //it["log"] = FileMod { file = logDir.toFile }
-      }
+      SlanRouteMod()
     ]
     //pp.after = [ SlanLogMod(logDir) ]
 

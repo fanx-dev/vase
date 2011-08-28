@@ -15,7 +15,7 @@ class Build : BuildPod
   {
     podName  = "fogl"
     summary  = "Fantom OpenGL/WebGL Binding"
-    depends  = ["sys 1.0", "fwt 1.0", "gfx 1.0"]
+    depends  = ["sys 1.0", "fwt 1.0", "gfx 1.0", "array 1.0"]
     srcDirs  = [`fan/`, `test/`]
     javaDirs = [`java/`]
     jsDirs   = [`js/`]
