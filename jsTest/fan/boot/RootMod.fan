@@ -17,13 +17,13 @@ using concurrent
 **
 const class RootMod : PipelineMod
 {
-  new make() : super(|PipelineMod pp|
+  new make(Uri? path := null) : super(|PipelineMod pp|
   {
-    Actor.locals["slanWeb.slanApp"] = SlanApp.makeProduct(this.typeof.pod.name)
+    app := path == null ? SlanApp.makeProduct(this.typeof.pod.name) : SlanApp.makeDebug(path)
 
     pp.steps =
     [
-      SlanRouteMod()
+      SlanRouteMod(app)
     ]
     //pp.after = [ SlanLogMod(logDir) ]
 
