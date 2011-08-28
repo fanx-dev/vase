@@ -9,6 +9,7 @@
 package fan.fogl;
 
 import fan.sys.*;
+import fan.array.*;
 
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL12.*;

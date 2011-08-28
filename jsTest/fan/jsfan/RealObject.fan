@@ -10,6 +10,7 @@
 using fogl
 using fan3dMath
 using fan3dMath::Transform3D as Transform
+using array
 
 **
 ** fan D:/code/Hg/fan3d/jsTest/fan/jsfan/RealObject.fan

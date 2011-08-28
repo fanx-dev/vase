@@ -6,6 +6,8 @@
 //   2011-5-29  Jed Young  Creation
 //
 
+using array
+
 **
 ** OpenGL graphical context
 **
