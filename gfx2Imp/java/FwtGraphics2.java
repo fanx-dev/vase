@@ -61,12 +61,16 @@ public class FwtGraphics2 extends FwtGraphics implements Graphics2
 
   public FwtGraphics2 drawPath(fan.gfx2.Path path)
   {
-    gc.drawPath(toSwtPath(path));
+    org.eclipse.swt.graphics.Path p = toSwtPath(path);
+    gc.drawPath(p);
+    p.dispose();
     return this;
   }
   public FwtGraphics2 fillPath(fan.gfx2.Path path)
   {
-    gc.fillPath(toSwtPath(path));
+    org.eclipse.swt.graphics.Path p = toSwtPath(path);
+    gc.fillPath(p);
+    p.dispose();
     return this;
   }
 
@@ -81,9 +85,11 @@ public class FwtGraphics2 extends FwtGraphics implements Graphics2
     return this;
   }
 
-  public FwtGraphics2 setTransform(fan.fan3dMath.Transform2D t)
+  public FwtGraphics2 setTransform(fan.fan3dMath.Transform2D trans)
   {
-    gc.setTransform(toSwtTransform(t));
+    Transform t = toSwtTransform(trans);
+    gc.setTransform(t);
+    t.dispose();
     return this;
   }
 
@@ -91,7 +97,9 @@ public class FwtGraphics2 extends FwtGraphics implements Graphics2
   {
     if (!gc.isClipped())
     {
-      gc.setClipping(toSwtPath(path));
+      org.eclipse.swt.graphics.Path p = toSwtPath(path);
+      gc.setClipping(p);
+      p.dispose();
       return this;
     }
 
