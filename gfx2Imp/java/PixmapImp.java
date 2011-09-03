@@ -98,6 +98,15 @@ public class PixmapImp implements Pixmap
   public boolean isLoaded() { return true; }
 
   /**
+   * auto free resource
+   */
+  @Override
+  protected void finalize()
+  {
+    if (!image.isDisposed()) image.dispose();
+  }
+
+  /**
    * get graphics context from image
    */
   public Graphics2 graphics()
