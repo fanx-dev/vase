@@ -27,6 +27,7 @@ import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.graphics.Transform;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.events.PaintEvent;
+import org.eclipse.swt.graphics.Region;
 
 public class FwtGraphics2 extends FwtGraphics implements Graphics2
 {
@@ -88,7 +89,21 @@ public class FwtGraphics2 extends FwtGraphics implements Graphics2
 
   public FwtGraphics2 clipPath(Path path)
   {
+    if (!gc.isClipped())
+    {
+      gc.setClipping(toSwtPath(path));
+      return this;
+    }
+
+    Region region  = new Region();
+    gc.getClipping(region);
+
     gc.setClipping(toSwtPath(path));
+    Region region2  = new Region();
+    gc.getClipping(region2);
+
+    region.intersect(region2);
+    gc.setClipping(region);
     return this;
   }
 
