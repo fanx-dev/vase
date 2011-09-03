@@ -65,6 +65,11 @@ class Gfx2Test : Canvas2
     a.setInt(2, 50)
     a.setInt(3, 70)
     g.drawPolyline2(a)
+
+    //save image test
+    //out := `file:/D:/temp/fan/swtImage.png`.toFile.out
+    //p.save(out)
+    //out.close
   }
 
   static Void main()

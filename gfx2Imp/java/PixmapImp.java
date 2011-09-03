@@ -80,13 +80,13 @@ public class PixmapImp implements Pixmap
 
     int swtFormat = SWT.IMAGE_PNG;
     String subType = format.subType();
-    if (subType == "png") swtFormat = SWT.IMAGE_PNG;
-    else if (subType == "gif") swtFormat = SWT.IMAGE_GIF;
-    else if (subType == "jpeg") swtFormat = SWT.IMAGE_JPEG;
-    else if (subType == "jpg") swtFormat = SWT.IMAGE_JPEG;
-    else if (subType == "bmp") swtFormat = SWT.IMAGE_BMP;
-    else if (subType == "tiff") swtFormat = SWT.IMAGE_TIFF;
-    else if (subType == "ico") swtFormat = SWT.IMAGE_ICO;
+    if (subType.equals("png")) swtFormat = SWT.IMAGE_PNG;
+    else if (subType.equals("gif")) swtFormat = SWT.IMAGE_GIF;
+    else if (subType.equals("jpeg")) swtFormat = SWT.IMAGE_JPEG;
+    else if (subType.equals("jpg")) swtFormat = SWT.IMAGE_JPEG;
+    else if (subType.equals("bmp")) swtFormat = SWT.IMAGE_BMP;
+    else if (subType.equals("tiff")) swtFormat = SWT.IMAGE_TIFF;
+    else if (subType.equals("ico")) swtFormat = SWT.IMAGE_ICO;
     else throw UnsupportedErr.make("unsupported image type: "+subType);
 
     loader.save(jout, swtFormat);

@@ -92,6 +92,11 @@ public class FwtGraphics2 extends FwtGraphics implements Graphics2
     return this;
   }
 
+  public Pixmap image()
+  {
+    return new PixmapImp(gc.getGCData().image);
+  }
+
   /**
    * auto free resource
    */
