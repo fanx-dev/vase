@@ -17,7 +17,6 @@ class Build : BuildGroup
 
   new make()
   {
-    //notice the order
     childrenScripts =
     [
       `array/build.fan`,
@@ -25,7 +24,6 @@ class Build : BuildGroup
       `gfx2/build.fan`,
       `gfx2Imp/build.fan`,
       `fogl/build.fan`,
-      `jsTest/build.fan`,
     ]
   }
 

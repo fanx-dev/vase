@@ -17,6 +17,7 @@ import fan.array.*;
 import fan.fan3dMath.*;
 import fan.gfx.*;
 import fan.gfx2.*;
+import fan.fwt.FwtGraphics;
 
 
 import org.eclipse.swt.SWT;
@@ -29,6 +30,8 @@ import org.eclipse.swt.events.PaintEvent;
 
 public class FwtGraphics2 extends FwtGraphics implements Graphics2
 {
+  GC gc;
+
   public FwtGraphics2(PaintEvent e)
   {
     this(e.gc, e.x, e.y, e.width, e.height);
@@ -37,6 +40,7 @@ public class FwtGraphics2 extends FwtGraphics implements Graphics2
   public FwtGraphics2(GC gc, int x, int y, int w, int h)
   {
     super(gc, x, y, w, h);
+    this.gc = gc;
   }
 
   public FwtGraphics2 drawImage2(Image2 image, long x, long y)
@@ -82,7 +86,7 @@ public class FwtGraphics2 extends FwtGraphics implements Graphics2
     return this;
   }
 
-  public FwtGraphics2 setClipping(Path path)
+  public FwtGraphics2 clipPath(Path path)
   {
     gc.setClipping(toSwtPath(path));
     return this;

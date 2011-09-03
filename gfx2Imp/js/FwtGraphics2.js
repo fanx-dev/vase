@@ -85,7 +85,7 @@ fan.gfx2Imp.Graphics2.prototype.setTransform = function(trans)
   return this;
 }
 
-fan.gfx2Imp.Graphics2.prototype.setClipping = function(path)
+fan.gfx2Imp.Graphics2.prototype.clipPath = function(path)
 {
   fan.gfx2Imp.Graphics2.doJsPath(this.cx, path);
   this.cx.clip();

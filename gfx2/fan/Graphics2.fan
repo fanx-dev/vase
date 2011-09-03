@@ -54,7 +54,8 @@ mixin Graphics2 : Graphics
   abstract This setTransform(Transform2D trans)
 
   **
-  ** Sets the area of the receiver which can be changed by drawing operations to the path specified by the argument.
+  ** create a new clipping region by calculating the intersection of
+  ** the current clipping region and the area described by the current path
   **
-  abstract This setClipping(Path path)
+  abstract This clipPath(Path path)
 }
