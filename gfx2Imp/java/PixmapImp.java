@@ -21,17 +21,32 @@ import fanx.interop.Interop;
 public class PixmapImp implements Pixmap
 {
   private boolean imageChanged = false;
+  private boolean painted = false;
+  private boolean isLoaded = false;
+
   private org.eclipse.swt.graphics.Image image;
   private org.eclipse.swt.graphics.ImageData imageData;
+
   public org.eclipse.swt.graphics.Image getImage()
   {
     if (!imageChanged) return image;
+    if (!isLoaded) return null;
 
     //create new image
     image.dispose();
     image = new org.eclipse.swt.graphics.Image(FwtEnv2Peer.getDisplay(), imageData);
     imageChanged = false;
     return image;
+  }
+
+  public ImageData getImageData()
+  {
+    if (painted)
+    {
+      imageData = image.getImageData();
+      painted = false;
+    }
+    return imageData;
   }
 
   public PixmapImp(){}
@@ -45,6 +60,7 @@ public class PixmapImp implements Pixmap
   {
     image = m;
     imageData = m.getImageData();
+    isLoaded = true;
   }
 
   public Size size()
@@ -55,7 +71,7 @@ public class PixmapImp implements Pixmap
 
   public fan.gfx.Color getPixel(long x, long y)
   {
-    ImageData data= imageData;
+    ImageData data= getImageData();
     PaletteData palette = data.palette;
     RGB rgb = palette.getRGB(data.getPixel((int)x, (int)y));
     int alpha = data.getAlpha((int)x, (int)y);
@@ -63,7 +79,7 @@ public class PixmapImp implements Pixmap
   }
   public void setPixel(long x, long y, fan.gfx.Color value)
   {
-    ImageData data= imageData;
+    ImageData data= getImageData();
     PaletteData palette = data.palette;
     RGB rgb = new RGB((int)value.r(), (int)value.g(), (int)value.b());
     int alpha = (int)value.a();
@@ -82,7 +98,7 @@ public class PixmapImp implements Pixmap
   public void save(OutStream out, MimeType format)
   {
     ImageLoader loader = new ImageLoader();
-    loader.data = new ImageData[] { imageData };
+    loader.data = new ImageData[] { getImageData() };
     OutputStream jout = Interop.toJava(out);
 
     int swtFormat = SWT.IMAGE_PNG;
@@ -102,7 +118,7 @@ public class PixmapImp implements Pixmap
   {
     save(out, MimeType.forExt("png"));
   }
-  public boolean isLoaded() { return true; }
+  public boolean isLoaded() { return isLoaded; }
 
   /**
    * auto free resource
@@ -120,6 +136,7 @@ public class PixmapImp implements Pixmap
   {
     int w = (int)size().w;
     int h = (int)size().h;
+    painted = true;
     return new FwtGraphics2(new GC(getImage()), 0, 0, w, h);
   }
 }

@@ -20,16 +20,17 @@ using concurrent
 class Canvas2 : Canvas
 {
   ** init the GfxEnv
-  static
+  private static const FwtEnv2 env2 := FwtEnv2.make()
+
+  new make()
   {
-    Actor.locals["gfx.env2"] = FwtEnv2.make()
+    Actor.locals["gfx.env2"] = env2
   }
 
   **
   ** This callback is invoked when the widget should be repainted.
   ** The graphics context is initialized at the widget's origin
   ** with the clip bounds set to the widget's size.
-  **
   **
   virtual Void onPaint2(Graphics2 g) {}
 
