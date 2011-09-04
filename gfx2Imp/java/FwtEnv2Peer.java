@@ -13,6 +13,10 @@ import fan.gfx.*;
 import fan.gfx2.*;
 
 import java.io.*;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.net.URLConnection;
 
 import org.eclipse.swt.*;
 import org.eclipse.swt.graphics.Color;
@@ -32,18 +36,45 @@ public class FwtEnv2Peer
     return singleton;
   }
 
-  public Pixmap load(FwtEnv2 self, InStream in)
-  {
-    InputStream jin = SysInStream.java(in);
-    Image image = new Image(getDisplay(), jin);
-    return new PixmapImp(image);
-  }
   public Pixmap fromUri(FwtEnv2 self, Uri uri, Func onLoad)
   {
-    Pixmap p = load(self, ((fan.sys.File)uri.get()).in());
+    if (uri.scheme().equals("http"))
+    {
+      PixmapImp p = new PixmapImp();
+      loadFromWeb(p, uri, onLoad);
+      return p;
+    }
+
+    InputStream jin = SysInStream.java(((fan.sys.File)uri.get()).in());
+    Image image = new Image(getDisplay(), jin);
+    Pixmap p = new PixmapImp(image);
     onLoad.call(p);
     return p;
   }
+
+  private void loadFromWeb(final PixmapImp p, final Uri uri, final Func onLoad)
+  {
+    new Thread(new Runnable(){
+      public void run() {
+        InputStream jin;
+        try
+        {
+          URL requestUrl = new URL( uri.toStr() );
+          URLConnection con = requestUrl.openConnection();
+          jin = con.getInputStream();
+        }
+        catch(IOException e)
+        {
+          throw IOErr.make(e);
+        }
+
+        Image image = new Image(getDisplay(), jin);
+        p.init(image);
+        onLoad.call(p);
+      }
+    }).start();
+  }
+
   public Pixmap makePixmap(FwtEnv2 self, Size size)
   {
     Image image = new Image(getDisplay(), (int)size.w, (int)size.h);

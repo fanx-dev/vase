@@ -34,7 +34,14 @@ public class PixmapImp implements Pixmap
     return image;
   }
 
+  public PixmapImp(){}
+
   public PixmapImp(org.eclipse.swt.graphics.Image m)
+  {
+    init(m);
+  }
+
+  public void init(org.eclipse.swt.graphics.Image m)
   {
     image = m;
     imageData = m.getImageData();
