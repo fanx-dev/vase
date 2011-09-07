@@ -39,7 +39,7 @@ class Gfx2Offscreen : Canvas2
     g.dispose
   }
 
-  Pixmap p := Pixmap(Size(310,310))
+  Image2 p := Image2(Size(310,310))
 
   override Void onPaint(Graphics gc)
   {

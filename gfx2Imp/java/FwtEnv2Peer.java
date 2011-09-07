@@ -11,6 +11,7 @@ package fan.gfx2Imp;
 import fan.sys.*;
 import fan.gfx.*;
 import fan.gfx2.*;
+import fan.fwt.Fwt;
 
 import java.io.*;
 import java.io.IOException;
@@ -36,23 +37,23 @@ public class FwtEnv2Peer
     return singleton;
   }
 
-  public Pixmap fromUri(FwtEnv2 self, Uri uri, Func onLoad)
+  public Image2 fromUri(FwtEnv2 self, Uri uri, Func onLoad)
   {
     if (uri.scheme().equals("http"))
     {
-      PixmapImp p = new PixmapImp();
+      Image2Imp p = new Image2Imp();
       loadFromWeb(p, uri, onLoad);
       return p;
     }
 
     InputStream jin = SysInStream.java(((fan.sys.File)uri.get()).in());
     Image image = new Image(getDisplay(), jin);
-    Pixmap p = new PixmapImp(image);
+    Image2 p = new Image2Imp(image);
     onLoad.call(p);
     return p;
   }
 
-  private void loadFromWeb(final PixmapImp p, final Uri uri, final Func onLoad)
+  private void loadFromWeb(final Image2Imp p, final Uri uri, final Func onLoad)
   {
     new Thread(new Runnable(){
       public void run() {
@@ -75,10 +76,10 @@ public class FwtEnv2Peer
     }).start();
   }
 
-  public Pixmap makePixmap(FwtEnv2 self, Size size)
+  public Image2 makeImage2(FwtEnv2 self, Size size)
   {
     Image image = new Image(getDisplay(), (int)size.w, (int)size.h);
-    return new PixmapImp(image);
+    return new Image2Imp(image);
   }
 
   public boolean contains(FwtEnv2 self, Path path, double x, double y)
@@ -87,4 +88,21 @@ public class FwtEnv2Peer
   }
 
   public static Display getDisplay() { return Display.getCurrent(); }
+
+  public void disposeAll(FwtEnv2 self)
+  {
+    Fwt fwt = Fwt.get();
+    try
+    {
+      fwt.disposeAllColors();
+      fwt.disposeAllFonts();
+      fwt.disposeAllCursors();
+      fwt.disposeAllImages();
+      if (!fwt.scratchGC().isDisposed()) fwt.scratchGC().dispose();
+      if (!getDisplay().isDisposed()) getDisplay().dispose();
+    }
+    catch(Exception ex)
+    {
+    }
+  }
 }

@@ -18,7 +18,7 @@ import org.eclipse.swt.*;
 import org.eclipse.swt.graphics.*;
 import fanx.interop.Interop;
 
-public class PixmapImp implements Pixmap
+public class Image2Imp implements Image2
 {
   private boolean imageChanged = false;
   private boolean painted = false;
@@ -49,9 +49,9 @@ public class PixmapImp implements Pixmap
     return imageData;
   }
 
-  public PixmapImp(){}
+  public Image2Imp(){}
 
-  public PixmapImp(org.eclipse.swt.graphics.Image m)
+  public Image2Imp(org.eclipse.swt.graphics.Image m)
   {
     init(m);
   }

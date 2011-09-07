@@ -46,13 +46,13 @@ public class FwtGraphics2 extends FwtGraphics implements Graphics2
 
   public FwtGraphics2 drawImage2(Image2 image, long x, long y)
   {
-    PixmapImp p = (PixmapImp)image;
+    Image2Imp p = (Image2Imp)image;
     gc.drawImage(p.getImage(), (int)x, (int)y);
     return this;
   }
   public FwtGraphics2 copyImage2(Image2 image, Rect s, Rect d)
   {
-    PixmapImp p = (PixmapImp)image;
+    Image2Imp p = (Image2Imp)image;
     gc.drawImage(p.getImage(),
       (int)s.x, (int)s.y, (int)s.w, (int)s.h,
       (int)d.x, (int)d.y, (int)d.w, (int)d.h);
@@ -115,9 +115,9 @@ public class FwtGraphics2 extends FwtGraphics implements Graphics2
     return this;
   }
 
-  public Pixmap image()
+  public Image2 image()
   {
-    return new PixmapImp(gc.getGCData().image);
+    return new Image2Imp(gc.getGCData().image);
   }
 
   /**

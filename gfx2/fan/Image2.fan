@@ -7,18 +7,15 @@
 //
 
 using gfx
-@Js
-mixin Image2
-{
-  abstract Size size()
-}
 
 **
 ** Image data
 **
 @Js
-mixin Pixmap : Image2
+mixin Image2
 {
+  abstract Size size()
+
   **
   ** Returns the pixel value at x,y
   **
@@ -54,12 +51,12 @@ mixin Pixmap : Image2
   **
   ** make form uri
   **
-  static Pixmap fromUri(Uri uri, |This| onLoad) { GfxEnv2.cur.fromUri(uri, onLoad); }
+  static Image2 fromUri(Uri uri, |This| onLoad) { GfxEnv2.cur.fromUri(uri, onLoad); }
 
   **
   ** make an empty image
   **
-  static Pixmap make(Size size) { GfxEnv2.cur.makePixmap(size); }
+  static Image2 make(Size size) { GfxEnv2.cur.makeImage2(size); }
 
   **
   ** get graphics context from image

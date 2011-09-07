@@ -16,7 +16,9 @@ using gfx2
 @Js
 internal const class FwtEnv2 : GfxEnv2
 {
-  override native Pixmap fromUri(Uri uri, |Pixmap| onLoad)
-  override native Pixmap makePixmap(Size size)
+  override native Image2 fromUri(Uri uri, |Image2| onLoad)
+  override native Image2 makeImage2(Size size)
   override native Bool contains(Path path, Float x, Float y)
+
+  native Void disposeAll()
 }

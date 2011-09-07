@@ -398,13 +398,13 @@ public class AwtGraphics// implements Graphics2
 
   public AwtGraphics drawImage2(Image2 image, long x, long y)
   {
-    PixmapImp p = (PixmapImp)image;
+    Image2Imp p = (Image2Imp)image;
     gc.drawImage(p.getImage(), (int)x, (int)y);
     return this;
   }
   public AwtGraphics copyImage2(Image2 image, Rect s, Rect d)
   {
-    PixmapImp p = (PixmapImp)image;
+    Image2Imp p = (Image2Imp)image;
     gc.drawImage(p.getImage(),
       (int)s.x, (int)s.y, (int)s.w, (int)s.h,
       (int)d.x, (int)d.y, (int)d.w, (int)d.h);

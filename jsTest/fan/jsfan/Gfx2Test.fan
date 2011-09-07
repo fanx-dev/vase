@@ -21,7 +21,7 @@ using array
 @Js
 class Gfx2Test : Canvas2
 {
-  Pixmap p := Pixmap.fromUri(`fan://icons/x16/folder.png`) |p|
+  Image2 p := Image2.fromUri(`fan://icons/x16/folder.png`) |p|
   {
     //image filter
     for (i:=0; i < p.size.w; ++i)

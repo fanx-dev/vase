@@ -21,12 +21,12 @@ import java.awt.image.BufferedImage;
 import java.awt.image.ColorModel;
 import javax.imageio.ImageIO;
 
-public class AwtPixmap implements Pixmap
+public class AwtImage2 implements Image2
 {
     private BufferedImage image;
     public BufferedImage getImage(){ return image; };
 
-    public AwtPixmap(BufferedImage m)
+    public AwtImage2(BufferedImage m)
     {
       image = m;
     }

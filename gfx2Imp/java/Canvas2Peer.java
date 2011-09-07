@@ -45,9 +45,15 @@ public class Canvas2Peer extends CanvasPeer implements PaintListener
   public void paintControl(PaintEvent e)
   {
     FwtGraphics2 g = new FwtGraphics2(e);
-    ((Canvas2)self).onPaint(g);
-    ((Canvas2)self).onPaint2(g);
-    g.dispose();
+    try
+    {
+      ((Canvas2)self).onPaint(g);
+      ((Canvas2)self).onPaint2(g);
+    }
+    finally
+    {
+      g.dispose();
+    }
   }
 
   public void setCaret(Canvas2 self, long x, long y, long w, long h)

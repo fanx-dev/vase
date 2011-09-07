@@ -19,12 +19,12 @@ using concurrent
 @Serializable
 class Canvas2 : Canvas
 {
-  ** init the GfxEnv
-  private static const FwtEnv2 env2 := FwtEnv2.make()
-
   new make()
   {
-    Actor.locals["gfx.env2"] = env2
+    //init the GfxEnv
+    Obj? obj := Actor.locals["gfx.env2"]
+    if (obj == null || obj is FwtEnv)
+      Actor.locals["gfx.env2"] = FwtEnv2()
   }
 
   **
