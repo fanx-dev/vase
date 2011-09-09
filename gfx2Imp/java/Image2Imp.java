@@ -34,7 +34,7 @@ public class Image2Imp implements Image2
 
     //create new image
     image.dispose();
-    image = new org.eclipse.swt.graphics.Image(FwtEnv2Peer.getDisplay(), imageData);
+    image = new org.eclipse.swt.graphics.Image(FwtEnv2.getDisplay(), imageData);
     imageChanged = false;
     return image;
   }

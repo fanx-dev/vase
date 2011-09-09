@@ -1,3 +1,10 @@
+//
+// Copyright (c) 2011, chunquedong
+// Licensed under the Academic Free License version 3.0
+//
+// History:
+//   2011-09-09  Jed Young  Creation
+//
 package fan.gfx2Imp;
 
 import java.awt.AlphaComposite;
@@ -10,7 +17,6 @@ import java.awt.RenderingHints;
 import java.awt.Shape;
 import java.awt.TexturePaint;
 import java.awt.geom.AffineTransform;
-import java.awt.geom.Path2D;
 import java.awt.image.BufferedImage;
 import java.util.Stack;
 
@@ -29,466 +35,430 @@ import fan.gfx.Rect;
 import fan.gfx2.Graphics2;
 import fan.gfx2.Image2;
 import fan.gfx2.Path;
-import fan.gfx2.PathClose;
-import fan.gfx2.PathCubicTo;
-import fan.gfx2.PathLineTo;
-import fan.gfx2.PathMoveTo;
-import fan.gfx2.PathQuadTo;
-import fan.gfx2.PathStep;
 import fan.sys.ArgErr;
 import fan.sys.FanObj;
 import fan.sys.List;
 
 public class AwtGraphics implements Graphics2 {
-	Graphics2D gc;
+  Graphics2D gc;
 
-	Pen pen = Pen.defVal;
-	Brush brush = Color.black;
-	Font font;
-	int alpha = 255;
+  Pen pen = Pen.defVal;
+  Brush brush = Color.black;
+  Font font;
+  int alpha = 255;
 
-	Stack<State> stack = new Stack<State>();
+  Stack<State> stack = new Stack<State>();
 
-	@Override
-	public long alpha() {
-		return alpha;
-	}
+  public AwtGraphics(Graphics2D gc)
+  {
+    this.gc = gc;
+  }
 
-	@Override
-	public void alpha(long a) {
-		Composite c = AlphaComposite.getInstance(AlphaComposite.SRC_OVER,
-				a / 255f);
-		gc.setComposite(c);
-	}
+  @Override
+  public long alpha() {
+    return alpha;
+  }
 
-	@Override
-	public boolean antialias() {
-		Object r = gc.getRenderingHint(RenderingHints.KEY_ANTIALIASING);
-		if (RenderingHints.VALUE_ANTIALIAS_ON == r)
-			return true;
-		else
-			return false;
-	}
+  @Override
+  public void alpha(long a) {
+    Composite c = AlphaComposite.getInstance(AlphaComposite.SRC_OVER,
+        a / 255f);
+    gc.setComposite(c);
+  }
 
-	@Override
-	public void antialias(boolean a) {
-		Object h = a ? RenderingHints.VALUE_ANTIALIAS_ON
-				: RenderingHints.VALUE_ANTIALIAS_OFF;
-		gc.setRenderingHint(RenderingHints.KEY_ANTIALIASING, h);
-	}
+  @Override
+  public boolean antialias() {
+    Object r = gc.getRenderingHint(RenderingHints.KEY_ANTIALIASING);
+    if (RenderingHints.VALUE_ANTIALIAS_ON == r)
+      return true;
+    else
+      return false;
+  }
 
-	@Override
-	public Brush brush() {
-		return brush;
-	}
+  @Override
+  public void antialias(boolean a) {
+    Object h = a ? RenderingHints.VALUE_ANTIALIAS_ON
+        : RenderingHints.VALUE_ANTIALIAS_OFF;
+    gc.setRenderingHint(RenderingHints.KEY_ANTIALIASING, h);
+  }
 
-	@Override
-	public void brush(Brush brush) {
-		this.brush = brush;
-		if (brush instanceof Color) {
-			Color ca = (Color) brush;
-			java.awt.Color color = toAwtColor(ca);
-			gc.setColor(color);
-			gc.setBackground(color);
-		} else if (brush instanceof Gradient) {
-			// can't really map SWT model to CSS model well
-			GradientPaint p = pattern((Gradient) brush, 0, 0, 100, 100);
-			gc.setPaint(p);
-		} else if (brush instanceof fan.gfx.Pattern) {
-			fan.gfx.Pattern p = (fan.gfx.Pattern) brush;
-			BufferedImage im = toAwtImage(p.image);
-			TexturePaint tp = new TexturePaint(im, new Rectangle(im.getWidth(),
-					im.getHeight()));
-			gc.setPaint(tp);
-		} else {
-			throw ArgErr
-					.make("Unsupported brush type: " + FanObj.typeof(brush));
-		}
-	}
+  @Override
+  public Brush brush() {
+    return brush;
+  }
 
-	private BufferedImage toAwtImage(Image image) {
-		// TODO
-		return null;
-	}
+  @Override
+  public void brush(Brush brush) {
+    this.brush = brush;
+    if (brush instanceof Color) {
+      Color ca = (Color) brush;
+      java.awt.Color color = toAwtColor(ca);
+      gc.setColor(color);
+      gc.setBackground(color);
+    } else if (brush instanceof Gradient) {
+      // can't really map SWT model to CSS model well
+      GradientPaint p = pattern((Gradient) brush, 0, 0, 100, 100);
+      gc.setPaint(p);
+    } else if (brush instanceof fan.gfx.Pattern) {
+      fan.gfx.Pattern p = (fan.gfx.Pattern) brush;
+      BufferedImage im = toAwtImage(p.image);
+      TexturePaint tp = new TexturePaint(im, new Rectangle(im.getWidth(),
+          im.getHeight()));
+      gc.setPaint(tp);
+    } else {
+      throw ArgErr
+          .make("Unsupported brush type: " + FanObj.typeof(brush));
+    }
+  }
 
-	private java.awt.Color toAwtColor(Color ca) {
-		return new java.awt.Color((int) ca.argb, true);
-	}
+  private BufferedImage toAwtImage(Image image) {
+    // TODO
+    return null;
+  }
 
-	private GradientPaint pattern(Gradient g, float vx, float vy, float vw,
-			float vh) {
-		// only support two gradient stops
-		GradientStop s1 = (GradientStop) g.stops.get(0);
-		GradientStop s2 = (GradientStop) g.stops.get(-1L);
-		boolean x1Percent = g.x1Unit == Gradient.percent;
-		boolean y1Percent = g.y1Unit == Gradient.percent;
-		boolean x2Percent = g.x2Unit == Gradient.percent;
-		boolean y2Percent = g.y2Unit == Gradient.percent;
+  private java.awt.Color toAwtColor(Color ca) {
+    return new java.awt.Color((int) ca.argb, true);
+  }
 
-		// start
-		float x1 = vx + g.x1;
-		float y1 = vy + g.y1;
-		float x2 = vx + g.x2;
-		float y2 = vy + g.y2;
+  private GradientPaint pattern(Gradient g, float vx, float vy, float vw,
+      float vh) {
+    // only support two gradient stops
+    GradientStop s1 = (GradientStop) g.stops.get(0);
+    GradientStop s2 = (GradientStop) g.stops.get(-1L);
+    boolean x1Percent = g.x1Unit == Gradient.percent;
+    boolean y1Percent = g.y1Unit == Gradient.percent;
+    boolean x2Percent = g.x2Unit == Gradient.percent;
+    boolean y2Percent = g.y2Unit == Gradient.percent;
 
-		// handle percentages
-		if (x1Percent)
-			x1 = vx + vw * g.x1 / 100f;
-		if (y1Percent)
-			y1 = vy + vh * g.y1 / 100f;
-		if (x2Percent)
-			x2 = vx + vw * g.x2 / 100f;
-		if (y2Percent)
-			y2 = vy + vh * g.y2 / 100f;
+    // start
+    float x1 = vx + g.x1;
+    float y1 = vy + g.y1;
+    float x2 = vx + g.x2;
+    float y2 = vy + g.y2;
 
-		return new GradientPaint(x1, y1, toAwtColor(s1.color), x2, y2,
-				toAwtColor(s2.color));
-	}
+    // handle percentages
+    if (x1Percent)
+      x1 = vx + vw * g.x1 / 100f;
+    if (y1Percent)
+      y1 = vy + vh * g.y1 / 100f;
+    if (x2Percent)
+      x2 = vx + vw * g.x2 / 100f;
+    if (y2Percent)
+      y2 = vy + vh * g.y2 / 100f;
 
-	@Override
-	public Graphics clip(Rect r) {
-		gc.setClip((int) r.x, (int) r.y, (int) r.w, (int) r.h);
-		return this;
-	}
+    return new GradientPaint(x1, y1, toAwtColor(s1.color), x2, y2,
+        toAwtColor(s2.color));
+  }
 
-	@Override
-	public Rect clipBounds() {
-		Rectangle r = gc.getClipBounds();
-		return Rect.make(r.x, r.y, r.width, r.height);
-	}
+  @Override
+  public Graphics clip(Rect r) {
+    gc.setClip((int) r.x, (int) r.y, (int) r.w, (int) r.h);
+    return this;
+  }
 
-	@Override
-	public Graphics copyImage(Image img2, Rect src, Rect dest) {
-		BufferedImage img = toAwtImage(img2);
-		gc.drawImage(img, (int) dest.x, (int) dest.y, (int) dest.x
-				+ (int) dest.w, (int) dest.y + (int) dest.h, (int) src.x,
-				(int) src.y, (int) src.x + (int) src.w, (int) src.y
-						+ (int) src.h, null);
-		return this;
-	}
+  @Override
+  public Rect clipBounds() {
+    Rectangle r = gc.getClipBounds();
+    return Rect.make(r.x, r.y, r.width, r.height);
+  }
 
-	@Override
-	public void dispose() {
-		gc.dispose();
-	}
+  @Override
+  public Graphics copyImage(Image img2, Rect src, Rect dest) {
+    BufferedImage img = toAwtImage(img2);
+    gc.drawImage(img, (int) dest.x, (int) dest.y, (int) dest.x
+        + (int) dest.w, (int) dest.y + (int) dest.h, (int) src.x,
+        (int) src.y, (int) src.x + (int) src.w, (int) src.y
+            + (int) src.h, null);
+    return this;
+  }
 
-	@Override
-	public Graphics drawArc(long x, long y, long w, long h, long s, long a) {
-		gc.drawArc((int) x, (int) y, (int) w, (int) h, (int) s, (int) a);
-		return this;
-	}
+  @Override
+  public void dispose() {
+    gc.dispose();
+  }
 
-	@Override
-	public Graphics drawImage(Image img2, long x, long y) {
-		BufferedImage img = toAwtImage(img2);
-		gc.drawImage(img, (int) x, (int) y, null);
-		return this;
-	}
+  @Override
+  public Graphics drawArc(long x, long y, long w, long h, long s, long a) {
+    gc.drawArc((int) x, (int) y, (int) w, (int) h, (int) s, (int) a);
+    return this;
+  }
 
-	@Override
-	public Graphics drawLine(long x1, long y1, long x2, long y2) {
-		gc.drawLine((int) x1, (int) y1, (int) x2, (int) y2);
-		return this;
-	}
+  @Override
+  public Graphics drawImage(Image img2, long x, long y) {
+    BufferedImage img = toAwtImage(img2);
+    gc.drawImage(img, (int) x, (int) y, null);
+    return this;
+  }
 
-	@Override
-	public Graphics drawOval(long x, long y, long w, long h) {
-		gc.drawOval((int) x, (int) y, (int) w, (int) h);
-		return this;
-	}
+  @Override
+  public Graphics drawLine(long x1, long y1, long x2, long y2) {
+    gc.drawLine((int) x1, (int) y1, (int) x2, (int) y2);
+    return this;
+  }
 
-	@Override
-	public Graphics drawPolygon(List list) {
-		gc.drawPolygon(toIntsX(list), toIntsY(list), (int) list.size());
-		return this;
-	}
+  @Override
+  public Graphics drawOval(long x, long y, long w, long h) {
+    gc.drawOval((int) x, (int) y, (int) w, (int) h);
+    return this;
+  }
 
-	@Override
-	public Graphics drawPolyline(List list) {
-		gc.drawPolyline(toIntsX(list), toIntsY(list), (int) list.size());
-		return this;
-	}
+  @Override
+  public Graphics drawPolygon(List list) {
+    gc.drawPolygon(toIntsX(list), toIntsY(list), (int) list.size());
+    return this;
+  }
 
-	@Override
-	public Graphics drawRect(long x, long y, long w, long h) {
-		gc.drawRect((int) x, (int) y, (int) w, (int) h);
-		return this;
-	}
+  @Override
+  public Graphics drawPolyline(List list) {
+    gc.drawPolyline(toIntsX(list), toIntsY(list), (int) list.size());
+    return this;
+  }
 
-	@Override
-	public Graphics drawRoundRect(long x, long y, long w, long h, long wArc,
-			long hArc) {
-		gc.drawRoundRect((int) x, (int) y, (int) w, (int) h, (int) wArc,
-				(int) hArc);
-		return this;
-	}
+  @Override
+  public Graphics drawRect(long x, long y, long w, long h) {
+    gc.drawRect((int) x, (int) y, (int) w, (int) h);
+    return this;
+  }
 
-	@Override
-	public Graphics drawText(String str, long x, long y) {
-		gc.drawString(str, (int) x, (int) y);
-		return this;
-	}
+  @Override
+  public Graphics drawRoundRect(long x, long y, long w, long h, long wArc,
+      long hArc) {
+    gc.drawRoundRect((int) x, (int) y, (int) w, (int) h, (int) wArc,
+        (int) hArc);
+    return this;
+  }
 
-	@Override
-	public Graphics fillArc(long x, long y, long w, long h, long s, long a) {
-		gc.fillArc((int) x, (int) y, (int) w, (int) h, (int) s, (int) a);
-		return this;
-	}
+  @Override
+  public Graphics drawText(String str, long x, long y) {
+    gc.drawString(str, (int) x, (int) y);
+    return this;
+  }
 
-	@Override
-	public Graphics fillOval(long x, long y, long w, long h) {
-		gc.fillOval((int) x, (int) y, (int) w, (int) h);
-		return this;
-	}
+  @Override
+  public Graphics fillArc(long x, long y, long w, long h, long s, long a) {
+    gc.fillArc((int) x, (int) y, (int) w, (int) h, (int) s, (int) a);
+    return this;
+  }
 
-	@Override
-	public Graphics fillPolygon(List list) {
-		gc.fillPolygon(toIntsX(list), toIntsY(list), (int) list.size());
-		return this;
-	}
+  @Override
+  public Graphics fillOval(long x, long y, long w, long h) {
+    gc.fillOval((int) x, (int) y, (int) w, (int) h);
+    return this;
+  }
 
-	@Override
-	public Graphics fillRect(long x, long y, long w, long h) {
-		gc.fillRect((int) x, (int) y, (int) w, (int) h);
-		return this;
-	}
+  @Override
+  public Graphics fillPolygon(List list) {
+    gc.fillPolygon(toIntsX(list), toIntsY(list), (int) list.size());
+    return this;
+  }
 
-	@Override
-	public Graphics fillRoundRect(long x, long y, long w, long h, long wArc,
-			long hArc) {
-		gc.drawRoundRect((int) x, (int) y, (int) w, (int) h, (int) wArc,
-				(int) hArc);
-		return this;
-	}
+  @Override
+  public Graphics fillRect(long x, long y, long w, long h) {
+    gc.fillRect((int) x, (int) y, (int) w, (int) h);
+    return this;
+  }
 
-	@Override
-	public Font font() {
-		return font;
-	}
+  @Override
+  public Graphics fillRoundRect(long x, long y, long w, long h, long wArc,
+      long hArc) {
+    gc.drawRoundRect((int) x, (int) y, (int) w, (int) h, (int) wArc,
+        (int) hArc);
+    return this;
+  }
 
-	@Override
-	public void font(Font f) {
-		int style = 0;
-		if (f.bold)
-			style |= java.awt.Font.BOLD;
-		if (f.italic)
-			style |= java.awt.Font.ITALIC;
+  @Override
+  public Font font() {
+    return font;
+  }
 
-		java.awt.Font font = new java.awt.Font(f.name, style, (int) f.size);
-		gc.setFont(font);
-	}
+  @Override
+  public void font(Font f) {
+    java.awt.Font font = AwtUtil.toFont(f);
+    gc.setFont(font);
+  }
 
-	@Override
-	public Pen pen() {
-		return pen;
-	}
+  @Override
+  public Pen pen() {
+    return pen;
+  }
 
-	@Override
-	public void pen(Pen pen) {
-		this.pen = pen;
-		float width = pen.width;
-		int cap = penCap(pen.cap);
-		int join = penJoin(pen.cap);
-		float[] dash = pen.dash != null ? intsToFloats(pen.dash.toInts())
-				: null;
+  @Override
+  public void pen(Pen pen) {
+    this.pen = pen;
+    float width = pen.width;
+    int cap = penCap(pen.cap);
+    int join = penJoin(pen.cap);
+    float[] dash = pen.dash != null ? intsToFloats(pen.dash.toInts())
+        : null;
 
-		BasicStroke stroke;
-		if (dash != null)
-			stroke = new BasicStroke(width, cap, join, 1, dash, 0);
-		else
-			stroke = new BasicStroke(width, cap, join);
+    BasicStroke stroke;
+    if (dash != null)
+      stroke = new BasicStroke(width, cap, join, 1, dash, 0);
+    else
+      stroke = new BasicStroke(width, cap, join);
 
-		gc.setStroke(stroke);
-	}
+    gc.setStroke(stroke);
+  }
 
-	private static int penCap(long cap) {
-		if (cap == Pen.capSquare)
-			return BasicStroke.CAP_SQUARE;
-		if (cap == Pen.capButt)
-			return BasicStroke.CAP_BUTT;
-		if (cap == Pen.capRound)
-			return BasicStroke.CAP_ROUND;
-		throw new IllegalStateException("Invalid pen.cap " + cap);
-	}
+  private static int penCap(long cap) {
+    if (cap == Pen.capSquare)
+      return BasicStroke.CAP_SQUARE;
+    if (cap == Pen.capButt)
+      return BasicStroke.CAP_BUTT;
+    if (cap == Pen.capRound)
+      return BasicStroke.CAP_ROUND;
+    throw new IllegalStateException("Invalid pen.cap " + cap);
+  }
 
-	private static int penJoin(long join) {
-		if (join == Pen.joinMiter)
-			return BasicStroke.JOIN_MITER;
-		if (join == Pen.joinBevel)
-			return BasicStroke.JOIN_BEVEL;
-		if (join == Pen.joinRound)
-			return BasicStroke.JOIN_ROUND;
-		throw new IllegalStateException("Invalid pen.join " + join);
-	}
+  private static int penJoin(long join) {
+    if (join == Pen.joinMiter)
+      return BasicStroke.JOIN_MITER;
+    if (join == Pen.joinBevel)
+      return BasicStroke.JOIN_BEVEL;
+    if (join == Pen.joinRound)
+      return BasicStroke.JOIN_ROUND;
+    throw new IllegalStateException("Invalid pen.join " + join);
+  }
 
-	@Override
-	public Graphics translate(long x, long y) {
-		gc.translate((int) x, (int) y);
-		return this;
-	}
+  @Override
+  public Graphics translate(long x, long y) {
+    gc.translate((int) x, (int) y);
+    return this;
+  }
 
-	@Override
-	public Graphics2 clipPath(Path path) {
-		gc.clip(toAwtPath(path));
-		return this;
-	}
+  @Override
+  public Graphics2 clipPath(Path path) {
+    gc.clip(AwtUtil.toAwtPath(path));
+    return this;
+  }
 
-	@Override
-	public Graphics2 copyImage2(Image2 img2, Rect src, Rect dest) {
-		BufferedImage img = ((AwtImage2) img2).getImage();
-		gc.drawImage(img, (int) dest.x, (int) dest.y, (int) dest.x
-				+ (int) dest.w, (int) dest.y + (int) dest.h, (int) src.x,
-				(int) src.y, (int) src.x + (int) src.w, (int) src.y
-						+ (int) src.h, null);
-		return this;
-	}
+  @Override
+  public Graphics2 copyImage2(Image2 img2, Rect src, Rect dest) {
+    BufferedImage img = ((AwtImage2) img2).getImage();
+    gc.drawImage(img, (int) dest.x, (int) dest.y, (int) dest.x
+        + (int) dest.w, (int) dest.y + (int) dest.h, (int) src.x,
+        (int) src.y, (int) src.x + (int) src.w, (int) src.y
+            + (int) src.h, null);
+    return this;
+  }
 
-	@Override
-	public Graphics2 drawImage2(Image2 img2, long x, long y) {
-		BufferedImage img = ((AwtImage2) img2).getImage();
-		gc.drawImage(img, (int) x, (int) y, null);
-		return this;
-	}
+  @Override
+  public Graphics2 drawImage2(Image2 img2, long x, long y) {
+    BufferedImage img = ((AwtImage2) img2).getImage();
+    gc.drawImage(img, (int) x, (int) y, null);
+    return this;
+  }
 
-	@Override
-	public Graphics2 drawPath(Path path) {
-		gc.draw(toAwtPath(path));
-		return this;
-	}
+  @Override
+  public Graphics2 drawPath(Path path) {
+    gc.draw(AwtUtil.toAwtPath(path));
+    return this;
+  }
 
-	@Override
-	public Graphics2 drawPolyline2(Array a) {
-		gc.drawPolyline(arrayToInts(a, true), arrayToInts(a, false), (int)a.size()/2);
-		return this;
-	}
+  @Override
+  public Graphics2 drawPolyline2(Array a) {
+    gc.drawPolyline(arrayToInts(a, true), arrayToInts(a, false), (int)a.size()/2);
+    return this;
+  }
 
-	@Override
-	public Graphics2 fillPath(Path path) {
-		gc.fill(toAwtPath(path));
-		return this;
-	}
+  @Override
+  public Graphics2 fillPath(Path path) {
+    gc.fill(AwtUtil.toAwtPath(path));
+    return this;
+  }
 
-	@Override
-	public Graphics2 fillPolygon2(Array a) {
-		gc.fillPolygon(arrayToInts(a, true), arrayToInts(a, false), (int)a.size()/2);
-		return this;
-	}
+  @Override
+  public Graphics2 fillPolygon2(Array a) {
+    gc.fillPolygon(arrayToInts(a, true), arrayToInts(a, false), (int)a.size()/2);
+    return this;
+  }
 
-	@Override
-	public Graphics2 setTransform(Transform2D trans) {
-		gc.setTransform(toAwtTransform(trans));
-		return this;
-	}
+  @Override
+  public Graphics2 setTransform(Transform2D trans) {
+    gc.setTransform(toAwtTransform(trans));
+    return this;
+  }
 
-	public void push() {
-		State s = new State();
-		s.pen = pen;
-		s.brush = brush;
-		s.font = font;
-		s.antialias = this.antialias();
-		s.alpha = alpha;
-		s.transform = gc.getTransform();
-		s.clip = gc.getClip();
-		stack.push(s);
-	}
+  public void push() {
+    State s = new State();
+    s.pen = pen;
+    s.brush = brush;
+    s.font = font;
+    s.antialias = this.antialias();
+    s.alpha = alpha;
+    s.transform = gc.getTransform();
+    s.clip = gc.getClip();
+    stack.push(s);
+  }
 
-	public void pop() {
-		State s = (State) stack.pop();
-		alpha = s.alpha;
-		pen(s.pen);
-		brush(s.brush);
-		font(s.font);
-		this.antialias(s.antialias);
-		gc.setTransform(s.transform);
-		gc.clip(s.clip);
-	}
+  public void pop() {
+    State s = (State) stack.pop();
+    alpha = s.alpha;
+    pen(s.pen);
+    brush(s.brush);
+    font(s.font);
+    this.antialias(s.antialias);
+    gc.setTransform(s.transform);
+    gc.clip(s.clip);
+  }
 
-	// ////////////////////////////////////////////////////////////////////////
-	// Util
-	// ////////////////////////////////////////////////////////////////////////
+  // ////////////////////////////////////////////////////////////////////////
+  // Util
+  // ////////////////////////////////////////////////////////////////////////
 
-	static class State {
-		Pen pen;
-		Brush brush;
-		Font font;
-		boolean antialias;
-		int alpha;
-		AffineTransform transform;
-		Shape clip;
-	}
+  static class State {
+    Pen pen;
+    Brush brush;
+    Font font;
+    boolean antialias;
+    int alpha;
+    AffineTransform transform;
+    Shape clip;
+  }
 
-	int[] toIntsX(fan.sys.List points) {
-		int size = (int) points.size();
-		int[] a = new int[size];
-		for (int i = 0; i < size; i++) {
-			Point p = (Point) points.get(i);
-			a[i] = (int) p.x;
-		}
-		return a;
-	}
+  int[] toIntsX(fan.sys.List points) {
+    int size = (int) points.size();
+    int[] a = new int[size];
+    for (int i = 0; i < size; i++) {
+      Point p = (Point) points.get(i);
+      a[i] = (int) p.x;
+    }
+    return a;
+  }
 
-	int[] toIntsY(fan.sys.List points) {
-		int size = (int) points.size();
-		int[] a = new int[size];
-		for (int i = 0; i < size; i++) {
-			Point p = (Point) points.get(i);
-			a[i] = (int) p.y;
-		}
-		return a;
-	}
-	
-	int[] arrayToInts(Array points, boolean isX)
-	{
-		int size = (int) points.size();
-		int[] a = new int[size/2];
-		int i = isX ? 0 : 1;
-		for (; i < size; i += 2)
-		{
-			a[i/2] = (int)points.getInt(i);
-		}
-		return a;
-	}
+  int[] toIntsY(fan.sys.List points) {
+    int size = (int) points.size();
+    int[] a = new int[size];
+    for (int i = 0; i < size; i++) {
+      Point p = (Point) points.get(i);
+      a[i] = (int) p.y;
+    }
+    return a;
+  }
 
-	float[] intsToFloats(int[] a) {
-		float[] b = new float[a.length];
-		for (int i = 0; i < a.length; ++i) {
-			b[i] = a[i];
-		}
-		return b;
-	}
+  int[] arrayToInts(Array points, boolean isX)
+  {
+    int size = (int) points.size();
+    int[] a = new int[size/2];
+    int i = isX ? 0 : 1;
+    for (; i < size; i += 2)
+    {
+      a[i/2] = (int)points.getInt(i);
+    }
+    return a;
+  }
 
-	static public Path2D toAwtPath(fan.gfx2.Path path) {
-		int size = (int) path.steps().size();
-		Path2D swtPath = new Path2D.Float();
-		for (int i = 0; i < size; ++i) {
-			PathStep step = (PathStep) path.steps().get(i);
+  float[] intsToFloats(int[] a) {
+    float[] b = new float[a.length];
+    for (int i = 0; i < a.length; ++i) {
+      b[i] = a[i];
+    }
+    return b;
+  }
 
-			if (step instanceof PathMoveTo) {
-				PathMoveTo s = (PathMoveTo) step;
-				swtPath.moveTo((float) s.x, (float) s.y);
-			} else if (step instanceof PathLineTo) {
-				PathLineTo s = (PathLineTo) step;
-				swtPath.lineTo((float) s.x, (float) s.y);
-			} else if (step instanceof PathQuadTo) {
-				PathQuadTo s = (PathQuadTo) step;
-				swtPath.quadTo((float) s.cx, (float) s.cy, (float) s.x,
-						(float) s.y);
-			} else if (step instanceof PathCubicTo) {
-				PathCubicTo s = (PathCubicTo) step;
-				swtPath.curveTo((float) s.cx1, (float) s.cy1, (float) s.cx2,
-						(float) s.cy2, (float) s.x, (float) s.y);
-			} else if (step instanceof PathClose) {
-				swtPath.closePath();
-			} else {
-				throw fan.sys.Err.make("unreachable");
-			}
-		}
-		return swtPath;
-	}
-
-	static public AffineTransform toAwtTransform(Transform2D trans) {
-		return new AffineTransform((float) trans.get(0, 0), (float) trans.get(
-				1, 0), (float) trans.get(0, 1), (float) trans.get(1, 1),
-				(float) trans.get(2, 0), (float) trans.get(2, 1));
-	}
+  static public AffineTransform toAwtTransform(Transform2D trans) {
+    return new AffineTransform((float) trans.get(0, 0), (float) trans.get(
+        1, 0), (float) trans.get(0, 1), (float) trans.get(1, 1),
+        (float) trans.get(2, 0), (float) trans.get(2, 1));
+  }
 }

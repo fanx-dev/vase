@@ -21,10 +21,7 @@ class Canvas2 : Canvas
 {
   new make()
   {
-    //init the GfxEnv
-    Obj? obj := Actor.locals["gfx.env2"]
-    if (obj == null || obj is FwtEnv)
-      Actor.locals["gfx.env2"] = FwtEnv2()
+    Gfx2.setEngine("SWT")
   }
 
   **

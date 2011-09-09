@@ -70,6 +70,9 @@ class Gfx2Test : Canvas2
     //out := `file:/D:/temp/fan/swtImage.png`.toFile.out
     //p.save(out)
     //out.close
+
+    echo(g)
+    echo(Gfx2.engineName)
   }
 
   static Void main()

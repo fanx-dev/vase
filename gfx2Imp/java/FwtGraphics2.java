@@ -137,7 +137,7 @@ public class FwtGraphics2 extends FwtGraphics implements Graphics2
   static public org.eclipse.swt.graphics.Path toSwtPath(fan.gfx2.Path path)
   {
     int size = (int)path.steps().size();
-    org.eclipse.swt.graphics.Path swtPath = new org.eclipse.swt.graphics.Path(FwtEnv2Peer.getDisplay());
+    org.eclipse.swt.graphics.Path swtPath = new org.eclipse.swt.graphics.Path(FwtEnv2.getDisplay());
     for (int i =0; i < size; ++i)
     {
       PathStep step = (PathStep)path.steps().get(i);
@@ -176,7 +176,7 @@ public class FwtGraphics2 extends FwtGraphics implements Graphics2
 
   static public Transform toSwtTransform(Transform2D trans)
   {
-    return new Transform(FwtEnv2Peer.getDisplay(),
+    return new Transform(FwtEnv2.getDisplay(),
        (float)trans.get(0,0),
        (float)trans.get(1,0),
        (float)trans.get(0,1),

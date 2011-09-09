@@ -11,6 +11,10 @@ package fan.gfx2Imp;
 import fan.sys.*;
 import fan.fwt.*;
 import fan.gfx.*;
+import fan.gfx2.*;
+
+import java.awt.Frame;
+import java.awt.Graphics2D;
 
 import org.eclipse.swt.*;
 import org.eclipse.swt.graphics.GC;
@@ -21,6 +25,7 @@ import org.eclipse.swt.widgets.Widget;
 import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.layout.*;
 import org.eclipse.swt.events.*;
+import org.eclipse.swt.awt.SWT_AWT;
 
 public class Canvas2Peer extends CanvasPeer implements PaintListener
 {
@@ -35,7 +40,7 @@ public class Canvas2Peer extends CanvasPeer implements PaintListener
 
   public Widget create(Widget parent)
   {
-    int style = SWT.NO_BACKGROUND;
+    int style = SWT.NO_BACKGROUND | SWT.EMBEDDED;
     if (((Canvas2)self).buffered()) style |= SWT.DOUBLE_BUFFERED;
     Canvas c = new Canvas((Composite)parent, style);
     c.addPaintListener(this);
@@ -44,7 +49,24 @@ public class Canvas2Peer extends CanvasPeer implements PaintListener
 
   public void paintControl(PaintEvent e)
   {
-    FwtGraphics2 g = new FwtGraphics2(e);
+    Graphics2 g;
+
+    String name = Gfx2.engineName();
+    if (name.equals("AWT"))
+    {
+      Frame f = SWT_AWT.new_Frame((Composite)this.control());
+      Graphics2D gc = (Graphics2D)f.getGraphics();
+      g = new AwtGraphics(gc);
+    }
+    else if(name.equals("SWT"))
+    {
+      g = new FwtGraphics2(e);
+    }
+    else
+    {
+      g = new FwtGraphics2(e);
+    }
+
     try
     {
       ((Canvas2)self).onPaint(g);

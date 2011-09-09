@@ -28,16 +28,13 @@ import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Display;
 
-public class FwtEnv2Peer
+public class FwtEnv2 extends GfxEnv2
 {
-  static final FwtEnv2Peer singleton = new FwtEnv2Peer();
+  static final FwtEnv2 singleton = new FwtEnv2();
 
-  public static FwtEnv2Peer make(fan.gfx2Imp.FwtEnv2 self)
-  {
-    return singleton;
-  }
+  private FwtEnv2(){}
 
-  public Image2 fromUri(FwtEnv2 self, Uri uri, Func onLoad)
+  public Image2 fromUri(Uri uri, Func onLoad)
   {
     if (uri.scheme().equals("http"))
     {
@@ -76,20 +73,20 @@ public class FwtEnv2Peer
     }).start();
   }
 
-  public Image2 makeImage2(FwtEnv2 self, Size size)
+  public Image2 makeImage2(Size size)
   {
     Image image = new Image(getDisplay(), (int)size.w, (int)size.h);
     return new Image2Imp(image);
   }
 
-  public boolean contains(FwtEnv2 self, Path path, double x, double y)
+  public boolean contains(Path path, double x, double y)
   {
     return FwtGraphics2.toSwtPath(path).contains((float)x, (float)y, fan.fwt.Fwt.get().scratchGC(), false);
   }
 
   public static Display getDisplay() { return Display.getCurrent(); }
 
-  public void disposeAll(FwtEnv2 self)
+  public void disposeAll()
   {
     Fwt fwt = Fwt.get();
     try

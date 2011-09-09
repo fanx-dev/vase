@@ -8,18 +8,19 @@
 
 package fan.gfx2Imp;
 
-import fan.sys.*;
-import fan.gfx.*;
-import fan.gfx2.*;
-
-import java.io.*;
-import fanx.interop.Interop;
-
-import java.awt.Image;
-import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
-import java.awt.image.ColorModel;
+import java.io.OutputStream;
+
 import javax.imageio.ImageIO;
+
+import fan.gfx.Size;
+import fan.gfx2.Graphics2;
+import fan.gfx2.Image2;
+import fan.sys.Err;
+import fan.sys.MimeType;
+import fan.sys.OutStream;
+import fan.sys.UnsupportedErr;
+import fanx.interop.Interop;
 
 public class AwtImage2 implements Image2
 {
@@ -31,6 +32,13 @@ public class AwtImage2 implements Image2
       image = m;
     }
 
+    public AwtImage2(){}
+
+    public void setImage(BufferedImage image)
+    {
+      this.image = image;
+    }
+
     public Size size()
     {
       return Size.make(image.getWidth(null), image.getHeight(null));
@@ -39,7 +47,7 @@ public class AwtImage2 implements Image2
     public fan.gfx.Color getPixel(long x, long y)
     {
       int rgb = image.getRGB((int)x, (int)y);
-      return fan.gfx.Color.make(rgb, false);
+      return fan.gfx.Color.make(rgb, true);
     }
     public void setPixel(long x, long y, fan.gfx.Color value)
     {
@@ -69,15 +77,13 @@ public class AwtImage2 implements Image2
     {
       save(out, MimeType.forExt("png"));
     }
-    public boolean isLoaded() { return true; }
+    public boolean isLoaded() { return image != null; }
 
     /**
      * get graphics context from image
      */
     public Graphics2 graphics()
     {
-      //return new AwtGraphics(image.createGraphics());
-      return null;
+      return new AwtGraphics(image.createGraphics());
     }
 }
-

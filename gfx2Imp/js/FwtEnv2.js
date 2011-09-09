@@ -6,10 +6,10 @@
 //   2011-08-20  Jed Young  Creation
 //
 
-fan.gfx2Imp.FwtEnv2Peer = fan.sys.Obj.$extend(fan.sys.Obj);
-fan.gfx2Imp.FwtEnv2Peer.prototype.$ctor = function(self) {}
+fan.gfx2Imp.FwtEnv2 = fan.sys.Obj.$extend(fan.sys.GfxEnv2);
+fan.gfx2Imp.FwtEnv2.prototype.$ctor = function(self) {}
 
-fan.gfx2Imp.FwtEnv2Peer.prototype.fromUri = function(self, uri, onLoaded)
+fan.gfx2Imp.FwtEnv2.prototype.fromUri = function(uri, onLoaded)
 {
   var p = new fan.gfx2Imp.PixmapImp();
   p.m_uri = uri;
@@ -25,11 +25,11 @@ fan.gfx2Imp.FwtEnv2Peer.prototype.fromUri = function(self, uri, onLoaded)
   image.src = fan.fwt.WidgetPeer.uriToImageSrc(p.m_uri);
   return p;
 }
-fan.gfx2Imp.FwtEnv2Peer.prototype.makePixmap = function(self, size)
+fan.gfx2Imp.FwtEnv2.prototype.makePixmap = function(size)
 {
   return fan.gfx2Imp.PixmapImp.make(size);
 }
-fan.gfx2Imp.FwtEnv2Peer.prototype.contains = function(self, path, x, y)
+fan.gfx2Imp.FwtEnv2.prototype.contains = function(path, x, y)
 {
   var canvas = document.createElement("canvas");
   var cx = canvas.getContext("2d");
