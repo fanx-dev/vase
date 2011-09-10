@@ -64,6 +64,23 @@ class Transform2D
     return this
   }
 
+  **
+  ** transform the coordinate using current matrix.
+  ** x: xy[0], y:[1]. The result will rewrite the list
+  **
+  Void transform(Float[] xy)
+  {
+    x := xy[0]
+    y := xy[1]
+    sour := Matrix.makeZero(1, 3)
+    sour.set(0, 0, x)
+    sour.set(0, 1, y)
+    sour.set(0, 2, 1f)
+    result := sour * matrix
+    xy[0] = result.get(0, 0)
+    xy[1] = result.get(0, 1)
+  }
+
 //////////////////////////////////////////////////////////////////////////
 // Make Transform
 //////////////////////////////////////////////////////////////////////////
