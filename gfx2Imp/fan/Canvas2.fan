@@ -21,7 +21,7 @@ class Canvas2 : Canvas
 {
   new make()
   {
-    Gfx2.setEngine("SWT")
+    if (Gfx2.engineName == null) Gfx2.setEngine("SWT")
   }
 
   **

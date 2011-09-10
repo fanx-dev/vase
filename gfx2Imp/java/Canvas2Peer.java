@@ -38,35 +38,33 @@ public class Canvas2Peer extends CanvasPeer implements PaintListener
     return peer;
   }
 
+  Frame frame = null;
+
   public Widget create(Widget parent)
   {
     int style = SWT.NO_BACKGROUND | SWT.EMBEDDED;
     if (((Canvas2)self).buffered()) style |= SWT.DOUBLE_BUFFERED;
     Canvas c = new Canvas((Composite)parent, style);
-    c.addPaintListener(this);
+
+    String name = Gfx2.engineName();
+    if (name == null || name.equals("SWT"))
+    {
+      c.addPaintListener(this);
+    }
+    else if (name.equals("AWT"))
+    {
+      frame = SWT_AWT.new_Frame(c);
+      AwtCanvas awtC = new AwtCanvas();
+      awtC.self = (Canvas2)this.self;
+      frame.add(awtC);
+    }
+
     return c;
   }
 
   public void paintControl(PaintEvent e)
   {
-    Graphics2 g;
-
-    String name = Gfx2.engineName();
-    if (name.equals("AWT"))
-    {
-      Frame f = SWT_AWT.new_Frame((Composite)this.control());
-      Graphics2D gc = (Graphics2D)f.getGraphics();
-      g = new AwtGraphics(gc);
-    }
-    else if(name.equals("SWT"))
-    {
-      g = new FwtGraphics2(e);
-    }
-    else
-    {
-      g = new FwtGraphics2(e);
-    }
-
+    Graphics2 g = new FwtGraphics2(e);
     try
     {
       ((Canvas2)self).onPaint(g);
@@ -82,5 +80,24 @@ public class Canvas2Peer extends CanvasPeer implements PaintListener
   {
     Caret caret = new Caret((Canvas)this.control(), SWT.NONE);
     caret.setBounds((int)x, (int)y, (int)w, (int)h);
+  }
+
+  public static class AwtCanvas extends java.awt.Canvas{
+    public Canvas2 self;
+
+    public void paint(java.awt.Graphics gc)
+    {
+      Graphics2 g = new AwtGraphics((java.awt.Graphics2D)gc);
+      Gfx2.setEngine("AWT");
+      try
+      {
+        (self).onPaint(g);
+        (self).onPaint2(g);
+      }
+      finally
+      {
+        g.dispose();
+      }
+    }
   }
 }

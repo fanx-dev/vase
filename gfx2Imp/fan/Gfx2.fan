@@ -25,7 +25,7 @@ const class Gfx2
     Actor.locals["gfx.EngineName"] = name
   }
 
-  static Str engineName()
+  static Str? engineName()
   {
     return Actor.locals["gfx.EngineName"]
   }

@@ -77,6 +77,7 @@ class Gfx2Test : Canvas2
 
   static Void main()
   {
+    //Gfx2.setEngine("AWT")
     Window
     {
       content = Gfx2Test()
