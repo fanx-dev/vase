@@ -35,6 +35,7 @@ public class AwtGfxEnv2 extends GfxEnv2 {
 
   @Override
   public Image2 fromUri(Uri uri, Func onLoad) {
+    onLoad = (Func)onLoad.toImmutable();
     if (uri.scheme().equals("http"))
     {
       AwtImage2 p = new AwtImage2();

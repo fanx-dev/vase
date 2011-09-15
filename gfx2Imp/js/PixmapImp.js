@@ -35,8 +35,8 @@ fan.gfx2Imp.PixmapImp.prototype.getImage = function(widget)
 
   if (!this.m_isImageData && !this.m_isLoaded)
   {
-    fan.fwt.FwtEnvPeer.loadImage(this, widget);
-    return;
+    this.m_image = fan.fwt.FwtEnvPeer.loadImage(this, widget);
+    return this.m_image;
   }
 
   var canvas = this.getCanvas();

@@ -1,1 +1,1 @@
-fan slanWeb /D:/code/Hg/fan3d/jsTest/
+fan draft jsTest::RootMod

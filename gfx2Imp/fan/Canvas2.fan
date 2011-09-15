@@ -19,7 +19,7 @@ using concurrent
 @Serializable
 class Canvas2 : Canvas
 {
-  new make()
+  static
   {
     if (Gfx2.engineName == null) Gfx2.setEngine("SWT")
   }

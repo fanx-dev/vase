@@ -36,6 +36,7 @@ public class FwtEnv2 extends GfxEnv2
 
   public Image2 fromUri(Uri uri, Func onLoad)
   {
+    onLoad = (Func)onLoad.toImmutable();
     if (uri.scheme().equals("http"))
     {
       Image2Imp p = new Image2Imp();
