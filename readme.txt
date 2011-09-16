@@ -12,5 +12,5 @@ Setting LWJGE:
   java.options=-Xmx512M -Djava.library.path=yourPath/lib/lwjgl-2.7.1/native/windows
 
 Run WebGL on Chrome:
-1. close all chrome progress.
+1. close all chrome process.
 2. chrome.exe --ignore-gpu-blacklist --enable-webgl
