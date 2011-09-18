@@ -204,13 +204,13 @@ public class AwtGraphics implements Graphics2 {
 
   @Override
   public Graphics drawPolygon(List list) {
-    gc.drawPolygon(toIntsX(list), toIntsY(list), (int) list.size());
+    gc.drawPolygon(GfxUtil.toIntsX(list), GfxUtil.toIntsY(list), (int) list.size());
     return this;
   }
 
   @Override
   public Graphics drawPolyline(List list) {
-    gc.drawPolyline(toIntsX(list), toIntsY(list), (int) list.size());
+    gc.drawPolyline(GfxUtil.toIntsX(list), GfxUtil.toIntsY(list), (int) list.size());
     return this;
   }
 
@@ -248,7 +248,7 @@ public class AwtGraphics implements Graphics2 {
 
   @Override
   public Graphics fillPolygon(List list) {
-    gc.fillPolygon(toIntsX(list), toIntsY(list), (int) list.size());
+    gc.fillPolygon(GfxUtil.toIntsX(list), GfxUtil.toIntsY(list), (int) list.size());
     return this;
   }
 
@@ -287,8 +287,8 @@ public class AwtGraphics implements Graphics2 {
     this.pen = pen;
     float width = pen.width;
     int cap = penCap(pen.cap);
-    int join = penJoin(pen.cap);
-    float[] dash = pen.dash != null ? intsToFloats(pen.dash.toInts())
+    int join = penJoin(pen.join);
+    float[] dash = pen.dash != null ? GfxUtil.intsToFloats(pen.dash.toInts())
         : null;
 
     BasicStroke stroke;
@@ -357,7 +357,7 @@ public class AwtGraphics implements Graphics2 {
 
   @Override
   public Graphics2 drawPolyline2(Array a) {
-    gc.drawPolyline(arrayToInts(a, true), arrayToInts(a, false), (int)a.size()/2);
+    gc.drawPolyline(GfxUtil.arrayToInts(a, true), GfxUtil.arrayToInts(a, false), (int)a.size()/2);
     return this;
   }
 
@@ -369,7 +369,7 @@ public class AwtGraphics implements Graphics2 {
 
   @Override
   public Graphics2 fillPolygon2(Array a) {
-    gc.fillPolygon(arrayToInts(a, true), arrayToInts(a, false), (int)a.size()/2);
+    gc.fillPolygon(GfxUtil.arrayToInts(a, true), GfxUtil.arrayToInts(a, false), (int)a.size()/2);
     return this;
   }
 
@@ -414,46 +414,6 @@ public class AwtGraphics implements Graphics2 {
     int alpha;
     AffineTransform transform;
     Shape clip;
-  }
-
-  int[] toIntsX(fan.sys.List points) {
-    int size = (int) points.size();
-    int[] a = new int[size];
-    for (int i = 0; i < size; i++) {
-      Point p = (Point) points.get(i);
-      a[i] = (int) p.x;
-    }
-    return a;
-  }
-
-  int[] toIntsY(fan.sys.List points) {
-    int size = (int) points.size();
-    int[] a = new int[size];
-    for (int i = 0; i < size; i++) {
-      Point p = (Point) points.get(i);
-      a[i] = (int) p.y;
-    }
-    return a;
-  }
-
-  int[] arrayToInts(Array points, boolean isX)
-  {
-    int size = (int) points.size();
-    int[] a = new int[size/2];
-    int i = isX ? 0 : 1;
-    for (; i < size; i += 2)
-    {
-      a[i/2] = (int)points.getInt(i);
-    }
-    return a;
-  }
-
-  float[] intsToFloats(int[] a) {
-    float[] b = new float[a.length];
-    for (int i = 0; i < a.length; ++i) {
-      b[i] = a[i];
-    }
-    return b;
   }
 
   static public AffineTransform toAwtTransform(Transform2D trans) {
