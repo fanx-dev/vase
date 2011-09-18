@@ -22,7 +22,7 @@ public class Gfx2Peer
   static FwtEnv2 fwtEnv2 = FwtEnv2.singleton;
   
   static AndGfxEnv andEnv = new AndGfxEnv();
-  static AndGfxEnv2 andEnv2 = AndGfxEnv2();
+  static AndGfxEnv2 andEnv2 = new AndGfxEnv2();
 
   public static Gfx2Peer make(Gfx2 self) { return new Gfx2Peer(); }
 
