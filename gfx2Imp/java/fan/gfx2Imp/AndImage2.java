@@ -19,6 +19,10 @@ public class AndImage2  implements Image2{
 	
 	private Bitmap image;
 	public Bitmap getImage(){ return image; };
+	
+	public void setImage(Bitmap img){
+		image = img;
+	}
 
 	@Override
 	public Color getPixel(long x, long y) {

@@ -20,6 +20,9 @@ public class Gfx2Peer
 
   static FwtEnv fwtEnv = FwtEnv.make();
   static FwtEnv2 fwtEnv2 = FwtEnv2.singleton;
+  
+  static AndGfxEnv andEnv = new AndGfxEnv();
+  static AndGfxEnv2 andEnv2 = AndGfxEnv2();
 
   public static Gfx2Peer make(Gfx2 self) { return new Gfx2Peer(); }
 
@@ -27,6 +30,7 @@ public class Gfx2Peer
   {
     if (name.equals("AWT")) return awtEnv;
     else if (name.equals("SWT")) return fwtEnv;
+    else if (name.equals("Android")) return andEnv;
     else throw UnsupportedErr.make();
   }
 
@@ -34,6 +38,7 @@ public class Gfx2Peer
   {
     if (name.equals("AWT")) return awtEnv2;
     else if (name.equals("SWT")) return fwtEnv2;
+    else if (name.equals("Android")) return andEnv2;
     else throw UnsupportedErr.make();
   }
 

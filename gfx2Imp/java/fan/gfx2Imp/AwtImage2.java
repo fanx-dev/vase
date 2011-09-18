@@ -27,13 +27,6 @@ public class AwtImage2 implements Image2
     private BufferedImage image;
     public BufferedImage getImage(){ return image; };
 
-    public AwtImage2(BufferedImage m)
-    {
-      image = m;
-    }
-
-    public AwtImage2(){}
-
     public void setImage(BufferedImage image)
     {
       this.image = image;
