@@ -17,18 +17,15 @@ package fan.gfx2Imp;
  * For a list of all SWT example snippets see
  * http://www.eclipse.org/swt/snippets/
  */
-import java.awt.Frame;
-import java.awt.Graphics;
-import java.awt.Insets;
 import java.awt.image.BufferedImage;
 import java.awt.image.ColorModel;
 import java.awt.image.DirectColorModel;
 import java.awt.image.IndexColorModel;
 import java.awt.image.WritableRaster;
 
-import org.eclipse.swt.*;
-import org.eclipse.swt.widgets.*;
-import org.eclipse.swt.graphics.*;
+import org.eclipse.swt.graphics.ImageData;
+import org.eclipse.swt.graphics.PaletteData;
+import org.eclipse.swt.graphics.RGB;
 
 public class AwtSwtImage
 {

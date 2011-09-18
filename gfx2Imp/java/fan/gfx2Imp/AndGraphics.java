@@ -18,7 +18,6 @@ import android.graphics.Paint;
 import android.graphics.RectF;
 import android.graphics.Shader;
 import android.graphics.Typeface;
-
 import fan.array.Array;
 import fan.fan3dMath.Transform2D;
 import fan.gfx.Brush;
@@ -30,7 +29,6 @@ import fan.gfx.Graphics;
 import fan.gfx.Halign;
 import fan.gfx.Image;
 import fan.gfx.Pen;
-import fan.gfx.Point;
 import fan.gfx.Rect;
 import fan.gfx.Valign;
 import fan.gfx2.Graphics2;
@@ -41,8 +39,7 @@ import fan.sys.FanObj;
 import fan.sys.List;
 
 public class AndGraphics implements Graphics2 {
-	// Graphics2D gc;
-
+	
 	Pen pen = Pen.defVal;
 	Brush brush = Color.black;
 	Font font;
@@ -52,6 +49,11 @@ public class AndGraphics implements Graphics2 {
 
 	Canvas gc;
 	Paint p;
+	
+	public AndGraphics(Canvas c)
+	{
+		gc = c;
+	}
 
 	@Override
 	public long alpha() {
@@ -114,7 +116,7 @@ public class AndGraphics implements Graphics2 {
 			return Shader.TileMode.CLAMP;
 	}
 
-	private Shader pattern(Gradient g, float vx, float vy, float vw, float vh) {
+	private static Shader pattern(Gradient g, float vx, float vy, float vw, float vh) {
 		// only support two gradient stops
 		GradientStop s1 = (GradientStop) g.stops.get(0);
 		GradientStop s2 = (GradientStop) g.stops.get(-1L);
@@ -296,7 +298,6 @@ public class AndGraphics implements Graphics2 {
 		this.pen = pen;
 		p.setStrokeWidth(pen.width);
 		p.setStrokeCap(penCap(pen.cap));
-		// TODO awt bug
 		p.setStrokeJoin(penJoin(pen.join));
 
 		// TODO Dash mode

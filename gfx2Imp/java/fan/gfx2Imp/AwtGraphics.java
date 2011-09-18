@@ -30,7 +30,6 @@ import fan.gfx.GradientStop;
 import fan.gfx.Graphics;
 import fan.gfx.Image;
 import fan.gfx.Pen;
-import fan.gfx.Point;
 import fan.gfx.Rect;
 import fan.gfx2.Graphics2;
 import fan.gfx2.Image2;
@@ -101,7 +100,7 @@ public class AwtGraphics implements Graphics2 {
       gc.setPaint(p);
     } else if (brush instanceof fan.gfx.Pattern) {
       fan.gfx.Pattern p = (fan.gfx.Pattern) brush;
-      BufferedImage im = toAwtImage(p.image);
+      BufferedImage im = AwtUtil.toAwtImage(p.image);
       TexturePaint tp = new TexturePaint(im, new Rectangle(im.getWidth(),
           im.getHeight()));
       gc.setPaint(tp);
@@ -111,16 +110,11 @@ public class AwtGraphics implements Graphics2 {
     }
   }
 
-  private BufferedImage toAwtImage(Image image) {
-    // TODO
-    return null;
-  }
-
-  private java.awt.Color toAwtColor(Color ca) {
+  private static java.awt.Color toAwtColor(Color ca) {
     return new java.awt.Color((int) ca.argb, true);
   }
 
-  private GradientPaint pattern(Gradient g, float vx, float vy, float vw,
+  private static GradientPaint pattern(Gradient g, float vx, float vy, float vw,
       float vh) {
     // only support two gradient stops
     GradientStop s1 = (GradientStop) g.stops.get(0);
@@ -164,7 +158,7 @@ public class AwtGraphics implements Graphics2 {
 
   @Override
   public Graphics copyImage(Image img2, Rect src, Rect dest) {
-    BufferedImage img = toAwtImage(img2);
+    BufferedImage img = AwtUtil.toAwtImage(img2);
     gc.drawImage(img, (int) dest.x, (int) dest.y, (int) dest.x
         + (int) dest.w, (int) dest.y + (int) dest.h, (int) src.x,
         (int) src.y, (int) src.x + (int) src.w, (int) src.y
@@ -185,7 +179,7 @@ public class AwtGraphics implements Graphics2 {
 
   @Override
   public Graphics drawImage(Image img2, long x, long y) {
-    BufferedImage img = toAwtImage(img2);
+    BufferedImage img = AwtUtil.toAwtImage(img2);
     gc.drawImage(img, (int) x, (int) y, null);
     return this;
   }
@@ -375,7 +369,7 @@ public class AwtGraphics implements Graphics2 {
 
   @Override
   public Graphics2 setTransform(Transform2D trans) {
-    gc.setTransform(toAwtTransform(trans));
+    gc.setTransform(AwtUtil.toAwtTransform(trans));
     return this;
   }
 
@@ -414,11 +408,5 @@ public class AwtGraphics implements Graphics2 {
     int alpha;
     AffineTransform transform;
     Shape clip;
-  }
-
-  static public AffineTransform toAwtTransform(Transform2D trans) {
-    return new AffineTransform((float) trans.get(0, 0), (float) trans.get(
-        1, 0), (float) trans.get(0, 1), (float) trans.get(1, 1),
-        (float) trans.get(2, 0), (float) trans.get(2, 1));
   }
 }

@@ -7,9 +7,13 @@
 //
 package fan.gfx2Imp;
 
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Path2D;
+import java.awt.image.BufferedImage;
 
+import fan.fan3dMath.Transform2D;
 import fan.gfx.Font;
+import fan.gfx.Image;
 import fan.gfx2.PathClose;
 import fan.gfx2.PathCubicTo;
 import fan.gfx2.PathLineTo;
@@ -18,8 +22,7 @@ import fan.gfx2.PathQuadTo;
 import fan.gfx2.PathStep;
 
 public class AwtUtil {
-	public static java.awt.Font toFont(Font f)
-	{
+	public static java.awt.Font toFont(Font f) {
 		int style = 0;
 		if (f.bold)
 			style |= java.awt.Font.BOLD;
@@ -28,7 +31,13 @@ public class AwtUtil {
 
 		return new java.awt.Font(f.name, style, (int) f.size);
 	}
-	
+
+	static public AffineTransform toAwtTransform(Transform2D trans) {
+		return new AffineTransform((float) trans.get(0, 0), (float) trans.get(
+				1, 0), (float) trans.get(0, 1), (float) trans.get(1, 1),
+				(float) trans.get(2, 0), (float) trans.get(2, 1));
+	}
+
 	static public Path2D toAwtPath(fan.gfx2.Path path) {
 		int size = (int) path.steps().size();
 		Path2D swtPath = new Path2D.Float();
@@ -56,5 +65,10 @@ public class AwtUtil {
 			}
 		}
 		return swtPath;
+	}
+
+	static BufferedImage toAwtImage(Image image) {
+		// TODO
+		return null;
 	}
 }

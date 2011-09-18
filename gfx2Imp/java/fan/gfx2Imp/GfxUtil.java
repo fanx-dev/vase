@@ -1,3 +1,10 @@
+//
+// Copyright (c) 2011, chunquedong
+// Licensed under the Academic Free License version 3.0
+//
+// History:
+//   2011-09-18  Jed Young  Creation
+//
 package fan.gfx2Imp;
 
 import fan.array.Array;
