@@ -30,8 +30,7 @@ import org.eclipse.swt.widgets.Display;
 
 public class FwtEnv2 extends GfxEnv2
 {
-  static final FwtEnv2 singleton = new FwtEnv2();
-
+  static final FwtEnv2 instance = new FwtEnv2();
   private FwtEnv2(){}
 
   public Image2 fromUri(Uri uri, Func onLoad)

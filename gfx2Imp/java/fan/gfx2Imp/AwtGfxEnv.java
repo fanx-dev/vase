@@ -18,53 +18,56 @@ import fan.sys.Func;
 import fan.sys.UnsupportedErr;
 
 public class AwtGfxEnv extends GfxEnv{
-	
-	BufferedImage bufferedImage =  new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);
-	Graphics2D scratchG = bufferedImage.createGraphics();
-	
-	@Override
-	public long fontAscent(Font f) {
-		java.awt.Font font = AwtUtil.toFont(f);
-		return scratchG.getFontMetrics(font).getAscent();
-	}
 
-	@Override
-	public long fontDescent(Font f) {
-		java.awt.Font font = AwtUtil.toFont(f);
-		return scratchG.getFontMetrics(font).getDescent();
-	}
+  static final AwtGfxEnv instance = new AwtGfxEnv();
+  private AwtGfxEnv() {}
 
-	@Override
-	public long fontHeight(Font f) {
-		java.awt.Font font = AwtUtil.toFont(f);
-		return scratchG.getFontMetrics(font).getHeight();
-	}
+  BufferedImage bufferedImage =  new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);
+  Graphics2D scratchG = bufferedImage.createGraphics();
 
-	@Override
-	public long fontLeading(Font f) {
-		java.awt.Font font = AwtUtil.toFont(f);
-		return scratchG.getFontMetrics(font).getLeading();
-	}
+  @Override
+  public long fontAscent(Font f) {
+    java.awt.Font font = AwtUtil.toFont(f);
+    return scratchG.getFontMetrics(font).getAscent();
+  }
 
-	@Override
-	public long fontWidth(Font f, String s) {
-		java.awt.Font font = AwtUtil.toFont(f);
-		return scratchG.getFontMetrics(font).stringWidth(s);
-	}
+  @Override
+  public long fontDescent(Font f) {
+    java.awt.Font font = AwtUtil.toFont(f);
+    return scratchG.getFontMetrics(font).getDescent();
+  }
 
-	@Override
-	public Image imagePaint(Size size, Func arg1) {
-		throw UnsupportedErr.make();
-	}
+  @Override
+  public long fontHeight(Font f) {
+    java.awt.Font font = AwtUtil.toFont(f);
+    return scratchG.getFontMetrics(font).getHeight();
+  }
 
-	@Override
-	public Image imageResize(Image arg0, Size arg1) {
-		throw UnsupportedErr.make();
-	}
+  @Override
+  public long fontLeading(Font f) {
+    java.awt.Font font = AwtUtil.toFont(f);
+    return scratchG.getFontMetrics(font).getLeading();
+  }
 
-	@Override
-	public Size imageSize(Image arg0) {
-		throw UnsupportedErr.make();
-	}
+  @Override
+  public long fontWidth(Font f, String s) {
+    java.awt.Font font = AwtUtil.toFont(f);
+    return scratchG.getFontMetrics(font).stringWidth(s);
+  }
+
+  @Override
+  public Image imagePaint(Size size, Func arg1) {
+    throw UnsupportedErr.make();
+  }
+
+  @Override
+  public Image imageResize(Image arg0, Size arg1) {
+    throw UnsupportedErr.make();
+  }
+
+  @Override
+  public Size imageSize(Image arg0) {
+    throw UnsupportedErr.make();
+  }
 
 }

@@ -15,30 +15,23 @@ import fan.gfx2.*;
 
 public class Gfx2Peer
 {
-  static AwtGfxEnv awtEnv = new AwtGfxEnv();
-  static AwtGfxEnv2 awtEnv2 = new AwtGfxEnv2();
-
   static FwtEnv fwtEnv = FwtEnv.make();
-  static FwtEnv2 fwtEnv2 = FwtEnv2.singleton;
-  
-  static AndGfxEnv andEnv = new AndGfxEnv();
-  static AndGfxEnv2 andEnv2 = new AndGfxEnv2();
 
   public static Gfx2Peer make(Gfx2 self) { return new Gfx2Peer(); }
 
   static public GfxEnv getEngine(String name)
   {
-    if (name.equals("AWT")) return awtEnv;
+    if (name.equals("AWT")) return AwtGfxEnv.instance;
     else if (name.equals("SWT")) return fwtEnv;
-    else if (name.equals("Android")) return andEnv;
+    else if (name.equals("Android")) return AndGfxEnv.instance;
     else throw UnsupportedErr.make();
   }
 
   static public GfxEnv2 getEngine2(String name)
   {
-    if (name.equals("AWT")) return awtEnv2;
-    else if (name.equals("SWT")) return fwtEnv2;
-    else if (name.equals("Android")) return andEnv2;
+    if (name.equals("AWT")) return AwtGfxEnv2.instance;
+    else if (name.equals("SWT")) return FwtEnv2.instance;
+    else if (name.equals("Android")) return AndGfxEnv2.instance;
     else throw UnsupportedErr.make();
   }
 
