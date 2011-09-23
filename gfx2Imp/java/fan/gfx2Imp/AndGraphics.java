@@ -285,6 +285,7 @@ public class AndGraphics implements Graphics2 {
 	@Override
 	public void font(Font f) {
 		Typeface typeface = AndUtil.toAndFont(f);
+		p.setTextSize(f.size);
 		p.setTypeface(typeface);
 	}
 

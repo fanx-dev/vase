@@ -3,7 +3,7 @@ math: math lib for 3d transformation.
 lib: LWJGE is a java openGL port.
 array: primary number array
 gfx2: extending of gfx
-gfx2Imp: AWT, SWT, HTML5Canvas implementions
+gfx2Imp: AWT, SWT, HTML5Canvas, Andorid implementions
 jsTest: examples for test.
 
 Setting LWJGE:
