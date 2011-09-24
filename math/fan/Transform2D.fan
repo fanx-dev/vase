@@ -10,9 +10,9 @@
 ** AffineTransform.
 ** This matrix is a transpose of java.awt.geom.AffineTransform.
 **
-**                             m00 m10 0
-**  (x1, y1, 1) = (x y 1)  *   m01 m11 0
-**                             m02 m12 1
+**                               m00 m10 0
+**    (x1, y1, 1) = (x y 1)  *   m01 m11 0
+**                               m02 m12 1
 **
 ** But the awt/swt Transform like this:
 **
