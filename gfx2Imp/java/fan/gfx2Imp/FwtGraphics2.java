@@ -178,8 +178,8 @@ public class FwtGraphics2 extends FwtGraphics implements Graphics2
   {
     return new Transform(FwtEnv2.getDisplay(),
        (float)trans.get(0,0),
-       (float)trans.get(1,0),
        (float)trans.get(0,1),
+       (float)trans.get(1,0),
        (float)trans.get(1,1),
        (float)trans.get(2,0),
        (float)trans.get(2,1)

@@ -1,1 +1,3 @@
 glob:fogl/tool/gen/
+syntax: glob
+.*

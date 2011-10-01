@@ -22,53 +22,57 @@ import fan.gfx2.PathQuadTo;
 import fan.gfx2.PathStep;
 
 public class AwtUtil {
-	public static java.awt.Font toFont(Font f) {
-		int style = 0;
-		if (f.bold)
-			style |= java.awt.Font.BOLD;
-		if (f.italic)
-			style |= java.awt.Font.ITALIC;
+  public static java.awt.Font toFont(Font f) {
+    int style = 0;
+    if (f.bold)
+      style |= java.awt.Font.BOLD;
+    if (f.italic)
+      style |= java.awt.Font.ITALIC;
 
-		return new java.awt.Font(f.name, style, (int) f.size);
-	}
+    return new java.awt.Font(f.name, style, (int) f.size);
+  }
 
-	static public AffineTransform toAwtTransform(Transform2D trans) {
-		return new AffineTransform((float) trans.get(0, 0), (float) trans.get(
-				1, 0), (float) trans.get(0, 1), (float) trans.get(1, 1),
-				(float) trans.get(2, 0), (float) trans.get(2, 1));
-	}
+  static public AffineTransform toAwtTransform(Transform2D trans) {
+    return new AffineTransform(
+       (float)trans.get(0,0),
+       (float)trans.get(0,1),
+       (float)trans.get(1,0),
+       (float)trans.get(1,1),
+       (float)trans.get(2,0),
+       (float)trans.get(2,1));
+  }
 
-	static public Path2D toAwtPath(fan.gfx2.Path path) {
-		int size = (int) path.steps().size();
-		Path2D swtPath = new Path2D.Float();
-		for (int i = 0; i < size; ++i) {
-			PathStep step = (PathStep) path.steps().get(i);
+  static public Path2D toAwtPath(fan.gfx2.Path path) {
+    int size = (int) path.steps().size();
+    Path2D swtPath = new Path2D.Float();
+    for (int i = 0; i < size; ++i) {
+      PathStep step = (PathStep) path.steps().get(i);
 
-			if (step instanceof PathMoveTo) {
-				PathMoveTo s = (PathMoveTo) step;
-				swtPath.moveTo((float) s.x, (float) s.y);
-			} else if (step instanceof PathLineTo) {
-				PathLineTo s = (PathLineTo) step;
-				swtPath.lineTo((float) s.x, (float) s.y);
-			} else if (step instanceof PathQuadTo) {
-				PathQuadTo s = (PathQuadTo) step;
-				swtPath.quadTo((float) s.cx, (float) s.cy, (float) s.x,
-						(float) s.y);
-			} else if (step instanceof PathCubicTo) {
-				PathCubicTo s = (PathCubicTo) step;
-				swtPath.curveTo((float) s.cx1, (float) s.cy1, (float) s.cx2,
-						(float) s.cy2, (float) s.x, (float) s.y);
-			} else if (step instanceof PathClose) {
-				swtPath.closePath();
-			} else {
-				throw fan.sys.Err.make("unreachable");
-			}
-		}
-		return swtPath;
-	}
+      if (step instanceof PathMoveTo) {
+        PathMoveTo s = (PathMoveTo) step;
+        swtPath.moveTo((float) s.x, (float) s.y);
+      } else if (step instanceof PathLineTo) {
+        PathLineTo s = (PathLineTo) step;
+        swtPath.lineTo((float) s.x, (float) s.y);
+      } else if (step instanceof PathQuadTo) {
+        PathQuadTo s = (PathQuadTo) step;
+        swtPath.quadTo((float) s.cx, (float) s.cy, (float) s.x,
+            (float) s.y);
+      } else if (step instanceof PathCubicTo) {
+        PathCubicTo s = (PathCubicTo) step;
+        swtPath.curveTo((float) s.cx1, (float) s.cy1, (float) s.cx2,
+            (float) s.cy2, (float) s.x, (float) s.y);
+      } else if (step instanceof PathClose) {
+        swtPath.closePath();
+      } else {
+        throw fan.sys.Err.make("unreachable");
+      }
+    }
+    return swtPath;
+  }
 
-	static BufferedImage toAwtImage(Image image) {
-		// TODO
-		return null;
-	}
+  static BufferedImage toAwtImage(Image image) {
+    // TODO
+    return null;
+  }
 }

@@ -139,7 +139,7 @@ class Transform2D
     at.set(0, 1, (thta).sin)
     at.set(1, 0, -(thta).sin)
     at.set(2, 0, (1 - (thta).cos) * x + (y * (thta).sin))
-    at.set(2, 1, (1 + (thta).cos) * y - (x * (thta).sin))
+    at.set(2, 1, (1 - (thta).cos) * y - (x * (thta).sin))
     return at
   }
 
