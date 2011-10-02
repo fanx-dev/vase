@@ -23,6 +23,7 @@ import fan.gfx2.PathStep;
 
 public class AwtUtil {
   public static java.awt.Font toFont(Font f) {
+    if (f == null) return null;
     int style = 0;
     if (f.bold)
       style |= java.awt.Font.BOLD;

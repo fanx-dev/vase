@@ -38,7 +38,7 @@ public class Canvas2Peer extends CanvasPeer implements PaintListener
     return peer;
   }
 
-  Frame frame = null;
+  Display display = null;
 
   public Widget create(Widget parent)
   {
@@ -53,12 +53,13 @@ public class Canvas2Peer extends CanvasPeer implements PaintListener
     }
     else if (name.equals("AWT"))
     {
-      frame = SWT_AWT.new_Frame(c);
+      Frame frame = SWT_AWT.new_Frame(c);
       AwtCanvas awtC = new AwtCanvas();
       awtC.self = (Canvas2)this.self;
       frame.add(awtC);
     }
 
+    display = Display.getCurrent();
     return c;
   }
 
@@ -82,13 +83,22 @@ public class Canvas2Peer extends CanvasPeer implements PaintListener
     caret.setBounds((int)x, (int)y, (int)w, (int)h);
   }
 
-  public static class AwtCanvas extends java.awt.Canvas{
+  public class AwtCanvas extends java.awt.Canvas{
     public Canvas2 self;
+
+    private boolean lock;
 
     public void paint(java.awt.Graphics gc)
     {
-      Graphics2 g = new AwtGraphics((java.awt.Graphics2D)gc);
+      final Graphics2 g = new AwtGraphics((java.awt.Graphics2D)gc);
       Gfx2.setEngine("AWT");
+
+      if (java.lang.Thread.currentThread() != display.getThread())
+      {
+        asyncPaint(g);
+        return;
+      }
+
       try
       {
         (self).onPaint(g);
@@ -98,6 +108,29 @@ public class Canvas2Peer extends CanvasPeer implements PaintListener
       {
         g.dispose();
       }
+    }
+
+    private void asyncPaint(final Graphics2 g)
+    {
+      final Runnable runnable = new Runnable()
+      {
+        public void run()
+        {
+          try
+          {
+            (self).onPaint(g);
+            (self).onPaint2(g);
+          }
+          finally
+          {
+            g.dispose();
+            lock = false;
+          }
+        }
+      };
+      lock = true;
+      display.asyncExec(runnable);
+      while (lock) {}
     }
   }
 }
