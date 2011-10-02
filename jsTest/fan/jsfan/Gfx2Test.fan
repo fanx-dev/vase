@@ -40,7 +40,7 @@ class Gfx2Test : Canvas2
     Graphics2 g := gc
 
     //transform
-    trans := Transform2D().scale(0f, 0f, 3f, 3f).translate(10f, 40f).rotate(10f, 10f, 0.5f)
+    trans := Transform2D().scale(0f, 0f, 3f, 3f).translate(10f, 40f).rotate(10f, 10f, -0.5f)
     g.setTransform(trans)
 
 
@@ -77,7 +77,7 @@ class Gfx2Test : Canvas2
 
   static Void main()
   {
-    //Gfx2.setEngine("AWT")
+    Gfx2.setEngine("AWT")
     Window
     {
       content = Gfx2Test()

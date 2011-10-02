@@ -28,13 +28,21 @@ class Gfx2Offscreen : Canvas2
     g.brush = Color.yellow
     g.fillRect(5,5,300,300)
 
-    g.brush = Color.black
-    g.drawText("Hello \nWorld", 20, 100)
+    g.brush = Color.red
+    g.fillRect(0,0,5,5)
 
-    trans := Transform2D().scale(0f, 0f, 3f, 3f).rotate(10f, 10f, 0.5f)
-    g.setTransform(trans)
     g.brush = Color.black
-    g.fillRect(10,10,10,10)
+    x := 100
+    y := 10
+    g.drawText("Hello \nWorld", x, y)
+
+    trans := Transform2D().rotate(0f, 0f, 0.5f)
+    g.setTransform(trans)
+    g.drawText("Hello \nWorld", x, y)
+
+    trans = Transform2D().rotate(x.toFloat, y.toFloat, 0.5f)
+    g.setTransform(trans)
+    g.drawText("Hello \nWorld", x, y)
 
     g.dispose
   }

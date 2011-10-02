@@ -25,7 +25,9 @@ class Gfx2Caret : Canvas2
 
   new make()
   {
-    onKeyUp.add { str += it.keyChar.toChar; this.repaint }
+    onKeyUp.add { str += it.key->mask->toChar; this.repaint }
+    // js not support keyChar
+    //onKeyUp.add { str += it.keyChar.toChar; this.repaint }
   }
 
   override Void onPaint(Graphics gc)

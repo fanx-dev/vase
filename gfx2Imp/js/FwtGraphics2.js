@@ -136,8 +136,8 @@ fan.gfx2Imp.Graphics2.doJsTransform = function(cx, trans)
 {
   cx.setTransform(
        trans.get(0,0),
-       trans.get(1,0),
        trans.get(0,1),
+       trans.get(1,0),
        trans.get(1,1),
        trans.get(2,0),
        trans.get(2,1)
