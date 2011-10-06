@@ -19,7 +19,9 @@ class FwtViewTest
     Int i:=0
     View
     {
+      onStateChanged.add |e|{ echo(e) }
       size = Size(500, 500)
+      doubleBuffer
       Button { onAction.add { echo("Hi ${i++}") }; pos = Point(10, 10); text = "OK" },
     }.show
   }

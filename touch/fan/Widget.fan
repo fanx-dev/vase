@@ -16,26 +16,69 @@ using gfx2
 @Js
 abstract class Widget
 {
+  
+//////////////////////////////////////////////////////////////////////////
+// State
+//////////////////////////////////////////////////////////////////////////
+  
   **
   ** Controls whether this widget is visible or hidden.
   **
   Bool visible := true
+  {
+    set
+    {
+      e := StateChangedEvent (&visible, it, #visible, this )
+      onStateChanged.fire(e)
+      &visible = it
+    }
+  }
   
   **
   ** Enabled is used to control whether this widget can
   ** accept user input.  Disabled controls are "grayed out".
   **
   Bool enabled := true
+  {
+    set
+    {
+      e := StateChangedEvent (&enabled, it, #enabled, this )
+      onStateChanged.fire(e)
+      &enabled = it
+    }
+  }
   
   **
   ** Position of this widget relative to its parent.
   **
   Point pos := Point(0, 0)
+  {
+    set
+    {
+      e := StateChangedEvent (&pos, it, #pos, this )
+      onStateChanged.fire(e)
+      &pos = it
+    }
+  }
   
   **
   ** Size of this widget.
   **
   Size size := Size(50, 50)
+  {
+    set
+    {
+      e := StateChangedEvent (&size, it, #size, this )
+      onStateChanged.fire(e)
+      &size = it
+    }
+  }
+  
+  
+  **
+  ** Callback function when Widget state changed
+  **
+  once EventListeners onStateChanged() { EventListeners() }
   
 //////////////////////////////////////////////////////////////////////////
 // Widget Tree
@@ -146,10 +189,33 @@ abstract class Widget
     }
   }
   virtual Void keyPress(KeyEvent e) { children.each { it.keyPress(e) } }
-  virtual Void paint(Graphics2 g)
+  
+//////////////////////////////////////////////////////////////////////////
+// Paint
+//////////////////////////////////////////////////////////////////////////
+  
+  Image2? bufferedImage
+  
+  Void doubleBuffer()
   {
-    g.brush = Color.white
-    g.fillRect(0, 0, size.w, size.h)
+    bufferedImage = Image2(size)
+  }
+  
+  virtual Void paint(Graphics2 g2)
+  {
+    if (bufferedImage == null)
+    {
+      onPaint(g2)
+      return
+    }
+    g := bufferedImage.graphics
+    onPaint(g)
+    g2.drawImage2(bufferedImage, pos.x, pos.y)
+    g.dispose
+  }
+  
+  virtual Void onPaint(Graphics2 g)
+  {
     children.each
     {
       g.push

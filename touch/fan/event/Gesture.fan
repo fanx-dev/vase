@@ -8,7 +8,7 @@
 
 class Gesture
 {
-  static const Duration clickDuration := 100ms
+  static const Duration clickDuration := 500ms
   MotionEvent? down
   MotionEvent? move
   MotionEvent? up
