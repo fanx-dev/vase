@@ -14,9 +14,12 @@ using concurrent
 mixin NativeView
 {
   abstract Size size()
+  abstract Size displaySize()
   abstract Point pos()
   abstract Void show(Size? size := null)
   abstract Void repaint(Rect? dirty := null)
+  abstract Bool hasFocus()
+  abstract Void focus()
   
   static NativeView build(View view)
   {

@@ -10,6 +10,9 @@
 class Event
 {
   Bool consumed := false
+  DateTime time := DateTime.now
+  Obj? src
+  Obj? data
 }
 
 @Js

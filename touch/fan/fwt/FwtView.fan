@@ -18,8 +18,11 @@ class FwtView : NativeView
   
   override Size size() { canvas.size }
   override Point pos() { canvas.pos }
+  override Size displaySize() { Size(Desktop.bounds.w, Desktop.bounds.h) }
   
   override Void repaint(Rect? dirty := null) { canvas.repaint(dirty) }
+  override Bool hasFocus() { canvas.hasFocus }
+  override Void focus() { canvas.focus }
   
   override Void show(Size? size := null)
   {
@@ -37,6 +40,49 @@ class FwtView : NativeView
   {
     this.view = view
     this.canvas = FwtCanvas(view)
+    this.canvas.onMouseDown.add |e|
+    {
+      p := MotionPointer { it.pos = e.pos; action = MotionAction.down }
+      m := MotionEvent([p])
+      view.touch(m)
+    }
+    
+    this.canvas.onMouseMove.add |e|
+    {
+      if (e.button == null) return
+      p := MotionPointer { it.pos = e.pos; action = MotionAction.move }
+      m := MotionEvent([p])
+      view.touch(m)
+    }
+    
+    this.canvas.onMouseUp.add |e|
+    {
+      p := MotionPointer { it.pos = e.pos; action = MotionAction.up }
+      m := MotionEvent([p])
+      view.touch(m)
+    }
+    
+    this.canvas.onKeyDown.add |e|
+    {
+      k := KeyEvent
+      {
+        it.keyChar = e.keyChar.toChar
+        it.keyCode = e.key.primary->mask
+        it.modifiers = e.key.modifiers->mask
+        it.isDown = true
+      }
+    }
+    
+    this.canvas.onKeyUp.add |e|
+    {
+      k := KeyEvent
+      {
+        it.keyChar = e.keyChar.toChar
+        it.keyCode = e.key.primary->mask
+        it.modifiers = e.key.modifiers->mask
+        it.isDown = false
+      }
+    }
   }
 }
 

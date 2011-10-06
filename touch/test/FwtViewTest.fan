@@ -10,18 +10,17 @@ using concurrent
 using gfx
 using gfx2
 
-class FwtTestView : View
+class FwtViewTest
 {
-  override Void paint(Graphics2 g)
-  {
-    g.drawOval(10, 10, 10, 10)
-  }
-}
-class FwtViewTest : Test
-{
-  Void test()
+  Void main()
   {
     Actor.locals["fan3dTouch.NativeViewFactory"] = FwtViewFactory()
-    FwtTestView.make.show(Size(500, 500))
+    
+    Int i:=0
+    View
+    {
+      size = Size(500, 500)
+      Button { onAction.add { echo("Hi ${i++}") }; pos = Point(10, 10); text = "OK" },
+    }.show
   }
 }
