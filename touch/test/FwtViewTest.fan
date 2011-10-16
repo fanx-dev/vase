@@ -12,10 +12,10 @@ using gfx2
 
 class FwtViewTest
 {
-  Void main()
+  static Void main()
   {
     Actor.locals["fan3dTouch.NativeViewFactory"] = FwtViewFactory()
-    
+
     Int i:=0
     View
     {

@@ -16,11 +16,11 @@ using gfx2
 @Js
 abstract class Widget
 {
-  
+
 //////////////////////////////////////////////////////////////////////////
 // State
 //////////////////////////////////////////////////////////////////////////
-  
+
   **
   ** Controls whether this widget is visible or hidden.
   **
@@ -33,7 +33,7 @@ abstract class Widget
       &visible = it
     }
   }
-  
+
   **
   ** Enabled is used to control whether this widget can
   ** accept user input.  Disabled controls are "grayed out".
@@ -47,7 +47,7 @@ abstract class Widget
       &enabled = it
     }
   }
-  
+
   **
   ** Position of this widget relative to its parent.
   **
@@ -60,7 +60,7 @@ abstract class Widget
       &pos = it
     }
   }
-  
+
   **
   ** Size of this widget.
   **
@@ -73,21 +73,21 @@ abstract class Widget
       &size = it
     }
   }
-  
-  
+
+
   **
   ** Callback function when Widget state changed
   **
   once EventListeners onStateChanged() { EventListeners() }
-  
+
 //////////////////////////////////////////////////////////////////////////
 // Widget Tree
 //////////////////////////////////////////////////////////////////////////
-  
+
   private Widget[] children := Widget[,]
   Widget? parent { private set }
   internal Void setParent(Widget p) { parent = p } // for View.make
-  
+
   **
   ** Iterate the children widgets.
   **
@@ -95,7 +95,7 @@ abstract class Widget
   {
     children.each(f)
   }
-  
+
   **
   ** Remove a child widget
   **
@@ -106,7 +106,7 @@ abstract class Widget
     child.parent = null
     return this
   }
-  
+
   **
   ** Remove all child widgets.  Return this.
   **
@@ -115,7 +115,7 @@ abstract class Widget
     children.dup.each |Widget kid| { remove(kid) }
     return this
   }
-  
+
   **
   ** Add a child widget.
   ** If child is already parented throw ArgErr.  Return this.
@@ -128,7 +128,7 @@ abstract class Widget
     children.add(child)
     return this
   }
-  
+
   **
   ** Absolute position. relative to the view
   **
@@ -138,7 +138,7 @@ abstract class Widget
     p := parent.absolutePos
     return Point(p.x + pos.x, p.y + pos.y)
   }
-  
+
   **
   ** Get this widget's parent View or null if not
   ** mounted under a View widget.
@@ -157,7 +157,7 @@ abstract class Widget
 //////////////////////////////////////////////////////////////////////////
 // layout
 //////////////////////////////////////////////////////////////////////////
-  
+
   virtual This relayout() { children.each { it.relayout }; return this }
   virtual Size prefSize(Hints hints := Hints.defVal) { return size }
   virtual Void repaint(Rect? dirty := null)
@@ -167,7 +167,7 @@ abstract class Widget
     this.parent.repaint(dirty)
   }
   virtual Void repaintLater(Rect? dirty := null) {}
-  
+
   Rect bounds
   {
     get { return Rect.makePosSize(pos, size) }
@@ -177,7 +177,7 @@ abstract class Widget
 //////////////////////////////////////////////////////////////////////////
 // event
 //////////////////////////////////////////////////////////////////////////
-  
+
   virtual Void touch(MotionEvent e)
   {
     children.each
@@ -189,18 +189,18 @@ abstract class Widget
     }
   }
   virtual Void keyPress(KeyEvent e) { children.each { it.keyPress(e) } }
-  
+
 //////////////////////////////////////////////////////////////////////////
 // Paint
 //////////////////////////////////////////////////////////////////////////
-  
+
   Image2? bufferedImage
-  
+
   Void doubleBuffer()
   {
     bufferedImage = Image2(size)
   }
-  
+
   virtual Void paint(Graphics2 g2)
   {
     if (bufferedImage == null)
@@ -213,7 +213,7 @@ abstract class Widget
     g2.drawImage2(bufferedImage, pos.x, pos.y)
     g.dispose
   }
-  
+
   virtual Void onPaint(Graphics2 g)
   {
     children.each
@@ -225,11 +225,11 @@ abstract class Widget
       g.pop
     }
   }
-  
+
 //////////////////////////////////////////////////////////////////////////
 // Focus
 //////////////////////////////////////////////////////////////////////////
-  
+
   **
   ** Return if this widget is the focused widget which
   ** is currently receiving all keyboard input.

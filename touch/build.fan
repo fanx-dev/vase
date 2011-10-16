@@ -14,7 +14,7 @@ class Build : build::BuildPod
   {
     podName = "fan3dTouch"
     summary = "a light weight widget system for touch devices"
-    srcDirs = [`test/`, `fan/`, `fan/widget/`, `fan/fwt/`, `fan/event/`]
+    srcDirs = [`test/`, `fan/`, `fan/widget/`, `fan/fwt/`, `fan/event/`, `fan/android/`]
     depends = ["sys 1.0", "gfx 1.0", "gfx2 1.0", "concurrent 1.0", "fwt 1.0", "gfx2Imp 1.0"]
   }
 }
