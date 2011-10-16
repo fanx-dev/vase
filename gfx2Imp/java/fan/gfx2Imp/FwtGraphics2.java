@@ -93,6 +93,22 @@ public class FwtGraphics2 extends FwtGraphics implements Graphics2
     return this;
   }
 
+  @Override
+  public void transform(Transform2D trans) {
+    Transform t = toSwtTransform(trans);
+    gc.setTransform(t);
+    t.dispose();
+  }
+
+  @Override
+  public Transform2D transform() {
+    Transform t = new Transform(FwtEnv2.getDisplay());
+    gc.getTransform(t);
+    Transform2D trans = toTransform(t);
+    t.dispose();
+    return trans;
+  }
+
   public FwtGraphics2 clipPath(Path path)
   {
     if (!gc.isClipped())
@@ -184,5 +200,18 @@ public class FwtGraphics2 extends FwtGraphics implements Graphics2
        (float)trans.get(2,0),
        (float)trans.get(2,1)
        );
+  }
+
+  static public Transform2D toTransform(Transform trans) {
+    float[] elem = new float[6];
+    trans.getElements(elem);
+    Transform2D t = Transform2D.make();
+    t.set(0,0, elem[0]);
+    t.set(0,1, elem[1]);
+    t.set(1,0, elem[2]);
+    t.set(1,1, elem[3]);
+    t.set(2,0, elem[4]);
+    t.set(2,1, elem[5]);
+    return t;
   }
 }

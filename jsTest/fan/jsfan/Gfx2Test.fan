@@ -41,7 +41,7 @@ class Gfx2Test : Canvas2
 
     //transform
     trans := Transform2D().scale(0f, 0f, 3f, 3f).translate(10f, 40f).rotate(10f, 10f, -0.5f)
-    g.setTransform(trans)
+    g.transform = trans
 
 
     g.drawImage2(p, 10, 10)

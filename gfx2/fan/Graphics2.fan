@@ -51,7 +51,7 @@ mixin Graphics2 : Graphics
   **
   ** the transform that is currently being used
   **
-  abstract This setTransform(Transform2D trans)
+  abstract Transform2D transform
 
   **
   ** create a new clipping region by calculating the intersection of

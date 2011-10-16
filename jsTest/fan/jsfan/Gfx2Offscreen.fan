@@ -37,11 +37,11 @@ class Gfx2Offscreen : Canvas2
     g.drawText("Hello \nWorld", x, y)
 
     trans := Transform2D().rotate(0f, 0f, 0.5f)
-    g.setTransform(trans)
+    g.transform = trans
     g.drawText("Hello \nWorld", x, y)
 
     trans = Transform2D().rotate(x.toFloat, y.toFloat, 0.5f)
-    g.setTransform(trans)
+    g.transform = trans
     g.drawText("Hello \nWorld", x, y)
 
     g.dispose

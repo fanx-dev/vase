@@ -28,7 +28,9 @@ class Transform2D
   Matrix matrix := Matrix.makeIndentity(3)
 
   Float get(Int x, Int y) { return matrix.get(x, y); }
+  Void set(Int x, Int y, Float val) { matrix.set(x, y, val) }
   Transform2D clone() { return Transform2D { it.matrix = this.matrix.clone } }
+  This mult(Transform2D t) { matrix = matrix * t.matrix; return this }
 
 //////////////////////////////////////////////////////////////////////////
 // Transform

@@ -368,9 +368,13 @@ public class AwtGraphics implements Graphics2 {
   }
 
   @Override
-  public Graphics2 setTransform(Transform2D trans) {
+  public void transform(Transform2D trans) {
     gc.setTransform(AwtUtil.toAwtTransform(trans));
-    return this;
+  }
+
+  @Override
+  public Transform2D transform() {
+    return AwtUtil.toTransform(gc.getTransform());
   }
 
   public void push() {

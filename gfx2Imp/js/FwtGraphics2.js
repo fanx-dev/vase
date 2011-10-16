@@ -79,11 +79,15 @@ fan.gfx2Imp.Graphics2.prototype.fillPolygon2 = function(p)
   return this;
 }
 
-fan.gfx2Imp.Graphics2.prototype.setTransform = function(trans)
+fan.gfx2Imp.Graphics2.prototype.m_transform = fan.fan3dMath.Transform2D.make();
+fan.gfx2Imp.Graphics2.prototype.transform = function() { return this.m_transform; }
+fan.gfx2Imp.Graphics2.prototype.transform$ = function(trans)
 {
   fan.gfx2Imp.Graphics2.doJsTransform(this.cx, trans);
+  m_transform = trans.clone();
   return this;
 }
+
 
 fan.gfx2Imp.Graphics2.prototype.clipPath = function(path)
 {
@@ -91,7 +95,6 @@ fan.gfx2Imp.Graphics2.prototype.clipPath = function(path)
   this.cx.clip();
   return this;
 }
-
 
 //////////////////////////////////////////////////////////////////////////
 // Util

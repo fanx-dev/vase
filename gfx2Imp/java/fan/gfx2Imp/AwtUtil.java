@@ -43,6 +43,19 @@ public class AwtUtil {
        (float)trans.get(2,1));
   }
 
+  static public Transform2D toTransform(AffineTransform trans) {
+    double[] elem = new double[6];
+    trans.getMatrix(elem);
+    Transform2D t = Transform2D.make();
+    t.set(0,0, elem[0]);
+    t.set(0,1, elem[1]);
+    t.set(1,0, elem[2]);
+    t.set(1,1, elem[3]);
+    t.set(2,0, elem[4]);
+    t.set(2,1, elem[5]);
+    return t;
+  }
+
   static public Path2D toAwtPath(fan.gfx2.Path path) {
     int size = (int) path.steps().size();
     Path2D swtPath = new Path2D.Float();
