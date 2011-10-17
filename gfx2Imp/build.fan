@@ -16,7 +16,7 @@ class Build : BuildPod
     podName  = "gfx2Imp"
     summary  = "implementing of gfx2"
     depends  = ["sys 1.0", "gfx2 1.0", "fwt 1.0", "gfx 1.0", "array 1.0", "fan3dMath 1.0", "concurrent 1.0"]
-    srcDirs  = [`fan/`, `test/`]
+    srcDirs  = [`fan/`]
     javaDirs = [`java/`]
     jsDirs   = [`js/`]
     //docSrc   = true

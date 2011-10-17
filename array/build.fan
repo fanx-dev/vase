@@ -16,7 +16,7 @@ class Build : BuildPod
     podName  = "array"
     summary  = "map to java base primary array"
     depends  = ["sys 1.0"]
-    srcDirs  = [`fan/`, `test/`]
+    srcDirs  = [`fan/`]
     javaDirs = [`java/`]
     jsDirs   = [`js/`]
     //docSrc   = true
