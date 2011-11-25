@@ -15,9 +15,9 @@ class MotionPointer
   const Float? pressure
   const Float? size
   const MotionAction action
-  
+
   new make(|This| f){ f(this) }
-  
+
   override Str toStr()
   {
     "pos: $pos, action: $action, pressure: $pressure, size: size"
@@ -27,29 +27,29 @@ class MotionPointer
 @Js
 enum class MotionAction
 {
-  down, move, up
+  down, move, up, none
 }
 
 @Js
 class MotionEvent : Event
 {
   private MotionPointer[] pointers
-  
+
   new make(MotionPointer[] pointers)
   {
     this.pointers = pointers
   }
-  
+
   Float? pressure(Int i := 0) { pointers[i].pressure }
   Float? size(Int i := 0) { pointers[i].size }
   Point pos(Int i := 0) { pointers[i].pos }
-  
+
   Bool isDown(Int i:=0) { pointers[i].action == MotionAction.down }
   Bool isMove(Int i:=0) { pointers[i].action == MotionAction.move }
   Bool isUp(Int i:=0) { pointers[i].action == MotionAction.up }
-  
+
   Int count() { pointers.size }
-  
+
   override Str toStr()
   {
     pointers.toStr

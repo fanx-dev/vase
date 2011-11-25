@@ -18,7 +18,7 @@ class Build : BuildScript
     dist.outFile = `./fan3d.jar`.toFile.normalize
     dist.podNames = Str["array", "fogl", "gfx2", "gfx2Imp", "fan3dMath", "fan3dTouch", "gfx", "fwt",
                         "inet", "concurrent"]
-    dist.mainMethod = "fan3dTouch::FwtViewTest.main"
+    dist.mainMethod = "fan3dTouch::Main.main"
     dist.run
   }
 }

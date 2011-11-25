@@ -14,8 +14,8 @@ class FwtViewTest
 {
   static Void main()
   {
-    Actor.locals["fan3dTouch.NativeViewFactory"] = FwtViewFactory()
-
+    if (Actor.locals["fan3dTouch.NativeViewFactory"] == null)
+      Actor.locals["fan3dTouch.NativeViewFactory"] = FwtViewFactory()
     Int i:=0
     View
     {

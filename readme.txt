@@ -4,7 +4,8 @@ lib: LWJGL is a java openGL port.
 array: primary number array
 gfx2: extending of gfx
 gfx2Imp: AWT, SWT, HTML5Canvas, Andorid implementions
-jsTest: examples for test.
+jsTest: examples for test
+touch: widget system for touch devices
 
 Setting LWJGL:
 1. copy all .jar to fanHome/lib/java/ext/

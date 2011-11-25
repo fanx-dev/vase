@@ -15,8 +15,8 @@ using [java]android.graphics::Rect as ARect
 using [java]android.app::Activity
 using [java]android.graphics::Canvas
 using [java]java.lang::Class
+using [java]java.lang.reflect::Constructor
 using [java]android.view::MotionEvent as AMotionEvent
-
 class AndView : AView, NativeView
 {
   View view
@@ -58,16 +58,60 @@ class AndView : AView, NativeView
   {
     //AndGraphics g := AndGraphics(canvas)
     c := Class.forName("fan.gfx2Imp.AndGraphics")
-    Graphics2 g := c.getConstructors[0]->newInstance(canvas)
+    Constructor? ctor := c.getConstructors[0]
+    Graphics2 g := ctor.newInstance([canvas])
     view.paint(g)
   }
-
   override Bool onTouchEvent(AMotionEvent? event)
   {
-    return true
+    e := andToFan(event)
+    view.touch(e)
+    return e.consumed
+  }
+
+//////////////////////////////////////////////////////////////////////////
+// MotionEvent
+//////////////////////////////////////////////////////////////////////////
+
+  static MotionEvent andToFan(AMotionEvent? event)
+  {
+    pointers := MotionPointer[,]
+    event.getPointerCount.times
+    {
+      pointers.add(getMotionPointer(event, it))
+    }
+    return MotionEvent(pointers)
+  }
+
+  private static MotionPointer getMotionPointer(AMotionEvent? e, Int i)
+  {
+    MotionPointer
+    {
+      pos = Point(e.getX(i).toInt, e.getY(i).toInt)
+      pressure = e.getPressure(i)
+      size = e.getSize(i)
+
+      if (e.getActionIndex() != i)
+        action = MotionAction.none
+      else
+        action = getAction(e.getAction)
+    }
+  }
+
+  private static MotionAction getAction(Int i)
+  {
+    switch(i)
+    {
+    case AMotionEvent.ACTION_DOWN:
+      return MotionAction.down
+    case AMotionEvent.ACTION_MOVE:
+      return MotionAction.move
+    case AMotionEvent.ACTION_UP:
+      return MotionAction.up
+    }
+    return MotionAction.none
   }
 }
-
 
 class AndViewFactory : NativeViewFactory
 {

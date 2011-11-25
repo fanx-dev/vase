@@ -91,8 +91,8 @@ public class AndUtil {
     }
     return andPath;
   }
-
   static public Typeface toAndFont(Font f) {
+    if (f == null) return null;
     int style = 0;
     if (f.bold)
       style |= Typeface.BOLD;
@@ -102,8 +102,7 @@ public class AndUtil {
     Typeface typeface = Typeface.create(f.name, style);
     return typeface;
   }
-
-  static public android.graphics.Path palygonToPaht(List points) {
+  static public android.graphics.Path palygonToPath(List points) {
     android.graphics.Path andPath = new android.graphics.Path();
     int size = (int) points.size() * 2;
     Point fp = (Point)points.get(0);
@@ -114,10 +113,9 @@ public class AndUtil {
     }
     return andPath;
   }
-
-  static public android.graphics.Path palygonToPaht(Array points) {
+  static public android.graphics.Path palygonToPath(Array points) {
     android.graphics.Path andPath = new android.graphics.Path();
-    int size = (int) points.size() * 2;
+    int size = (int) points.size();
     float fx = points.getInt(0);
     float fy = points.getInt(1);
     andPath.moveTo(fx, fy);

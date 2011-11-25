@@ -24,6 +24,7 @@ class Build : BuildGroup
       `gfx2/build.fan`,
       `gfx2Imp/build.fan`,
       `fogl/build.fan`,
+      `touch/build.fan`,
     ]
   }
 

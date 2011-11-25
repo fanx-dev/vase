@@ -46,10 +46,8 @@ public class AndGraphics implements Graphics2 {
   int alpha = 255;
 
   Stack<State> stack = new Stack<State>();
-
   Canvas gc;
-  Paint p;
-
+  Paint p = new Paint();
   public AndGraphics(Canvas c)
   {
     gc = c;
@@ -205,10 +203,9 @@ public class AndGraphics implements Graphics2 {
   @Override
   public Graphics drawPolygon(List list) {
     p.setStyle(Paint.Style.STROKE);
-    gc.drawPath(AndUtil.palygonToPaht(list), p);
+    gc.drawPath(AndUtil.palygonToPath(list), p);
     return this;
   }
-
   @Override
   public Graphics drawPolyline(List list) {
     float[] fs = GfxUtil.toFloats(list);
@@ -228,10 +225,9 @@ public class AndGraphics implements Graphics2 {
       long hArc) {
     RectF r = new RectF(x, y, x + w, y + h);
     p.setStyle(Paint.Style.STROKE);
-    gc.drawRoundRect(r, wArc, hArc, p);
+    gc.drawRoundRect(r, wArc/2f, hArc/2f, p);
     return this;
   }
-
   @Override
   public Graphics drawText(String str, long x, long y) {
     p.setStyle(Paint.Style.FILL);
@@ -257,10 +253,9 @@ public class AndGraphics implements Graphics2 {
   @Override
   public Graphics fillPolygon(List list) {
     p.setStyle(Paint.Style.FILL);
-    gc.drawPath(AndUtil.palygonToPaht(list), p);
+    gc.drawPath(AndUtil.palygonToPath(list), p);
     return this;
   }
-
   @Override
   public Graphics fillRect(long x, long y, long w, long h) {
     p.setStyle(Paint.Style.FILL);
@@ -273,22 +268,22 @@ public class AndGraphics implements Graphics2 {
       long hArc) {
     RectF r = new RectF(x, y, x + w, y + h);
     p.setStyle(Paint.Style.FILL);
-    gc.drawRoundRect(r, wArc, hArc, p);
+    gc.drawRoundRect(r, wArc/2f, hArc/2f, p);
     return this;
   }
-
   @Override
   public Font font() {
     return font;
   }
-
   @Override
   public void font(Font f) {
+    this.font = font;
     Typeface typeface = AndUtil.toAndFont(f);
-    p.setTextSize(f.size);
     p.setTypeface(typeface);
-  }
 
+    //TODO: reset textSize
+    if (typeface != null) p.setTextSize(f.size);
+  }
   @Override
   public Pen pen() {
     return pen;
@@ -360,10 +355,9 @@ public class AndGraphics implements Graphics2 {
   @Override
   public Graphics2 drawPolyline2(Array a) {
     p.setStyle(Paint.Style.STROKE);
-    gc.drawPath(AndUtil.palygonToPaht(a), p);
+    gc.drawPath(AndUtil.palygonToPath(a), p);
     return this;
   }
-
   @Override
   public Graphics2 fillPath(Path path) {
     p.setStyle(Paint.Style.FILL);
@@ -374,10 +368,9 @@ public class AndGraphics implements Graphics2 {
   @Override
   public Graphics2 fillPolygon2(Array a) {
     p.setStyle(Paint.Style.FILL);
-    gc.drawPath(AndUtil.palygonToPaht(a), p);
+    gc.drawPath(AndUtil.palygonToPath(a), p);
     return this;
   }
-
   @Override
   public void transform(Transform2D trans) {
     gc.setMatrix(AndUtil.toAndTransform(trans));

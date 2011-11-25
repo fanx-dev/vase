@@ -264,9 +264,9 @@ public class AwtGraphics implements Graphics2 {
   public Font font() {
     return font;
   }
-
   @Override
   public void font(Font f) {
+    this.font = font;
     java.awt.Font font = AwtUtil.toFont(f);
     gc.setFont(font);
   }
