@@ -15,14 +15,22 @@ import fan.gfx2.*;
 
 public class Gfx2Peer
 {
-  static FwtEnv fwtEnv = FwtEnv.make();
+  private static FwtEnv fwtEnv;
+  static FwtEnv getFwtEnv()
+  {
+    if (fwtEnv == null)
+    {
+      fwtEnv = FwtEnv.make();
+    }
+    return fwtEnv;
+  }
 
   public static Gfx2Peer make(Gfx2 self) { return new Gfx2Peer(); }
 
   static public GfxEnv getEngine(String name)
   {
     if (name.equals("AWT")) return AwtGfxEnv.instance;
-    else if (name.equals("SWT")) return fwtEnv;
+    else if (name.equals("SWT")) return getFwtEnv();
     else if (name.equals("Android")) return AndGfxEnv.instance;
     else throw UnsupportedErr.make();
   }
