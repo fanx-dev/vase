@@ -21,7 +21,7 @@ mixin GlContext
   abstract Str getShaderInfoLog(GlShader shader)
   abstract Void uniformMatrix4fv(GlUniformLocation location, Bool transpose, ArrayBuffer value)
   abstract Void texImage2DBuffer(GlEnum target, Int level, GlEnum internalformat, Int width, Int height, Int border, GlEnum format, GlEnum type, ArrayBuffer pixels)
-  abstract Void texImage2D(GlEnum target, Int level, GlEnum internalformat, GlEnum format, GlEnum type, Image image)
+  abstract Void texImage2D(GlEnum target, Int level, GlEnum internalformat, GlEnum format, GlEnum type, GlImage image)
 
 
 //////////////////////////////////////////////////////////////////////////

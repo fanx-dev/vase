@@ -10,7 +10,7 @@
 ** Image represents a graphical image.
 **
 @Js
-class Image
+class GlImage
 {
   Uri uri
 

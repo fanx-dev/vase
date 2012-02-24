@@ -19,11 +19,9 @@ const class RootMod : PipelineMod
 {
   new make(Uri? path := null) : super(|PipelineMod pp|
   {
-    app := path == null ? SlanApp.makeProduct(this.typeof.pod.name) : SlanApp.makeDebug(path)
-
     pp.steps =
     [
-      SlanRouteMod(app)
+      SlanRouteMod.makeApp(this.typeof.pod.name)
     ]
     //pp.after = [ SlanLogMod(logDir) ]
 

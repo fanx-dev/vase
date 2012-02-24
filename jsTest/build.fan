@@ -32,7 +32,6 @@ class Build : build::BuildPod
       "gfx 1.0",
       "fwt 1.0",
       "sql 1.0",
-      "slanDao 1.0",
       "fogl 1.0",
       "fan3dMath 1.0",
       "array 1.0",

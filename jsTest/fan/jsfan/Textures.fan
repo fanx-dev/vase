@@ -44,7 +44,7 @@ class Textures : GlDisplay
     uri := path == null ? `/public/nehe.gif` : `$path/public/nehe.gif`
     echo(uri)
 
-    image := Image(uri)
+    image := GlImage(uri)
     image.load
     {
       echo(image.width)

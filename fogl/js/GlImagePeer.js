@@ -7,10 +7,10 @@
 //
 
 
-fan.fogl.ImagePeer = fan.sys.Obj.$extend(fan.sys.Obj);
-fan.fogl.ImagePeer.prototype.$ctor = function(self) {}
+fan.fogl.GlImagePeer = fan.sys.Obj.$extend(fan.sys.Obj);
+fan.fogl.GlImagePeer.prototype.$ctor = function(self) {}
 
-fan.fogl.ImagePeer.prototype.load = function(self, func)
+fan.fogl.GlImagePeer.prototype.load = function(self, func)
 {
   this.image = new Image();
   this.image.onload = function()
@@ -20,12 +20,12 @@ fan.fogl.ImagePeer.prototype.load = function(self, func)
   this.image.src = self.m_uri.toStr();
 }
 
-fan.fogl.ImagePeer.prototype.width = function(self)
+fan.fogl.GlImagePeer.prototype.width = function(self)
 {
   return self.peer.image.width;
 }
 
-fan.fogl.ImagePeer.prototype.height = function(self)
+fan.fogl.GlImagePeer.prototype.height = function(self)
 {
   return self.peer.image.height;
 }

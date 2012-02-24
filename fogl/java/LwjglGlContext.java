@@ -111,7 +111,7 @@ class LwjglGlContext implements GlContext
   }
 
   public void texImage2D(GlEnum target, long level, GlEnum internalformat,
-                         GlEnum format, GlEnum type, Image image)
+                         GlEnum format, GlEnum type, GlImage image)
   {
     java.nio.Buffer d = image.peer.getValue();
 

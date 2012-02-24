@@ -17,15 +17,15 @@ import java.awt.image.*;
 import org.lwjgl.BufferUtils;
 
 
-class ImagePeer
+class GlImagePeer
 {
   private java.nio.Buffer data;
   private int width;
   private int height;
 
-  public static ImagePeer make(Image self) { return new ImagePeer(); }
+  public static GlImagePeer make(GlImage self) { return new GlImagePeer(); }
 
-  public void load(Image self, Func f)
+  public void load(GlImage self, Func f)
   {
     InputStream in = SysInStream.java(self.uri.toFile().in());
     BufferedImage bimage;
@@ -47,6 +47,6 @@ class ImagePeer
   }
 
   public java.nio.Buffer getValue() { return data; }
-  public long width(Image self) { return self.peer.width; }
-  public long height(Image self) { return self.peer.height; }
+  public long width(GlImage self) { return self.peer.width; }
+  public long height(GlImage self) { return self.peer.height; }
 }
