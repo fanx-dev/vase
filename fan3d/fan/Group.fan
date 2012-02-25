@@ -10,7 +10,7 @@ using fan3dMath
 
 class Group
 {
-  Transform3D? transform
+  Transform3D transform := Transform3D()
 
   private Group[] children := Group[,]
   Light[] lights := Light[,]

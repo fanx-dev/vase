@@ -10,7 +10,7 @@ using fan3dMath
 
 class Camera
 {
-  Transform3D? transform
+  Transform3D transform := Transform3D()
   Matrix? projection
 
 

@@ -20,6 +20,14 @@ class Scene
   Void init(GlContext gl)
   {
     this.gl = gl
+    root.each |g|
+    {
+      if (g is Object)
+      {
+        Object obj := g
+        obj.init(gl)
+      }
+    }
   }
 
   Void paint(GlContext gl)
@@ -30,7 +38,7 @@ class Scene
       {
         Object obj := g
         setMatrixUniforms(obj.transform, obj.program)
-        obj.paint()
+        obj.paint(gl)
       }
     }
   }

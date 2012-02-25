@@ -13,12 +13,13 @@ using array
 class Object : Group
 {
   Float[]? vertices
-  GlBuffer? triangleVertexPositionBuffer
+  private GlBuffer? triangleVertexPositionBuffer
   private Int vertexPositionAttribute
   private GlContext? gl
+
   Program? program
 
-  private Void init(GlContext? gl)
+  Void init(GlContext? gl)
   {
     this.gl = gl
     triangleVertexPositionBuffer = gl.createBuffer
@@ -32,7 +33,7 @@ class Object : Group
     gl.enableVertexAttribArray(vertexPositionAttribute)
   }
 
-  Void paint()
+  Void paint(GlContext gl)
   {
     gl.bindBuffer(GlEnum.arrayBuffer, triangleVertexPositionBuffer)
     gl.vertexAttribPointer(vertexPositionAttribute, 3, GlEnum.float, false, 0, 0)
