@@ -56,7 +56,7 @@ mixin Image2
   **
   ** make an empty image
   **
-  static Image2 make(Size size) { GfxEnv2.cur.makeImage2(size); }
+  static new make(Size size) { GfxEnv2.cur.makeImage2(size); }
 
   **
   ** get graphics context from image

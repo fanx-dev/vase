@@ -6,6 +6,7 @@
 //   2011-10-06  Jed Young  Creation
 //
 
+@Js
 class Gesture
 {
   static const Duration clickDuration := 500ms
@@ -15,7 +16,7 @@ class Gesture
   MotionEvent? preDown
   MotionEvent? preMove
   MotionEvent? preUp
-  
+
   Void add(MotionEvent e)
   {
     if (e.isDown)
@@ -36,7 +37,7 @@ class Gesture
       up = e
     }
   }
-  
+
   Bool isClick()
   {
     if (up != null && down != null && move == null && (up.time - down.time) < clickDuration)
@@ -45,7 +46,7 @@ class Gesture
     }
     return false
   }
-  
+
   Bool isLongPress()
   {
     if (down != null && move == null && (DateTime.now - down.time) > clickDuration)

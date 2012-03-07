@@ -6,12 +6,13 @@
 //   2011-10-05  Jed Young  Creation
 //
 
+@Js
 class KeyEvent : Event
 {
   const Str keyChar
   const Int keyCode
   const Bool isDown
   const Int modifiers
-  
+
   new make(|This| f) { f(this) }
 }
