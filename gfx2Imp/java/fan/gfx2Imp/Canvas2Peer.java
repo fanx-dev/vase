@@ -42,11 +42,12 @@ public class Canvas2Peer extends CanvasPeer implements PaintListener
 
   public Widget create(Widget parent)
   {
-    int style = SWT.NO_BACKGROUND | SWT.EMBEDDED;
+    String name = Gfx2.engineName();
+    int style = SWT.NO_BACKGROUND;
+    if ("AWT".equals(name)) style |= SWT.EMBEDDED;
     if (((Canvas2)self).buffered()) style |= SWT.DOUBLE_BUFFERED;
     Canvas c = new Canvas((Composite)parent, style);
 
-    String name = Gfx2.engineName();
     if (name == null || name.equals("SWT"))
     {
       c.addPaintListener(this);
