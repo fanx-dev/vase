@@ -43,22 +43,26 @@ public class GlCanvasPeer extends CanvasPeer implements PaintListener
 
     GLCanvas c = new GLCanvas((Composite)parent, SWT.NONE, data);
     c.addPaintListener(this);
+
+    getDisplay().asyncExec(new Runnable() {
+      public void run() {
+        if (!canvas().isDisposed()) {
+          setCurrent();
+          ((GlCanvas)self).onGlPaint(gl);
+          canvas().swapBuffers();
+          getDisplay().asyncExec(this);
+        }
+      }
+    });
     return c;
   }
 
   public void paintControl(PaintEvent e)
   {
-    if (!canvas().isDisposed())
-    {
-      setCurrent();
-      ((GlCanvas)self).onGlPaint(gl);
-      canvas().swapBuffers();
-    }
-
-    FwtGraphics g = new FwtGraphics(e);
-    ((GlCanvas)self).onPaint(g);
+    //FwtGraphics g = new FwtGraphics(e);
+    //((GlCanvas)self).onPaint(g);
     //((GlCanvas)self).onPaint2(g);
-    g.dispose();
+    //g.dispose();
   }
 
   public GlContext gl(GlCanvas self)
