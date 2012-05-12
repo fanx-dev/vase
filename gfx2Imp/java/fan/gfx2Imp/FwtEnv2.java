@@ -67,7 +67,7 @@ public class FwtEnv2 extends GfxEnv2
         {
           URL requestUrl = new URL( uri.toStr() );
           URLConnection con = requestUrl.openConnection();
-          //con.setRequestProperty("User-Agent", "Mozilla/4.0 (compatible; MSIE 5.0; Windows NT; DigExt)");
+          con.setRequestProperty("User-Agent", "Mozilla/4.0 (compatible; MSIE 5.0; Windows NT; DigExt)");
           jin = con.getInputStream();
         }
         catch(IOException e)
