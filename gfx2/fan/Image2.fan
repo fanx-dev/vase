@@ -53,7 +53,7 @@ mixin Image2
   **
   static Image2 fromUri(Uri uri, |This| onLoad) { GfxEnv2.cur.fromUri(uri, onLoad) }
 
-  static Image2 fromStream(InStream in) { GfxEnv2.cur.fromStream(uri, onLoad) }
+  static Image2 fromStream(InStream in) { GfxEnv2.cur.fromStream(in) }
 
   **
   ** make an empty image
