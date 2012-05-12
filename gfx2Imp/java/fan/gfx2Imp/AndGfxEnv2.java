@@ -23,6 +23,7 @@ import fan.sys.Func;
 import fan.sys.IOErr;
 import fan.sys.SysInStream;
 import fan.sys.Uri;
+import fan.sys.InStream;
 
 public class AndGfxEnv2 extends GfxEnv2 {
 
@@ -51,6 +52,15 @@ public class AndGfxEnv2 extends GfxEnv2 {
     AndImage2 p = new AndImage2();
     p.setImage(image);
     onLoad.call(p);
+    return p;
+  }
+
+  public Image2 fromStream(InStream in)
+  {
+    InputStream jin = SysInStream.java(in);
+    Bitmap image = BitmapFactory.decodeStream(jin);
+    AndImage2 p = new AndImage2();
+    p.setImage(image);
     return p;
   }
 

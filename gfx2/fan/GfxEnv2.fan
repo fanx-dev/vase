@@ -41,6 +41,7 @@ abstract const class GfxEnv2
 
   abstract Image2 fromUri(Uri uri, |Image2| onLoad)
   abstract Image2 makeImage2(Size size)
+  abstract Image2 fromStream(InStream in)
 
   abstract Bool contains(Path path, Float x, Float y)
 }

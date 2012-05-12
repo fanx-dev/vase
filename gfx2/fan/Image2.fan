@@ -51,7 +51,9 @@ mixin Image2
   **
   ** make form uri
   **
-  static Image2 fromUri(Uri uri, |This| onLoad) { GfxEnv2.cur.fromUri(uri, onLoad); }
+  static Image2 fromUri(Uri uri, |This| onLoad) { GfxEnv2.cur.fromUri(uri, onLoad) }
+
+  static Image2 fromStream(InStream in) { GfxEnv2.cur.fromStream(uri, onLoad) }
 
   **
   ** make an empty image

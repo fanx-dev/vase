@@ -50,6 +50,14 @@ public class FwtEnv2 extends GfxEnv2
     return p;
   }
 
+  public Image2 fromStream(InStream in)
+  {
+    InputStream jin = SysInStream.java(in);
+    Image image = new Image(getDisplay(), jin);
+    Image2 p = new Image2Imp(image);
+    return p;
+  }
+
   private void loadFromWeb(final Image2Imp p, final Uri uri, final Func onLoad)
   {
     new Thread(new Runnable(){
@@ -59,7 +67,7 @@ public class FwtEnv2 extends GfxEnv2
         {
           URL requestUrl = new URL( uri.toStr() );
           URLConnection con = requestUrl.openConnection();
-          con.setRequestProperty("User-Agent", "Mozilla/4.0 (compatible; MSIE 5.0; Windows NT; DigExt)");
+          //con.setRequestProperty("User-Agent", "Mozilla/4.0 (compatible; MSIE 5.0; Windows NT; DigExt)");
           jin = con.getInputStream();
         }
         catch(IOException e)

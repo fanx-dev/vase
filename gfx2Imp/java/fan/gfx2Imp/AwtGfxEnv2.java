@@ -24,6 +24,7 @@ import fan.sys.Func;
 import fan.sys.IOErr;
 import fan.sys.SysInStream;
 import fan.sys.Uri;
+import fan.sys.InStream;
 
 public class AwtGfxEnv2 extends GfxEnv2 {
 
@@ -49,6 +50,14 @@ public class AwtGfxEnv2 extends GfxEnv2 {
     AwtImage2 p = new AwtImage2();
     streamToImage(jin, p);
     onLoad.call(p);
+    return p;
+  }
+
+  public Image2 fromStream(InStream in)
+  {
+    InputStream jin = SysInStream.java(in);
+    AwtImage2 p = new AwtImage2();
+    streamToImage(jin, p);
     return p;
   }
 
