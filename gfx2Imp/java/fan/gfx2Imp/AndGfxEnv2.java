@@ -86,7 +86,7 @@ public class AndGfxEnv2 extends GfxEnv2 {
   @Override
   public Image2 makeImage2(Size size) {
     Bitmap image = Bitmap.createBitmap((int) size.w, (int) size.h,
-        Bitmap.Config.ARGB_8888);
+        Bitmap.Config.ARGB_4444);
     AndImage2 p = new AndImage2();
     p.setImage(image);
     return p;

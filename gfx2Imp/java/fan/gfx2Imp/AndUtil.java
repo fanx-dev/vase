@@ -33,17 +33,18 @@ public class AndUtil {
 
     int k = 0;
     for (int i = 0; i < 3; i++) {
-      for (int j = 0; j < 2; j++) {
-        values[k] = (float) trans.get(i, j);
+      for (int j = 0; j < 3; j++) {
+        values[k] = (float) trans.get(j, i);
         k++;
       }
     }
+
     m.setValues(values);
     return m;
   }
 
   static public Transform2D toTransform(android.graphics.Matrix trans) {
-    float[] elem = new float[6];
+    float[] elem = new float[9];
     trans.getValues(elem);
     Transform2D t = Transform2D.make();
     t.set(0,0, elem[0]);
