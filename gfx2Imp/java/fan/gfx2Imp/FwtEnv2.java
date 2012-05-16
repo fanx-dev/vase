@@ -36,15 +36,18 @@ public class FwtEnv2 extends GfxEnv2
   public Image2 fromUri(Uri uri, Func onLoad)
   {
     onLoad = (Func)onLoad.toImmutable();
-    if (uri.scheme().equals("http"))
+    if ("http".equals(uri.scheme()))
     {
       Image2Imp p = new Image2Imp();
       loadFromWeb(p, uri, onLoad);
       return p;
     }
 
-    InputStream jin = SysInStream.java(((fan.sys.File)uri.get()).in());
+    InputStream jin = SysInStream.java((uri.toFile()).in());
     Image image = new Image(getDisplay(), jin);
+    try{
+     jin.close();
+    } catch (IOException e) {}
     Image2 p = new Image2Imp(image);
     onLoad.call(p);
     return p;
