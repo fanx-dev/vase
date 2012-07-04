@@ -8,19 +8,13 @@
 
 
 **
-** Composite
+** PointArray
 **
 @Js
-enum class Composite
+mixin PointArray
 {
-  srcAtop,
-  srcIn,
-  srcOut,
-  dstAtop,
-  dstIn,
-  dstOut,
-  dstOver,
-  lighter,
-  copy,
-  xor
+  abstract Int size()
+  static new make(Int size) { GfxEnv.cur.makePointArray(size) }
+  abstract Int get(Int i)
+  abstract Void set(Int i, Int v)
 }
