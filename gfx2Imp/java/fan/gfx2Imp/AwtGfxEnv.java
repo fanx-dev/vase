@@ -14,6 +14,7 @@ import fan.gfx.Font;
 import fan.gfx.GfxEnv;
 import fan.gfx.Image;
 import fan.gfx.Size;
+import fan.gfx.Color;
 import fan.sys.Func;
 import fan.sys.UnsupportedErr;
 
@@ -70,4 +71,18 @@ public class AwtGfxEnv extends GfxEnv{
     throw UnsupportedErr.make();
   }
 
+  @Override
+  public void colorDispose(Color c) {
+    c.dispose();
+  }
+
+  @Override
+  public void fontDispose(Font f) {
+    f.dispose();
+  }
+
+  @Override
+  public void imageDispose(Image img) {
+    img.dispose();
+  }
 }

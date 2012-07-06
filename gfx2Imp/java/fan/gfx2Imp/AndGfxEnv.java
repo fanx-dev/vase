@@ -14,6 +14,7 @@ import fan.gfx.GfxEnv;
 import fan.gfx.Image;
 import fan.gfx.Size;
 import fan.sys.Func;
+import fan.gfx.Color;
 import fan.sys.UnsupportedErr;
 
 public class AndGfxEnv extends GfxEnv{
@@ -75,5 +76,20 @@ public class AndGfxEnv extends GfxEnv{
   @Override
   public Size imageSize(Image arg0) {
     throw UnsupportedErr.make();
+  }
+
+  @Override
+  public void colorDispose(Color c) {
+    c.dispose();
+  }
+
+  @Override
+  public void fontDispose(Font f) {
+    f.dispose();
+  }
+
+  @Override
+  public void imageDispose(Image img) {
+    img.dispose();
   }
 }
