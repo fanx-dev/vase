@@ -15,6 +15,10 @@ mixin PointArray
 {
   abstract Int size()
   static new make(Int size) { GfxEnv.cur.makePointArray(size) }
-  abstract Int get(Int i)
-  abstract Void set(Int i, Int v)
+
+  abstract Int getX(Int i)
+  abstract Void setX(Int i, Int v)
+
+  abstract Int getY(Int i)
+  abstract Void setY(Int i, Int v)
 }

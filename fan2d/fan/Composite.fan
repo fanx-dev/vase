@@ -22,5 +22,6 @@ enum class Composite
   dstOver,
   lighter,
   copy,
-  xor
+  xor,
+  clear
 }

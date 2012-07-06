@@ -44,7 +44,6 @@ mixin Graphics
   **
   abstract Int alpha
 
-
   **
   ** current composition operation
   **
@@ -58,17 +57,17 @@ mixin Graphics
   **
   ** Draw a polyline with the current pen and brush.
   **
-  abstract This drawPolyline(Point[] p)
+  abstract This drawPolyline(PointArray ps)
 
   **
   ** Draw a polygon with the current pen and brush.
   **
-  abstract This drawPolygon(Point[] p)
+  abstract This drawPolygon(PointArray ps)
 
   **
   ** Fill a polygon with the current brush.
   **
-  abstract This fillPolygon(Point[] p)
+  abstract This fillPolygon(PointArray ps)
 
   **
   ** Draw a rectangle with the current pen and brush.
