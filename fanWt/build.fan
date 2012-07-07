@@ -16,7 +16,7 @@ class Build : BuildPod
     podName  = "fanWt"
     summary  = "Windows toolkit"
     depends  = ["sys 1.0", "fan2d 1.0", "concurrent 1.0", "fan3dMath 1.0"]
-    srcDirs  = [`fan/`, `test/`]
+    srcDirs  = [`fan/`, `test/`, `fan/event/`]
     javaDirs = [`java/`]
     jsDirs   = [`js/`]
     //docSrc   = true
