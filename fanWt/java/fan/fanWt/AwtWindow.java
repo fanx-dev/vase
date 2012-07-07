@@ -8,7 +8,7 @@ import fan.fan2d.*;
 public class AwtWindow implements Window {
 
   View rootView;
-  JFrame frame;
+  
   AwtCanvas canvas;
 
   class AwtCanvas extends JPanel {
@@ -22,63 +22,63 @@ public class AwtWindow implements Window {
   }
 
   AwtWindow(View rootView) {
-    frame = new JFrame();
     canvas = new AwtCanvas();
-    frame.setContentPane(canvas);
     this.rootView = rootView;
-    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    ComponentUtils.bindEvent(rootView, frame);
+    ComponentUtils.bindEvent(rootView, canvas);
   }
 
   @Override
   public void focus() {
-    frame.requestFocus();
+  	canvas.requestFocus();
   }
 
   @Override
   public boolean hasFocus() {
-    return frame.hasFocus();
+    return canvas.hasFocus();
   }
 
   @Override
   public Point pos() {
-    return Point.make(frame.getX(), frame.getY());
+    return Point.make(canvas.getX(), canvas.getY());
   }
 
   @Override
   public void repaint() {
-    this.repaint();
+  	canvas.repaint();
   }
 
   @Override
   public void repaint(Rect r) {
-    frame.repaint((int)r.x, (int)r.y, (int)r.w, (int)r.h);
+  	canvas.repaint((int)r.x, (int)r.y, (int)r.w, (int)r.h);
   }
 
   @Override
   public void repaintLater() {
-    frame.repaint(1000);
+  	canvas.repaint(1000);
   }
 
   @Override
   public void repaintLater(Rect r) {
-    frame.repaint(1000, (int)r.x, (int)r.y, (int)r.w, (int)r.h);
+  	canvas.repaint(1000, (int)r.x, (int)r.y, (int)r.w, (int)r.h);
   }
 
   @Override
   public void show() {
-    frame.pack();
-    frame.setVisible(true);
-    try {
-      Thread.sleep(Long.MAX_VALUE);
-    } catch (InterruptedException e) {
-      e.printStackTrace();
-    }
+  	show(null);
   }
 
   @Override
   public void show(Size s) {
-    frame.setSize((int)s.w, (int)s.h);
+  	JFrame frame = new JFrame();
+  	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+  	frame.setContentPane(canvas);
+  	
+  	if (s != null) {
+  		frame.setSize((int)s.w, (int)s.h);
+  	} else {
+  		frame.pack();
+  	}
+    
     frame.setVisible(true);
     try {
       Thread.sleep(Long.MAX_VALUE);
@@ -89,7 +89,7 @@ public class AwtWindow implements Window {
 
   @Override
   public Size size() {
-    return Size.make(frame.getWidth(), frame.getHeight());
+    return Size.make(canvas.getWidth(), canvas.getHeight());
   }
 
 }
