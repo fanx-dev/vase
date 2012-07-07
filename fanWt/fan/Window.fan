@@ -3,7 +3,7 @@
 // Licensed under the Academic Free License version 3.0
 //
 // History:
-//   2011-7-4  Jed Young  Creation
+//   2012-7-7  Jed Young  Creation
 //
 
 using fan2d
@@ -37,21 +37,5 @@ mixin Window
   abstract Bool hasFocus()
   abstract Void focus()
 
-  static Window build(View view)
-  {
-    NativeToolkit.cur.build(view)
-  }
 }
 
-@NoDoc
-@Js
-mixin NativeToolkit
-{
-  static NativeToolkit cur()
-  {
-    NativeToolkit? factory := Actor.locals["fanWt.NativeToolkit"]
-    if (factory == null) throw NullErr("No NativeToolkit is active")
-    return factory
-  }
-  abstract Window build(View view)
-}

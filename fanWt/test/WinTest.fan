@@ -8,6 +8,18 @@
 
 using fan2d
 using concurrent
+using [java]java.lang::Class
+
+
+class MyView : View
+{
+  override Void onPaint(Graphics g) {
+    g.fillRect(20, 50, 200, 200)
+    g.drawLine(0, 00, 400, 400)
+  }
+
+  override Void onEvent(InputEvent e) {}
+}
 
 **
 ** Win Test
@@ -17,9 +29,9 @@ class WinTest
 {
   Void main()
   {
-    win := Win()
-    win.open
+    view := MyView()
+    win := ToolkitEnv().build(view)
+    win.show(Size(400, 400))
   }
-
 
 }

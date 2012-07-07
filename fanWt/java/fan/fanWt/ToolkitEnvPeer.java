@@ -10,18 +10,18 @@ package fan.fanWt;
 
 import javax.swing.*;
 
-import fan.sys.*;
-import fan.fan2d.*;
 
-
-public class WinPeer
+public class ToolkitEnvPeer
 {
-  public static WinPeer make(Win self)
+  public static ToolkitEnvPeer make(ToolkitEnv self)
   {
-    WinPeer peer = new WinPeer();
+    ToolkitEnvPeer peer = new ToolkitEnvPeer();
     return peer;
   }
 
+  public Window build(ToolkitEnv self, View view) {
+    return new AwtWindow(view);
+  }
 
   private static void createAndShowGUI() {
     //Create and set up the window.
@@ -38,7 +38,7 @@ public class WinPeer
     frame.setVisible(true);
   }
 
-  public void open(Win self) throws InterruptedException {
+  public void open() throws InterruptedException {
     javax.swing.SwingUtilities.invokeLater(new Runnable() {
         public void run() {
             createAndShowGUI();
