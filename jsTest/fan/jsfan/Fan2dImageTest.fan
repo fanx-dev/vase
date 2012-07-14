@@ -12,16 +12,16 @@ using concurrent
 using [java]java.lang::Class
 
 **
-** Win Test
+** Image Test
 **
 @Js
-class Fan2dWinTest
+class Fan2dImageTest
 {
   Void main()
   {
     ToolkitEnv.init
 
-    view := MyView()
+    view := MyImageView()
     win := ToolkitEnv.build(view)
     view.win = win
 
@@ -31,24 +31,34 @@ class Fan2dWinTest
 }
 
 @Js
-class MyView : View
+class MyImageView : View
 {
   Int i := 0
 
-  ConstImage? img
-
   Window? win
+
+  Image p := BufImage.fromUri(`fan://icons/x16/folder.png`) |p|
+  {
+    //image filter
+    for (i:=0; i < p.size.w; ++i)
+    {
+      for (j:=0; j < p.size.h; ++j)
+      {
+        c := p.getPixel(i,j)
+        //echo(c)
+        c = c.and(0xffff0000)
+        //echo(c)
+        p.setPixel(i, j, c)
+      }
+    }
+  }
 
   new make()
   {
-    img = ConstImage.make(`fan://icons/x16/folder.png`)
   }
 
   override Void onPaint(Graphics g) {
-    g.fillRect(20+i, 50, 200, 200)
-    g.drawLine(0, 0+i, 400, 400)
-    ++i
-    g.drawImage(img, 0, 0)
+    g.drawImage(p, 0, 0)
   }
 
   override Void onEvent(InputEvent e) {}

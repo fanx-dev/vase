@@ -16,10 +16,18 @@ fan.fanWt.Image.prototype.$typeof = function()
 
 fan.fanWt.Image.prototype.m_imageData = null;
 fan.fanWt.Image.prototype.m_image = null;
+
+//it's mem buf image, not load by uri
 fan.fanWt.Image.prototype.m_isImageData = false;
+
+//loaded ok
 fan.fanWt.Image.prototype.m_isLoaded = false;
 fan.fanWt.Image.prototype.m_uri = null;
+
+//image data pixcel be modify
 fan.fanWt.Image.prototype.m_imageChanged = false;
+
+//image be painted on parent canvas
 fan.fanWt.Image.prototype.m_painted = false;
 
 fan.fanWt.Image.prototype.m_size = null;
@@ -27,35 +35,30 @@ fan.fanWt.Image.prototype.size = function() { return this.m_size; }
 
 fan.fanWt.Image.prototype.getImage = function(widget)
 {
-  if (this.m_image && !this.m_imageChanged)
+  if (this.m_image && !this.m_imageChanged && !this.m_painted)
   {
-    this.m_imageChanged = false;
     return this.m_image;
   }
 
   if (!this.m_isImageData && !this.m_isLoaded)
   {
-    //this.m_image = fan.fwt.FwtEnvPeer.loadImage(this, widget);
     return this.m_image;
   }
 
   // the image be changed or paint on it
   var canvas = this.getCanvas();
-  if(!this.m_painted)
+  if(this.m_imageChanged)
   {
     this.m_cx = canvas.getContext("2d");
     this.m_cx.putImageData(this.m_imageData, 0, 0);
+    this.m_imageChanged = false;
     this.m_painted = false;
   }
 
   //load new image
   var image = new Image();
   this.m_image = image;
-  image.onload = function() {
-    p.m_isLoaded = true;
-  };
   image.src = canvas.toDataURL();
-
   return this.m_image;
 }
 
@@ -98,15 +101,19 @@ fan.fanWt.Image.prototype.getPixel = function(x, y)
 fan.fanWt.Image.prototype.setPixel = function(x, y, value)
 {
   var index = (y * this.getImageData().width + x)*4;
-  this.getImageData().data[index]   = value & 0x00ff0000;
-  this.getImageData().data[index+1] = value & 0x0000ff00;
-  this.getImageData().data[index+2] = value & 0x000000ff;
-  this.getImageData().data[index+3] = value & 0xff000000;
+  var r = (value >> 16) & 0xff;
+  var g = (value >> 8) & 0xff;
+  var b = value & 0xff;
+  var a = (value >> 24) & 0xff;
+  this.getImageData().data[index]   = r
+  this.getImageData().data[index+1] = g
+  this.getImageData().data[index+2] = b
+  this.getImageData().data[index+3] = a;
 
   this.m_imageChanged = true;
 }
 
-fan.fanWt.Image.prototype.toImage = function()
+fan.fanWt.Image.prototype.toConst = function()
 {
   throw fan.sys.UnsupportedErr.make();
 }
@@ -132,15 +139,13 @@ fan.fanWt.Image.prototype.graphics = function()
   this.graphics.init(cx, rect);
 
   //draw background
-  var imageData = this.m_imageData;
-  var image = this.m_image;
-  if (imageData)
-   g.cx.putImageData(imageData, 0, 0);
-  else if(image)
-   g.cx.drawImage(image, 0, 0);
+  if (this.m_imageData)
+    g.cx.putImageData(this.m_imageData, 0, 0);
+  else if(this.m_image)
+    g.cx.drawImage(this.m_image, 0, 0);
 
   this.m_painted = true;
-  this.m_imageChanged = true;
+  this.m_imageChanged = false;
   return g;
 }
 

@@ -169,14 +169,14 @@ public class AwtGraphics implements Graphics {
 
   @Override
   public Graphics drawPolygon(PointArray list) {
-  	AwtPointArray pa = (AwtPointArray)list;
+    AwtPointArray pa = (AwtPointArray)list;
     gc.drawPolygon(pa.xa, pa.ya, pa.xa.length);
     return this;
   }
 
   @Override
   public Graphics drawPolyline(PointArray list) {
-  	AwtPointArray pa = (AwtPointArray)list;
+    AwtPointArray pa = (AwtPointArray)list;
     gc.drawPolyline(pa.xa, pa.ya, pa.xa.length);
     return this;
   }
@@ -215,7 +215,7 @@ public class AwtGraphics implements Graphics {
 
   @Override
   public Graphics fillPolygon(PointArray list) {
-  	AwtPointArray pa = (AwtPointArray)list;
+    AwtPointArray pa = (AwtPointArray)list;
     gc.fillPolygon(pa.xa, pa.ya, pa.xa.length);
     return this;
   }
@@ -296,7 +296,12 @@ public class AwtGraphics implements Graphics {
 
   @Override
   public Graphics copyImage(fan.fan2d.Image img2, Rect src, Rect dest) {
-    BufferedImage img = ((AwtImage) img2).getImage();
+    BufferedImage img = null;
+    if (img2 instanceof AwtImage) {
+      img = ((AwtImage) img2).getImage();
+    } else if (img2 instanceof AwtConstImage) {
+      img = ((AwtConstImage) img2).getImage();
+    }
     gc.drawImage(img, (int) dest.x, (int) dest.y, (int) dest.x
         + (int) dest.w, (int) dest.y + (int) dest.h, (int) src.x,
         (int) src.y, (int) src.x + (int) src.w, (int) src.y
@@ -306,7 +311,12 @@ public class AwtGraphics implements Graphics {
 
   @Override
   public Graphics drawImage(fan.fan2d.Image img2, long x, long y) {
-    BufferedImage img = ((AwtImage) img2).getImage();
+    BufferedImage img = null;
+    if (img2 instanceof AwtImage) {
+      img = ((AwtImage) img2).getImage();
+    } else if (img2 instanceof AwtConstImage) {
+      img = ((AwtConstImage) img2).getImage();
+    }
     gc.drawImage(img, (int) x, (int) y, null);
     return this;
   }
@@ -370,16 +380,16 @@ public class AwtGraphics implements Graphics {
     Shape clip;
   }
 
-	@Override
-	public fan.fan2d.Composite composite() {
-		return composite;
-	}
-	
-	@Override
-	public void composite(fan.fan2d.Composite com) {
-		java.awt.AlphaComposite ncom = AwtUtil.toAwtComposite(com, (float)(this.alpha/255.0));
-		if (ncom == null) return;
-		this.gc.setComposite(ncom);
-		composite = com;
-	}
+  @Override
+  public fan.fan2d.Composite composite() {
+    return composite;
+  }
+
+  @Override
+  public void composite(fan.fan2d.Composite com) {
+    java.awt.AlphaComposite ncom = AwtUtil.toAwtComposite(com, (float)(this.alpha/255.0));
+    if (ncom == null) return;
+    this.gc.setComposite(ncom);
+    composite = com;
+  }
 }

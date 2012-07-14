@@ -357,7 +357,7 @@ fan.fanWt.Graphics.prototype.stack = new Array();
 fan.fanWt.Graphics.prototype.drawImage = function(image, x, y)
 {
   var jsImg = image.getImage(this.widget);
-  if (jsImg.width > 0 && jsImg.height > 0)
+  if (image.isLoaded() && jsImg.width > 0 && jsImg.height > 0)
     this.cx.drawImage(jsImg, x, y);
   else
   {
@@ -370,7 +370,7 @@ fan.fanWt.Graphics.prototype.drawImage = function(image, x, y)
 fan.fanWt.Graphics.prototype.copyImage = function(image, src, dest)
 {
   var jsImg = image.getImage(this.widget);
-  if (jsImg.width > 0 && jsImg.height > 0)
+  if (image.isLoaded() && jsImg.width > 0 && jsImg.height > 0)
     this.cx.drawImage(jsImg, src.m_x, src.m_y, src.m_w, src.m_h, dst.m_x, dst.m_y, dst.m_w, dst.m_h)
   else
   {

@@ -37,8 +37,7 @@ public class AwtImage implements BufImage
 
     public long getPixel(long x, long y)
     {
-      int rgb = image.getRGB((int)x, (int)y);
-      return rgb | 0xff000000;
+      return image.getRGB((int)x, (int)y);
     }
     public void setPixel(long x, long y, long value)
     {
@@ -76,12 +75,12 @@ public class AwtImage implements BufImage
       return new AwtGraphics(image.createGraphics());
     }
 
-	@Override
-	public void dispose() {
-	}
+  @Override
+  public void dispose() {
+  }
 
-	@Override
-	public ConstImage toConst() {
-		throw UnsupportedErr.make();
-	}
+  @Override
+  public ConstImage toConst() {
+    throw UnsupportedErr.make();
+  }
 }
