@@ -11,22 +11,11 @@ using fanWt
 using concurrent
 using [java]java.lang::Class
 
-@Js
-class MyView : View
-{
-  override Void onPaint(Graphics g) {
-    g.fillRect(20, 50, 200, 200)
-    g.drawLine(0, 00, 400, 400)
-  }
-
-  override Void onEvent(InputEvent e) {}
-}
-
 **
 ** Win Test
 **
 @Js
-class WinTest
+class Fan2dWinTest
 {
   Void main()
   {
@@ -36,3 +25,19 @@ class WinTest
   }
 
 }
+
+@Js
+class MyView : View
+{
+  Int i := 0
+
+  override Void onPaint(Graphics g) {
+    g.fillRect(20+i, 50, 200, 200)
+    g.drawLine(0, 0+i, 400, 400)
+    ++i
+  }
+
+  override Void onEvent(InputEvent e) {}
+}
+
+

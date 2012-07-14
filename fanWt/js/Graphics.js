@@ -22,12 +22,12 @@ fan.fanWt.Graphics.prototype.m_clip = null;
 // canvas - <canvas> element
 // bounds - fan.gfx.Rect
 // f - JS function(fan.fanWt.Graphics)
-fan.fanWt.Graphics.prototype.paint = function(canvas, bounds, f)
+fan.fanWt.Graphics.prototype.init = function(cx, bounds)
 {
   this.size = bounds.size();
   this.m_clip = bounds;
-  this.cx = canvas.getContext("2d");
-  this.cx.save();
+  this.cx = cx;
+  //this.cx.save();
   this.cx.lineWidth = 1;
   this.cx.lineCap = "square";
   this.cx.textBaseline = "top";
@@ -36,8 +36,8 @@ fan.fanWt.Graphics.prototype.paint = function(canvas, bounds, f)
   this.brush$(fan.gfx.Color.m_black);
   this.pen$(fan.gfx.Pen.m_defVal);
   //this.font$(fan.fwt.Desktop.sysFont());
-  f(this);
-  this.cx.restore();
+  //f(this);
+  //this.cx.restore();
 }
 
 // Brush brush
