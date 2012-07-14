@@ -7,7 +7,7 @@
 //
 
 fan.fanWt.GfxEnv = fan.sys.Obj.$extend(fan.fan2d.GfxEnv);
-fan.fanWt.GfxEnv.prototype.$ctor = function(self) {}
+fan.fanWt.GfxEnv.prototype.$ctor = function() {}
 
 fan.fanWt.GfxEnv.prototype.fromUri = function(uri, onLoaded)
 {

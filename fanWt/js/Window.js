@@ -7,7 +7,7 @@
 //
 
 fan.fanWt.Window = fan.sys.Obj.$extend(fan.sys.Obj);
-fan.fanWt.Window.prototype.$ctor = function(self) {}
+fan.fanWt.Window.prototype.$ctor = function() {}
 fan.fanWt.Window.prototype.view = null;
 fan.fanWt.Window.prototype.size = null;
 
@@ -46,28 +46,28 @@ fan.fanWt.Window.prototype.show = function(size)
   repaint();
 }
 
-fan.fanWt.Window.prototype.focus() {
+fan.fanWt.Window.prototype.focus = function() {
     //canvas.requestFocus();
 }
 
-fan.fanWt.Window.prototype.hasFocus() {
+fan.fanWt.Window.prototype.hasFocus = function() {
     //return canvas.hasFocus();
 }
 
-fan.fanWt.Window.prototype.pos() {
+fan.fanWt.Window.prototype.pos = function() {
     //return Point.make(canvas.getX(), canvas.getY());
 }
 
-fan.fanWt.Window.prototype.repaint(r) {
+fan.fanWt.Window.prototype.repaint = function(r) {
   var g = new fan.fan2d.Graphics();
   g.widget = this;
   g.paint(this.canvas, null, function() { g.widget.onPaint(g) });
 }
 
-fan.fanWt.Window.prototype.repaintLater(r) {
+fan.fanWt.Window.prototype.repaintLater = function(r) {
     //canvas.repaint(1000);
 }
 
-fan.fanWt.Window.prototype.size() {
+fan.fanWt.Window.prototype.size = function() {
   return this.size;
 }

@@ -11,7 +11,7 @@ fan.gfx2Imp.PixmapImp.prototype.$ctor = function() {}
 
 fan.gfx2Imp.PixmapImp.prototype.$typeof = function()
 {
-  return fan.gfx2.Pixmap.$type;
+  return fan.gfx2.Image2.$type;
 }
 
 fan.gfx2Imp.PixmapImp.prototype.m_imageData = null;

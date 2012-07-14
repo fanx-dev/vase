@@ -7,10 +7,11 @@
 //
 
 using fan2d
+using fanWt
 using concurrent
 using [java]java.lang::Class
 
-
+@Js
 class MyView : View
 {
   override Void onPaint(Graphics g) {

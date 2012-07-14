@@ -6,6 +6,8 @@
 //   2011-08-20  Jed Young  Creation
 //
 
+fan.fanWt.GfxUtil = {}
+
 fan.fanWt.GfxUtil.fontToCss = function(font)
 {
   var s = "";

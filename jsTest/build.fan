@@ -37,6 +37,9 @@ class Build : build::BuildPod
       "array 1.0",
       "gfx2 1.0",
       "gfx2Imp 1.0",
+      "fan2d 1.0",
+      "fanWt 1.0",
+      "fanWidget 1.0"
     ]
     resDirs =
     [
