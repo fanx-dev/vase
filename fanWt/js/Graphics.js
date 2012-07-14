@@ -357,16 +357,26 @@ fan.fanWt.Graphics.prototype.stack = new Array();
 fan.fanWt.Graphics.prototype.drawImage = function(image, x, y)
 {
   var jsImg = image.getImage(this.widget);
-  if (jsImg && jsImg.width > 0 && jsImg.height > 0)
-    this.cx.drawImage(jsImg, x, y)
+  if (jsImg.width > 0 && jsImg.height > 0)
+    this.cx.drawImage(jsImg, x, y);
+  else
+  {
+    var self = this;
+    fan.fanWt.GfxUtil.addEventListener(jsImg, "load", function(){ if(self.widget){ self.widget.needRepaint = true;} });
+  }
   return this;
 }
 
 fan.fanWt.Graphics.prototype.copyImage = function(image, src, dest)
 {
   var jsImg = image.getImage(this.widget);
-  if (jsImg && jsImg.width > 0 && jsImg.height > 0)
+  if (jsImg.width > 0 && jsImg.height > 0)
     this.cx.drawImage(jsImg, src.m_x, src.m_y, src.m_w, src.m_h, dst.m_x, dst.m_y, dst.m_w, dst.m_h)
+  else
+  {
+    var self = this;
+    fan.fanWt.GfxUtil.addEventListener(jsImg, "load", function(){ if(self.widget){ self.widget.needRepaint = true;} });
+  }
   return this;
 }
 

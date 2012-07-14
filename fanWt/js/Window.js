@@ -56,11 +56,11 @@ fan.fanWt.Window.prototype.show = function(size)
   var rect = new fan.fan2d.Rect.make(0,0, this.size.m_w, this.size.m_h);
   this.graphics.init(cx, rect);
 
+  this.needRepaint = false;
   this.repaint();
 
   //Repaint handling
   var self = this;
-  self.needRepaint = false;
   setInterval(function(){
     if (!self.needRepaint) return;
     self.repaint();

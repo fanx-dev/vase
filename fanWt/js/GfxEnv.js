@@ -13,14 +13,15 @@ fan.fanWt.GfxEnv.prototype.fromUri = function(uri, onLoaded)
 {
   var p = new fan.fanWt.Image();
   p.m_uri = uri;
-  var src = fan.fanWt.GfxUtil.uriToImageSrc(p.m_uri);
-  fan.fanWt.GfxUtil.loadImage(src, function(image)
-  {
-    p.m_image = image;
+  var image = new Image();
+  p.m_image = image;
+
+  fan.fanWt.GfxUtil.addEventListener(image, "load", function(){
     p.m_size = fan.gfx.Size.make(image.width, image.height);
     p.m_isLoaded = true;
     onLoaded.call(p);
   });
+  image.src = fan.fanWt.GfxUtil.uriToImageSrc(p.m_uri);
   return p;
 }
 

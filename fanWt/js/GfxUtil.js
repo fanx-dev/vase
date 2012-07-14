@@ -26,14 +26,15 @@ fan.fanWt.GfxUtil.uriToImageSrc = function(uri)
     return uri.toStr();
 }
 
-fan.fanWt.GfxUtil.loadImage = function(src, onLoaded)
+fan.fanWt.GfxUtil.addEventListener = function(obj, type, func)
 {
-  var image = new Image();
-  image.onload = function()
-  {
-    onLoaded(image);
+  // for IE
+  if (!obj.addEventListener) {
+    obj.attachEvent("on" + type, func);
   }
-  image.src = src;
+  else {
+    obj.addEventListener(type, func, false);
+  }
 }
 
 fan.fanWt.GfxUtil.doJsPath = function(cx, path)

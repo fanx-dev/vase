@@ -48,8 +48,14 @@ fan.fanWt.Image.prototype.getImage = function(widget)
     this.m_painted = false;
   }
 
-  var src = fan.sys.Uri.fromStr(canvas.toDataURL());
-  fan.fanWt.GfxUtil.loadImage(src, function(img){ this.m_image = img; widget.repaintLater(); });
+  //load new image
+  var image = new Image();
+  this.m_image = image;
+  image.onload = function() {
+    p.m_isLoaded = true;
+  };
+  image.src = canvas.toDataURL();
+
   return this.m_image;
 }
 
