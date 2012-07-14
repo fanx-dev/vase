@@ -13,5 +13,7 @@ using concurrent
 @Js
 class ToolkitEnv
 {
-  native Window build(View view)
+  native static Window build(View view)
+
+  native static Void init()
 }

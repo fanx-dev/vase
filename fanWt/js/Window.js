@@ -12,7 +12,6 @@ fan.fanWt.Window.prototype.view = null;
 fan.fanWt.Window.prototype.size = null;
 
 fan.fanWt.Window.graphics = null;
-fan.fanWt.Window.needRepaint = false;
 
 fan.fanWt.Window.prototype.show = function(size)
 {
@@ -61,10 +60,11 @@ fan.fanWt.Window.prototype.show = function(size)
 
   //Repaint handling
   var self = this;
+  self.needRepaint = false;
   setInterval(function(){
-    if (!fan.fanWt.Window.needRepaint) return;
+    if (!self.needRepaint) return;
     self.repaint();
-    fan.fanWt.Window.needRepaint = false;
+    self.needRepaint = false;
   }, 50);
 }
 
@@ -85,7 +85,7 @@ fan.fanWt.Window.prototype.repaint = function(r) {
 }
 
 fan.fanWt.Window.prototype.repaintLater = function(r) {
-  fan.fanWt.Window.needRepaint = true;
+  this.needRepaint = true;
 }
 
 fan.fanWt.Window.prototype.size = function() {

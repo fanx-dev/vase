@@ -36,8 +36,8 @@ public class AwtGfxEnv extends GfxEnv {
 
   @Override
   public Image fromUri(Uri uri, Func onLoad) {
-    onLoad = (Func) onLoad.toImmutable();
     if (uri.scheme().equals("http")) {
+      onLoad = (Func) onLoad.toImmutable();
       AwtImage p = new AwtImage();
       loadFromWeb(p, uri, onLoad);
       return p;
@@ -96,42 +96,42 @@ public class AwtGfxEnv extends GfxEnv {
     return p;
   }
 
-	@Override
+  @Override
   public ConstImage makeConstImage(Uri uri) {
-		InputStream jin;
-		
-		if (uri.scheme().equals("http")) {
-			try {
-	      URL requestUrl = new URL(uri.toStr());
-	      URLConnection con = requestUrl.openConnection();
-	      jin = con.getInputStream();
-	    } catch (IOException e) {
-	      throw IOErr.make(e);
-	    }
+    InputStream jin;
+
+    if (uri.scheme().equals("http")) {
+      try {
+        URL requestUrl = new URL(uri.toStr());
+        URLConnection con = requestUrl.openConnection();
+        jin = con.getInputStream();
+      } catch (IOException e) {
+        throw IOErr.make(e);
+      }
     } else {
-    	jin = SysInStream.java(((fan.sys.File) uri.get()).in());
+      jin = SysInStream.java(((fan.sys.File) uri.get()).in());
     }
-    
+
     BufferedImage image;
     try {
       image = ImageIO.read(jin);
     } catch (IOException e) {
       throw IOErr.make(e);
     }
-	  return new AwtConstImage(image);
+    return new AwtConstImage(image);
   }
 
-	@Override
+  @Override
   public Font makeFont(Func func) {
-	  Font f = new AwtFont();
-	  func.call(f);
-	  return f;
+    Font f = new AwtFont();
+    func.call(f);
+    return f;
   }
 
-	@Override
+  @Override
   public PointArray makePointArray(long size) {
-		PointArray pa = new AwtPointArray((int)size);
-	  return pa;
+    PointArray pa = new AwtPointArray((int)size);
+    return pa;
   }
 
 }

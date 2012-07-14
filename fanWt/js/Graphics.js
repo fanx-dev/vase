@@ -31,7 +31,7 @@ fan.fanWt.Graphics.prototype.init = function(cx, bounds)
   this.cx.lineWidth = 1;
   this.cx.lineCap = "square";
   this.cx.textBaseline = "top";
-  this.cx.font = fan.fanWt.GfxUtil.fontToCss(fan.fwt.DesktopPeer.$sysFont);
+  //this.cx.font = fan.fanWt.GfxUtil.fontToCss(fan.fwt.DesktopPeer.$sysFont);
 
   this.brush$(fan.gfx.Color.m_black);
   this.pen$(fan.gfx.Pen.m_defVal);
@@ -357,7 +357,7 @@ fan.fanWt.Graphics.prototype.stack = new Array();
 fan.fanWt.Graphics.prototype.drawImage = function(image, x, y)
 {
   var jsImg = image.getImage(this.widget);
-  if (jsImg.width > 0 && jsImg.height > 0)
+  if (jsImg && jsImg.width > 0 && jsImg.height > 0)
     this.cx.drawImage(jsImg, x, y)
   return this;
 }
@@ -365,7 +365,7 @@ fan.fanWt.Graphics.prototype.drawImage = function(image, x, y)
 fan.fanWt.Graphics.prototype.copyImage = function(image, src, dest)
 {
   var jsImg = image.getImage(this.widget);
-  if (jsImg.width > 0 && jsImg.height > 0)
+  if (jsImg && jsImg.width > 0 && jsImg.height > 0)
     this.cx.drawImage(jsImg, src.m_x, src.m_y, src.m_w, src.m_h, dst.m_x, dst.m_y, dst.m_w, dst.m_h)
   return this;
 }

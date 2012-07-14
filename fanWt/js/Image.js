@@ -6,12 +6,12 @@
 //   2011-08-20  Jed Young  Creation
 //
 
-fan.fanWt.Image = fan.sys.Obj.$extend(fan.fan2d.BufImage);
+fan.fanWt.Image = fan.sys.Obj.$extend(fan.sys.Obj);
 fan.fanWt.Image.prototype.$ctor = function() {}
 
 fan.fanWt.Image.prototype.$typeof = function()
 {
-  return fan.gfx2.Pixmap.$type;
+  return fan.fan2d.BufImage.$type;
 }
 
 fan.fanWt.Image.prototype.m_imageData = null;
@@ -35,10 +35,11 @@ fan.fanWt.Image.prototype.getImage = function(widget)
 
   if (!this.m_isImageData && !this.m_isLoaded)
   {
-    this.m_image = fan.fwt.FwtEnvPeer.loadImage(this, widget);
+    //this.m_image = fan.fwt.FwtEnvPeer.loadImage(this, widget);
     return this.m_image;
   }
 
+  // the image be changed or paint on it
   var canvas = this.getCanvas();
   if(!this.m_painted)
   {
@@ -46,9 +47,9 @@ fan.fanWt.Image.prototype.getImage = function(widget)
     this.m_cx.putImageData(this.m_imageData, 0, 0);
     this.m_painted = false;
   }
-  this.m_uri = fan.sys.Uri.fromStr(canvas.toDataURL());
 
-  this.m_image = fan.fwt.FwtEnvPeer.loadImage(this, widget);
+  var src = fan.sys.Uri.fromStr(canvas.toDataURL());
+  fan.fanWt.GfxUtil.loadImage(src, function(img){ this.m_image = img; widget.repaintLater(); });
   return this.m_image;
 }
 
@@ -84,16 +85,17 @@ fan.fanWt.Image.prototype.getPixel = function(x, y)
   var g = this.getImageData().data[index +1];
   var b = this.getImageData().data[index +2];
   var a = this.getImageData().data[index +3];
-  return fan.gfx.Color.makeArgb(a, r, g, b);
+  //return fan.gfx.Color.makeArgb(a, r, g, b);
+  return (a << 24) | (r << 16) | (g << 8) | b
 }
 
 fan.fanWt.Image.prototype.setPixel = function(x, y, value)
 {
   var index = (y * this.getImageData().width + x)*4;
-  this.getImageData().data[index] = value.r();
-  this.getImageData().data[index+1] = value.g();
-  this.getImageData().data[index+2] = value.b();
-  this.getImageData().data[index+3] = value.a();
+  this.getImageData().data[index]   = value & 0x00ff0000;
+  this.getImageData().data[index+1] = value & 0x0000ff00;
+  this.getImageData().data[index+2] = value & 0x000000ff;
+  this.getImageData().data[index+3] = value & 0xff000000;
 
   this.m_imageChanged = true;
 }
@@ -116,26 +118,24 @@ fan.fanWt.Image.prototype.getCanvas = function()
 
 fan.fanWt.Image.prototype.graphics = function()
 {
+  //create cx
   var canvas = this.getCanvas();
-  var g = new fan.gfx2Imp.Graphics2();
+  var g = new fan.fanWt.Graphics();
+  var cx = canvas.getContext("2d");
+  var rect = new fan.fan2d.Rect.make(0,0, this.m_size.m_w, this.m_size.m_h);
+  this.graphics.init(cx, rect);
+
+  //draw background
   var imageData = this.m_imageData;
   var image = this.m_image;
-  g.paint(canvas, fan.gfx.Rect.make(0, 0, this.m_size.m_w, this.m_size.m_h), function()
-  {
-    if (imageData)
-     g.cx.putImageData(imageData, 0, 0);
-    else if(image)
-     g.cx.drawImage(image, 0, 0);
-  });
+  if (imageData)
+   g.cx.putImageData(imageData, 0, 0);
+  else if(image)
+   g.cx.drawImage(image, 0, 0);
+
   this.m_painted = true;
   this.m_imageChanged = true;
   return g;
-}
-
-fan.fanWt.Image.prototype.flush = function()
-{
-  this.m_uri = fan.sys.Uri.fromStr(canvas.toDataURL());
-  this.m_image = fan.fwt.FwtEnvPeer.loadImage(this, widget);
 }
 
 fan.fanWt.Image.prototype.save = function(out, format)

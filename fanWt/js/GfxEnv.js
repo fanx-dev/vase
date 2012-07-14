@@ -11,31 +11,29 @@ fan.fanWt.GfxEnv.prototype.$ctor = function() {}
 
 fan.fanWt.GfxEnv.prototype.fromUri = function(uri, onLoaded)
 {
-  var p = new fan.gfx2Imp.PixmapImp();
+  var p = new fan.fanWt.Image();
   p.m_uri = uri;
-
-  var image = new Image();
-  image.onload = function()
+  var src = fan.fanWt.GfxUtil.uriToImageSrc(p.m_uri);
+  fan.fanWt.GfxUtil.loadImage(src, function(image)
   {
     p.m_image = image;
     p.m_size = fan.gfx.Size.make(image.width, image.height);
     p.m_isLoaded = true;
     onLoaded.call(p);
-  }
-  image.src = fan.fwt.WidgetPeer.uriToImageSrc(p.m_uri);
+  });
   return p;
 }
 
 fan.fanWt.GfxEnv.prototype.makeImage = function(size)
 {
-  return fan.gfx2Imp.PixmapImp.make(size);
+  return fan.fanWt.Image.make(size);
 }
 
 fan.fanWt.GfxEnv.prototype.contains = function(path, x, y)
 {
   var canvas = document.createElement("canvas");
   var cx = canvas.getContext("2d");
-  fan.gfx2Imp.Graphics2.doJsPath(cx, path);
+  fan.fanWt.GfxUtil.doJsPath(cx, path);
   return cx.isPointInPath(x, y);
 }
 
@@ -50,10 +48,3 @@ fan.fanWt.GfxEnv.prototype.makePointArray = function(func)
 {
   return new fan.fanWt.PointArray();
 }
-
-//////////////////////////////////////////////////////////////////////////
-// Font
-//////////////////////////////////////////////////////////////////////////
-//   2 Jun 09  Andy Frank  Creation
-
-

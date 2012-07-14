@@ -9,6 +9,7 @@
 package fan.fanWt;
 
 import javax.swing.*;
+import fan.concurrent.Actor;
 
 
 public class ToolkitEnvPeer
@@ -19,7 +20,12 @@ public class ToolkitEnvPeer
     return peer;
   }
 
-  public Window build(ToolkitEnv self, View view) {
+  public static void init()
+  {
+    Actor.locals().set("gfx3.env", AwtGfxEnv.instance);
+  }
+
+  public static Window build(View view) {
     return new AwtWindow(view);
   }
 

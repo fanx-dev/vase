@@ -18,6 +18,24 @@ fan.fanWt.GfxUtil.fontToCss = function(font)
   return s;
 }
 
+fan.fanWt.GfxUtil.uriToImageSrc = function(uri)
+{
+  if (uri.scheme() == "fan")
+    return fan.sys.UriPodBase + uri.host() + uri.pathStr()
+  else
+    return uri.toStr();
+}
+
+fan.fanWt.GfxUtil.loadImage = function(src, onLoaded)
+{
+  var image = new Image();
+  image.onload = function()
+  {
+    onLoaded(image);
+  }
+  image.src = src;
+}
+
 fan.fanWt.GfxUtil.doJsPath = function(cx, path)
 {
   var size = path.steps().size();
