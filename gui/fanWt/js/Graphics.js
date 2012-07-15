@@ -28,13 +28,13 @@ fan.fanWt.Graphics.prototype.init = function(cx, bounds)
   this.m_clip = bounds;
   this.cx = cx;
   //this.cx.save();
-  this.cx.lineWidth = 1;
-  this.cx.lineCap = "square";
-  this.cx.textBaseline = "top";
+  //this.cx.lineWidth = 1;
+  //this.cx.lineCap = "square";
+  //this.cx.textBaseline = "top";
   //this.cx.font = fan.fanWt.GfxUtil.fontToCss(fan.fwt.DesktopPeer.$sysFont);
 
-  this.brush$(fan.gfx.Color.m_black);
-  this.pen$(fan.gfx.Pen.m_defVal);
+  //this.brush$(fan.fan2d.Color.m_black);
+  //this.pen$(fan.fan2d.Pen.m_defVal);
   //this.font$(fan.fwt.Desktop.sysFont());
   //f(this);
   //this.cx.restore();
@@ -46,13 +46,13 @@ fan.fanWt.Graphics.prototype.brush   = function() { return this.m_brush }
 fan.fanWt.Graphics.prototype.brush$  = function(b)
 {
   this.m_brush = b;
-  if (b instanceof fan.gfx.Color)
+  if (b instanceof fan.fan2d.Color)
   {
     var style = b.toCss();
     this.cx.fillStyle = style;
     this.cx.strokeStyle = style;
   }
-  else if (b instanceof fan.gfx.Gradient)
+  else if (b instanceof fan.fan2d.Gradient)
   {
     var x1 = b.m_x1;
     var y1 = b.m_y1;
@@ -77,9 +77,15 @@ fan.fanWt.Graphics.prototype.brush$  = function(b)
     this.cx.fillStyle = style;
     this.cx.strokeStyle = style;
   }
-  else if (b instanceof fan.gfx.Pattern)
+  else if (b instanceof fan.fan2d.Pattern)
   {
-    var jsImg = fan.fwt.FwtEnvPeer.loadImage(b.m_image);
+    var jsImg = b.m_image.getImage(this.widget);
+    if (!image.isLoaded())
+    {
+      var self = this;
+      fan.fanWt.GfxUtil.addEventListener(jsImg, "load", function(){ if(self.widget){ self.widget.needRepaint = true;} });
+    }
+
     var style = (jsImg.width > 0 && jsImg.height > 0)
       ? this.cx.createPattern(jsImg, 'repeat')
       : "rgba(0,0,0,0)";
@@ -88,7 +94,7 @@ fan.fanWt.Graphics.prototype.brush$  = function(b)
   }
   else
   {
-    fan.sys.Obj.echo("ERROR: unknown brush type: " + b);
+    fan.sys.ObjUtil.echo("ERROR: unknown brush type: " + b);
   }
 }
 
@@ -446,3 +452,52 @@ fan.fanWt.Graphics.prototype.clipPath = function(path)
   return this;
 }
 
+fan.fanWt.Graphics.prototype.m_composite = null;
+fan.fanWt.Graphics.prototype.composite = function() { return this.m_composite; }
+fan.fanWt.Graphics.prototype.composite$ = function(c)
+{
+  var cmp = "source-over";
+  if (c.name = "srcAtop")
+  {
+    cmp = "source-atop";
+  }
+  else if (c.name = "srcIn")
+  {
+    cmp = "source-in";
+  }
+  else if (c.name = "srcOut")
+  {
+    cmp = "source-out";
+  }
+  else if (c.name = "dstAtop")
+  {
+    cmp = "destination-atop";
+  }
+  else if (c.name = "dstIn")
+  {
+    cmp = "destination-in";
+  }
+  else if (c.name = "dstOut")
+  {
+    cmp = "destination-out";
+  }
+  else if (c.name = "dstOver")
+  {
+    cmp = "destination-over";
+  }
+  else if (c.name = "lighter")
+  {
+    cmp = "lighter";
+  }
+  else if (c.name = "copy")
+  {
+    cmp = "source-over";
+  }
+  else if (c.name = "xor")
+  {
+    cmp = "xor";
+  }
+
+  this.cx.globalCompositeOperation = cmp
+  this.m_composite = c;
+}
