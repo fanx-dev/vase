@@ -22,7 +22,7 @@ class WinTest
     view := RootView()
     btn := Button { onAction.add { echo("Hi") }; pos = Point(100, 200); text = "Hello" }
     view.add(btn)
-    view.win = ToolkitEnv.build(view)
+    view.win = Window(view)
     view.size = Size(400, 400)
     view.show()
   }

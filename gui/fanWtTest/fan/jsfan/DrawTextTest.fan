@@ -19,7 +19,7 @@ class DrawTextTest
     ToolkitEnv.init
 
     view := DrawTextTestView()
-    win := ToolkitEnv.build(view)
+    win := Window(view)
     view.win = win
 
     win.show(Size(400, 400))

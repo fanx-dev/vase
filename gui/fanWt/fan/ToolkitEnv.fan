@@ -9,11 +9,21 @@
 using fan2d
 using concurrent
 
+@Js
+abstract const class Toolkit
+{
+  static Toolkit cur()
+  {
+    Toolkit? env := Actor.locals["fanWt.env"]
+    if (env == null) throw Err("No fanWt.env is active")
+    return env
+  }
+
+  abstract Window build(View view)
+}
 
 @Js
 class ToolkitEnv
 {
-  native static Window build(View view)
-
   native static Void init()
 }

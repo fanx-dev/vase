@@ -28,9 +28,9 @@ abstract const class GfxEnv
   **
   static GfxEnv? cur(Bool checked := true)
   {
-    GfxEnv? env := Actor.locals["gfx3.env"]
+    GfxEnv? env := Actor.locals["fan2d.env"]
     if (env != null) return env
-    if (checked) throw Err("No GfxEnv3 is active")
+    if (checked) throw Err("No fan2d.env is active")
     return null
   }
 

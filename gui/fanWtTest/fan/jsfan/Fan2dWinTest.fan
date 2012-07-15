@@ -21,7 +21,7 @@ class Fan2dWinTest
     ToolkitEnv.init
 
     view := MyView()
-    win := ToolkitEnv.build(view)
+    win := Window(view)
     view.win = win
 
     win.show(Size(400, 400))

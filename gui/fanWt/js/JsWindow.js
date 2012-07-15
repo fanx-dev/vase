@@ -6,14 +6,14 @@
 //   2011-7-4  Jed Young  Creation
 //
 
-fan.fanWt.Window = fan.sys.Obj.$extend(fan.sys.Obj);
-fan.fanWt.Window.prototype.$ctor = function() {}
-fan.fanWt.Window.prototype.view = null;
-fan.fanWt.Window.prototype.size = null;
+fan.fanWt.JsWindow = fan.sys.Obj.$extend(fan.sys.Obj);
+fan.fanWt.JsWindow.prototype.$ctor = function() {}
+fan.fanWt.JsWindow.prototype.view = null;
+fan.fanWt.JsWindow.prototype.size = null;
 
-fan.fanWt.Window.graphics = null;
+fan.fanWt.JsWindow.graphics = null;
 
-fan.fanWt.Window.prototype.show = function(size)
+fan.fanWt.JsWindow.prototype.show = function(size)
 {
   this.size = size;
   // check for alt root
@@ -49,7 +49,7 @@ fan.fanWt.Window.prototype.show = function(size)
   var g = new fan.fanWt.Graphics();
   g.widget = this;
   this.graphics = g;
-  fan.fanWt.Window.graphics = g;
+  fan.fanWt.JsWindow.graphics = g;
 
   //init graphics
   var cx = this.canvas.getContext("2d");
@@ -68,27 +68,27 @@ fan.fanWt.Window.prototype.show = function(size)
   }, 50);
 }
 
-fan.fanWt.Window.prototype.focus = function() {
+fan.fanWt.JsWindow.prototype.focus = function() {
     //canvas.requestFocus();
 }
 
-fan.fanWt.Window.prototype.hasFocus = function() {
+fan.fanWt.JsWindow.prototype.hasFocus = function() {
     //return canvas.hasFocus();
 }
 
-fan.fanWt.Window.prototype.pos = function() {
+fan.fanWt.JsWindow.prototype.pos = function() {
     //return Point.make(canvas.getX(), canvas.getY());
 }
 
-fan.fanWt.Window.prototype.repaint = function(r) {
+fan.fanWt.JsWindow.prototype.repaint = function(r) {
   this.view.onPaint(this.graphics);
 }
 
-fan.fanWt.Window.prototype.repaintLater = function(r) {
+fan.fanWt.JsWindow.prototype.repaintLater = function(r) {
   this.needRepaint = true;
 }
 
-fan.fanWt.Window.prototype.size = function() {
+fan.fanWt.JsWindow.prototype.size = function() {
   return this.size;
 }
 
