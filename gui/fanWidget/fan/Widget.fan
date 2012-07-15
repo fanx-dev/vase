@@ -13,71 +13,9 @@ using fanWt
 ** Widget is the base class for all UI widgets.
 **
 @Js
-abstract class Widget
+abstract class Widget : AbstractView
 {
-
-//////////////////////////////////////////////////////////////////////////
-// State
-//////////////////////////////////////////////////////////////////////////
-
-  **
-  ** Controls whether this widget is visible or hidden.
-  **
-  Bool visible := true
-  {
-    set
-    {
-      e := StateChangedEvent (&visible, it, #visible, this )
-      onStateChanged.fire(e)
-      &visible = it
-    }
-  }
-
-  **
-  ** Enabled is used to control whether this widget can
-  ** accept user input.  Disabled controls are "grayed out".
-  **
-  Bool enabled := true
-  {
-    set
-    {
-      e := StateChangedEvent (&enabled, it, #enabled, this )
-      onStateChanged.fire(e)
-      &enabled = it
-    }
-  }
-
-  **
-  ** Position of this widget relative to its parent.
-  **
-  Point pos := Point(0, 0)
-  {
-    set
-    {
-      e := StateChangedEvent (&pos, it, #pos, this )
-      onStateChanged.fire(e)
-      &pos = it
-    }
-  }
-
-  **
-  ** Size of this widget.
-  **
-  Size size := Size(50, 50)
-  {
-    set
-    {
-      e := StateChangedEvent (&size, it, #size, this )
-      onStateChanged.fire(e)
-      &size = it
-    }
-  }
-
-
-  **
-  ** Callback function when Widget state changed
-  **
-  once EventListeners onStateChanged() { EventListeners() }
+  Style? style := null
 
 //////////////////////////////////////////////////////////////////////////
 // Widget Tree
@@ -167,12 +105,6 @@ abstract class Widget
   }
   virtual Void repaintLater(Rect? dirty := null) {}
 
-  Rect bounds
-  {
-    get { return Rect.makePosSize(pos, size) }
-    set { pos = it.pos; size = it.size }
-  }
-
 //////////////////////////////////////////////////////////////////////////
 // event
 //////////////////////////////////////////////////////////////////////////
@@ -181,10 +113,7 @@ abstract class Widget
   {
     children.each
     {
-      if (it.bounds.contains(e.x, e.y))
-      {
-        it.touch(e)
-      }
+      it.touch(e)
     }
   }
   virtual Void keyPress(InputEvent e) { children.each { it.keyPress(e) } }
@@ -193,27 +122,16 @@ abstract class Widget
 // Paint
 //////////////////////////////////////////////////////////////////////////
 
-  BufImage? bufferedImage
-
-  Void doubleBuffer()
+  virtual Void onPaint(Graphics g)
   {
-    bufferedImage = BufImage(size)
-  }
-
-  virtual Void onPaint(Graphics g2)
-  {
-    if (bufferedImage == null)
+    if (style != null)
     {
-      onPaintWidget(g2)
-      return
+      style.paint(this, g)
     }
-    g := bufferedImage.graphics
-    onPaintWidget(g)
-    g2.drawImage(bufferedImage, pos.x, pos.y)
-    g.dispose
+    paintChildren(g)
   }
 
-  virtual Void onPaintWidget(Graphics g)
+  protected virtual Void paintChildren(Graphics g)
   {
     children.each
     {

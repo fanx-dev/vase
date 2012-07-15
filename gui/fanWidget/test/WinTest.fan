@@ -19,9 +19,14 @@ class WinTest
   Void main()
   {
     ToolkitEnv.init
-    view := RootView()
-    btn := Button { onAction.add { echo("Hi") }; pos = Point(100, 200); text = "Hello" }
-    view.add(btn)
+
+    view := RootView
+    {
+      Button { onAction.add { echo("Hi") }; pos = Point(100, 200); label.text = "Hello" },
+      Label { pos = Point(100, 100); text = "Label" },
+      ImageView { pos = Point(100, 50); image = ConstImage(`fan://icons/x16/folder.png`) }
+    }
+
     view.win = Window(view)
     view.size = Size(400, 400)
     view.show()
