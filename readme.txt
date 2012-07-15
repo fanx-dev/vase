@@ -1,11 +1,25 @@
-fogl: direct openGL/WebGL binding.
-math: math lib for 3d transformation.
-lib: LWJGL is a java openGL port.
-array: primary number array
-gfx2: extending of gfx
-gfx2Imp: AWT, SWT, HTML5Canvas, Andorid implementions
-jsTest: examples for test
-touch: widget system for touch devices
+gui
+  - fan2d: new fantom 2D graphics API
+  - fanWt: woindow toolkit
+  - fanWidget: widget system
+
+gfxExt
+  - gfx2: extending of gfx
+  - gfx2Imp: AWT, SWT, HTML5Canvas, Andorid implementions
+  - touch: widget system for touch devices
+
+openGL
+  - fogl: direct openGL/WebGL binding
+  - fan3d: fan 3D lib
+
+common
+  - math: math lib for 3d and 3d transformation
+  - array: primary number array
+
+lib
+  - jwjgl: LWJGL is a java openGL port
+  - android: android jar
+
 
 Setting LWJGL:
 1. copy all .jar to fanHome/lib/java/ext/

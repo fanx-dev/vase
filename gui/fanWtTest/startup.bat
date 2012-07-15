@@ -1,0 +1,1 @@
+fan idraft -appHome file:/E:/Hg/fan3d/gui/fanWtTest/ jsTest::RootMod
