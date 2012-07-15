@@ -9,7 +9,6 @@
 using fan2d
 using fanWt
 using concurrent
-using [java]java.lang::Class
 
 **
 ** Image Test

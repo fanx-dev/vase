@@ -11,18 +11,7 @@ fan.fanWt.GfxEnv.prototype.$ctor = function() {}
 
 fan.fanWt.GfxEnv.prototype.fromUri = function(uri, onLoaded)
 {
-  var p = new fan.fanWt.Image();
-  p.m_uri = uri;
-  var image = new Image();
-  p.m_image = image;
-
-  fan.fanWt.GfxUtil.addEventListener(image, "load", function(){
-    p.m_size = fan.gfx.Size.make(image.width, image.height);
-    p.m_isLoaded = true;
-    onLoaded.call(p);
-  });
-  image.src = fan.fanWt.GfxUtil.uriToImageSrc(p.m_uri);
-  return p;
+  return fan.fanWt.Image.fromUri(uri, onLoaded);
 }
 
 fan.fanWt.GfxEnv.prototype.makeConstImage = function(uri)

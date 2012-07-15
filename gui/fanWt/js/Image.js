@@ -8,83 +8,94 @@
 
 fan.fanWt.Image = fan.sys.Obj.$extend(fan.sys.Obj);
 fan.fanWt.Image.prototype.$ctor = function() {}
-
 fan.fanWt.Image.prototype.$typeof = function()
 {
   return fan.fan2d.BufImage.$type;
 }
 
-fan.fanWt.Image.prototype.m_imageData = null;
-fan.fanWt.Image.prototype.m_image = null;
+//field
+fan.fanWt.Image.prototype.m_canvas = null;
 
-//it's mem buf image, not load by uri
-fan.fanWt.Image.prototype.m_isImageData = false;
+//cache field
+fan.fanWt.Image.prototype.m_imageData = null; //image data
+fan.fanWt.Image.prototype.m_image = null; //image element
+fan.fanWt.Image.prototype.m_context  = null; //canvas rendering context
+fan.fanWt.Image.prototype.m_graphics = null; //fan2d graphics context
 
-//loaded ok
+//loaded info
 fan.fanWt.Image.prototype.m_isLoaded = false;
+fan.fanWt.Image.prototype.isLoaded = function() { return this.m_isLoaded; }
 fan.fanWt.Image.prototype.m_uri = null;
 
 //image data pixcel be modify
 fan.fanWt.Image.prototype.m_imageChanged = false;
 
-//image be painted on parent canvas
-fan.fanWt.Image.prototype.m_painted = false;
-
+//size
 fan.fanWt.Image.prototype.m_size = null;
 fan.fanWt.Image.prototype.size = function() { return this.m_size; }
 
+//////////////////////////////////////////////////////////////////////////
+// Image Load
+//////////////////////////////////////////////////////////////////////////
+
 fan.fanWt.Image.prototype.getImage = function(widget)
 {
-  if (this.m_image && !this.m_imageChanged && !this.m_painted)
+  if (!this.m_isLoaded)
   {
     return this.m_image;
   }
 
-  if (!this.m_isImageData && !this.m_isLoaded)
-  {
-    return this.m_image;
-  }
+  this.flush();
+  return this.m_canvas;
+}
 
-  // the image be changed or paint on it
-  var canvas = this.getCanvas();
-  if(this.m_imageChanged)
-  {
-    this.m_cx = canvas.getContext("2d");
-    this.m_cx.putImageData(this.m_imageData, 0, 0);
-    this.m_imageChanged = false;
-    this.m_painted = false;
-  }
+fan.fanWt.Image.prototype.initFromImage = function(image)
+{
+  this.m_canvas = document.createElement("canvas");
+  this.m_size = fan.gfx.Size.make(image.width, image.height);
+  this.m_canvas.width = this.m_size.m_w;
+  this.m_canvas.height = this.m_size.m_h;
 
-  //load new image
+  this.context().drawImage(this.m_image, 0, 0);
+  this.m_isLoaded = true;
+}
+
+fan.fanWt.Image.fromUri = function(uri, onLoaded)
+{
+  var p = new fan.fanWt.Image();
+  p.m_uri = uri;
+  p.m_isLoaded = false;
   var image = new Image();
-  this.m_image = image;
-  image.src = canvas.toDataURL();
-  return this.m_image;
+  p.m_image = image;
+
+  fan.fanWt.GfxUtil.addEventListener(image, "load", function(){
+    p.initFromImage(image);
+    onLoaded.call(p);
+  });
+  image.src = fan.fanWt.GfxUtil.uriToImageSrc(p.m_uri);
+  return p;
+}
+
+//////////////////////////////////////////////////////////////////////////
+// Pixel of Image Data
+//////////////////////////////////////////////////////////////////////////
+
+fan.fanWt.Image.prototype.flush = function()
+{
+  if (this.m_imageData && this.m_imageChanged)
+  {
+    this.context().putImageData(this.m_imageData, 0, 0);
+    this.m_imageChanged = false;
+  }
 }
 
 fan.fanWt.Image.prototype.getImageData = function()
 {
-  if (this.m_imageData) return this.m_imageData;
-
-  var canvas = this.getCanvas();
-  this.m_cx = canvas.getContext("2d");
-  if (this.m_image) this.m_cx.drawImage(this.m_image, 0, 0);
-  this.m_imageData = this.m_cx.getImageData(0, 0, this.m_size.m_w, this.m_size.m_h);
+  if (!this.m_imageData)
+  {
+    this.m_imageData = this.context().getImageData(0, 0, this.m_size.m_w, this.m_size.m_h);
+  }
   return this.m_imageData;
-}
-
-fan.fanWt.Image.make = function(size)
-{
-  var p = new fan.fanWt.Image();
-  p.m_size = size;
-  p.m_canvas = document.createElement("canvas");
-  p.m_canvas.width = size.m_w;
-  p.m_canvas.height = size.m_h;
-  p.m_cx = p.m_canvas.getContext("2d");
-  p.m_imageData = p.m_cx.getImageData(0, 0, size.m_w, size.m_h);
-  p.m_isImageData = true;
-  p.m_isLoaded = true;
-  return p;
 }
 
 fan.fanWt.Image.prototype.getPixel = function(x, y)
@@ -113,40 +124,52 @@ fan.fanWt.Image.prototype.setPixel = function(x, y, value)
   this.m_imageChanged = true;
 }
 
-fan.fanWt.Image.prototype.toConst = function()
+//////////////////////////////////////////////////////////////////////////
+// Graphics
+//////////////////////////////////////////////////////////////////////////
+
+fan.fanWt.Image.prototype.context = function()
 {
-  throw fan.sys.UnsupportedErr.make();
+  if (!this.m_context)
+  {
+    this.m_context = this.m_canvas.getContext("2d");
+  }
+  return this.m_context;
 }
 
-fan.fanWt.Image.prototype.getCanvas = function()
+fan.fanWt.Image.make = function(size)
 {
-  if (!this.m_canvas)
-  {
-    this.m_canvas = document.createElement("canvas");
-    this.m_canvas.width = this.m_size.m_w;
-    this.m_canvas.height = this.m_size.m_h;
-  }
-  return this.m_canvas;
+  var p = new fan.fanWt.Image();
+  p.m_size = size;
+  p.m_canvas = document.createElement("canvas");
+  p.m_canvas.width = size.m_w;
+  p.m_canvas.height = size.m_h;
+  p.m_isLoaded = true;
+  p.m_uri = p.m_canvas.toDataURL();
+  return p;
 }
 
 fan.fanWt.Image.prototype.graphics = function()
 {
-  //create cx
-  var canvas = this.getCanvas();
-  var g = new fan.fanWt.Graphics();
-  var cx = canvas.getContext("2d");
-  var rect = new fan.fan2d.Rect.make(0,0, this.m_size.m_w, this.m_size.m_h);
-  this.graphics.init(cx, rect);
+  this.flush();
+  if (!this.m_graphics)
+  {
+    //create cx
+    var g = new fan.fanWt.Graphics();
+    var rect = new fan.fan2d.Rect.make(0,0, this.m_size.m_w, this.m_size.m_h);
+    g.init(this.context(), rect);
+    this.m_graphics = g;
+  }
+  return this.m_graphics;
+}
 
-  //draw background
-  if (this.m_imageData)
-    g.cx.putImageData(this.m_imageData, 0, 0);
-  else if(this.m_image)
-    g.cx.drawImage(this.m_image, 0, 0);
+//////////////////////////////////////////////////////////////////////////
+// Other
+//////////////////////////////////////////////////////////////////////////
 
-  this.m_painted = true;
-  this.m_imageChanged = false;
-  return g;
+fan.fanWt.Image.prototype.toConst = function()
+{
+  throw fan.sys.UnsupportedErr.make();
 }
 
 fan.fanWt.Image.prototype.save = function(out, format)
@@ -154,5 +177,4 @@ fan.fanWt.Image.prototype.save = function(out, format)
   //TODO
 }
 
-fan.fanWt.Image.prototype.isLoaded = function() { return this.m_isLoaded; }
 
