@@ -27,6 +27,8 @@ class WinTest
       ImageView { pos = Point(100, 50); image = ConstImage(`fan://icons/x16/folder.png`) }
     }
 
+    view.layout = VBox()
+
     view.win = Window(view)
     view.size = Size(400, 400)
     view.show()

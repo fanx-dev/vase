@@ -2,6 +2,7 @@ gui
   - fan2d: new fantom 2D graphics API
   - fanWt: woindow toolkit
   - fanWidget: widget system
+  - fanAndroid: android impl
 
 gfxExt
   - gfx2: extending of gfx

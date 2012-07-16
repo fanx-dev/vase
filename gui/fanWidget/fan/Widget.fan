@@ -16,6 +16,7 @@ using fanWt
 abstract class Widget : AbstractView
 {
   Style? style := null
+  Layout layout := FixedLayout()
 
 //////////////////////////////////////////////////////////////////////////
 // Widget Tree
@@ -66,8 +67,12 @@ abstract class Widget : AbstractView
     return this
   }
 
+//////////////////////////////////////////////////////////////////////////
+// rootView
+//////////////////////////////////////////////////////////////////////////
+
   **
-  ** Absolute position. relative to the view
+  ** Absolute position.
   **
   Point? absolutePos()
   {
@@ -80,7 +85,7 @@ abstract class Widget : AbstractView
   ** Get this widget's parent View or null if not
   ** mounted under a View widget.
   **
-  RootView? view()
+  RootView? rootView()
   {
     Widget? x := this
     while (x != null)
@@ -95,27 +100,33 @@ abstract class Widget : AbstractView
 // layout
 //////////////////////////////////////////////////////////////////////////
 
-  virtual This relayout() { children.each { it.relayout }; return this }
-  virtual Size prefSize(Size? hints := null) { return size }
+  virtual This relayout() { layout.relayout(this); return this }
+  virtual Size prefSize(Size? hints := null) { layout.prefSize(this, hints) }
+
+//////////////////////////////////////////////////////////////////////////
+// repaint
+//////////////////////////////////////////////////////////////////////////
+
   virtual Void repaint(Rect? dirty := null)
   {
     if (dirty == null) dirty = this.bounds
     else dirty = Rect(dirty.x + pos.x, dirty.y + pos.y, dirty.h, dirty.w)
     this.parent?.repaint(dirty)
   }
-  virtual Void repaintLater(Rect? dirty := null) {}
+
+  virtual Void repaintLater(Rect? dirty := null)
+  {
+    if (dirty == null) dirty = this.bounds
+    else dirty = Rect(dirty.x + pos.x, dirty.y + pos.y, dirty.h, dirty.w)
+    this.parent?.repaintLater(dirty)
+  }
 
 //////////////////////////////////////////////////////////////////////////
 // event
 //////////////////////////////////////////////////////////////////////////
 
-  virtual Void touch(InputEvent e)
-  {
-    children.each
-    {
-      it.touch(e)
-    }
-  }
+  virtual Void touch(InputEvent e) { children.each { it.touch(e) } }
+
   virtual Void keyPress(InputEvent e) { children.each { it.keyPress(e) } }
 
 //////////////////////////////////////////////////////////////////////////
@@ -153,12 +164,12 @@ abstract class Widget : AbstractView
   **
   virtual Bool hasFocus()
   {
-    v := view
+    v := rootView
     return v.hasFocus && v.focusWidget === this
   }
 
   **
   ** Attempt for this widget to take the keyboard focus.
   **
-  virtual Void focus() { view.focusIt(this) }
+  virtual Void focus() { rootView.focusIt(this) }
 }

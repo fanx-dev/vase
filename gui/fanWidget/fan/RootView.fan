@@ -53,7 +53,7 @@ class RootView : Widget, View
   **
   ** open View
   **
-  Void show() { win.show(size) }
+  Void show() { this.relayout; win.show(size) }
 
   **
   ** request focus for widget

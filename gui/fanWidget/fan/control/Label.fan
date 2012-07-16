@@ -3,7 +3,7 @@
 // Licensed under the Academic Free License version 3.0
 //
 // History:
-//   2011-10-06  Jed Young  Creation
+//   2012-07-15  Jed Young  Creation
 //
 
 using fanWt
