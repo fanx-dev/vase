@@ -22,9 +22,9 @@ class WinTest
 
     view := RootView
     {
-      Button { onAction.add { echo("Hi") }; pos = Point(100, 200); label.text = "Hello" },
-      Label { pos = Point(100, 100); text = "Label" },
-      ImageView { pos = Point(100, 50); image = ConstImage(`fan://icons/x16/folder.png`) }
+      Button { onAction.add { echo("Hi") }; label.text = "Hello" },
+      Label { text = "Label" },
+      ImageView { image = ConstImage(`fan://icons/x16/folder.png`) }
     }
 
     view.layout = VBox()

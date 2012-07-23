@@ -11,14 +11,14 @@ using fan2d
 @Js
 mixin Layout
 {
-  abstract Void relayout(Widget widget)
-  abstract Size prefSize(Widget widget, Size? hints)
+  abstract Void relayout(WidgetGroup widget)
+  abstract Size prefSize(WidgetGroup widget, Size? hints)
 }
 
 @Js
 class FixedLayout : Layout
 {
-  override Void relayout(Widget widget)
+  override Void relayout(WidgetGroup widget)
   {
     widget.each |c|
     {
@@ -27,7 +27,7 @@ class FixedLayout : Layout
     }
   }
 
-  override Size prefSize(Widget widget, Size? hints)
+  override Size prefSize(WidgetGroup widget, Size? hints)
   {
     return widget.size
   }

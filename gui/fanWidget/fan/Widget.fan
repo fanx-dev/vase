@@ -9,63 +9,108 @@
 using fan2d
 using fanWt
 
-**
-** Widget is the base class for all UI widgets.
-**
+
 @Js
-abstract class Widget : AbstractView
+abstract class Widget
 {
-  Style? style := null
-  Layout layout := FixedLayout()
+  Str id := ""
+  Str styleClass := ""
+  {
+    set
+    {
+      e := StateChangedEvent (&styleClass, it, #styleClass, this )
+      onStateChanged.fire(e)
+      &styleClass = it
+    }
+  }
+
+//////////////////////////////////////////////////////////////////////////
+// State
+//////////////////////////////////////////////////////////////////////////
+
+  **
+  ** Controls whether this widget is visible or hidden.
+  **
+  Bool visible := true
+  {
+    set
+    {
+      e := StateChangedEvent (&visible, it, #visible, this )
+      onStateChanged.fire(e)
+      &visible = it
+    }
+  }
+
+  **
+  ** Enabled is used to control whether this widget can
+  ** accept user input.  Disabled controls are "grayed out".
+  **
+  Bool enabled := true
+  {
+    set
+    {
+      e := StateChangedEvent (&enabled, it, #enabled, this )
+      onStateChanged.fire(e)
+      &enabled = it
+    }
+  }
+
+  **
+  ** Position of this widget relative to its parent.
+  **
+  Point pos := Point(0, 0)
+  {
+    set
+    {
+      e := StateChangedEvent (&pos, it, #pos, this )
+      onStateChanged.fire(e)
+      &pos = it
+    }
+  }
+
+  **
+  ** Size of this widget.
+  **
+  Size size := Size(50, 50)
+  {
+    set
+    {
+      e := StateChangedEvent (&size, it, #size, this )
+      onStateChanged.fire(e)
+      &size = it
+    }
+  }
+
+
+  **
+  ** Callback function when Widget state changed
+  **
+  once EventListeners onStateChanged() { EventListeners() }
+
+
+  Rect bounds
+  {
+    get { return Rect.makePosSize(pos, size) }
+    set { pos = it.pos; size = it.size }
+  }
 
 //////////////////////////////////////////////////////////////////////////
 // Widget Tree
 //////////////////////////////////////////////////////////////////////////
 
-  private Widget[] children := Widget[,]
   Widget? parent { private set }
-  internal Void setParent(Widget p) { parent = p } // for View.make
 
-  **
-  ** Iterate the children widgets.
-  **
-  Void each(|Widget w, Int i| f)
-  {
-    children.each(f)
-  }
+  internal Void setParent(Widget? p) { parent = p }
 
-  **
-  ** Remove a child widget
-  **
-  This remove(Widget child)
-  {
-    if (children.removeSame(child) == null)
-      throw ArgErr("not my child: $child")
-    child.parent = null
-    return this
-  }
+  virtual Void touch(InputEvent e) {}
 
-  **
-  ** Remove all child widgets.  Return this.
-  **
-  virtual This removeAll()
-  {
-    children.dup.each |Widget kid| { remove(kid) }
-    return this
-  }
+  virtual Void keyPress(InputEvent e) {}
 
-  **
-  ** Add a child widget.
-  ** If child is already parented throw ArgErr.  Return this.
-  **
-  @Operator virtual This add(Widget child)
-  {
-    if (child.parent != null)
-      throw ArgErr("Child already parented: $child")
-    child.parent = this
-    children.add(child)
-    return this
-  }
+  virtual Void paint(Graphics g, Rect? dirty) { rootView.find(this).paint(this, g) }
+
+  virtual Size prefSize(Size? hints := null) { size }
+  virtual This relayout() { this }
+
 
 //////////////////////////////////////////////////////////////////////////
 // rootView
@@ -96,12 +141,6 @@ abstract class Widget : AbstractView
     return null
   }
 
-//////////////////////////////////////////////////////////////////////////
-// layout
-//////////////////////////////////////////////////////////////////////////
-
-  virtual This relayout() { layout.relayout(this); return this }
-  virtual Size prefSize(Size? hints := null) { layout.prefSize(this, hints) }
 
 //////////////////////////////////////////////////////////////////////////
 // repaint
@@ -122,39 +161,6 @@ abstract class Widget : AbstractView
   }
 
 //////////////////////////////////////////////////////////////////////////
-// event
-//////////////////////////////////////////////////////////////////////////
-
-  virtual Void touch(InputEvent e) { children.each { it.touch(e) } }
-
-  virtual Void keyPress(InputEvent e) { children.each { it.keyPress(e) } }
-
-//////////////////////////////////////////////////////////////////////////
-// Paint
-//////////////////////////////////////////////////////////////////////////
-
-  virtual Void onPaint(Graphics g)
-  {
-    if (style != null)
-    {
-      style.paint(this, g)
-    }
-    paintChildren(g)
-  }
-
-  protected virtual Void paintChildren(Graphics g)
-  {
-    children.each
-    {
-      g.push
-      g.clip(it.bounds)
-      g.transform = g.transform.translate(it.pos.x.toFloat, it.pos.y.toFloat)
-      it.onPaint(g)
-      g.pop
-    }
-  }
-
-//////////////////////////////////////////////////////////////////////////
 // Focus
 //////////////////////////////////////////////////////////////////////////
 
@@ -172,4 +178,5 @@ abstract class Widget : AbstractView
   ** Attempt for this widget to take the keyboard focus.
   **
   virtual Void focus() { rootView.focusIt(this) }
+
 }

@@ -9,7 +9,7 @@
 using fanWt
 using fan2d
 
-class ButtonBase : Widget
+class ButtonBase : WidgetGroup
 {
 //////////////////////////////////////////////////////////////////////////
 // state

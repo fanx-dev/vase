@@ -15,7 +15,6 @@ class Button : ButtonBase
 
   new make()
   {
-    style = ButtonStyle()
     label = Label { text := "button" }
     this.add(label)
   }

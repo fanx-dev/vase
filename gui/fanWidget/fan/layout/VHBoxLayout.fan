@@ -11,7 +11,7 @@ using fan2d
 @Js
 class HBox : Layout
 {
-  override Void relayout(Widget widget)
+  override Void relayout(WidgetGroup widget)
   {
     Int w := 0
     Int h := 0
@@ -27,7 +27,7 @@ class HBox : Layout
 
   }
 
-  override Size prefSize(Widget widget, Size? hints)
+  override Size prefSize(WidgetGroup widget, Size? hints)
   {
     Int w := -1
     Int h := -1
@@ -46,7 +46,7 @@ class HBox : Layout
 @Js
 class VBox : Layout
 {
-  override Void relayout(Widget widget)
+  override Void relayout(WidgetGroup widget)
   {
     Int w := 0
     Int h := 0
@@ -61,7 +61,7 @@ class VBox : Layout
     }
   }
 
-  override Size prefSize(Widget widget, Size? hints)
+  override Size prefSize(WidgetGroup widget, Size? hints)
   {
     Int w := 0
     Int h := 0

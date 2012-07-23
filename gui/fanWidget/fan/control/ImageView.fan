@@ -15,7 +15,6 @@ class ImageView : Widget
 
   new make(|This| f)
   {
-    style = ImageStyle()
     f(this)
   }
 }

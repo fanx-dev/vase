@@ -14,7 +14,7 @@ using concurrent
 ** Represent a top level Widget
 **
 @Js
-class RootView : Widget, View
+class RootView : WidgetGroup, View
 {
   **
   ** The reference of nativeView
@@ -31,10 +31,27 @@ class RootView : Widget, View
   **
   Bool antialias := true
 
+  **
+  ** Style support
+  **
+  StyleManager styleManager := StyleManager()
+  Style find(Widget widget) { styleManager.find(widget) }
+
+  **
+  ** Dirty region
+  **
+  Rect? dirtyRect := null
+
+  **
+  ** double buffer
+  **
+  Bool doubleBuffered := false
+
 
   override Void onPaint(Graphics g) {
     g.antialias = this.antialias
-    super.onPaint(g)
+    super.paint(g, dirtyRect)
+    dirtyRect = null
   }
 
   override Void onEvent(InputEvent e) {
@@ -47,6 +64,14 @@ class RootView : Widget, View
 
   override Void repaint(Rect? dirty := null)
   {
+    if (dirtyRect == null)
+    {
+      dirtyRect = dirty
+    }
+    else
+    {
+      dirtyRect = dirtyRect.union(dirty)
+    }
     win.repaint(dirty)
   }
 

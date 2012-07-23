@@ -12,9 +12,4 @@ using fan2d
 class Label : Widget
 {
   Str text := ""
-
-  new make()
-  {
-    style = LabelStyle()
-  }
 }
