@@ -66,6 +66,13 @@ abstract class WidgetGroup : Widget
     return this
   }
 
+  override Widget? findById(Str id)
+  {
+    w := super.findById(id)
+    if (w != null) return w
+    return children.find { it.id == id }
+  }
+
 //////////////////////////////////////////////////////////////////////////
 // layout
 //////////////////////////////////////////////////////////////////////////

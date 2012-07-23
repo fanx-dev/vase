@@ -22,12 +22,15 @@ class WinTest
 
     view := RootView
     {
-      Button { onAction.add { echo("Hi") }; label.text = "Hello" },
-      Label { text = "Label" },
-      ImageView { image = ConstImage(`fan://icons/x16/folder.png`) }
+      Button { id = "button"; onAction.add { echo("Hi") }; label.text = "Hello" },
+      Label { id = "label"; text = "Label" },
+      ImageView { id = "image";  image = ConstImage(`fan://icons/x16/folder.png`) }
     }
 
     view.layout = VBox()
+
+    t := Transition()
+    t.trans(view.findById("label"))
 
     view.win = Window(view)
     view.size = Size(400, 400)

@@ -50,7 +50,7 @@ class RootView : WidgetGroup, View
 
   override Void onPaint(Graphics g) {
     g.antialias = this.antialias
-    super.paint(g, dirtyRect)
+    super.paint(g, null)
     dirtyRect = null
   }
 
@@ -72,7 +72,7 @@ class RootView : WidgetGroup, View
     {
       dirtyRect = dirtyRect.union(dirty)
     }
-    win.repaint(dirty)
+    win.repaint()
   }
 
   **

@@ -102,6 +102,8 @@ abstract class Widget
 
   internal Void setParent(Widget? p) { parent = p }
 
+  virtual Widget? findById(Str id) { if (this.id == id) return this; else return null }
+
   virtual Void touch(InputEvent e) {}
 
   virtual Void keyPress(InputEvent e) {}

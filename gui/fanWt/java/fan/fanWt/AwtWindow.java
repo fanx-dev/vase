@@ -2,13 +2,14 @@ package fan.fanWt;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import java.awt.EventQueue;
 
 import fan.fan2d.*;
 
 public class AwtWindow implements Window {
 
   View rootView;
-  
+
   AwtCanvas canvas;
 
   class AwtCanvas extends JPanel {
@@ -29,7 +30,7 @@ public class AwtWindow implements Window {
 
   @Override
   public void focus() {
-  	canvas.requestFocus();
+    canvas.requestFocus();
   }
 
   @Override
@@ -44,42 +45,49 @@ public class AwtWindow implements Window {
 
   @Override
   public void repaint() {
-  	canvas.repaint();
+    canvas.repaint();
   }
 
   @Override
   public void repaint(Rect r) {
-  	canvas.repaint((int)r.x, (int)r.y, (int)r.w, (int)r.h);
+    canvas.repaint((int)r.x, (int)r.y, (int)r.w, (int)r.h);
   }
 
   @Override
   public void repaintLater() {
-  	canvas.repaint(1000);
+    canvas.repaint(1000);
   }
 
   @Override
   public void repaintLater(Rect r) {
-  	canvas.repaint(1000, (int)r.x, (int)r.y, (int)r.w, (int)r.h);
+    canvas.repaint(1000, (int)r.x, (int)r.y, (int)r.w, (int)r.h);
   }
 
   @Override
   public void show() {
-  	show(null);
+    show(null);
   }
 
   @Override
   public void show(Size s) {
-  	JFrame frame = new JFrame();
-  	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-  	frame.setContentPane(canvas);
-  	
-  	if (s != null) {
-  		frame.setSize((int)s.w, (int)s.h);
-  	} else {
-  		frame.pack();
-  	}
-    
+    JFrame frame = new JFrame();
+    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    frame.setContentPane(canvas);
+
+    if (s != null) {
+      frame.setSize((int)s.w, (int)s.h);
+    } else {
+      frame.pack();
+    }
+
     frame.setVisible(true);
+    EventQueue.invokeLater(new Runnable()
+    {
+      public void run()
+      {
+        ToolkitEnvPeer.init();
+      }
+    });
     try {
       Thread.sleep(Long.MAX_VALUE);
     } catch (InterruptedException e) {

@@ -20,6 +20,8 @@ abstract const class Toolkit
   }
 
   abstract Window build(View view)
+
+  abstract Void callLater(Int delay, |->| f)
 }
 
 @Js

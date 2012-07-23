@@ -26,6 +26,7 @@ class ButtonBase : WidgetGroup
       e := StateChangedEvent (&state, it, #state, this )
       onStateChanged.fire(e)
       &state = it
+      this.repaint
     }
   }
 
@@ -58,7 +59,6 @@ class ButtonBase : WidgetGroup
     {
       state = mouseOut
     }
-    this.repaint
   }
 
   override Void keyPress(InputEvent e)

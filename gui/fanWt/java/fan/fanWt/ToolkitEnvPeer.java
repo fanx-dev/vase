@@ -9,7 +9,9 @@
 package fan.fanWt;
 
 import javax.swing.*;
+import java.awt.*;
 import fan.concurrent.Actor;
+import fan.sys.*;
 
 
 public class ToolkitEnvPeer
@@ -31,6 +33,33 @@ public class ToolkitEnvPeer
     public Window build(View view)
     {
       return new AwtWindow(view);
+    }
+
+    public void callLater(final long delay, final Func f)
+    {
+      new Thread()
+      {
+        public void start()
+        {
+          try
+          {
+            Thread.sleep(delay);
+          }
+          catch (InterruptedException e)
+          {
+            e.printStackTrace();
+          }
+
+          EventQueue.invokeLater(new Runnable()
+          {
+            public void run()
+            {
+              f.call();
+            }
+          });
+        }
+      }.start();
+
     }
   }
 }
