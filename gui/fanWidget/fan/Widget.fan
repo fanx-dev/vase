@@ -108,7 +108,7 @@ abstract class Widget
 
   virtual Void keyPress(InputEvent e) {}
 
-  virtual Void paint(Graphics g, Rect? dirty) { rootView.find(this).paint(this, g) }
+  virtual Void paint(Graphics g) { rootView.find(this).paint(this, g) }
 
   virtual Size prefSize(Size? hints := null) { size }
   virtual This relayout() { this }

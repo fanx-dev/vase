@@ -54,16 +54,6 @@ public class AwtWindow implements Window {
   }
 
   @Override
-  public void repaintLater() {
-    canvas.repaint(1000);
-  }
-
-  @Override
-  public void repaintLater(Rect r) {
-    canvas.repaint(1000, (int)r.x, (int)r.y, (int)r.w, (int)r.h);
-  }
-
-  @Override
   public void show() {
     show(null);
   }

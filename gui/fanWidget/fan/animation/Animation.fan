@@ -25,6 +25,7 @@ class Transition : Animation
     t.delay = 40
     t.onTimeOut = |->|
     {
+      w.repaint
       w.pos = Point(w.pos.x + d, w.pos.y)
       if (w.pos.x > 400) w.pos = Point(x, w.pos.y)
       w.repaint

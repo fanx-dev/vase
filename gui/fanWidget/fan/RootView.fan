@@ -38,11 +38,6 @@ class RootView : WidgetGroup, View
   Style find(Widget widget) { styleManager.find(widget) }
 
   **
-  ** Dirty region
-  **
-  Rect? dirtyRect := null
-
-  **
   ** double buffer
   **
   Bool doubleBuffered := false
@@ -50,8 +45,7 @@ class RootView : WidgetGroup, View
 
   override Void onPaint(Graphics g) {
     g.antialias = this.antialias
-    super.paint(g, null)
-    dirtyRect = null
+    super.paint(g)
   }
 
   override Void onEvent(InputEvent e) {
@@ -64,15 +58,7 @@ class RootView : WidgetGroup, View
 
   override Void repaint(Rect? dirty := null)
   {
-    if (dirtyRect == null)
-    {
-      dirtyRect = dirty
-    }
-    else
-    {
-      dirtyRect = dirtyRect.union(dirty)
-    }
-    win.repaint()
+    win.repaint(dirty)
   }
 
   **

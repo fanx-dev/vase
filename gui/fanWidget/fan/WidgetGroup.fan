@@ -93,21 +93,20 @@ abstract class WidgetGroup : Widget
 // Paint
 //////////////////////////////////////////////////////////////////////////
 
-  override Void paint(Graphics g, Rect? dirty)
+  override Void paint(Graphics g)
   {
-    if (dirty != null && !dirty.intersects(this.bounds)) return
-    super.paint(g, dirty)
-    paintChildren(g, dirty)
+    super.paint(g)
+    paintChildren(g)
   }
 
-  protected virtual Void paintChildren(Graphics g, Rect? dirty)
+  protected virtual Void paintChildren(Graphics g)
   {
     children.each
     {
       g.push
       g.clip(it.bounds)
       g.transform = g.transform.translate(it.pos.x.toFloat, it.pos.y.toFloat)
-      it.paint(g, dirty)
+      it.paint(g)
       g.pop
     }
   }

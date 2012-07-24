@@ -27,7 +27,6 @@ mixin View
 mixin Window
 {
   abstract Void repaint(Rect? dirty := null)
-  abstract Void repaintLater(Rect? dirty := null)
 
   abstract Size size()
   abstract Point pos()
