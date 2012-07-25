@@ -77,6 +77,7 @@ class InputEvent : Event
   const static Int keyDown := 7
   const static Int keyUp := 8
   const static Int touchEvent := 9
+  const static Int keyTyped := 10
 }
 
 **

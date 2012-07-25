@@ -20,7 +20,8 @@ class StyleManager
     [
       Button# : ButtonStyle(),
       ImageView# : ImageStyle(),
-      Label# : LabelStyle()
+      Label# : LabelStyle(),
+      TextField# : TextFieldStyle()
     ]
     defStyle = WidgetStyle()
   }

@@ -48,6 +48,7 @@ class ButtonBase : WidgetGroup
       else if (e.type == InputEventType.press)
       {
         state = mouseDown
+        focus
       }
       else if (e.type == InputEventType.move)
       {

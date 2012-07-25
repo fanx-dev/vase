@@ -24,7 +24,8 @@ class WinTest
     {
       Button { id = "button"; onAction.add { echo("Hi") }; label.text = "Hello" },
       Label { id = "label"; text = "Label" },
-      ImageView { id = "image";  image = ConstImage(`fan://icons/x16/folder.png`) }
+      ImageView { id = "image";  image = ConstImage(`fan://icons/x16/folder.png`) },
+      TextField { id = "text" },
     }
 
     view.layout = VBox()

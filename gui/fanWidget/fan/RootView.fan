@@ -49,11 +49,16 @@ class RootView : WidgetGroup, View
   }
 
   override Void onEvent(InputEvent e) {
-    if (e.id == InputEvent.keyDown || e.id == InputEvent.keyUp) {
+    if (e.id == InputEvent.keyDown || e.id == InputEvent.keyUp || e.id == InputEvent.keyTyped) {
       keyPress(e)
     } else {
       touch(e)
     }
+  }
+
+  override Void keyPress(InputEvent e)
+  {
+    focusWidget?.keyPress(e)
   }
 
   override Void repaint(Rect? dirty := null)
@@ -70,4 +75,6 @@ class RootView : WidgetGroup, View
   ** request focus for widget
   **
   Void focusIt(Widget w) { win.focus; this.focusWidget = w }
+
+  override Bool hasFocus() { win.hasFocus }
 }
