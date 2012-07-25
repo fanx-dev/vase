@@ -30,6 +30,6 @@ class Transition : Animation
       if (w.pos.x > 400) w.pos = Point(x, w.pos.y)
       w.repaint
     }
-    t.start
+    w.rootView.onOpened.add { t.start }
   }
 }

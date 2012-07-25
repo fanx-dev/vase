@@ -18,6 +18,8 @@ mixin View
   virtual Void onPaint(Graphics g) {}
 
   virtual Void onEvent(InputEvent e) {}
+
+  virtual Void onDisplayEvent(DisplayEvent e) {}
 }
 
 **

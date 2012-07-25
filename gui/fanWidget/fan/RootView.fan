@@ -56,6 +56,18 @@ class RootView : WidgetGroup, View
     }
   }
 
+  override Void onDisplayEvent(DisplayEvent e)
+  {
+    if (e.id == DisplayEvent.opened) onOpened.fire(e)
+    else if (e.id == DisplayEvent.activated) onActivated.fire(e)
+    else onDisplayStateChange.fire(e)
+  }
+  once EventListeners onDisplayStateChange() { EventListeners() }
+
+  once EventListeners onOpened() { EventListeners() }
+  once EventListeners onActivated() { EventListeners() }
+
+
   override Void keyPress(InputEvent e)
   {
     focusWidget?.keyPress(e)

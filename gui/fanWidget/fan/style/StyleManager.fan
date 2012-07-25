@@ -21,7 +21,8 @@ class StyleManager
       Button# : ButtonStyle(),
       ImageView# : ImageStyle(),
       Label# : LabelStyle(),
-      TextField# : TextFieldStyle()
+      TextField# : TextFieldStyle(),
+      ToggleButton# : ToggleButtonStyle()
     ]
     defStyle = WidgetStyle()
   }

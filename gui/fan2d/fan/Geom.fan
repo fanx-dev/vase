@@ -155,6 +155,9 @@ const class Rect
   ** Get the x, y coordinate of this rectangle.
   Point pos() { Point(x, y) }
 
+  ** center of rectangle
+  Point center() { Point(x+(w/2), y+(h/2)) }
+
   ** Get the w, h size of this rectangle.
   Size size() { Size(w, h) }
 

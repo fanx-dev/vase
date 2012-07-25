@@ -3,6 +3,7 @@ package fan.fanWt;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import java.awt.EventQueue;
+import java.awt.event.*;
 
 import fan.fan2d.*;
 
@@ -63,6 +64,8 @@ public class AwtWindow implements Window {
     JFrame frame = new JFrame();
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     frame.setContentPane(canvas);
+    frame.addWindowStateListener(winStateListenner);
+    frame.addWindowListener(winListener);
 
     if (s != null) {
       frame.setSize((int)s.w, (int)s.h);
@@ -89,5 +92,65 @@ public class AwtWindow implements Window {
   public Size size() {
     return Size.make(canvas.getWidth(), canvas.getHeight());
   }
+
+//////////////////////////////////////////////////////////////////////////
+//
+//////////////////////////////////////////////////////////////////////////
+
+  private void postDisplayEvent(int id)
+  {
+    long fid = id;
+    switch(id)
+    {
+    case WindowEvent.WINDOW_ACTIVATED:
+      fid = DisplayEvent.activated;
+      break;
+    case WindowEvent.WINDOW_OPENED:
+      fid = DisplayEvent.opened;
+      break;
+    }
+
+    DisplayEvent e = DisplayEvent.make(fid);
+    this.rootView.onDisplayEvent(e);
+  }
+
+  private WindowListener winListener = new WindowListener()
+  {
+    public void windowClosing(WindowEvent e) {
+      postDisplayEvent(e.getID());
+    }
+
+    public void windowClosed(WindowEvent e) {
+      postDisplayEvent(e.getID());
+    }
+
+    public void windowOpened(WindowEvent e) {
+      postDisplayEvent(e.getID());
+    }
+
+    public void windowIconified(WindowEvent e) {
+      postDisplayEvent(e.getID());
+    }
+
+    public void windowDeiconified(WindowEvent e) {
+      postDisplayEvent(e.getID());
+    }
+
+    public void windowActivated(WindowEvent e) {
+      postDisplayEvent(e.getID());
+    }
+
+    public void windowDeactivated(WindowEvent e) {
+      postDisplayEvent(e.getID());
+    }
+  };
+
+  private WindowStateListener winStateListenner = new WindowStateListener()
+  {
+    public void windowStateChanged(WindowEvent e)
+    {
+      postDisplayEvent(e.getID());
+    }
+  };
 
 }

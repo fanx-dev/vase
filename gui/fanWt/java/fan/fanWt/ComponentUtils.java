@@ -30,6 +30,7 @@ public class ComponentUtils {
 
       @Override
       public void mouseClicked(MouseEvent e) {
+        view.onEvent(toCEvent(e, InputEvent.mouseClicked));
       }
 
       @Override
@@ -53,10 +54,11 @@ public class ComponentUtils {
       }
 
     });
+
     component.addMouseMotionListener(new MouseMotionListener() {
       @Override
       public void mouseDragged(MouseEvent e) {
-        view.onEvent(toCEvent(e, InputEvent.mouseMove));
+        view.onEvent(toCEvent(e, InputEvent.mouseDragged));
       }
 
       @Override
@@ -64,6 +66,7 @@ public class ComponentUtils {
         view.onEvent(toCEvent(e, InputEvent.mouseMove));
       }
     });
+
     component.addKeyListener(new KeyListener() {
       @Override
       public void keyPressed(KeyEvent e) {

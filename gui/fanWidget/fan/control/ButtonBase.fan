@@ -43,12 +43,12 @@ class ButtonBase : WidgetGroup
       if (e.type == InputEventType.release)
       {
         state = mouseOver
+        focus
         onAction.fire(e)
       }
       else if (e.type == InputEventType.press)
       {
         state = mouseDown
-        focus
       }
       else if (e.type == InputEventType.move)
       {

@@ -74,10 +74,12 @@ class InputEvent : Event
   const static Int mouseEnter := 4
   const static Int mouseExit := 5
   const static Int mouseHover := 6
-  const static Int keyDown := 7
-  const static Int keyUp := 8
-  const static Int touchEvent := 9
-  const static Int keyTyped := 10
+  const static Int mouseClicked := 7
+  const static Int mouseDragged := 8
+  const static Int keyDown := 9
+  const static Int keyUp := 10
+  const static Int keyTyped := 11
+  const static Int touchEvent := 12
 }
 
 **

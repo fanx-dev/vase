@@ -26,6 +26,7 @@ class WinTest
       Label { id = "label"; text = "Label" },
       ImageView { id = "image";  image = ConstImage(`fan://icons/x16/folder.png`) },
       TextField { id = "text" },
+      ToggleButton {},
     }
 
     view.layout = VBox()
