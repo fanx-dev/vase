@@ -15,7 +15,7 @@ class Build : BuildPod
   {
     podName  = "gfx2"
     summary  = "extension of gfx"
-    depends  = ["sys 1.0", "gfx 1.0", "fan3dMath 1.0", "concurrent 1.0", "array 1.0"]
+    depends  = ["sys 1.0", "gfx 1.0", "fgfxMath 1.0", "concurrent 1.0", "fgfxArray 1.0"]
     srcDirs  = [`fan/`]
     javaDirs = Uri[,]
   }

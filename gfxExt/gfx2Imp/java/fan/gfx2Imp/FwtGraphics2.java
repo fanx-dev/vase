@@ -13,8 +13,8 @@ import java.util.Stack;
 import fan.sys.FanObj;
 import fan.sys.ArgErr;
 
-import fan.array.*;
-import fan.fan3dMath.*;
+import fan.fgfxArray.*;
+import fan.fgfxMath.*;
 import fan.gfx.*;
 import fan.gfx2.*;
 import fan.fwt.FwtGraphics;
@@ -85,7 +85,7 @@ public class FwtGraphics2 extends FwtGraphics implements Graphics2
     return this;
   }
 
-  public FwtGraphics2 setTransform(fan.fan3dMath.Transform2D trans)
+  public FwtGraphics2 setTransform(fan.fgfxMath.Transform2D trans)
   {
     Transform t = toSwtTransform(trans);
     gc.setTransform(t);

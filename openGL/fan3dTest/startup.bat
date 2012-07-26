@@ -1,1 +1,0 @@
-fan idraft -appHome file:/E:/Hg/fan3d/openGL/fan3dTest/ fan3dTest::RootMod

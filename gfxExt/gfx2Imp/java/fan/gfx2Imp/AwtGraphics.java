@@ -20,8 +20,8 @@ import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.util.Stack;
 
-import fan.array.Array;
-import fan.fan3dMath.Transform2D;
+import fan.fgfxArray.Array;
+import fan.fgfxMath.Transform2D;
 import fan.gfx.Brush;
 import fan.gfx.Color;
 import fan.gfx.Font;
@@ -351,7 +351,7 @@ public class AwtGraphics implements Graphics2 {
 
   @Override
   public Graphics2 drawPolyline2(Array a) {
-    gc.drawPolyline(GfxUtil.arrayToInts(a, true), GfxUtil.arrayToInts(a, false), (int)a.size()/2);
+    gc.drawPolyline(GfxUtil.fgfxArrayToInts(a, true), GfxUtil.fgfxArrayToInts(a, false), (int)a.size()/2);
     return this;
   }
 
@@ -363,7 +363,7 @@ public class AwtGraphics implements Graphics2 {
 
   @Override
   public Graphics2 fillPolygon2(Array a) {
-    gc.fillPolygon(GfxUtil.arrayToInts(a, true), GfxUtil.arrayToInts(a, false), (int)a.size()/2);
+    gc.fillPolygon(GfxUtil.fgfxArrayToInts(a, true), GfxUtil.fgfxArrayToInts(a, false), (int)a.size()/2);
     return this;
   }
 

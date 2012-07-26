@@ -21,8 +21,7 @@ class Build : BuildGroup
     [
       `../common/build.fan`,
       `gfx2/build.fan`,
-      `gfx2Imp/build.fan`,
-      `touch/build.fan`,
+      `gfx2Imp/build.fan`
     ]
   }
 

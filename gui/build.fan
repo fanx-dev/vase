@@ -20,9 +20,9 @@ class Build : BuildGroup
     childrenScripts =
     [
       `../common/build.fan`,
-      `fan2d/build.fan`,
-      `fanWt/build.fan`,
-      `fanWidget/build.fan`
+      `fgfx2d/build.fan`,
+      `wtk/build.fan`,
+      `widget/build.fan`
     ]
   }
 

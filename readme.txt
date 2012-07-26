@@ -1,17 +1,16 @@
 gui
-  - fan2d: new fantom 2D graphics API
-  - fanWt: woindow toolkit
-  - fanWidget: widget system
-  - fanAndroid: android impl
+  - fgfx2d: new fantom 2D graphics API
+  - wtk: Window toolkit
+  - widget: widget system
+  - android: android impl
 
 gfxExt
   - gfx2: extending of gfx
   - gfx2Imp: AWT, SWT, HTML5Canvas, Andorid implementions
-  - touch: widget system for touch devices
 
-openGL
-  - fogl: direct openGL/WebGL binding
-  - fan3d: fan 3D lib
+fan3d
+  - openGl: direct openGL/WebGL binding
+  - fgfx3d: fan 3D lib
 
 common
   - math: math lib for 3d and 3d transformation

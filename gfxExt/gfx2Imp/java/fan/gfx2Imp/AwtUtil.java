@@ -11,7 +11,7 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Path2D;
 import java.awt.image.BufferedImage;
 
-import fan.fan3dMath.Transform2D;
+import fan.fgfxMath.Transform2D;
 import fan.gfx.Font;
 import fan.gfx.Image;
 import fan.gfx2.PathClose;

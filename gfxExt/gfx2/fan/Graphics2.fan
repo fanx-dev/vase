@@ -7,8 +7,8 @@
 //
 
 using gfx
-using fan3dMath
-using array
+using fgfxMath
+using fgfxArray
 
 **
 ** an extension of gfx::Graphics

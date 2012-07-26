@@ -79,7 +79,7 @@ fan.gfx2Imp.Graphics2.prototype.fillPolygon2 = function(p)
   return this;
 }
 
-fan.gfx2Imp.Graphics2.prototype.m_transform = fan.fan3dMath.Transform2D.make();
+fan.gfx2Imp.Graphics2.prototype.m_transform = fan.fgfxMath.Transform2D.make();
 fan.gfx2Imp.Graphics2.prototype.transform = function() { return this.m_transform; }
 fan.gfx2Imp.Graphics2.prototype.transform$ = function(trans)
 {

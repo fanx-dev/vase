@@ -13,7 +13,7 @@ class Build : BuildPod
 {
   new make()
   {
-    podName  = "fan3dMath"
+    podName  = "fgfxMath"
     summary  = "math lib for 3d transformation"
     depends  = ["sys 1.0"]
     srcDirs  = [`fan/`, `test/`]
