@@ -166,6 +166,8 @@ abstract class Widget
 // Focus
 //////////////////////////////////////////////////////////////////////////
 
+  Bool isFocusable := true
+
   **
   ** Return if this widget is the focused widget which
   ** is currently receiving all keyboard input.
@@ -179,6 +181,8 @@ abstract class Widget
   **
   ** Attempt for this widget to take the keyboard focus.
   **
-  virtual Void focus() { rootView.focusIt(this) }
+  virtual Void focus() { rootView.focusIt(this); focusChanged(true) }
+
+  virtual Void focusChanged(Bool focused) {}
 
 }

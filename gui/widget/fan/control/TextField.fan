@@ -9,13 +9,58 @@
 using fgfx2d
 using fgfxWtk
 
+class Caret
+{
+  Bool visible := false
+  Int x := 0
+  Int y := 0
+  Int h := 20
+}
+
 class TextField : Widget
 {
-  Str text := ""
+  virtual Str text := ""
+  {
+    set
+    {
+      e := StateChangedEvent (&text, it, #text, this )
+      onStateChanged.fire(e)
+      &text = it
+      caret.x = &text.size
+    }
+  }
+
+  Caret caret := Caret()
+  Timer timer
 
   new make()
   {
     size = Size(100, 20)
+
+    timer = Timer()
+    timer.delay = 200
+    timer.onTimeOut = |->|
+    {
+      if (this.hasFocus)
+      {
+        caret.visible = !caret.visible
+        repaint
+      }
+    }
+  }
+
+  override Void focusChanged(Bool focused)
+  {
+    if (focused)
+    {
+      timer.start
+    }
+    else
+    {
+      timer.stop
+      caret.visible = false
+      repaint
+    }
   }
 
   override Void keyPress(InputEvent e)
@@ -24,7 +69,7 @@ class TextField : Widget
     {
       if (text.size > 0)
       {
-        text = text[0..-2]
+        text = (text[0..-2])
         repaint
         return
       }

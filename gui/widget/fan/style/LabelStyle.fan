@@ -15,6 +15,7 @@ class LabelStyle : WidgetStyle
   {
     Label lab := widget
     g.brush = brush
+    g.font = font
     g.drawText(lab.text, 0, 20)
   }
 }

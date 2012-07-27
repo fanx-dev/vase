@@ -11,37 +11,30 @@
 **
 @Js
 @Serializable { simple = true }
-const abstract class Font
+abstract class Font
 {
 
 //////////////////////////////////////////////////////////////////////////
 // Construction
 //////////////////////////////////////////////////////////////////////////
 
-  internal new privateMake(|This| f) { f(this) }
-
-  **
-  ** Construct with it-block
-  **
-  static new make(|This| f)
-  {
-    GfxEnv.cur.makeFont(f)
-  }
+  private new privateMake(|This| f) { f(this) }
 
   **
   ** Construct a Font with family name, size in points, and optional
   ** bold/italic style.  This is internal for now, because eventually
   ** we should be able to collapse this and it-block into single ctor.
   **
-  @NoDoc static new makeFields(Str name, Int size, Bool bold := false, Bool italic := false)
+  static new make(Str name, Int size, Bool bold := false, Bool italic := false)
   {
-    make
+    font := GfxEnv.cur.makeFont
     {
       it.name = name
       it.size   = size
       it.bold   = bold
       it.italic = italic
     }
+    return font
   }
 
   **
@@ -74,7 +67,7 @@ const abstract class Font
         else size = tok[0..-3].toInt
       }
 
-      return makeFields(name, size.toInt, bold, italic)
+      return make(name, size.toInt, bold, italic)
     }
     catch {}
     if (checked) throw ParseErr("Invalid Font: $s")
@@ -88,22 +81,22 @@ const abstract class Font
   **
   ** Name of font.
   **
-  const Str name := "Serif"
+  Str name := "Serif" { private set }
 
   **
   ** Size of font in points.
   **
-  const Int size := 11
+  Int size := 11 { private set }
 
   **
   ** Is this font bold.
   **
-  const Bool bold
+  Bool bold { private set }
 
   **
   ** Is this font in italic.
   **
-  const Bool italic
+  Bool italic { private set }
 
 //////////////////////////////////////////////////////////////////////////
 // Identity
@@ -169,7 +162,7 @@ const abstract class Font
   Font toSize(Int size)
   {
     if (this.size == size) return this
-    return Font.makeFields(name, size, bold, italic)
+    return Font.make(name, size, bold, italic)
   }
 
   **
@@ -180,7 +173,7 @@ const abstract class Font
   Font toPlain()
   {
     if (!bold && !italic) return this
-    return Font.makeFields(name, size, false, false)
+    return Font.make(name, size, false, false)
   }
 
   **
@@ -190,7 +183,7 @@ const abstract class Font
   Font toBold()
   {
     if (bold) return this
-    return Font.makeFields(name, size, true, italic)
+    return Font.make(name, size, true, italic)
   }
 
   **
@@ -200,7 +193,7 @@ const abstract class Font
   Font toItalic()
   {
     if (italic) return this
-    return Font.makeFields(name, size, bold, true)
+    return Font.make(name, size, bold, true)
   }
 
 //////////////////////////////////////////////////////////////////////////

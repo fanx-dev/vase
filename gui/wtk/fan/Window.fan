@@ -37,7 +37,5 @@ mixin Window
 
   abstract Bool hasFocus()
   abstract Void focus()
-
-  static new make(View view) { Toolkit.cur.build(view) }
 }
 

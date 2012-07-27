@@ -19,6 +19,17 @@ class TextFieldStyle : WidgetStyle
     g.fillRect(0, 0, widget.size.w, widget.size.h)
 
     g.brush = brush
+    g.font = font
     g.drawText(lab.text, 0, widget.size.h-5)
+
+    if (lab.caret.visible)
+    {
+      Int x := 1
+      if (lab.text.size > 0)
+      {
+        x = font.width(lab.text[0..<lab.caret.x])
+      }
+      g.drawLine(x, lab.caret.y, x, lab.caret.y + lab.caret.h)
+    }
   }
 }

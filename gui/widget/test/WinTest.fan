@@ -34,9 +34,8 @@ class WinTest
     t := Transition()
     t.trans(view.findById("label"))
 
-    view.win = Window(view)
     view.size = Size(400, 400)
-    view.show()
+    view.open
   }
 
 }

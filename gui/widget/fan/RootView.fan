@@ -81,12 +81,22 @@ class RootView : WidgetGroup, View
   **
   ** open View
   **
-  Void show() { this.relayout; win.show(size) }
+  Void open()
+  {
+    win = Toolkit.cur.build(this)
+    relayout
+    win.show(size)
+  }
 
   **
   ** request focus for widget
   **
-  Void focusIt(Widget w) { win.focus; this.focusWidget = w }
+  Void focusIt(Widget w)
+  {
+    focusWidget?.focusChanged(false)
+    this.focusWidget = w
+    win.focus
+  }
 
   override Bool hasFocus() { win.hasFocus }
 }

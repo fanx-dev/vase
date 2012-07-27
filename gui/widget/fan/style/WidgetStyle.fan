@@ -19,7 +19,7 @@ class WidgetStyle : Style
   Brush bg := Color.white//background
   Brush brush := Color.black
   //Border
-  Font? font
+  Font font := Font("Courier New", 12)
   Int? arc
 
   override Void paint(Widget widget, Graphics g)
