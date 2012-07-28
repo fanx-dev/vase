@@ -18,9 +18,9 @@ class ButtonStyle : WidgetStyle
   {
     stateStyle =
     [
-      WidgetStyle { it.bg = Color.green },
-      WidgetStyle { it.bg = Color.red },
-      WidgetStyle { it.bg = Color.yellow }
+      WidgetStyle { it.bg = Color.yellow },
+      WidgetStyle { it.bg = Color.orange },
+      WidgetStyle { it.bg = Color.green }
     ]
   }
 

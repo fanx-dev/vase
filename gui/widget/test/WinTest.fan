@@ -26,13 +26,16 @@ class WinTest
       Label { id = "label"; text = "Label" },
       ImageView { id = "image";  image = ConstImage(`fan://icons/x16/folder.png`) },
       TextField { id = "text" },
-      ToggleButton {},
+      ToggleButton { id = "check" },
+      ToggleButton { id = "radio" },
     }
 
     view.layout = VBox()
 
     t := Transition()
     t.trans(view.findById("label"))
+
+    view.styleManager.idMap["radio"] = RadioButtonStyle()
 
     view.size = Size(400, 400)
     view.open

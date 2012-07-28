@@ -9,24 +9,39 @@
 using fgfx2d
 using fgfxWtk
 
-class ToggleButtonStyle : ButtonStyle
+class ToggleButtonStyle : WidgetStyle
 {
   override Void paint(Widget widget, Graphics g)
   {
-    super.paint(widget, g)
-
     ToggleButton btn := widget
 
     g.brush = brush
     x := btn.size.w / 2
     y := btn.size.h / 2
+
+    g.drawRect(x-6, y-6, 12, 12)
     if (btn.selected)
     {
-      g.drawOval(x-8, y-8, 16, 16)
+      g.drawLine(x-6, y-6, x, y+3)
+      g.drawLine(x+8, y-8, x, y+3)
     }
-    else
+  }
+}
+
+class RadioButtonStyle : WidgetStyle
+{
+  override Void paint(Widget widget, Graphics g)
+  {
+    ToggleButton btn := widget
+
+    g.brush = brush
+    x := btn.size.w / 2
+    y := btn.size.h / 2
+
+    g.drawOval(x-6, y-6, 12, 12)
+    if (btn.selected)
     {
-      g.drawRect(x-6, y-6, 12, 12)
+      g.fillOval(x-2, y-2, 5, 5)
     }
   }
 }
