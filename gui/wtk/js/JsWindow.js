@@ -155,7 +155,7 @@ fan.fgfxWtk.JsWindow.prototype.addEvent = function(elem, type, id)
     event.m_x = e.clientX;
     event.m_y = e.clientY;
     event.m_widget = this.canvas;
-    event.m_key = fan.fgfxWtk.JsWindow.toKey(e.keyCode);
+    event.m_key = fan.fgfxWtk.JsWindow.toKey(e);
     event.m_keyChar =  e.charCode || e.keyCode;
     view.onEvent(event);
   };
@@ -167,15 +167,17 @@ fan.fgfxWtk.JsWindow.prototype.addEvent = function(elem, type, id)
 //////////////////////////////////////////////////////////////////////////
 
 fan.fgfxWtk.JsWindow.prototype.focus = function() {
-   this.canvas.focus();
+  this.canvas.focus();
 }
 
 fan.fgfxWtk.JsWindow.prototype.hasFocus = function() {
-    //return canvas.hasFocus();
+  return document.activeElement == this.canvas;
 }
 
 fan.fgfxWtk.JsWindow.prototype.pos = function() {
-    //return Point.make(canvas.getX(), canvas.getY());
+  var x = this.canvas.offsetLeft;
+  var y = this.canvas.offsetTop;
+  return fan.fgfx2d.Point.make(x, y);
 }
 
 fan.fgfxWtk.JsWindow.prototype.repaint = function(r) {

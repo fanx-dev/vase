@@ -69,15 +69,20 @@ class TextField : Widget
   {
     if (e.key == Key.backspace)
     {
-      if (text.size > 0)
+      if (e.id == InputEvent.keyDown)
       {
-        text = (text[0..-2])
-        repaint
-        return
+        if (text.size > 0)
+        {
+          text = text[0..-2]
+          repaint
+        }
       }
+      return
     }
 
     if (e.id != InputEvent.keyTyped) return
+
+    if (e.keyChar < 32) return
 
     text += e.keyChar.toChar
     repaint

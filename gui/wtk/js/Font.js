@@ -9,32 +9,33 @@
 // global variable to store a CanvasRenderingContext2D
 fan.fgfx2d.Font.fontCx = null;
 
-fan.fgfx2d.Font.prototype.fontHeight = function(font)
+fan.fgfx2d.Font.prototype.height = function()
 {
   // fudge this as 150% of size
-  return Math.round((font.m_size-3) * 1.5);
+  return Math.round((this.m_size-3) * 1.5);
 }
 
-fan.fgfx2d.Font.prototype.fontAscent = function(font)
+fan.fgfx2d.Font.prototype.ascent = function()
 {
   // fudge this as 100% of size
-  return font.m_size-3;
+  return this.m_size-3;
 }
 
-fan.fgfx2d.Font.prototype.fontDescent = function(font)
+fan.fgfx2d.Font.prototype.descent = function()
 {
   // fudge this as 30% of size
-  return Math.round((font.m_size-3) * 0.3);
+  return Math.round((this.m_size-3) * 0.3);
 }
 
-fan.fgfx2d.Font.prototype.fontLeading = function(font)
+fan.fgfx2d.Font.prototype.leading = function()
 {
   // fudge this as 16% of size
-  return Math.round((font.m_size-3) * 0.16);
+  return Math.round((this.m_size-3) * 0.16);
 }
 
-fan.fgfx2d.Font.prototype.fontWidth = function(font, str)
+fan.fgfx2d.Font.prototype.width = function(str)
 {
+  if (!str) return 0;
   try
   {
     // use global var to store a context for computing string width
@@ -42,7 +43,7 @@ fan.fgfx2d.Font.prototype.fontWidth = function(font, str)
     {
       fan.fgfx2d.Font.fontCx = document.createElement("canvas").getContext("2d");
     }
-    fan.fgfx2d.Font.fontCx.font = fan.fgfx2d.GfxUtil.fontToCss(font);
+    fan.fgfx2d.Font.fontCx.font = fan.fgfx2d.GfxUtil.fontToCss(this);
     return Math.round(fan.fgfx2d.Font.fontCx.measureText(str).width);
   }
   catch (err)

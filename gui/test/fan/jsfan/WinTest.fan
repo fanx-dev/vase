@@ -25,7 +25,7 @@ class WinTest
     {
       Button { id = "button"; onAction.add { echo("Hi") }; label.text = "Hello" },
       Label { id = "label"; text = "Label" },
-      //ImageView { id = "image";  image = ConstImage(`fan://icons/x16/folder.png`) },
+      ImageView { id = "image";  image = ConstImage(`fan://icons/x16/folder.png`) },
       TextField { id = "text" },
       ToggleButton { id = "check" },
       ToggleButton { id = "radio" },
@@ -33,8 +33,8 @@ class WinTest
 
     view.layout = VBox()
 
-    //t := Transition()
-    //t.trans(view.findById("label"))
+    t := Transition()
+    t.trans(view.findById("label"))
 
     view.styleManager.idMap["radio"] = RadioButtonStyle()
 
