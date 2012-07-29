@@ -9,6 +9,7 @@
 using fgfx2d
 using fgfxWtk
 
+@Js
 class Button : ButtonBase
 {
   Label label

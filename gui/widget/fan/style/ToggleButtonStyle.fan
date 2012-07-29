@@ -9,6 +9,7 @@
 using fgfx2d
 using fgfxWtk
 
+@Js
 class ToggleButtonStyle : WidgetStyle
 {
   override Void paint(Widget widget, Graphics g)
@@ -28,6 +29,7 @@ class ToggleButtonStyle : WidgetStyle
   }
 }
 
+@Js
 class RadioButtonStyle : WidgetStyle
 {
   override Void paint(Widget widget, Graphics g)
@@ -41,7 +43,7 @@ class RadioButtonStyle : WidgetStyle
     g.drawOval(x-6, y-6, 12, 12)
     if (btn.selected)
     {
-      g.fillOval(x-2, y-2, 5, 5)
+      g.fillOval(x-2, y-2, 4, 4)
     }
   }
 }

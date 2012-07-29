@@ -9,7 +9,7 @@
 using fgfx2d
 using fgfxWtk
 
-
+@Js
 class Label : Widget
 {
   Str text := ""

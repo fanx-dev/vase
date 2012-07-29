@@ -328,6 +328,7 @@ fan.fgfxWtk.Graphics.prototype.push = function ()
   state.antialias = this.m_antialias;
   state.alpha     = this.m_alpha;
   state.clip      = this.m_clip;
+  state.transform = this.m_transform.clone();
   this.stack.push(state);
 }
 
@@ -342,6 +343,7 @@ fan.fgfxWtk.Graphics.prototype.pop = function ()
   this.m_antialias = state.antialias;
   this.m_alpha     = state.alpha;
   this.m_clip      = state.clip;
+  this.m_transform = state.transform;
 }
 
 // Void dispose()
@@ -440,7 +442,7 @@ fan.fgfxWtk.Graphics.prototype.transform = function() { return this.m_transform;
 fan.fgfxWtk.Graphics.prototype.transform$ = function(trans)
 {
   fan.fgfxWtk.GfxUtil.doJsTransform(this.cx, trans);
-  m_transform = trans.clone();
+  this.m_transform = trans.clone();
   return this;
 }
 

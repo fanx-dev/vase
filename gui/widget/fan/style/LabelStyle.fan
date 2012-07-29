@@ -9,6 +9,7 @@
 using fgfx2d
 using fgfxWtk
 
+@Js
 class LabelStyle : WidgetStyle
 {
   override Void paint(Widget widget, Graphics g)

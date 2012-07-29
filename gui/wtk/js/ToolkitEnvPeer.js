@@ -19,3 +19,8 @@ fan.fgfxWtk.Toolkit.prototype.build = function(view) {
    win.view = view;
    return win;
 }
+
+fan.fgfxWtk.Toolkit.prototype.callLater = function(delay, callback)
+{
+  window.setTimeout(function(){ callback.call(); }, delay);
+}

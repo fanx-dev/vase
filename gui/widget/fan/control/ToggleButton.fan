@@ -9,6 +9,7 @@
 using fgfx2d
 using fgfxWtk
 
+@Js
 class ToggleButton : ButtonBase
 {
   Bool selected := false

@@ -10,11 +10,13 @@ using fgfx2d
 using fgfxWtk
 using concurrent
 
+@Js
 mixin Animation
 {
   abstract Void trans(Widget w)
 }
 
+@Js
 class Transition : Animation
 {
   override Void trans(Widget w)

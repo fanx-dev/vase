@@ -16,6 +16,6 @@ class Build : BuildPod
     podName  = "fgfxWidget"
     summary  = "fantom widget"
     depends  = ["sys 1.0", "fgfx2d 1.0", "concurrent 1.0", "fgfxMath 1.0", "fgfxWtk 1.0"]
-    srcDirs  = [`fan/`, `fan/control/`, `fan/style/`, `test/`, `fan/layout/`, `fan/animation/`]
+    srcDirs  = [`fan/`, `fan/control/`, `fan/style/`, `fan/layout/`, `fan/animation/`]
   }
 }

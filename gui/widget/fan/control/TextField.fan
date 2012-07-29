@@ -9,6 +9,7 @@
 using fgfx2d
 using fgfxWtk
 
+@Js
 class Caret
 {
   Bool visible := false
@@ -17,6 +18,7 @@ class Caret
   Int h := 20
 }
 
+@Js
 class TextField : Widget
 {
   virtual Str text := ""

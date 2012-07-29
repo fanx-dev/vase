@@ -10,6 +10,7 @@ using fgfx2d
 using fgfxWtk
 using concurrent
 
+@Js
 class Timer
 {
   Int delay := 1000

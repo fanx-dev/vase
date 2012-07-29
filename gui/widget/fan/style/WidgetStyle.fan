@@ -9,11 +9,13 @@
 using fgfx2d
 using fgfxWtk
 
+@Js
 mixin Style
 {
   abstract Void paint(Widget widget, Graphics g)
 }
 
+@Js
 class WidgetStyle : Style
 {
   Brush bg := Color.white//background

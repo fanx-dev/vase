@@ -22,7 +22,7 @@ class Fan2dImageTest
     ToolkitEnv.init
 
     view := MyImageView()
-    win := Window(view)
+    win := Toolkit.cur.build(view)
     view.win = win
 
     win.show(Size(400, 400))

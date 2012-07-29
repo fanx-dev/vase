@@ -6,7 +6,7 @@
 //   2012-07-15  Jed Young  Creation
 //
 
-
+@Js
 class StyleManager
 {
   Str:Style idMap := [:]

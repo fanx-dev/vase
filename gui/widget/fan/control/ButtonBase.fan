@@ -9,6 +9,7 @@
 using fgfx2d
 using fgfxWtk
 
+@Js
 class ButtonBase : WidgetGroup
 {
 //////////////////////////////////////////////////////////////////////////
@@ -42,9 +43,9 @@ class ButtonBase : WidgetGroup
     {
       if (e.type == InputEventType.release)
       {
+        onAction.fire(e)
         state = mouseOver
         focus
-        onAction.fire(e)
       }
       else if (e.type == InputEventType.press)
       {
