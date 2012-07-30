@@ -21,11 +21,9 @@ class Transition : Animation
 {
   override Void trans(Widget w)
   {
-    t := Timer()
     Int d := 2
     Int x := w.pos.x
-    t.delay = 40
-    t.onTimeOut = |->|
+    t := Timer(40)|->|
     {
       w.repaint
       w.pos = Point(w.pos.x + d, w.pos.y)

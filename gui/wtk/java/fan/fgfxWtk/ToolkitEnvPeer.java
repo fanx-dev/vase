@@ -12,6 +12,8 @@ import javax.swing.*;
 import java.awt.*;
 import fan.concurrent.Actor;
 import fan.sys.*;
+import java.util.Timer;
+import java.util.TimerTask;
 
 
 public class ToolkitEnvPeer
@@ -30,6 +32,7 @@ public class ToolkitEnvPeer
 
   static class AwtToolkit extends Toolkit
   {
+  	Timer timer = new Timer(true);
     public Window build(View view)
     {
       return new AwtWindow(view);
@@ -37,19 +40,10 @@ public class ToolkitEnvPeer
 
     public void callLater(final long delay, final Func f)
     {
-      new Thread()
+    	TimerTask task = new TimerTask()
       {
-        public void start()
+        public void run()
         {
-          try
-          {
-            Thread.sleep(delay);
-          }
-          catch (InterruptedException e)
-          {
-            e.printStackTrace();
-          }
-
           EventQueue.invokeLater(new Runnable()
           {
             public void run()
@@ -58,8 +52,9 @@ public class ToolkitEnvPeer
             }
           });
         }
-      }.start();
-
+      };
+      
+      timer.schedule(task, delay);
     }
   }
 }

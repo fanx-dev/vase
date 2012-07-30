@@ -10,35 +10,64 @@ using fgfx2d
 using fgfxWtk
 using concurrent
 
+**
+** Call the specified function on the UI thread's event loop
+**
 @Js
 class Timer
 {
-  Int delay := 1000
-  Bool canceled := false
-  |->|? onTimeOut
-  Toolkit toolkit
+  **
+  **  Schedules the specified task for repeated fixed-delay execution, beginning after the specified delay.
+  **
+  Int period
 
-  new make()
+  **
+  ** Cancels this timer task.
+  **
+  Bool canceled := true { private set }
+
+  **
+  ** callback
+  **
+  private |->| onTimeOut
+
+  **
+  ** current env
+  **
+  private Toolkit toolkit
+
+  **
+  **
+  **
+  new make(Int period, |->| onTimeOut)
   {
     toolkit = Toolkit.cur
+    this.onTimeOut = onTimeOut
+    this.period = period
   }
 
+  **
+  ** Starts the Timer
+  **
   Void start()
   {
     canceled = false
-    toolkit.callLater(delay, timeOut)
+    toolkit.callLater(period, timeOut)
   }
 
-  Void stop()
+  **
+  ** Cancel the Timer
+  **
+  Void cancel()
   {
     canceled = true
   }
 
-  |->| timeOut := |->|
+  private |->| timeOut := |->|
   {
     if (canceled) return
-    toolkit.callLater(delay, timeOut)
-    onTimeOut?.call()
+    toolkit.callLater(period, timeOut)
+    onTimeOut.call()
   }
 
 }

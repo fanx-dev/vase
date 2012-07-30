@@ -33,15 +33,18 @@ class TextField : Widget
   }
 
   Caret caret := Caret()
-  Timer timer
+  Timer? timer
 
   new make()
   {
     size = Size(100, 20)
+  }
 
-    timer = Timer()
-    timer.delay = 200
-    timer.onTimeOut = |->|
+  private Void startCaret()
+  {
+    if (timer != null && !timer.canceled) return
+
+    timer = Timer(500)|->|
     {
       if (this.hasFocus)
       {
@@ -49,17 +52,20 @@ class TextField : Widget
         repaint
       }
     }
+    timer.start
   }
+
+  private Void stopCaret() { timer?.cancel }
 
   override Void focusChanged(Bool focused)
   {
     if (focused)
     {
-      timer.start
+      startCaret
     }
     else
     {
-      timer.stop
+      stopCaret
       caret.visible = false
       repaint
     }
