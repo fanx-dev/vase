@@ -6,6 +6,9 @@
 //   2011-08-13  Jed Young  Creation
 //
 
+**
+** Image represents a graphical image.
+**
 @Js
 mixin Image
 {
@@ -13,7 +16,7 @@ mixin Image
 }
 
 **
-** Image represents a graphical image.
+** Immutable Image
 **
 @Js
 const mixin ConstImage : Image
@@ -26,7 +29,7 @@ const mixin ConstImage : Image
 }
 
 **
-** BufferedImage
+** Buffered Image
 **
 @Js
 mixin BufImage : Image
@@ -70,6 +73,9 @@ mixin BufImage : Image
   **
   static new fromUri(Uri uri, |This| onLoad) { GfxEnv.cur.fromUri(uri, onLoad) }
 
+  **
+  ** make form input stream
+  **
   static Image fromStream(InStream in) { GfxEnv.cur.fromStream(in) }
 
   **

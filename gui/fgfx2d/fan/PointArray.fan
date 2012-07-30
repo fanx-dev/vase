@@ -8,7 +8,7 @@
 
 
 **
-** PointArray
+** High Performance Point Array
 **
 @Js
 mixin PointArray

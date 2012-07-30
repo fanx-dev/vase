@@ -8,7 +8,9 @@
 
 
 **
-** Composite
+** Composite mode
+** combines a shape, text, or an image being rendered with the colors
+** that have already been rendered according to pre-defined rules.
 **
 @Js
 enum class Composite

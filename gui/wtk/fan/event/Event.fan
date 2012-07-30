@@ -6,6 +6,9 @@
 //   2011-10-04  Jed Young  Creation
 //
 
+**
+** Base class for all Event
+**
 @Js
 class Event
 {

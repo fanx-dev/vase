@@ -9,6 +9,9 @@
 using fgfx2d
 using concurrent
 
+**
+** Toolkit
+**
 @Js
 abstract const class Toolkit
 {
@@ -24,6 +27,9 @@ abstract const class Toolkit
   abstract Void callLater(Int delay, |->| f)
 }
 
+**
+** Default Toolkit maker
+**
 @Js
 class ToolkitEnv
 {

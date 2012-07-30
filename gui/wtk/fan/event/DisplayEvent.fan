@@ -6,6 +6,9 @@
 //   2011-10-04  Jed Young  Creation
 //
 
+**
+** Windows host Event
+**
 @Js
 class DisplayEvent : Event
 {

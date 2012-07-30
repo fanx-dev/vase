@@ -10,7 +10,7 @@ using fgfx2d
 using fgfxWtk
 
 **
-** Widget is the base class for all UI widgets.
+** WidgetGroup is a Widget Container
 **
 @Js
 abstract class WidgetGroup : Widget

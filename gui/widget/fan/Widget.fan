@@ -9,7 +9,9 @@
 using fgfx2d
 using fgfxWtk
 
-
+**
+** Widget is the base class for all UI widgets.
+**
 @Js
 abstract class Widget
 {

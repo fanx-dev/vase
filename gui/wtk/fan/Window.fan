@@ -23,7 +23,7 @@ mixin View
 }
 
 **
-** Window
+** Window is a host display
 **
 @Js
 mixin Window

@@ -39,7 +39,7 @@ class WinTest
     view.styleManager.idMap["radio"] = RadioButtonStyle()
 
     view.size = Size(600, 600)
-    view.open
+    view.show
   }
 
 }

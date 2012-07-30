@@ -79,11 +79,14 @@ class RootView : WidgetGroup, View
   }
 
   **
-  ** open View
+  ** Show View
   **
-  Void open()
+  Void show(Window? host := null)
   {
-    win = Toolkit.cur.build(this)
+    if (host == null)
+      win = Toolkit.cur.build(this)
+    else
+      win = host
     relayout
     win.show(size)
   }
