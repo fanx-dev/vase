@@ -29,6 +29,8 @@ class WinTest
       TextField { id = "text" },
       ToggleButton { id = "check" },
       ToggleButton { id = "radio" },
+      ScrollBar { size = Size(10, 100) },
+      ScrollBar { size = Size(100, 10); orientationV = false }
     }
 
     view.layout = VBox()

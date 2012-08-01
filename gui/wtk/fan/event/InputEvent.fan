@@ -61,6 +61,7 @@ class InputEvent : Event
     case keyUp:
       type = InputEventType.release
     case mouseMove:
+    case mouseDragged:
       type = InputEventType.move
     default:
       type = InputEventType.other
