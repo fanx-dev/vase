@@ -10,7 +10,7 @@ using fgfx2d
 using fgfxWtk
 
 @Js
-class ScrollBar : ButtonBase
+class ScrollBar : Widget
 {
   Int max := 500
 
@@ -85,6 +85,7 @@ class ScrollBar : ButtonBase
         draging = true
         x = e.x
         y = e.y
+        focus
         return
       }
     }
