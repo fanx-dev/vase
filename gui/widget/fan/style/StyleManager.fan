@@ -18,7 +18,7 @@ class StyleManager
   {
     typeMap =
     [
-      Button# : ButtonStyle(),
+      Button# : RoundButtonStyle(),
       ImageView# : ImageStyle(),
       Label# : LabelStyle(),
       TextField# : TextFieldStyle(),

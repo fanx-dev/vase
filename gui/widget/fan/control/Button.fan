@@ -12,11 +12,10 @@ using fgfxWtk
 @Js
 class Button : ButtonBase
 {
-  Label label
+  Str text := "button"
 
   new make()
   {
-    label = Label { text := "button" }
-    this.add(label)
+    size = Size(70, 30)
   }
 }

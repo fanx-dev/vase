@@ -39,6 +39,11 @@ class ScrollBar : Widget
   private Int y := -1
   private Bool draging := false
 
+  new make()
+  {
+    size = Size(10, 100)
+  }
+
   private Int thumbSize()
   {
     if (orientationV)

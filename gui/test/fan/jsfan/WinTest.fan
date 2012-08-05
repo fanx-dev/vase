@@ -23,7 +23,7 @@ class WinTest
 
     view := RootView
     {
-      Button { id = "button"; onAction.add { echo("Hi") }; label.text = "Hello" },
+      Button { id = "button"; onAction.add { echo("Hi") }; text = "Hello" },
       Label { id = "label"; text = "Label" },
       ImageView { id = "image";  image = ConstImage(`fan://icons/x16/folder.png`) },
       TextField { id = "text" },

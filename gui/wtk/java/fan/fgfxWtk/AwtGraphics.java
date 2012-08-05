@@ -190,8 +190,8 @@ public class AwtGraphics implements Graphics {
   @Override
   public Graphics drawRoundRect(long x, long y, long w, long h, long wArc,
       long hArc) {
-    gc.drawRoundRect((int) x, (int) y, (int) w, (int) h, (int) wArc,
-        (int) hArc);
+    gc.drawRoundRect((int) x, (int) y, (int) w, (int) h, (int) (wArc*2),
+        (int) (hArc*2));
     return this;
   }
 
@@ -229,8 +229,8 @@ public class AwtGraphics implements Graphics {
   @Override
   public Graphics fillRoundRect(long x, long y, long w, long h, long wArc,
       long hArc) {
-    gc.fillRoundRect((int) x, (int) y, (int) w, (int) h, (int) wArc,
-        (int) hArc);
+    gc.fillRoundRect((int) x, (int) y, (int) w, (int) h, (int) (wArc*2),
+        (int) (hArc*2));
     return this;
   }
 

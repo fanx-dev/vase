@@ -20,11 +20,12 @@ class ToggleButtonStyle : WidgetStyle
     x := btn.size.w / 2
     y := btn.size.h / 2
 
-    g.drawRect(x-6, y-6, 12, 12)
+    r := ((x.min(y)-1) * 0.8f).toInt
+    g.drawRect(x-r, y-r, r*2, r*2)
     if (btn.selected)
     {
-      g.drawLine(x-6, y-6, x, y+3)
-      g.drawLine(x+8, y-8, x, y+3)
+      g.drawLine(x-(r*0.8f).toInt, y-(r*0.7f).toInt, x, y+(r/2f).toInt)
+      g.drawLine(x+(r*1.3f).toInt, y-(r*1.3f).toInt, x, y+(r/2f).toInt)
     }
   }
 }
@@ -40,10 +41,12 @@ class RadioButtonStyle : WidgetStyle
     x := btn.size.w / 2
     y := btn.size.h / 2
 
-    g.drawOval(x-6, y-6, 12, 12)
+    r := x.min(y) -1
+    g.drawOval(x-r, y-r, r*2, r*2)
     if (btn.selected)
     {
-      g.fillOval(x-2, y-2, 4, 4)
+      cw := (r*0.7f).toInt
+      g.fillOval(x-(r/3f).toInt, y-(r/3f).toInt, cw, cw)
     }
   }
 }
