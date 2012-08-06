@@ -85,9 +85,21 @@ abstract class WidgetGroup : Widget
 // event
 //////////////////////////////////////////////////////////////////////////
 
-  override Void touch(InputEvent e) { children.each { it.touch(e) } }
+  override Void touch(InputEvent e) {
+    children.each {
+      if (it.enabled) {
+        it.touch(e)
+      }
+    }
+  }
 
-  override Void keyPress(InputEvent e) { children.each { it.keyPress(e) } }
+  override Void keyPress(InputEvent e) {
+    children.each {
+      if (it.enabled) {
+        it.keyPress(e)
+      }
+    }
+  }
 
 //////////////////////////////////////////////////////////////////////////
 // Paint
@@ -95,6 +107,7 @@ abstract class WidgetGroup : Widget
 
   override Void paint(Graphics g)
   {
+    if (!visible) return
     super.paint(g)
     paintChildren(g)
   }
@@ -103,11 +116,14 @@ abstract class WidgetGroup : Widget
   {
     children.each
     {
-      g.push
-      g.clip(it.bounds)
-      g.transform = g.transform.translate(it.pos.x.toFloat, it.pos.y.toFloat)
-      it.paint(g)
-      g.pop
+      if (it.visible)
+      {
+        g.push
+        g.clip(it.bounds)
+        g.transform = g.transform.translate(it.pos.x.toFloat, it.pos.y.toFloat)
+        it.paint(g)
+        g.pop
+      }
     }
   }
 

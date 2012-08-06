@@ -9,6 +9,9 @@
 using fgfx2d
 using fgfxWtk
 
+**
+** An implementation of a scrollbar.
+**
 @Js
 class ScrollBar : Widget
 {

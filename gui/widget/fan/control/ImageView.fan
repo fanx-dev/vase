@@ -9,6 +9,9 @@
 using fgfx2d
 using fgfxWtk
 
+**
+** A display area for image
+**
 @Js
 class ImageView : Widget
 {

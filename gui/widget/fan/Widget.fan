@@ -15,7 +15,14 @@ using fgfxWtk
 @Js
 abstract class Widget
 {
+  **
+  ** The unique identifies of widget.
+  **
   Str id := ""
+
+  **
+  ** A name for style
+  **
   Str styleClass := ""
   {
     set
@@ -89,7 +96,10 @@ abstract class Widget
   **
   once EventListeners onStateChanged() { EventListeners() }
 
-
+  **
+  ** Position and size of this widget relative to its parent.
+  ** If this a window, this is the position on the screen.
+  **
   Rect bounds
   {
     get { return Rect.makePosSize(pos, size) }
@@ -100,19 +110,41 @@ abstract class Widget
 // Widget Tree
 //////////////////////////////////////////////////////////////////////////
 
+  **
+  ** Get this widget's parent or null if not mounted.
+  **
   Widget? parent { private set }
 
   internal Void setParent(Widget? p) { parent = p }
 
+  **
+  ** Find widget by id in descendant
+  **
   virtual Widget? findById(Str id) { if (this.id == id) return this; else return null }
 
+  **
+  ** Post mouse event
+  **
   virtual Void touch(InputEvent e) {}
 
+  **
+  ** Post key event
+  **
   virtual Void keyPress(InputEvent e) {}
 
-  virtual Void paint(Graphics g) { rootView.find(this).paint(this, g) }
+  **
+  ** Paints this component.
+  **
+  virtual Void paint(Graphics g) { if (!visible) return; rootView.find(this).paint(this, g) }
 
+  **
+  ** Compute the preferred size of this widget.
+  **
   virtual Size prefSize(Size? hints := null) { size }
+
+  **
+  ** Relayout this widget.
+  **
   virtual This relayout() { this }
 
 
@@ -150,18 +182,14 @@ abstract class Widget
 // repaint
 //////////////////////////////////////////////////////////////////////////
 
+  **
+  ** Repaints the specified rectangle.
+  **
   virtual Void repaint(Rect? dirty := null)
   {
     if (dirty == null) dirty = this.bounds
     else dirty = Rect(dirty.x + pos.x, dirty.y + pos.y, dirty.h, dirty.w)
     this.parent?.repaint(dirty)
-  }
-
-  virtual Void repaintLater(Rect? dirty := null)
-  {
-    if (dirty == null) dirty = this.bounds
-    else dirty = Rect(dirty.x + pos.x, dirty.y + pos.y, dirty.h, dirty.w)
-    this.parent?.repaintLater(dirty)
   }
 
 //////////////////////////////////////////////////////////////////////////
@@ -185,6 +213,9 @@ abstract class Widget
   **
   virtual Void focus() { rootView.focusIt(this); focusChanged(true) }
 
+  **
+  ** callback when lost focus or gains focus.
+  **
   virtual Void focusChanged(Bool focused) {}
 
 }

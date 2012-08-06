@@ -9,6 +9,10 @@
 using fgfx2d
 using fgfxWtk
 
+**
+** A place within a document view that represents
+** where things can be inserted into the document model.
+**
 @Js
 class Caret
 {
@@ -18,6 +22,9 @@ class Caret
   Int h := 20
 }
 
+**
+** JTextField is a lightweight component that allows the editing of a single line of text.
+**
 @Js
 class TextField : Widget
 {
@@ -33,7 +40,7 @@ class TextField : Widget
   }
 
   Caret caret := Caret()
-  Timer? timer
+  private Timer? timer
 
   new make()
   {
@@ -44,6 +51,11 @@ class TextField : Widget
   {
     if (timer != null && !timer.canceled) return
 
+    //show caret
+    caret.visible = true
+    repaint
+
+    //caret blink
     timer = Timer(500)|->|
     {
       if (this.hasFocus)

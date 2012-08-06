@@ -62,15 +62,24 @@ class RootView : WidgetGroup, View
     else if (e.id == DisplayEvent.activated) onActivated.fire(e)
     else onDisplayStateChange.fire(e)
   }
+
   once EventListeners onDisplayStateChange() { EventListeners() }
 
+  **
+  ** Callback function when window is opended.
+  **
   once EventListeners onOpened() { EventListeners() }
+
+  **
+  ** Callback function when window becomes the active window on the desktop with focus.
+  **
   once EventListeners onActivated() { EventListeners() }
 
 
   override Void keyPress(InputEvent e)
   {
-    focusWidget?.keyPress(e)
+    if (focusWidget == null) return
+    if (focusWidget.enabled) focusWidget.keyPress(e)
   }
 
   override Void repaint(Rect? dirty := null)

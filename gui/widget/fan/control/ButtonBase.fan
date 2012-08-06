@@ -9,6 +9,9 @@
 using fgfx2d
 using fgfxWtk
 
+**
+** common behaviors for buttons.
+**
 @Js
 class ButtonBase : WidgetGroup
 {
@@ -18,6 +21,8 @@ class ButtonBase : WidgetGroup
   const static Int mouseOver := 0
   const static Int mouseOut := 1
   const static Int mouseDown := 2
+
+  private Bool pressed := false
 
   Int state := mouseOut
   {
@@ -43,13 +48,18 @@ class ButtonBase : WidgetGroup
     {
       if (e.type == InputEventType.release)
       {
-        onAction.fire(e)
+        if (pressed)
+        {
+          onAction.fire(e)
+        }
+        pressed = false
         state = mouseOver
         focus
       }
       else if (e.type == InputEventType.press)
       {
         state = mouseDown
+        pressed = true
       }
       else if (e.type == InputEventType.move)
       {

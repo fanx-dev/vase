@@ -20,6 +20,11 @@ class Event
   Obj? data
 
   Int id := -1
+
+  override Str toStr()
+  {
+    "id:$id, consumed:$consumed"
+  }
 }
 
 @Js

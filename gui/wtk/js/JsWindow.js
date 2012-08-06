@@ -68,6 +68,9 @@ fan.fgfxWtk.JsWindow.prototype.show = function(size)
   this.needRepaint = false;
   this.repaint();
 
+  var event = fan.fgfxWtk.DisplayEvent.make(fan.fgfxWtk.DisplayEvent.m_opened);
+  this.view.onDisplayEvent(event);
+
   //Repaint handling
   var self = this;
   setInterval(function(){

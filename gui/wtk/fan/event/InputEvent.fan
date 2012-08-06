@@ -68,6 +68,11 @@ class InputEvent : Event
     }
   }
 
+  override Str toStr()
+  {
+    super.toStr + "InputEvent: type:$type, x:$x, y:$y, key:$key, count:$count, button:$button"
+  }
+
   const static Int mouseDown := 0
   const static Int mouseUp := 1
   const static Int mouseMove := 2

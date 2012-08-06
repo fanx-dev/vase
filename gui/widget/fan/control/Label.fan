@@ -9,6 +9,9 @@
 using fgfx2d
 using fgfxWtk
 
+**
+** A display area for a short text string.
+**
 @Js
 class Label : Widget
 {

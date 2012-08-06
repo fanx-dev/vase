@@ -9,6 +9,9 @@
 using fgfx2d
 using fgfxWtk
 
+**
+** Text push button
+**
 @Js
 class Button : ButtonBase
 {

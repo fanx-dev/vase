@@ -9,6 +9,9 @@
 using fgfx2d
 using fgfxWtk
 
+**
+** CheckBox or RadioBox
+**
 @Js
 class ToggleButton : ButtonBase
 {
