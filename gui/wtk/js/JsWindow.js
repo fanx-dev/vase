@@ -88,13 +88,13 @@ fan.fgfxWtk.JsWindow.prototype.bindEvent = function(elem)
 {
   //this.addEvent(this.canvas, "mouseover",  fan.fwt.EventId.m_mouseEnter, self.onMouseEnter());
   //this.addEvent(this.canvas, "mouseout",   fan.fwt.EventId.m_mouseExit,  self.onMouseExit());
-  this.addEvent(this.canvas, "mousedown",  fan.fgfxWtk.InputEvent.m_mouseDown);
-  this.addEvent(this.canvas, "mousemove",  fan.fgfxWtk.InputEvent.m_mouseMove);
-  this.addEvent(this.canvas, "mouseup",    fan.fgfxWtk.InputEvent.m_mouseUp);
-  this.addEvent(this.canvas, "mousewheel", fan.fgfxWtk.InputEvent.m_mouseWheel);
-  this.addEvent(this.canvas, "keydown",    fan.fgfxWtk.InputEvent.m_keyDown);
-  this.addEvent(this.canvas, "keyup",      fan.fgfxWtk.InputEvent.m_keyUp);
-  this.addEvent(this.canvas, "keypress",      fan.fgfxWtk.InputEvent.m_keyTyped);
+  this.addMotionEvent(this.canvas, "mousedown",  fan.fgfxWtk.MotionEvent.m_pressed);
+  this.addMotionEvent(this.canvas, "mousemove",  fan.fgfxWtk.MotionEvent.m_moved);
+  this.addMotionEvent(this.canvas, "mouseup",    fan.fgfxWtk.MotionEvent.m_released);
+  this.addMotionEvent(this.canvas, "mousewheel", fan.fgfxWtk.MotionEvent.m_other);
+  this.addKeyEvent(this.canvas, "keydown",    fan.fgfxWtk.KeyEvent.m_pressed);
+  this.addKeyEvent(this.canvas, "keyup",      fan.fgfxWtk.KeyEvent.m_released);
+  this.addKeyEvent(this.canvas, "keypress",   fan.fgfxWtk.KeyEvent.m_typed);
   //this.addEvent(this.canvas, "blur",       fan.fgfxWtk.InputEvent.m_blur);
   //this.addEvent(this.canvas, "focus",      fan.fgfxWtk.InputEvent.m_focus);
 }
@@ -147,20 +147,35 @@ fan.fgfxWtk.JsWindow.keyCodeToKey = function(keyCode)
   }
 }
 
-fan.fgfxWtk.JsWindow.prototype.addEvent = function(elem, type, id)
+fan.fgfxWtk.JsWindow.prototype.addMotionEvent = function(elem, type, id)
 {
   var view = this.view;
   var mouseEvent = function(e)
   {
     //console.log(e);
-    var event = fan.fgfxWtk.InputEvent.make(id);
+    var event = fan.fgfxWtk.MotionEvent.make(id);
     event.m_id = id;
     event.m_x = e.clientX;
     event.m_y = e.clientY;
     event.m_widget = this.canvas;
     event.m_key = fan.fgfxWtk.JsWindow.toKey(e);
+    view.onMotionEvent(event);
+  };
+  fan.fgfxWtk.GfxUtil.addEventListener(elem, type, mouseEvent);
+}
+
+fan.fgfxWtk.JsWindow.prototype.addKeyEvent = function(elem, type, id)
+{
+  var view = this.view;
+  var mouseEvent = function(e)
+  {
+    //console.log(e);
+    var event = fan.fgfxWtk.KeyEvent.make(id);
+    event.m_id = id;
+    event.m_widget = this.canvas;
+    event.m_key = fan.fgfxWtk.JsWindow.toKey(e);
     event.m_keyChar =  e.charCode || e.keyCode;
-    view.onEvent(event);
+    view.onKeyEvent(event);
   };
   fan.fgfxWtk.GfxUtil.addEventListener(elem, type, mouseEvent);
 }

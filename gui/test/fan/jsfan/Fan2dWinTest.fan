@@ -51,7 +51,6 @@ class MyView : View
     g.drawImage(img, 0, 0)
   }
 
-  override Void onEvent(InputEvent e) {}
 }
 
 

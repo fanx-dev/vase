@@ -42,11 +42,11 @@ class ButtonBase : WidgetGroup
 
   once EventListeners onAction() { EventListeners() }
 
-  override Void touch(InputEvent e)
+  override Void touch(MotionEvent e)
   {
     if (this.bounds.contains(e.x, e.y))
     {
-      if (e.type == InputEventType.release)
+      if (e.id == MotionEvent.released)
       {
         if (pressed)
         {
@@ -56,12 +56,12 @@ class ButtonBase : WidgetGroup
         state = mouseOver
         focus
       }
-      else if (e.type == InputEventType.press)
+      else if (e.id == MotionEvent.pressed)
       {
         state = mouseDown
         pressed = true
       }
-      else if (e.type == InputEventType.move)
+      else if (e.id == MotionEvent.moved)
       {
         if (state != mouseDown)
           state = mouseOver
@@ -73,9 +73,9 @@ class ButtonBase : WidgetGroup
     }
   }
 
-  override Void keyPress(InputEvent e)
+  override Void keyPress(KeyEvent e)
   {
-    if (e.type == InputEventType.release && e.key == Key.enter)
+    if (e.id == KeyEvent.released && e.key == Key.enter)
     {
       onAction.fire(e)
     }

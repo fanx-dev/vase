@@ -125,12 +125,12 @@ abstract class Widget
   **
   ** Post mouse event
   **
-  virtual Void touch(InputEvent e) {}
+  virtual Void touch(MotionEvent e) {}
 
   **
   ** Post key event
   **
-  virtual Void keyPress(InputEvent e) {}
+  virtual Void keyPress(KeyEvent e) {}
 
   **
   ** Paints this component.

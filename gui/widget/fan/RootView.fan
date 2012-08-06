@@ -48,12 +48,12 @@ class RootView : WidgetGroup, View
     super.paint(g)
   }
 
-  override Void onEvent(InputEvent e) {
-    if (e.id == InputEvent.keyDown || e.id == InputEvent.keyUp || e.id == InputEvent.keyTyped) {
-      keyPress(e)
-    } else {
-      touch(e)
-    }
+  override Void onMotionEvent(MotionEvent e) {
+    touch(e)
+  }
+
+  override Void onKeyEvent(KeyEvent e) {
+    keyPress(e)
   }
 
   override Void onDisplayEvent(DisplayEvent e)
@@ -76,7 +76,7 @@ class RootView : WidgetGroup, View
   once EventListeners onActivated() { EventListeners() }
 
 
-  override Void keyPress(InputEvent e)
+  override Void keyPress(KeyEvent e)
   {
     if (focusWidget == null) return
     if (focusWidget.enabled) focusWidget.keyPress(e)

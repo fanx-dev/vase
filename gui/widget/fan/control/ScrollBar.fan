@@ -83,12 +83,12 @@ class ScrollBar : Widget
     }
   }
 
-  override Void touch(InputEvent e)
+  override Void touch(MotionEvent e)
   {
     super.touch(e)
     if (this.bounds.contains(e.x, e.y))
     {
-      if (e.type == InputEventType.press)
+      if (e.id == MotionEvent.pressed)
       {
         draging = true
         x = e.x
@@ -100,13 +100,13 @@ class ScrollBar : Widget
 
     if (!draging) return
 
-    if (e.type == InputEventType.release)
+    if (e.id == MotionEvent.released)
     {
       draging = false
       x = -1
       y = -1
     }
-    else if (e.type == InputEventType.move)
+    else if (e.id == MotionEvent.moved)
     {
       if (orientationV)
       {

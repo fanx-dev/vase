@@ -83,11 +83,11 @@ class TextField : Widget
     }
   }
 
-  override Void keyPress(InputEvent e)
+  override Void keyPress(KeyEvent e)
   {
     if (e.key == Key.backspace)
     {
-      if (e.id == InputEvent.keyDown)
+      if (e.id == KeyEvent.pressed)
       {
         if (text.size > 0)
         {
@@ -98,7 +98,7 @@ class TextField : Widget
       return
     }
 
-    if (e.id != InputEvent.keyTyped) return
+    if (e.id != KeyEvent.typed) return
 
     if (e.keyChar < 32) return
 
@@ -106,11 +106,11 @@ class TextField : Widget
     repaint
   }
 
-  override Void touch(InputEvent e)
+  override Void touch(MotionEvent e)
   {
     if (this.bounds.contains(e.x, e.y))
     {
-      if (e.type == InputEventType.press)
+      if (e.id == MotionEvent.pressed)
       {
         focus
       }

@@ -85,7 +85,7 @@ abstract class WidgetGroup : Widget
 // event
 //////////////////////////////////////////////////////////////////////////
 
-  override Void touch(InputEvent e) {
+  override Void touch(MotionEvent e) {
     children.each {
       if (it.enabled) {
         it.touch(e)
@@ -93,7 +93,7 @@ abstract class WidgetGroup : Widget
     }
   }
 
-  override Void keyPress(InputEvent e) {
+  override Void keyPress(KeyEvent e) {
     children.each {
       if (it.enabled) {
         it.keyPress(e)

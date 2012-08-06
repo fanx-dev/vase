@@ -19,7 +19,7 @@ class Gesture
 
   Void add(MotionEvent e)
   {
-    if (e.isDown)
+    if (e.id == MotionEvent.pressed)
     {
       preDown = down
       preUp = up
@@ -28,11 +28,11 @@ class Gesture
       move = null
       up = null
     }
-    else if (e.isMove)
+    else if (e.id == MotionEvent.moved)
     {
       move = e
     }
-    else if (e.isUp)
+    else if (e.id == MotionEvent.released)
     {
       up = e
     }

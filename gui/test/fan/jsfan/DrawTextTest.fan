@@ -64,7 +64,6 @@ class DrawTextTestView : View
     g.drawImage(p, 10, 10)
   }
 
-  override Void onEvent(InputEvent e) {}
 }
 
 
