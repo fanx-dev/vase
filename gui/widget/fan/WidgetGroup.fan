@@ -13,7 +13,7 @@ using fgfxWtk
 ** WidgetGroup is a Widget Container
 **
 @Js
-abstract class WidgetGroup : Widget
+class WidgetGroup : Widget
 {
 
   Layout layout := FixedLayout()
@@ -68,9 +68,11 @@ abstract class WidgetGroup : Widget
 
   override Widget? findById(Str id)
   {
-    w := super.findById(id)
-    if (w != null) return w
-    return children.find { it.id == id }
+    if (id == this.id) return this
+    return children.eachWhile
+    {
+      it.findById(id)
+    }
   }
 
 //////////////////////////////////////////////////////////////////////////

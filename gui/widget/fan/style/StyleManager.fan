@@ -23,7 +23,8 @@ class StyleManager
       Label# : LabelStyle(),
       TextField# : TextFieldStyle(),
       ToggleButton# : ToggleButtonStyle(),
-      ScrollBar# : ScrollBarStyle()
+      ScrollBar# : ScrollBarStyle(),
+      MessageBox# : MessageBoxStyle()
     ]
     defStyle = WidgetStyle()
   }

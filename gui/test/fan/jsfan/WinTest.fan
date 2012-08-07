@@ -23,22 +23,28 @@ class WinTest
 
     view := RootView
     {
-      Button { id = "button"; onAction.add { echo("Hi") }; text = "Hello" },
-      Label { id = "label"; text = "Label" },
-      ImageView { id = "image";  image = ConstImage(`fan://icons/x16/folder.png`) },
-      TextField { id = "text" },
-      ToggleButton { id = "check" },
-      ToggleButton { id = "radio" },
-      ScrollBar { size = Size(10, 100) },
-      ScrollBar { size = Size(100, 10); orientationV = false }
+      WidgetGroup
+      {
+        layout = VBox()
+        Button { id = "button"; text = "Hello" },
+        Label { id = "label"; text = "Label" },
+        ImageView { id = "image";  image = ConstImage(`fan://icons/x16/folder.png`) },
+        TextField { id = "text" },
+        ToggleButton { id = "check" },
+        ToggleButton { id = "radio" },
+        ScrollBar { size = Size(10, 100) },
+        ScrollBar { size = Size(100, 10); orientationV = false }
+      },
     }
 
-    view.add(MessageBox())
+    //t := Transition()
+    //t.trans(view.findById("label"))
 
-    view.layout = VBox()
-
-    t := Transition()
-    t.trans(view.findById("label"))
+    Button btn := view.findById("button")
+    btn.onAction.add
+    {
+      MessageBox { it.label.text = "hello world" }.show(view)
+    }
 
     view.styleManager.idMap["radio"] = RadioButtonStyle()
 

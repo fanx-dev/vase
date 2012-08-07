@@ -51,8 +51,8 @@ class ButtonBase : WidgetGroup
       {
         if (pressed)
         {
-          onAction.fire(e)
           focus
+          onAction.fire(e)
         }
         pressed = false
         state = mouseOver

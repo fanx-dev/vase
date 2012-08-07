@@ -204,7 +204,7 @@ abstract class Widget
   virtual Void repaint(Rect? dirty := null)
   {
     if (dirty == null) dirty = this.bounds
-    else dirty = Rect(dirty.x + pos.x, dirty.y + pos.y, dirty.h, dirty.w)
+    else dirty = Rect(dirty.x + pos.x, dirty.y + pos.y, dirty.w, dirty.h)
     this.parent?.repaint(dirty)
   }
 

@@ -42,6 +42,8 @@ class RootView : WidgetGroup, View
   **
   Bool doubleBuffered := false
 
+  Bool modal := false
+
 
   override Void onPaint(Graphics g) {
     g.antialias = this.antialias
@@ -82,8 +84,21 @@ class RootView : WidgetGroup, View
     if (focusWidget.enabled) focusWidget.keyPress(e)
   }
 
+  override Void touch(MotionEvent e)
+  {
+    if (!modal)
+    {
+      super.touch(e)
+    }
+    else
+    {
+      focusWidget.touch(e)
+    }
+  }
+
   override Void repaint(Rect? dirty := null)
   {
+    if (dirty == null) dirty = this.bounds
     win.repaint(dirty)
   }
 
