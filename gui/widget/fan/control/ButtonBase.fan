@@ -44,17 +44,18 @@ class ButtonBase : WidgetGroup
 
   override Void touch(MotionEvent e)
   {
-    if (this.bounds.contains(e.x, e.y))
+    p := mapToRelative(Point(e.x, e.y))
+    if (this.bounds.contains(p.x, p.y))
     {
       if (e.id == MotionEvent.released)
       {
         if (pressed)
         {
           onAction.fire(e)
+          focus
         }
         pressed = false
         state = mouseOver
-        focus
       }
       else if (e.id == MotionEvent.pressed)
       {

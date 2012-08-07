@@ -96,16 +96,6 @@ abstract class Widget
   **
   once EventListeners onStateChanged() { EventListeners() }
 
-  **
-  ** Position and size of this widget relative to its parent.
-  ** If this a window, this is the position on the screen.
-  **
-  Rect bounds
-  {
-    get { return Rect.makePosSize(pos, size) }
-    set { pos = it.pos; size = it.size }
-  }
-
 //////////////////////////////////////////////////////////////////////////
 // Widget Tree
 //////////////////////////////////////////////////////////////////////////
@@ -153,13 +143,39 @@ abstract class Widget
 //////////////////////////////////////////////////////////////////////////
 
   **
-  ** Absolute position.
+  ** Position and size of this widget relative to its parent.
+  ** If this a window, this is the position on the screen.
   **
-  Point? absolutePos()
+  Rect bounds
   {
+    get { return Rect.makePosSize(pos, size) }
+    set { pos = it.pos; size = it.size }
+  }
+
+  **
+  ** Get the position of this widget relative to the window.
+  ** If not on mounted on the screen then return null.
+  **
+  Point? posOnWindow()
+  {
+    if (this is RootView) return Point(0, 0)
     if (parent == null) return null
-    p := parent.absolutePos
-    return Point(p.x + pos.x, p.y + pos.y)
+    if (parent.posOnWindow == null) return null
+
+    x := parent.posOnWindow.x + pos.x
+    y := parent.posOnWindow.y + pos.y
+    return Point(x, y)
+  }
+
+  **
+  ** Translates absolute coordinates into coordinates in the coordinate space of this component.
+  **
+  Point? mapToRelative(Point p)
+  {
+    posOW := parent.posOnWindow
+    if (posOW == null) return null
+
+    return Point(p.x - posOW.x, p.y - posOW.y)
   }
 
   **

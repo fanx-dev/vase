@@ -33,6 +33,8 @@ class WinTest
       ScrollBar { size = Size(100, 10); orientationV = false }
     }
 
+    view.add(MessageBox())
+
     view.layout = VBox()
 
     t := Transition()
