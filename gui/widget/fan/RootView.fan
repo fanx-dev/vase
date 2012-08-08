@@ -44,9 +44,13 @@ class RootView : WidgetGroup, View
 
   Bool modal := false
 
+  Brush bg := Color.white
+
 
   override Void onPaint(Graphics g) {
     g.antialias = this.antialias
+    g.brush = bg
+    g.fillRect(0, 0, size.w, size.h)
     super.paint(g)
   }
 

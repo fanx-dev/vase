@@ -13,18 +13,21 @@ using fgfxWtk
 ** MessageBox
 **
 @Js
-class MessageBox : WidgetGroup
+class MessageBox : ContentPane
 {
   Label label { private set }
 
   new make()
   {
     label = Label { it.id = "messageBox_msg"; it.text = "messageBox" }
-    this.add(label)
     btn := Button { it.id = "messageBox_ok"; onAction.add { hide }; it.text = "OK" }
-    this.add(btn)
 
-    this.layout = VBox()
+    pane := WidgetGroup()
+    pane.add(label)
+    pane.add(btn)
+    pane.layout = VBox()
+
+    this.add(pane)
   }
 
   Void show(Widget w)
@@ -46,5 +49,6 @@ class MessageBox : WidgetGroup
     p.relayout
     p.repaint
     (p as RootView).modal = false
+    (p as RootView).focusWidget = null
   }
 }

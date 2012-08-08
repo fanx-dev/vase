@@ -16,4 +16,10 @@ class MessageBoxStyle : WidgetStyle
   {
     bg = Color.makeRgb(200, 200, 200)
   }
+
+  override Void paint(Widget widget, Graphics g)
+  {
+    g.brush = bg
+    g.fillRect(0, 0, widget.size.w, widget.size.h)
+  }
 }

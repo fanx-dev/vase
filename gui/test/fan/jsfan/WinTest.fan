@@ -37,8 +37,8 @@ class WinTest
       },
     }
 
-    //t := Transition()
-    //t.trans(view.findById("label"))
+    t := Transition()
+    t.trans(view.findById("label"))
 
     Button btn := view.findById("button")
     btn.onAction.add

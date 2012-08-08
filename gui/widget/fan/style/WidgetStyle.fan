@@ -26,7 +26,5 @@ class WidgetStyle : Style
 
   override Void paint(Widget widget, Graphics g)
   {
-    g.brush = bg
-    g.fillRect(0, 0, widget.size.w, widget.size.h)
   }
 }
