@@ -21,18 +21,24 @@ class ScrollBar : Widget
   {
     set
     {
+      val := it
       if (it + thumbSize > max)
       {
-        &startPos = max - thumbSize
+        val = max - thumbSize
       }
       else if (it < 0)
       {
-        &startPos = 0
+        val = 0
       }
       else
       {
-        &startPos = it
+        val = it
       }
+
+      if (&startPos == val) return
+      e := StateChangedEvent (&startPos, val, #startPos, this )
+      onStateChanged.fire(e)
+      &startPos = val
     }
   }
 
@@ -85,14 +91,14 @@ class ScrollBar : Widget
 
   override Void touch(MotionEvent e)
   {
-    super.touch(e)
-    if (this.bounds.contains(e.x, e.y))
+    p := mapToRelative(Point(e.x, e.y))
+    if (this.bounds.contains(p.x, p.y))
     {
       if (e.id == MotionEvent.pressed)
       {
         draging = true
-        x = e.x
-        y = e.y
+        x = p.x
+        y = p.y
         focus
         return
       }
@@ -110,14 +116,14 @@ class ScrollBar : Widget
     {
       if (orientationV)
       {
-        startPos = toWorldCoord(e.y - y) + startPos
+        startPos = toWorldCoord(p.y - y) + startPos
       }
       else
       {
-        startPos = toWorldCoord(e.x - x) + startPos
+        startPos = toWorldCoord(p.x - x) + startPos
       }
-      x = e.x
-      y = e.y
+      x = p.x
+      y = p.y
       repaint
     }
   }

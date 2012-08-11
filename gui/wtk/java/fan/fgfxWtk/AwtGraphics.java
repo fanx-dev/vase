@@ -134,7 +134,7 @@ public class AwtGraphics implements Graphics {
 
   @Override
   public Graphics clip(Rect r) {
-    gc.setClip((int) r.x, (int) r.y, (int) r.w, (int) r.h);
+    gc.clipRect((int) r.x, (int) r.y, (int) r.w, (int) r.h);
     return this;
   }
 
@@ -363,7 +363,7 @@ public class AwtGraphics implements Graphics {
     font(s.font);
     this.antialias(s.antialias);
     gc.setTransform(s.transform);
-    gc.clip(s.clip);
+    gc.setClip(s.clip);
   }
 
   // ////////////////////////////////////////////////////////////////////////

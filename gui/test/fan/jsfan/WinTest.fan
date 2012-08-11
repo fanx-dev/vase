@@ -23,17 +23,18 @@ class WinTest
 
     view := RootView
     {
-      WidgetGroup
+      ScrollPane
       {
-        layout = VBox()
-        Button { id = "button"; text = "Hello" },
-        Label { id = "label"; text = "Label" },
-        ImageView { id = "image";  image = ConstImage(`fan://icons/x16/folder.png`) },
-        TextField { id = "text" },
-        ToggleButton { id = "check" },
-        ToggleButton { id = "radio" },
-        ScrollBar { size = Size(10, 100) },
-        ScrollBar { size = Size(100, 10); orientationV = false }
+        WidgetGroup
+        {
+          layout = VBox()
+          Button { id = "button"; text = "Hello" },
+          Label { id = "label"; text = "Label" },
+          ImageView { id = "image";  image = ConstImage(`fan://icons/x16/folder.png`) },
+          TextField { id = "text" },
+          ToggleButton { id = "check" },
+          ToggleButton { id = "radio" },
+        },
       },
     }
 

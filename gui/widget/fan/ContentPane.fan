@@ -41,6 +41,6 @@ class ContentPane : WidgetGroup
   ** Internal hook to call Widget.add version directly and skip
   ** hook to implicitly mount any added child as content.
   **
-  internal Void doAdd(Widget? child) { super.add(child) }
+  Void doAdd(Widget? child) { super.add(child) }
 
 }

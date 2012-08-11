@@ -108,7 +108,8 @@ class TextField : Widget
 
   override Void touch(MotionEvent e)
   {
-    if (this.bounds.contains(e.x, e.y))
+    p := mapToRelative(Point(e.x, e.y))
+    if (this.bounds.contains(p.x, p.y))
     {
       if (e.id == MotionEvent.pressed)
       {
