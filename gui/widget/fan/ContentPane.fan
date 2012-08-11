@@ -32,8 +32,8 @@ class ContentPane : WidgetGroup
   @Operator
   override This add(Widget child)
   {
-    if (&content == null) &content=child
-    super.add(child)
+    if (&content == null) content = child
+    else throw UnsupportedErr("ContentPane not support add, pelease using content or daoAdd.")
     return this
   }
 

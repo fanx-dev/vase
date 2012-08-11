@@ -36,8 +36,9 @@ class WidgetGroup : Widget
   **
   ** Remove a child widget
   **
-  This remove(Widget child)
+  This remove(Widget? child)
   {
+    if (child == null) return this
     if (children.removeSame(child) == null)
       throw ArgErr("not my child: $child")
     child.setParent(null)
@@ -81,7 +82,6 @@ class WidgetGroup : Widget
 
   override This relayout() { layout.relayout(this); return this }
   override Size prefSize(Size? hints := null) { layout.prefSize(this, hints) }
-
 
 //////////////////////////////////////////////////////////////////////////
 // event

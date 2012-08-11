@@ -99,54 +99,6 @@ fan.fgfxWtk.JsWindow.prototype.bindEvent = function(elem)
   //this.addEvent(this.canvas, "focus",      fan.fgfxWtk.InputEvent.m_focus);
 }
 
-fan.fgfxWtk.JsWindow.toKey = function(event)
-{
-  // find primary key
-  var key = null;
-  if (event.keyCode != null && event.keyCode > 0)
-  {
-    // force alpha keys to lowercase so we map correctly
-    var code = event.keyCode;
-    if (code >= 65 && code <= 90) code += 32;
-    key = fan.fgfxWtk.JsWindow.keyCodeToKey(code);
-  }
-
-  if (event.shiftKey)   key = key==null ? fan.fgfxWtk.Key.m_shift : key.plus(fan.fgfxWtk.Key.m_shift);
-  if (event.altKey)     key = key==null ? fan.fgfxWtk.Key.m_alt   : key.plus(fan.fgfxWtk.Key.m_alt);
-  if (event.ctrlKey)    key = key==null ? fan.fgfxWtk.Key.m_ctrl  : key.plus(fan.fgfxWtk.Key.m_ctrl);
-  // TODO FIXIT
-  //if (event.commandKey) key = key.plus(Key.command);
-  return key;
-}
-
-fan.fgfxWtk.JsWindow.keyCodeToKey = function(keyCode)
-{
-  // TODO FIXIT: map rest of non-alpha keys
-  switch (keyCode)
-  {
-    case 8:   return fan.fgfxWtk.Key.m_backspace;
-    case 13:  return fan.fgfxWtk.Key.m_enter;
-    case 32:  return fan.fgfxWtk.Key.m_space;
-    case 37:  return fan.fgfxWtk.Key.m_left;
-    case 38:  return fan.fgfxWtk.Key.m_up;
-    case 39:  return fan.fgfxWtk.Key.m_right;
-    case 40:  return fan.fgfxWtk.Key.m_down;
-    case 46:  return fan.fgfxWtk.Key.m_$delete;
-    case 91:  return fan.fgfxWtk.Key.m_command;  // left cmd
-    case 93:  return fan.fgfxWtk.Key.m_command;  // right cmd
-    case 186: return fan.fgfxWtk.Key.m_semicolon;
-    case 188: return fan.fgfxWtk.Key.m_comma;
-    case 190: return fan.fgfxWtk.Key.m_period;
-    case 191: return fan.fgfxWtk.Key.m_slash;
-    case 192: return fan.fgfxWtk.Key.m_backtick;
-    case 219: return fan.fgfxWtk.Key.m_openBracket;
-    case 220: return fan.fgfxWtk.Key.m_backSlash;
-    case 221: return fan.fgfxWtk.Key.m_closeBracket;
-    case 222: return fan.fgfxWtk.Key.m_quote;
-    default: return fan.fgfxWtk.Key.fromMask(keyCode);
-  }
-}
-
 fan.fgfxWtk.JsWindow.prototype.addMotionEvent = function(elem, type, id)
 {
   var view = this.view;
@@ -158,7 +110,11 @@ fan.fgfxWtk.JsWindow.prototype.addMotionEvent = function(elem, type, id)
     event.m_x = e.clientX;
     event.m_y = e.clientY;
     event.m_widget = this.canvas;
-    event.m_key = fan.fgfxWtk.JsWindow.toKey(e);
+    if (type == "mousewheel")
+    {
+      event.m_delta = fan.fgfxWtk.Event.toWheelDelta(e);
+    }
+    event.m_key = fan.fgfxWtk.Event.toKey(e);
     view.onMotionEvent(event);
   };
   fan.fgfxWtk.GfxUtil.addEventListener(elem, type, mouseEvent);
@@ -173,7 +129,7 @@ fan.fgfxWtk.JsWindow.prototype.addKeyEvent = function(elem, type, id)
     var event = fan.fgfxWtk.KeyEvent.make(id);
     event.m_id = id;
     event.m_widget = this.canvas;
-    event.m_key = fan.fgfxWtk.JsWindow.toKey(e);
+    event.m_key = fan.fgfxWtk.Event.toKey(e);
     event.m_keyChar =  e.charCode || e.keyCode;
     view.onKeyEvent(event);
   };
