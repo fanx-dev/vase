@@ -28,6 +28,7 @@ class WinTest
         WidgetGroup
         {
           layout = VBox()
+
           Button { id = "button"; text = "Hello" },
           Label { id = "label"; text = "Label" },
           ImageView { id = "image";  image = ConstImage(`fan://icons/x16/folder.png`) },

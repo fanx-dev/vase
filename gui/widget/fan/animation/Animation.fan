@@ -27,7 +27,7 @@ class Transition : Animation
     {
       w.repaint
       w.pos = Point(w.pos.x + d, w.pos.y)
-      if (w.pos.x > 400) w.pos = Point(x, w.pos.y)
+      if (w.pos.x > w.parent.size.w) w.pos = Point(x, w.pos.y)
       w.repaint
     }
     w.rootView.onOpened.add { t.start }

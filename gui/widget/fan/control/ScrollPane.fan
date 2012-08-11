@@ -50,15 +50,26 @@ class ScrollPane : ContentPane
 
   override This relayout()
   {
-    content.size = Size(400, 400)
+    content.size = content.prefSize(size)
     content.relayout
+
     hbar.size = Size(size.w-10, 10)
     hbar.pos = Point(0, size.h-10)
     hbar.max = content.size.w
+    if (hbar.max <= hbar.size.w)
+    {
+      hbar.enabled = false
+      hbar.visible = false
+    }
 
     vbar.size = Size(10, size.h-10)
     vbar.pos = Point(size.w-10, 0)
     vbar.max = content.size.h
+    if (vbar.max <= vbar.size.h)
+    {
+      vbar.enabled = false
+      vbar.visible = false
+    }
 
     this.remove(hbar)
     this.remove(vbar)
