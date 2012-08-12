@@ -30,11 +30,12 @@ class WinTest
           layout = VBox()
 
           Button { id = "button"; text = "Hello" },
+          ComboBox { it.items = ["one","two","three","four"]; selectedIndex = 0 },
           Label { id = "label"; text = "Label" },
           ImageView { id = "image";  image = ConstImage(`fan://icons/x16/folder.png`) },
           TextField { id = "text" },
           ToggleButton { id = "check" },
-          ToggleButton { id = "radio" },
+          ToggleButton { id = "radio"; styleClass = "radio" },
         },
       },
     }
@@ -47,8 +48,6 @@ class WinTest
     {
       MessageBox { it.label.text = "hello world" }.show(view)
     }
-
-    view.styleManager.idMap["radio"] = RadioButtonStyle()
 
     view.size = Size(600, 600)
     view.show

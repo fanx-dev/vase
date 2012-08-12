@@ -12,31 +12,39 @@ using fgfxWtk
 @Js
 class ButtonStyle : WidgetStyle
 {
-
-  WidgetStyle[] stateStyle
+  Color[] colors
 
   new make()
   {
-    stateStyle =
+    colors =
     [
-      WidgetStyle { it.bg = Color.yellow },
-      WidgetStyle { it.bg = Color.orange },
-      WidgetStyle { it.bg = Color.green }
+      Color.yellow,
+      Color.orange,
+      Color.green
     ]
   }
 
   override Void paint(Widget widget, Graphics g)
   {
-    ButtonBase btn := widget
+    Button btn := widget
     if (btn.state < 3)
     {
-      stateStyle[btn.state].paint(widget, g)
+      g.brush = colors[btn.state]
     }
     else
     {
       g.brush = bg
-      g.fillRect(0, 0, widget.size.w, widget.size.h)
-      g.brush = Color.red
     }
+
+    g.fillRect(0, 0, widget.size.w, widget.size.h)
+
+    //draw text
+    g.brush = brush
+    g.font = font
+    x := btn.size.w / 2
+    y := btn.size.h / 2
+    w := font.width(btn.text)
+    h := font.height
+    g.drawText(btn.text, x-(w/2f).toInt, y+(h/2f).toInt-2)
   }
 }

@@ -24,9 +24,13 @@ class StyleManager
       TextField# : TextFieldStyle(),
       ToggleButton# : ToggleButtonStyle(),
       ScrollBar# : ScrollBarStyle(),
-      MessageBox# : MessageBoxStyle()
+      MessageBox# : MessageBoxStyle(),
+      ComboBox# : ButtonStyle()
     ]
     defStyle = WidgetStyle()
+
+    styleClassMap["menuItem"] = ButtonStyle()
+    styleClassMap["radio"] = RadioButtonStyle()
   }
 
   Style find(Widget widget)

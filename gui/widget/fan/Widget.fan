@@ -137,6 +137,15 @@ abstract class Widget
   **
   virtual This relayout() { this }
 
+  **
+  ** Detach from parent
+  **
+  virtual Void detach()
+  {
+    WidgetGroup? p := this.parent
+    if (p == null) return
+    p.remove(this)
+  }
 
 //////////////////////////////////////////////////////////////////////////
 // rootView

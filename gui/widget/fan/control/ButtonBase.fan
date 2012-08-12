@@ -13,7 +13,7 @@ using fgfxWtk
 ** common behaviors for buttons.
 **
 @Js
-class ButtonBase : WidgetGroup
+abstract class ButtonBase : WidgetGroup
 {
 //////////////////////////////////////////////////////////////////////////
 // state
@@ -45,6 +45,7 @@ class ButtonBase : WidgetGroup
   override Void touch(MotionEvent e)
   {
     p := mapToRelative(Point(e.x, e.y))
+    if (p == null) return
     if (this.bounds.contains(p.x, p.y))
     {
       if (e.id == MotionEvent.released)
