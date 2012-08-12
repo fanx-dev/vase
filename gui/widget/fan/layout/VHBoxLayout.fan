@@ -68,7 +68,7 @@ class VBox : Layout
     widget.each |c|
     {
       csize := c.prefSize(widget.size)
-      if (csize.w > w) w = csize.w
+      if (csize.w+c.pos.x > w) w = csize.w+c.pos.x
       h += csize.h
     }
     return Size(w, h)

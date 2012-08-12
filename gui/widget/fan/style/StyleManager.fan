@@ -31,6 +31,7 @@ class StyleManager
 
     styleClassMap["menuItem"] = ButtonStyle()
     styleClassMap["radio"] = RadioButtonStyle()
+    styleClassMap["treeNodeItem"] = TreeStyle()
   }
 
   Style find(Widget widget)
