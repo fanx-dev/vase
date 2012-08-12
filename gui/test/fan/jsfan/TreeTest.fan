@@ -23,11 +23,22 @@ class TreeTest
 
     view := RootView
     {
-      ScrollTree(FileTreeModel()),
+      ScrollTree(MyTreeModel()),
     }
 
     view.size = Size(600, 600)
     view.show
   }
+}
 
+@Js
+class MyTreeModel : TreeModel
+{
+  override Obj[] roots()
+  {
+    ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
+  }
+  override Str text(Obj node) { node.toStr }
+  override Bool hasChildren(Obj node) { true }
+  override Obj[] children(Obj node) { ["a", "b", "c", "d", "e", "f"] }
 }

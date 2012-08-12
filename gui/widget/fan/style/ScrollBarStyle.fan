@@ -12,7 +12,6 @@ using fgfxWtk
 @Js
 class ScrollBarStyle : WidgetStyle
 {
-
   new make()
   {
     bg = Color.gray

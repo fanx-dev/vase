@@ -36,11 +36,6 @@ class WinTest
           TextField { id = "text" },
           ToggleButton { id = "check" },
           ToggleButton { id = "radio"; styleClass = "radio" },
-          Tree
-          {
-            model = FileTreeModel()
-            initFromModel
-          }
         },
       },
     }

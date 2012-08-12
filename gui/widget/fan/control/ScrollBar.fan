@@ -16,6 +16,7 @@ using fgfxWtk
 class ScrollBar : Widget
 {
   Int max := 500
+  Int? viewPort := null
 
   Int startPos := 0
   {
@@ -36,9 +37,9 @@ class ScrollBar : Widget
       }
 
       if (&startPos == val) return
+      &startPos = val
       e := StateChangedEvent (&startPos, val, #startPos, this )
       onStateChanged.fire(e)
-      &startPos = val
     }
   }
 
@@ -55,6 +56,8 @@ class ScrollBar : Widget
 
   private Int thumbSize()
   {
+    if (viewPort != null) return viewPort
+
     if (orientationV)
     {
       return size.h

@@ -88,7 +88,7 @@ class WidgetGroup : Widget
 //////////////////////////////////////////////////////////////////////////
 
   override Void touch(MotionEvent e) {
-    children.each {
+    children.eachr {
       if (it.enabled) {
         it.touch(e)
       }
@@ -96,7 +96,7 @@ class WidgetGroup : Widget
   }
 
   override Void keyPress(KeyEvent e) {
-    children.each {
+    children.eachr {
       if (it.enabled) {
         it.keyPress(e)
       }
@@ -112,6 +112,11 @@ class WidgetGroup : Widget
     if (!visible) return
     super.paint(g)
     paintChildren(g)
+
+    //debug
+    //g.brush = Color.black
+    //g.drawLine(0, 0, size.w, size.h)
+    //g.drawLine(size.w, 0, 0, size.h)
   }
 
   protected virtual Void paintChildren(Graphics g)

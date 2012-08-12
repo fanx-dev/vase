@@ -3,13 +3,13 @@
 // Licensed under the Academic Free License version 3.0
 //
 // History:
-//   2011-10-06  Jed Young  Creation
+//   2012-08-12  Jed Young  Creation
 //
 
 using fgfx2d
 using fgfxWtk
 
-
+@Js
 class ScrollTree : ScrollPane
 {
   Tree tree := Tree()
@@ -43,6 +43,7 @@ class Tree : WidgetGroup
   **
   Void initFromModel()
   {
+    if (model == null) return
     this.removeAll
     model.roots.each |subNode|
     {

@@ -25,13 +25,15 @@ class StyleManager
       ToggleButton# : ToggleButtonStyle(),
       ScrollBar# : ScrollBarStyle(),
       MessageBox# : MessageBoxStyle(),
-      ComboBox# : ButtonStyle()
+      ComboBox# : ButtonStyle(),
+      Table# : TableStyle()
     ]
     defStyle = WidgetStyle()
 
     styleClassMap["menuItem"] = ButtonStyle()
     styleClassMap["radio"] = RadioButtonStyle()
     styleClassMap["treeNodeItem"] = TreeStyle()
+    styleClassMap["tableHeader"] = TableHeaderStyle()
   }
 
   Style find(Widget widget)
