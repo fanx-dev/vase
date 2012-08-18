@@ -26,13 +26,13 @@ class StyleManager
       ScrollBar# : ScrollBarStyle(),
       MessageBox# : MessageBoxStyle(),
       ComboBox# : ButtonStyle(),
-      Table# : TableStyle()
+      Table# : TableStyle(),
+      TreeView# : TreeStyle()
     ]
     defStyle = WidgetStyle()
 
     styleClassMap["menuItem"] = ButtonStyle()
     styleClassMap["radio"] = RadioButtonStyle()
-    styleClassMap["treeNodeItem"] = TreeStyle()
     styleClassMap["tableHeader"] = TableHeaderStyle()
   }
 

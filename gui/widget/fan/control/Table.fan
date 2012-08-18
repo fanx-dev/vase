@@ -10,20 +10,16 @@ using fgfx2d
 using fgfxWtk
 
 @Js
-class Table : WidgetGroup
+class Table : Scroller
 {
-  ScrollBar hbar
-  ScrollBar vbar
   TableModel model
 
   Int rowHeight := 20
   Int colWidth := 60
   Int headerHeight := 20
-  Int[] colWidthBuf
+  internal Int[] colWidthBuf
 
-  WidgetGroup? header
-  Int offsetX := 0
-  Int offsetY := 0
+  internal WidgetGroup? header
 
   new make(TableModel model)
   {
@@ -42,38 +38,14 @@ class Table : WidgetGroup
     }
     header.layout = HBox()
     this.add(header)
-
-    //scroll bar
-    hbar = ScrollBar()
-    hbar.orientationV = false
-    vbar = ScrollBar()
-    vbar.orientationV = true
-
-    hbar.onStateChanged.add |StateChangedEvent e|
-    {
-      if (e.field == ScrollBar#startPos)
-      {
-        offsetX = ((Int)e.newValue)
-        header.pos = Point(-offsetX, header.pos.y)
-        this.repaint
-      }
-    }
-    vbar.onStateChanged.add |StateChangedEvent e|
-    {
-      if (e.field == ScrollBar#startPos)
-      {
-        offsetY = ((Int)e.newValue)
-        this.repaint
-      }
-    }
-
-    this.add(hbar)
-    this.add(vbar)
-
-    size = Size(200, 200)
   }
 
-  private Int contentWidth()
+  override Int offsetX
+  {
+    set { header.pos = Point(-it, header.pos.y); super.offsetX = it }
+  }
+
+  protected override Int contentWidth()
   {
     Int w := 0
     model.numCols.times |c|
@@ -83,56 +55,12 @@ class Table : WidgetGroup
     return w
   }
 
-  private Int contentHeight()
+  protected override Int contentHeight()
   {
     model.numRows * rowHeight
   }
 
-  override This relayout()
-  {
-    header.size = header.prefSize(size)
-    header.relayout
-
-    hbar.size = Size(size.w-10, 10)
-    hbar.pos = Point(0, size.h-10)
-    hbar.max = contentWidth
-    if (hbar.max <= hbar.size.w)
-    {
-      hbar.enabled = false
-      hbar.visible = false
-    }
-
-    vbar.size = Size(10, size.h-10)
-    vbar.pos = Point(size.w-10, 0)
-    vbar.max = contentHeight
-    vbar.viewPort = this.size.h - headerHeight - 10
-    if (vbar.max <= vbar.size.h)
-    {
-      vbar.enabled = false
-      vbar.visible = false
-    }
-
-    this.remove(hbar)
-    this.remove(vbar)
-    this.add(hbar)
-    this.add(vbar)
-    return this
-  }
-
-  override Void touch(MotionEvent e)
-  {
-    super.touch(e)
-    if (!e.consumed)
-    {
-      p := mapToRelative(Point(e.x, e.y))
-      if (!this.bounds.contains(p.x, p.y)) return
-
-      if (e.id == MotionEvent.other && e.delta != null)
-      {
-        vbar.startPos += e.delta * 10
-      }
-    }
-  }
+  protected override Int viewportHeight() { this.size.h - headerHeight - barSize }
 }
 
 **************************************************************************

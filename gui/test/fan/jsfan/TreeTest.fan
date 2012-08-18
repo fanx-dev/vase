@@ -23,7 +23,7 @@ class TreeTest
 
     view := RootView
     {
-      ScrollTree(MyTreeModel()),
+      TreeView(MyTreeModel()),
     }
 
     view.size = Size(600, 600)

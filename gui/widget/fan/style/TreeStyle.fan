@@ -14,16 +14,27 @@ class TreeStyle : WidgetStyle
 {
   override Void paint(Widget widget, Graphics g)
   {
-    Button btn := widget
-    TreeNode node := btn.parent
+    TreeView tree := widget
 
-    //draw text
+    Int start := tree.offsetY / tree.rowHeight
+    Int count := tree.size.h / tree.rowHeight
+    Int end := (start + count).min(tree.items.size)
+    Int fontHeight := font.height
+
+    Int c := 0
+    for (i := start; i< end; ++i)
+    {
+      drawItem(g, tree.items[i].level * 15, fontHeight + c * tree.rowHeight, tree.items[i].text)
+      ++c
+    }
+  }
+
+  protected virtual Void drawItem(Graphics g, Int x, Int y, Str text)
+  {
+    //backgound
+
+    //text
     g.brush = brush
-    g.font = font
-    y := btn.size.h / 2
-    h := font.height
-    g.drawText(btn.text, 15, y+(h/2f).toInt-2)
-    g.drawLine(2, 0, 2, btn.size.h)
-    g.drawLine(2, y, 10, y)
+    g.drawText(text, x, y)
   }
 }
