@@ -25,10 +25,67 @@ class TextAreaStyle : WidgetStyle
     Int end := (start + count).min(area.model.lineCount)
     Int fontHeight := font.height
 
+    Int selectionStartLine := -1
+    Int selectionEndLine := -1
+    Int selectionStartOffset := -1
+    Int selectionEndOffset := -1
+    Bool hasSelection := false
+    //draw selection
+    if (area.selectionStart >= 0 && area.selectionEnd >= 0)
+    {
+      selectionStartLine = area.model.lineAtOffset(area.selectionStart)
+      selectionEndLine = area.model.lineAtOffset(area.selectionEnd)
+      selectionStartOffset = area.selectionStart - area.model.offsetAtLine(selectionStartLine)
+      selectionEndOffset = area.selectionEnd - area.model.offsetAtLine(selectionEndLine)
+
+      if (selectionStartLine > end || selectionEndLine < start)
+      {
+      }
+      else
+      {
+        hasSelection = true
+      }
+    }
+
+    //echo("$selectionStartLine, $selectionEndLine")
+
+    //draw line
+    Int selStart := -1
+    Int selEnd := -1
     Int c := 0
     for (i := start; i< end; ++i)
     {
-      drawLine(g, -area.offsetX, fontHeight + c * area.rowHeight, area.model.line(i))
+      lineText := area.model.line(i)
+      if (hasSelection)
+      {
+        if (i == selectionStartLine)
+        {
+          selStart = selectionStartOffset
+        }
+        else if (i > selectionStartLine)
+        {
+          selStart = 0
+        }
+        else
+        {
+          selStart = -1
+        }
+
+        if (i == selectionEndLine)
+        {
+          selEnd = selectionEndOffset
+        }
+        else if (i < selectionEndLine)
+        {
+          selEnd = lineText.size
+        }
+        else
+        {
+          selEnd = -1
+        }
+      }
+      //echo("- $selStart, $selEnd")
+      drawLine(g, fontHeight, -area.offsetX, c * area.rowHeight, lineText, selStart, selEnd)
       ++c
     }
 
@@ -51,12 +108,18 @@ class TextAreaStyle : WidgetStyle
     g.pop
   }
 
-  protected virtual Void drawLine(Graphics g, Int x, Int y, Str text)
+  protected virtual Void drawLine(Graphics g, Int fontHeight, Int offsetX, Int y, Str text, Int selStart, Int selEnd)
   {
     //backgound
+    if (selStart >= 0 && selEnd >= 0)
+    {
+      g.brush = Color.makeRgb(200, 200, 200)
+      selection := text[selStart..<selEnd]
+      g.fillRect(g.font.width(text[0..<selStart])+offsetX, y, g.font.width(selection), fontHeight)
+    }
 
     //text
     g.brush = brush
-    g.drawText(text, x, y)
+    g.drawText(text, offsetX, y+fontHeight)
   }
 }

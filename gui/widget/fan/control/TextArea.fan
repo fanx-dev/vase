@@ -17,6 +17,47 @@ using fgfxWtk
 class TextArea : Scroller
 {
   **
+  ** Tab width measured in space characters.  Default is 2.
+  **
+  Int tabSpacing := 2
+
+  **
+  ** Convenience for 'model.text' (model must be installed).
+  **
+  Str text
+  {
+    get { return model.text }
+    set { model.text = it }
+  }
+
+  Int rowHeight := 20
+  Caret caret := Caret()
+
+  ** Inclusive start position
+  Int selectionStart := -1
+
+  ** Exclusive end position
+  Int selectionEnd := -1
+
+  private Bool draging := false
+
+  new make(TextAreaModel model)
+  {
+    this.model = model
+  }
+
+  protected override Int contentWidth() { model.maxWidth }
+
+  protected override Int contentHeight()
+  {
+    model.lineCount * rowHeight
+  }
+
+//////////////////////////////////////////////////////////////////////////
+// Out Event
+//////////////////////////////////////////////////////////////////////////
+
+  **
   ** Callback when the text is modified.  This event occurs
   ** after the modification.  See `onVerify` to trap changes
   ** before they occur.
@@ -102,35 +143,6 @@ class TextArea : Scroller
   private |Event| onModelModifyFunc := |e| { onModelModify(e) }
   protected virtual Void onModelModify(Event event) {}
 
-  **
-  ** Tab width measured in space characters.  Default is 2.
-  **
-  Int tabSpacing := 2
-
-  **
-  ** Convenience for 'model.text' (model must be installed).
-  **
-  Str text
-  {
-    get { return model.text }
-    set { model.text = it }
-  }
-
-  Int rowHeight := 20
-  Caret caret := Caret()
-
-  new make(TextAreaModel model)
-  {
-    this.model = model
-  }
-
-  protected override Int contentWidth() { model.maxWidth }
-
-  protected override Int contentHeight()
-  {
-    model.lineCount * rowHeight
-  }
-
 //////////////////////////////////////////////////////////////////////////
 // Utils
 //////////////////////////////////////////////////////////////////////////
@@ -188,8 +200,33 @@ class TextArea : Scroller
       {
         offset := offsetAtPos(p.x, p.y)
         caret.offset = offset
+        selectionStart = offset
         caret.visible = true
+        draging = true
         focus
+        //this.repaint
+      }
+      else if (draging && e.id == MotionEvent.released)
+      {
+        offset := offsetAtPos(p.x, p.y)
+        if (offset == selectionStart)
+        {
+          selectionStart = -1
+          selectionEnd = -1
+          draging = false
+          this.repaint
+          return
+        }
+        caret.offset = offset
+        selectionEnd = offset
+
+        //swap value
+        if (selectionStart > selectionEnd)
+        {
+          temp := selectionStart
+          selectionStart = selectionEnd
+          selectionEnd = temp
+        }
         this.repaint
       }
     }
@@ -197,11 +234,21 @@ class TextArea : Scroller
 
   override Void keyPress(KeyEvent e)
   {
+    // remove text
     if (e.key == Key.backspace)
     {
       if (e.id == KeyEvent.pressed)
       {
-        if (text.size > 0 && caret.offset > 0)
+        if (text.size == 0) return
+        if (selectionStart >= 0 && selectionEnd >= 0)
+        {
+          model.modify(selectionStart, selectionEnd-selectionStart, "")
+          selectionStart = -1
+          selectionEnd = -1
+          draging = false
+          repaint
+        }
+        else if (caret.offset > 0)
         {
           --caret.offset
           model.modify(caret.offset, 1, "")
@@ -212,8 +259,10 @@ class TextArea : Scroller
       return
     }
 
+    //typed
     if (e.id != KeyEvent.typed) return
 
+    //skip ctrl char
     if (e.keyChar < 32) return
 
     model.modify(caret.offset, 0, e.keyChar.toChar)
