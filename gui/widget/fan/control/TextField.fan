@@ -17,8 +17,7 @@ using fgfxWtk
 class Caret
 {
   Bool visible := false
-  Int x := 0
-  Int y := 0
+  Int offset := 0
   Int h := 20
 }
 
@@ -35,7 +34,7 @@ class TextField : Widget
       e := StateChangedEvent (&text, it, #text, this )
       onStateChanged.fire(e)
       &text = it
-      caret.x = &text.size
+      caret.offset = &text.size
     }
   }
 

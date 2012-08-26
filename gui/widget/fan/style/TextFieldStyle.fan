@@ -28,9 +28,9 @@ class TextFieldStyle : WidgetStyle
       Int x := 1
       if (lab.text.size > 0)
       {
-        x = font.width(lab.text[0..<lab.caret.x])
+        x = font.width(lab.text[0..<lab.caret.offset])
       }
-      g.drawLine(x, lab.caret.y, x, lab.caret.y + lab.caret.h)
+      g.drawLine(x, 0, x, 0 + lab.caret.h)
     }
   }
 }

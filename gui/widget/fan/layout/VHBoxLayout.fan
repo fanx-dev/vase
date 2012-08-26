@@ -9,7 +9,7 @@
 using fgfx2d
 
 @Js
-class HBox : Layout
+class HBoxLayout : Layout
 {
   override Void relayout(WidgetGroup widget)
   {
@@ -44,7 +44,7 @@ class HBox : Layout
 }
 
 @Js
-class VBox : Layout
+class VBoxLayout : Layout
 {
   override Void relayout(WidgetGroup widget)
   {

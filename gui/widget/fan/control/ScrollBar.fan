@@ -103,11 +103,13 @@ class ScrollBar : Widget
         x = p.x
         y = p.y
         focus
+        e.consume
         return
       }
     }
 
     if (!draging) return
+    e.consume
 
     if (e.id == MotionEvent.released)
     {

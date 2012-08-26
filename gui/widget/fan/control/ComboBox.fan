@@ -53,7 +53,7 @@ class ComboBox : Button
 
     pane := WidgetGroup()
     list = pane
-    pane.layout = VBox()
+    pane.layout = VBoxLayout()
 
     items.each |item, i|
     {

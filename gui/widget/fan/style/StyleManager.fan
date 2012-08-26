@@ -27,7 +27,8 @@ class StyleManager
       MessageBox# : MessageBoxStyle(),
       ComboBox# : ButtonStyle(),
       Table# : TableStyle(),
-      TreeView# : TreeStyle()
+      TreeView# : TreeStyle(),
+      TextArea# : TextAreaStyle(),
     ]
     defStyle = WidgetStyle()
 

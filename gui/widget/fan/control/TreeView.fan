@@ -78,6 +78,7 @@ class TreeView : Scroller
   override Void touch(MotionEvent e)
   {
     super.touch(e)
+    if (e.consumed) return
     if (e.id == MotionEvent.released)
     {
       p := mapToRelative(Point(e.x, e.y))
