@@ -191,6 +191,14 @@ abstract class Widget
     return Point(p.x - posOW.x, p.y - posOW.y)
   }
 
+  Point? mapToWidget(Point p)
+  {
+    posOW := this.posOnWindow
+    if (posOW == null) return null
+
+    return Point(p.x - posOW.x, p.y - posOW.y)
+  }
+
   **
   ** Get this widget's parent View or null if not
   ** mounted under a View widget.

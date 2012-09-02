@@ -72,6 +72,7 @@ abstract class Scroller : WidgetGroup
     {
       hbar.enabled = false
       hbar.visible = false
+      offsetX = 0
     }
     else
     {
@@ -87,6 +88,7 @@ abstract class Scroller : WidgetGroup
     {
       vbar.enabled = false
       vbar.visible = false
+      offsetY = 0
     }
     else
     {
@@ -106,6 +108,7 @@ abstract class Scroller : WidgetGroup
     {
       p := mapToRelative(Point(e.x, e.y))
       if (!this.bounds.contains(p.x, p.y)) return
+      if (vbar.max <= vbar.size.h) return
 
       if (e.id == MotionEvent.other && e.delta != null)
       {

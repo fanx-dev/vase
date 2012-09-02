@@ -22,7 +22,7 @@ class InsetLayout : Layout
     ContentPane pane := widget
     Int hintsW := widget.size.w - (left+right)
     Int hintsH := widget.size.h - (top+bottom)
-    pane.content.size = pane.content.prefSize(hintsW, hintsH)
+    pane.content.size = Size(hintsW, hintsH)
     pane.content.pos = Point(left, top)
     pane.content.relayout
   }

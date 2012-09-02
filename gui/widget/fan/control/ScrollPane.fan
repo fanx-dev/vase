@@ -87,7 +87,7 @@ class ScrollPane : ContentPane
     {
       p := mapToRelative(Point(e.x, e.y))
       if (!this.bounds.contains(p.x, p.y)) return
-      if (vbar.max <= vbar.size.h) return
+      if (!vbar.visible) return
 
       if (e.id == MotionEvent.other && e.delta != null)
       {

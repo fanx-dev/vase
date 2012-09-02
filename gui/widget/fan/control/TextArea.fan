@@ -157,6 +157,7 @@ class TextArea : Scroller
     Int absY := y + offsetY
 
     Int lineIndex := absY / rowHeight
+    if (lineIndex >= model.lineCount) return null
     Int lineOffset := textIndex(model.line(lineIndex) , absX)
     return model.offsetAtLine(lineIndex) + lineOffset
   }
@@ -193,12 +194,12 @@ class TextArea : Scroller
     super.touch(e)
     if (e.consumed) return
 
-    p := mapToRelative(Point(e.x, e.y))
-    if (this.bounds.contains(p.x, p.y))
+    p := mapToWidget(Point(e.x, e.y))
+    if (this.bounds.contains(p.x+pos.x, p.y+pos.y))
     {
       if (e.id == MotionEvent.pressed)
       {
-        offset := offsetAtPos(p.x, p.y)
+        offset := offsetAtPos(p.x, p.y) ?: model.charCount
         caret.offset = offset
         selectionStart = offset
         caret.visible = true
@@ -208,7 +209,7 @@ class TextArea : Scroller
       }
       else if (draging && e.id == MotionEvent.released)
       {
-        offset := offsetAtPos(p.x, p.y)
+        offset := offsetAtPos(p.x, p.y) ?: model.charCount
         if (offset == selectionStart)
         {
           selectionStart = -1

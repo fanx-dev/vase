@@ -15,7 +15,6 @@ class TreeStyle : WidgetStyle
   override Void paint(Widget widget, Graphics g)
   {
     TreeView tree := widget
-
     Int start := tree.offsetY / tree.rowHeight
     Int count := tree.size.h / tree.rowHeight
     Int end := (start + count).min(tree.items.size)
@@ -35,6 +34,6 @@ class TreeStyle : WidgetStyle
 
     //text
     g.brush = brush
-    g.drawText(text, x, y)
+    g.drawText("- "+text, x, y)
   }
 }

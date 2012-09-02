@@ -81,12 +81,13 @@ class TreeView : Scroller
     if (e.consumed) return
     if (e.id == MotionEvent.released)
     {
-      p := mapToRelative(Point(e.x, e.y))
-      if (!this.bounds.contains(p.x, p.y)) return
+      p := mapToWidget(Point(e.x, e.y))
+      if (!this.bounds.contains(p.x+pos.x, p.y+pos.y)) return
 
       Int start := offsetY / rowHeight
       Int ti := p.y / rowHeight
       Int i := start + ti
+
       if (i < items.size)
       {
         expanded(items[i])
