@@ -80,8 +80,8 @@ class WidgetGroup : Widget
 // layout
 //////////////////////////////////////////////////////////////////////////
 
-  override This relayout() { layout.relayout(this); return this }
-  override Size prefSize(Size? hints := null) { layout.prefSize(this, hints) }
+  override This relayout() { layout.layoutChildren(this); return this }
+  override Size prefSize(Int hintsWidth := -1, Int hintsHeight := -1) { layout.prefSize(this, hintsWidth, hintsHeight) }
 
 //////////////////////////////////////////////////////////////////////////
 // event

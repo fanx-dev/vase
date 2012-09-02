@@ -8,26 +8,27 @@
 
 using fgfx2d
 
+
 @Js
 mixin Layout
 {
-  abstract Void relayout(WidgetGroup widget)
-  abstract Size prefSize(WidgetGroup widget, Size? hints)
+  abstract Void layoutChildren(WidgetGroup widget)
+  abstract Size prefSize(WidgetGroup widget, Int hintsWidth := -1, Int hintsHeight := -1)
 }
 
 @Js
 class FixedLayout : Layout
 {
-  override Void relayout(WidgetGroup widget)
+  override Void layoutChildren(WidgetGroup widget)
   {
     widget.each |c|
     {
-      c.size = c.prefSize(widget.size)
+      c.size = c.prefSize(widget.size.w, widget.size.h)
       c.relayout
     }
   }
 
-  override Size prefSize(WidgetGroup widget, Size? hints)
+  override Size prefSize(WidgetGroup widget, Int hintsWidth := -1, Int hintsHeight := -1)
   {
     return widget.size
   }

@@ -36,7 +36,7 @@ class Table : Scroller
       btn.size = Size(w, headerHeight)
       header.add(btn)
     }
-    header.layout = HBoxLayout()
+    header.layout = BoxLayout { orientationV = false }
     this.add(header)
   }
 

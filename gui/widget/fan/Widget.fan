@@ -128,16 +128,6 @@ abstract class Widget
   virtual Void paint(Graphics g) { if (!visible) return; rootView.find(this).paint(this, g) }
 
   **
-  ** Compute the preferred size of this widget.
-  **
-  virtual Size prefSize(Size? hints := null) { size }
-
-  **
-  ** Relayout this widget.
-  **
-  virtual This relayout() { this }
-
-  **
   ** Detach from parent
   **
   virtual Void detach()
@@ -146,6 +136,20 @@ abstract class Widget
     if (p == null) return
     p.remove(this)
   }
+
+//////////////////////////////////////////////////////////////////////////
+// layout
+//////////////////////////////////////////////////////////////////////////
+
+  **
+  ** Compute the preferred size of this widget.
+  **
+  virtual Size prefSize(Int hintsWidth := -1, Int hintsHeight := -1) { size }
+
+  **
+  ** Relayout this widget.
+  **
+  virtual This relayout() { this }
 
 //////////////////////////////////////////////////////////////////////////
 // rootView

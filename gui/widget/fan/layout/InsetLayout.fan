@@ -17,18 +17,22 @@ class InsetLayout : Layout
   Int bottom := 12
   Int left := 12
 
-  override Void relayout(WidgetGroup widget)
+  override Void layoutChildren(WidgetGroup widget)
   {
     ContentPane pane := widget
-    pane.content.size = pane.content.prefSize(widget.size)
+    Int hintsW := widget.size.w - (left+right)
+    Int hintsH := widget.size.h - (top+bottom)
+    pane.content.size = pane.content.prefSize(hintsW, hintsH)
     pane.content.pos = Point(left, top)
     pane.content.relayout
   }
 
-  override Size prefSize(WidgetGroup widget, Size? hints)
+  override Size prefSize(WidgetGroup widget, Int hintsWidth := -1, Int hintsHeight := -1)
   {
     ContentPane pane := widget
-    pref := pane.content.prefSize(hints)
+    Int hintsW := hintsWidth == -1 ? -1 : hintsWidth - (left+right)
+    Int hintsH := hintsHeight == -1 ? -1 : hintsHeight - (top+bottom)
+    pref := pane.content.prefSize(hintsW, hintsH)
     return Size(pref.w + left + right, pref.h + top + bottom)
   }
 }

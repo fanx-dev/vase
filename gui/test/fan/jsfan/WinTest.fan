@@ -27,7 +27,7 @@ class WinTest
       {
         WidgetGroup
         {
-          layout = VBoxLayout()
+          layout = BoxLayout()
 
           Button { id = "button"; text = "Hello" },
           ComboBox { it.items = ["one","two","three","four"]; selectedIndex = 0 },

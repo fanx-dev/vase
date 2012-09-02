@@ -50,7 +50,7 @@ class ScrollPane : ContentPane
 
   override This relayout()
   {
-    content.size = content.prefSize(size)
+    content.size = content.prefSize(size.w, size.h)
     content.relayout
 
     hbar.size = Size(size.w-10, 10)
@@ -78,7 +78,7 @@ class ScrollPane : ContentPane
     return this
   }
 
-  override Size prefSize(Size? hints := null) { return size }
+  override Size prefSize(Int hintsWidth := -1, Int hintsHeight := -1) { return size }
 
   override Void touch(MotionEvent e)
   {
@@ -87,6 +87,7 @@ class ScrollPane : ContentPane
     {
       p := mapToRelative(Point(e.x, e.y))
       if (!this.bounds.contains(p.x, p.y)) return
+      if (vbar.max <= vbar.size.h) return
 
       if (e.id == MotionEvent.other && e.delta != null)
       {

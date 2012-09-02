@@ -25,7 +25,7 @@ class MessageBox : ContentPane
     pane := WidgetGroup()
     pane.add(label)
     pane.add(btn)
-    pane.layout = VBoxLayout()
+    pane.layout = BoxLayout()
 
     this.add(pane)
   }
