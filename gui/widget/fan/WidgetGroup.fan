@@ -99,6 +99,11 @@ class WidgetGroup : Widget
     }
   }
 
+  override Void onMounted()
+  {
+    children.each { it.onMounted }
+  }
+
 //////////////////////////////////////////////////////////////////////////
 // layout
 //////////////////////////////////////////////////////////////////////////
@@ -114,7 +119,7 @@ class WidgetGroup : Widget
     p := mapToWidget(Point(e.x, e.y))
     if (p == null) return
     children.eachr {
-      if (it.enabled) {
+      if (it.enabled && it.visible) {
         if (it.bounds.contains(p.x, p.y)) {
           it.touch(e)
         }

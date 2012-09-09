@@ -84,6 +84,22 @@ class RootView : WidgetGroup, View
   once EventListeners onActivated() { EventListeners() }
 
 
+  **
+  ** Callback for mouse button pressed.
+  **
+  once EventListeners onTouchDown() { EventListeners() }
+
+  **
+  ** Callback for mouse button move.
+  **
+  once EventListeners onTouchMove() { EventListeners() }
+
+  **
+  ** Callback for mouse button released.
+  **
+  once EventListeners onTouchUp() { EventListeners() }
+
+
   override Void keyPress(KeyEvent e)
   {
     if (focusWidget == null) return
@@ -92,6 +108,19 @@ class RootView : WidgetGroup, View
 
   override Void touch(MotionEvent e)
   {
+    if (e.id == MotionEvent.released)
+    {
+      onTouchUp.fire(e)
+    }
+    else if (e.id == MotionEvent.pressed)
+    {
+      onTouchDown.fire(e)
+    }
+    else if (e.id == MotionEvent.moved)
+    {
+      onTouchMove.fire(e)
+    }
+
     if (!modal)
     {
       if (mouseOverWidget != null) {
@@ -124,6 +153,7 @@ class RootView : WidgetGroup, View
       win = Toolkit.cur.build(this)
     else
       win = host
+    onMounted
     relayout
     win.show(size)
   }

@@ -92,7 +92,24 @@ class ScrollBar : Widget
     }
   }
 
-  override Void touch(MotionEvent e)
+  override Void onMounted()
+  {
+    rootVie := this.rootView
+    rootVie.onTouchDown.add |MotionEvent e|
+    {
+      doTouch(e)
+    }
+    rootVie.onTouchUp.add |MotionEvent e|
+    {
+      doTouch(e)
+    }
+    rootVie.onTouchMove.add |MotionEvent e|
+    {
+      doTouch(e)
+    }
+  }
+
+  private Void doTouch(MotionEvent e)
   {
     p := mapToRelative(Point(e.x, e.y))
     if (this.bounds.contains(p.x, p.y))

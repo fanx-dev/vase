@@ -264,4 +264,9 @@ abstract class Widget
   ** Callback when mouse enters this widget's bounds.
   **
   virtual Void mouseEnter() {}
+
+  **
+  ** Callback this widget mounted.
+  **
+  virtual Void onMounted() {}
 }
