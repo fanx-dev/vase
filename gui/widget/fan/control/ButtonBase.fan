@@ -66,14 +66,16 @@ abstract class ButtonBase : WidgetGroup
       else if (e.id == MotionEvent.moved)
       {
         if (state != mouseDown)
-          state = mouseOver
+        {
+          rootView.mouseCapture(this)
+        }
       }
     }
-    else
-    {
-      state = mouseOut
-    }
   }
+
+  override Void mouseExit() { state = mouseOut }
+
+  override Void mouseEnter() { state = mouseOver }
 
   override Void keyPress(KeyEvent e)
   {

@@ -255,4 +255,13 @@ abstract class Widget
   **
   virtual Void focusChanged(Bool focused) {}
 
+  **
+  ** Callback when mouse exits this widget's bounds.
+  **
+  virtual Void mouseExit() {}
+
+  **
+  ** Callback when mouse enters this widget's bounds.
+  **
+  virtual Void mouseEnter() {}
 }

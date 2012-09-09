@@ -25,6 +25,7 @@ class RootView : WidgetGroup, View
   ** current focus widget
   **
   Widget? focusWidget
+  private Widget? mouseOverWidget
 
   **
   ** Used to toggle anti-aliasing on and off.
@@ -92,6 +93,13 @@ class RootView : WidgetGroup, View
   {
     if (!modal)
     {
+      if (mouseOverWidget != null) {
+        p := mouseOverWidget.mapToRelative(Point(e.x, e.y))
+        if (p == null || !mouseOverWidget.bounds.contains(p.x, p.y)) {
+          mouseOverWidget.mouseExit
+          mouseOverWidget = null
+        }
+      }
       super.touch(e)
     }
     else
@@ -127,6 +135,14 @@ class RootView : WidgetGroup, View
     focusWidget?.focusChanged(false)
     this.focusWidget = w
     win.focus
+  }
+
+  Void mouseCapture(Widget w)
+  {
+    if (mouseOverWidget === w) return
+    mouseOverWidget?.mouseExit
+    this.mouseOverWidget = w
+    w.mouseEnter
   }
 
   override Bool hasFocus() { win.hasFocus }

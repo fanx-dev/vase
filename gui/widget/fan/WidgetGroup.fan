@@ -88,9 +88,13 @@ class WidgetGroup : Widget
 //////////////////////////////////////////////////////////////////////////
 
   override Void touch(MotionEvent e) {
+    p := mapToWidget(Point(e.x, e.y))
+    if (p == null) return
     children.eachr {
       if (it.enabled) {
-        it.touch(e)
+        if (this.bounds.contains(p.x, p.y)) {
+          it.touch(e)
+        }
       }
     }
   }
