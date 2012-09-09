@@ -34,7 +34,6 @@ class MessageBox : ContentPane
   {
     root := w.rootView
     root.add(this)
-    this.relayout
     root.relayout
 
     this.pos = Point(root.size.w/2 - this.size.w/2, root.size.h/2 - this.size.h/2)
