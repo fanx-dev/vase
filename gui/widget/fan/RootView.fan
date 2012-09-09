@@ -26,6 +26,7 @@ class RootView : WidgetGroup, View
   **
   Widget? focusWidget
   private Widget? mouseOverWidget
+  WidgetGroup? topLayerGroup
 
   **
   ** Used to toggle anti-aliasing on and off.
@@ -146,4 +147,15 @@ class RootView : WidgetGroup, View
   }
 
   override Bool hasFocus() { win.hasFocus }
+
+  WidgetGroup topLayer()
+  {
+    if (topLayerGroup == null)
+    {
+      topLayerGroup = WidgetGroup()
+    }
+    moveToTop(topLayerGroup)
+    topLayerGroup.size = this.size
+    return topLayerGroup
+  }
 }

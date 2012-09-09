@@ -29,6 +29,7 @@ class StyleManager
       Table# : TableStyle(),
       TreeView# : TreeStyle(),
       TextArea# : TextAreaStyle(),
+      MenuItem# : MenuItemStyle(),
     ]
     defStyle = WidgetStyle()
 

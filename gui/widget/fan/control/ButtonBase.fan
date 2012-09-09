@@ -13,7 +13,7 @@ using fgfxWtk
 ** common behaviors for buttons.
 **
 @Js
-abstract class ButtonBase : WidgetGroup
+abstract class ButtonBase : Widget
 {
 //////////////////////////////////////////////////////////////////////////
 // state

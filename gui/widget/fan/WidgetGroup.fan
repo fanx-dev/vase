@@ -67,12 +67,35 @@ class WidgetGroup : Widget
     return this
   }
 
+  Int indexSame(Widget child)
+  {
+    return children.indexSame(child)
+  }
+
+  Int childrenSize() { children.size }
+  Widget getChild(Int i) { children[i] }
+
   override Widget? findById(Str id)
   {
     if (id == this.id) return this
     return children.eachWhile
     {
       it.findById(id)
+    }
+  }
+
+  Void moveToTop(Widget child)
+  {
+    Int? i := children.indexSame(child)
+    if (i == children.size -1) return
+    if (i != null)
+    {
+      children.removeAt(i)
+      children.add(child)
+    }
+    else
+    {
+      this.add(child)
     }
   }
 
@@ -92,7 +115,7 @@ class WidgetGroup : Widget
     if (p == null) return
     children.eachr {
       if (it.enabled) {
-        if (this.bounds.contains(p.x, p.y)) {
+        if (it.bounds.contains(p.x, p.y)) {
           it.touch(e)
         }
       }
