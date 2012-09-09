@@ -52,8 +52,9 @@ abstract class ButtonBase : Widget
       {
         if (pressed)
         {
-          focus
+          //focus
           onAction.fire(e)
+          e.consume
         }
         pressed = false
         state = mouseOver

@@ -103,7 +103,8 @@ abstract class Scroller : WidgetGroup
 
   override Void touch(MotionEvent e)
   {
-    super.touch(e)
+    vbar.touch(e)
+    hbar.touch(e)
     if (!e.consumed)
     {
       p := mapToRelative(Point(e.x, e.y))

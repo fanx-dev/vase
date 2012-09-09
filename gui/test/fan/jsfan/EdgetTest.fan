@@ -21,22 +21,57 @@ class EdgeTest
   {
     ToolkitEnv.init
 
-    view := RootView
+    RootView? view
+    menu := Menu
+    {
+      MenuItem
+      {
+        it.text = "File"
+        addItem( MenuItem
+        {
+          it.text = "Open"
+          addItem( MenuItem{it.text = "From 1"} )
+          addItem( MenuItem{it.text = "From 2"} )
+        })
+        addItem( MenuItem
+        {
+          it.text = "Save"
+          addItem( MenuItem{it.text = "as 1"} )
+          addItem( MenuItem{it.text = "as 2"} )
+        })
+      },
+      MenuItem
+      {
+        it.text = "Edit"
+        addItem( MenuItem{it.text = "Copy"} )
+        addItem( MenuItem{it.text = "Paste"} )
+      },
+      MenuItem
+      {
+        it.text = "Help"
+        addItem( MenuItem
+        {
+          it.text = "About"
+          it.onAction.add
+          {
+            MessageBox { it.label.text = "hello world" }.show(view)
+          }
+        })
+      },
+    }
+
+    view = RootView
     {
       ContentPane
       {
         layout = FillLayout()
         EdgePane
         {
-          top = WidgetGroup
+          top =
+          WidgetGroup
           {
-            layout = BoxLayout { orientationV = false }
-
-            Button { text = "Hello1" },
-            Button { text = "Hello2" },
-            Button { text = "Hello3" },
-            Button { text = "Hello4" },
-            Button { text = "Hello5" },
+            layout = BoxLayout { keepSize = true }
+            menu,
           }
 
           left = TreeView(FileTreeModel())

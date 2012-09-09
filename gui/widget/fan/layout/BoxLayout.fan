@@ -31,7 +31,6 @@ class BoxLayout : Layout
     widget.each |c|
     {
       csize := c.prefSize(hintsW, hintsH)
-      c.relayout
 
       if (orientationV)
       {
@@ -51,6 +50,8 @@ class BoxLayout : Layout
           c.size = Size(csize.w, hintsH)
         x += csize.w + spacing
       }
+
+      c.relayout
     }
 
   }
@@ -80,7 +81,6 @@ class BoxLayout : Layout
 
     w = w + left+right
     h = h + top+bottom
-
     return Size(w, h)
   }
 }
