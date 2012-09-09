@@ -28,7 +28,7 @@ class Menu : WidgetGroup
 }
 
 @Js
-class MenuList : WidgetGroup
+internal class MenuList : WidgetGroup
 {
   MenuItem? owner
 
@@ -41,7 +41,7 @@ class MenuList : WidgetGroup
 @Js
 class MenuItem : Button
 {
-  MenuList list
+  internal MenuList list
 
   new make()
   {

@@ -72,9 +72,19 @@ class WidgetGroup : Widget
     return children.indexSame(child)
   }
 
+  **
+  ** num of children
+  **
   Int childrenSize() { children.size }
+
+  **
+  ** get by index
+  **
   Widget getChild(Int i) { children[i] }
 
+  **
+  ** find widget by id in this group
+  **
   override Widget? findById(Str id)
   {
     if (id == this.id) return this
@@ -84,6 +94,9 @@ class WidgetGroup : Widget
     }
   }
 
+  **
+  ** move child to top.
+  **
   Void moveToTop(Widget child)
   {
     Int? i := children.indexSame(child)
@@ -97,11 +110,6 @@ class WidgetGroup : Widget
     {
       this.add(child)
     }
-  }
-
-  override Void onMounted()
-  {
-    children.each { it.onMounted }
   }
 
 //////////////////////////////////////////////////////////////////////////
@@ -135,6 +143,14 @@ class WidgetGroup : Widget
     }
   }
 
+  **
+  ** callback on mounted
+  **
+  override Void onMounted()
+  {
+    children.each { it.onMounted }
+  }
+
 //////////////////////////////////////////////////////////////////////////
 // Paint
 //////////////////////////////////////////////////////////////////////////
@@ -151,6 +167,9 @@ class WidgetGroup : Widget
     //g.drawLine(size.w, 0, 0, size.h)
   }
 
+  **
+  ** paint children widget
+  **
   protected virtual Void paintChildren(Graphics g)
   {
     children.each

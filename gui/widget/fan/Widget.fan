@@ -90,7 +90,6 @@ abstract class Widget
     }
   }
 
-
   **
   ** Callback function when Widget state changed
   **
@@ -191,6 +190,9 @@ abstract class Widget
     return Point(p.x - posOW.x, p.y - posOW.y)
   }
 
+  **
+  **  Translates absolute coordinates into relative this widget
+  **
   Point? mapToWidget(Point p)
   {
     posOW := this.posOnWindow
@@ -213,7 +215,6 @@ abstract class Widget
     }
     return null
   }
-
 
 //////////////////////////////////////////////////////////////////////////
 // repaint

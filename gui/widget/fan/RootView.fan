@@ -26,6 +26,10 @@ class RootView : WidgetGroup, View
   **
   Widget? focusWidget
   private Widget? mouseOverWidget
+
+  **
+  ** top layer is a overlay of root view
+  **
   WidgetGroup? topLayerGroup
 
   **
@@ -99,13 +103,18 @@ class RootView : WidgetGroup, View
   **
   once EventListeners onTouchUp() { EventListeners() }
 
-
+  **
+  ** post key event
+  **
   override Void keyPress(KeyEvent e)
   {
     if (focusWidget == null) return
     if (focusWidget.enabled) focusWidget.keyPress(e)
   }
 
+  **
+  ** post touch event
+  **
   override Void touch(MotionEvent e)
   {
     if (e.id == MotionEvent.released)
@@ -138,6 +147,9 @@ class RootView : WidgetGroup, View
     }
   }
 
+  **
+  ** repaint the dirty region on later
+  **
   override Void repaint(Rect? dirty := null)
   {
     if (dirty == null) dirty = this.bounds
@@ -168,6 +180,9 @@ class RootView : WidgetGroup, View
     win.focus
   }
 
+  **
+  ** set for dealwith mouse exit and mouse enter
+  **
   Void mouseCapture(Widget w)
   {
     if (mouseOverWidget === w) return
@@ -176,8 +191,14 @@ class RootView : WidgetGroup, View
     w.mouseEnter
   }
 
+  **
+  ** return true if host windows has focus
+  **
   override Bool hasFocus() { win.hasFocus }
 
+  **
+  ** get or make a widget that layout top of root view
+  **
   WidgetGroup topLayer()
   {
     if (topLayerGroup == null)
