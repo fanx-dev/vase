@@ -11,12 +11,7 @@ using fgfxOpenGl
 using fgfxArray
 
 @Js
-class Object : Group
+class Material
 {
-  Float[]? vertices
-  internal GlBuffer? vertexPositionBuffer
-  internal Int vertexPositionAttribute
 
-  Program? program
-  Material? material
 }

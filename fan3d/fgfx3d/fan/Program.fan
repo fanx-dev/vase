@@ -21,10 +21,6 @@ class Program
 
   private GlContext? gl
 
-  GlUniformLocation? pMatrixUniform
-
-  GlUniformLocation? mvMatrixUniform
-
   new make(Shader vertexShaderSrc, Shader fragmentShaderSrc)
   {
     this.vertexShaderSrc = vertexShaderSrc
@@ -50,9 +46,6 @@ class Program
     if (gl.getProgramParameter(shaderProgram, GlEnum.linkStatus) == 0) {
         throw Err("Could not initialise shaders")
     }
-
-    pMatrixUniform = gl.getUniformLocation(shaderProgram, "uPMatrix")
-    mvMatrixUniform = gl.getUniformLocation(shaderProgram, "uMVMatrix")
   }
 
   private GlShader getShader(GlEnum type, Str source)

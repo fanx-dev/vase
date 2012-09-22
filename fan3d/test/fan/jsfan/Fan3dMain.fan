@@ -59,6 +59,8 @@ class Fan3dMain : GlDisplay
       root.add(obj)
       camera.projection = Transform3D.makePerspective(45f, w.toFloat/h.toFloat, 0.1f, 100.0f)
       camera.transform = Transform3D().translate(-1.5f, 0.0f, -7.0f)
+      renderer.width = w
+      renderer.height = h
     }
 
     open
@@ -71,7 +73,7 @@ class Fan3dMain : GlDisplay
 
   override Void onPaint(GlContext gl)
   {
-    scene.paint(gl)
+    scene.render(gl)
   }
 }
 
