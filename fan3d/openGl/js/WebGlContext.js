@@ -11,6 +11,8 @@ fan.fgfxOpenGl.WebGlContext = fan.sys.Obj.$extend(fan.sys.Obj);
 fan.fgfxOpenGl.WebGlContext.prototype.$ctor = function(self) {}
 fan.fgfxOpenGl.WebGlContext.prototype.gl = null;
 
+fan.fgfxOpenGl.WebGlContext.prototype.$typeof = function() { return fan.fgfxOpenGl.WebGlContext.$type; }
+
 //////////////////////////////////////////////////////////////////////////
 // special
 //////////////////////////////////////////////////////////////////////////

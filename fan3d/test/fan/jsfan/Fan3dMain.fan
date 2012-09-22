@@ -17,32 +17,31 @@ class Fan3dMain : GlDisplay
 
   Void main()
   {
-
     prog := Program
     (
-        Shader<|varying vec4 vertColor;
-                 attribute vec3 aVertexPosition;
+       Shader(Str<|varying vec4 vertColor;
+                   attribute vec3 aVertexPosition;
 
-                 uniform mat4 uMVMatrix;
-                 uniform mat4 uPMatrix;
+                   uniform mat4 uMVMatrix;
+                   uniform mat4 uPMatrix;
 
-                 void main(void) {
-                    gl_Position = uPMatrix * uMVMatrix * vec4(aVertexPosition, 1.0);
-                    vertColor = vec4(0.8, 0.3, 0.9, 1.0);
-                 }
-                 |>
+                   void main(void) {
+                      gl_Position = uPMatrix * uMVMatrix * vec4(aVertexPosition, 1.0);
+                      vertColor = vec4(0.8, 0.3, 0.9, 1.0);
+                   }
+                   |>)
         ,
-        Shader<|
-                 #ifdef GL_ES
-                 precision highp float;
-                 #endif
+       Shader(Str<|
+                   #ifdef GL_ES
+                   precision highp float;
+                   #endif
 
-                 varying vec4 vertColor;
+                   varying vec4 vertColor;
 
-                 void main(void) {
-                    gl_FragColor = vertColor;
-                 }
-                 |>
+                   void main(void) {
+                      gl_FragColor = vertColor;
+                   }
+                   |>)
     )
 
     obj := Object
@@ -75,3 +74,4 @@ class Fan3dMain : GlDisplay
     scene.paint(gl)
   }
 }
+

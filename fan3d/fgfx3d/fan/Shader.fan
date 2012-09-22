@@ -11,7 +11,5 @@ class Shader
 {
   Str src
 
-  private new make(Str s) { src = s }
-
-  static Shader fromStr(Str s) { Shader.make(s) }
+  new make(Str s) { src = s }
 }
