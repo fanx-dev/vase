@@ -14,8 +14,9 @@ using fgfxArray
 class Scene
 {
   Camera camera := Camera()
+  Light[] lights := Light[,]
   Group root := Group()
-  Renderer renderer := Renderer()
+  Renderer? renderer
 
   Void init(GlContext gl)
   {

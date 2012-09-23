@@ -12,19 +12,12 @@
 @Js
 class Transform3D
 {
-  private Matrix[] stack := [ Matrix.makeIndentity(4) ]
+  Matrix matrix := Matrix.makeIndentity(4)
 
-  Matrix top() { stack.peek }
-  This set(Matrix m) { stack.set(stack.size - 1, m); return this }
-
-  Matrix pop() { stack.pop }
-
-  This push()
-  {
-    dup := top.clone
-    stack.push(dup)
-    return this
-  }
+  Float get(Int x, Int y) { return matrix.get(x, y); }
+  Void set(Int x, Int y, Float val) { matrix.set(x, y, val) }
+  Transform3D clone() { return Transform3D { it.matrix = this.matrix.clone } }
+  This mult(Transform2D t) { matrix = matrix * t.matrix; return this }
 
 //////////////////////////////////////////////////////////////////////////
 // Transform
@@ -32,22 +25,19 @@ class Transform3D
 
   This translate(Float x, Float y, Float z)
   {
-    m := top * makeTranslate(x, y, z)
-    set(m)
+    matrix = matrix * makeTranslate(x, y, z)
     return this
   }
 
   This scale(Float x, Float y, Float z)
   {
-    m := top * makeScale(x, y, z)
-    set(m)
+    matrix = matrix * makeScale(x, y, z)
     return this
   }
 
   This rotate(Float theta, Float x, Float y, Float z)
   {
-    m := top * makeRotate(theta * Float.pi / 180f, x, y, z)
-    set(m)
+    matrix = matrix * makeRotate(theta * Float.pi / 180f, x, y, z)
     return this
   }
 

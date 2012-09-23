@@ -65,9 +65,9 @@ class RealObject : GlDisplay
 
     //triangle
     transform.translate(-1.5f, 0.0f, -8.0f)
-    transform.push
+    //transform.push
     transform.rotate(rPyramid, 0f, 1f, 0f)
-    mvMatrix = transform.top.flatten
+    mvMatrix = transform.matrix.flatten
 
     gl.bindBuffer(GlEnum.arrayBuffer, pyramidVertexPositionBuffer)
     gl.vertexAttribPointer(vertexPositionAttribute, 3, GlEnum.float, false, 0, 0)
@@ -76,13 +76,13 @@ class RealObject : GlDisplay
 
     setMatrixUniforms
     gl.drawArrays(GlEnum.triangles, 0, 12)
-    transform.pop
+    //transform.pop
 
     //square
     transform.translate(3.0f, 0.0f, 0.0f)
-    transform.push
+    //transform.push
     transform.rotate(rCube, 1f, 1f, 1f)
-    mvMatrix = transform.top.flatten
+    mvMatrix = transform.matrix.flatten
 
     gl.bindBuffer(GlEnum.arrayBuffer, cubeVertexPositionBuffer)
     gl.vertexAttribPointer(vertexPositionAttribute, 3, GlEnum.float, false, 0, 0)
@@ -92,7 +92,7 @@ class RealObject : GlDisplay
 
     setMatrixUniforms
     gl.drawElements(GlEnum.triangles, cubeVertexIndices.size, GlEnum.unsignedShort, 0)
-    transform.pop
+    //transform.pop
 
     animate
   }

@@ -8,23 +8,34 @@
 
 using fgfxMath
 
+
 @Js
-class Group
+class Node
 {
-  Transform3D transform := Transform3D()
+  Transform3D? transform
+  Program? program
+}
 
-  private Group[] children := Group[,]
-  Light[] lights := Light[,]
+@Js
+class Group : Node
+{
+  private Node[] children := Node[,]
 
-  Void each(|Group| f)
+  Void each(|Node| f)
   {
     f(this)
     children.each |g|
     {
-      g.each(f)
+      if (g is Group)
+      {
+        ((Group)g).each(f)
+      }
+      else if (g is Primitive)
+      {
+        f(g)
+      }
     }
   }
 
-  Void add(Group g) { children.add(g) }
-
+  Void add(Node g) { children.add(g) }
 }

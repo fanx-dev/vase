@@ -63,10 +63,10 @@ class Movement : GlDisplay
     //triangle
     transform.translate(-1.5f, 0.0f, -7.0f)
 
-    transform.push
+    //transform.push
     transform.rotate(rTri, 0f, 1f, 0f)
 
-    mvMatrix = transform.top.flatten
+    mvMatrix = transform.matrix.flatten
 
     gl.clear(GlEnum.colorBufferBit.mix(GlEnum.depthBufferBit))
     setMatrixUniforms
@@ -78,14 +78,14 @@ class Movement : GlDisplay
     gl.vertexAttribPointer(vertexColorAttribute, 4, GlEnum.float, false, 0, 0)
 
     gl.drawArrays(GlEnum.triangles, 0, 3)
-    transform.pop
+    //transform.pop
 
     //square
     transform.translate(3.0f, 0.0f, 0.0f)
 
-    transform.push
+    //transform.push
     transform.rotate(rSquare, 1f, 0f, 0f)
-    mvMatrix = transform.top.flatten
+    mvMatrix = transform.matrix.flatten
 
     gl.bindBuffer(GlEnum.arrayBuffer, squareVertexPositionBuffer)
     gl.vertexAttribPointer(vertexPositionAttribute, 3, GlEnum.float, false, 0, 0)
@@ -95,7 +95,7 @@ class Movement : GlDisplay
 
     setMatrixUniforms
     gl.drawArrays(GlEnum.triangleStrip, 0, 4)
-    transform.pop
+    //transform.pop
 
     animate
   }

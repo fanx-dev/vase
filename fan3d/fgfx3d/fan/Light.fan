@@ -8,6 +8,9 @@
 
 using fgfxMath
 
+**
+** Light
+**
 @Js
 class Light
 {

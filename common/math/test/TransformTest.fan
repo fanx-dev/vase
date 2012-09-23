@@ -24,7 +24,7 @@ internal class TransformTest : Test
 
   Void testTranslate()
   {
-    mvMatrix := Transform3D().translate(-1.5f, 0.0f, -7.0f).top
+    mvMatrix := Transform3D().translate(-1.5f, 0.0f, -7.0f).matrix
     expected := Matrix.make(
     [
       [ 1f,   0f,  0f, 0f],

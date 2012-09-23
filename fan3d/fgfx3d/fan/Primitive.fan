@@ -10,13 +10,15 @@ using fgfxMath
 using fgfxOpenGl
 using fgfxArray
 
+**
+** 3D object Model
+**
 @Js
-class Object : Group
+class Primitive : Node
 {
   Float[]? vertices
   internal GlBuffer? vertexPositionBuffer
   internal Int vertexPositionAttribute
 
-  Program? program
   Material? material
 }

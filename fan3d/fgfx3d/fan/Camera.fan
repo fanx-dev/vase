@@ -12,7 +12,4 @@ using fgfxMath
 class Camera
 {
   Transform3D transform := Transform3D()
-  Matrix? projection
-
-
 }

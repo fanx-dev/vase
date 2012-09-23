@@ -56,7 +56,7 @@ class Colour : GlDisplay
     this.gl = gl
     pMatrix = Transform.makePerspective(45f, w.toFloat/h.toFloat, 0.1f, 100.0f).flatten
     transform := Transform()
-    mvMatrix = transform.translate(-1.5f, 0.0f, -7.0f).top.flatten
+    mvMatrix = transform.translate(-1.5f, 0.0f, -7.0f).matrix.flatten
 
     gl.clear(GlEnum.colorBufferBit.mix(GlEnum.depthBufferBit))
     setMatrixUniforms
@@ -70,7 +70,7 @@ class Colour : GlDisplay
     gl.drawArrays(GlEnum.triangles, 0, 3)
 
 
-    mvMatrix = transform.translate(3.0f, 0.0f, 0.0f).top.flatten
+    mvMatrix = transform.translate(3.0f, 0.0f, 0.0f).matrix.flatten
     gl.bindBuffer(GlEnum.arrayBuffer, squareVertexPositionBuffer)
     gl.vertexAttribPointer(vertexPositionAttribute, 3, GlEnum.float, false, 0, 0)
 

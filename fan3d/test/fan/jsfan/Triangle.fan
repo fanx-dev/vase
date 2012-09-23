@@ -57,7 +57,7 @@ class Triangle : GlDisplay
 
   private Void setMatrixUniforms()
   {
-    Float[] mvMatrix  := Transform().translate(-1.5f, 0.0f, -7.0f).top.flatten
+    Float[] mvMatrix  := Transform().translate(-1.5f, 0.0f, -7.0f).matrix.flatten
     Float[] pMatrix  := Transform.makePerspective(45f, w.toFloat/h.toFloat, 0.1f, 100.0f).flatten
 
     gl.uniformMatrix4fv(pMatrixUniform, false, ArrayBuffer.makeFloat(pMatrix))

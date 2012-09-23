@@ -44,9 +44,8 @@ class Fan3dMain : GlDisplay
                    |>)
     )
 
-    obj := Object
+    obj := Primitive
     {
-      program = prog
       vertices = [
                     0.0f,  1.0f,  0.0f,
                    -1.0f, -1.0f,  0.0f,
@@ -54,13 +53,19 @@ class Fan3dMain : GlDisplay
                  ]
     }
 
+    renderer := Renderer
+    {
+      width = w
+      height = h
+      projection = Transform3D.makePerspective(45f, w.toFloat/h.toFloat, 0.1f, 100.0f)
+      program = prog
+    }
+
     scene = Scene
     {
       root.add(obj)
-      camera.projection = Transform3D.makePerspective(45f, w.toFloat/h.toFloat, 0.1f, 100.0f)
-      camera.transform = Transform3D().translate(-1.5f, 0.0f, -7.0f)
-      renderer.width = w
-      renderer.height = h
+      camera.transform.translate(-1.5f, 0.0f, -7.0f)
+      it.renderer = renderer
     }
 
     open

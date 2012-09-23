@@ -10,78 +10,140 @@ using fgfxMath
 using fgfxOpenGl
 using fgfxArray
 
+**
+** Render the Scene
+**
 @Js
 class Renderer
 {
+  **
+  ** current GL context
+  **
   GlContext? gl
 
-  //GlUniformLocation? pMatrixUniform
-  //GlUniformLocation? mvMatrixUniform
+  **
+  ** view projection
+  **
+  Matrix projection
+
+  **
+  ** default program
+  **
+  Program program
+
+  ** viewport width
   Int width := 100
+
+  ** viewport height
   Int height := 100
 
+  new make(|This|f)
+  {
+    f(this)
+  }
+
+  **
+  ** init env
+  **
   Void init(Scene scene)
   {
     gl.clearColor(0f, 0f, 0.3f, 1f)
     gl.enable(GlEnum.depthTest)
     gl.viewport(0, 0, width, height)
 
+    //init program
+    this.program.init(gl)
     scene.root.each |g|
     {
-      if (g is Object)
+      if (g.program != null)
       {
-        Object obj := g
-        obj.program.init(gl)
+        g.program.init(gl)
       }
     }
   }
 
+  **
+  ** do scene render
+  **
   Void render(Scene scene)
   {
+    // clear background
     gl.clear(GlEnum.colorBufferBit.mix(GlEnum.depthBufferBit))
+
+    TransformStack mvTrans := TransformStack()
+    Program? program
     scene.root.each |g|
     {
-      if (g is Object)
+      program = g.program ?: this.program
+      program.useProgram
+
+      //do transform
+      if (g.transform != null)
       {
-        Object obj := g
-        initObject(obj)
-        setMatrixUniforms(scene.camera, obj.transform, obj.program)
-        renderObject(obj)
+        mvTrans.push
+        mvTrans.mult(g.transform.matrix)
+      }
+
+      //draw primitive obj
+      if (g is Primitive)
+      {
+        Primitive obj := g
+        initBuffer(obj, program)
+        setMatrixUniforms(scene.camera, mvTrans.top, program)
+        renderObject(obj, program)
+      }
+
+      //restore transform
+      if (g.transform != null)
+      {
+        mvTrans.pop
       }
     }
   }
 
-  private Void setMatrixUniforms(Camera camera, Transform3D transform, Program program)
+  **
+  ** set the transform matrix
+  **
+  private Void setMatrixUniforms(Camera camera, Matrix mvMatrix, Program program)
   {
     pMatrixUniform := program.getUniformLocation("uPMatrix")
     mvMatrixUniform := program.getUniformLocation("uMVMatrix")
 
-    Float[] mvMatrix  := (camera.transform.top *transform.top).flatten
-    Float[] pMatrix  := camera.projection.flatten
+    Float[] mvMatrixA  := (camera.transform.matrix * mvMatrix).flatten
+    Float[] pMatrixA  := projection.flatten
 
-    gl.uniformMatrix4fv(pMatrixUniform, false, ArrayBuffer.makeFloat(pMatrix))
-    gl.uniformMatrix4fv(mvMatrixUniform, false, ArrayBuffer.makeFloat(mvMatrix))
+    gl.uniformMatrix4fv(pMatrixUniform, false, ArrayBuffer.makeFloat(pMatrixA))
+    gl.uniformMatrix4fv(mvMatrixUniform, false, ArrayBuffer.makeFloat(mvMatrixA))
   }
 
-  private Void renderObject(Object obj)
+  **
+  ** draw primitive object
+  **
+  private Void renderObject(Primitive obj, Program program)
   {
+    //prepare program
+    obj.vertexPositionAttribute = program.getAttribLocation("aVertexPosition")
+    gl.enableVertexAttribArray(obj.vertexPositionAttribute)
+
+    //bind buffer
     gl.bindBuffer(GlEnum.arrayBuffer, obj.vertexPositionBuffer)
     gl.vertexAttribPointer(obj.vertexPositionAttribute, 3, GlEnum.float, false, 0, 0)
 
+    //draw
     gl.drawArrays(GlEnum.triangles, 0, 3)
   }
 
-  private Void initObject(Object obj)
+  **
+  ** init buffer
+  **
+  private Void initBuffer(Primitive obj, Program program)
   {
     if (obj.vertexPositionBuffer != null) return
+
+    //set buffer
     obj.vertexPositionBuffer = gl.createBuffer
     gl.bindBuffer(GlEnum.arrayBuffer, obj.vertexPositionBuffer)
     arrayBuffer := ArrayBuffer.makeFloat(obj.vertices)
     gl.bufferData(GlEnum.arrayBuffer, arrayBuffer, GlEnum.staticDraw)
-
-    obj.program.init(gl)
-    obj.program.useProgram
-    obj.vertexPositionAttribute = obj.program.getAttribLocation("aVertexPosition")
-    gl.enableVertexAttribArray(obj.vertexPositionAttribute)
   }
 }

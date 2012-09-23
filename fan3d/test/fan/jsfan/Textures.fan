@@ -95,7 +95,7 @@ class Textures : GlDisplay
     transform.rotate(xRot, 1f, 0f, 0f)
     transform.rotate(yRot, 0f, 1f, 0f)
     transform.rotate(zRot, 0f, 0f, 1f)
-    mvMatrix = transform.top.flatten
+    mvMatrix = transform.matrix.flatten
 
     gl.bindBuffer(GlEnum.arrayBuffer, cubeVertexPositionBuffer)
     gl.vertexAttribPointer(vertexPositionAttribute, 3, GlEnum.float, false, 0, 0)
