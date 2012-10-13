@@ -38,7 +38,7 @@ fan.fgfxWtk.Image.prototype.size = function() { return this.m_size; }
 // Image Load
 //////////////////////////////////////////////////////////////////////////
 
-fan.fgfxWtk.Image.prototype.getImage = function(widget)
+fan.fgfxWtk.Image.prototype.getImage = function()
 {
   if (!this.m_isLoaded)
   {

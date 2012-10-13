@@ -79,11 +79,10 @@ fan.fgfxWtk.Graphics.prototype.brush$  = function(b)
   }
   else if (b instanceof fan.fgfx2d.Pattern)
   {
-    var jsImg = b.m_image.getImage(this.widget);
+    var jsImg = b.m_image.getImage();
     if (!image.isLoaded())
     {
-      var self = this;
-      fan.fgfxWtk.GfxUtil.addEventListener(jsImg, "load", function(){ if(self.widget){ self.widget.needRepaint = true;} });
+      fan.fgfxWtk.Graphics.loadImage(this, jsImg);
     }
 
     var style = (jsImg.width > 0 && jsImg.height > 0)
@@ -364,26 +363,31 @@ fan.fgfxWtk.Graphics.prototype.stack = new Array();
 
 fan.fgfxWtk.Graphics.prototype.drawImage = function(image, x, y)
 {
-  var jsImg = image.getImage(this.widget);
+  var jsImg = image.getImage();
   if (image.isLoaded() && jsImg.width > 0 && jsImg.height > 0)
     this.cx.drawImage(jsImg, x, y);
   else
   {
-    var self = this;
-    fan.fgfxWtk.GfxUtil.addEventListener(jsImg, "load", function(){ if(self.widget){ self.widget.needRepaint = true;} });
+    fan.fgfxWtk.Graphics.loadImage(this, jsImg);
   }
   return this;
 }
 
+//invalid widget to repaint on image loaded
+fan.fgfxWtk.Graphics.loadImage = function(self, jsImg)
+{
+  fan.fgfxWtk.GfxUtil.addEventListener(jsImg, "load",
+    function(){ if(self.widget){ self.widget.invalid(); }; });
+}
+
 fan.fgfxWtk.Graphics.prototype.copyImage = function(image, src, dest)
 {
-  var jsImg = image.getImage(this.widget);
+  var jsImg = image.getImage();
   if (image.isLoaded() && jsImg.width > 0 && jsImg.height > 0)
     this.cx.drawImage(jsImg, src.m_x, src.m_y, src.m_w, src.m_h, dst.m_x, dst.m_y, dst.m_w, dst.m_h)
   else
   {
-    var self = this;
-    fan.fgfxWtk.GfxUtil.addEventListener(jsImg, "load", function(){ if(self.widget){ self.widget.needRepaint = true;} });
+    fan.fgfxWtk.Graphics.loadImage(this, jsImg);
   }
   return this;
 }
