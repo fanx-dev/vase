@@ -11,7 +11,7 @@
 **
 @Js
 @Serializable { simple = true }
-abstract class Font
+const abstract class Font
 {
 
 //////////////////////////////////////////////////////////////////////////
@@ -81,22 +81,22 @@ abstract class Font
   **
   ** Name of font.
   **
-  Str name := "Serif" { private set }
+  const Str name := "Serif"
 
   **
   ** Size of font in points.
   **
-  Int size := 11 { private set }
+  const Int size := 11
 
   **
   ** Is this font bold.
   **
-  Bool bold { private set }
+  const Bool bold
 
   **
   ** Is this font in italic.
   **
-  Bool italic { private set }
+  const Bool italic
 
 //////////////////////////////////////////////////////////////////////////
 // Identity

@@ -1,11 +1,22 @@
 package fan.fgfxWtk;
 
+import fan.sys.Func;
+
 import fan.fgfx2d.*;
 
 public class AwtFont extends Font {
 
   private java.awt.Font nfont = null;
   private java.awt.FontMetrics fontMetrics = null;
+
+  public static Font makeAwtFont(Func func)
+  {
+    Font f = new AwtFont();
+    func.enterCtor(f);
+    func.call(f);
+    func.exitCtor();
+    return f;
+  }
 
   public java.awt.Font getNFont() {
     if (nfont == null) {

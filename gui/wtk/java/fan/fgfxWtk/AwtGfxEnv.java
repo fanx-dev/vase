@@ -123,9 +123,7 @@ public class AwtGfxEnv extends GfxEnv {
 
   @Override
   public Font makeFont(Func func) {
-    Font f = new AwtFont();
-    func.call(f);
-    return f;
+    return AwtFont.makeAwtFont(func);
   }
 
   @Override
