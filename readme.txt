@@ -1,6 +1,7 @@
 gui
   - fgfx2d: new fantom 2D graphics API
-  - wtk: Window toolkit
+  - wtk: Window toolkit (Java2D and Canvas2D)
+  - fgfxFwt : fwt/SWT native host
   - widget: widget system
   - android: android impl
 
