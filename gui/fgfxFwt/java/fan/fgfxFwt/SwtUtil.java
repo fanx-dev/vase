@@ -5,7 +5,7 @@
 // History:
 //   2011-09-09  Jed Young  Creation
 //
-package fan.fgfxWtk;
+package fan.fgfxFwt;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.GC;
@@ -17,10 +17,10 @@ import fan.fgfx2d.*;
 
 public class SwtUtil {
 
-  static Display getDisplay() { 
+  static Display getDisplay() {
     return Display.getCurrent() == null ? new Display() : Display.getCurrent(); // SWT display
   }
-  
+
   private static GC scratchGC = null;
   public static GC scratchG() {
     if (scratchGC == null) scratchGC = new GC(getDisplay());
@@ -99,7 +99,7 @@ public class SwtUtil {
     }
     return swtPath;
   }
-  
+
   static java.awt.AlphaComposite toAwtComposite(fan.fgfx2d.Composite com, float alpha) {
     int rule = 0;
     if (com == fan.fgfx2d.Composite.srcAtop) {
@@ -130,7 +130,7 @@ public class SwtUtil {
 
     return java.awt.AlphaComposite.getInstance(rule, alpha);
   }
-  
+
   static org.eclipse.swt.graphics.Color toSwtColor(Color c)
   {
     int argb = (int)(c).argb;

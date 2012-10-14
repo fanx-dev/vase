@@ -6,19 +6,26 @@
 //   2011-7-4  Jed Young  Creation
 //
 
-fan.fgfxWtk.PointArray = fan.sys.Obj.$extend(fan.fgfx2d.PointArray);
+fan.fgfxWtk.PointArray = fan.sys.Obj.$extend(fan.sys.Obj);
 fan.fgfxWtk.PointArray.prototype.$ctor = function() {}
+fan.fgfxWtk.PointArray.prototype.$typeof = function()
+{
+  return fan.fgfx2d.PointArray.$type;
+}
 
 fan.fgfxWtk.PointArray.prototype.xArray = null;
 fan.fgfxWtk.PointArray.prototype.yArray = null;
 
-fan.fgfxWtk.PointArray = function(size)
+fan.fgfxWtk.PointArray.make = function(size)
 {
-  this.xArray = new Array(size);
-  this.yArray = new Array(size);
+  var p = new fan.fgfxWtk.PointArray();
+  p.xArray = new Array(size);
+  p.yArray = new Array(size);
+  p.m_size = size;
+  return p;
 }
 
-fan.fgfxWtk.PointArray.prototype.size = function() { return this.xArray.length; }
+fan.fgfxWtk.PointArray.prototype.size = function() { return this.m_size; }
 
 fan.fgfxWtk.PointArray.prototype.getX = function(i) { return this.xArray[i]; }
 

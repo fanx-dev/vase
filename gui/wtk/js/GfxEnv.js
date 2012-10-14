@@ -22,7 +22,7 @@ fan.fgfxWtk.GfxEnv.prototype.makeConstImage = function(uri)
   p.m_image = image;
 
   fan.fgfxWtk.GfxUtil.addEventListener(image, "load", function(){
-    p.m_size = fan.gfx.Size.make(image.width, image.height);
+    p.m_size = fan.fgfx2d.Size.make(image.width, image.height);
     p.m_isLoaded = true;
   });
   image.src = fan.fgfxWtk.GfxUtil.uriToImageSrc(p.m_uri);
@@ -51,5 +51,5 @@ fan.fgfxWtk.GfxEnv.prototype.makeFont = function(func)
 
 fan.fgfxWtk.GfxEnv.prototype.makePointArray = function(func)
 {
-  return new fan.fgfxWtk.PointArray();
+  return fan.fgfxWtk.PointArray.make();
 }

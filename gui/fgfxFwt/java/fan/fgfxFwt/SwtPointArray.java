@@ -1,4 +1,4 @@
-package fan.fgfxWtk;
+package fan.fgfxFwt;
 
 import fan.fgfx2d.*;
 

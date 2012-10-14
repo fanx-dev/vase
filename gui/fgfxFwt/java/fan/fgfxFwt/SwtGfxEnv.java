@@ -5,7 +5,7 @@
 // History:
 //   2011-09-09  Jed Young  Creation
 //
-package fan.fgfxWtk;
+package fan.fgfxFwt;
 
 import java.io.IOException;
 import java.io.InputStream;

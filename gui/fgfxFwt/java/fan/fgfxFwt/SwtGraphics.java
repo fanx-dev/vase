@@ -5,7 +5,7 @@
 // History:
 //   2011-09-09  Jed Young  Creation
 //
-package fan.fgfxWtk;
+package fan.fgfxFwt;
 
 import java.util.Stack;
 
@@ -23,19 +23,19 @@ import fan.sys.ArgErr;
 import fan.sys.FanObj;
 
 public class SwtGraphics implements Graphics {
-  
+
   GC gc;
   Pen pen = Pen.defVal;
   Brush brush = Color.black;
   Font font;
   int alpha = 255;
   Stack<State> stack = new Stack<State>();
-  
+
   public SwtGraphics(PaintEvent e)
   {
     this(e.gc, e.x, e.y, e.width, e.height);
   }
-  
+
   public SwtGraphics(GC gc)
   {
     this.gc = gc;
@@ -63,7 +63,7 @@ public class SwtGraphics implements Graphics {
       {
         int ca = (int)((Color)brush).a();
         gc.setAlpha((alpha == 255) ? ca : (int)((alpha * ca) / 255));
-        
+
         org.eclipse.swt.graphics.Color c  = SwtUtil.toSwtColor((Color)brush);
         gc.setForeground(c);
         gc.setBackground(c);
@@ -403,7 +403,7 @@ public class SwtGraphics implements Graphics {
     gc.drawPolygon(pa.array);
     return this;
   }
-  
+
   @Override
   public void transform(Transform2D trans) {
     Transform t = SwtUtil.toSwtTransform(trans);
@@ -460,7 +460,7 @@ public class SwtGraphics implements Graphics {
   @Override
   public void composite(Composite arg0) {
     // TODO Auto-generated method stub
-    
+
   }
 
   public GC gc() { return this.gc; }

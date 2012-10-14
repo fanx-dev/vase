@@ -10,9 +10,12 @@
  * FwtGraphics implements gfx::Graphics using HTML5 canvas.
  */
 
-fan.fgfxWtk.Graphics = fan.sys.Obj.$extend(fan.fgfx2d.Graphics);
-
+fan.fgfxWtk.Graphics = fan.sys.Obj.$extend(fan.sys.Obj);
 fan.fgfxWtk.Graphics.prototype.$ctor = function() {}
+fan.fgfxWtk.Graphics.prototype.$typeof = function()
+{
+  return fan.fgfx2d.Graphics.$type;
+}
 
 fan.fgfxWtk.Graphics.prototype.widget = null;
 fan.fgfxWtk.Graphics.prototype.size = null;
@@ -394,14 +397,14 @@ fan.fgfxWtk.Graphics.prototype.copyImage = function(image, src, dest)
 
 fan.fgfxWtk.Graphics.prototype.drawPath = function(path)
 {
-  fan.fgfxWtk.Graphics.doJsPath(this.cx, path);
+  fan.fgfxWtk.GfxUtil.doJsPath(this.cx, path);
   this.cx.stroke();
   return this;
 }
 
 fan.fgfxWtk.Graphics.prototype.fillPath = function(path)
 {
-  fan.fgfxWtk.Graphics.doJsPath(this.cx, path);
+  fan.fgfxWtk.GfxUtil.doJsPath(this.cx, path);
   this.cx.fill();
   return this;
 }

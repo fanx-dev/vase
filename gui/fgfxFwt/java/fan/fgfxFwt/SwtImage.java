@@ -6,7 +6,7 @@
 //   2011-08-18  Jed Young  Creation
 //
 
-package fan.fgfxWtk;
+package fan.fgfxFwt;
 
 import java.io.OutputStream;
 
@@ -35,7 +35,7 @@ public class SwtImage implements BufImage {
     imageData = m.getImageData();
     isLoaded = true;
   }
-  
+
   public org.eclipse.swt.graphics.Image getImage()
   {
     if (!imageChanged) return image;
@@ -118,7 +118,7 @@ public class SwtImage implements BufImage {
   public void dispose() {
     if (!image.isDisposed()) image.dispose();
   }
-  
+
   /**
    * auto free resource
    */

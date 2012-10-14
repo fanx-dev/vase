@@ -13,9 +13,9 @@ fan.fgfxFwt.FwtToolkitEnvPeer.initGfxEnv = function() {
    fan.concurrent.Actor.locals().set("fgfx2d.env", new fan.fgfxWtk.GfxEnv());
 }
 
-fan.fgfxFwt.FwtToolkitEnvPeer.toGraphics(fan.gfx.Graphics fg) = function() {
+fan.fgfxFwt.FwtToolkitEnvPeer.toGraphics = function(fg) {
   var g = new fan.fgfxWtk.Graphics();
-  //g.widget = this;
+  g.widget = fg.widget;
   g.size = fg.size;
   g.cx = fg.cx;
   g.m_clip = fg.m_clip;

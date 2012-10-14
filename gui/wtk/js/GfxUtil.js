@@ -45,23 +45,23 @@ fan.fgfxWtk.GfxUtil.doJsPath = function(cx, path)
   {
     var s = path.steps().get(i);
 
-    if (s instanceof fan.gfx2.PathMoveTo)
+    if (s instanceof fan.fgfx2d.PathMoveTo)
     {
       cx.moveTo(s.m_x, s.m_y);
     }
-    else if (s instanceof fan.gfx2.PathLineTo)
+    else if (s instanceof fan.fgfx2d.PathLineTo)
     {
       cx.lineTo(s.m_x, s.m_y);
     }
-    else if (s instanceof fan.gfx2.PathQuadTo)
+    else if (s instanceof fan.fgfx2d.PathQuadTo)
     {
       cx.quadraticCurveTo(s.m_cx, s.m_cy, s.m_x, s.m_y);
     }
-    else if (s instanceof fan.gfx2.PathCubicTo)
+    else if (s instanceof fan.fgfx2d.PathCubicTo)
     {
       cx.bezierCurveTo(s.m_cx1, s.m_cy1, s.m_cx2, s.m_cy2, s.m_x, s.m_y);
     }
-    else if (s instanceof fan.gfx2.PathClose)
+    else if (s instanceof fan.fgfx2d.PathClose)
     {
       cx.closePath();
     }

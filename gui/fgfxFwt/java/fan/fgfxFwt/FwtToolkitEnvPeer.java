@@ -6,7 +6,7 @@
 //   2011-7-4  Jed Young  Creation
 //
 
-package fan.fgfxWtk;
+package fan.fgfxFwt;
 
 import fan.concurrent.Actor;
 import fan.fgfx2d.Graphics;
@@ -14,7 +14,7 @@ import fan.sys.*;
 
 public class FwtToolkitEnvPeer
 {
-  public static FwtToolkitEnvPeer make(ToolkitEnv self)
+  public static FwtToolkitEnvPeer make(FwtToolkitEnv self)
   {
     FwtToolkitEnvPeer peer = new FwtToolkitEnvPeer();
     return peer;

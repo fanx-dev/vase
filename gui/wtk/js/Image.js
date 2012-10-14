@@ -52,7 +52,7 @@ fan.fgfxWtk.Image.prototype.getImage = function()
 fan.fgfxWtk.Image.prototype.initFromImage = function(image)
 {
   this.m_canvas = document.createElement("canvas");
-  this.m_size = fan.gfx.Size.make(image.width, image.height);
+  this.m_size = fan.fgfx2d.Size.make(image.width, image.height);
   this.m_canvas.width = this.m_size.m_w;
   this.m_canvas.height = this.m_size.m_h;
 

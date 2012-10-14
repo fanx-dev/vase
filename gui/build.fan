@@ -22,6 +22,7 @@ class Build : BuildGroup
       `../common/build.fan`,
       `fgfx2d/build.fan`,
       `wtk/build.fan`,
+      `fgfxFwt/build.fan`,
       `widget/build.fan`
     ]
   }

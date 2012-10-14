@@ -35,6 +35,7 @@ class Build : build::BuildPod
       "fgfxWidget 1.0",
       "gfx 1.0",
       "fwt 1.0",
+      "fgfxFwt 1.0"
     ]
     resDirs =
     [,].addAll(Util.allDir(scriptDir.uri, `res/view/`)).
