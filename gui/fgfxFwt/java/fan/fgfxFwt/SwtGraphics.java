@@ -175,10 +175,17 @@ public class SwtGraphics implements Graphics {
     return font;
   }
 
-  public void font(Font font)
+  public void font(Font f)
   {
-    this.font = font;
-    this.gc.setFont(((SwtFont)font).getNFont());
+    this.font = f;
+    if (font == null)
+    {
+      this.gc.setFont(null);
+    }
+    else
+    {
+      this.gc.setFont(((SwtFont)f).getNFont());
+    }
   }
 
   public boolean antialias()
@@ -287,7 +294,7 @@ public class SwtGraphics implements Graphics {
   public Graphics drawText(String text, long x, long y)
   {
     int flags = SWT.DRAW_DELIMITER | SWT.DRAW_TAB | SWT.DRAW_TRANSPARENT;
-    gc.drawText(text, (int)x, (int)y, flags);
+    gc.drawText(text, (int)x, (int)(y-this.font.height()), flags);
     return this;
   }
 

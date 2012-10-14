@@ -19,7 +19,7 @@ fan.fgfxFwt.FwtToolkitEnvPeer.toGraphics = function(fg) {
   g.size = fg.size;
   g.cx = fg.cx;
   g.m_clip = fg.m_clip;
-
+  g.cx.textBaseline = "alphabetic";
   fg.widget.invalid = function()
   {
     fan.fwt.FwtEnvPeer.$win = this;

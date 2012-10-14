@@ -18,6 +18,7 @@ class FwtToolkitEnv
   static Void init()
   {
     initGfxEnv
+    Actor.locals["fgfxWtk.env"] = FwtToolkit()
   }
 
   private native static Void initGfxEnv()

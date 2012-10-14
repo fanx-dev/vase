@@ -241,8 +241,14 @@ public class AwtGraphics implements Graphics {
   @Override
   public void font(Font f) {
     this.font = f;
-    java.awt.Font font = AwtUtil.toFont(f);
-    gc.setFont(font);
+    if (font == null)
+    {
+      this.gc.setFont(null);
+    }
+    else
+    {
+      this.gc.setFont(((AwtFont)f).getNFont());
+    }
   }
 
   @Override

@@ -10,6 +10,7 @@ using concurrent
 using fgfx2d
 using fgfxWtk
 using fgfxWidget
+using fgfxFwt
 
 **
 ** Win Test
@@ -19,6 +20,7 @@ class WinTest
 {
   Void main()
   {
+    //FwtToolkitEnv.init
     ToolkitEnv.init
 
     view := RootView
