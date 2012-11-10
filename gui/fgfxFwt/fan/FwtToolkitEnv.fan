@@ -8,6 +8,24 @@
 
 using fgfx2d
 using concurrent
+using fgfxWtk
+
+**
+** Toolkit
+**
+@Js
+const class FwtToolkit : Toolkit
+{
+  override Window build()
+  {
+    return FwtWindow()
+  }
+
+  override Void callLater(Int delay, |->| f)
+  {
+    fwt::Desktop.callLater(Duration(delay*1000000), f)
+  }
+}
 
 **
 ** Default Toolkit maker

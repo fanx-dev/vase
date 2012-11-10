@@ -22,8 +22,8 @@ class Fan2dWinTest
     ToolkitEnv.init
 
     view := MyView()
-    win := Toolkit.cur.build(view)
-    view.win = win
+    win := Toolkit.cur.build()
+    win.add(view)
 
     win.show(Size(400, 400))
   }
@@ -37,7 +37,7 @@ class MyView : View
 
   ConstImage? img
 
-  Window? win
+  override NativeView? nativeView
 
   new make()
   {
@@ -49,7 +49,11 @@ class MyView : View
     g.drawLine(0, 0+i, 400, 400)
     ++i
     g.drawImage(img, 0, 0)
+
+    echo(i)
   }
+
+  override Size size() { Size(400, 400) }
 
 }
 

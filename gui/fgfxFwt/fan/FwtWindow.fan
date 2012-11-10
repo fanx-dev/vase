@@ -15,17 +15,17 @@ using fgfxWtk
 @Js
 class FwtCanvas : fwt::Canvas
 {
-  private FwtWindow win
+  private FwtView fwtView
 
-  new make(FwtWindow win)
+  new make(FwtView fwtView)
   {
-    this.win = win
+    this.fwtView = fwtView
     doubleBuffered = true
   }
   override Void onPaint(gfx::Graphics gc)
   {
     Graphics g := FwtToolkitEnv.toGraphics(gc)
-    win.view.onPaint(g)
+    fwtView.view.onPaint(g)
   }
 
   internal Void bindEvent()
@@ -41,13 +41,6 @@ class FwtCanvas : fwt::Canvas
 
     this.onBlur.add { postDisplayEvent(it, DisplayEvent.lostFocus) }
     this.onFocus.add { postDisplayEvent(it, DisplayEvent.gainedFocus) }
-
-    win.fwtWin.onOpen.add { postDisplayEvent(it, DisplayEvent.opened) }
-    win.fwtWin.onClose.add { postDisplayEvent(it, DisplayEvent.closing) }
-    win.fwtWin.onActive.add { postDisplayEvent(it, DisplayEvent.activated) }
-    win.fwtWin.onInactive.add { postDisplayEvent(it, DisplayEvent.deactivated) }
-    win.fwtWin.onDeiconified.add { postDisplayEvent(it, DisplayEvent.deiconified) }
-    win.fwtWin.onIconified.add { postDisplayEvent(it, DisplayEvent.iconified) }
   }
 
   private Void postMotionEvent(fwt::Event e, Int id)
@@ -59,7 +52,7 @@ class FwtCanvas : fwt::Canvas
     ce.count = e.count
     ce.delta = e.delta?.y
     ce.rawEvent = e
-    win.view.onMotionEvent(ce)
+    fwtView.view.onMotionEvent(ce)
   }
 
   private Void postKeyEvent(fwt::Event e, Int id)
@@ -72,13 +65,13 @@ class FwtCanvas : fwt::Canvas
       ce.keyChar = e.key.primary->mask
     }
     ce.key = Key(e.key.toStr)
-    win.view.onKeyEvent(ce)
+    fwtView.view.onKeyEvent(ce)
   }
 
   private Void postDisplayEvent(fwt::Event e, Int id)
   {
     DisplayEvent ce := DisplayEvent(id)
-    win.view.onDisplayEvent(ce)
+    fwtView.view.onDisplayEvent(ce)
   }
 }
 
@@ -86,29 +79,15 @@ class FwtCanvas : fwt::Canvas
 ** Fwt Window
 **
 @Js
-class FwtWindow : Window
+class FwtView : NativeView
 {
   FwtCanvas canvas
   View view
-  internal fwt::Window fwtWin
 
-  new make(View view, fwt::Window? win := null)
+  new make(View view)
   {
     this.view = view
     canvas = FwtCanvas(this)
-
-    if (win != null)
-    {
-      fwtWin = win
-    }
-    else
-    {
-      fwtWin = fwt::Window
-      {
-        content = canvas
-      }
-    }
-
     canvas.bindEvent
   }
 
@@ -126,30 +105,55 @@ class FwtWindow : Window
     return Point(canvas.pos.x, canvas.pos.y)
   }
 
+  override Bool hasFocus() { canvas.hasFocus }
+  override Void focus() { canvas.focus }
+}
+
+**
+** Fwt Window
+**
+@Js
+class FwtWindow : Window
+{
+  internal fwt::Window fwtWin
+  internal View[] list := [,]
+
+  new make()
+  {
+    fwtWin = fwt::Window{}
+  }
+
+  override This add(View view)
+  {
+    nativeView := FwtView(view)
+    view.nativeView = nativeView
+    list.add(view)
+    return this
+  }
+
   override Void show(Size? size := null)
   {
     fwtWin.size = gfx::Size(size.w, size.h)
     fwtWin.open
   }
 
-  override Bool hasFocus() { canvas.hasFocus }
-  override Void focus() { canvas.focus }
-}
-
-**
-** Toolkit
-**
-@Js
-const class FwtToolkit : Toolkit
-{
-  override Window build(View view)
+  private Void postDisplayEvent(fwt::Event e, Int id)
   {
-    win := FwtWindow(view)
-    return win
+    DisplayEvent ce := DisplayEvent(id)
+
+    list.each |view|
+    {
+      view.onDisplayEvent(ce)
+    }
   }
 
-  override Void callLater(Int delay, |->| f)
+  internal Void bindEvent()
   {
-    fwt::Desktop.callLater(Duration(delay*1000000), f)
+    fwtWin.onOpen.add { postDisplayEvent(it, DisplayEvent.opened) }
+    fwtWin.onClose.add { postDisplayEvent(it, DisplayEvent.closing) }
+    fwtWin.onActive.add { postDisplayEvent(it, DisplayEvent.activated) }
+    fwtWin.onInactive.add { postDisplayEvent(it, DisplayEvent.deactivated) }
+    fwtWin.onDeiconified.add { postDisplayEvent(it, DisplayEvent.deiconified) }
+    fwtWin.onIconified.add { postDisplayEvent(it, DisplayEvent.iconified) }
   }
 }

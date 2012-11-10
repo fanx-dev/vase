@@ -32,15 +32,15 @@ public class ToolkitEnvPeer
 
   static class AwtToolkit extends Toolkit
   {
-  	Timer timer = new Timer(true);
-    public Window build(View view)
+    Timer timer = new Timer(true);
+    public Window build()
     {
-      return new AwtWindow(view);
+      return new AwtWindow();
     }
 
     public void callLater(final long delay, final Func f)
     {
-    	TimerTask task = new TimerTask()
+      TimerTask task = new TimerTask()
       {
         public void run()
         {
@@ -53,7 +53,7 @@ public class ToolkitEnvPeer
           });
         }
       };
-      
+
       timer.schedule(task, delay);
     }
   }

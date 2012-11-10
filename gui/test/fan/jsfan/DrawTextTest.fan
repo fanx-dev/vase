@@ -19,8 +19,8 @@ class DrawTextTest
     ToolkitEnv.init
 
     view := DrawTextTestView()
-    win := Toolkit.cur.build(view)
-    view.win = win
+    win := Toolkit.cur.build()
+    win.add(view)
 
     win.show(Size(400, 400))
   }
@@ -30,7 +30,7 @@ class DrawTextTest
 @Js
 class DrawTextTestView : View
 {
-  Window? win
+  override NativeView? nativeView
 
   new make()
   {
@@ -63,7 +63,7 @@ class DrawTextTestView : View
   override Void onPaint(Graphics g) {
     g.drawImage(p, 10, 10)
   }
-
+  override Size size() { Size(400, 400) }
 }
 
 

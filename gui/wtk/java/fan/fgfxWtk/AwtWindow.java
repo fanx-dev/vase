@@ -9,49 +9,21 @@ import fan.fgfx2d.*;
 
 public class AwtWindow implements Window {
 
-  View rootView;
+  JFrame frame;
+  java.util.List list;
 
-  AwtCanvas canvas;
-
-  class AwtCanvas extends JPanel {
-    private static final long serialVersionUID = 1L;
-
-    @Override
-    public void paint(java.awt.Graphics g) {
-      Graphics gc = new AwtGraphics((java.awt.Graphics2D)g);
-      rootView.onPaint(gc);
-    }
-  }
-
-  AwtWindow(View rootView) {
-    canvas = new AwtCanvas();
-    this.rootView = rootView;
-    ComponentUtils.bindEvent(rootView, canvas);
+  AwtWindow() {
+    frame = new JFrame();
+    list = new java.util.ArrayList();
   }
 
   @Override
-  public void focus() {
-    canvas.requestFocus();
-  }
-
-  @Override
-  public boolean hasFocus() {
-    return canvas.hasFocus();
-  }
-
-  @Override
-  public Point pos() {
-    return Point.make(canvas.getX(), canvas.getY());
-  }
-
-  @Override
-  public void repaint() {
-    canvas.repaint();
-  }
-
-  @Override
-  public void repaint(Rect r) {
-    canvas.repaint((int)r.x, (int)r.y, (int)r.w, (int)r.h);
+  public AwtWindow add(View view) {
+    AwtView awtView = new AwtView(view);
+    view.nativeView(awtView);
+    frame.add(awtView.canvas);
+    list.add(view);
+    return this;
   }
 
   @Override
@@ -61,9 +33,8 @@ public class AwtWindow implements Window {
 
   @Override
   public void show(Size s) {
-    JFrame frame = new JFrame();
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    frame.setContentPane(canvas);
+    //frame.setContentPane(canvas);
     frame.addWindowStateListener(winStateListenner);
     frame.addWindowListener(winListener);
 
@@ -88,11 +59,6 @@ public class AwtWindow implements Window {
     }
   }
 
-  @Override
-  public Size size() {
-    return Size.make(canvas.getWidth(), canvas.getHeight());
-  }
-
 //////////////////////////////////////////////////////////////////////////
 //
 //////////////////////////////////////////////////////////////////////////
@@ -111,7 +77,11 @@ public class AwtWindow implements Window {
     }
 
     DisplayEvent e = DisplayEvent.make(fid);
-    this.rootView.onDisplayEvent(e);
+    for (int i=0,n=list.size(); i<n; ++i)
+    {
+      View v = (View)list.get(i);
+      v.onDisplayEvent(e);
+    }
   }
 
   private WindowListener winListener = new WindowListener()

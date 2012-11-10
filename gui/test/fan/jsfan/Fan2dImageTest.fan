@@ -22,8 +22,8 @@ class Fan2dImageTest
     ToolkitEnv.init
 
     view := MyImageView()
-    win := Toolkit.cur.build(view)
-    view.win = win
+    win := Toolkit.cur.build()
+    win.add(view)
 
     win.show(Size(400, 400))
   }
@@ -35,7 +35,7 @@ class MyImageView : View
 {
   Int i := 0
 
-  Window? win
+  override NativeView? nativeView
 
   Image p := BufImage.fromUri(`fan://icons/x16/folder.png`) |p|
   {
@@ -60,7 +60,7 @@ class MyImageView : View
   override Void onPaint(Graphics g) {
     g.drawImage(p, 0, 0)
   }
-
+  override Size size() { Size(400, 400) }
 }
 
 

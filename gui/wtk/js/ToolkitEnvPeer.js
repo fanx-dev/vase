@@ -14,9 +14,8 @@ fan.fgfxWtk.ToolkitEnvPeer.init = function() {
    fan.concurrent.Actor.locals().set("fgfxWtk.env", new fan.fgfxWtk.Toolkit());
 }
 
-fan.fgfxWtk.Toolkit.prototype.build = function(view) {
+fan.fgfxWtk.Toolkit.prototype.build = function() {
    var win = new fan.fgfxWtk.JsWindow();
-   win.view = view;
    return win;
 }
 

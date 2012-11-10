@@ -22,6 +22,22 @@ mixin View
   virtual Void onKeyEvent(KeyEvent e) {}
 
   virtual Void onDisplayEvent(DisplayEvent e) {}
+
+  abstract NativeView? nativeView
+
+  abstract Size size()
+}
+
+@Js
+mixin NativeView
+{
+  abstract Void repaint(Rect? dirty := null)
+
+  abstract Size size()
+  abstract Point pos()
+
+  abstract Bool hasFocus()
+  abstract Void focus()
 }
 
 **
@@ -30,14 +46,7 @@ mixin View
 @Js
 mixin Window
 {
-  abstract Void repaint(Rect? dirty := null)
-
-  abstract Size size()
-  abstract Point pos()
-
+  abstract This add(View view)
   abstract Void show(Size? size := null)
-
-  abstract Bool hasFocus()
-  abstract Void focus()
 }
 

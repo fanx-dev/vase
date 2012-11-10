@@ -22,7 +22,7 @@ abstract const class Toolkit
     return env
   }
 
-  abstract Window build(View view)
+  abstract Window build()
 
   abstract Void callLater(Int delay, |->| f)
 }

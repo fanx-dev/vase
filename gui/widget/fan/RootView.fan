@@ -19,7 +19,7 @@ class RootView : WidgetGroup, View
   **
   ** The reference of nativeView
   **
-  Window? win
+  override NativeView? nativeView
 
   **
   ** current focus widget
@@ -153,7 +153,7 @@ class RootView : WidgetGroup, View
   override Void repaint(Rect? dirty := null)
   {
     if (dirty == null) dirty = this.bounds
-    win.repaint(dirty)
+    nativeView.repaint(dirty)
   }
 
   **
@@ -162,12 +162,11 @@ class RootView : WidgetGroup, View
   Void show(Window? host := null)
   {
     if (host == null)
-      win = Toolkit.cur.build(this)
-    else
-      win = host
+      host = Toolkit.cur.build()
+    host.add(this)
     onMounted
     relayout
-    win.show(size)
+    host.show(size)
   }
 
   **
@@ -177,7 +176,7 @@ class RootView : WidgetGroup, View
   {
     focusWidget?.focusChanged(false)
     this.focusWidget = w
-    win.focus
+    nativeView.focus
   }
 
   **
@@ -194,7 +193,7 @@ class RootView : WidgetGroup, View
   **
   ** return true if host windows has focus
   **
-  override Bool hasFocus() { win.hasFocus }
+  override Bool hasFocus() { nativeView.hasFocus }
 
   **
   ** get or make a widget that layout top of root view
