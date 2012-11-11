@@ -294,7 +294,8 @@ public class SwtGraphics implements Graphics {
   public Graphics drawText(String text, long x, long y)
   {
     int flags = SWT.DRAW_DELIMITER | SWT.DRAW_TAB | SWT.DRAW_TRANSPARENT;
-    gc.drawText(text, (int)x, (int)(y-this.font.height()), flags);
+    int outline = (this.font == null) ? 0 : (int)this.font.height();
+    gc.drawText(text, (int)x, (int)(y-outline), flags);
     return this;
   }
 

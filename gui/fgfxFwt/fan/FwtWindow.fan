@@ -93,7 +93,8 @@ class FwtView : NativeView
 
   override Void repaint(Rect? dirty := null)
   {
-    canvas.repaint(gfx::Rect(dirty.x, dirty.y, dirty.w, dirty.h))
+    if (dirty == null) canvas.repaint
+    else canvas.repaint(gfx::Rect(dirty.x, dirty.y, dirty.w, dirty.h))
   }
 
   override Size size()
