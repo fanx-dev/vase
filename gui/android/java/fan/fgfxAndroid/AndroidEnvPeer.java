@@ -28,8 +28,8 @@ public class AndroidEnvPeer {
     }
 
     @Override
-    public Window build(View view) {
-      return new AndView(context, view);
+    public Window build() {
+      return new AndWindow(context);
     }
 
     @Override

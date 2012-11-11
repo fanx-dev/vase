@@ -18,7 +18,7 @@ import android.app.Activity;
 import android.graphics.Canvas;
 import android.view.MotionEvent;
 
-public class AndView extends View implements Window {
+public class AndView extends View implements NativeView {
   fan.fgfxWtk.View view;
 
   public AndView(Context context, fan.fgfxWtk.View view) {
@@ -62,17 +62,6 @@ public class AndView extends View implements Window {
   @Override
   public void focus() {
     this.requestFocus();
-  }
-
-  @Override
-  public void show(Size size) {
-    Activity act = (Activity) this.getContext();
-    act.setContentView(this);
-  }
-
-  @Override
-  public void show() {
-    show(null);
   }
 
   @Override
