@@ -128,6 +128,7 @@ class FwtWindow : Window
     nativeView := FwtView(view)
     view.nativeView = nativeView
     list.add(view)
+    fwtWin.add(nativeView.canvas)
     return this
   }
 

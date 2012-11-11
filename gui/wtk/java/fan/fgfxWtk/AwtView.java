@@ -9,7 +9,7 @@ import fan.fgfx2d.*;
 
 public class AwtView implements NativeView {
 
-  View rootView;
+  View view;
 
   AwtCanvas canvas;
 
@@ -19,14 +19,14 @@ public class AwtView implements NativeView {
     @Override
     public void paint(java.awt.Graphics g) {
       Graphics gc = new AwtGraphics((java.awt.Graphics2D)g);
-      rootView.onPaint(gc);
+      view.onPaint(gc);
     }
   }
 
   public AwtView(View rootView) {
     canvas = new AwtCanvas();
-    this.rootView = rootView;
-    ComponentUtils.bindEvent(rootView, canvas);
+    this.view = rootView;
+    ComponentUtils.bindEvent(view, canvas);
   }
 
   @Override

@@ -10,7 +10,9 @@ fan.fgfxWtk.JsView = fan.sys.Obj.$extend(fan.sys.Obj);
 fan.fgfxWtk.JsView.prototype.$ctor = function() {}
 fan.fgfxWtk.JsView.prototype.view = null;
 fan.fgfxWtk.JsView.prototype.size = null;
-
+fan.fgfxWtk.JsView.prototype.canvas = null;
+fan.fgfxWtk.JsView.prototype.needRepaint = true;
+fan.fgfxWtk.JsView.prototype.graphics = null;
 
 //////////////////////////////////////////////////////////////////////////
 // cavans

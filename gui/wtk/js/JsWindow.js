@@ -93,8 +93,3 @@ fan.fgfxWtk.JsWindow.prototype.show = function(size)
     }
   }, 50);
 }
-
-fan.fgfxWtk.JsWindow.prototype.invalid = function()
-{
-  this.needRepaint = true;
-}
