@@ -20,7 +20,7 @@ import android.view.MotionEvent;
 
 public class AndWindow extends android.widget.FrameLayout implements fan.fgfxWtk.Window {
   //fan.fgfxWtk.View view;
-  java.util.List list;
+  java.util.List list = new java.util.ArrayList();
 
   public AndWindow(Context context) {
     super(context);

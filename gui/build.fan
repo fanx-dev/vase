@@ -23,7 +23,8 @@ class Build : BuildGroup
       `fgfx2d/build.fan`,
       `wtk/build.fan`,
       `fgfxFwt/build.fan`,
-      `widget/build.fan`
+      `widget/build.fan`,
+      `android/build.fan`
     ]
   }
 

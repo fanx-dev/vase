@@ -111,9 +111,7 @@ public class AndGfxEnv extends GfxEnv{
 
   @Override
   public Font makeFont(Func func) {
-    Font f = new AndFont();
-    func.call(f);
-    return f;
+    return AndFont.makeFont(func);
   }
 
   @Override

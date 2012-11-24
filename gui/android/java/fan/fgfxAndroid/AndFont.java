@@ -1,5 +1,7 @@
 package fan.fgfxAndroid;
 
+import fan.sys.Func;
+
 import android.graphics.Paint;
 import android.graphics.Typeface;
 import fan.fgfx2d.Font;
@@ -7,6 +9,15 @@ import fan.fgfx2d.Font;
 public class AndFont extends Font {
 
   Paint p = new Paint();
+
+  public static Font makeFont(Func func)
+  {
+    Font f = new AndFont();
+    func.enterCtor(f);
+    func.call(f);
+    func.exitCtor();
+    return f;
+  }
 
   public Paint getPaint() {
     if (p == null) {
