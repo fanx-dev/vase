@@ -21,8 +21,8 @@ class Array
 
   native Int getInt(Int index)
   native This setInt(Int index, Int v)
-  native Int getFloat(Int index)
-  native This setFloat(Int index, Int v)
+  native Float getFloat(Int index)
+  native This setFloat(Int index, Float v)
 
   native static ArrayBuffer fromList(Obj[] list, NumType type)
   native Obj[] toList()
