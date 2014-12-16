@@ -1,3 +1,5 @@
 glob:fogl/tool/gen/
 syntax: glob
 .*
+test3d/public/Thumbs.db
+widget/test/WinTest.fan

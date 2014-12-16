@@ -1,25 +1,10 @@
-gui
-  - fgfx2d: new fantom 2D graphics API
-  - wtk: Window toolkit (Java2D and Canvas2D)
-  - fgfxFwt : fwt/SWT native host
-  - widget: widget system
-  - android: android impl
+Fantom Graphics
+=======
 
-gfxExt
-  - gfx2: extending of gfx
-  - gfx2Imp: AWT, SWT, HTML5Canvas, Andorid implementions
-
-fan3d
-  - openGl: direct openGL/WebGL binding
-  - fgfx3d: fan 3D lib
-
-common
-  - math: math lib for 3d and 3d transformation
-  - array: primary number array
-
-lib
-  - jwjgl: LWJGL is a java openGL port
-  - android: android jar
+- Full feature Fantom 2D Graphics
+- Cross platform support Java2D/SWT/Android/Javascript backend
+- Lightweight GUI widget system
+- Fantom OpenGL/WebGL binding
 
 
 Setting LWJGL:
