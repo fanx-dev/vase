@@ -223,6 +223,7 @@ class RootView : FrameLayout, View
   **
   override Void requestPaint(Rect? dirty := null)
   {
+    super.requestPaint(dirty)
     if (dirty == null) dirty = this.bounds
     nativeView.repaint(dirty)
   }
@@ -285,6 +286,7 @@ class RootView : FrameLayout, View
     if (topLayerGroup == null)
     {
       topLayerGroup = FrameLayout()
+      topLayerGroup.staticCache = false
     }
     moveToTop(topLayerGroup)
     topLayerGroup.width = this.width

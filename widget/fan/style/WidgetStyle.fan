@@ -29,23 +29,8 @@ class WidgetStyle : Style
 
   final override Void paint(Widget widget, Graphics g)
   {
-    if (widget.transform != null) {
-      g.transform = g.transform.mult(widget.transform)
-    }
-    if (widget.alpha != null) {
-      g.alpha = (widget.alpha * 255).toInt
-    }
-
-    if (widget.effect != null) {
-      g = widget.effect.prepare(widget, g)
-    }
-
-    g.clip(Rect(0, 0, widget.width, widget.height))
+    //g.clip(Rect(0, 0, widget.width, widget.height))
     doPaint(widget, g)
-
-    if (widget.effect != null) {
-      widget.effect.end |tg|{ doPaint(widget, tg) }
-    }
   }
 
   virtual Void doPaint(Widget widget, Graphics g) {}

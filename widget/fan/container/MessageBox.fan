@@ -57,7 +57,9 @@ class MessageBox : FrameLayout
 
   Void hide()
   {
-    WidgetGroup p := parent
+    WidgetGroup? p := parent
+    if (p == null) return
+    
     if (this.hasFocus) {
       (p as RootView).focusIt(null)
     }

@@ -159,10 +159,9 @@ abstract class WidgetGroup : Widget
 // Paint
 //////////////////////////////////////////////////////////////////////////
 
-  override Void paint(Graphics g)
+  override Void doPaint(Graphics g)
   {
-    if (!visible) return
-    super.paint(g)
+    super.doPaint(g)
     paintChildren(g)
 
     //debug

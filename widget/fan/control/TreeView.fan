@@ -108,7 +108,7 @@ class TreeView : ScrollBase
       {
         expanded(items[i])
         this.requestLayout
-//        this.requestPaint
+        this.requestPaint
       }
     }
   }

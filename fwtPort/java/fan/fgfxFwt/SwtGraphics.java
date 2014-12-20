@@ -61,8 +61,8 @@ public class SwtGraphics implements Graphics {
     {
       if (brush instanceof Color)
       {
-        int ca = (int)((Color)brush).a();
-        gc.setAlpha((alpha == 255) ? ca : (int)((alpha * ca) / 255));
+        //int ca = (int)((Color)brush).a();
+        //gc.setAlpha((alpha == 255) ? ca : (int)((alpha * ca) / 255));
 
         org.eclipse.swt.graphics.Color c  = SwtUtil.toSwtColor((Color)brush);
         gc.setForeground(c);
@@ -208,7 +208,7 @@ public class SwtGraphics implements Graphics {
   public void alpha(long alpha)
   {
     this.alpha = (int)alpha;
-    brush(this.brush);
+    gc.setAlpha(this.alpha);
   }
 
   public Graphics drawLine(long x1, long y1, long x2, long y2)

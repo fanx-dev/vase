@@ -38,6 +38,10 @@ abstract class Widget
   Transform2D? transform
   Float? alpha
   Effect? effect
+  
+  Bool staticCache := true
+  private BufImage? renderCache
+  private Bool dirtyRenderCache := true
 
 //////////////////////////////////////////////////////////////////////////
 // State
@@ -147,8 +151,57 @@ abstract class Widget
   **
   ** Paints this component.
   **
-  virtual Void paint(Graphics g) {
+  Void paint(Graphics g) {
     if (!visible) return
+    if (width <= 0 || height <= 0) {
+      return
+    }
+    
+    if (transform != null) {
+      g.transform = g.transform.mult(transform)
+    }
+    if (alpha != null) {
+      g.alpha = (alpha * 255).toInt
+    }
+
+    if (effect != null) {
+      g = effect.prepare(this, g)
+    }
+    
+    if (staticCache) {
+      if (renderCache == null || renderCache.size.w != width || renderCache.size.h != height) {
+        renderCache = BufImage.make(Size(width, height))
+        dirtyRenderCache = false
+        cg := renderCache.graphics
+        cg.antialias = true
+        doPaint(cg)
+        cg.dispose
+      }
+      else if (dirtyRenderCache) {
+        dirtyRenderCache = false
+        cg := renderCache.graphics
+        cg.antialias = true
+        if (Toolkit.cur.name != "SWT") {
+          cg.brush = Color.makeArgb(0, 0, 0, 0)
+        } else {
+          cg.brush = Color.makeArgb(0, 255, 255, 255)
+        }
+        cg.clearRect(0, 0, width, height)
+        doPaint(cg)
+        cg.dispose
+      }
+      
+      g.drawImage(renderCache, 0, 0)
+    } else {
+      doPaint(g)
+    }
+    
+    if (effect != null) {
+      effect.end |tg|{ doPaint(tg) }
+    }
+  }
+  
+  protected virtual Void doPaint(Graphics g) {
     getRootView.findStyle(this).paint(this, g)
   }
 
@@ -391,6 +444,7 @@ abstract class Widget
   **
   virtual Void requestPaint(Rect? dirty := null)
   {
+    dirtyRenderCache = true
     if (dirty == null) dirty = this.bounds
     //convert dirty coordinate system to realative to parent
     else dirty = Rect(dirty.x + x, dirty.y + y, dirty.w, dirty.h)

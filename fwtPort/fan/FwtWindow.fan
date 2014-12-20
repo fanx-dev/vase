@@ -27,6 +27,7 @@ class FwtCanvas : fwt::Canvas
   {
     Graphics g := FwtToolkitEnv.toGraphics(gc)
     fwtView.view.onPaint(g)
+    g.dispose
   }
 
   override gfx::Size prefSize(gfx::Hints hints := gfx::Hints.defVal) {

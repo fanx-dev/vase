@@ -85,7 +85,7 @@ abstract class ScrollBase : FrameLayout
     this.remove(vbar)
     super.doLayout(result)
 
-    hbar.width = getContentWidth
+    hbar.width = getContentWidth + barSize
     hbar.height = barSize
     hbar.x = padding.left
     hbar.y = height-barSize
@@ -155,6 +155,7 @@ abstract class ScrollBase : FrameLayout
       if (e.type == MotionEvent.wheel && e.delta != null)
       {
         vbar.startPos += e.delta * dpToPixel(40)
+        vbar.requestPaint
       }
     }
   }

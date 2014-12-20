@@ -3,3 +3,4 @@ syntax: glob
 .*
 test3d/public/Thumbs.db
 widget/test/WinTest.fan
+widget/bin/fan/lib/fan/fgfxWidget.pod
