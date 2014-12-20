@@ -175,7 +175,31 @@ abstract class Widget
   virtual Dimension measureSize(Int parentContentWidth, Int parentContentHeight, Dimension result) {
     hintsWidth := parentContentWidth - layoutParam.margin.left-layoutParam.margin.right
     hintsHeight := parentContentHeight - layoutParam.margin.top-layoutParam.margin.bottom
+    
+    Int w := -1
+    Int h := -1
+    
+    //using layout size
+    if (layoutParam.width == LayoutParam.matchParent && hintsWidth>0) {
+      w = hintsWidth
+    }
+    
+    if (layoutParam.height == LayoutParam.matchParent && hintsHeight>0) {
+      h = hintsHeight
+    }
+    
+    //layout size if ok
+    if (w >0 && h >0) {
+      return result.set(w, h)
+    }
+    
     size := prefSize(hintsWidth, hintsHeight, result)
+    if (w > 0) {
+      size.w = w
+    }
+    if (h > 0) {
+      size.h = h
+    }
     return size
   }
 
@@ -201,15 +225,9 @@ abstract class Widget
     if (layoutParam.width > 0) {
       w = layoutParam.width
     }
-    else if (layoutParam.width == LayoutParam.matchParent && hintsWidth>0) {
-      w = hintsWidth
-    }
     
     if (layoutParam.height > 0) {
       h = layoutParam.height
-    }
-    else if (layoutParam.height == LayoutParam.matchParent && hintsHeight>0) {
-      h = hintsHeight
     }
     
     //layout size if ok
@@ -225,9 +243,11 @@ abstract class Widget
     if (w < 0) {
       w = pw
     }
+    
     if (h < 0) {
       h = ph
     }
+    
     return result.set(w, h)
   }
 

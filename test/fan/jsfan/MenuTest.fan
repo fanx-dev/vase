@@ -83,7 +83,8 @@ class MenuTest
       },
     }
 
-
-    view.show(null, Size(600, 600))
+    view.layoutParam.width = 600
+    view.layoutParam.height = 600
+    view.show(null)
   }
 }

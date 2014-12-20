@@ -161,14 +161,14 @@ class ScrollBar : Widget
     {
       if (vertical)
       {
-        startPos = toWorldCoord(p.y - y) + startPos
+        startPos = toWorldCoord(p.y - lastY) + startPos
       }
       else
       {
-        startPos = toWorldCoord(p.x - x) + startPos
+        startPos = toWorldCoord(p.x - lastX) + startPos
       }
-      x = p.x
-      y = p.y
+      lastX = p.x
+      lastY = p.y
       requestPaint
     }
   }

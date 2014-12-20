@@ -130,6 +130,8 @@ abstract class ScrollBase : FrameLayout
     }
     this.add(hbar)
     this.add(vbar)
+
+    //echo("x$hbar.x,y$hbar.y")
     return this
   }
 
