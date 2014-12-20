@@ -22,7 +22,7 @@ class Menu : LinearLayout
 
   Void close()
   {
-    getRootView.topOverLayer.removeAll
+    getRootView.topOverlayer.removeAll
     getRootView.requestPaint
   }
 }
@@ -50,7 +50,7 @@ class MenuItem : Button
     {
       if (list.childrenSize > 0)
       {
-        expand(getRootView.topOverLayer)
+        expand(getRootView.topOverlayer)
       }
       else
       {
@@ -115,7 +115,7 @@ class MenuItem : Button
       }
     }
 
-    group.requestLayout
+    group.layout
   }
 
   @Operator virtual This add(MenuItem item)

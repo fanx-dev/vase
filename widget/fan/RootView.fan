@@ -83,12 +83,13 @@ class RootView : FrameLayout, View
     id = "root"
     width = 0
     height = 0
+    this.staticCache = false
   }
 
-  override Void requestLayout() {
-    layoutDirty = true
-    requestPaint
-  }
+//  override Void requestLayout() {
+//    layoutDirty = true
+//    requestPaint
+//  }
 
   protected Void onUpdate() {
     if (lastUpdateTime == 0) {
@@ -96,16 +97,27 @@ class RootView : FrameLayout, View
     }
     now := Duration.nowTicks
 
-    elapsedTime := ((now - lastUpdateTime) / 1E6d.toInt)
+    elapsedTime := ((now - lastUpdateTime) / 1000_000)
+
+    // elapsedTime is millisecond.
+    // elapsedTime is 0 cause a bug on updatee animation
+    if (elapsedTime == 0) {
+      if (animManager.hasAnimation) {
+        this.requestPaint
+      }
+      return
+    }
+
     if (animManager.update(elapsedTime)) {
       //echo("anim continue")
       requestPaint
     }
 
-    lastUpdateTime = now;
+    lastUpdateTime = now
   }
 
   override Void onPaint(Graphics g) {
+    //beginTime := Duration.nowTicks
     s := nativeView.size
     if (width != s.w || height != s.h) {
       onResize(s.w, s.h)
@@ -281,7 +293,7 @@ class RootView : FrameLayout, View
   **
   ** get or make a widget that layout top of root view
   **
-  WidgetGroup topOverLayer()
+  WidgetGroup topOverlayer()
   {
     if (topLayerGroup == null)
     {
@@ -289,8 +301,12 @@ class RootView : FrameLayout, View
       topLayerGroup.staticCache = false
     }
     moveToTop(topLayerGroup)
+    topLayerGroup.layoutParam.width = this.width
+    topLayerGroup.layoutParam.height = this.height
     topLayerGroup.width = this.width
     topLayerGroup.height = this.height
+    topLayerGroup.x = 0
+    topLayerGroup.y = 0
     return topLayerGroup
   }
 }

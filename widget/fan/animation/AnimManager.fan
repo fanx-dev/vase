@@ -28,6 +28,10 @@ class AnimManager {
     return animationList.size > 0
   }
 
+  Bool hasAnimation() {
+    animationList.size > 0
+  }
+
   This add(Animation a) {
     animationList.add(a)
     return this

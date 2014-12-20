@@ -74,6 +74,7 @@ class AlphaAnimChannel : TweenAnimChannel {
   Float from := 0f
   Float to := 1f
   override Void onUpdate(Float percent) {
+    //echo("update alpha $percent, this$this")
     alpha := (from + (to - from) * percent)
     widget.alpha = alpha
   }

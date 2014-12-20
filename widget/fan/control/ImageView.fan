@@ -24,7 +24,9 @@ class ImageView : Widget
 
   protected override Dimension prefContentSize(Int hintsWidth, Int hintsHeight, Dimension result) {
     if (!image.isReady) {
-      this.requestLayout
+      Toolkit.cur.callLater(1000) |->| { 
+        this.getRootView.layout
+      }
       return result.set(0, 0)
     }
     s := image.size

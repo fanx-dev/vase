@@ -42,6 +42,7 @@ class ComboBox : ButtonBase
   private Void select(Button btn, Int i)
   {
     selectedIndex = i
+    this.requestPaint
     hide
   }
 
@@ -70,8 +71,8 @@ class ComboBox : ButtonBase
     }
 
     root := this.getRootView
-    root.add(pane)
-    root.requestLayout
+    overlayer := root.topOverlayer
+    overlayer.add(pane)
 
     pos := Coord(0, 0)
     rc := posOnWindow(pos)
@@ -79,13 +80,14 @@ class ComboBox : ButtonBase
     pane.layoutParam.posX = pos.x
     pane.layoutParam.posY = pos.y + height
     pane.focus
-    root.requestPaint
     
     pane.onFocusChanged.add |e| { 
       if (e.data == false) {
         hide
       }
     }
+    
+    overlayer.layout
   }
 
   Void hide()
@@ -95,7 +97,7 @@ class ComboBox : ButtonBase
     p.remove(list)
     p.requestPaint
     if (this.hasFocus) {
-      (p as RootView).focusIt(null)
+      p.getRootView.focusIt(null)
     }
     list = null
   }

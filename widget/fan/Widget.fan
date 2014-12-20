@@ -34,13 +34,35 @@ abstract class Widget
     }
   }
 
-
+  **
+  ** current transform as animation target
+  ** 
   Transform2D? transform
+  
+  **
+  ** current alpha as animation target
+  ** range in [0,1]
+  ** 
   Float? alpha
+  
+  **
+  ** current render effect
+  ** 
   Effect? effect
   
+  **
+  ** flag for using renderCache
+  ** 
   Bool staticCache := true
+  
+  **
+  ** render result cache in bitmap image
+  ** 
   private BufImage? renderCache
+  
+  **
+  ** invalidate the renderCache bitmap image
+  ** 
   private Bool dirtyRenderCache := true
 
 //////////////////////////////////////////////////////////////////////////
@@ -330,16 +352,25 @@ abstract class Widget
   }
 
   **
-  ** Relayout this widget.
+  ** layout the children
+  ** 
+  Void layout() {
+    result := Dimension(0, 0)
+    doLayout(result)
+    this.requestPaint
+  }
+  
+  **
+  ** layout the children
   **
   protected virtual This doLayout(Dimension result) { this }
 
   **
   ** Requset relayout this widget
   **
-  virtual Void requestLayout() {
-    getRootView?.requestLayout
-  }
+//  virtual Void requestLayout() {
+//    getRootView?.requestLayout
+//  }
 
 //////////////////////////////////////////////////////////////////////////
 // rootView

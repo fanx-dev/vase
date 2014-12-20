@@ -42,11 +42,12 @@ class MessageBox : FrameLayout
   Void show(Widget w)
   {
     root := w.getRootView
-    root.add(this)
+    overlayer := root.topOverlayer
+    overlayer.add(this)
 //    this.pos = Point(root.size.w/2 - this.size.w/2, root.size.h/2 - this.size.h/2)
     this.focus
     root.modal = true
-    this.requestLayout
+    overlayer.layout
     
     a := TweenAnimation() {
       AlphaAnimChannel {},
@@ -61,11 +62,11 @@ class MessageBox : FrameLayout
     if (p == null) return
     
     if (this.hasFocus) {
-      (p as RootView).focusIt(null)
+      p.getRootView.focusIt(null)
     }
     p.remove(this)
     //p.requestLayout
     p.requestPaint
-    (p as RootView).modal = false
+    p.getRootView.modal = false
   }
 }

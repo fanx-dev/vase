@@ -32,24 +32,34 @@ abstract class ScrollBase : FrameLayout
     {
       if (e.field == ScrollBar#startPos)
       {
-        offsetX = ((Int)e.newValue)
+        newVal := ((Int)e.newValue)
+        oldVal := ((Int)e.oldValue)
+        
         if (autoAdjustChildren) {
-          this.requestLayout
-        } else {
-          this.requestPaint
+          dx := newVal - oldVal
+          this.each {
+            it.x = it.x + dx
+          }
         }
+        
+        this.requestPaint
       }
     }
     vbar.onStateChanged.add |StateChangedEvent e|
     {
       if (e.field == ScrollBar#startPos)
       {
-        offsetY = ((Int)e.newValue)
+        newVal := ((Int)e.newValue)
+        oldVal := ((Int)e.oldValue)
+        
         if (autoAdjustChildren) {
-          this.requestLayout
-        } else {
-          this.requestPaint
+          dy := newVal - oldVal
+          this.each {
+            it.y = it.y + dy
+          }
         }
+        
+        this.requestPaint
       }
     }
 

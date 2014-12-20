@@ -116,10 +116,13 @@ abstract class WidgetGroup : Widget
 //////////////////////////////////////////////////////////////////////////
 
   **
-  ** Frame Layout
+  ** layout the children
   **
   abstract override This doLayout(Dimension result);
 
+  **
+  ** get the prefer content size
+  ** 
   abstract protected override Dimension prefContentSize(Int hintsW, Int hintsH, Dimension result);
 
 //////////////////////////////////////////////////////////////////////////

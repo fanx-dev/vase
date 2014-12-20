@@ -46,7 +46,7 @@ class Table : ScrollBase
 
   override Int offsetX
   {
-    set { header.layoutParam.posX = -it; header.requestLayout; super.offsetX = it }
+    set { header.x = -it; super.offsetX = it }
   }
 
   protected override Dimension prefContentSize(Int hintsWidth, Int hintsHeight, Dimension result) {
