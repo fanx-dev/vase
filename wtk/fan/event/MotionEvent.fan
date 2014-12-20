@@ -76,6 +76,9 @@ class MotionEvent : Event
   **
   Float? speed
 
+  Int? relativeX
+  Int? relativeY
+
 
   new make(Int type)
   {

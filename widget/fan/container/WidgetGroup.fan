@@ -129,17 +129,43 @@ abstract class WidgetGroup : Widget
 // event
 //////////////////////////////////////////////////////////////////////////
 
-  protected override Void touch(MotionEvent e) {
-    p := Coord(e.x, e.y)
-    rc := mapToWidget(p)
-    if (!rc) return
+  
+  **
+  ** process motion event
+  **
+  protected override Void motionEvent(MotionEvent e) {
+    px := e.relativeX
+    py := e.relativeY
     children.eachr {
       if (it.enabled && it.visible && !e.consumed) {
-        if (it.bounds.contains(p.x, p.y)) {
-          it.touch(e)
+        e.relativeX = px - this.x
+        e.relativeY = py - this.y
+        if (it.contains(e.relativeX, e.relativeY)) {
+          it.motionEvent(e)
         }
       }
     }
+    e.relativeX = px
+    e.relativeY = py
+  }
+  
+  **
+  ** process gesture event
+  ** 
+  protected override Void gestureEvent(GestureEvent e) {
+    px := e.relativeX
+    py := e.relativeY
+    children.eachr {
+      if (it.enabled && it.visible && !e.consumed) {
+        e.relativeX = px - this.x
+        e.relativeY = py - this.y
+        if (it.contains(e.relativeX, e.relativeY)) {
+          it.gestureEvent(e)
+        }
+      }
+    }
+    e.relativeX = px
+    e.relativeY = py
   }
 
   protected override Void keyPress(KeyEvent e) {

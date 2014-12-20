@@ -9,7 +9,7 @@
 using fgfxWtk
 
 @Js
-class MultiTouchEvent : Event {
+class MultiTouchEvent : GestureEvent {
   Float centerX
   Float centerY
   Float distance
@@ -17,6 +17,9 @@ class MultiTouchEvent : Event {
   Float rotate
   Float offsetX
   Float offsetY
+  
+  new make() : super.make(GestureEvent.multiTouch) {
+  }
 }
 
 @Js
@@ -73,7 +76,7 @@ class MultiTouchState : GestureState {
   }
 
   override Void onEvent(MotionEvent e) {
-    if (e.pointers.size <= 1) {
+    if (e.pointers == null || (e.pointers != null && e.pointers.size <= 1)) {
       machine.onFinished(e)
       return
     }
@@ -118,7 +121,7 @@ class MultiTouchState : GestureState {
       centerY = ncenterY
 
       multiEvent.rawEvent = e
-      machine.onMultiTouch.fire(multiEvent)
+      machine.onGestureEvent.fire(multiEvent)
     }
   }
 }

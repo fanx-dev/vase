@@ -161,9 +161,14 @@ abstract class Widget
   virtual Widget? findById(Str id) { if (this.id == id) return this; else return null }
 
   **
-  ** Post mouse event
+  ** process motion event
   **
-  protected virtual Void touch(MotionEvent e) {}
+  protected virtual Void motionEvent(MotionEvent e) {}
+  
+  **
+  ** process gesture event
+  ** 
+  protected virtual Void gestureEvent(GestureEvent e) {}
 
   **
   ** Post key event
@@ -389,6 +394,19 @@ abstract class Widget
       width = it.w
       height = it.h
     }
+  }
+  
+  **
+  ** relative coordinate
+  ** 
+  Bool contains(Int rx, Int ry) {
+    if (rx < x || rx > x+width) {
+      return false
+    }
+    if (ry < y || ry > y+height) {
+      return false
+    }
+    return true
   }
 
   **

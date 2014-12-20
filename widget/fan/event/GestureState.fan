@@ -17,6 +17,17 @@ abstract class GestureState
     this.machine = machine
   }
 
+  GestureEvent makeEvent(MotionEvent e, Int type) {
+    ge := GestureEvent(type)
+    ge.x = e.x
+    ge.y = e.y
+    ge.pressure = e.pressure
+    ge.size = e.size
+    ge.speed = e.speed
+    ge.rawEvent = e
+    return ge
+  }
+
   virtual Void onEnter(MotionEvent e) {}
   virtual Void onExit(MotionEvent e) {}
 
@@ -34,33 +45,63 @@ class NoneState : GestureState {
       machine.setCurrentState(ns, e)
     }
   }
+
 }
 
 @Js
 class DownState : GestureState {
   private Bool valid := true
+  Int lastX := 0
+  Int lastY := 0
 
   new make(Gesture machine) : super(machine) {
   }
 
   override Void onEnter(MotionEvent e) {
     valid = true
-    Toolkit.cur.callLater(500) |->|{
+    Toolkit.cur.callLater(machine.longPressTimeLimit) |->|{
       if (machine.currentState == this && valid) {
-        machine.onLingClick.fire(e)
+
+        ge := makeEvent(e, GestureEvent.longPress)
+        machine.onGestureEvent.fire(ge)
+        e.consume
         machine.onFinished(e)
       }
+      lastX = e.x
+      lastY = e.y
       valid = false
     }
   }
 
   override Void onEvent(MotionEvent e) {
+    //ignore raw event
+    if (e.type == MotionEvent.longPressed || e.type == MotionEvent.clicked) return
+
     if (e.type == MotionEvent.released) {
-      ns := OneClickState(machine)
-      machine.setCurrentState(ns, e)
+      if (machine.supportDoubleClick) {
+        ns := OneClickState(machine)
+        machine.setCurrentState(ns, e)
+      } else {
+        //send click event
+        ge := makeEvent(e, GestureEvent.click)
+        machine.onGestureEvent.fire(ge)
+        e.consume
+        machine.onFinished(e)
+      }
     } else if (e.type == MotionEvent.moved) {
-      ns := MoveState(machine)
-      machine.setCurrentState(ns, e)
+      dx := e.x - lastX
+      dy := e.y - lastY
+      distance := (dx*dx + dy*dy).toFloat.sqrt
+
+      if (distance > machine.dpToPixel(15).toFloat) {
+        ns := DragState(machine)
+        machine.setCurrentState(ns, e)
+      } else {
+        lastX = e.x
+        lastY = e.y
+      }
+    } else {
+      machine.onFinished(e)
     }
     valid = false
   }
@@ -73,9 +114,11 @@ class OneClickState : GestureState {
 
   override Void onEnter(MotionEvent e) {
     valid = true
-    Toolkit.cur.callLater(200) |->|{
+    Toolkit.cur.callLater(machine.doubleClickTimeLimt) |->|{
       if (machine.currentState == this && valid) {
-        machine.onClick.fire(e)
+        ge := makeEvent(e, GestureEvent.click)
+        machine.onGestureEvent.fire(ge)
+        e.consume
         machine.onFinished(e)
       }
       valid = false
@@ -83,9 +126,14 @@ class OneClickState : GestureState {
   }
 
   override Void onEvent(MotionEvent e) {
+    //ignore raw event
+    if (e.type == MotionEvent.other || e.type == MotionEvent.clicked) return
+
     if (e.type == MotionEvent.pressed) {
       ns := TwoDownState(machine)
       machine.setCurrentState(ns, e)
+    } else {
+      machine.onFinished(e)
     }
     valid = false
   }
@@ -100,9 +148,12 @@ class TwoDownState : GestureState {
 
   override Void onEnter(MotionEvent e) {
     valid = true
-    Toolkit.cur.callLater(500) |->|{
+    Toolkit.cur.callLater(machine.longPressTimeLimit) |->|{
       if (machine.currentState == this && valid) {
-        machine.onLingClick.fire(e)
+        ge := makeEvent(e, GestureEvent.longPress)
+        ge.flag = 1
+        machine.onGestureEvent.fire(ge)
+        e.consume
         machine.onFinished(e)
       }
       valid = false
@@ -110,20 +161,25 @@ class TwoDownState : GestureState {
   }
 
   override Void onEvent(MotionEvent e) {
+    if (e.type == MotionEvent.longPressed) return
     if (e.type == MotionEvent.released) {
-      machine.onDoubleClick.fire(e)
+      ge := makeEvent(e, GestureEvent.doubleClick)
+      machine.onGestureEvent.fire(ge)
+      e.consume
       machine.onFinished(e)
     } else if (e.type == MotionEvent.moved) {
-      ns := MoveState(machine)
+      ns := DragState(machine)
       ns.click = true
       machine.setCurrentState(ns, e)
+    } else {
+      machine.onFinished(e)
     }
     valid = false
   }
 }
 
 @Js
-class MoveState : GestureState {
+class DragState : GestureState {
   Bool click := false
   Int beginX := 0
   Int beginY := 0
@@ -149,13 +205,15 @@ class MoveState : GestureState {
     distance := (dx*dx + dy*dy).toFloat.sqrt
     minDis := machine.dpToPixel(50).toFloat
     if (distance > minDis) {
-      e.deltaX = dx
-      e.deltaY = dy
+      ge := makeEvent(e, GestureEvent.fling)
+      ge.deltaX = dx
+      ge.deltaY = dy
       if (click) {
-        e.flag = 1
+        ge.flag = 1
       }
-      e.speed = elapsedTime / distance
-      machine.onFlingTouch.fire(e)
+      ge.speed = elapsedTime / distance
+      machine.onGestureEvent.fire(ge)
+      e.consume
       machine.onFinished(e)
       return true
     }
@@ -169,17 +227,22 @@ class MoveState : GestureState {
       lastX = e.x
       lastY = e.y
 
-      e.deltaX = dx
-      e.deltaY = dy
+      ge := makeEvent(e, GestureEvent.drag)
+      ge.deltaX = dx
+      ge.deltaY = dy
       if (click) {
-        e.flag = 1
+        ge.flag = 1
       }
-      machine.onMove.fire(e)
+      machine.onGestureEvent.fire(ge)
+      e.consume
 
-    } else if (e.type == MotionEvent.released) {
+    } else if (e.type == MotionEvent.released
+        || e.type == MotionEvent.cancel) {
       if (asFling(e)) {
         return
       }
+      machine.onFinished(e)
+    } else {
       machine.onFinished(e)
     }
   }

@@ -78,12 +78,29 @@ class RootView : FrameLayout, View
   ** Shared dimension for layout
   **
   private Dimension sharedDimension := Dimension(0, 0)
+  
+  **
+  ** gesture recognizer
+  ** convert motion event to gesture event
+  ** 
+  Gesture gesture := Gesture()
+  
+  **
+  ** global motion event
+  ** 
+  EventListeners onTouchEvent := EventListeners()
 
   new make() {
     id = "root"
     width = 0
     height = 0
     this.staticCache = false
+    
+    gesture.onGestureEvent.add |GestureEvent e|{
+      e.relativeX = e.x
+      e.relativeY = e.y
+      this.gestureEvent(e)
+    }
   }
 
 //  override Void requestLayout() {
@@ -109,7 +126,7 @@ class RootView : FrameLayout, View
     }
 
     if (animManager.update(elapsedTime)) {
-      //echo("anim continue")
+//      echo("anim continue")
       requestPaint
     }
 
@@ -143,7 +160,9 @@ class RootView : FrameLayout, View
   }
 
   override Void onMotionEvent(MotionEvent e) {
-    touch(e)
+    e.relativeX = e.x
+    e.relativeY = e.y
+    motionEvent(e)
   }
 
   override Void onKeyEvent(KeyEvent e) {
@@ -171,21 +190,6 @@ class RootView : FrameLayout, View
 
 
   **
-  ** Callback for mouse button pressed.
-  **
-  once EventListeners onTouchDown() { EventListeners() }
-
-  **
-  ** Callback for mouse button move.
-  **
-  once EventListeners onTouchMove() { EventListeners() }
-
-  **
-  ** Callback for mouse button released.
-  **
-  once EventListeners onTouchUp() { EventListeners() }
-
-  **
   ** post key event
   **
   override Void keyPress(KeyEvent e)
@@ -197,36 +201,32 @@ class RootView : FrameLayout, View
   **
   ** post touch event
   **
-  override Void touch(MotionEvent e)
+  protected override Void motionEvent(MotionEvent e)
   {
-    if (e.type == MotionEvent.released)
-    {
-      onTouchUp.fire(e)
+    onTouchEvent.fire(e)
+    if (e.consumed) {
+      return
     }
-    else if (e.type == MotionEvent.pressed)
-    {
-      onTouchDown.fire(e)
-    }
-    else if (e.type == MotionEvent.moved)
-    {
-      onTouchMove.fire(e)
-    }
-
+    
     if (!modal)
     {
       if (mouseOverWidget != null) {
         p := Coord(e.x, e.y)
         b := mouseOverWidget.mapToRelative(p)
-        if (!b || !mouseOverWidget.bounds.contains(p.x, p.y)) {
+        if (!b || !mouseOverWidget.contains(p.x, p.y)) {
           mouseOverWidget.mouseExit
           mouseOverWidget = null
         }
       }
-      super.touch(e)
+      super.motionEvent(e)
     }
     else
     {
-      focusWidget.touch(e)
+      focusWidget.motionEvent(e)
+    }
+    
+    if (!e.consumed) {
+      gesture.onEvent(e)
     }
   }
 
@@ -237,7 +237,7 @@ class RootView : FrameLayout, View
   {
     super.requestPaint(dirty)
     if (dirty == null) dirty = this.bounds
-    nativeView.repaint(dirty)
+    nativeView?.repaint(dirty)
   }
 
   override Size getPrefSize(Int hintsWidth, Int hintsHeight) {

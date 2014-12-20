@@ -27,8 +27,9 @@ class ToggleButton : ButtonBase
 
   protected override Void willClicked() {
     selected = !selected
+    this.requestPaint
   }
-  
+
   protected override Dimension prefContentSize(Int hintsWidth, Int hintsHeight, Dimension result) {
     size := super.prefContentSize(hintsWidth, hintsHeight, result)
     return result.set(size.w+size.h, size.h)
@@ -51,10 +52,11 @@ class RadioButton : ToggleButton {
         RadioButton r := w
         if (r.selected) {
           r.selected = false
+          r.requestPaint
         }
       }
     }
     selected = true
-    parent.requestPaint
+    this.requestPaint
   }
 }

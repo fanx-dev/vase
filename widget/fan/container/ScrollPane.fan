@@ -35,6 +35,8 @@ abstract class ScrollBase : FrameLayout
         newVal := ((Int)e.newValue)
         oldVal := ((Int)e.oldValue)
         
+        offsetX = newVal
+        
         if (autoAdjustChildren) {
           dx := newVal - oldVal
           this.each {
@@ -51,6 +53,8 @@ abstract class ScrollBase : FrameLayout
       {
         newVal := ((Int)e.newValue)
         oldVal := ((Int)e.oldValue)
+        
+        offsetY = newVal
         
         if (autoAdjustChildren) {
           dy := newVal - oldVal
@@ -152,21 +156,17 @@ abstract class ScrollBase : FrameLayout
     }
   }
 
-  override Void touch(MotionEvent e)
+  protected override Void motionEvent(MotionEvent e)
   {
-    super.touch(e)
-    if (!e.consumed)
-    {
-      p := Coord(e.x, e.y)
-      rc := mapToRelative(p)
-      if (!this.bounds.contains(p.x, p.y)) return
-      if (vbar.max <= vbar.viewport) return
+    super.motionEvent(e)
+    if (e.consumed) return
+    
+    if (vbar.max <= vbar.viewport) return
 
-      if (e.type == MotionEvent.wheel && e.delta != null)
-      {
-        vbar.startPos += e.delta * dpToPixel(40)
-        vbar.requestPaint
-      }
+    if (e.type == MotionEvent.wheel && e.delta != null)
+    {
+      vbar.startPos += e.delta * dpToPixel(40)
+      vbar.requestPaint
     }
   }
 

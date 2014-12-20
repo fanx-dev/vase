@@ -212,49 +212,46 @@ class TextArea : ScrollBase
 // Event
 //////////////////////////////////////////////////////////////////////////
 
-  override Void touch(MotionEvent e)
+  protected override Void motionEvent(MotionEvent e)
   {
-    super.touch(e)
+    super.motionEvent(e)
     if (e.consumed) return
 
-    p := Coord(e.x, e.y)
-    rc := mapToWidget(p)
-    if (this.bounds.contains(p.x+x, p.y+y))
+    sx := e.relativeX - this.x
+    sy := e.relativeY - this.y
+    if (e.type == MotionEvent.pressed)
     {
-      if (e.type == MotionEvent.pressed)
+      //echo("e.x$e.x,e.y$e.y")
+      offset := offsetAtPos(sx, sy) ?: model.charCount
+      caret.offset = offset
+      selectionStart = offset
+      caret.visible = true
+      draging = true
+      focus
+      //this.repaint
+    }
+    else if (draging && e.type == MotionEvent.released)
+    {
+      offset := offsetAtPos(sx, sy) ?: model.charCount
+      if (offset == selectionStart)
       {
-        //echo("e.x$e.x,e.y$e.y")
-        offset := offsetAtPos(p.x, p.y) ?: model.charCount
-        caret.offset = offset
-        selectionStart = offset
-        caret.visible = true
-        draging = true
-        focus
-        //this.repaint
-      }
-      else if (draging && e.type == MotionEvent.released)
-      {
-        offset := offsetAtPos(p.x, p.y) ?: model.charCount
-        if (offset == selectionStart)
-        {
-          selectionStart = -1
-          selectionEnd = -1
-          draging = false
-          this.requestPaint
-          return
-        }
-        caret.offset = offset
-        selectionEnd = offset
-
-        //swap value
-        if (selectionStart > selectionEnd)
-        {
-          temp := selectionStart
-          selectionStart = selectionEnd
-          selectionEnd = temp
-        }
+        selectionStart = -1
+        selectionEnd = -1
+        draging = false
         this.requestPaint
+        return
       }
+      caret.offset = offset
+      selectionEnd = offset
+
+      //swap value
+      if (selectionStart > selectionEnd)
+      {
+        temp := selectionStart
+        selectionStart = selectionEnd
+        selectionEnd = temp
+      }
+      this.requestPaint
     }
   }
 

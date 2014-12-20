@@ -117,15 +117,7 @@ class ScrollBar : Widget
   override Void onMounted()
   {
     rootVie := this.getRootView
-    rootVie.onTouchDown.add |MotionEvent e|
-    {
-      doTouch(e)
-    }
-    rootVie.onTouchUp.add |MotionEvent e|
-    {
-      doTouch(e)
-    }
-    rootVie.onTouchMove.add |MotionEvent e|
+    rootVie.onTouchEvent.add |MotionEvent e|
     {
       doTouch(e)
     }
@@ -135,7 +127,7 @@ class ScrollBar : Widget
   {
     p := Coord(e.x, e.y)
     rc := mapToRelative(p)
-    if (rc && this.bounds.contains(p.x, p.y))
+    if (rc && this.contains(p.x, p.y))
     {
       if (e.type == MotionEvent.pressed)
       {

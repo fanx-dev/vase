@@ -90,18 +90,15 @@ class TreeView : ScrollBase
     }
   }
 
-  override Void touch(MotionEvent e)
+  protected override Void motionEvent(MotionEvent e)
   {
-    super.touch(e)
+    super.motionEvent(e)
     if (e.consumed) return
+    sy := e.relativeY - y
     if (e.type == MotionEvent.released)
     {
-      p := Coord(e.x, e.y)
-      b := mapToWidget(p)
-      if (!this.bounds.contains(p.x+x, p.y+y)) return
-
       Int start := offsetY / rowHeight
-      Int ti := p.y / rowHeight
+      Int ti := sy / rowHeight
       Int i := start + ti
 
       if (i < items.size)

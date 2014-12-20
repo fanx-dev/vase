@@ -22,8 +22,6 @@ abstract class ButtonBase : Label
   const static Int mouseOut := 1
   const static Int mouseDown := 2
 
-  private Bool pressed := false
-
   Int state := mouseOut
   {
     set
@@ -42,38 +40,34 @@ abstract class ButtonBase : Label
 
   once EventListeners onAction() { EventListeners() }
 
-  override Void touch(MotionEvent e)
+  protected override Void gestureEvent(GestureEvent e) {
+    super.gestureEvent(e)
+    if (e.consumed) return
+
+    if (e.type == GestureEvent.click) {
+      this.focus
+      willClicked
+      onAction.fire(e)
+      e.consume
+    }
+    //echo("e.type $e.type")
+  }
+
+  protected override Void motionEvent(MotionEvent e)
   {
-    p := Coord(e.x, e.y)
-    rc := mapToRelative(p)
-    if (!rc) return
-    if (this.bounds.contains(p.x, p.y))
+    super.motionEvent(e)
+
+    if (state == mouseOut) {
+      getRootView.mouseCapture(this)
+    }
+
+    if (e.type == MotionEvent.released)
     {
-      if (e.type == MotionEvent.released)
-      {
-        if (pressed)
-        {
-          //focus
-          this.focus
-          willClicked
-          onAction.fire(e)
-          e.consume
-        }
-        pressed = false
-        state = mouseOver
-      }
-      else if (e.type == MotionEvent.pressed)
-      {
-        state = mouseDown
-        pressed = true
-      }
-      else if (e.type == MotionEvent.moved)
-      {
-        if (state != mouseDown)
-        {
-          getRootView.mouseCapture(this)
-        }
-      }
+      state = mouseOver
+    }
+    else if (e.type == MotionEvent.pressed)
+    {
+      state = mouseDown
     }
   }
 

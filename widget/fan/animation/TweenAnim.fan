@@ -32,6 +32,7 @@ class TweenAnimation : Animation {
     channelList.each |TweenAnimChannel c| { c.widget = widget }
     widget.getRootView.animManager.add(this)
     this.start
+    widget.requestPaint
   }
 }
 

@@ -110,16 +110,11 @@ class TextField : Widget, TextView
     requestPaint
   }
 
-  override Void touch(MotionEvent e)
+  protected override Void motionEvent(MotionEvent e)
   {
-    p := Coord(e.x, e.y)
-    rc := mapToRelative(p)
-    if (this.bounds.contains(p.x, p.y))
+    if (e.type == MotionEvent.pressed)
     {
-      if (e.type == MotionEvent.pressed)
-      {
-        focus
-      }
+      focus
     }
   }
 }
