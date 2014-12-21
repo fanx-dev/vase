@@ -49,7 +49,7 @@ fan.fgfxWtk.GfxEnv.prototype.makeFont = function(func)
   return font;
 }
 
-fan.fgfxWtk.GfxEnv.prototype.makePointArray = function(func)
+fan.fgfxWtk.GfxEnv.prototype.makePointArray = function(size)
 {
-  return fan.fgfxWtk.PointArray.make();
+  return fan.fgfxWtk.PointArray.make(size);
 }
