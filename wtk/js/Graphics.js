@@ -32,7 +32,8 @@ fan.fgfxWtk.Graphics.prototype.init = function(cx, bounds)
   this.cx = cx;
   //this.cx.save();
   //this.cx.lineWidth = 1;
-  //this.cx.lineCap = "square";
+  this.cx.lineCap = "square";
+  //this.cx.lineJoin = "miter";
   //this.cx.textBaseline = "top";
   //this.cx.font = fan.fgfxWtk.GfxUtil.fontToCss(fan.fwt.DesktopPeer.$sysFont);
 
@@ -193,7 +194,7 @@ fan.fgfxWtk.Graphics.prototype.clearRect = function(x, y, w, h)
 // This drawRoundRect(Int x, Int y, Int w, Int h, Int wArc, Int hArc)
 fan.fgfxWtk.Graphics.prototype.drawRoundRect = function(x, y, w, h, wArc, hArc)
 {
-  this.pathRoundRect(x+0.5, y+0.5, w, h, wArc, hArc)
+  this.pathRoundRect(x+0.5, y+0.5, w, h, wArc*1.1, hArc*1.1)
   this.cx.stroke();
   return this;
 }
@@ -201,7 +202,7 @@ fan.fgfxWtk.Graphics.prototype.drawRoundRect = function(x, y, w, h, wArc, hArc)
 // This fillRoundRect(Int x, Int y, Int w, Int h, Int wArc, Int hArc)
 fan.fgfxWtk.Graphics.prototype.fillRoundRect = function(x, y, w, h, wArc, hArc)
 {
-  this.pathRoundRect(x, y, w, h, wArc, hArc)
+  this.pathRoundRect(x, y, w, h, wArc*1.1, hArc*1.1)
   this.cx.fill();
   return this;
 }
@@ -451,7 +452,7 @@ fan.fgfxWtk.Graphics.prototype.fillPolygon = function(p)
 }
 
 fan.fgfxWtk.Graphics.prototype.m_transform = fan.fgfxMath.Transform2D.make();
-fan.fgfxWtk.Graphics.prototype.transform = function() { return this.m_transform; }
+fan.fgfxWtk.Graphics.prototype.transform = function() { return this.m_transform.clone(); }
 fan.fgfxWtk.Graphics.prototype.transform$ = function(trans)
 {
   fan.fgfxWtk.GfxUtil.doJsTransform(this.cx, trans);

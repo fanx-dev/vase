@@ -16,15 +16,14 @@ class ImageStyle : WidgetStyle
   {
     ImageView img := widget
     if (!img.image.isReady) {
-      widget.requestPaint
       return
     }
-    
+
     Int w := widget.getContentWidth
     Int h := widget.getContentHeight
     x := widget.padding.left
     y := widget.padding.top
-    
+
     Size srcSize := img.image.size
     src := Rect(0, 0, srcSize.w, srcSize.h)
     dst := Rect(x,y,w,h)

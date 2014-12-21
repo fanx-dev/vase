@@ -36,6 +36,8 @@ class TextField : Widget, TextView
       caret.offset = &text.size
     }
   }
+  
+  Str hint := ""
 
   override Font font := Font(14)
 

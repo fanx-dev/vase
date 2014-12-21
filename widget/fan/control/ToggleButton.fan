@@ -27,6 +27,7 @@ class ToggleButton : ButtonBase
   
   new make() {
     text = "ToggleButton"
+    layoutParam.width = LayoutParam.matchParent
   }
 
   protected override Void clicked() {

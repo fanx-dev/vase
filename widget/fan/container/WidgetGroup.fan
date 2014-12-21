@@ -194,10 +194,12 @@ abstract class WidgetGroup : Widget
     paintChildren(g)
 
     //debug
-    if (this.typeof.pod.config("debug", "false") == "true") {
-      g.brush = Color.black
-      g.drawLine(0, 0, width, height)
-      g.drawLine(width, 0, 0, height)
+    if (Env.cur.runtime != "js") {
+      if (this.typeof.pod.config("debug", "false") == "true") {
+        g.brush = Color.black
+        g.drawLine(0, 0, width, height)
+        g.drawLine(width, 0, 0, height)
+      }
     }
   }
 

@@ -102,7 +102,9 @@ fan.fgfxWtk.JsView.prototype.repaint = function(r) {
 }
 
 fan.fgfxWtk.JsView.prototype.repaintNow = function(r) {
+  this.graphics.push();
   this.view.onPaint(this.graphics);
+  this.graphics.pop();
 }
 
 fan.fgfxWtk.JsView.prototype.size = function() {

@@ -137,12 +137,16 @@ class RootView : FrameLayout, View
     //beginTime := Duration.nowTicks
     s := nativeView.size
     if (width != s.w || height != s.h) {
-      onResize(s.w, s.h)
       layoutDirty = true
     }
 
     if (layoutDirty) {
       layoutDirty = false
+      pos := nativeView.pos
+      x = pos.x
+      y = pos.y
+      width = s.w
+      height = s.h
       doLayout(sharedDimension)
     }
 
@@ -155,8 +159,6 @@ class RootView : FrameLayout, View
   }
 
   virtual Void onResize(Int w, Int h) {
-    width = w
-    height = h
   }
 
   override Void onMotionEvent(MotionEvent e) {

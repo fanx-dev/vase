@@ -12,6 +12,8 @@ using fgfxWtk
 @Js
 class TextFieldStyle : WidgetStyle
 {
+  Color hintColor := Color(0xd7d7d7)
+  
   new make() {
     outlineColor = Color(0x858585)
   }
@@ -32,12 +34,19 @@ class TextFieldStyle : WidgetStyle
     g.drawLine(right-1, bottom, right-1, bottom-upSize)
     
 
-    g.brush = fontColor
     g.font = lab.font
     offset := lab.font.ascent + lab.font.leading
     x := widget.padding.left
     y := widget.padding.top
-    g.drawText(lab.text, x, y+offset)
+    
+    if (!lab.text.isEmpty) {
+      g.brush = fontColor
+      g.drawText(lab.text, x, y+offset)
+    }
+    else if (!lab.hint.isEmpty) {
+      g.brush = hintColor
+      g.drawText(lab.hint, x+2, y+offset)
+    }
 
     if (lab.caret.visible)
     {

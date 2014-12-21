@@ -56,7 +56,7 @@ class WinTest
           },
           Label { id = "label"; text = "Label"; effect = ShadowEffect() },
           ImageView { id = "image";  image = ConstImage(`fan://icons/x16/folder.png`) },
-          TextField { id = "text" },
+          TextField { hint = "hint" },
           Switch { text = "switch"; it.layoutParam.width = LayoutParam.matchParent },
           ToggleButton { text = "checkBox"; it.layoutParam.width = LayoutParam.matchParent },
           RadioButton { text = "radio1"; it.layoutParam.width = LayoutParam.matchParent },
