@@ -13,30 +13,38 @@ using fgfxWtk
 ** MessageBox
 **
 @Js
-class MessageBox : FrameLayout
+class MessageBox : LinearLayout
 {
   Label label { private set }
 
   new make()
   {
-    label = Label { it.id = "messageBox_msg"; it.text = "messageBox" }
-    btn := Button { it.id = "messageBox_ok"; onAction.add {
-      a := TweenAnimation() {
-        AlphaAnimChannel { from = 1f; to = 0f },
-      }
-      a.whenDone.add |->|{ hide }
-      a.run(this)
-    }; it.text = "OK" }
+    label = Label {
+      it.id = "messageBox_msg"
+      it.text = "messageBox"
+      it.staticCache = false
+      it.layoutParam.margin = Insets(30)
+    }
+    btn := Button {
+      it.id = "messageBox_ok"
+      onAction.add {
+        a := TweenAnimation() {
+          AlphaAnimChannel { from = 1f; to = 0f },
+        }
+        a.whenDone.add |->|{ hide }
+        a.run(this)
+      };
+      it.text = "OK"
+      it.layoutParam.width = LayoutParam.matchParent
+      it.staticCache = false
+    }
 
-    pane := LinearLayout()
-    pane.add(label)
-    pane.add(btn)
+    this.add(label)
+    this.add(btn)
     this.layoutParam.posX = LayoutParam.alignCenter
     this.layoutParam.posY = LayoutParam.alignCenter
     this.layoutParam.width = LayoutParam.wrapContent
-    //pane.layoutParam.margin = Insets(dpToPixel(30))
-    padding = Insets(dpToPixel(30))
-    this.add(pane)
+    padding = Insets(dpToPixel(40))
   }
 
   Void show(Widget w)
@@ -44,7 +52,6 @@ class MessageBox : FrameLayout
     root := w.getRootView
     overlayer := root.topOverlayer
     overlayer.add(this)
-//    this.pos = Point(root.size.w/2 - this.size.w/2, root.size.h/2 - this.size.h/2)
     this.focus
     root.modal = true
     overlayer.layout
@@ -65,7 +72,6 @@ class MessageBox : FrameLayout
       p.getRootView.focusIt(null)
     }
     p.remove(this)
-    //p.requestLayout
     p.requestPaint
     p.getRootView.modal = false
   }

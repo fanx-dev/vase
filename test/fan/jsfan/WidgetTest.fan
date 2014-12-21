@@ -47,15 +47,20 @@ class WinTest
       //{
         LinearLayout
         {
-          padding = Insets(10)
+          padding = Insets(20)
+          spacing = dpToPixel(15)
           Button { id = "button"; text = "Hello Button" },
-          ComboBox { it.items = ["one","two","three","four"]; selectedIndex = 0 },
+          ComboBox {
+            it.items = ["comboBox1","comboBox2","comboBox3","comboBox4"]
+            selectedIndex = 0
+          },
           Label { id = "label"; text = "Label"; effect = ShadowEffect() },
           ImageView { id = "image";  image = ConstImage(`fan://icons/x16/folder.png`) },
           TextField { id = "text" },
-          ToggleButton { id = "check" },
-          RadioButton { id = "radio1" },
-          RadioButton { id = "radio2" },
+          Switch { text = "switch"; it.layoutParam.width = LayoutParam.matchParent },
+          ToggleButton { text = "checkBox"; it.layoutParam.width = LayoutParam.matchParent },
+          RadioButton { text = "radio1"; it.layoutParam.width = LayoutParam.matchParent },
+          RadioButton { text = "radio2"; it.layoutParam.width = LayoutParam.matchParent },
         },
 //      },
     }

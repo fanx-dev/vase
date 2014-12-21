@@ -36,8 +36,8 @@ fan.fgfxWtk.Graphics.prototype.init = function(cx, bounds)
   //this.cx.textBaseline = "top";
   //this.cx.font = fan.fgfxWtk.GfxUtil.fontToCss(fan.fwt.DesktopPeer.$sysFont);
 
-  //this.brush$(fan.fgfxGraphics.Color.m_black);
-  //this.pen$(fan.fgfxGraphics.Pen.m_defVal);
+  this.brush$(fan.fgfxGraphics.Color.m_black);
+  this.pen$(fan.fgfxGraphics.Pen.m_defVal);
   //this.font$(fan.fwt.Desktop.sysFont());
   //f(this);
   //this.cx.restore();

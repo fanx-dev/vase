@@ -167,6 +167,7 @@ abstract class ScrollBase : FrameLayout
     {
       vbar.startPos += e.delta * dpToPixel(40)
       vbar.requestPaint
+      e.consume
     }
   }
 

@@ -33,7 +33,7 @@ class Table : ScrollBase
     colWidthCache = Int[,]
     model.numCols.times |c|
     {
-      btn := Button { it.text = model.header(c) }
+      btn := ButtonBase { it.text = model.header(c) }
       btn.styleClass = "tableHeader"
       w := model.prefWidth(c) ?: colWidth
       colWidthCache.add(w)

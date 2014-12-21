@@ -12,14 +12,27 @@ using fgfxWtk
 @Js
 class TextFieldStyle : WidgetStyle
 {
+  new make() {
+    outlineColor = Color(0x858585)
+  }
+  
   override Void doPaint(Widget widget, Graphics g)
   {
     TextField lab := widget
 
-    g.brush = Color.makeRgb(200, 200, 200)
-    g.fillRect(0, 0, widget.width, widget.height)
+    g.brush = outlineColor
+    
+    left := 1
+    bottom := widget.padding.top + widget.getContentHeight-1
+    right := widget.width - 1
+    
+    g.drawLine(left, bottom, right-1, bottom)
+    upSize := (lab.font.height * 0.3f).toInt
+    g.drawLine(left, bottom, left, bottom-upSize)
+    g.drawLine(right-1, bottom, right-1, bottom-upSize)
+    
 
-    g.brush = brush
+    g.brush = fontColor
     g.font = lab.font
     offset := lab.font.ascent + lab.font.leading
     x := widget.padding.left

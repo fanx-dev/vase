@@ -229,6 +229,7 @@ class TextArea : ScrollBase
       draging = true
       focus
       //this.repaint
+      e.consume
     }
     else if (draging && e.type == MotionEvent.released)
     {
@@ -252,6 +253,7 @@ class TextArea : ScrollBase
         selectionEnd = temp
       }
       this.requestPaint
+      e.consume
     }
   }
 

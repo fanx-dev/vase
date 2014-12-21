@@ -18,6 +18,8 @@ class Menu : LinearLayout
   new make()
   {
     vertical = false
+    layoutParam.height = LayoutParam.wrapContent
+    layoutParam.width = LayoutParam.matchParent
   }
 
   Void close()
@@ -40,7 +42,7 @@ internal class MenuList : LinearLayout
 }
 
 @Js
-class MenuItem : Button
+class MenuItem : ButtonBase
 {
   internal MenuList list
 
@@ -51,9 +53,11 @@ class MenuItem : Button
       if (list.childrenSize > 0)
       {
         expand(getRootView.topOverlayer)
+        getRootView.modal = true
       }
       else
       {
+        getRootView.modal = false
         rootMenu?.close
       }
     }

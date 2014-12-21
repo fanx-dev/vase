@@ -90,12 +90,12 @@ class TreeView : ScrollBase
     }
   }
 
-  protected override Void motionEvent(MotionEvent e)
+  protected override Void gestureEvent(GestureEvent e)
   {
-    super.motionEvent(e)
+    super.gestureEvent(e)
     if (e.consumed) return
     sy := e.relativeY - y
-    if (e.type == MotionEvent.released)
+    if (e.type == GestureEvent.click)
     {
       Int start := offsetY / rowHeight
       Int ti := sy / rowHeight
@@ -105,6 +105,7 @@ class TreeView : ScrollBase
       {
         expanded(items[i])
         this.layout
+        e.consume
       }
     }
   }

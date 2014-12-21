@@ -19,13 +19,13 @@ mixin Style
 @Js
 class WidgetStyle : Style
 {
-  Brush background := Color.white//background
-  Brush brush := Color.black
+  Brush background := Color(0xf9f9f9)
+  Brush foreground := Color(0x33b5e5)
+  Brush outlineColor := Color(0xe9e9e9)
+  Brush fontColor := Color(0x222222)
 
   ConstImage? backgroundImage
-
-  Int? arc
-
+  
 
   final override Void paint(Widget widget, Graphics g)
   {

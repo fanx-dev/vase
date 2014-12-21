@@ -250,7 +250,7 @@ public class SwtGraphics implements Graphics {
 
   public Graphics drawRoundRect(long x, long y, long w, long h, long wArc, long hArc)
   {
-    gc.drawRoundRectangle((int)x, (int)y, (int)w, (int)h, (int)wArc, (int)hArc);
+    gc.drawRoundRectangle((int)x, (int)y, (int)w, (int)h, (int)wArc*2, (int)hArc*2);
     return this;
   }
 
@@ -262,13 +262,13 @@ public class SwtGraphics implements Graphics {
       Pattern newbg = pattern((Gradient)brush, x, y, w, h);
       Pattern oldbg = gc.getBackgroundPattern();
       gc.setBackgroundPattern(newbg);
-      gc.fillRoundRectangle((int)x, (int)y, (int)w, (int)h, (int)wArc, (int)hArc);
+      gc.fillRoundRectangle((int)x, (int)y, (int)w, (int)h, (int)wArc*2, (int)hArc*2);
       gc.setBackgroundPattern(oldbg);
       newbg.dispose();
     }
     else
     {
-      gc.fillRoundRectangle((int)x, (int)y, (int)w, (int)h, (int)wArc, (int)hArc);
+      gc.fillRoundRectangle((int)x, (int)y, (int)w, (int)h, (int)wArc*2, (int)hArc*2);
     }
     return this;
   }

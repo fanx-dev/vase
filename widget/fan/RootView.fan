@@ -210,6 +210,7 @@ class RootView : FrameLayout, View
     
     if (!modal)
     {
+      //fire mouse out event
       if (mouseOverWidget != null) {
         p := Coord(e.x, e.y)
         b := mouseOverWidget.mapToRelative(p)
@@ -218,6 +219,7 @@ class RootView : FrameLayout, View
           mouseOverWidget = null
         }
       }
+      
       super.motionEvent(e)
     }
     else

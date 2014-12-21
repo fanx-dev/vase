@@ -58,6 +58,7 @@ class TextField : Widget, TextView
         requestPaint
       }
     }
+    this.padding = Insets(dpToPixel(20))
   }
 
   override Dimension prefContentSize(Int hintsWidth, Int hintsHeight, Dimension result) {
@@ -110,11 +111,12 @@ class TextField : Widget, TextView
     requestPaint
   }
 
-  protected override Void motionEvent(MotionEvent e)
+  protected override Void gestureEvent(GestureEvent e)
   {
-    if (e.type == MotionEvent.pressed)
+    if (e.type == GestureEvent.click)
     {
       focus
+      e.consume
     }
   }
 }

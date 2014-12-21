@@ -185,7 +185,7 @@ public class AndGraphics implements Graphics {
       long hArc) {
     RectF r = new RectF(x, y, x + w, y + h);
     p.setStyle(Paint.Style.STROKE);
-    gc.drawRoundRect(r, wArc/2f, hArc/2f, p);
+    gc.drawRoundRect(r, wArc, hArc, p);
     return this;
   }
   @Override
@@ -236,7 +236,7 @@ public class AndGraphics implements Graphics {
       long hArc) {
     RectF r = new RectF(x, y, x + w, y + h);
     p.setStyle(Paint.Style.FILL);
-    gc.drawRoundRect(r, wArc/2f, hArc/2f, p);
+    gc.drawRoundRect(r, wArc, hArc, p);
     return this;
   }
   @Override

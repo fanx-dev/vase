@@ -20,7 +20,7 @@ class TreeStyle : WidgetStyle
     Int topOffset := tree.offsetY - (start * tree.rowHeight)
     Int fontOffset := tree.font.ascent + tree.font.leading
     
-    g.brush = brush
+    g.brush = fontColor
     g.font = tree.font
     Int y := -topOffset + widget.padding.top
     Int bottomLine := tree.height - tree.padding.bottom

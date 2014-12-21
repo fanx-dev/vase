@@ -39,7 +39,7 @@ class ComboBox : ButtonBase
     this.layoutParam.width = font.height * 10
   }
 
-  private Void select(Button btn, Int i)
+  private Void select(ButtonBase btn, Int i)
   {
     selectedIndex = i
     this.requestPaint
@@ -60,8 +60,8 @@ class ComboBox : ButtonBase
     items.each |item, i|
     {
       name := item.toStr
-      Button? button
-      button = Button { 
+      ButtonBase? button
+      button = ButtonBase { 
         it.text = name; 
         it.styleClass = "menuItem";
         it.layoutParam.width = it.font.height * 10
@@ -88,17 +88,18 @@ class ComboBox : ButtonBase
     }
     
     overlayer.layout
+    root.modal = true
   }
 
   Void hide()
   {
-    if (list == null) return
+    if (list == null || list.parent == null) return
     WidgetGroup p := list.parent
     p.remove(list)
+    root := this.getRootView
+    root.focusIt(null)
+    root.modal = false
     p.requestPaint
-    if (this.hasFocus) {
-      p.getRootView.focusIt(null)
-    }
     list = null
   }
 }

@@ -19,16 +19,16 @@ class TableHeaderStyle : WidgetStyle
 
   override Void doPaint(Widget widget, Graphics g)
   {
-    Button btn := widget
+    ButtonBase btn := widget
 
     //backgound
     g.brush = background
     g.fillRect(0, 0, widget.width, widget.height)
-    g.brush = brush
+    g.brush = foreground
     g.drawRect(0, 0, widget.width, widget.height)
 
     //draw text
-    g.brush = brush
+    g.brush = fontColor
     g.font = btn.font
     x := widget.padding.left + (widget.getContentWidth / 2)
     y := widget.padding.top + (widget.getContentHeight / 2)
@@ -82,11 +82,11 @@ class TableStyle : WidgetStyle
     //backgound
     g.brush = background
     g.fillRect(x, y, w, h)
-    g.brush = brush
+    g.brush = foreground
     g.drawRect(x, y, w, h)
 
     //text
-    g.brush = brush
+    g.brush = fontColor
     g.drawText(text, x+1, y+fontOffset)
   }
 }

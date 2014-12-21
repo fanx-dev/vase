@@ -130,7 +130,7 @@ class TextAreaStyle : WidgetStyle
     }
 
     //text
-    g.brush = brush
+    g.brush = fontColor
     g.drawText(text, left, top+fontOffset)
   }
 }

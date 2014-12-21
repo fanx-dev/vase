@@ -13,7 +13,7 @@ using fgfxWtk
 ** common behaviors for buttons.
 **
 @Js
-abstract class ButtonBase : Label
+class ButtonBase : Label
 {
 //////////////////////////////////////////////////////////////////////////
 // state
@@ -46,7 +46,7 @@ abstract class ButtonBase : Label
 
     if (e.type == GestureEvent.click) {
       this.focus
-      willClicked
+      clicked
       onAction.fire(e)
       e.consume
     }
@@ -58,7 +58,7 @@ abstract class ButtonBase : Label
     super.motionEvent(e)
 
     if (state == mouseOut) {
-      getRootView.mouseCapture(this)
+      getRootView?.mouseCapture(this)
     }
 
     if (e.type == MotionEvent.released)
@@ -71,7 +71,7 @@ abstract class ButtonBase : Label
     }
   }
 
-  protected virtual Void willClicked() {
+  protected virtual Void clicked() {
   }
 
   override Void mouseExit() { state = mouseOut }

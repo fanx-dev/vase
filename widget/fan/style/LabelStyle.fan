@@ -15,7 +15,7 @@ class LabelStyle : WidgetStyle
   override Void doPaint(Widget widget, Graphics g)
   {
     Label lab := widget
-    g.brush = brush
+    g.brush = fontColor
     g.font = lab.font
     
     offset := lab.font.ascent + lab.font.leading

@@ -14,7 +14,6 @@ class MessageBoxStyle : WidgetStyle
 {
   new make()
   {
-    background = Color.makeRgb(200, 200, 200)
   }
 
   override Void doPaint(Widget widget, Graphics g)

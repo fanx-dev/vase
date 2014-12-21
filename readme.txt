@@ -1,7 +1,7 @@
 Fantom Graphics
 =======
 
-- Full feature Fantom 2D Graphics
+- Full feature 2D Graphics API
 - Cross platform support Java2D/SWT/Android/Javascript backend
 - Lightweight GUI widget system
 - Fantom OpenGL/WebGL binding

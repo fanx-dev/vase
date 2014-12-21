@@ -14,7 +14,8 @@ class ScrollBarStyle : WidgetStyle
 {
   new make()
   {
-    background = Color.gray
+    background = Color(0xfafafa)
+    foreground = Color(0x7c7c7c)
   }
 
   override Void doPaint(Widget widget, Graphics g)
@@ -24,7 +25,7 @@ class ScrollBarStyle : WidgetStyle
     g.brush = background
     g.fillRect(0, 0, widget.width, widget.height)
 
-    g.brush = brush
+    g.brush = foreground
     Int pos := bar.screenPos
     Int thumb := bar.thumbSize
     x := widget.padding.left

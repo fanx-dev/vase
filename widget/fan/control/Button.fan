@@ -16,6 +16,6 @@ using fgfxWtk
 class Button : ButtonBase
 {
   new make() {
-    padding = Insets(dpToPixel(20))
+    padding = Insets(dpToPixel(40))
   }
 }

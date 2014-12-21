@@ -9,26 +9,49 @@
 using fgfxGraphics
 using fgfxWtk
 
+
+@Js
+class MenuStyle : WidgetStyle {
+  new make()
+  {
+    background = Color(0x434343)
+  }
+  
+  override Void doPaint(Widget widget, Graphics g)
+  {
+    g.brush = background
+    g.fillRect(0, 0, widget.width, widget.height)
+  }
+}
+
 @Js
 class MenuItemStyle : WidgetStyle
 {
+  Color mouseOverColor := Color(0xb2b2b2)
+  
   new make()
   {
-    background = Color.makeRgb(254, 255, 200)
+    background = Color(0x434343)
+    fontColor = Color.white
   }
 
   override Void doPaint(Widget widget, Graphics g)
   {
-    Button btn := widget
+    ButtonBase btn := widget
 
     //backgound
-    g.brush = background
+    if (btn.state == ButtonBase.mouseOver) {
+      g.brush = this.mouseOverColor
+    } else {
+      g.brush = background
+    }
+    
     g.fillRect(0, 0, widget.width, widget.height)
     //g.brush = brush
     //g.drawRect(0, 0, widget.size.w, widget.size.h)
 
     //draw text
-    g.brush = brush
+    g.brush = fontColor
     g.font = btn.font
     y := widget.padding.top + (widget.getContentHeight / 2)
     h := btn.font.height
