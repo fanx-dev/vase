@@ -79,6 +79,8 @@ class MotionEvent : Event
   Int? relativeX
   Int? relativeY
 
+  Int pointerId := 0
+
 
   new make(Int type)
   {

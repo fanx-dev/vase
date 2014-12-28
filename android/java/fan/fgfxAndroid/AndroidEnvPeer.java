@@ -6,6 +6,8 @@ import fan.fgfxWtk.View;
 import fan.fgfxWtk.Window;
 import android.content.Context;
 import android.app.Activity;
+import android.util.DisplayMetrics;
+import android.view.WindowManager;
 
 public class AndroidEnvPeer {
   public static AndroidEnvPeer make(AndroidEnv self)
@@ -23,9 +25,20 @@ public class AndroidEnvPeer {
   static class AndToolkit extends Toolkit
   {
     Activity context;
+    long dpi = 326;
+
     public AndToolkit(Activity context)
     {
       this.context = context;
+
+      DisplayMetrics metrics = new DisplayMetrics();
+      WindowManager mWm = context.getWindowManager();
+      if (mWm != null) {
+        mWm.getDefaultDisplay().getMetrics(metrics);
+        float dpi = (float) Math.ceil(Math.max(Math.max(metrics.xdpi, metrics.ydpi),
+            metrics.densityDpi));
+        this.dpi = (long)dpi;
+      }
     }
 
     @Override
@@ -54,7 +67,7 @@ public class AndroidEnvPeer {
 
     @Override
     public long dpi() {
-      return 450;
+      return dpi;
     }
   }
 }

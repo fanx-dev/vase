@@ -78,16 +78,16 @@ class RootView : FrameLayout, View
   ** Shared dimension for layout
   **
   private Dimension sharedDimension := Dimension(0, 0)
-  
+
   **
   ** gesture recognizer
   ** convert motion event to gesture event
-  ** 
+  **
   Gesture gesture := Gesture()
-  
+
   **
   ** global motion event
-  ** 
+  **
   EventListeners onTouchEvent := EventListeners()
 
   new make() {
@@ -95,7 +95,7 @@ class RootView : FrameLayout, View
     width = 0
     height = 0
     this.staticCache = false
-    
+
     gesture.onGestureEvent.add |GestureEvent e|{
       e.relativeX = e.x
       e.relativeY = e.y
@@ -165,6 +165,7 @@ class RootView : FrameLayout, View
     e.relativeX = e.x
     e.relativeY = e.y
     motionEvent(e)
+    //echo("type$e.type, x$e.x,y$e.y")
   }
 
   override Void onKeyEvent(KeyEvent e) {
@@ -209,7 +210,7 @@ class RootView : FrameLayout, View
     if (e.consumed) {
       return
     }
-    
+
     if (!modal)
     {
       //fire mouse out event
@@ -221,14 +222,14 @@ class RootView : FrameLayout, View
           mouseOverWidget = null
         }
       }
-      
+
       super.motionEvent(e)
     }
     else
     {
       focusWidget.motionEvent(e)
     }
-    
+
     if (!e.consumed) {
       gesture.onEvent(e)
     }

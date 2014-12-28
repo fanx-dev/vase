@@ -74,7 +74,7 @@ public class AndView extends View implements NativeView {
   public boolean onTouchEvent(MotionEvent event) {
     fan.fgfxWtk.MotionEvent ce = andToFan(event);
     view.onMotionEvent(ce);
-    return ce.consumed();
+    return true;
   }
 
   // ////////////////////////////////////////////////////////////////////////
@@ -93,24 +93,37 @@ public class AndView extends View implements NativeView {
   }
 
   private static fan.fgfxWtk.MotionEvent getMotionPointer(final MotionEvent e, final int i) {
-    long id = e.getActionIndex() != i ? fan.fgfxWtk.MotionEvent.other : getActionId(e.getAction());
-    fan.fgfxWtk.MotionEvent ce = fan.fgfxWtk.MotionEvent.make(id);
+    long type = fan.fgfxWtk.MotionEvent.other;
+    long pointerId = 0;
+    switch (e.getAction() & MotionEvent.ACTION_MASK) {
+    case MotionEvent.ACTION_DOWN:
+      type = fan.fgfxWtk.MotionEvent.pressed;
+      break;
+    case MotionEvent.ACTION_POINTER_DOWN:
+      pointerId = e.getActionIndex();
+      type = fan.fgfxWtk.MotionEvent.pressed;
+      break;
+    case MotionEvent.ACTION_MOVE:
+      type = fan.fgfxWtk.MotionEvent.moved;
+      break;
+    case MotionEvent.ACTION_UP:
+      type = fan.fgfxWtk.MotionEvent.released;
+      break;
+    case MotionEvent.ACTION_POINTER_UP:
+      pointerId = e.getActionIndex();
+      type = fan.fgfxWtk.MotionEvent.released;
+      break;
+    case MotionEvent.ACTION_CANCEL:
+      type = fan.fgfxWtk.MotionEvent.cancel;
+      break;
+    }
+
+    fan.fgfxWtk.MotionEvent ce = fan.fgfxWtk.MotionEvent.make(type);
+    ce.pointerId(pointerId);
     ce.x((long)e.getX(i));
     ce.y((long)e.getY(i));
     ce.pressure((double) e.getPressure(i));
     ce.size((double) e.getSize(i));
     return ce;
-  }
-
-  private static long getActionId(int i) {
-    switch (i) {
-    case MotionEvent.ACTION_DOWN:
-      return fan.fgfxWtk.MotionEvent.pressed;
-    case MotionEvent.ACTION_MOVE:
-      return fan.fgfxWtk.MotionEvent.moved;
-    case MotionEvent.ACTION_UP:
-      return fan.fgfxWtk.MotionEvent.released;
-    }
-    return fan.fgfxWtk.MotionEvent.other;
   }
 }
