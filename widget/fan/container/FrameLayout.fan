@@ -64,13 +64,13 @@ class FrameLayout : WidgetGroup
       x := size.w
       y := size.h
 
-      absX := c.layoutParam.posX.abs
-      absY := c.layoutParam.posY.abs
-      if (absX < 1000_000_000) {
-        x += absX
+      offsetX := c.layoutParam.posX
+      offsetY := c.layoutParam.posY
+      if (offsetX != LayoutParam.alignCenter && offsetX != LayoutParam.alignEnd) {
+        x += offsetX
       }
-      if (absY < 1000_000_000) {
-        y += absY
+      if (offsetY != LayoutParam.alignCenter && offsetY != LayoutParam.alignEnd) {
+        y += offsetY
       }
       if (maxX < x) maxX = x
       if (maxY < y) maxY = y

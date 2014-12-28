@@ -36,12 +36,14 @@ public class AndUtil {
     float[] elem = new float[9];
     trans.getValues(elem);
     Transform2D t = Transform2D.make();
-    t.set(0,0, elem[0]);
-    t.set(0,1, elem[1]);
-    t.set(1,0, elem[2]);
-    t.set(1,1, elem[3]);
-    t.set(2,0, elem[4]);
-    t.set(2,1, elem[5]);
+
+    int k = 0;
+    for (int i = 0; i < 3; i++) {
+      for (int j = 0; j < 3; j++) {
+        t.set(j, i, elem[k]);
+        k++;
+      }
+    }
     return t;
   }
 
