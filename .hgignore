@@ -4,3 +4,6 @@ syntax: glob
 test3d/public/Thumbs.db
 widget/test/WinTest.fan
 widget/bin/fan/lib/fan/fgfxWidget.pod
+androidDemo/android/bin
+androidDemo/android/libs/androidDemo.jar
+androidDemo/android/gen
