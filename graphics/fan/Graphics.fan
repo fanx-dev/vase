@@ -188,7 +188,7 @@ mixin Graphics
   **
   ** the transform that is currently being used
   **
-  abstract Transform2D transform
+  abstract This transform(Transform2D mat)
 
   **
   ** create a new clipping region by calculating the intersection of

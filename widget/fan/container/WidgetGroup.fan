@@ -8,6 +8,7 @@
 
 using fgfxGraphics
 using fgfxWtk
+using fgfxMath
 
 **
 ** WidgetGroup is a Widget Container
@@ -122,14 +123,14 @@ abstract class WidgetGroup : Widget
 
   **
   ** get the prefer content size
-  ** 
+  **
   abstract protected override Dimension prefContentSize(Int hintsW, Int hintsH, Dimension result);
 
 //////////////////////////////////////////////////////////////////////////
 // event
 //////////////////////////////////////////////////////////////////////////
 
-  
+
   **
   ** process motion event
   **
@@ -148,10 +149,10 @@ abstract class WidgetGroup : Widget
     e.relativeX = px
     e.relativeY = py
   }
-  
+
   **
   ** process gesture event
-  ** 
+  **
   protected override Void gestureEvent(GestureEvent e) {
     px := e.relativeX
     py := e.relativeY
@@ -214,7 +215,7 @@ abstract class WidgetGroup : Widget
       {
         g.push
         //g.clip(it.bounds)
-        g.transform = g.transform.translate(it.x.toFloat, it.y.toFloat)
+        g.transform(Transform2D.make.translate(it.x.toFloat, it.y.toFloat))
         it.paint(g)
         g.pop
       }

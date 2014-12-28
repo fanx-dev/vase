@@ -36,10 +36,10 @@ class TextField : Widget, TextView
       caret.offset = &text.size
     }
   }
-  
+
   Str hint := ""
 
-  override Font font := Font(14)
+  override Font font := Font(dpToPixel(56))
 
   Caret caret := Caret()
   private Timer? timer

@@ -30,7 +30,7 @@ class TreeView : ScrollBase
   new make(TreeModel model)
   {
     this.model = model
-    font = Font(14)
+    font = Font(dpToPixel(56))
     init
   }
 

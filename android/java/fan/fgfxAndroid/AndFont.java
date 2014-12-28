@@ -8,7 +8,7 @@ import fan.fgfxGraphics.Font;
 
 public class AndFont extends Font {
 
-  Paint p = new Paint();
+  Paint p = null;
 
   public static Font makeFont(Func func)
   {
@@ -21,26 +21,27 @@ public class AndFont extends Font {
 
   public Paint getPaint() {
     if (p == null) {
+      p = new Paint();
       Typeface tf = AndUtil.toAndFont(this);
       p.setTypeface(tf);
+      p.setTextSize(this.size);
     }
     return p;
   }
 
   @Override
   public long ascent() {
-    return (long) getPaint().ascent();
+    return (long) -getPaint().ascent();
   }
 
   @Override
   public long descent() {
-
     return (long) getPaint().descent();
   }
 
   @Override
   public long height() {
-    Paint.FontMetricsInt metrics = p.getFontMetricsInt();
+    Paint.FontMetricsInt metrics = getPaint().getFontMetricsInt();
     return metrics.bottom - metrics.top;
   }
 

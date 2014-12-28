@@ -36,33 +36,33 @@ abstract class Widget
 
   **
   ** current transform as animation target
-  ** 
+  **
   Transform2D? transform
-  
+
   **
   ** current alpha as animation target
   ** range in [0,1]
-  ** 
+  **
   Float? alpha
-  
+
   **
   ** current render effect
-  ** 
+  **
   Effect? effect
-  
+
   **
   ** flag for using renderCache
-  ** 
+  **
   Bool staticCache := true
-  
+
   **
   ** render result cache in bitmap image
-  ** 
+  **
   private BufImage? renderCache
-  
+
   **
   ** invalidate the renderCache bitmap image
-  ** 
+  **
   private Bool dirtyRenderCache := true
 
 //////////////////////////////////////////////////////////////////////////
@@ -103,7 +103,7 @@ abstract class Widget
       &x = it
     }
   }
-  
+
   Int y := 0 {
     protected set {
       e := StateChangedEvent (&y, it, #y, this )
@@ -111,7 +111,7 @@ abstract class Widget
       &y = it
     }
   }
-  
+
   Int width := 50 {
     protected set {
       e := StateChangedEvent (&width, it, #width, this )
@@ -119,7 +119,7 @@ abstract class Widget
       &width = it
     }
   }
-  
+
   Int height := 50 {
     protected set {
       e := StateChangedEvent (&height, it, #height, this )
@@ -164,10 +164,10 @@ abstract class Widget
   ** process motion event
   **
   protected virtual Void motionEvent(MotionEvent e) {}
-  
+
   **
   ** process gesture event
-  ** 
+  **
   protected virtual Void gestureEvent(GestureEvent e) {}
 
   **
@@ -183,9 +183,9 @@ abstract class Widget
     if (width <= 0 || height <= 0) {
       return
     }
-    
+
     if (transform != null) {
-      g.transform = g.transform.mult(transform)
+      g.transform(transform)
     }
     if (alpha != null) {
       g.alpha = (alpha * 255).toInt
@@ -194,7 +194,7 @@ abstract class Widget
     if (effect != null) {
       g = effect.prepare(this, g)
     }
-    
+
     if (staticCache) {
       if (renderCache == null || renderCache.size.w != width || renderCache.size.h != height) {
         renderCache = BufImage.make(Size(width, height))
@@ -217,17 +217,17 @@ abstract class Widget
         doPaint(cg)
         cg.dispose
       }
-      
+
       g.drawImage(renderCache, 0, 0)
     } else {
       doPaint(g)
     }
-    
+
     if (effect != null) {
       effect.end |tg|{ doPaint(tg) }
     }
   }
-  
+
   protected virtual Void doPaint(Graphics g) {
     getRootView.findStyle(this).paint(this, g)
   }
@@ -255,24 +255,24 @@ abstract class Widget
   virtual Dimension measureSize(Int parentContentWidth, Int parentContentHeight, Dimension result) {
     hintsWidth := parentContentWidth - layoutParam.margin.left-layoutParam.margin.right
     hintsHeight := parentContentHeight - layoutParam.margin.top-layoutParam.margin.bottom
-    
+
     Int w := -1
     Int h := -1
-    
+
     //using layout size
     if (layoutParam.width == LayoutParam.matchParent && hintsWidth>0) {
       w = hintsWidth
     }
-    
+
     if (layoutParam.height == LayoutParam.matchParent && hintsHeight>0) {
       h = hintsHeight
     }
-    
+
     //layout size if ok
     if (w >0 && h >0) {
       return result.set(w, h)
     }
-    
+
     size := prefSize(hintsWidth, hintsHeight, result)
     if (w > 0) {
       size.w = w
@@ -300,41 +300,41 @@ abstract class Widget
   private Dimension prefSize(Int hintsWidth, Int hintsHeight, Dimension result) {
     Int w := -1
     Int h := -1
-    
+
     //using layout size
     if (layoutParam.width > 0) {
       w = layoutParam.width
     }
-    
+
     if (layoutParam.height > 0) {
       h = layoutParam.height
     }
-    
+
     //layout size if ok
     if (w >0 && h >0) {
       return result.set(w, h)
     }
-    
+
     //get preferred size
     s := prefContentSize(hintsWidth, hintsHeight, result)
     Int pw := s.w + padding.left + padding.right
     Int ph := s.h + padding.top + padding.bottom
-    
+
     if (w < 0) {
       w = pw
     }
-    
+
     if (h < 0) {
       h = ph
     }
-    
+
     return result.set(w, h)
   }
 
   **
   ** preferred size of content without padding
   **
-  protected virtual Dimension prefContentSize(Int hintsWidth, Int hintsHeight, Dimension result) { 
+  protected virtual Dimension prefContentSize(Int hintsWidth, Int hintsHeight, Dimension result) {
     result.w = width
     result.h = height
     return result
@@ -343,7 +343,7 @@ abstract class Widget
   Int getContentWidth() {
     width - padding.left - padding.right
   }
-  
+
   Int getBufferedWidth() {
     width + layoutParam.margin.left + layoutParam.margin.right
   }
@@ -351,20 +351,20 @@ abstract class Widget
   Int getContentHeight() {
     height - padding.top - padding.bottom
   }
-  
+
   Int getBufferedHeight() {
     height + layoutParam.margin.top + layoutParam.margin.bottom
   }
 
   **
   ** layout the children
-  ** 
+  **
   Void layout() {
     result := Dimension(0, 0)
     doLayout(result)
     this.requestPaint
   }
-  
+
   **
   ** layout the children
   **
@@ -388,17 +388,17 @@ abstract class Widget
   Rect bounds
   {
     get { return Rect.make(x, y, width, height) }
-    set { 
+    set {
       x = it.x
       y = it.y
       width = it.w
       height = it.h
     }
   }
-  
+
   **
   ** relative coordinate
-  ** 
+  **
   Bool contains(Int rx, Int ry) {
     if (rx < x || rx > x+width) {
       return false

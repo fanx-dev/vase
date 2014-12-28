@@ -27,7 +27,7 @@ class Table : ScrollBase
   new make(TableModel model)
   {
     this.model = model
-    font = Font(14)
+    font = Font(dpToPixel(56))
     //header
     header = LinearLayout { vertical = false }
     colWidthCache = Int[,]

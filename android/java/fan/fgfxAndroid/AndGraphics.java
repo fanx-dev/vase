@@ -341,14 +341,11 @@ public class AndGraphics implements Graphics {
     gc.drawPath(AndUtil.palygonToPath(a), p);
     return this;
   }
-  @Override
-  public void transform(Transform2D trans) {
-    gc.setMatrix(AndUtil.toAndTransform(trans));
-  }
 
   @Override
-  public Transform2D transform() {
-    return AndUtil.toTransform(gc.getMatrix());
+  public Graphics transform(Transform2D trans) {
+    gc.concat(AndUtil.toAndTransform(trans));
+    return this;
   }
 
   public void push() {
@@ -358,19 +355,21 @@ public class AndGraphics implements Graphics {
     s.font = font;
     s.antialias = this.antialias();
     s.alpha = alpha;
-    s.transform = gc.getMatrix();
+    //s.transform = gc.getMatrix(mat);
     s.clip = gc.getClipBounds();
     stack.push(s);
+    gc.save();
   }
 
   public void pop() {
+    gc.restore();
     State s = (State) stack.pop();
     alpha = s.alpha;
-    pen(s.pen);
-    brush(s.brush);
-    font(s.font);
+    pen = s.pen;
+    brush = s.brush;
+    font = s.font;
     this.antialias(s.antialias);
-    gc.setMatrix(s.transform);
+    //gc.setMatrix(s.transform);
     gc.clipRect(s.clip);
   }
 

@@ -27,7 +27,8 @@ class Build : BuildGroup
       `widget/build.fan`,
       `android/build.fan`,
       `openGL/build.fan`,
-      `fgfx3d/build.fan`
+      `fgfx3d/build.fan`,
+      `androidDemo/build.fan`
     ]
   }
 

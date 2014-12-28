@@ -51,5 +51,10 @@ public class AndroidEnvPeer {
     public String name() {
       return "Android";
     }
+
+    @Override
+    public long dpi() {
+      return 450;
+    }
   }
 }

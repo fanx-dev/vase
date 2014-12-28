@@ -30,6 +30,7 @@ public class SwtGraphics implements Graphics {
   Font font;
   int alpha = 255;
   Stack<State> stack = new Stack<State>();
+  Transform currentTransform;
 
   public SwtGraphics(PaintEvent e)
   {
@@ -419,19 +420,16 @@ public class SwtGraphics implements Graphics {
   }
 
   @Override
-  public void transform(Transform2D trans) {
+  public Graphics transform(Transform2D trans) {
+    if (currentTransform == null) {
+      currentTransform = new Transform(SwtUtil.getDisplay());
+    }
+    gc.getTransform(currentTransform);
     Transform t = SwtUtil.toSwtTransform(trans);
-    gc.setTransform(t);
+    currentTransform.multiply(t);
+    gc.setTransform(currentTransform);
     t.dispose();
-  }
-
-  @Override
-  public Transform2D transform() {
-    Transform t = new Transform(SwtUtil.getDisplay());
-    gc.getTransform(t);
-    Transform2D trans = SwtUtil.toTransform(t);
-    t.dispose();
-    return trans;
+    return this;
   }
 
   public SwtGraphics clipPath(Path path)

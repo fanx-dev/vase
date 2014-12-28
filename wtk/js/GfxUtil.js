@@ -74,7 +74,7 @@ fan.fgfxWtk.GfxUtil.doJsPath = function(cx, path)
 
 fan.fgfxWtk.GfxUtil.doJsTransform = function(cx, trans)
 {
-  cx.setTransform(
+  cx.transform(
        trans.get(0,0),
        trans.get(0,1),
        trans.get(1,0),
