@@ -11,7 +11,7 @@ using fgfxWtk
 using fgfxMath
 
 @Js
-mixin Style
+mixin Style : DisplayMetrics
 {
   abstract Void paint(Widget widget, Graphics g)
 }
@@ -25,7 +25,7 @@ class WidgetStyle : Style
   Brush fontColor := Color(0x222222)
 
   ConstImage? backgroundImage
-  
+
 
   final override Void paint(Widget widget, Graphics g)
   {

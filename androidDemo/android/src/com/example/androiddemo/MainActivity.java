@@ -9,8 +9,16 @@ import fanjardist.Main;
 
 public class MainActivity extends Activity {
 	
-	static {
+	static boolean isInited = false;
+	static void init() {
+		if (isInited) {
+			return;
+		}
+		isInited = true;
 		Main.boot();
+	}
+	static {
+		init();
 	}
 	
 	@Override

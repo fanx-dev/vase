@@ -14,7 +14,7 @@ using fgfxMath
 ** Widget is the base class for all UI widgets.
 **
 @Js
-abstract class Widget
+abstract class Widget : DisplayMetrics
 {
   **
   ** The unique identifies of widget.
@@ -48,7 +48,7 @@ abstract class Widget
   **
   ** current render effect
   **
-  Effect? effect
+  //Effect? effect
 
   **
   ** flag for using renderCache
@@ -191,9 +191,9 @@ abstract class Widget
       g.alpha = (alpha * 255).toInt
     }
 
-    if (effect != null) {
-      g = effect.prepare(this, g)
-    }
+    //if (effect != null) {
+    //  g = effect.prepare(this, g)
+    //}
 
     if (staticCache) {
       if (renderCache == null || renderCache.size.w != width || renderCache.size.h != height) {
@@ -223,9 +223,9 @@ abstract class Widget
       doPaint(g)
     }
 
-    if (effect != null) {
-      effect.end |tg|{ doPaint(tg) }
-    }
+    //if (effect != null) {
+    //  effect.end |tg|{ doPaint(tg) }
+    //}
   }
 
   protected virtual Void doPaint(Graphics g) {
@@ -471,18 +471,6 @@ abstract class Widget
     }
     return null
   }
-
-  **
-  ** a dp pixel size.
-  ** scale dp to pixel
-  **
-  virtual Float dp() {
-    Toolkit.cur.dpi.toFloat/320f
-  }
-
-  Int dpToPixel(Int d) { (d * dp).toInt }
-
-  Int pixelToDp(Int p) { (p / dp).toInt }
 
 //////////////////////////////////////////////////////////////////////////
 // repaint

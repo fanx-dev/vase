@@ -39,7 +39,7 @@ abstract const class Toolkit
   **
   ** return the current devices DPI(dot per inch)
   **
-  virtual Int dpi() { 80 }
+  virtual Int dpi() { 135 }
 
   **
   ** current Env name

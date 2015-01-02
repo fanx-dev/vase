@@ -24,16 +24,16 @@ class RoundButtonStyle : WidgetStyle
   override Void doPaint(Widget widget, Graphics g)
   {
     ButtonBase btn := widget
-    
+
     width := widget.width
     height := widget.height
     g.brush = outlineColor
     Int arc := height/2
     g.fillRoundRect(0, 0, width, height, arc, arc)
-    
-    
-    offsetW := widget.dpToPixel(16)
-    offsetR := widget.dpToPixel(8)
+
+
+    offsetW := dpToPixel(16)
+    offsetR := dpToPixel(8)
     width -= offsetW
     height -= offsetW
     arc = height/2
@@ -61,6 +61,7 @@ class RoundButtonStyle : WidgetStyle
     w := btn.font.width(btn.text)
     h := btn.font.height
     offset := btn.font.ascent + btn.font.leading
+    offset += (btn.font.height - (btn.font.descent+btn.font.ascent + btn.font.leading))/2
     g.drawText(btn.text, x-(w/2f).toInt, y-(h/2f).toInt+offset)
   }
 }

@@ -53,7 +53,7 @@ const class Scalar {
     Float result := 0f
     switch (unit) {
       case dp:
-      result = (value * parent.dp)
+      result = (value * DisplayMetrics.dp)
 
       case px:
       result = value
@@ -65,10 +65,10 @@ const class Scalar {
       result = (value *parent.getContentHeight / 100f)
 
       case cm:
-      result = (value * (0.3937008f * 320) * parent.dp)
+      result = (value * (0.3937008f * 320) * DisplayMetrics.dp)
 
       case in:
-      result = (value * 320 * parent.dp)
+      result = (value * 320 * DisplayMetrics.dp)
 
       default:
       throw UnsupportedErr("unknow unit")

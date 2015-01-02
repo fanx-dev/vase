@@ -67,11 +67,11 @@ class DrawTextTestView : View
     g.drawText("Hello \nWorld", x, y)
 
     trans := Transform2D().rotate(0f, 0f, 0.5f)
-    g.transform = trans
+    g.transform(trans)
     g.drawText("Hello \nWorld", x, y)
 
     trans = Transform2D().rotate(x.toFloat, y.toFloat, 0.5f)
-    g.transform = trans
+    g.transform(trans)
     g.drawText("Hello \nWorld", x, y)
 
     g.dispose

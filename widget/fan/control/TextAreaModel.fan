@@ -225,7 +225,6 @@ class DefTextAreaModel : TextAreaModel
     return count
   }
 
-  //override Font font := Font(12)
   /*
   override Int maxWidth()
   {

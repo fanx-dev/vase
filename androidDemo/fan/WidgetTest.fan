@@ -31,7 +31,7 @@ class WinTest
     {
         LinearLayout
         {
-          padding = Insets(50)
+          padding = Insets(dpToPixel(40))
           spacing = dpToPixel(15)
           it.layoutParam.width = LayoutParam.matchParent
 
@@ -55,8 +55,6 @@ class WinTest
     {
       MessageBox { it.label.text = "hello world" }.show(view)
     }
-
-    echo("dp$btn.dp")
 
     return view
   }

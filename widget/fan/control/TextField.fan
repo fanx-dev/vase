@@ -39,7 +39,7 @@ class TextField : Widget, TextView
 
   Str hint := ""
 
-  override Font font := Font(dpToPixel(56))
+  override Font font := Font(dpToPixel(41))
 
   Caret caret := Caret()
   private Timer? timer
