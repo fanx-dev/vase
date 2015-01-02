@@ -36,7 +36,6 @@ class ComboBox : ButtonBase
     text = "v"
     this.onAction.add { show }
     padding = Insets(dpToPixel(10))
-    this.layoutParam.width = font.height * 10
   }
 
   private Void select(ButtonBase btn, Int i)
@@ -61,11 +60,11 @@ class ComboBox : ButtonBase
     {
       name := item.toStr
       ButtonBase? button
-      button = ButtonBase { 
-        it.text = name; 
+      button = ButtonBase {
+        it.text = name;
         it.styleClass = "menuItem";
         it.layoutParam.width = it.font.height * 10
-        it.onAction.add { select(button, i) } 
+        it.onAction.add { select(button, i) }
       }
       pane.add(button)
     }
@@ -80,13 +79,13 @@ class ComboBox : ButtonBase
     pane.layoutParam.posX = pos.x
     pane.layoutParam.posY = pos.y + height
     pane.focus
-    
-    pane.onFocusChanged.add |e| { 
+
+    pane.onFocusChanged.add |e| {
       if (e.data == false) {
         hide
       }
     }
-    
+
     overlayer.layout
     root.modal = true
   }

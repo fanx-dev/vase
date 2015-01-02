@@ -208,11 +208,11 @@ abstract class Widget
         dirtyRenderCache = false
         cg := renderCache.graphics
         cg.antialias = true
-        if (Toolkit.cur.name != "SWT") {
-          cg.brush = Color.makeArgb(0, 0, 0, 0)
-        } else {
-          cg.brush = Color.makeArgb(0, 255, 255, 255)
-        }
+        //if (Toolkit.cur.name != "SWT") {
+        //  cg.brush = Color.makeArgb(0, 0, 0, 0)
+        //} else {
+          cg.brush = Color.makeArgb(255, 255, 255, 255)
+        //}
         cg.clearRect(0, 0, width, height)
         doPaint(cg)
         cg.dispose

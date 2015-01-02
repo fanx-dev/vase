@@ -31,14 +31,16 @@ class WinTest
     {
         LinearLayout
         {
-          padding = Insets(20)
+          padding = Insets(50)
           spacing = dpToPixel(15)
+          it.layoutParam.width = LayoutParam.matchParent
+
           Button { id = "button"; text = "Hello Button" },
           ComboBox {
             it.items = ["comboBox1","comboBox2","comboBox3","comboBox4"]
             selectedIndex = 0
           },
-          Label { id = "label"; text = "Label"; effect = ShadowEffect() },
+          Label { id = "label"; text = "Label"; },
           //ImageView { id = "image";  image = ConstImage(`fan://icons/x16/folder.png`) },
           TextField { hint = "hint" },
           Switch { text = "switch"; it.layoutParam.width = LayoutParam.matchParent },

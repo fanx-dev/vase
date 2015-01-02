@@ -46,7 +46,7 @@ class TextField : Widget, TextView
 
   new make()
   {
-    this.layoutParam.width = font.height * 10
+    //this.layoutParam.width = font.height * 10
     onFocusChanged.add |e| {
       focused := e.data
       if (focused)

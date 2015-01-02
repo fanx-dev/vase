@@ -103,7 +103,7 @@ class LayoutParam {
   **
   ** width of widget
   **
-  Int width := wrapContent
+  Int width := matchParent
 
   **
   ** height of widget

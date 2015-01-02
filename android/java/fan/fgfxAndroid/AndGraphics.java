@@ -18,6 +18,7 @@ import android.graphics.Paint;
 import android.graphics.RectF;
 import android.graphics.Shader;
 import android.graphics.Typeface;
+import android.graphics.PorterDuff;
 import fan.fgfxGraphics.*;
 import fan.fgfxMath.Transform2D;
 import fan.sys.ArgErr;
@@ -223,9 +224,9 @@ public class AndGraphics implements Graphics {
     gc.clipRect(x, y, x + w, y + h);
     if (brush instanceof Color) {
       Color ca = (Color) brush;
-      gc.drawColor((int) ca.argb);
+      gc.drawColor((int) ca.argb, PorterDuff.Mode.SRC);
     } else {
-      gc.drawColor(0);
+      gc.drawColor(0, PorterDuff.Mode.SRC);
     }
     gc.restore();
     return this;
@@ -364,10 +365,10 @@ public class AndGraphics implements Graphics {
   public void pop() {
     gc.restore();
     State s = (State) stack.pop();
-    alpha = s.alpha;
-    pen = s.pen;
-    brush = s.brush;
-    font = s.font;
+    alpha(s.alpha);
+    pen(s.pen);
+    brush(s.brush);
+    font(s.font);
     this.antialias(s.antialias);
     //gc.setMatrix(s.transform);
     gc.clipRect(s.clip);

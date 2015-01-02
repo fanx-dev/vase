@@ -19,12 +19,13 @@ class ImageView : Widget
 
   new make(|This| f)
   {
+    layoutParam.width = LayoutParam.wrapContent
     f(this)
   }
 
   protected override Dimension prefContentSize(Int hintsWidth, Int hintsHeight, Dimension result) {
     if (!image.isReady) {
-      Toolkit.cur.callLater(1000) |->| { 
+      Toolkit.cur.callLater(1000) |->| {
         this.getRootView.layout
       }
       return result.set(0, 0)
