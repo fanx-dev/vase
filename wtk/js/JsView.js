@@ -111,3 +111,6 @@ fan.fgfxWtk.JsView.prototype.size = function() {
   return this.m_size;
 }
 
+fan.fgfxWtk.JsView.prototype.win = function() {
+  return this.m_win;
+}

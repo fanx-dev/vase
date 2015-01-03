@@ -11,7 +11,7 @@ import fan.fgfxGraphics.*;
 public class AwtView implements NativeView {
 
   View view;
-
+  Window win;
   AwtCanvas canvas;
 
   class AwtCanvas extends JPanel {
@@ -68,5 +68,10 @@ public class AwtView implements NativeView {
   @Override
   public Size size() {
     return Size.make(canvas.getWidth(), canvas.getHeight());
+  }
+
+  @Override
+  public Window win() {
+    return win;
   }
 }

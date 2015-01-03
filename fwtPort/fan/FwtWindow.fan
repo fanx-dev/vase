@@ -90,6 +90,7 @@ class FwtView : NativeView
 {
   FwtCanvas canvas
   View view
+  Window? window
 
   new make(View view)
   {
@@ -118,6 +119,8 @@ class FwtView : NativeView
 
   override Bool hasFocus() { canvas.hasFocus }
   override Void focus() { canvas.focus }
+
+  override Window win() { window }
 }
 
 **
@@ -136,11 +139,20 @@ class FwtWindow : Window
 
   override This add(View view)
   {
+    if (view is EditText) {
+      return this
+    }
     nativeView := FwtView(view)
+    nativeView.window = this
     view.nativeView = nativeView
     list.add(view)
     fwtWin.add(nativeView.canvas)
     return this
+  }
+
+  override Void remove(View view) {
+    list.remove(view);
+    fwtWin.remove(((FwtView)view).canvas);
   }
 
   override Void show(Size? size := null)

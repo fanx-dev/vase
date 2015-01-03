@@ -24,7 +24,7 @@ class Caret
 ** JTextField is a lightweight component that allows the editing of a single line of text.
 **
 @Js
-class TextField : Widget, TextView
+class TextField : Widget, TextView, EditText
 {
   override Str text := ""
   {
@@ -38,11 +38,14 @@ class TextField : Widget, TextView
   }
 
   Str hint := ""
+  Bool password := false
 
   override Font font := Font(dpToPixel(41))
 
   Caret caret := Caret()
   private Timer? timer
+
+  override NativeView? nativeView
 
   new make()
   {
@@ -51,16 +54,50 @@ class TextField : Widget, TextView
       focused := e.data
       if (focused)
       {
-        startCaret
+        this.getRootView.nativeView.win.add(this)
+        if (nativeView == null) {
+          startCaret
+        } else {
+          nativeView?.focus
+           resetNativeView
+        }
       }
       else
       {
         stopCaret
         caret.visible = false
+        if (nativeView != null) {
+          text = (nativeView as NativeEditText).text
+          this.getRootView.nativeView.win.remove(this)
+        }
         requestPaint
       }
     }
     this.padding = Insets(dpToPixel(20))
+  }
+
+  override Void willTextChange(Str text) {
+  }
+
+  override Void didTextChange(Str text) {
+    this.text = text
+  }
+
+  protected Void resetNativeView() {
+    if (nativeView == null) return
+    NativeEditText edit := nativeView
+
+    edit.text = text
+    Coord pos := Coord(x, y)
+    rc := posOnWindow(pos)
+    if (!rc) return
+    edit.setBound(pos.x, pos.y, width, height)
+  }
+
+  protected override This doLayout(Dimension result) {
+    rc := super.doLayout(result)
+    //resetNativeView
+    return rc
   }
 
   override Dimension prefContentSize(Int hintsWidth, Int hintsHeight, Dimension result) {

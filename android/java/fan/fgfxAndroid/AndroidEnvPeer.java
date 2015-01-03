@@ -1,13 +1,12 @@
 package fan.fgfxAndroid;
 
-import fan.concurrent.Actor;
-import fan.fgfxWtk.Toolkit;
-import fan.fgfxWtk.View;
-import fan.fgfxWtk.Window;
-import android.content.Context;
 import android.app.Activity;
+import android.os.Handler;
 import android.util.DisplayMetrics;
 import android.view.WindowManager;
+import fan.concurrent.Actor;
+import fan.fgfxWtk.Toolkit;
+import fan.fgfxWtk.Window;
 
 public class AndroidEnvPeer {
   public static AndroidEnvPeer make(AndroidEnv self)
@@ -26,6 +25,7 @@ public class AndroidEnvPeer {
   {
     Activity context;
     long dpi = 326;
+    Handler handler;
 
     public AndToolkit(Activity context)
     {
@@ -39,6 +39,8 @@ public class AndroidEnvPeer {
             metrics.densityDpi));
         this.dpi = (long)dpi;
       }
+      
+      handler = new Handler();
     }
 
     @Override
@@ -49,15 +51,12 @@ public class AndroidEnvPeer {
     @Override
     public void callLater(long daly, final fan.sys.Func f)
     {
-      context.runOnUiThread(
-          new Runnable()
+      handler.postDelayed(new Runnable() {
+          public void run()
           {
-            public void run()
-            {
-              f.call();
-            }
+            f.call();
           }
-      );
+        }, daly);
     }
 
     @Override

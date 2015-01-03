@@ -63,22 +63,10 @@ mixin NativeView
   ** request focus
   **
   abstract Void focus()
-}
-
-**
-** Window is a host display
-**
-@Js
-mixin Window
-{
-  **
-  ** add a view to window
-  **
-  abstract This add(View view)
 
   **
-  ** open this window. size is options
+  ** get the window
   **
-  abstract Void show(Size? size := null)
+  abstract Window win()
 }
 

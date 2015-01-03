@@ -8,19 +8,21 @@
 
 package fan.fgfxAndroid;
 
-import fan.fgfxWtk.*;
-import fan.fgfxGraphics.*;
-import fan.sys.*;
-import android.view.View;
 import android.content.Context;
-import android.graphics.Rect;
-import android.app.Activity;
 import android.graphics.Canvas;
+import android.graphics.Rect;
 import android.view.MotionEvent;
+import android.view.View;
+import fan.fgfxGraphics.Point;
+import fan.fgfxGraphics.Size;
+import fan.fgfxWtk.NativeView;
+import fan.fgfxWtk.Window;
+import fan.sys.List;
 
 public class AndView extends View implements NativeView {
   fan.fgfxWtk.View view;
-
+  Window win;
+  
   public AndView(Context context, fan.fgfxWtk.View view) {
     super(context);
     this.view = view;
@@ -75,6 +77,11 @@ public class AndView extends View implements NativeView {
     fan.fgfxWtk.MotionEvent ce = andToFan(event);
     view.onMotionEvent(ce);
     return true;
+  }
+  
+  @Override
+  public Window win() {
+	  return win;
   }
 
   // ////////////////////////////////////////////////////////////////////////

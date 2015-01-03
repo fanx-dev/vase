@@ -195,7 +195,7 @@ abstract class WidgetGroup : Widget
     paintChildren(g)
 
     //debug
-    if (Env.cur.runtime != "js") {
+    if (Env.cur.runtime != "js" && Toolkit.cur.name != "Android") {
       if (this.typeof.pod.config("debug", "false") == "true") {
         g.brush = Color.black
         g.drawLine(0, 0, width, height)

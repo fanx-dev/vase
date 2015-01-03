@@ -19,11 +19,21 @@ public class AwtWindow implements Window {
 
   @Override
   public AwtWindow add(View view) {
+    if (view instanceof fan.fgfxWtk.EditText) {
+      return this;
+    }
     AwtView awtView = new AwtView(view);
+    awtView.win = this;
     view.nativeView(awtView);
     frame.add(awtView.canvas);
     list.add(view);
     return this;
+  }
+
+  @Override
+  public void remove(View view) {
+    list.remove(view);
+    frame.remove(((AwtView)view).canvas);
   }
 
   @Override

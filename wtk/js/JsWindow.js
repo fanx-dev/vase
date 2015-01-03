@@ -17,6 +17,7 @@ fan.fgfxWtk.JsWindow.prototype.list = new Array();
 fan.fgfxWtk.JsWindow.prototype.add = function(view)
 {
   var nativeView = new fan.fgfxWtk.JsView();
+  nativeView.m_win = this;
   view.nativeView$(nativeView);
   var size = view.getPrefSize(600, 600);
   //console.log(size)
@@ -34,6 +35,11 @@ fan.fgfxWtk.JsWindow.prototype.add = function(view)
   c.focus();
   this.list.push(view);
   return this;
+}
+
+fan.fgfxWtk.JsWindow.prototype.remove = function(view) {
+  this.list.remove(view.nativeView().canvas);
+  this.root.removeChild(view);
 }
 
 fan.fgfxWtk.JsWindow.prototype.show = function(size)
