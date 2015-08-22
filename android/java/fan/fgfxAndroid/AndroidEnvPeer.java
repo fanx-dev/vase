@@ -26,6 +26,7 @@ public class AndroidEnvPeer {
     Activity context;
     long dpi = 326;
     Handler handler;
+    double density = 2.0f;
 
     public AndToolkit(Activity context)
     {
@@ -38,6 +39,7 @@ public class AndroidEnvPeer {
         float dpi = (float) Math.ceil(Math.max(Math.max(metrics.xdpi, metrics.ydpi),
             metrics.densityDpi));
         this.dpi = (long)dpi;
+        density = metrics.density / 2.0;
       }
       
       handler = new Handler();
@@ -67,6 +69,11 @@ public class AndroidEnvPeer {
     @Override
     public long dpi() {
       return dpi;
+    }
+    
+    @Override
+    public double density() {
+      return density;
     }
   }
 }

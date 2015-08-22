@@ -39,7 +39,12 @@ abstract const class Toolkit
   **
   ** return the current devices DPI(dot per inch)
   **
-  virtual Int dpi() { 135 }
+  protected virtual Int dpi() { 135 }
+
+  **
+  ** density base on 320 dpi
+  **
+  virtual Float density() { dpi / 320.0f }
 
   **
   ** current Env name

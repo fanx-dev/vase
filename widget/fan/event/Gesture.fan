@@ -101,7 +101,7 @@ class Gesture
   ** scale dp to pixel
   **
   protected virtual Float dp() {
-    Toolkit.cur.dpi.toFloat/320f
+    Toolkit.cur.density
   }
 
   Int dpToPixel(Int d) { (d * dp).toInt }
