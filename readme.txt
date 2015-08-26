@@ -9,11 +9,47 @@ Fantom Graphics
 
 Run on Android
 -------
-1. Clone my fork https://bitbucket.org/chunquedong/fan-1.0
-2. Bootstrap compile (http://fantom.org/doc/docTools/Bootstrap#script)
-3. Bootstrap compile again using the new compiler.
-4. Build app as a single JAR
-5. Call fanjardist.Main.boot() to init Fantom Env in java.
+
+I. Bootstrap compile Fantom (http://fantom.org/doc/docTools/Bootstrap#script)
+  1.Clone my fork https://bitbucket.org/chunquedong/fan-1.0
+  2.directory tree
+      dev/
+        rel/
+          bin/
+          lib/
+          ...
+        fan/
+          bin/
+          lib/
+          src/
+          ...
+  3.set os env
+  export java_home=/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Home
+
+  4.set jdkHome(options)
+   /etc/build/config.props：
+  jdkHome=file:/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Home/
+
+  5.start compile
+  rel/bin/fan rel/adm/bootstrap.fan -skipPull
+
+  6.copy new lib
+  cp -rf fan/lib rel/
+
+  7.compile again
+  rel/bin/fan rel/adm/bootstrap.fan -skipPull
+
+II. compile fanGx lib and Android Demo
+  1.copy android jar
+  copy fanGfx/lib/*.jar file to fan/lib/java/ext/
+
+  2.build project
+  fan/bin/fan /Users/yangjiandong/workspace/code/fanGfx/build.fan
+
+  3.pack to jar file
+  fan/bin/fan /Users/yangjiandong/workspace/code/fanGfx/androidDemo/build.fan dist
+
+  4.run Android project from Eclipse ADT from fanGfx/androidDemo/android/
 
 Setting LWJGL
 -------
