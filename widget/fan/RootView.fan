@@ -19,7 +19,7 @@ class RootView : FrameLayout, View
   **
   ** The reference of nativeView
   **
-  override NativeView? nativeView
+  override NativeView? host
 
   **
   ** current focus widget
@@ -135,14 +135,14 @@ class RootView : FrameLayout, View
 
   override Void onPaint(Graphics g) {
     //beginTime := Duration.nowTicks
-    s := nativeView.size
+    s := host.size
     if (width != s.w || height != s.h) {
       layoutDirty = true
     }
 
     if (layoutDirty) {
       layoutDirty = false
-      pos := nativeView.pos
+      pos := host.pos
       x = pos.x
       y = pos.y
       width = s.w
@@ -242,7 +242,7 @@ class RootView : FrameLayout, View
   {
     super.requestPaint(dirty)
     if (dirty == null) dirty = this.bounds
-    nativeView?.repaint(dirty)
+    host?.repaint(dirty)
   }
 
   override Size getPrefSize(Int hintsWidth, Int hintsHeight) {
@@ -273,7 +273,7 @@ class RootView : FrameLayout, View
     focusWidget?.onFocusChanged?.fire(e)
 
     this.focusWidget = w
-    nativeView.focus
+    host.focus
 
     e.data = true
     focusWidget?.onFocusChanged?.fire(e)
@@ -293,7 +293,7 @@ class RootView : FrameLayout, View
   **
   ** return true if host windows has focus
   **
-  override Bool hasFocus() { nativeView.hasFocus }
+  override Bool hasFocus() { host.hasFocus }
 
   **
   ** get or make a widget that layout top of root view

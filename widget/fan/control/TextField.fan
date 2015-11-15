@@ -45,7 +45,7 @@ class TextField : Widget, TextView, EditText
   Caret caret := Caret()
   private Timer? timer
 
-  override NativeView? nativeView
+  override NativeView? host
 
   new make()
   {
@@ -54,21 +54,21 @@ class TextField : Widget, TextView, EditText
       focused := e.data
       if (focused)
       {
-        this.getRootView.nativeView.win.add(this)
-        if (nativeView == null) {
+        this.getRootView.host.win.add(this)
+        if (host == null) {
           startCaret
         } else {
-          nativeView?.focus
-           resetNativeView
+          host?.focus
+          resetNativeView
         }
       }
       else
       {
         stopCaret
         caret.visible = false
-        if (nativeView != null) {
-          text = (nativeView as NativeEditText).text
-          this.getRootView.nativeView.win.remove(this)
+        if (host != null) {
+          text = (host as NativeEditText).text
+          this.getRootView.host.win.remove(this)
         }
         requestPaint
       }
@@ -84,8 +84,8 @@ class TextField : Widget, TextView, EditText
   }
 
   protected Void resetNativeView() {
-    if (nativeView == null) return
-    NativeEditText edit := nativeView
+    if (host == null) return
+    NativeEditText edit := host
 
     edit.text = text
     Coord pos := Coord(x, y)
@@ -96,7 +96,7 @@ class TextField : Widget, TextView, EditText
 
   protected override This doLayout(Dimension result) {
     rc := super.doLayout(result)
-    //resetNativeView
+    resetNativeView
     return rc
   }
 

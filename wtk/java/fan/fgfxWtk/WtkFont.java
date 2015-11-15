@@ -4,14 +4,14 @@ import fan.sys.Func;
 
 import fan.fgfxGraphics.*;
 
-public class AwtFont extends Font {
+public class WtkFont extends Font {
 
   private java.awt.Font nfont = null;
   private java.awt.FontMetrics fontMetrics = null;
 
   public static Font makeAwtFont(Func func)
   {
-    Font f = new AwtFont();
+    Font f = new WtkFont();
     func.enterCtor(f);
     func.call(f);
     func.exitCtor();
@@ -20,7 +20,7 @@ public class AwtFont extends Font {
 
   public java.awt.Font getNFont() {
     if (nfont == null) {
-      nfont = AwtUtil.toFont(this);
+      nfont = WtkUtil.toFont(this);
     }
     return nfont;
   }
@@ -28,7 +28,7 @@ public class AwtFont extends Font {
 
   public java.awt.FontMetrics getFontMetrics() {
     if (fontMetrics == null) {
-      fontMetrics = AwtUtil.scratchG().getFontMetrics(getNFont());
+      fontMetrics = WtkUtil.scratchG().getFontMetrics(getNFont());
     }
     return fontMetrics;
   }

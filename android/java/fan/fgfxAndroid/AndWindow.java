@@ -33,7 +33,7 @@ public class AndWindow extends android.widget.FrameLayout implements fan.fgfxWtk
       andView = new AndView(getContext(), view);
       ((AndView)andView).win = this;
     }
-    view.nativeView(andView);
+    view.host(andView);
     this.addView((android.view.View)andView);
     list.add(view);
     return this;
@@ -47,7 +47,7 @@ public class AndWindow extends android.widget.FrameLayout implements fan.fgfxWtk
   @Override
   public void remove(View view) {
     list.remove(view);
-    android.view.View aview = ((android.view.View)view.nativeView());
+    android.view.View aview = ((android.view.View)view.host());
     this.removeView(aview);
     
     hideInputMethod(aview);

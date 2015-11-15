@@ -8,12 +8,12 @@
 
 package fan.fgfxWtk;
 
-import javax.swing.*;
-import java.awt.*;
-import fan.concurrent.Actor;
-import fan.sys.*;
+import java.awt.EventQueue;
 import java.util.Timer;
 import java.util.TimerTask;
+
+import fan.concurrent.Actor;
+import fan.sys.Func;
 
 
 public class ToolkitEnvPeer
@@ -26,7 +26,7 @@ public class ToolkitEnvPeer
 
   public static void init()
   {
-    Actor.locals().set("fgfxGraphics.env", AwtGfxEnv.instance);
+    Actor.locals().set("fgfxGraphics.env", WtkGfxEnv.instance);
     Actor.locals().set("fgfxWtk.env", new AwtToolkit());
   }
 
@@ -35,7 +35,7 @@ public class ToolkitEnvPeer
     Timer timer = new Timer(true);
     public Window build()
     {
-      return new AwtWindow();
+      return new WtkWindow();
     }
 
     public String name() {

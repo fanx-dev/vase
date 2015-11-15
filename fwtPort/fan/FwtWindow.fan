@@ -144,7 +144,7 @@ class FwtWindow : Window
     }
     nativeView := FwtView(view)
     nativeView.window = this
-    view.nativeView = nativeView
+    view.host = nativeView
     list.add(view)
     fwtWin.add(nativeView.canvas)
     return this
@@ -161,7 +161,7 @@ class FwtWindow : Window
     if (size != null) {
       fwtWin.size = gfx::Size(size.w, size.h+titleBarHeight)
     } else {
-      s := ((FwtView)list.first.nativeView).canvas.prefSize
+      s := ((FwtView)list.first.host).canvas.prefSize
       fwtWin.size = gfx::Size(s.w, s.h+titleBarHeight)
     }
     fwtWin.open

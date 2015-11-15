@@ -15,7 +15,7 @@ fan.fgfxWtk.ToolkitEnvPeer.init = function() {
 }
 
 fan.fgfxWtk.Toolkit.prototype.build = function() {
-   var win = new fan.fgfxWtk.JsWindow();
+   var win = new fan.fgfxWtk.WtkWindow();
    fan.fgfxWtk.ToolkitEnvPeer.win = win;
    return win;
 }

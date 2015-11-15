@@ -64,3 +64,4 @@ class ToolkitEnv
   **
   native static Void init()
 }
+

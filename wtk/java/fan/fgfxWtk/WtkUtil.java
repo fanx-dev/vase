@@ -15,7 +15,7 @@ import java.awt.image.BufferedImage;
 import fan.fgfxMath.Transform2D;
 import fan.fgfxGraphics.*;
 
-public class AwtUtil {
+public class WtkUtil {
 
   private static Graphics2D scratchG = null;
   public static Graphics2D scratchG() {

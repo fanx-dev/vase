@@ -10,22 +10,22 @@
  * FwtGraphics implements gfx::Graphics using HTML5 canvas.
  */
 
-fan.fgfxWtk.Graphics = fan.sys.Obj.$extend(fan.sys.Obj);
-fan.fgfxWtk.Graphics.prototype.$ctor = function() {}
-fan.fgfxWtk.Graphics.prototype.$typeof = function()
+fan.fgfxWtk.WtkGraphics = fan.sys.Obj.$extend(fan.sys.Obj);
+fan.fgfxWtk.WtkGraphics.prototype.$ctor = function() {}
+fan.fgfxWtk.WtkGraphics.prototype.$typeof = function()
 {
   return fan.fgfxGraphics.Graphics.$type;
 }
 
-fan.fgfxWtk.Graphics.prototype.widget = null;
-fan.fgfxWtk.Graphics.prototype.size = null;
-fan.fgfxWtk.Graphics.prototype.cx = null;
-fan.fgfxWtk.Graphics.prototype.m_clip = null;
+fan.fgfxWtk.WtkGraphics.prototype.widget = null;
+fan.fgfxWtk.WtkGraphics.prototype.size = null;
+fan.fgfxWtk.WtkGraphics.prototype.cx = null;
+fan.fgfxWtk.WtkGraphics.prototype.m_clip = null;
 
 // canvas - <canvas> element
 // bounds - fan.gfx.Rect
-// f - JS function(fan.fgfxWtk.Graphics)
-fan.fgfxWtk.Graphics.prototype.init = function(cx, bounds)
+// f - JS function(fan.fgfxWtk.WtkGraphics)
+fan.fgfxWtk.WtkGraphics.prototype.init = function(cx, bounds)
 {
   this.size = bounds.size();
   this.m_clip = bounds;
@@ -45,9 +45,9 @@ fan.fgfxWtk.Graphics.prototype.init = function(cx, bounds)
 }
 
 // Brush brush
-fan.fgfxWtk.Graphics.prototype.m_brush = null
-fan.fgfxWtk.Graphics.prototype.brush   = function() { return this.m_brush }
-fan.fgfxWtk.Graphics.prototype.brush$  = function(b)
+fan.fgfxWtk.WtkGraphics.prototype.m_brush = null
+fan.fgfxWtk.WtkGraphics.prototype.brush   = function() { return this.m_brush }
+fan.fgfxWtk.WtkGraphics.prototype.brush$  = function(b)
 {
   this.m_brush = b;
   if (b instanceof fan.fgfxGraphics.Color)
@@ -86,7 +86,7 @@ fan.fgfxWtk.Graphics.prototype.brush$  = function(b)
     var jsImg = b.m_image.getImage();
     if (!image.isLoaded())
     {
-      fan.fgfxWtk.Graphics.loadImage(this, jsImg);
+      fan.fgfxWtk.WtkGraphics.loadImage(this, jsImg);
     }
 
     var style = (jsImg.width > 0 && jsImg.height > 0)
@@ -102,9 +102,9 @@ fan.fgfxWtk.Graphics.prototype.brush$  = function(b)
 }
 
 // Pen pen
-fan.fgfxWtk.Graphics.prototype.m_pen = null
-fan.fgfxWtk.Graphics.prototype.pen   = function() { return this.m_pen }
-fan.fgfxWtk.Graphics.prototype.pen$  = function(p)
+fan.fgfxWtk.WtkGraphics.prototype.m_pen = null
+fan.fgfxWtk.WtkGraphics.prototype.pen   = function() { return this.m_pen }
+fan.fgfxWtk.WtkGraphics.prototype.pen$  = function(p)
 {
   this.m_pen = p;
   this.cx.lineWidth = p.m_width;
@@ -114,34 +114,34 @@ fan.fgfxWtk.Graphics.prototype.pen$  = function(p)
 }
 
 // Font font
-fan.fgfxWtk.Graphics.prototype.m_font = null
-fan.fgfxWtk.Graphics.prototype.font   = function() { return this.m_font }
-fan.fgfxWtk.Graphics.prototype.font$  = function(f)
+fan.fgfxWtk.WtkGraphics.prototype.m_font = null
+fan.fgfxWtk.WtkGraphics.prototype.font   = function() { return this.m_font }
+fan.fgfxWtk.WtkGraphics.prototype.font$  = function(f)
 {
   this.m_font = f;
   this.cx.font = fan.fgfxWtk.GfxUtil.fontToCss(f);
 }
 
 // Bool antialias
-fan.fgfxWtk.Graphics.prototype.m_antialias = true;
-fan.fgfxWtk.Graphics.prototype.antialias   = function() { return this.m_antialias }
-fan.fgfxWtk.Graphics.prototype.antialias$  = function(aa)
+fan.fgfxWtk.WtkGraphics.prototype.m_antialias = true;
+fan.fgfxWtk.WtkGraphics.prototype.antialias   = function() { return this.m_antialias }
+fan.fgfxWtk.WtkGraphics.prototype.antialias$  = function(aa)
 {
   // Note: canvas has no control over anti-aliasing (Jun 09)
   this.m_antialias = aa;
 }
 
 // Int alpha
-fan.fgfxWtk.Graphics.prototype.m_alpha = 255;
-fan.fgfxWtk.Graphics.prototype.alpha   = function() { return this.m_alpha}
-fan.fgfxWtk.Graphics.prototype.alpha$  = function(a)
+fan.fgfxWtk.WtkGraphics.prototype.m_alpha = 255;
+fan.fgfxWtk.WtkGraphics.prototype.alpha   = function() { return this.m_alpha}
+fan.fgfxWtk.WtkGraphics.prototype.alpha$  = function(a)
 {
   this.m_alpha = a;
   this.cx.globalAlpha = a / 255;
 }
 
 // This drawLine(Int x1, Int y1, Int x2, Int y2)
-fan.fgfxWtk.Graphics.prototype.drawLine = function(x1, y1, x2, y2)
+fan.fgfxWtk.WtkGraphics.prototype.drawLine = function(x1, y1, x2, y2)
 {
   this.cx.beginPath();
   this.cx.moveTo(x1+0.5, y1+0.5);
@@ -153,7 +153,7 @@ fan.fgfxWtk.Graphics.prototype.drawLine = function(x1, y1, x2, y2)
 
 
 // This drawPolygon(Point[] p)
-fan.fgfxWtk.Graphics.prototype.drawPolygon = function(p)
+fan.fgfxWtk.WtkGraphics.prototype.drawPolygon = function(p)
 {
   this.cx.beginPath();
   var size = p.size();
@@ -172,27 +172,27 @@ fan.fgfxWtk.Graphics.prototype.drawPolygon = function(p)
 }
 
 // This drawRect(Int x, Int y, Int w, Int h)
-fan.fgfxWtk.Graphics.prototype.drawRect = function(x, y, w, h)
+fan.fgfxWtk.WtkGraphics.prototype.drawRect = function(x, y, w, h)
 {
   this.cx.strokeRect(x+0.5, y+0.5, w, h);
   return this;
 }
 
 // This fillRect(Int x, Int y, Int w, Int h)
-fan.fgfxWtk.Graphics.prototype.fillRect = function(x, y, w, h)
+fan.fgfxWtk.WtkGraphics.prototype.fillRect = function(x, y, w, h)
 {
   this.cx.fillRect(x, y, w, h);
   return this;
 }
 
-fan.fgfxWtk.Graphics.prototype.clearRect = function(x, y, w, h)
+fan.fgfxWtk.WtkGraphics.prototype.clearRect = function(x, y, w, h)
 {
   this.cx.clearRect(x, y, w, h);
   return this;
 }
 
 // This drawRoundRect(Int x, Int y, Int w, Int h, Int wArc, Int hArc)
-fan.fgfxWtk.Graphics.prototype.drawRoundRect = function(x, y, w, h, wArc, hArc)
+fan.fgfxWtk.WtkGraphics.prototype.drawRoundRect = function(x, y, w, h, wArc, hArc)
 {
   this.pathRoundRect(x+0.5, y+0.5, w, h, wArc*1.1, hArc*1.1)
   this.cx.stroke();
@@ -200,7 +200,7 @@ fan.fgfxWtk.Graphics.prototype.drawRoundRect = function(x, y, w, h, wArc, hArc)
 }
 
 // This fillRoundRect(Int x, Int y, Int w, Int h, Int wArc, Int hArc)
-fan.fgfxWtk.Graphics.prototype.fillRoundRect = function(x, y, w, h, wArc, hArc)
+fan.fgfxWtk.WtkGraphics.prototype.fillRoundRect = function(x, y, w, h, wArc, hArc)
 {
   this.pathRoundRect(x, y, w, h, wArc*1.1, hArc*1.1)
   this.cx.fill();
@@ -208,7 +208,7 @@ fan.fgfxWtk.Graphics.prototype.fillRoundRect = function(x, y, w, h, wArc, hArc)
 }
 
 // generate path for a rounded rectangle
-fan.fgfxWtk.Graphics.prototype.pathRoundRect = function(x, y, w, h, wArc, hArc)
+fan.fgfxWtk.WtkGraphics.prototype.pathRoundRect = function(x, y, w, h, wArc, hArc)
 {
   this.cx.beginPath();
   this.cx.moveTo(x + wArc, y);
@@ -223,7 +223,7 @@ fan.fgfxWtk.Graphics.prototype.pathRoundRect = function(x, y, w, h, wArc, hArc)
 }
 
 // helper
-fan.fgfxWtk.Graphics.prototype.oval = function(x, y, w, h)
+fan.fgfxWtk.WtkGraphics.prototype.oval = function(x, y, w, h)
 {
   // Public Domain by Christopher Clay - http://canvaspaint.org/blog/
   var kappa = 4 * ((Math.sqrt(2) -1) / 3);
@@ -242,7 +242,7 @@ fan.fgfxWtk.Graphics.prototype.oval = function(x, y, w, h)
 }
 
 // This drawOval(Int x, Int y, Int w, Int h)
-fan.fgfxWtk.Graphics.prototype.drawOval = function(x, y, w, h)
+fan.fgfxWtk.WtkGraphics.prototype.drawOval = function(x, y, w, h)
 {
   this.oval(x, y, w, h)
   this.cx.stroke();
@@ -250,7 +250,7 @@ fan.fgfxWtk.Graphics.prototype.drawOval = function(x, y, w, h)
 }
 
 // This fillOval(Int x, Int y, Int w, Int h)
-fan.fgfxWtk.Graphics.prototype.fillOval = function(x, y, w, h)
+fan.fgfxWtk.WtkGraphics.prototype.fillOval = function(x, y, w, h)
 {
   this.oval(x, y, w, h)
   this.cx.fill();
@@ -258,7 +258,7 @@ fan.fgfxWtk.Graphics.prototype.fillOval = function(x, y, w, h)
 }
 
 // This drawArc(Int x, Int y, Int w, Int h, Int startAngle, Int arcAngle)
-fan.fgfxWtk.Graphics.prototype.drawArc = function(x, y, w, h, startAngle, arcAngle)
+fan.fgfxWtk.WtkGraphics.prototype.drawArc = function(x, y, w, h, startAngle, arcAngle)
 {
   // TODO FIXIT: support for elliptical arc curves
   var cx  = x + (w/2);
@@ -274,7 +274,7 @@ fan.fgfxWtk.Graphics.prototype.drawArc = function(x, y, w, h, startAngle, arcAng
 }
 
 // This fillArc(Int x, Int y, Int w, Int h, Int startAngle, Int arcAngle)
-fan.fgfxWtk.Graphics.prototype.fillArc = function(x, y, w, h, startAngle, arcAngle)
+fan.fgfxWtk.WtkGraphics.prototype.fillArc = function(x, y, w, h, startAngle, arcAngle)
 {
   // TODO FIXIT: support for elliptical arc curves
   var cx = x + (w/2);
@@ -300,14 +300,14 @@ fan.fgfxWtk.Graphics.prototype.fillArc = function(x, y, w, h, startAngle, arcAng
 }
 
 // This drawText(Str s, Int x, Int y)
-fan.fgfxWtk.Graphics.prototype.drawText = function (s, x, y)
+fan.fgfxWtk.WtkGraphics.prototype.drawText = function (s, x, y)
 {
   this.cx.fillText(s, x, y)
   return this;
 }
 
 // This clip(Rect r)
-fan.fgfxWtk.Graphics.prototype.clip = function (rect)
+fan.fgfxWtk.WtkGraphics.prototype.clip = function (rect)
 {
   this.m_clip = this.m_clip.intersection(rect);
   this.cx.beginPath();
@@ -321,13 +321,13 @@ fan.fgfxWtk.Graphics.prototype.clip = function (rect)
 }
 
 // Rect clipBounds()
-fan.fgfxWtk.Graphics.prototype.clipBounds = function ()
+fan.fgfxWtk.WtkGraphics.prototype.clipBounds = function ()
 {
   return this.m_clip;
 }
 
 // Void push()
-fan.fgfxWtk.Graphics.prototype.push = function ()
+fan.fgfxWtk.WtkGraphics.prototype.push = function ()
 {
   this.cx.save();
   var state = new Object();
@@ -342,7 +342,7 @@ fan.fgfxWtk.Graphics.prototype.push = function ()
 }
 
 // Void pop()
-fan.fgfxWtk.Graphics.prototype.pop = function ()
+fan.fgfxWtk.WtkGraphics.prototype.pop = function ()
 {
   this.cx.restore();
   var state = this.stack.pop();
@@ -356,13 +356,13 @@ fan.fgfxWtk.Graphics.prototype.pop = function ()
 }
 
 // Void dispose()
-fan.fgfxWtk.Graphics.prototype.dispose = function ()
+fan.fgfxWtk.WtkGraphics.prototype.dispose = function ()
 {
   // no-op
 }
 
 // state for fields in push/pop
-fan.fgfxWtk.Graphics.prototype.stack = new Array();
+fan.fgfxWtk.WtkGraphics.prototype.stack = new Array();
 
 
 
@@ -371,52 +371,52 @@ fan.fgfxWtk.Graphics.prototype.stack = new Array();
 //   2011-08-20  Jed Young  Creation
 //
 
-fan.fgfxWtk.Graphics.prototype.drawImage = function(image, x, y)
+fan.fgfxWtk.WtkGraphics.prototype.drawImage = function(image, x, y)
 {
   var jsImg = image.getImage();
   if (image.isLoaded() && jsImg.width > 0 && jsImg.height > 0)
     this.cx.drawImage(jsImg, x, y);
   else
   {
-    fan.fgfxWtk.Graphics.loadImage(this, jsImg);
+    fan.fgfxWtk.WtkGraphics.loadImage(this, jsImg);
   }
   return this;
 }
 
 //invalid widget to repaint on image loaded
-fan.fgfxWtk.Graphics.loadImage = function(self, jsImg)
+fan.fgfxWtk.WtkGraphics.loadImage = function(self, jsImg)
 {
   fan.fgfxWtk.GfxUtil.addEventListener(jsImg, "load",
     function(){ if(self.widget){ self.widget.invalid(); }; });
 }
 
-fan.fgfxWtk.Graphics.prototype.copyImage = function(image, src, dst)
+fan.fgfxWtk.WtkGraphics.prototype.copyImage = function(image, src, dst)
 {
   var jsImg = image.getImage();
   if (image.isLoaded() && jsImg.width > 0 && jsImg.height > 0)
     this.cx.drawImage(jsImg, src.m_x, src.m_y, src.m_w, src.m_h, dst.m_x, dst.m_y, dst.m_w, dst.m_h)
   else
   {
-    fan.fgfxWtk.Graphics.loadImage(this, jsImg);
+    fan.fgfxWtk.WtkGraphics.loadImage(this, jsImg);
   }
   return this;
 }
 
-fan.fgfxWtk.Graphics.prototype.drawPath = function(path)
+fan.fgfxWtk.WtkGraphics.prototype.drawPath = function(path)
 {
   fan.fgfxWtk.GfxUtil.doJsPath(this.cx, path);
   this.cx.stroke();
   return this;
 }
 
-fan.fgfxWtk.Graphics.prototype.fillPath = function(path)
+fan.fgfxWtk.WtkGraphics.prototype.fillPath = function(path)
 {
   fan.fgfxWtk.GfxUtil.doJsPath(this.cx, path);
   this.cx.fill();
   return this;
 }
 
-fan.fgfxWtk.Graphics.prototype.drawPolyline = function(p)
+fan.fgfxWtk.WtkGraphics.prototype.drawPolyline = function(p)
 {
   this.cx.beginPath();
   var size = p.size();
@@ -433,7 +433,7 @@ fan.fgfxWtk.Graphics.prototype.drawPolyline = function(p)
   return this;
 }
 
-fan.fgfxWtk.Graphics.prototype.fillPolygon = function(p)
+fan.fgfxWtk.WtkGraphics.prototype.fillPolygon = function(p)
 {
   this.cx.beginPath();
   var size = p.size();
@@ -451,9 +451,9 @@ fan.fgfxWtk.Graphics.prototype.fillPolygon = function(p)
   return this;
 }
 
-//fan.fgfxWtk.Graphics.prototype.m_transform = fan.fgfxMath.Transform2D.make();
-//fan.fgfxWtk.Graphics.prototype.transform = function() { return this.m_transform.clone(); }
-fan.fgfxWtk.Graphics.prototype.transform = function(trans)
+//fan.fgfxWtk.WtkGraphics.prototype.m_transform = fan.fgfxMath.Transform2D.make();
+//fan.fgfxWtk.WtkGraphics.prototype.transform = function() { return this.m_transform.clone(); }
+fan.fgfxWtk.WtkGraphics.prototype.transform = function(trans)
 {
   fan.fgfxWtk.GfxUtil.doJsTransform(this.cx, trans);
   //this.m_transform = trans.clone();
@@ -461,16 +461,16 @@ fan.fgfxWtk.Graphics.prototype.transform = function(trans)
 }
 
 
-fan.fgfxWtk.Graphics.prototype.clipPath = function(path)
+fan.fgfxWtk.WtkGraphics.prototype.clipPath = function(path)
 {
   fan.fgfxWtk.GfxUtil.doJsPath(this.cx, path);
   this.cx.clip();
   return this;
 }
 
-fan.fgfxWtk.Graphics.prototype.m_composite = null;
-fan.fgfxWtk.Graphics.prototype.composite = function() { return this.m_composite; }
-fan.fgfxWtk.Graphics.prototype.composite$ = function(c)
+fan.fgfxWtk.WtkGraphics.prototype.m_composite = null;
+fan.fgfxWtk.WtkGraphics.prototype.composite = function() { return this.m_composite; }
+fan.fgfxWtk.WtkGraphics.prototype.composite$ = function(c)
 {
   var cmp = "source-over";
   if (c.name = "srcAtop")
@@ -518,7 +518,7 @@ fan.fgfxWtk.Graphics.prototype.composite$ = function(c)
   this.m_composite = c;
 }
 
-fan.fgfxWtk.Graphics.prototype.setShadow = function(shadow){
+fan.fgfxWtk.WtkGraphics.prototype.setShadow = function(shadow){
   if (shadow) {
     this.cx.shadowColor = shadow.m_color.toCss();
     this.cx.shadowBlur = shadow.m_blur;

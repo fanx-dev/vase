@@ -43,3 +43,20 @@ mixin NativeEditText : NativeView
   abstract Void setBackgroundColor(Color color)
 }
 
+@Js
+internal native class WtkEditText : WtkView, NativeEditText
+{
+  override native Str text
+  override native Void setEnabled(Bool e)
+  override native Void setBound(Int x, Int y, Int w, Int h)
+
+  override native Void setInputType(Int type)
+  override native Void setSingleLine(Bool single)
+
+  override native Void setTextSelectable(Bool selectable)
+  override native Void setSelection(Int start, Int stop)
+
+  override native Void setTextColor(Color color)
+  override native Void setFont(Font font)
+  override native Void setBackgroundColor(Color color)
+}

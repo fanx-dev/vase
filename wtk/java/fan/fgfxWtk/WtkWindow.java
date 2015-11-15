@@ -1,30 +1,32 @@
 package fan.fgfxWtk;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
 import java.awt.EventQueue;
-import java.awt.event.*;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
+import java.awt.event.WindowStateListener;
 
-import fan.fgfxGraphics.*;
+import javax.swing.JFrame;
 
-public class AwtWindow implements Window {
+import fan.fgfxGraphics.Size;
+
+public class WtkWindow implements Window {
 
   JFrame frame;
-  java.util.List list;
+  java.util.List<View> list;
 
-  AwtWindow() {
+  WtkWindow() {
     frame = new JFrame();
-    list = new java.util.ArrayList();
+    list = new java.util.ArrayList<View>();
   }
 
   @Override
-  public AwtWindow add(View view) {
+  public WtkWindow add(View view) {
     if (view instanceof fan.fgfxWtk.EditText) {
       return this;
     }
-    AwtView awtView = new AwtView(view);
+    WtkView awtView = new WtkView(view);
     awtView.win = this;
-    view.nativeView(awtView);
+    view.host(awtView);
     frame.add(awtView.canvas);
     list.add(view);
     return this;
@@ -33,7 +35,7 @@ public class AwtWindow implements Window {
   @Override
   public void remove(View view) {
     list.remove(view);
-    frame.remove(((AwtView)view).canvas);
+    frame.remove(((WtkView)view).canvas);
   }
 
   @Override

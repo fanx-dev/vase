@@ -25,7 +25,7 @@ import fan.fgfxGraphics.*;
 import fan.sys.ArgErr;
 import fan.sys.FanObj;
 
-public class AwtGraphics implements Graphics {
+public class WtkGraphics implements Graphics {
   Graphics2D gc;
 
   Pen pen = Pen.defVal;
@@ -36,7 +36,7 @@ public class AwtGraphics implements Graphics {
 
   Stack<State> stack = new Stack<State>();
 
-  public AwtGraphics(Graphics2D gc)
+  public WtkGraphics(Graphics2D gc)
   {
     this.gc = gc;
   }
@@ -88,7 +88,7 @@ public class AwtGraphics implements Graphics {
       gc.setPaint(p);
     } else if (brush instanceof Pattern) {
       Pattern p = (Pattern) brush;
-      BufferedImage im = AwtUtil.toAwtImage(p.image);
+      BufferedImage im = WtkUtil.toAwtImage(p.image);
       TexturePaint tp = new TexturePaint(im, new Rectangle(im.getWidth(),
           im.getHeight()));
       gc.setPaint(tp);
@@ -169,14 +169,14 @@ public class AwtGraphics implements Graphics {
 
   @Override
   public Graphics drawPolygon(PointArray list) {
-    AwtPointArray pa = (AwtPointArray)list;
+    WtkPointArray pa = (WtkPointArray)list;
     gc.drawPolygon(pa.xa, pa.ya, pa.xa.length);
     return this;
   }
 
   @Override
   public Graphics drawPolyline(PointArray list) {
-    AwtPointArray pa = (AwtPointArray)list;
+    WtkPointArray pa = (WtkPointArray)list;
     gc.drawPolyline(pa.xa, pa.ya, pa.xa.length);
     return this;
   }
@@ -215,7 +215,7 @@ public class AwtGraphics implements Graphics {
 
   @Override
   public Graphics fillPolygon(PointArray list) {
-    AwtPointArray pa = (AwtPointArray)list;
+    WtkPointArray pa = (WtkPointArray)list;
     gc.fillPolygon(pa.xa, pa.ya, pa.xa.length);
     return this;
   }
@@ -253,7 +253,7 @@ public class AwtGraphics implements Graphics {
     }
     else
     {
-      this.gc.setFont(((AwtFont)f).getNFont());
+      this.gc.setFont(((WtkFont)f).getNFont());
     }
   }
 
@@ -302,17 +302,17 @@ public class AwtGraphics implements Graphics {
 
   @Override
   public Graphics clipPath(Path path) {
-    gc.clip(AwtUtil.toAwtPath(path));
+    gc.clip(WtkUtil.toAwtPath(path));
     return this;
   }
 
   @Override
   public Graphics copyImage(fan.fgfxGraphics.Image img2, Rect src, Rect dest) {
     BufferedImage img = null;
-    if (img2 instanceof AwtImage) {
-      img = ((AwtImage) img2).getImage();
-    } else if (img2 instanceof AwtConstImage) {
-      img = ((AwtConstImage) img2).getImage();
+    if (img2 instanceof WtkImage) {
+      img = ((WtkImage) img2).getImage();
+    } else if (img2 instanceof WtkConstImage) {
+      img = ((WtkConstImage) img2).getImage();
     }
     gc.drawImage(img, (int) dest.x, (int) dest.y, (int) dest.x
         + (int) dest.w, (int) dest.y + (int) dest.h, (int) src.x,
@@ -324,10 +324,10 @@ public class AwtGraphics implements Graphics {
   @Override
   public Graphics drawImage(fan.fgfxGraphics.Image img2, long x, long y) {
     BufferedImage img = null;
-    if (img2 instanceof AwtImage) {
-      img = ((AwtImage) img2).getImage();
-    } else if (img2 instanceof AwtConstImage) {
-      img = ((AwtConstImage) img2).getImage();
+    if (img2 instanceof WtkImage) {
+      img = ((WtkImage) img2).getImage();
+    } else if (img2 instanceof WtkConstImage) {
+      img = ((WtkConstImage) img2).getImage();
     }
     gc.drawImage(img, (int) x, (int) y, null);
     return this;
@@ -335,19 +335,19 @@ public class AwtGraphics implements Graphics {
 
   @Override
   public Graphics drawPath(Path path) {
-    gc.draw(AwtUtil.toAwtPath(path));
+    gc.draw(WtkUtil.toAwtPath(path));
     return this;
   }
 
   @Override
   public Graphics fillPath(Path path) {
-    gc.fill(AwtUtil.toAwtPath(path));
+    gc.fill(WtkUtil.toAwtPath(path));
     return this;
   }
 
   @Override
   public Graphics transform(Transform2D trans) {
-    gc.transform(AwtUtil.toAwtTransform(trans));
+    gc.transform(WtkUtil.toAwtTransform(trans));
     return this;
   }
 
@@ -395,7 +395,7 @@ public class AwtGraphics implements Graphics {
 
   @Override
   public void composite(fan.fgfxGraphics.Composite com) {
-    java.awt.AlphaComposite ncom = AwtUtil.toAwtComposite(com, (float)(this.alpha/255.0));
+    java.awt.AlphaComposite ncom = WtkUtil.toAwtComposite(com, (float)(this.alpha/255.0));
     if (ncom == null) return;
     this.gc.setComposite(ncom);
     composite = com;

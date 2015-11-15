@@ -23,14 +23,14 @@ import fan.sys.InStream;
 import fan.sys.SysInStream;
 import fan.sys.Uri;
 
-public class AwtGfxEnv extends GfxEnv {
+public class WtkGfxEnv extends GfxEnv {
 
-  static final AwtGfxEnv instance = new AwtGfxEnv();
-  private AwtGfxEnv() {}
+  static final WtkGfxEnv instance = new WtkGfxEnv();
+  private WtkGfxEnv() {}
 
   @Override
   public boolean contains(Path path, double x, double y) {
-    Path2D p = AwtUtil.toAwtPath(path);
+    Path2D p = WtkUtil.toAwtPath(path);
     return p.contains(x, y);
   }
 
@@ -38,13 +38,13 @@ public class AwtGfxEnv extends GfxEnv {
   public Image fromUri(Uri uri, Func onLoad) {
     if (uri.scheme().equals("http")) {
       onLoad = (Func) onLoad.toImmutable();
-      AwtImage p = new AwtImage();
+      WtkImage p = new WtkImage();
       loadFromWeb(p, uri, onLoad);
       return p;
     }
 
     InputStream jin = SysInStream.java(((fan.sys.File) uri.get()).in());
-    AwtImage p = new AwtImage();
+    WtkImage p = new WtkImage();
     streamToImage(jin, p);
     onLoad.call(p);
     return p;
@@ -53,12 +53,12 @@ public class AwtGfxEnv extends GfxEnv {
   public Image fromStream(InStream in)
   {
     InputStream jin = SysInStream.java(in);
-    AwtImage p = new AwtImage();
+    WtkImage p = new WtkImage();
     streamToImage(jin, p);
     return p;
   }
 
-  private static void loadFromWeb(final AwtImage p, final Uri uri,
+  private static void loadFromWeb(final WtkImage p, final Uri uri,
       final Func onLoad) {
     new Thread(new Runnable() {
       public void run() {
@@ -77,7 +77,7 @@ public class AwtGfxEnv extends GfxEnv {
     }).start();
   }
 
-  private static void streamToImage(InputStream jin, AwtImage p) {
+  private static void streamToImage(InputStream jin, WtkImage p) {
     BufferedImage image;
     try {
       image = ImageIO.read(jin);
@@ -91,7 +91,7 @@ public class AwtGfxEnv extends GfxEnv {
   public Image makeImage(Size size) {
     BufferedImage image = new BufferedImage((int) size.w, (int) size.h,
         BufferedImage.TYPE_INT_ARGB);
-    AwtImage p = new AwtImage();
+    WtkImage p = new WtkImage();
     p.setImage(image);
     return p;
   }
@@ -118,17 +118,17 @@ public class AwtGfxEnv extends GfxEnv {
     } catch (IOException e) {
       throw IOErr.make(e);
     }
-    return new AwtConstImage(image);
+    return new WtkConstImage(image);
   }
 
   @Override
   public Font makeFont(Func func) {
-    return AwtFont.makeAwtFont(func);
+    return WtkFont.makeAwtFont(func);
   }
 
   @Override
   public PointArray makePointArray(long size) {
-    PointArray pa = new AwtPointArray((int)size);
+    PointArray pa = new WtkPointArray((int)size);
     return pa;
   }
 

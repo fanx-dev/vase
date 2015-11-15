@@ -155,7 +155,7 @@ fan.fgfxWtk.Image.prototype.graphics = function()
   if (!this.m_graphics)
   {
     //create cx
-    var g = new fan.fgfxWtk.Graphics();
+    var g = new fan.fgfxWtk.WtkGraphics();
     var rect = new fan.fgfxGraphics.Rect.make(0,0, this.m_size.m_w, this.m_size.m_h);
     g.init(this.context(), rect);
     this.m_graphics = g;

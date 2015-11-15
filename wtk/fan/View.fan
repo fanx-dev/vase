@@ -29,7 +29,7 @@ mixin View
   **
   ** get native host
   **
-  abstract NativeView? nativeView
+  abstract NativeView? host
 
   **
   ** get prefer size
@@ -68,5 +68,15 @@ mixin NativeView
   ** get the window
   **
   abstract Window win()
+}
+
+@Js
+internal native class WtkView : NativeView {
+  override Void repaint(Rect? dirty := null)
+  override Size size()
+  override Point pos()
+  override Bool hasFocus()
+  override Void focus()
+  override Window win()
 }
 

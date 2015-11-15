@@ -5,12 +5,12 @@ import java.awt.image.BufferedImage;
 import fan.fgfxGraphics.ConstImage;
 import fan.fgfxGraphics.Size;
 
-public class AwtConstImage implements ConstImage{
+public class WtkConstImage implements ConstImage{
 
   private BufferedImage image;
   public BufferedImage getImage(){ return image; };
 
-  AwtConstImage(BufferedImage image) {
+  WtkConstImage(BufferedImage image) {
     this.image = image;
   }
 

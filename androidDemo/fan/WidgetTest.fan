@@ -31,8 +31,8 @@ class WinTest
     {
         LinearLayout
         {
-          padding = Insets(dpToPixel(40))
-          spacing = dpToPixel(15)
+          padding = Insets(dpToPixel(40f))
+          spacing = dpToPixel(15f)
           it.layoutParam.width = LayoutParam.matchParent
 
           Button { id = "button"; text = "Hello Button" },

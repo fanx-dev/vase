@@ -2,12 +2,12 @@ package fan.fgfxWtk;
 
 import fan.fgfxGraphics.*;
 
-public class AwtPointArray implements PointArray {
+public class WtkPointArray implements PointArray {
 
   public int[] xa;
   public int[] ya;
 
-  AwtPointArray(int size) {
+  WtkPointArray(int size) {
     xa = new int[size];
     ya = new int[size];
   }

@@ -1,14 +1,15 @@
 package fan.fgfxWtk;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import java.awt.EventQueue;
-import java.awt.event.*;
 import java.awt.Dimension;
 
-import fan.fgfxGraphics.*;
+import javax.swing.JPanel;
 
-public class AwtView implements NativeView {
+import fan.fgfxGraphics.Graphics;
+import fan.fgfxGraphics.Point;
+import fan.fgfxGraphics.Rect;
+import fan.fgfxGraphics.Size;
+
+public class WtkView implements NativeView {
 
   View view;
   Window win;
@@ -19,7 +20,7 @@ public class AwtView implements NativeView {
 
     @Override
     public void paint(java.awt.Graphics g) {
-      Graphics gc = new AwtGraphics((java.awt.Graphics2D)g);
+      Graphics gc = new WtkGraphics((java.awt.Graphics2D)g);
       view.onPaint(gc);
     }
     /*
@@ -30,7 +31,7 @@ public class AwtView implements NativeView {
     }*/
   }
 
-  public AwtView(View rootView) {
+  public WtkView(View rootView) {
     canvas = new AwtCanvas();
     this.view = rootView;
     ComponentUtils.bindEvent(view, canvas);

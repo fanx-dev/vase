@@ -20,7 +20,7 @@ import fan.sys.OutStream;
 import fan.sys.UnsupportedErr;
 import fanx.interop.Interop;
 
-public class AwtImage implements BufImage
+public class WtkImage implements BufImage
 {
     private BufferedImage image;
     public BufferedImage getImage(){ return image; };
@@ -72,7 +72,7 @@ public class AwtImage implements BufImage
      */
     public Graphics graphics()
     {
-      return new AwtGraphics(image.createGraphics());
+      return new WtkGraphics(image.createGraphics());
     }
 
   @Override
