@@ -517,3 +517,18 @@ fan.fgfxWtk.Graphics.prototype.composite$ = function(c)
   this.cx.globalCompositeOperation = cmp
   this.m_composite = c;
 }
+
+fan.fgfxWtk.Graphics.prototype.setShadow = function(shadow){
+  if (shadow) {
+    this.cx.shadowColor = shadow.m_color.toCss();
+    this.cx.shadowBlur = shadow.m_blur;
+    this.cx.shadowOffsetX = shadow.m_offsetX;
+    this.cs.shadowOffsetY = shadow.m_offsetY;
+  } else {
+    this.cx.shadowColor = "rgba(0,0,0,0)";
+    this.cx.shadowBlur = 0;
+    this.cx.shadowOffsetX = 0;
+    this.cs.shadowOffsetY = 0;
+  }
+  return this;
+}

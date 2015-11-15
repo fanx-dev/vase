@@ -42,7 +42,7 @@ class DrawTextTest
     win := Toolkit.cur.build()
     win.add(view)
 
-    win.show(Size(400, 400))
+    win.show()
   }
 }
 
@@ -56,13 +56,14 @@ class DrawTextTestView : View
     Graphics g := p.graphics
 
     g.brush = Color.yellow
-    g.fillRect(5,5,300,300)
+    g.fillRect(10,10,300,300)
 
     g.brush = Color.red
-    g.fillRect(0,0,5,5)
+    g.fillRect(0,0,10,10)
 
     g.brush = Color.black
-    x := 100
+    //g.font = Font(12)
+    x := 50
     y := 10
     g.drawText("Hello \nWorld", x, y)
 

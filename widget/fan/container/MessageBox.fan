@@ -44,7 +44,7 @@ class MessageBox : LinearLayout
     this.layoutParam.posX = LayoutParam.alignCenter
     this.layoutParam.posY = LayoutParam.alignCenter
     this.layoutParam.width = LayoutParam.wrapContent
-    padding = Insets(dpToPixel(40))
+    padding = Insets(dpToPixel(40f))
   }
 
   Void show(Widget w)
@@ -55,7 +55,7 @@ class MessageBox : LinearLayout
     this.focus
     root.modal = true
     overlayer.layout
-    
+
     a := TweenAnimation() {
       AlphaAnimChannel {},
       TransAnimChannel {},
@@ -67,7 +67,7 @@ class MessageBox : LinearLayout
   {
     WidgetGroup? p := parent
     if (p == null) return
-    
+
     if (this.hasFocus) {
       p.getRootView.focusIt(null)
     }

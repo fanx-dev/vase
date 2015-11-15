@@ -14,6 +14,7 @@ using fgfxMath
 ** Widget is the base class for all UI widgets.
 **
 @Js
+@Serializable
 abstract class Widget : DisplayMetrics
 {
   **

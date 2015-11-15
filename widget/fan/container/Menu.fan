@@ -37,7 +37,7 @@ internal class MenuList : LinearLayout
   new make()
   {
     //spacing = (dpToPixel(10))
-    layoutParam.margin = Insets(dpToPixel(10))
+    layoutParam.margin = Insets(dpToPixel(10f))
   }
 }
 
@@ -63,7 +63,7 @@ class MenuItem : ButtonBase
     }
     list = MenuList()
     list.owner = this
-    padding = Insets(dpToPixel(20))
+    padding = Insets(dpToPixel(20f))
     this.layoutParam.width = LayoutParam.wrapContent
   }
 

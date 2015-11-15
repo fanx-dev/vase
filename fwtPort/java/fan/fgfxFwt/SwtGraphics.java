@@ -301,7 +301,7 @@ public class SwtGraphics implements Graphics {
   public Graphics drawText(String text, long x, long y)
   {
     int flags = /*SWT.DRAW_DELIMITER | */SWT.DRAW_TAB | SWT.DRAW_TRANSPARENT;
-    int outline = (this.font == null) ? 0 : (int)(this.font.ascent()+this.font.leading());
+    int outline = (this.font == null) ? 10 : (int)(this.font.ascent()+this.font.leading());
     gc.drawText(text, (int)x, (int)(y-outline), flags);
     return this;
   }
@@ -473,6 +473,11 @@ public class SwtGraphics implements Graphics {
   public void composite(Composite arg0) {
     // TODO Auto-generated method stub
 
+  }
+
+  @Override
+  public Graphics setShadow(fan.fgfxGraphics.Shadow shadow) {
+    return this;
   }
 
   public GC gc() { return this.gc; }

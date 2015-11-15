@@ -16,7 +16,7 @@ using fgfxWtk
 class Label : Widget, TextView
 {
   override Str text := "Label"
-  override Font font := Font(dpToPixel(41))
+  override Font font := Font(dpToPixel(41f))
 
   new make()
   {

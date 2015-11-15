@@ -14,7 +14,7 @@ class Table : ScrollBase
 {
   TableModel model
 
-  Int colWidth := dpToPixel(360)
+  Int colWidth := dpToPixel(360f)
   Int headerHeight { private set }
   internal Int[] colWidthCache
 
@@ -27,7 +27,7 @@ class Table : ScrollBase
   new make(TableModel model)
   {
     this.model = model
-    font = Font(dpToPixel(41))
+    font = Font(dpToPixel(41f))
     //header
     header = LinearLayout { vertical = false }
     colWidthCache = Int[,]

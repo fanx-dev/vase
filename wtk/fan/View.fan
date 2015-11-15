@@ -34,7 +34,7 @@ mixin View
   **
   ** get prefer size
   **
-  virtual Size getPrefSize(Int hintsWidth, Int hintsHeight)  { Size(400, 400) }
+  virtual Size getPrefSize(Int hintsWidth, Int hintsHeight)  { Size(hintsWidth, hintsHeight) }
 }
 
 **

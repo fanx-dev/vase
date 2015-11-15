@@ -48,7 +48,7 @@ class WinTest
         LinearLayout
         {
           padding = Insets(20)
-          spacing = dpToPixel(15)
+          spacing = dpToPixel(15f)
           Button { id = "button"; text = "Hello Button" },
           ComboBox {
             it.items = ["comboBox1","comboBox2","comboBox3","comboBox4"]

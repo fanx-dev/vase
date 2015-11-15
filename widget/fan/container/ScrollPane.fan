@@ -18,7 +18,7 @@ abstract class ScrollBase : FrameLayout
   virtual Int offsetX := 0
   virtual Int offsetY := 0
 
-  Int barSize := dpToPixel(40)
+  Int barSize := dpToPixel(40f)
 
   Bool autoAdjustChildren := false
 
@@ -34,16 +34,16 @@ abstract class ScrollBase : FrameLayout
       {
         newVal := ((Int)e.newValue)
         oldVal := ((Int)e.oldValue)
-        
+
         offsetX = newVal
-        
+
         if (autoAdjustChildren) {
           dx := newVal - oldVal
           this.each {
             it.x = it.x + dx
           }
         }
-        
+
         this.requestPaint
       }
     }
@@ -53,16 +53,16 @@ abstract class ScrollBase : FrameLayout
       {
         newVal := ((Int)e.newValue)
         oldVal := ((Int)e.oldValue)
-        
+
         offsetY = newVal
-        
+
         if (autoAdjustChildren) {
           dy := newVal - oldVal
           this.each {
             it.y = it.y + dy
           }
         }
-        
+
         this.requestPaint
       }
     }
@@ -160,12 +160,12 @@ abstract class ScrollBase : FrameLayout
   {
     super.motionEvent(e)
     if (e.consumed) return
-    
+
     if (vbar.max <= vbar.viewport) return
 
     if (e.type == MotionEvent.wheel && e.delta != null)
     {
-      vbar.startPos += e.delta * dpToPixel(40)
+      vbar.startPos += e.delta * dpToPixel(40f)
       vbar.requestPaint
       e.consume
     }

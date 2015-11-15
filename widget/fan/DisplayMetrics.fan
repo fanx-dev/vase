@@ -18,13 +18,13 @@ mixin DisplayMetrics
   ** a dp pixel size.
   ** scale dp to pixel
   **
-  static Float dp() {
+  private static Float dp() {
     Toolkit.cur.density
   }
 
-  static Int dpToPixel(Int d) { (d * dp).toInt }
+  static Int dpToPixel(Float d) { (d * dp).toInt }
 
-  static Int pixelToDp(Int p) { (p / dp).toInt }
+  static Float pixelToDp(Int p) { (p / dp) }
 
 }
 

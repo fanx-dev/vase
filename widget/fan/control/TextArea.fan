@@ -49,7 +49,7 @@ class TextArea : ScrollBase
   new make(TextAreaModel model)
   {
     this.model = model
-    font = Font(dpToPixel(41))
+    font = Font(dpToPixel(41f))
   }
 
   protected override Dimension prefContentSize(Int hintsWidth, Int hintsHeight, Dimension result) {

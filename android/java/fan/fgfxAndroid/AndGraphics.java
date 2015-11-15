@@ -399,4 +399,13 @@ public class AndGraphics implements Graphics {
     this.composite = cmp;
   }
 
+  @Override
+  public Graphics setShadow(fan.fgfxGraphics.Shadow shadow) {
+    if (shadow != null) {
+      p.setShadowLayer((float)shadow.blur, (float)shadow.offsetX, (float)shadow.offsetY, (int)shadow.color.argb);
+    } else {
+      p.setShadowLayer(0, 0, 0, 0);
+    }
+    return this;
+  }
 }

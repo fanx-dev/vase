@@ -12,8 +12,8 @@ using fgfxWtk
 @Js
 class ToggleButtonStyle : WidgetStyle
 {
-  Pen outLinePen := Pen { width = dpToPixel(5) }
-  Pen contectPen := Pen { width = dpToPixel(9) }
+  Pen outLinePen := Pen { width = dpToPixel(5f) }
+  Pen contectPen := Pen { width = dpToPixel(9f) }
 
   new make() {
     foreground = Color(0x51d166)

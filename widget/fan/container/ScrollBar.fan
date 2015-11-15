@@ -18,7 +18,7 @@ class ScrollBar : Widget
   **
   ** max content length
   **
-  Int max := dpToPixel(2000)
+  Int max := dpToPixel(2000f)
 
   **
   ** size of bar

@@ -25,17 +25,17 @@ class TreeView : ScrollBase
   Font font {
     set { rowHeight = it.height; &font = it; }
   }
-  Int indent := dpToPixel(60)
+  Int indent := dpToPixel(60f)
 
   new make(TreeModel model)
   {
     this.model = model
-    font = Font(dpToPixel(41))
+    font = Font(dpToPixel(41f))
     init
   }
 
   protected override Int contentMaxWidth(Dimension result) {
-    Int w := dpToPixel(600)
+    Int w := dpToPixel(600f)
     items.each {
       x := it.level * indent + font.width("- "+it.text)
       if (w < x) {
@@ -46,7 +46,7 @@ class TreeView : ScrollBase
   }
 
   protected override Dimension prefContentSize(Int hintsWidth, Int hintsHeight, Dimension result) {
-    Int w := dpToPixel(600)
+    Int w := dpToPixel(600f)
     Int h := items.size * rowHeight
     return result.set(w, h)
   }

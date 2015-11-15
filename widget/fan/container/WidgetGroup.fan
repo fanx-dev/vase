@@ -14,6 +14,7 @@ using fgfxMath
 ** WidgetGroup is a Widget Container
 **
 @Js
+@Serializable { collection = true }
 abstract class WidgetGroup : Widget
 {
 

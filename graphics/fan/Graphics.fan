@@ -196,4 +196,9 @@ mixin Graphics
   **
   abstract This clipPath(Path path)
 
+  **
+  ** All drawing operations are affected by the four global shadow attributes
+  **
+  abstract This setShadow(Shadow? shadow)
+
 }

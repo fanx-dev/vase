@@ -96,18 +96,6 @@ class Gesture
     reset
   }
 
-  **
-  ** a dp pixel size.
-  ** scale dp to pixel
-  **
-  protected virtual Float dp() {
-    Toolkit.cur.density
-  }
-
-  Int dpToPixel(Int d) { (d * dp).toInt }
-
-  Int pixelToDp(Int p) { (p / dp).toInt }
-
   private Bool isMultiTouch(MotionEvent e) {
     e.pointers != null && e.pointers.size > 1
   }

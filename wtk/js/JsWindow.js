@@ -16,11 +16,23 @@ fan.fgfxWtk.JsWindow.prototype.list = new Array();
 
 fan.fgfxWtk.JsWindow.prototype.add = function(view)
 {
+  this.list.push(view);
+  return this;
+}
+
+fan.fgfxWtk.JsWindow.prototype.createNativeView = function(view, size, shell) {
+  if (!size) {
+    size = view.getPrefSize(shell.offsetWidth, shell.offsetHeight);
+  }
+  //console.log(size)
+
+  if (view.m_nativeView) {
+    shell.removeChild(view.m_nativeView.canvas);
+  }
+
   var nativeView = new fan.fgfxWtk.JsView();
   nativeView.m_win = this;
   view.nativeView$(nativeView);
-  var size = view.getPrefSize(600, 600);
-  //console.log(size)
   nativeView.view = view;
   nativeView.m_size = size;
 
@@ -33,8 +45,17 @@ fan.fgfxWtk.JsWindow.prototype.add = function(view)
   nativeView.bindEvent(c);
   c.setAttribute('tabindex','0');
   c.focus();
-  this.list.push(view);
-  return this;
+
+  //create graphics
+  var g = new fan.fgfxWtk.Graphics();
+  g.widget = view.m_nativeView;
+  view.m_nativeView.graphics = g;
+  fan.fgfxWtk.JsWindow.graphics = g;
+
+  //init graphics
+  var cx = view.m_nativeView.canvas.getContext("2d");
+  var rect = new fan.fgfxGraphics.Rect.make(0,0, size.m_w, size.m_h);
+  g.init(cx, rect);
 }
 
 fan.fgfxWtk.JsWindow.prototype.remove = function(view) {
@@ -42,13 +63,23 @@ fan.fgfxWtk.JsWindow.prototype.remove = function(view) {
   this.root.removeChild(view);
 }
 
+fan.fgfxWtk.JsWindow.prototype.mount = function(size, shell) {
+  for (var i=0; i<this.list.length; ++i) {
+    var view = this.list[i];
+    this.createNativeView(view, size, shell);
+
+    shell.appendChild(view.m_nativeView.canvas);
+
+    view.m_nativeView.needRepaint = false;
+    view.m_nativeView.repaintNow();
+
+    var event = fan.fgfxWtk.DisplayEvent.make(fan.fgfxWtk.DisplayEvent.m_opened);
+    view.onDisplayEvent(event);
+  }
+}
+
 fan.fgfxWtk.JsWindow.prototype.show = function(size)
 {
-  if (!size) {
-    size = this.list[0].m_nativeView.m_size
-  }
-  this.size = size;
-
   // check for alt root
   var rootId = fan.sys.Env.cur().vars().get("fwt.window.root")
   if (rootId == null) this.root = document.body;
@@ -71,30 +102,14 @@ fan.fgfxWtk.JsWindow.prototype.show = function(size)
   }
   this.root.appendChild(shell);
 
-  for (var i=0; i<this.list.length; ++i) {
-    var view = this.list[i];
-    shell.appendChild(view.m_nativeView.canvas);
+  this.mount(size, shell);
+  var self = this;
+  fan.fgfxWtk.JsWindow.instance = this;
 
-    //create graphics
-    var g = new fan.fgfxWtk.Graphics();
-    g.widget = view.m_nativeView;
-    view.m_nativeView.graphics = g;
-    fan.fgfxWtk.JsWindow.graphics = g;
-
-    //init graphics
-    var cx = view.m_nativeView.canvas.getContext("2d");
-    var rect = new fan.fgfxGraphics.Rect.make(0,0, this.size.m_w, this.size.m_h);
-    g.init(cx, rect);
-
-    view.m_nativeView.needRepaint = false;
-    view.m_nativeView.repaintNow();
-
-    var event = fan.fgfxWtk.DisplayEvent.make(fan.fgfxWtk.DisplayEvent.m_opened);
-    view.onDisplayEvent(event);
-  }
+  // attach resize listener
+  window.addEventListener("resize", function() { self.mount(null, shell); }, false);
 
   //Repaint handling
-  var self = this;
   setInterval(function(){
     for (var i=0; i<self.list.length; ++i) {
       var view = self.list[i];

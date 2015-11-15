@@ -32,8 +32,8 @@ class RoundButtonStyle : WidgetStyle
     g.fillRoundRect(0, 0, width, height, arc, arc)
 
 
-    offsetW := dpToPixel(16)
-    offsetR := dpToPixel(8)
+    offsetW := dpToPixel(16f)
+    offsetR := dpToPixel(8f)
     width -= offsetW
     height -= offsetW
     arc = height/2

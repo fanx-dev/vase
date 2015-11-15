@@ -400,4 +400,9 @@ public class AwtGraphics implements Graphics {
     this.gc.setComposite(ncom);
     composite = com;
   }
+
+  @Override
+  public Graphics setShadow(fan.fgfxGraphics.Shadow shadow) {
+    return this;
+  }
 }
