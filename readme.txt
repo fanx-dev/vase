@@ -61,10 +61,10 @@ Setting LWJGL
 2. modify fanHome/ect/sys/congif.proops:
   java.options=-Xmx512M -Djava.library.path=yourPath/lib/lwjgl-2.7.1/native/windows
 
-Run WebGL on Chrome
+Run WebGL on Browser
 -------
-1. close all chrome process.
-2. chrome.exe --ignore-gpu-blacklist --enable-webgl
-
+1. Get a browser that support WegGL
+2. Modify and run /test3d/startup.bat
+3. Go to http://localhost:8080/ with your browser.
 
 
