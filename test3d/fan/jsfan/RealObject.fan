@@ -7,10 +7,10 @@
 //   2011-07-16  Jed Young  Creation
 //
 
-using fgfxOpenGl
-using fgfxMath
-using fgfxMath::Transform3D as Transform
-using fgfxArray
+using fanvasOpenGl
+using fanvasMath
+using fanvasMath::Transform3D as Transform
+using fanvasArray
 
 **
 ** fan D:/code/Hg/fan3d/jsTest/fan/jsfan/RealObject.fan

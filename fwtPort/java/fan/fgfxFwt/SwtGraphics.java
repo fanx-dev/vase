@@ -5,7 +5,7 @@
 // History:
 //   2011-09-09  Jed Young  Creation
 //
-package fan.fgfxFwt;
+package fan.fanvasFwt;
 
 import java.util.Stack;
 
@@ -17,8 +17,8 @@ import org.eclipse.swt.graphics.Region;
 import org.eclipse.swt.graphics.Transform;
 import org.eclipse.swt.events.PaintEvent;
 
-import fan.fgfxMath.Transform2D;
-import fan.fgfxGraphics.*;
+import fan.fanvasMath.Transform2D;
+import fan.fanvasGraphics.*;
 import fan.sys.ArgErr;
 import fan.sys.FanObj;
 
@@ -80,7 +80,7 @@ public class SwtGraphics implements Graphics {
       }
       else if (brush instanceof fan.gfx.Pattern)
       {
-        Pattern p = pattern((fan.fgfxGraphics.Pattern)brush);
+        Pattern p = pattern((fan.fanvasGraphics.Pattern)brush);
         gc.setForegroundPattern(p);
         gc.setBackgroundPattern(p);
       }
@@ -136,7 +136,7 @@ public class SwtGraphics implements Graphics {
         SwtUtil.toSwtColor(s2.color), a2);
   }
 
-  private Pattern pattern(fan.fgfxGraphics.Pattern p)
+  private Pattern pattern(fan.fanvasGraphics.Pattern p)
   {
     return new Pattern(SwtUtil.getDisplay(), SwtUtil.toSwtImage(p.image));
   }
@@ -476,7 +476,7 @@ public class SwtGraphics implements Graphics {
   }
 
   @Override
-  public Graphics setShadow(fan.fgfxGraphics.Shadow shadow) {
+  public Graphics setShadow(fan.fanvasGraphics.Shadow shadow) {
     return this;
   }
 

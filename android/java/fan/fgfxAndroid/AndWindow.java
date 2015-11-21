@@ -6,17 +6,17 @@
 //   2011-10-05  Jed Young  Creation
 //
 
-package fan.fgfxAndroid;
+package fan.fanvasAndroid;
 
 import android.app.Activity;
 import android.content.Context;
 import android.view.inputmethod.InputMethodManager;
-import fan.fgfxGraphics.Size;
-import fan.fgfxWtk.NativeView;
-import fan.fgfxWtk.View;
+import fan.fanvasGraphics.Size;
+import fan.fanvasWindow.NativeView;
+import fan.fanvasWindow.View;
 
-public class AndWindow extends android.widget.FrameLayout implements fan.fgfxWtk.Window {
-  //fan.fgfxWtk.View view;
+public class AndWindow extends android.widget.FrameLayout implements fan.fanvasWindow.Window {
+  //fan.fanvasWindow.View view;
   java.util.List<View> list = new java.util.ArrayList<View>();
 
   public AndWindow(Context context) {
@@ -24,10 +24,10 @@ public class AndWindow extends android.widget.FrameLayout implements fan.fgfxWtk
   }
 
   @Override
-  public fan.fgfxWtk.Window add(fan.fgfxWtk.View view) {
+  public fan.fanvasWindow.Window add(fan.fanvasWindow.View view) {
     NativeView andView;
-    if (view instanceof fan.fgfxWtk.EditText) {
-      andView = new AndEditText(getContext(), (fan.fgfxWtk.EditText)view);
+    if (view instanceof fan.fanvasWindow.EditText) {
+      andView = new AndEditText(getContext(), (fan.fanvasWindow.EditText)view);
       ((AndEditText)andView).win = this;
     } else {
       andView = new AndView(getContext(), view);

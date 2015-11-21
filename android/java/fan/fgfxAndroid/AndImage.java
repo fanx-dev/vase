@@ -5,14 +5,14 @@
 // History:
 //   2011-09-18  Jed Young  Creation
 //
-package fan.fgfxAndroid;
+package fan.fanvasAndroid;
 
 import java.io.OutputStream;
 
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
 import android.graphics.Canvas;
-import fan.fgfxGraphics.*;
+import fan.fanvasGraphics.*;
 import fan.sys.MimeType;
 import fan.sys.OutStream;
 import fan.sys.UnsupportedErr;

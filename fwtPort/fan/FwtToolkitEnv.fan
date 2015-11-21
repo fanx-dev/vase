@@ -6,9 +6,9 @@
 //   2012-7-7  Jed Young  Creation
 //
 
-using fgfxGraphics
+using fanvasGraphics
 using concurrent
-using fgfxWtk
+using fanvasWindow
 
 **
 ** Toolkit
@@ -38,7 +38,7 @@ class FwtToolkitEnv
   static Void init()
   {
     initGfxEnv
-    Actor.locals["fgfxWtk.env"] = FwtToolkit()
+    Actor.locals["fanvasWindow.env"] = FwtToolkit()
   }
 
   private native static Void initGfxEnv()

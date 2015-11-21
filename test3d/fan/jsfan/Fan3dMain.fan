@@ -6,10 +6,10 @@
 //   2012-02-24  Jed Young  Creation
 //
 
-using fgfxOpenGl
-using fgfxMath
-using fgfxArray
-using fgfx3d
+using fanvasOpenGl
+using fanvasMath
+using fanvasArray
+using fanvas3d
 
 class Fan3dMain : GlDisplay
 {

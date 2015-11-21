@@ -14,7 +14,7 @@ class Build : build::BuildPod
 {
   new make()
   {
-    podName = "fgfxWtkTest"
+    podName = "fanvasWindowTest"
     summary = "test fan3d in web"
     srcDirs = [`fan/`, `fan/model/`, `fan/action/`, `fan/jsfan/`, `fan/boot/`, `fan/util/`]
     depends =
@@ -28,14 +28,14 @@ class Build : build::BuildPod
       "slanWeb 1.0",
       "slanUtil 1.0",
       "dom 1.0",
-      "fgfxMath 1.0",
-      "fgfxArray 1.0",
-      "fgfxGraphics 1.0",
-      "fgfxWtk 1.0",
-      "fgfxWidget 1.0",
+      "fanvasMath 1.0",
+      "fanvasArray 1.0",
+      "fanvasGraphics 1.0",
+      "fanvasWindow 1.0",
+      "fanvasGui 1.0",
       "gfx 1.0",
       "fwt 1.0",
-      "fgfxFwt 1.0"
+      "fanvasFwt 1.0"
     ]
     resDirs =
     [,].addAll(Util.allDir(scriptDir.uri, `res/view/`)).

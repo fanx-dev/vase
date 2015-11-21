@@ -5,7 +5,7 @@
 // History:
 //   2011-09-18  Jed Young  Creation
 //
-package fan.fgfxAndroid;
+package fan.fanvasAndroid;
 
 import java.util.Stack;
 
@@ -19,8 +19,8 @@ import android.graphics.RectF;
 import android.graphics.Shader;
 import android.graphics.Typeface;
 import android.graphics.PorterDuff;
-import fan.fgfxGraphics.*;
-import fan.fgfxMath.Transform2D;
+import fan.fanvasGraphics.*;
+import fan.fanvasMath.Transform2D;
 import fan.sys.ArgErr;
 import fan.sys.FanObj;
 
@@ -74,8 +74,8 @@ public class AndGraphics implements Graphics {
     } else if (brush instanceof Gradient) {
       Shader s = pattern((Gradient) brush, 0, 0, 100, 100);
       p.setShader(s);
-    } else if (brush instanceof fan.fgfxGraphics.Pattern) {
-      fan.fgfxGraphics.Pattern pattern = (fan.fgfxGraphics.Pattern) brush;
+    } else if (brush instanceof fan.fanvasGraphics.Pattern) {
+      fan.fanvasGraphics.Pattern pattern = (fan.fanvasGraphics.Pattern) brush;
       Bitmap im = AndUtil.toAndImage(pattern.image);
       BitmapShader tp = new BitmapShader(im,
           toAndTileMode(pattern.halign),
@@ -400,7 +400,7 @@ public class AndGraphics implements Graphics {
   }
 
   @Override
-  public Graphics setShadow(fan.fgfxGraphics.Shadow shadow) {
+  public Graphics setShadow(fan.fanvasGraphics.Shadow shadow) {
     if (shadow != null) {
       p.setShadowLayer((float)shadow.blur, (float)shadow.offsetX, (float)shadow.offsetY, (int)shadow.color.argb);
     } else {

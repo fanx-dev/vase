@@ -6,10 +6,10 @@
 //   2011-5-31  Jed Young  Creation
 //
 
-package fan.fgfxOpenGl;
+package fan.fanvasOpenGl;
 
 import fan.sys.*;
-import fan.fgfxArray.*;
+import fan.fanvasArray.*;
 
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL12.*;

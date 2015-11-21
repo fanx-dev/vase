@@ -1,8 +1,8 @@
-package fan.fgfxAndroid;
+package fan.fanvasAndroid;
 
 import android.graphics.Bitmap;
-import fan.fgfxGraphics.ConstImage;
-import fan.fgfxGraphics.Size;
+import fan.fanvasGraphics.ConstImage;
+import fan.fanvasGraphics.Size;
 
 public class AndConstImage implements ConstImage {
 

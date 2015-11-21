@@ -7,10 +7,10 @@
 //
 
 
-fan.fgfxOpenGl.GlImagePeer = fan.sys.Obj.$extend(fan.sys.Obj);
-fan.fgfxOpenGl.GlImagePeer.prototype.$ctor = function(self) {}
+fan.fanvasOpenGl.GlImagePeer = fan.sys.Obj.$extend(fan.sys.Obj);
+fan.fanvasOpenGl.GlImagePeer.prototype.$ctor = function(self) {}
 
-fan.fgfxOpenGl.GlImagePeer.prototype.load = function(self, func)
+fan.fanvasOpenGl.GlImagePeer.prototype.load = function(self, func)
 {
   this.image = new Image();
   this.image.onload = function()
@@ -20,12 +20,12 @@ fan.fgfxOpenGl.GlImagePeer.prototype.load = function(self, func)
   this.image.src = self.m_uri.toStr();
 }
 
-fan.fgfxOpenGl.GlImagePeer.prototype.width = function(self)
+fan.fanvasOpenGl.GlImagePeer.prototype.width = function(self)
 {
   return self.peer.image.width;
 }
 
-fan.fgfxOpenGl.GlImagePeer.prototype.height = function(self)
+fan.fanvasOpenGl.GlImagePeer.prototype.height = function(self)
 {
   return self.peer.image.height;
 }

@@ -12,11 +12,11 @@ class Build : build::BuildPod
 {
   new make()
   {
-    podName = "fgfxAndroidDemo"
-    summary = "fgfxWtk android demo"
+    podName = "fanvasAndroidDemo"
+    summary = "fanvasWindow android demo"
     srcDirs = [`fan/`]
-    depends = ["sys 1.0", "fgfxGraphics 1.0", "fgfxWtk 1.0"
-               , "concurrent 1.0", "fgfxMath 1.0", "fgfxAndroid 1.0", "fgfxWidget 1.0"]
+    depends = ["sys 1.0", "fanvasGraphics 1.0", "fanvasWindow 1.0"
+               , "concurrent 1.0", "fanvasMath 1.0", "fanvasAndroid 1.0", "fanvasGui 1.0"]
   }
 
   @Target { help = "build my app as a single JAR dist" }
@@ -24,9 +24,9 @@ class Build : build::BuildPod
   {
     dist := JarDist(this)
     dist.outFile = (scriptDir+`android/libs/androidDemo.jar`).normalize
-    dist.podNames = Str["concurrent", "fgfxGraphics", "fgfxWtk", "fgfxArray", "fgfxMath", "fgfxWidget"
-           , "fgfxAndroid", "fgfxAndroidDemo"]
-    dist.mainMethod = "fgfxAndroidDemo::WinTest.main"
+    dist.podNames = Str["concurrent", "fanvasGraphics", "fanvasWindow", "fanvasArray", "fanvasMath", "fanvasGui"
+           , "fanvasAndroid", "fanvasAndroidDemo"]
+    dist.mainMethod = "fanvasAndroidDemo::WinTest.main"
     dist.run
   }
 }

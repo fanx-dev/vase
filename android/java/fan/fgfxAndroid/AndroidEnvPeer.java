@@ -1,12 +1,12 @@
-package fan.fgfxAndroid;
+package fan.fanvasAndroid;
 
 import android.app.Activity;
 import android.os.Handler;
 import android.util.DisplayMetrics;
 import android.view.WindowManager;
 import fan.concurrent.Actor;
-import fan.fgfxWtk.Toolkit;
-import fan.fgfxWtk.Window;
+import fan.fanvasWindow.Toolkit;
+import fan.fanvasWindow.Window;
 
 public class AndroidEnvPeer {
   public static AndroidEnvPeer make(AndroidEnv self)
@@ -17,8 +17,8 @@ public class AndroidEnvPeer {
 
   public static void init(Activity context)
   {
-    Actor.locals().set("fgfxGraphics.env", AndGfxEnv.instance);
-    Actor.locals().set("fgfxWtk.env", new AndToolkit(context));
+    Actor.locals().set("fanvasGraphics.env", AndGfxEnv.instance);
+    Actor.locals().set("fanvasWindow.env", new AndToolkit(context));
   }
 
   static class AndToolkit extends Toolkit

@@ -6,12 +6,12 @@
 //   2011-7-4  Jed Young  Creation
 //
 
-using fgfxGraphics
-using fgfxFwt
-using fgfxWtk
+using fanvasGraphics
+using fanvasFwt
+using fanvasWindow
 
-using fgfxMath
-using fgfxArray
+using fanvasMath
+using fanvasArray
 
 **
 ** Image Test

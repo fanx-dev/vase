@@ -8,12 +8,12 @@
 //
 
 //using fwt
-using fgfxGraphics
-using fgfxFwt
-using fgfxWtk
+using fanvasGraphics
+using fanvasFwt
+using fanvasWindow
 
-using fgfxMath
-using fgfxArray
+using fanvasMath
+using fanvasArray
 
 @Js
 class GraphicsTest

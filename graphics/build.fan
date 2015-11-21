@@ -16,10 +16,10 @@ class Build : BuildPod
 {
   new make()
   {
-    podName  = "fgfxGraphics"
+    podName  = "fanvasGraphics"
     summary  = "Graphics 2D API"
     srcDirs  = [`fan/`]
-    depends  = ["sys 1.0", "concurrent 1.0", "fgfxMath 1.0"]
+    depends  = ["sys 1.0", "concurrent 1.0", "fanvasMath 1.0"]
     javaDirs = Uri[,]
   }
 }

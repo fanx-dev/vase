@@ -13,7 +13,7 @@ class Build : BuildPod
 {
   new make()
   {
-    podName  = "fgfxArray"
+    podName  = "fanvasArray"
     summary  = "map to java base primary array"
     depends  = ["sys 1.0"]
     srcDirs  = [`fan/`]

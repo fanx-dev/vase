@@ -6,24 +6,24 @@
 //   2011-10-05  Jed Young  Creation
 //
 
-package fan.fgfxAndroid;
+package fan.fanvasAndroid;
 
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.view.MotionEvent;
 import android.view.View;
-import fan.fgfxGraphics.Point;
-import fan.fgfxGraphics.Size;
-import fan.fgfxWtk.NativeView;
-import fan.fgfxWtk.Window;
+import fan.fanvasGraphics.Point;
+import fan.fanvasGraphics.Size;
+import fan.fanvasWindow.NativeView;
+import fan.fanvasWindow.Window;
 import fan.sys.List;
 
 public class AndView extends View implements NativeView {
-  fan.fgfxWtk.View view;
+  fan.fanvasWindow.View view;
   Window win;
   
-  public AndView(Context context, fan.fgfxWtk.View view) {
+  public AndView(Context context, fan.fanvasWindow.View view) {
     super(context);
     this.view = view;
   }
@@ -41,7 +41,7 @@ public class AndView extends View implements NativeView {
   }
 
   @Override
-  public void repaint(fan.fgfxGraphics.Rect dirty) {
+  public void repaint(fan.fanvasGraphics.Rect dirty) {
     if (dirty == null) {
       this.invalidate();
       return;
@@ -74,7 +74,7 @@ public class AndView extends View implements NativeView {
 
   @Override
   public boolean onTouchEvent(MotionEvent event) {
-    fan.fgfxWtk.MotionEvent ce = andToFan(event);
+    fan.fanvasWindow.MotionEvent ce = andToFan(event);
     view.onMotionEvent(ce);
     return true;
   }
@@ -88,44 +88,44 @@ public class AndView extends View implements NativeView {
   // MotionEvent
   // ////////////////////////////////////////////////////////////////////////
 
-  static fan.fgfxWtk.MotionEvent andToFan(MotionEvent event) {
-    List pointers = List.make(fan.fgfxWtk.MotionEvent.$Type, event.getPointerCount());
+  static fan.fanvasWindow.MotionEvent andToFan(MotionEvent event) {
+    List pointers = List.make(fan.fanvasWindow.MotionEvent.$Type, event.getPointerCount());
     for (int i = 0, n = event.getPointerCount(); i < n; ++i) {
       pointers.add(getMotionPointer(event, i));
     }
 
-    fan.fgfxWtk.MotionEvent ce = (fan.fgfxWtk.MotionEvent)pointers.get(0);
+    fan.fanvasWindow.MotionEvent ce = (fan.fanvasWindow.MotionEvent)pointers.get(0);
     ce.pointers = pointers;
     return ce;
   }
 
-  private static fan.fgfxWtk.MotionEvent getMotionPointer(final MotionEvent e, final int i) {
-    long type = fan.fgfxWtk.MotionEvent.other;
+  private static fan.fanvasWindow.MotionEvent getMotionPointer(final MotionEvent e, final int i) {
+    long type = fan.fanvasWindow.MotionEvent.other;
     long pointerId = 0;
     switch (e.getAction() & MotionEvent.ACTION_MASK) {
     case MotionEvent.ACTION_DOWN:
-      type = fan.fgfxWtk.MotionEvent.pressed;
+      type = fan.fanvasWindow.MotionEvent.pressed;
       break;
     case MotionEvent.ACTION_POINTER_DOWN:
       pointerId = e.getActionIndex();
-      type = fan.fgfxWtk.MotionEvent.pressed;
+      type = fan.fanvasWindow.MotionEvent.pressed;
       break;
     case MotionEvent.ACTION_MOVE:
-      type = fan.fgfxWtk.MotionEvent.moved;
+      type = fan.fanvasWindow.MotionEvent.moved;
       break;
     case MotionEvent.ACTION_UP:
-      type = fan.fgfxWtk.MotionEvent.released;
+      type = fan.fanvasWindow.MotionEvent.released;
       break;
     case MotionEvent.ACTION_POINTER_UP:
       pointerId = e.getActionIndex();
-      type = fan.fgfxWtk.MotionEvent.released;
+      type = fan.fanvasWindow.MotionEvent.released;
       break;
     case MotionEvent.ACTION_CANCEL:
-      type = fan.fgfxWtk.MotionEvent.cancel;
+      type = fan.fanvasWindow.MotionEvent.cancel;
       break;
     }
 
-    fan.fgfxWtk.MotionEvent ce = fan.fgfxWtk.MotionEvent.make(type);
+    fan.fanvasWindow.MotionEvent ce = fan.fanvasWindow.MotionEvent.make(type);
     ce.pointerId(pointerId);
     ce.x((long)e.getX(i));
     ce.y((long)e.getY(i));

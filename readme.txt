@@ -1,10 +1,14 @@
-Fantom Graphics
+Fanvas (old name is fangfx)
 =======
+A cross-platform Fantom framework for creating GUI or game on mobile and desktop.
 
+
+Feature
+-------
 - Full features 2D Graphics API
 - Lightweight GUI widget system
 - Fantom OpenGL/WebGL binding
-- Cross platform support Java2D/SWT/Android/Javascript
+- Cross-platform support Java2D/SWT/Android/Javascript
 
 
 Run on Android

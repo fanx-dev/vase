@@ -6,7 +6,7 @@
 //   2011-5-31  Jed Young  Creation
 //
 
-package fan.fgfxArray;
+package fan.fanvasArray;
 
 import fan.sys.*;
 import java.nio.*;

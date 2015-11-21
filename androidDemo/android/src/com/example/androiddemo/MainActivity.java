@@ -2,9 +2,9 @@ package com.example.androiddemo;
 
 import android.app.Activity;
 import android.os.Bundle;
-import fan.fgfxAndroid.AndWindow;
-import fan.fgfxAndroid.AndroidEnv;
-import fan.fgfxAndroidDemo.WinTest;
+import fan.fanvasAndroid.AndWindow;
+import fan.fanvasAndroid.AndroidEnv;
+import fan.fanvasAndroidDemo.WinTest;
 import fanjardist.Main;
 
 public class MainActivity extends Activity {
@@ -18,7 +18,7 @@ public class MainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		AndroidEnv.init(this);
 		WinTest test = WinTest.make();
-		fan.fgfxWtk.View view = test.build();
+		fan.fanvasWindow.View view = test.build();
 		AndWindow win = new AndWindow(this);
 		win.add(view);
 		win.show();

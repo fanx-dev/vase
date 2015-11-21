@@ -249,7 +249,7 @@ class Main
     type := toFanType(method)
     ps := method.params.map { it.name }.join(", ")
     jps := method.params.map { toJsParam(it) }.join(", ")
-    s := "fan.fgfxOpenGl.WebGlContext.prototype.$method.name = function($ps)"
+    s := "fan.fanvasOpenGl.WebGlContext.prototype.$method.name = function($ps)"
     upperName := "this.gl.${method.name}"
 
     if (method.type == "void")
@@ -263,7 +263,7 @@ class Main
         s +=
          "{
               var i = ${upperName}($jps);
-              var p = fan.fgfxOpenGl.${type}.make();
+              var p = fan.fanvasOpenGl.${type}.make();
               p.peer.setValue(i);
               return p;
             }"

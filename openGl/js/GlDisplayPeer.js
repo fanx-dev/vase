@@ -7,18 +7,18 @@
 //
 
 
-fan.fgfxOpenGl.GlDisplayPeer = fan.sys.Obj.$extend(fan.sys.Obj);
-fan.fgfxOpenGl.GlDisplayPeer.prototype.$ctor = function(self) {}
-fan.fgfxOpenGl.GlDisplayPeer.prototype.gl = null;
+fan.fanvasOpenGl.GlDisplayPeer = fan.sys.Obj.$extend(fan.sys.Obj);
+fan.fanvasOpenGl.GlDisplayPeer.prototype.$ctor = function(self) {}
+fan.fanvasOpenGl.GlDisplayPeer.prototype.gl = null;
 
 var lastGl = null;
 
-fan.fgfxOpenGl.GlDisplayPeer.prototype.initGL = function(self, canvas)
+fan.fanvasOpenGl.GlDisplayPeer.prototype.initGL = function(self, canvas)
 {
   try
   {
     var gl = canvas.getContext("experimental-webgl");
-    this.gl = new fan.fgfxOpenGl.WebGlContext();
+    this.gl = new fan.fanvasOpenGl.WebGlContext();
     this.gl.gl = gl;
     lastGl = gl;
 
@@ -32,7 +32,7 @@ fan.fgfxOpenGl.GlDisplayPeer.prototype.initGL = function(self, canvas)
   }
 }
 
-fan.fgfxOpenGl.GlDisplayPeer.prototype.repaint = function(self)
+fan.fanvasOpenGl.GlDisplayPeer.prototype.repaint = function(self)
 {
   self.onPaint(this.gl);
 }
@@ -48,7 +48,7 @@ window.requestAnimFrame = (function() {
          };
 })();
 
-fan.fgfxOpenGl.GlDisplayPeer.prototype.open = function(self)
+fan.fanvasOpenGl.GlDisplayPeer.prototype.open = function(self)
 {
   // check for alt root
   var rootId = fan.sys.Env.cur().vars().get("fwt.window.root")

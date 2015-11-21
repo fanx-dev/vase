@@ -22,12 +22,12 @@ class Build : BuildGroup
       `array/build.fan`,
       `math/build.fan`,
       `graphics/build.fan`,
-      `wtk/build.fan`,
+      `window/build.fan`,
       `fwtPort/build.fan`,
-      `widget/build.fan`,
+      `gui/build.fan`,
       `android/build.fan`,
       `openGL/build.fan`,
-      `fgfx3d/build.fan`,
+      `fanvas3d/build.fan`,
       `androidDemo/build.fan`
     ]
   }

@@ -5,7 +5,7 @@
 // History:
 //   2011-09-18  Jed Young  Creation
 //
-package fan.fgfxAndroid;
+package fan.fanvasAndroid;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -15,13 +15,13 @@ import java.net.URLConnection;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Region;
-import fan.fgfxGraphics.ConstImage;
-import fan.fgfxGraphics.Font;
-import fan.fgfxGraphics.GfxEnv;
-import fan.fgfxGraphics.Image;
-import fan.fgfxGraphics.Path;
-import fan.fgfxGraphics.PointArray;
-import fan.fgfxGraphics.Size;
+import fan.fanvasGraphics.ConstImage;
+import fan.fanvasGraphics.Font;
+import fan.fanvasGraphics.GfxEnv;
+import fan.fanvasGraphics.Image;
+import fan.fanvasGraphics.Path;
+import fan.fanvasGraphics.PointArray;
+import fan.fanvasGraphics.Size;
 import fan.sys.Func;
 import fan.sys.IOErr;
 import fan.sys.InStream;

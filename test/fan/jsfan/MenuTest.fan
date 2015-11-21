@@ -7,10 +7,10 @@
 //
 
 using concurrent
-using fgfxGraphics
-using fgfxWtk
-using fgfxWidget
-using fgfxFwt
+using fanvasGraphics
+using fanvasWindow
+using fanvasGui
+using fanvasFwt
 
 **
 ** MenuTest

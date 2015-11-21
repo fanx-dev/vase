@@ -1,10 +1,10 @@
-package fan.fgfxFwt;
+package fan.fanvasFwt;
 
 
 import org.eclipse.swt.graphics.Rectangle;
 
-import fan.fgfxGraphics.ConstImage;
-import fan.fgfxGraphics.Size;
+import fan.fanvasGraphics.ConstImage;
+import fan.fanvasGraphics.Size;
 
 public class SwtConstImage implements ConstImage{
 

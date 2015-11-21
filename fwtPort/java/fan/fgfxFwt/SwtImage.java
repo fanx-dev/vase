@@ -6,7 +6,7 @@
 //   2011-08-18  Jed Young  Creation
 //
 
-package fan.fgfxFwt;
+package fan.fanvasFwt;
 
 import java.io.OutputStream;
 
@@ -15,7 +15,7 @@ import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.graphics.ImageLoader;
 
-import fan.fgfxGraphics.*;
+import fan.fanvasGraphics.*;
 import fan.sys.MimeType;
 import fan.sys.OutStream;
 import fan.sys.UnsupportedErr;

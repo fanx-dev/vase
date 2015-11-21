@@ -6,8 +6,8 @@
 //   2012-7-7  Jed Young  Creation
 //
 
-using fgfxGraphics
-using fgfxWtk
+using fanvasGraphics
+using fanvasWindow
 
 **
 ** Canvas stub

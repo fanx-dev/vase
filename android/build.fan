@@ -12,10 +12,10 @@ class Build : build::BuildPod
 {
   new make()
   {
-    podName = "fgfxAndroid"
-    summary = "fgfxWtk android impl"
+    podName = "fanvasAndroid"
+    summary = "fanvasWindow android impl"
     srcDirs = [`fan/`]
-    depends = ["sys 1.0", "fgfxGraphics 1.0", "fgfxWtk 1.0", "concurrent 1.0", "fgfxMath 1.0"]
+    depends = ["sys 1.0", "fanvasGraphics 1.0", "fanvasWindow 1.0", "concurrent 1.0", "fanvasMath 1.0"]
     javaDirs = [`java/`]
   }
 }

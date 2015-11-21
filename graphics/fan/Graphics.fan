@@ -7,7 +7,7 @@
 //   2012-07-02 Jed Young Modify
 //
 
-using fgfxMath
+using fanvasMath
 
 **
 ** Graphics is used to draw 2D graphics.  Targets might include

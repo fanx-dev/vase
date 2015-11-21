@@ -7,40 +7,40 @@
 //
 
 
-fan.fgfxArray.ArrayBufferPeer = fan.sys.Obj.$extend(fan.sys.Obj);
-fan.fgfxArray.ArrayBufferPeer.prototype.$ctor = function(self) {}
-fan.fgfxArray.ArrayBufferPeer.prototype.rawData = null;
-fan.fgfxArray.ArrayBufferPeer.prototype.bufferView = null;
+fan.fanvasArray.ArrayBufferPeer = fan.sys.Obj.$extend(fan.sys.Obj);
+fan.fanvasArray.ArrayBufferPeer.prototype.$ctor = function(self) {}
+fan.fanvasArray.ArrayBufferPeer.prototype.rawData = null;
+fan.fanvasArray.ArrayBufferPeer.prototype.bufferView = null;
 
 //////////////////////////////////////////////////////////////////////////
 // native
 //////////////////////////////////////////////////////////////////////////
 
-fan.fgfxArray.ArrayBufferPeer.prototype.m_size;
-fan.fgfxArray.ArrayBufferPeer.prototype.size = function(self) { return this.m_size; }
+fan.fanvasArray.ArrayBufferPeer.prototype.m_size;
+fan.fanvasArray.ArrayBufferPeer.prototype.size = function(self) { return this.m_size; }
 
-fan.fgfxArray.ArrayBufferPeer.prototype.m_offset;
+fan.fanvasArray.ArrayBufferPeer.prototype.m_offset;
 
-fan.fgfxArray.ArrayBufferPeer.prototype.m_endian = fan.sys.Endian.big;
-fan.fgfxArray.ArrayBufferPeer.prototype.endian = function(self) { return this.m_endian; }
-fan.fgfxArray.ArrayBufferPeer.prototype.endian$  = function(self, v) { this.m_endian = v; }
-fan.fgfxArray.ArrayBufferPeer.prototype.isLittleEndian = function() { return this.m_endian == fan.sys.Endian.little; }
+fan.fanvasArray.ArrayBufferPeer.prototype.m_endian = fan.sys.Endian.big;
+fan.fanvasArray.ArrayBufferPeer.prototype.endian = function(self) { return this.m_endian; }
+fan.fanvasArray.ArrayBufferPeer.prototype.endian$  = function(self, v) { this.m_endian = v; }
+fan.fanvasArray.ArrayBufferPeer.prototype.isLittleEndian = function() { return this.m_endian == fan.sys.Endian.little; }
 
-fan.fgfxArray.ArrayBufferPeer.prototype.type = function(self)
+fan.fanvasArray.ArrayBufferPeer.prototype.type = function(self)
 {
   var d = this.bufferView;
-  if (d == null) return fan.fgfxArray.NumType.m_tByte;
-  else if (d instanceof Int8Array) return fan.fgfxArray.NumType.m_tByte;
-  else if (d instanceof Uint8Array) return fan.fgfxArray.NumType.m_tByte;
-  else if (d instanceof Int16Array) return fan.fgfxArray.NumType.m_tShort;
-  else if (d instanceof Uint16Array) return fan.fgfxArray.NumType.m_tShort;
-  else if (d instanceof Int32Array) return fan.fgfxArray.NumType.m_tInt;
-  else if (d instanceof Uint32Array) return fan.fgfxArray.NumType.m_tInt;
-  else if (d instanceof Float32Array) return fan.fgfxArray.NumType.m_tFloat;
+  if (d == null) return fan.fanvasArray.NumType.m_tByte;
+  else if (d instanceof Int8Array) return fan.fanvasArray.NumType.m_tByte;
+  else if (d instanceof Uint8Array) return fan.fanvasArray.NumType.m_tByte;
+  else if (d instanceof Int16Array) return fan.fanvasArray.NumType.m_tShort;
+  else if (d instanceof Uint16Array) return fan.fanvasArray.NumType.m_tShort;
+  else if (d instanceof Int32Array) return fan.fanvasArray.NumType.m_tInt;
+  else if (d instanceof Uint32Array) return fan.fanvasArray.NumType.m_tInt;
+  else if (d instanceof Float32Array) return fan.fanvasArray.NumType.m_tFloat;
   else throw fan.sys.Err.make("unknow type");
 }
 
-fan.fgfxArray.ArrayBufferPeer.prototype.reset = function()
+fan.fanvasArray.ArrayBufferPeer.prototype.reset = function()
 {
   this.m_size = this.bufferView.length;
   this.m_offset = this.bufferView.byteOffset;
@@ -50,21 +50,21 @@ fan.fgfxArray.ArrayBufferPeer.prototype.reset = function()
 // ctor
 //////////////////////////////////////////////////////////////////////////
 
-fan.fgfxArray.ArrayBufferPeer.asView = function(rawData, v, offset, size)
+fan.fanvasArray.ArrayBufferPeer.asView = function(rawData, v, offset, size)
 {
   var view;
-  if (fan.fgfxArray.NumType.m_tByte == v) view = new Int8Array(rawData, offset, size);
-  else if (fan.fgfxArray.NumType.m_tShort == v) view = new Int16Array(rawData, offset, size);
-  else if (fan.fgfxArray.NumType.m_tInt == v) view = new Int32Array(rawData, offset, size);
-  else if (fan.fgfxArray.NumType.m_tFloat == v) view = new Float32Array(rawData, offset, size);
+  if (fan.fanvasArray.NumType.m_tByte == v) view = new Int8Array(rawData, offset, size);
+  else if (fan.fanvasArray.NumType.m_tShort == v) view = new Int16Array(rawData, offset, size);
+  else if (fan.fanvasArray.NumType.m_tInt == v) view = new Int32Array(rawData, offset, size);
+  else if (fan.fanvasArray.NumType.m_tFloat == v) view = new Float32Array(rawData, offset, size);
   else throw fan.sys.Err.make("unknow type");
   return view;
 }
-fan.fgfxArray.ArrayBufferPeer.prototype.createView = function(self, type, offset, size)
+fan.fanvasArray.ArrayBufferPeer.prototype.createView = function(self, type, offset, size)
 {
-  if (this.type(self) != fan.fgfxArray.NumType.m_tByte) throw UnsupportedErr.make("only ByteBuffer can create view");
+  if (this.type(self) != fan.fanvasArray.NumType.m_tByte) throw UnsupportedErr.make("only ByteBuffer can create view");
 
-  var view = fan.fgfxArray.ArrayBuffer.make();
+  var view = fan.fanvasArray.ArrayBuffer.make();
   var peer = view.peer;
   peer.rawData = this.rawData;
   if (!offset) offset = this.m_offset;
@@ -74,21 +74,21 @@ fan.fgfxArray.ArrayBufferPeer.prototype.createView = function(self, type, offset
   return view;
 }
 
-fan.fgfxArray.ArrayBufferPeer.allocateDirect = function(size, type)
+fan.fanvasArray.ArrayBufferPeer.allocateDirect = function(size, type)
 {
-  if (!type) type = fan.fgfxArray.NumType.m_tByte;
+  if (!type) type = fan.fanvasArray.NumType.m_tByte;
   var capacity = (size * type.m_size);
   var buf = new ArrayBuffer(capacity);
-  var self = fan.fgfxArray.ArrayBuffer.make();
+  var self = fan.fanvasArray.ArrayBuffer.make();
   self.peer.rawData = buf;
 
-  if (type == fan.fgfxArray.NumType.m_tByte)
+  if (type == fan.fanvasArray.NumType.m_tByte)
   {
     self.peer.bufferView = new Int8Array(buf);
     self.peer.reset();
     return self;
   }
-  self.peer.bufferView = fan.fgfxArray.ArrayBufferPeer.asView(buf, type, 0, size);
+  self.peer.bufferView = fan.fanvasArray.ArrayBufferPeer.asView(buf, type, 0, size);
   self.peer.reset();
   return self;
 }
@@ -97,25 +97,25 @@ fan.fgfxArray.ArrayBufferPeer.allocateDirect = function(size, type)
 // random read/write
 //////////////////////////////////////////////////////////////////////////
 
-fan.fgfxArray.ArrayBufferPeer.prototype.getInt = function(self, index)
+fan.fanvasArray.ArrayBufferPeer.prototype.getInt = function(self, index)
 {
-  if (this.type(self) != fan.fgfxArray.NumType.m_tInt) throw UnsupportedErr.make("not Int buffer");
+  if (this.type(self) != fan.fanvasArray.NumType.m_tInt) throw UnsupportedErr.make("not Int buffer");
   return this.bufferView[index];
 }
-fan.fgfxArray.ArrayBufferPeer.prototype.setInt = function(self, index, v)
+fan.fanvasArray.ArrayBufferPeer.prototype.setInt = function(self, index, v)
 {
-  if (this.type(self) != fan.fgfxArray.NumType.m_tInt) throw UnsupportedErr.make("not Int buffer");
+  if (this.type(self) != fan.fanvasArray.NumType.m_tInt) throw UnsupportedErr.make("not Int buffer");
   this.bufferView.set[index] = v;
   return self;
 }
-fan.fgfxArray.ArrayBufferPeer.prototype.getFloat = function(self, index)
+fan.fanvasArray.ArrayBufferPeer.prototype.getFloat = function(self, index)
 {
-  if (this.type(self) != fan.fgfxArray.NumType.m_tFloat) throw UnsupportedErr.make("not Float buffer");
+  if (this.type(self) != fan.fanvasArray.NumType.m_tFloat) throw UnsupportedErr.make("not Float buffer");
   return this.bufferView[index];
 }
-fan.fgfxArray.ArrayBufferPeer.prototype.setFloat = function(self, index, v)
+fan.fanvasArray.ArrayBufferPeer.prototype.setFloat = function(self, index, v)
 {
-  if (this.type(self) != fan.fgfxArray.NumType.m_tFloat) throw UnsupportedErr.make("not Float buffer");
+  if (this.type(self) != fan.fanvasArray.NumType.m_tFloat) throw UnsupportedErr.make("not Float buffer");
   this.bufferView.set[index] = v;
   return self;
 }
@@ -124,17 +124,17 @@ fan.fgfxArray.ArrayBufferPeer.prototype.setFloat = function(self, index, v)
 // batch read/write
 //////////////////////////////////////////////////////////////////////////
 
-fan.fgfxArray.ArrayBufferPeer.prototype.putFloat = function(self, data)
+fan.fanvasArray.ArrayBufferPeer.prototype.putFloat = function(self, data)
 {
   this.bufferView.set(data.m_values);
   return self;
 }
-fan.fgfxArray.ArrayBufferPeer.prototype.putInt = function(self, data)
+fan.fanvasArray.ArrayBufferPeer.prototype.putInt = function(self, data)
 {
   this.bufferView.set(data.m_values);
   return self;
 }
-fan.fgfxArray.ArrayBufferPeer.prototype.putShort = function(self, data)
+fan.fanvasArray.ArrayBufferPeer.prototype.putShort = function(self, data)
 {
   this.bufferView.set(data.m_values);
   return self;
@@ -144,7 +144,7 @@ fan.fgfxArray.ArrayBufferPeer.prototype.putShort = function(self, data)
 // methods
 //////////////////////////////////////////////////////////////////////////
 
-fan.fgfxArray.ArrayBufferPeer.prototype.getValue = function()
+fan.fanvasArray.ArrayBufferPeer.prototype.getValue = function()
 {
   return this.bufferView;
 }

@@ -5,15 +5,15 @@
 // History:
 //   2011-09-09  Jed Young  Creation
 //
-package fan.fgfxFwt;
+package fan.fanvasFwt;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Transform;
 import org.eclipse.swt.widgets.Display;
 
-import fan.fgfxMath.Transform2D;
-import fan.fgfxGraphics.*;
+import fan.fanvasMath.Transform2D;
+import fan.fanvasGraphics.*;
 
 public class SwtUtil {
 
@@ -100,29 +100,29 @@ public class SwtUtil {
     return swtPath;
   }
 
-  static java.awt.AlphaComposite toAwtComposite(fan.fgfxGraphics.Composite com, float alpha) {
+  static java.awt.AlphaComposite toAwtComposite(fan.fanvasGraphics.Composite com, float alpha) {
     int rule = 0;
-    if (com == fan.fgfxGraphics.Composite.srcAtop) {
+    if (com == fan.fanvasGraphics.Composite.srcAtop) {
       rule = java.awt.AlphaComposite.SRC_ATOP;
-    } else if (com == fan.fgfxGraphics.Composite.srcIn) {
+    } else if (com == fan.fanvasGraphics.Composite.srcIn) {
       rule = java.awt.AlphaComposite.SRC_IN;
-    } else if (com == fan.fgfxGraphics.Composite.srcOut) {
+    } else if (com == fan.fanvasGraphics.Composite.srcOut) {
       rule = java.awt.AlphaComposite.SRC_OUT;
-    } else if (com == fan.fgfxGraphics.Composite.dstAtop) {
+    } else if (com == fan.fanvasGraphics.Composite.dstAtop) {
       rule = java.awt.AlphaComposite.DST_ATOP;
-    } else if (com == fan.fgfxGraphics.Composite.dstIn) {
+    } else if (com == fan.fanvasGraphics.Composite.dstIn) {
       rule = java.awt.AlphaComposite.DST_IN;
-    } else if (com == fan.fgfxGraphics.Composite.dstOut) {
+    } else if (com == fan.fanvasGraphics.Composite.dstOut) {
       rule = java.awt.AlphaComposite.DST_OUT;
-    } else if (com == fan.fgfxGraphics.Composite.dstOver) {
+    } else if (com == fan.fanvasGraphics.Composite.dstOver) {
       rule = java.awt.AlphaComposite.DST_OVER;
-    } else if (com == fan.fgfxGraphics.Composite.lighter) {
+    } else if (com == fan.fanvasGraphics.Composite.lighter) {
       return null;
-    } else if (com == fan.fgfxGraphics.Composite.copy) {
+    } else if (com == fan.fanvasGraphics.Composite.copy) {
       rule = java.awt.AlphaComposite.SRC;
-    } else if (com == fan.fgfxGraphics.Composite.xor) {
+    } else if (com == fan.fanvasGraphics.Composite.xor) {
       rule = java.awt.AlphaComposite.XOR;
-    } else if (com == fan.fgfxGraphics.Composite.clear) {
+    } else if (com == fan.fanvasGraphics.Composite.clear) {
       rule = java.awt.AlphaComposite.CLEAR;
     } else {
       return null;

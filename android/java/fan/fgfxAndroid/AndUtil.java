@@ -5,13 +5,13 @@
 // History:
 //   2011-09-18  Jed Young  Creation
 //
-package fan.fgfxAndroid;
+package fan.fanvasAndroid;
 
 import android.graphics.Bitmap;
 import android.graphics.Matrix;
 import android.graphics.Typeface;
-import fan.fgfxGraphics.*;
-import fan.fgfxMath.Transform2D;
+import fan.fanvasGraphics.*;
+import fan.fanvasMath.Transform2D;
 import fan.sys.List;
 
 public class AndUtil {

@@ -7,11 +7,11 @@
 //
 
 using concurrent
-using fgfxGraphics
-using fgfxWtk
-using fgfxWidget
-//using fgfxFwt
-using fgfxAndroid
+using fanvasGraphics
+using fanvasWindow
+using fanvasGui
+//using fanvasFwt
+using fanvasAndroid
 
 **
 ** Win Test

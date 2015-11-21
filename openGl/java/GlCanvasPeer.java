@@ -6,7 +6,7 @@
 //   2011-08-27  Jed Young  Creation
 //
 
-package fan.fgfxOpenGl;
+package fan.fanvasOpenGl;
 
 import fan.sys.*;
 import fan.fwt.*;

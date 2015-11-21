@@ -1,6 +1,6 @@
-package fan.fgfxFwt;
+package fan.fanvasFwt;
 
-import fan.fgfxGraphics.*;
+import fan.fanvasGraphics.*;
 
 public class SwtPointArray implements PointArray {
 

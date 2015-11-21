@@ -1,10 +1,10 @@
-package fan.fgfxFwt;
+package fan.fanvasFwt;
 
 import fan.sys.Func;
 
 import org.eclipse.swt.graphics.GC;
 
-import fan.fgfxGraphics.*;
+import fan.fanvasGraphics.*;
 
 public class SwtFont extends Font {
 

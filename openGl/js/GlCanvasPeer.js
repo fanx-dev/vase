@@ -7,10 +7,10 @@
 //
 
 
-fan.fgfxOpenGl.GlCanvasPeer = fan.sys.Obj.$extend(fan.fwt.CanvasPeer);
-fan.fgfxOpenGl.GlCanvasPeer.prototype.$ctor = function(self) {}
+fan.fanvasOpenGl.GlCanvasPeer = fan.sys.Obj.$extend(fan.fwt.CanvasPeer);
+fan.fanvasOpenGl.GlCanvasPeer.prototype.$ctor = function(self) {}
 
-fan.fgfxOpenGl.GlCanvasPeer.prototype.getCanvas = function()
+fan.fanvasOpenGl.GlCanvasPeer.prototype.getCanvas = function()
 {
   // short-circuit if not properly layed out
   var size = this.m_size
@@ -48,12 +48,12 @@ fan.fgfxOpenGl.GlCanvasPeer.prototype.getCanvas = function()
   }
 }
 
-fan.fgfxOpenGl.GlCanvasPeer.prototype.initGL = function(canvas)
+fan.fanvasOpenGl.GlCanvasPeer.prototype.initGL = function(canvas)
 {
   try
   {
     var gl = canvas.getContext("experimental-webgl");
-    this.m_gl = new fan.fgfxOpenGl.WebGlContext();
+    this.m_gl = new fan.fanvasOpenGl.WebGlContext();
     this.m_gl.gl = gl;
     //lastGl = gl;
 
@@ -67,12 +67,12 @@ fan.fgfxOpenGl.GlCanvasPeer.prototype.initGL = function(canvas)
   }
 }
 
-fan.fgfxOpenGl.GlCanvasPeer.prototype.gl = function(self)
+fan.fanvasOpenGl.GlCanvasPeer.prototype.gl = function(self)
 {
   return this.m_gl;
 }
 
-fan.fgfxOpenGl.GlCanvasPeer.prototype.sync = function(self)
+fan.fanvasOpenGl.GlCanvasPeer.prototype.sync = function(self)
 {
   var c = this.getCanvas();
   if (!c) return;

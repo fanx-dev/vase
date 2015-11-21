@@ -6,10 +6,10 @@
 //   2011-7-4  Jed Young  Creation
 //
 
-package fan.fgfxFwt;
+package fan.fanvasFwt;
 
 import fan.concurrent.Actor;
-import fan.fgfxGraphics.Graphics;
+import fan.fanvasGraphics.Graphics;
 import fan.sys.*;
 
 public class FwtToolkitEnvPeer
@@ -22,7 +22,7 @@ public class FwtToolkitEnvPeer
 
   public static void initGfxEnv()
   {
-    Actor.locals().set("fgfxGraphics.env", SwtGfxEnv.instance);
+    Actor.locals().set("fanvasGraphics.env", SwtGfxEnv.instance);
   }
 
   public static Graphics toGraphics(fan.gfx.Graphics fg)

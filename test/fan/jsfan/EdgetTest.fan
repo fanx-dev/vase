@@ -7,12 +7,12 @@
 //
 
 using concurrent
-using fgfxGraphics
-using fgfxFwt
-using fgfxWtk
-using fgfxWidget
-using fgfxMath
-using fgfxArray
+using fanvasGraphics
+using fanvasFwt
+using fanvasWindow
+using fanvasGui
+using fanvasMath
+using fanvasArray
 
 **
 ** EdgeTest

@@ -5,14 +5,14 @@
 // History:
 //   2011-09-09  Jed Young  Creation
 //
-package fan.fgfxFwt;
+package fan.fanvasFwt;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
 
-import fan.fgfxGraphics.*;
+import fan.fanvasGraphics.*;
 import fan.sys.Func;
 import fan.sys.IOErr;
 import fan.sys.InStream;

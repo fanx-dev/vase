@@ -1,10 +1,10 @@
-package fan.fgfxAndroid;
+package fan.fanvasAndroid;
 
 import fan.sys.Func;
 
 import android.graphics.Paint;
 import android.graphics.Typeface;
-import fan.fgfxGraphics.Font;
+import fan.fanvasGraphics.Font;
 
 public class AndFont extends Font {
 

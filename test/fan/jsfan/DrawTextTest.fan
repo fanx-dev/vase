@@ -6,11 +6,11 @@
 //   2011-7-4  Jed Young  Creation
 //
 
-using fgfxGraphics
-using fgfxWtk
+using fanvasGraphics
+using fanvasWindow
 using concurrent
-using fgfxMath
-using fgfxFwt
+using fanvasMath
+using fanvasFwt
 
 @Js
 class DrawTextTest

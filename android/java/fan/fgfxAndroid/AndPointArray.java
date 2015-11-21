@@ -1,6 +1,6 @@
-package fan.fgfxAndroid;
+package fan.fanvasAndroid;
 
-import fan.fgfxGraphics.*;
+import fan.fanvasGraphics.*;
 
 public class AndPointArray implements PointArray {
 

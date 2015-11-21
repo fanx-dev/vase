@@ -6,7 +6,7 @@
 //   2011-07-29  Jed Young  Creation
 //
 
-package fan.fgfxOpenGl;
+package fan.fanvasOpenGl;
 
 import fan.sys.*;
 import java.nio.*;

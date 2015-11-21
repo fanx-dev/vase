@@ -6,7 +6,7 @@
 //   2011-10-05  Jed Young  Creation
 //
 
-package fan.fgfxAndroid;
+package fan.fanvasAndroid;
 
 import android.content.Context;
 import android.graphics.Rect;
@@ -17,18 +17,18 @@ import android.text.TextWatcher;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.FrameLayout;
-import fan.fgfxGraphics.Color;
-import fan.fgfxGraphics.Font;
-import fan.fgfxGraphics.Point;
-import fan.fgfxGraphics.Size;
-import fan.fgfxWtk.NativeEditText;
-import fan.fgfxWtk.Window;
+import fan.fanvasGraphics.Color;
+import fan.fanvasGraphics.Font;
+import fan.fanvasGraphics.Point;
+import fan.fanvasGraphics.Size;
+import fan.fanvasWindow.NativeEditText;
+import fan.fanvasWindow.Window;
 
 public class AndEditText extends EditText implements NativeEditText {
-	fan.fgfxWtk.EditText view;
+	fan.fanvasWindow.EditText view;
 	Window win;
 
-	public AndEditText(Context context, fan.fgfxWtk.EditText view) {
+	public AndEditText(Context context, fan.fanvasWindow.EditText view) {
 		super(context);
 		this.view = view;
 
@@ -75,7 +75,7 @@ public class AndEditText extends EditText implements NativeEditText {
 	}
 
 	@Override
-	public void repaint(fan.fgfxGraphics.Rect dirty) {
+	public void repaint(fan.fanvasGraphics.Rect dirty) {
 		if (dirty == null) {
 			this.invalidate();
 			return;

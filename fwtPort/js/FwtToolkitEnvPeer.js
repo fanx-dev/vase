@@ -6,15 +6,15 @@
 //   2011-7-4  Jed Young  Creation
 //
 
-fan.fgfxFwt.FwtToolkitEnvPeer = fan.sys.Obj.$extend(fan.sys.Obj);
-fan.fgfxFwt.FwtToolkitEnvPeer.prototype.$ctor = function(self) {}
+fan.fanvasFwt.FwtToolkitEnvPeer = fan.sys.Obj.$extend(fan.sys.Obj);
+fan.fanvasFwt.FwtToolkitEnvPeer.prototype.$ctor = function(self) {}
 
-fan.fgfxFwt.FwtToolkitEnvPeer.initGfxEnv = function() {
-   fan.concurrent.Actor.locals().set("fgfxGraphics.env", new fan.fgfxWtk.GfxEnv());
+fan.fanvasFwt.FwtToolkitEnvPeer.initGfxEnv = function() {
+   fan.concurrent.Actor.locals().set("fanvasGraphics.env", new fan.fanvasWindow.GfxEnv());
 }
 
-fan.fgfxFwt.FwtToolkitEnvPeer.toGraphics = function(fg) {
-  var g = new fan.fgfxWtk.Graphics();
+fan.fanvasFwt.FwtToolkitEnvPeer.toGraphics = function(fg) {
+  var g = new fan.fanvasWindow.Graphics();
   g.widget = fg.widget;
   g.size = fg.size;
   g.cx = fg.cx;
