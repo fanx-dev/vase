@@ -56,7 +56,7 @@ class GraphicsTest
 @Js
 class GraphicsView : View
 {
-  override NativeView? nativeView
+  override NativeView? host
 
   Image p := BufImage.fromUri(`fan://icons/x16/folder.png`) |p|
   {
@@ -79,7 +79,7 @@ class GraphicsView : View
     // paint background white
     gc.antialias = true
     gc.brush = Color.white
-    gc.fillRect(0, 0, nativeView.size.w, nativeView.size.h)
+    gc.fillRect(0, 0, host.size.w, host.size.h)
 
     paint(gc)
 

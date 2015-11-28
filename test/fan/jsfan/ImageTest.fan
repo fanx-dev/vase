@@ -55,7 +55,7 @@ class MyImageView : View
 {
   Int i := 0
 
-  override NativeView? nativeView
+  override NativeView? host
 
   Image p := BufImage.fromUri(`fan://icons/x16/folder.png`) |p|
   {

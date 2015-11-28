@@ -14,7 +14,7 @@ class Build : build::BuildPod
 {
   new make()
   {
-    podName = "fanvasWindowTest"
+    podName = "fanvasTest"
     summary = "test fan3d in web"
     srcDirs = [`fan/`, `fan/model/`, `fan/action/`, `fan/jsfan/`, `fan/boot/`, `fan/util/`]
     depends =

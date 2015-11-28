@@ -16,7 +16,7 @@ const class Index : Controller
 {
   Void index()
   {
-    m->name = "OpenGL"
+    stash("name", "OpenGL")
     render
   }
 }

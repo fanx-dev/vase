@@ -49,7 +49,7 @@ class DrawTextTest
 @Js
 class DrawTextTestView : View
 {
-  override NativeView? nativeView
+  override NativeView? host
 
   new make()
   {
