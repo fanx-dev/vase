@@ -16,7 +16,7 @@ class LinearLayout : WidgetGroup
 
   Bool vertical := true
 
-  override This doLayout(Dimension result)
+  override Void doLayout(Dimension result)
   {
     Int x := padding.left
     Int y := padding.top
@@ -97,7 +97,6 @@ class LinearLayout : WidgetGroup
 
 //    echo("layoutY$y")
 
-    return this
   }
 
   protected override Dimension prefContentSize(Int hintsWidth, Int hintsHeight, Dimension result) {

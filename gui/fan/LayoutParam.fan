@@ -9,12 +9,92 @@
 using fanvasGraphics
 using fanvasWindow
 
+**
+** Number with unit
+**
+@Js
+@Serializable { simple = true }
+const class Scalar {
+  const static Scalar defVal := Scalar()
+
+  ** device independent pixel base 320 dpi
+  static const Str dp := "dp"
+
+  ** pixel
+  static const Str px := "px"
+
+  ** percent of width
+  static const Str pw := "pw"
+
+  ** percent of height
+  static const Str ph := "ph"
+
+  ** centimeter
+  static const Str cm := "cm"
+
+  ** inch
+  static const Str in := "in"
+
+  ** the unit of value
+  const Str unit
+
+  ** current vaule
+  const Float value
+
+  new make(Float val := 0f, Str unit := dp) {
+    value = val
+    this.unit = unit
+  }
+
+  static new fromStr(Str str) {
+    i := str.index(".")
+    val := str[0..<i].toFloat
+    unit := str[i+1..-1]
+    return Scalar(val, unit)
+  }
+
+  override Str toStr() {
+    "${value}.$unit"
+  }
+
+  **
+  ** convert to pixel size
+  **
+  Int getPixel(Widget? parent) {
+    Float result := 0f
+    switch (unit) {
+      case dp:
+      result = (DisplayMetrics.dpToPixel(value).toFloat)
+
+      case px:
+      result = value
+
+      case pw:
+      result = (value *parent.getContentWidth / 100f)
+
+      case ph:
+      result = (value *parent.getContentHeight / 100f)
+
+      case cm:
+      result = (value * 0.3937008f * DisplayMetrics.dpi)
+
+      case in:
+      result = (value * DisplayMetrics.dpi)
+
+      default:
+      throw UnsupportedErr("unknow unit")
+    }
+
+    return result.round.toInt
+  }
+}
 
 **
 ** Tell parent how to layout this widget
 ** The parent may ignore the param
 **
 @Js
+@Serializable
 class LayoutParam {
 
   **

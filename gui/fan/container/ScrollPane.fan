@@ -93,7 +93,7 @@ abstract class ScrollBase : FrameLayout
     return bs.h
   }
 
-  override This doLayout(Dimension result)
+  override Void doLayout(Dimension result)
   {
     this.remove(hbar)
     this.remove(vbar)
@@ -146,7 +146,6 @@ abstract class ScrollBase : FrameLayout
     this.add(vbar)
 
     //echo("x$hbar.x,y$hbar.y")
-    return this
   }
 
   protected virtual Void adjustChildren() {

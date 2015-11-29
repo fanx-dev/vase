@@ -22,6 +22,8 @@ mixin DisplayMetrics
     Toolkit.cur.density
   }
 
+  static Int dpi() { (dp * 320).toInt }
+
   static Int dpToPixel(Float d) { (d * dp).toInt }
 
   static Float pixelToDp(Int p) { (p / dp) }

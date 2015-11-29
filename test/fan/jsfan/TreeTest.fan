@@ -43,7 +43,7 @@ class TreeTest
 
     view := RootView
     {
-      TreeView(MyTreeModel()),
+      mainView = TreeView(MyTreeModel())
     }
 
     view.show

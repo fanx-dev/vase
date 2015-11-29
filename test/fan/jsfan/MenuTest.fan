@@ -44,7 +44,7 @@ class MenuTest
     RootView? view
     view = RootView
     {
-      Menu
+      mainView = Menu
       {
         MenuItem
         {
@@ -80,7 +80,7 @@ class MenuTest
             }
           },
         },
-      },
+      }
     }
 
     view.layoutParam.width = 600

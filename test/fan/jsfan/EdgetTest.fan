@@ -84,7 +84,7 @@ class EdgeTest
 
     view = RootView
     {
-      EdgePane
+      mainView = EdgePane
       {
         top = menu
 
@@ -103,7 +103,7 @@ class EdgeTest
                                               //
 
                                               """))
-      },
+      }
     }
 
     view.show

@@ -53,11 +53,11 @@ class MenuItem : ButtonBase
       if (list.childrenSize > 0)
       {
         expand(getRootView.topOverlayer)
-        getRootView.modal = true
+        //getRootView.modal = true
       }
       else
       {
-        getRootView.modal = false
+        //getRootView.modal = false
         rootMenu?.close
       }
     }

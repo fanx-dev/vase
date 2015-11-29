@@ -45,7 +45,7 @@ class WinTest
     {
       //ScrollPane
       //{
-        LinearLayout
+        mainView = LinearLayout
         {
           padding = Insets(20)
           spacing = dpToPixel(15f)
@@ -61,7 +61,7 @@ class WinTest
           ToggleButton { text = "checkBox"; it.layoutParam.width = LayoutParam.matchParent },
           RadioButton { text = "radio1"; it.layoutParam.width = LayoutParam.matchParent },
           RadioButton { text = "radio2"; it.layoutParam.width = LayoutParam.matchParent },
-        },
+        }
 //      },
     }
 

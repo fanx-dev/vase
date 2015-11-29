@@ -17,20 +17,36 @@ using concurrent
 class RootView : FrameLayout, View
 {
   **
+  ** Root View
+  **
+  Widget mainView {
+    set {
+      remove(&mainView)
+      doAdd(it)
+      &mainView = it
+    }
+  }
+
+  **
   ** The reference of nativeView
   **
+  @Transient
   override NativeView? host
 
   **
   ** current focus widget
   **
-  Widget? focusWidget { private set }
+  @Transient
+  private Widget? focusWidget { private set }
+
+  @Transient
   private Widget? mouseOverWidget
 
   **
   ** top layer is a overlay of root view
   **
-  private WidgetGroup? topLayerGroup
+  @Transient
+  private WidgetGroup? topLayer
 
   **
   ** Used to toggle anti-aliasing on and off.
@@ -40,6 +56,7 @@ class RootView : FrameLayout, View
   **
   ** Style support
   **
+  @Transient
   StyleManager styleManager := StyleManager()
 
   **
@@ -55,13 +72,19 @@ class RootView : FrameLayout, View
   **
   ** animation manager
   **
+  @Transient
   AnimManager animManager := AnimManager()
 
+  **
+  ** last animation update time
+  **
+  @Transient
   private Int lastUpdateTime := 0
 
   **
   ** has modal dialog
   **
+  @Transient
   Bool modal := false
 
   **
@@ -72,17 +95,20 @@ class RootView : FrameLayout, View
   **
   ** marked need do layout
   **
+  @Transient
   protected Bool layoutDirty := true
 
   **
   ** Shared dimension for layout
   **
+  @Transient
   private Dimension sharedDimension := Dimension(0, 0)
 
   **
   ** gesture recognizer
   ** convert motion event to gesture event
   **
+  @Transient
   Gesture gesture := Gesture()
 
   **
@@ -90,6 +116,9 @@ class RootView : FrameLayout, View
   **
   EventListeners onTouchEvent := EventListeners()
 
+  **
+  ** ctor
+  **
   new make() {
     id = "root"
     width = 0
@@ -99,11 +128,82 @@ class RootView : FrameLayout, View
     gesture.onGestureEvent.add |GestureEvent e|{
       e.relativeX = e.x
       e.relativeY = e.y
-      this.gestureEvent(e)
+      gestureEvent(e)
     }
+
+    mainView = FrameLayout()
   }
 
-//  override Void requestLayout() {
+  **
+  ** Show View
+  **
+  Void show(Window? host := null, Size? size := null)
+  {
+    if (host == null)
+      host = Toolkit.cur.build()
+    host.add(this)
+    onMounted
+    host.show(size)
+  }
+
+  @Operator
+  override This add(Widget child)
+  {
+    throw UnsupportedErr("RootView not support add, pelease using mainView.")
+    return this
+  }
+
+  **
+  ** Internal hook to call Widget.add version directly and skip
+  ** hook to implicitly mount any added child as content.
+  **
+  internal Void doAdd(Widget? child) { super.add(child) }
+
+  **
+  ** get or make a widget that layout top of root view
+  **
+  WidgetGroup topOverlayer()
+  {
+    if (topLayer == null)
+    {
+      topLayer = FrameLayout()
+      topLayer.staticCache = false
+      doAdd(topLayer)
+    }
+//    moveToTop(topLayerGroup)
+    topLayer.layoutParam.width = this.width
+    topLayer.layoutParam.height = this.height
+    topLayer.width = this.width
+    topLayer.height = this.height
+    topLayer.x = 0
+    topLayer.y = 0
+    return topLayer
+  }
+
+//////////////////////////////////////////////////////////////////////////
+// frame
+//////////////////////////////////////////////////////////////////////////
+
+  **
+  ** repaint the dirty region on later
+  **
+  override Void requestPaint(Rect? dirty := null)
+  {
+    dirtyRenderCache = true
+    if (dirty == null) dirty = this.bounds
+    //convert dirty coordinate system to realative to parent
+    else dirty = Rect(dirty.x + x, dirty.y + y, dirty.w, dirty.h)
+    if (dirty == null) dirty = this.bounds
+    host?.repaint(dirty)
+  }
+
+  override Size getPrefSize(Int hintsWidth, Int hintsHeight) {
+    result := Dimension(0, 0)
+    result = super.measureSize(hintsWidth, hintsHeight, result)
+    return Size(result.w, result.h)
+  }
+
+  //  override Void requestLayout() {
 //    layoutDirty = true
 //    requestPaint
 //  }
@@ -137,6 +237,7 @@ class RootView : FrameLayout, View
     //beginTime := Duration.nowTicks
     s := host.size
     if (width != s.w || height != s.h) {
+      onResize(s.w, s.h)
       layoutDirty = true
     }
 
@@ -160,108 +261,9 @@ class RootView : FrameLayout, View
 
   virtual Void onResize(Int w, Int h) {
   }
-
-  override Void onMotionEvent(MotionEvent e) {
-    e.relativeX = e.x
-    e.relativeY = e.y
-    motionEvent(e)
-    //echo("type$e.type, x$e.x,y$e.y")
-  }
-
-  override Void onKeyEvent(KeyEvent e) {
-    keyPress(e)
-  }
-
-  override Void onDisplayEvent(DisplayEvent e)
-  {
-    if (e.type == DisplayEvent.opened) onOpened.fire(e)
-    else if (e.type == DisplayEvent.activated) onActivated.fire(e)
-    else onDisplayStateChange.fire(e)
-  }
-
-  once EventListeners onDisplayStateChange() { EventListeners() }
-
-  **
-  ** Callback function when window is opended.
-  **
-  once EventListeners onOpened() { EventListeners() }
-
-  **
-  ** Callback function when window becomes the active window on the desktop with focus.
-  **
-  once EventListeners onActivated() { EventListeners() }
-
-
-  **
-  ** post key event
-  **
-  override Void keyPress(KeyEvent e)
-  {
-    if (focusWidget == null) return
-    if (focusWidget.enabled) focusWidget.keyPress(e)
-  }
-
-  **
-  ** post touch event
-  **
-  protected override Void motionEvent(MotionEvent e)
-  {
-    onTouchEvent.fire(e)
-    if (e.consumed) {
-      return
-    }
-
-    if (!modal)
-    {
-      //fire mouse out event
-      if (mouseOverWidget != null) {
-        p := Coord(e.x, e.y)
-        b := mouseOverWidget.mapToRelative(p)
-        if (!b || !mouseOverWidget.contains(p.x, p.y)) {
-          mouseOverWidget.mouseExit
-          mouseOverWidget = null
-        }
-      }
-
-      super.motionEvent(e)
-    }
-    else
-    {
-      focusWidget.motionEvent(e)
-    }
-
-    if (!e.consumed) {
-      gesture.onEvent(e)
-    }
-  }
-
-  **
-  ** repaint the dirty region on later
-  **
-  override Void requestPaint(Rect? dirty := null)
-  {
-    super.requestPaint(dirty)
-    if (dirty == null) dirty = this.bounds
-    host?.repaint(dirty)
-  }
-
-  override Size getPrefSize(Int hintsWidth, Int hintsHeight) {
-    result := Dimension(0, 0)
-    result = super.measureSize(hintsWidth, hintsHeight, result)
-    return Size(result.w, result.h)
-  }
-
-  **
-  ** Show View
-  **
-  Void show(Window? host := null, Size? size := null)
-  {
-    if (host == null)
-      host = Toolkit.cur.build()
-    host.add(this)
-    onMounted
-    host.show(size)
-  }
+//////////////////////////////////////////////////////////////////////////
+// event
+//////////////////////////////////////////////////////////////////////////
 
   **
   ** request focus for widget
@@ -295,23 +297,70 @@ class RootView : FrameLayout, View
   **
   override Bool hasFocus() { host.hasFocus }
 
-  **
-  ** get or make a widget that layout top of root view
-  **
-  WidgetGroup topOverlayer()
-  {
-    if (topLayerGroup == null)
-    {
-      topLayerGroup = FrameLayout()
-      topLayerGroup.staticCache = false
-    }
-    moveToTop(topLayerGroup)
-    topLayerGroup.layoutParam.width = this.width
-    topLayerGroup.layoutParam.height = this.height
-    topLayerGroup.width = this.width
-    topLayerGroup.height = this.height
-    topLayerGroup.x = 0
-    topLayerGroup.y = 0
-    return topLayerGroup
+  Bool isFocusWidiget(Widget w) {
+    if (!host.hasFocus) return false
+    return w === focusWidget
   }
+  
+  protected override Void gestureEvent(GestureEvent e) {
+    if (modal) {
+      topLayer.gestureEvent(e)
+    } else {
+      super.gestureEvent(e)
+    }
+  }
+
+  override Void onMotionEvent(MotionEvent e) {
+    e.relativeX = e.x
+    e.relativeY = e.y
+
+    //fire mouse out event
+    if (mouseOverWidget != null) {
+      p := Coord(e.x, e.y)
+      b := mouseOverWidget.mapToRelative(p)
+      if (!b || !mouseOverWidget.contains(p.x, p.y)) {
+        mouseOverWidget.mouseExit
+        mouseOverWidget = null
+      }
+    }
+
+    onTouchEvent.fire(e)
+    if (e.consumed) {
+      return
+    }
+
+    gesture.onEvent(e)
+
+    if (modal) {
+      topLayer.motionEvent(e)
+    } else {
+      super.motionEvent(e)
+    }
+    //echo("type$e.type, x$e.x,y$e.y")
+  }
+
+  override Void onKeyEvent(KeyEvent e) {
+    if (focusWidget == null) return
+    if (focusWidget.enabled) focusWidget.keyPress(e)
+  }
+
+  override Void onDisplayEvent(DisplayEvent e)
+  {
+    if (e.type == DisplayEvent.opened) onOpened.fire(e)
+    else if (e.type == DisplayEvent.activated) onActivated.fire(e)
+    else onDisplayStateChange.fire(e)
+  }
+
+  once EventListeners onDisplayStateChange() { EventListeners() }
+
+  **
+  ** Callback function when window is opended.
+  **
+  once EventListeners onOpened() { EventListeners() }
+
+  **
+  ** Callback function when window becomes the active window on the desktop with focus.
+  **
+  once EventListeners onActivated() { EventListeners() }
+
 }

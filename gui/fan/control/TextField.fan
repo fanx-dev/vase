@@ -94,10 +94,9 @@ class TextField : Widget, TextView, EditText
     edit.setBound(pos.x, pos.y, width, height)
   }
 
-  protected override This doLayout(Dimension result) {
-    rc := super.doLayout(result)
+  protected override Void doLayout(Dimension result) {
+    super.doLayout(result)
     resetNativeView
-    return rc
   }
 
   override Dimension prefContentSize(Int hintsWidth, Int hintsHeight, Dimension result) {

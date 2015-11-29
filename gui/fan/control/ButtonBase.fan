@@ -50,11 +50,12 @@ class ButtonBase : Label
       onAction.fire(e)
       e.consume
     }
-    //echo("e.type $e.type")
+//    echo("e.type $e.type")
   }
 
   protected override Void motionEvent(MotionEvent e)
   {
+//    echo("e.type $e.type")
     super.motionEvent(e)
 
     if (state == mouseOut) {

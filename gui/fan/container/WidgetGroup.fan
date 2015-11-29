@@ -120,7 +120,7 @@ abstract class WidgetGroup : Widget
   **
   ** layout the children
   **
-  abstract override This doLayout(Dimension result);
+  abstract override Void doLayout(Dimension result);
 
   **
   ** get the prefer content size

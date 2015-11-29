@@ -29,8 +29,7 @@ abstract class Widget : DisplayMetrics
   {
     set
     {
-      e := StateChangedEvent (&styleClass, it, #styleClass, this )
-      onStateChanged.fire(e)
+      fireStateChange(&styleClass, it, #styleClass)
       &styleClass = it
     }
   }
@@ -38,12 +37,14 @@ abstract class Widget : DisplayMetrics
   **
   ** current transform as animation target
   **
+  @Transient
   Transform2D? transform
 
   **
   ** current alpha as animation target
   ** range in [0,1]
   **
+  @Transient
   Float? alpha
 
   **
@@ -59,12 +60,14 @@ abstract class Widget : DisplayMetrics
   **
   ** render result cache in bitmap image
   **
+  @Transient
   private BufImage? renderCache
 
   **
   ** invalidate the renderCache bitmap image
   **
-  private Bool dirtyRenderCache := true
+  @Transient
+  protected Bool dirtyRenderCache := true
 
 //////////////////////////////////////////////////////////////////////////
 // State
@@ -77,8 +80,7 @@ abstract class Widget : DisplayMetrics
   {
     set
     {
-      e := StateChangedEvent (&visible, it, #visible, this )
-      onStateChanged.fire(e)
+      fireStateChange(&visible, it, #visible)
       &visible = it
     }
   }
@@ -91,54 +93,69 @@ abstract class Widget : DisplayMetrics
   {
     set
     {
-      e := StateChangedEvent (&enabled, it, #enabled, this )
-      onStateChanged.fire(e)
+      fireStateChange(&enabled, it, #enabled)
       &enabled = it
     }
   }
 
   Int x := 0 {
     protected set {
-      e := StateChangedEvent (&x, it, #x, this )
-      onStateChanged.fire(e)
+      fireStateChange(&x, it, #x)
       &x = it
     }
   }
 
   Int y := 0 {
     protected set {
-      e := StateChangedEvent (&y, it, #y, this )
-      onStateChanged.fire(e)
+      fireStateChange(&y, it, #y)
       &y = it
     }
   }
 
   Int width := 50 {
     protected set {
-      e := StateChangedEvent (&width, it, #width, this )
-      onStateChanged.fire(e)
+      fireStateChange(&width, it, #width)
       &width = it
     }
   }
 
   Int height := 50 {
     protected set {
-      e := StateChangedEvent (&height, it, #height, this )
-      onStateChanged.fire(e)
+      fireStateChange(&height, it, #height)
       &height = it
     }
   }
 
-//  **
-//  ** Size of this widget.
-//  **
-//  Size size := Size(50, 50) {
-//    protected set {
-//      e := StateChangedEvent (&size, it, #size, this )
-//      onStateChanged.fire(e)
-//      &size = it
-//    }
-//  }
+  **
+  ** Size of this widget.
+  **
+  Size size {
+    get { return Size(width, height) }
+    set {
+      width = it.w
+      height = it.h
+    }
+  }
+  
+  **
+  ** Position and size of this widget relative to its parent.
+  ** If this a window, this is the position on the screen.
+  **
+  Rect bounds
+  {
+    get { return Rect.make(x, y, width, height) }
+    set {
+      x = it.x
+      y = it.y
+      width = it.w
+      height = it.h
+    }
+  }
+  
+  protected Void fireStateChange(Obj? oldValue, Obj? newValue, Field? field) {
+    e := StateChangedEvent (oldValue, newValue, field, this )
+    onStateChanged.fire(e)
+  }
 
   **
   ** Callback function when Widget state changed
@@ -152,6 +169,7 @@ abstract class Widget : DisplayMetrics
   **
   ** Get this widget's parent or null if not mounted.
   **
+  @Transient
   WidgetGroup? parent { private set }
 
   internal Void setParent(WidgetGroup? p) { parent = p }
@@ -369,7 +387,7 @@ abstract class Widget : DisplayMetrics
   **
   ** layout the children
   **
-  protected virtual This doLayout(Dimension result) { this }
+  protected virtual Void doLayout(Dimension result) {}
 
   **
   ** Requset relayout this widget
@@ -381,21 +399,6 @@ abstract class Widget : DisplayMetrics
 //////////////////////////////////////////////////////////////////////////
 // rootView
 //////////////////////////////////////////////////////////////////////////
-
-  **
-  ** Position and size of this widget relative to its parent.
-  ** If this a window, this is the position on the screen.
-  **
-  Rect bounds
-  {
-    get { return Rect.make(x, y, width, height) }
-    set {
-      x = it.x
-      y = it.y
-      width = it.w
-      height = it.h
-    }
-  }
 
   **
   ** relative coordinate
@@ -501,8 +504,8 @@ abstract class Widget : DisplayMetrics
   **
   virtual Bool hasFocus()
   {
-    v := getRootView
-    return v.hasFocus && v.focusWidget === this
+    root := getRootView
+    return root.isFocusWidiget(this)
   }
 
   **

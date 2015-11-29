@@ -97,7 +97,7 @@ class EdgePane : FrameLayout
     return w.prefBufferedSize(hintsWidth, hintsHeight, result)
   }
 
-  override This doLayout(Dimension result)
+  override Void doLayout(Dimension result)
   {
     //s := size
     x := padding.left; y := padding.top;
@@ -148,7 +148,6 @@ class EdgePane : FrameLayout
       center.doLayout(result)
     }
 
-    return this
   }
 
 }

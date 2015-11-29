@@ -12,10 +12,10 @@ using fanvasWindow
 @Js
 class FrameLayout : WidgetGroup
 {
-**
+  **
   ** Frame Layout
   **
-  override This doLayout(Dimension result)
+  override Void doLayout(Dimension result)
   {
     Int x := padding.left
     Int y := padding.top
@@ -52,7 +52,6 @@ class FrameLayout : WidgetGroup
       c.y = cy
       c.doLayout(result)
     }
-    return this
   }
 
   protected override Dimension prefContentSize(Int hintsW, Int hintsH, Dimension result) {

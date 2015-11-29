@@ -7,3 +7,4 @@ widget/bin/fan/lib/fan/fgfxWidget.pod
 androidDemo/android/bin
 androidDemo/android/libs/androidDemo.jar
 androidDemo/android/gen
+*.pod

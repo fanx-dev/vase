@@ -43,7 +43,7 @@ class TableTest
 
     view := RootView
     {
-      Table(MyTableModel()),
+      mainView = Table(MyTableModel())
     }
 
     view.show
