@@ -74,32 +74,32 @@ abstract class ScrollBase : FrameLayout
     padding = Insets(0, barSize, barSize, 0)
   }
 
-  protected virtual Int viewportWidth() { getContentWidth }
+  protected virtual Int viewportWidth() { contentWidth }
 
-  protected virtual Int viewportHeight() { getContentHeight }
+  protected virtual Int viewportHeight() { contentHeight }
 
   private Dimension wrapContentSize(Int hintsWidth, Int hintsHeight, Dimension result) {
-    s := prefContentSize(hintsWidth, hintsHeight, result)
+    s := prefContentSize(result)
     return s
   }
 
   protected virtual Int contentMaxWidth(Dimension result) {
-    bs := this.wrapContentSize(this.getContentWidth, this.getContentHeight, result)
+    bs := this.wrapContentSize(this.contentWidth, this.contentHeight, result)
     return bs.w
   }
 
   protected virtual Int contentMaxHeight(Dimension result) {
-    bs := this.wrapContentSize(this.getContentWidth, this.getContentHeight, result)
+    bs := this.wrapContentSize(this.contentWidth, this.contentHeight, result)
     return bs.h
   }
 
-  override Void doLayout(Dimension result)
+  override Void layoutChildren(Dimension result)
   {
     this.remove(hbar)
     this.remove(vbar)
-    super.doLayout(result)
+    super.layoutChildren(result)
 
-    hbar.width = getContentWidth + barSize
+    hbar.width = contentWidth + barSize
     hbar.height = barSize
     hbar.x = padding.left
     hbar.y = height-barSize
@@ -120,7 +120,7 @@ abstract class ScrollBase : FrameLayout
     }
 
     vbar.width = barSize
-    vbar.height = getContentHeight
+    vbar.height = contentHeight
     vbar.x = width-barSize
     vbar.y = padding.top
     vbar.max = contentMaxHeight(result)

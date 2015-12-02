@@ -32,11 +32,11 @@ class ScrollBarStyle : WidgetStyle
     y := widget.padding.top
     if (bar.vertical)
     {
-      g.fillRect(x, y+pos, widget.getContentWidth, thumb)
+      g.fillRect(x, y+pos, widget.contentWidth, thumb)
     }
     else
     {
-      g.fillRect(x+pos, y, thumb, widget.getContentHeight)
+      g.fillRect(x+pos, y, thumb, widget.contentHeight)
     }
   }
 }

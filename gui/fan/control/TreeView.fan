@@ -45,7 +45,7 @@ class TreeView : ScrollBase
     return w
   }
 
-  protected override Dimension prefContentSize(Int hintsWidth, Int hintsHeight, Dimension result) {
+  protected override Dimension prefContentSize(Dimension result) {
     Int w := dpToPixel(600f)
     Int h := items.size * rowHeight
     return result.set(w, h)
@@ -104,7 +104,7 @@ class TreeView : ScrollBase
       if (i < items.size)
       {
         expanded(items[i])
-        this.layout
+        this.requestLayout
         e.consume
       }
     }

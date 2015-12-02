@@ -52,7 +52,7 @@ class TextArea : ScrollBase
     font = Font(dpToPixel(41f))
   }
 
-  protected override Dimension prefContentSize(Int hintsWidth, Int hintsHeight, Dimension result) {
+  protected override Dimension prefContentSize(Dimension result) {
     Int h := model.lineCount * rowHeight
 
     Int max := 0

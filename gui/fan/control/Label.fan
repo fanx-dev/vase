@@ -22,7 +22,7 @@ class Label : Widget, TextView
   {
   }
 
-  protected override Dimension prefContentSize(Int hintsWidth, Int hintsHeight, Dimension result) {
-    return TextView.super.prefContentSize(hintsWidth, hintsHeight, result)
+  protected override Dimension prefContentSize(Dimension result) {
+    return TextView.super.prefContentSize(result)
   }
 }

@@ -19,8 +19,8 @@ class ImageStyle : WidgetStyle
       return
     }
 
-    Int w := widget.getContentWidth
-    Int h := widget.getContentHeight
+    Int w := widget.contentWidth
+    Int h := widget.contentHeight
     x := widget.padding.left
     y := widget.padding.top
 

@@ -19,7 +19,7 @@ class TextAreaStyle : WidgetStyle
 
     Int start := area.offsetY / area.rowHeight
     Int topOffset := area.offsetY - (start * area.rowHeight)
-    Int end := ((area.offsetY+area.getContentHeight).toFloat/area.rowHeight).ceil.toInt
+    Int end := ((area.offsetY+area.contentHeight).toFloat/area.rowHeight).ceil.toInt
     if (end >= area.model.lineCount) {
       end = area.model.lineCount-1
     }
@@ -55,7 +55,7 @@ class TextAreaStyle : WidgetStyle
     Int c := 0
     Int x := -area.offsetX + area.padding.left
     Int y := -topOffset + area.padding.top
-    Int bottomY := area.padding.top + area.getContentHeight
+    Int bottomY := area.padding.top + area.contentHeight
     for (i := start; i< area.model.lineCount; ++i)
     {
       lineText := area.model.line(i)

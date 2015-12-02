@@ -93,12 +93,6 @@ class RootView : FrameLayout, View
   Brush background := Color.white
 
   **
-  ** marked need do layout
-  **
-  @Transient
-  protected Bool layoutDirty := true
-
-  **
   ** Shared dimension for layout
   **
   @Transient
@@ -198,15 +192,14 @@ class RootView : FrameLayout, View
   }
 
   override Size getPrefSize(Int hintsWidth, Int hintsHeight) {
-    result := Dimension(0, 0)
-    result = super.measureSize(hintsWidth, hintsHeight, result)
+    result := super.bufferedPrefSize(sharedDimension)
     return Size(result.w, result.h)
   }
 
-  //  override Void requestLayout() {
-//    layoutDirty = true
-//    requestPaint
-//  }
+  override Void requestLayout() {
+    layoutDirty = true
+    requestPaint
+  }
 
   protected Void onUpdate() {
     if (lastUpdateTime == 0) {
@@ -238,17 +231,12 @@ class RootView : FrameLayout, View
     s := host.size
     if (width != s.w || height != s.h) {
       onResize(s.w, s.h)
-      layoutDirty = true
     }
 
     if (layoutDirty) {
       layoutDirty = false
       pos := host.pos
-      x = pos.x
-      y = pos.y
-      width = s.w
-      height = s.h
-      doLayout(sharedDimension)
+      layout(pos.x, pos.y, s.w, s.h, sharedDimension)
     }
 
     onUpdate

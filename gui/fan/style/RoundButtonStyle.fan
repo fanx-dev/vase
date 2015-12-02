@@ -56,8 +56,8 @@ class RoundButtonStyle : WidgetStyle
     //draw text
     g.brush = fontColor
     g.font = btn.font
-    x := widget.padding.left + (widget.getContentWidth / 2)
-    y := widget.padding.top + (widget.getContentHeight / 2)
+    x := widget.padding.left + (widget.contentWidth / 2)
+    y := widget.padding.top + (widget.contentHeight / 2)
     w := btn.font.width(btn.text)
     h := btn.font.height
     offset := btn.font.ascent + btn.font.leading

@@ -86,7 +86,7 @@ class ComboBox : ButtonBase
       }
     }
 
-    overlayer.layout
+    overlayer.requestLayout
     root.modal = true
   }
 

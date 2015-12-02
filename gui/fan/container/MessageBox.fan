@@ -43,7 +43,7 @@ class MessageBox : LinearLayout
     this.add(btn)
     this.layoutParam.posX = LayoutParam.alignCenter
     this.layoutParam.posY = LayoutParam.alignCenter
-    this.layoutParam.width = LayoutParam.wrapContent
+    this.layoutParam.width = LayoutParam.matchParent//dpToPixel(500f)
     padding = Insets(dpToPixel(40f))
   }
 
@@ -54,7 +54,7 @@ class MessageBox : LinearLayout
     overlayer.add(this)
     this.focus
     root.modal = true
-    overlayer.layout
+    overlayer.requestLayout
 
     a := TweenAnimation() {
       AlphaAnimChannel {},

@@ -41,8 +41,8 @@ class ComboBoxStyle : WidgetStyle {
     g.fillRect(0, 0, widget.width, widget.height)
     
     g.brush = outlineColor
-    bottom := widget.padding.top + widget.getContentHeight
-    right := widget.padding.left + widget.getContentWidth
+    bottom := widget.padding.top + widget.contentHeight
+    right := widget.padding.left + widget.contentWidth
 //    pen := Pen { width = btn.dpToPixel(8) }
 //    g.pen = pen
     g.drawLine(widget.padding.left, bottom, right-1, bottom)
@@ -66,7 +66,7 @@ class ComboBoxStyle : WidgetStyle {
     g.brush = fontColor
     g.font = btn.font
     x := widget.padding.left
-    y := widget.padding.top + (widget.getContentHeight / 2)
+    y := widget.padding.top + (widget.contentHeight / 2)
     //w := btn.font.width(btn.text)
     h := btn.font.height
     offset := btn.font.ascent + btn.font.leading
@@ -106,8 +106,8 @@ class ButtonBaseStyle : WidgetStyle
     //draw text
     g.brush = fontColor
     g.font = btn.font
-    x := widget.padding.left + (widget.getContentWidth / 2)
-    y := widget.padding.top + (widget.getContentHeight / 2)
+    x := widget.padding.left + (widget.contentWidth / 2)
+    y := widget.padding.top + (widget.contentHeight / 2)
     w := btn.font.width(btn.text)
     h := btn.font.height
     offset := btn.font.ascent + btn.font.leading

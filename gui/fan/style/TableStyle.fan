@@ -30,8 +30,8 @@ class TableHeaderStyle : WidgetStyle
     //draw text
     g.brush = fontColor
     g.font = btn.font
-    x := widget.padding.left + (widget.getContentWidth / 2)
-    y := widget.padding.top + (widget.getContentHeight / 2)
+    x := widget.padding.left + (widget.contentWidth / 2)
+    y := widget.padding.top + (widget.contentHeight / 2)
     w := btn.font.width(btn.text)
     h := btn.font.height
     offset := btn.font.ascent + btn.font.leading
@@ -50,8 +50,8 @@ class TableStyle : WidgetStyle
     // get num of cols
     Int numCols := tab.model.numCols
     Int fontOffset := tab.font.ascent + tab.font.leading
-    bottomLine := tab.padding.top+tab.getContentHeight
-    rightLine := tab.padding.left+tab.getContentWidth
+    bottomLine := tab.padding.top+tab.contentHeight
+    rightLine := tab.padding.left+tab.contentWidth
 
     Int start := tab.offsetY / tab.rowHeight
     Int topOffset := tab.offsetY - (start * tab.rowHeight)

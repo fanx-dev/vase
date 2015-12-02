@@ -94,13 +94,13 @@ class TextField : Widget, TextView, EditText
     edit.setBound(pos.x, pos.y, width, height)
   }
 
-  protected override Void doLayout(Dimension result) {
-    super.doLayout(result)
+  protected override Void layoutChildren(Dimension result) {
+    super.layoutChildren(result)
     resetNativeView
   }
 
-  override Dimension prefContentSize(Int hintsWidth, Int hintsHeight, Dimension result) {
-    return TextView.super.prefContentSize(hintsWidth, hintsHeight, result)
+  override Dimension prefContentSize(Dimension result) {
+    return TextView.super.prefContentSize(result)
   }
 
   private Void startCaret()

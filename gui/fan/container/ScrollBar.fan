@@ -80,9 +80,9 @@ class ScrollBar : Widget
 
   Int barLength() {
     if (vertical) {
-      return this.getContentHeight
+      return this.contentHeight
     } else {
-      return this.getContentWidth
+      return this.contentWidth
     }
   }
 

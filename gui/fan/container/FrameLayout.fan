@@ -15,32 +15,30 @@ class FrameLayout : WidgetGroup
   **
   ** Frame Layout
   **
-  override Void doLayout(Dimension result)
+  override Void layoutChildren(Dimension result)
   {
     Int x := padding.left
     Int y := padding.top
-    Int hintsW := getContentWidth
-    Int hintsH := getContentHeight
+    Int hintsW := contentWidth
+    Int hintsH := contentHeight
 
     this.each |Widget c|
     {
-      size := c.measureSize(hintsW, hintsH, result)
-      c.width = size.w
-      c.height = size.h
+      size := c.canonicalPrefSize(hintsW, hintsH, result)
       left := c.layoutParam.margin.left
       top := c.layoutParam.margin.top
       posX := c.layoutParam.posX
       posY := c.layoutParam.posY
 
       if (posX == LayoutParam.alignCenter) {
-        posX = (hintsW - c.getBufferedWidth) / 2
+        posX = (hintsW - c.bufferedWidth) / 2
       }
       else if (posX == LayoutParam.alignEnd) {
         posX = hintsW
       }
 
       if (posY == LayoutParam.alignCenter) {
-        posY = (hintsH - c.getBufferedHeight) / 2
+        posY = (hintsH - c.bufferedHeight) / 2
       }
       else if (posY == LayoutParam.alignEnd) {
         posY = hintsH
@@ -48,18 +46,16 @@ class FrameLayout : WidgetGroup
 
       cx := x + left + posX
       cy := y + top + posY
-      c.x = cx
-      c.y = cy
-      c.doLayout(result)
+      c.layout(cx, cy, size.w, size.h, result)
     }
   }
 
-  protected override Dimension prefContentSize(Int hintsW, Int hintsH, Dimension result) {
+  protected override Dimension prefContentSize(Dimension result) {
     Int maxX := 0
     Int maxY := 0
     this.each |c|
     {
-      size := c.prefBufferedSize(hintsW, hintsH, result)
+      size := c.bufferedPrefSize(result)
       x := size.w
       y := size.h
 

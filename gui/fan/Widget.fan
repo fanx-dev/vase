@@ -68,6 +68,8 @@ abstract class Widget : DisplayMetrics
   **
   @Transient
   protected Bool dirtyRenderCache := true
+  
+  protected Bool layoutDirty := true
 
 //////////////////////////////////////////////////////////////////////////
 // State
@@ -267,48 +269,28 @@ abstract class Widget : DisplayMetrics
 
   LayoutParam layoutParam := LayoutParam()
   Insets padding := Insets.defVal
+  private Int prefWidth := 100
+  private Int prefHeight := 50
+  private Bool prefSizeDirty := true
 
   **
   ** Compute the preferred size of this widget by layoutParam
   **
-  virtual Dimension measureSize(Int parentContentWidth, Int parentContentHeight, Dimension result) {
+  virtual Dimension canonicalPrefSize(Int parentContentWidth, Int parentContentHeight, Dimension result) {
     hintsWidth := parentContentWidth - layoutParam.margin.left-layoutParam.margin.right
     hintsHeight := parentContentHeight - layoutParam.margin.top-layoutParam.margin.bottom
 
-    Int w := -1
-    Int h := -1
-
-    //using layout size
-    if (layoutParam.width == LayoutParam.matchParent && hintsWidth>0) {
-      w = hintsWidth
-    }
-
-    if (layoutParam.height == LayoutParam.matchParent && hintsHeight>0) {
-      h = hintsHeight
-    }
-
-    //layout size if ok
-    if (w >0 && h >0) {
-      return result.set(w, h)
-    }
-
-    size := prefSize(hintsWidth, hintsHeight, result)
-    if (w > 0) {
-      size.w = w
-    }
-    if (h > 0) {
-      size.h = h
-    }
-    return size
+    pref := prefSize(result)
+    w := layoutParam.prefWidth(hintsWidth, pref.w)
+    h := layoutParam.prefHeight(hintsHeight, pref.h)
+    return result.set(w, h)
   }
 
   **
   ** preferred size with margin
   **
-  protected Dimension prefBufferedSize(Int parentContentWidth, Int parentContentHeight, Dimension result) {
-    hintsWidth := parentContentWidth - layoutParam.margin.left-layoutParam.margin.right
-    hintsHeight := parentContentHeight - layoutParam.margin.top-layoutParam.margin.bottom
-    size := prefSize(hintsWidth, hintsHeight, result)
+  protected Dimension bufferedPrefSize(Dimension result) {
+    size := prefSize(result)
     return result.set(size.w+layoutParam.margin.left+layoutParam.margin.right
       , size.h+layoutParam.margin.top + layoutParam.margin.bottom)
   }
@@ -316,85 +298,90 @@ abstract class Widget : DisplayMetrics
   **
   ** preferred size without margin
   **
-  private Dimension prefSize(Int hintsWidth, Int hintsHeight, Dimension result) {
+  private Dimension prefSize(Dimension result) {
+    if (!prefSizeDirty) {
+      return result.set(prefWidth, prefHeight)
+    }
+    prefSizeDirty = false
+    
     Int w := -1
     Int h := -1
 
     //using layout size
-    if (layoutParam.width > 0) {
-      w = layoutParam.width
-    }
-
-    if (layoutParam.height > 0) {
-      h = layoutParam.height
-    }
+    w = layoutParam.prefWidth(-1, -1)
+    h = layoutParam.prefHeight(-1, -1)
 
     //layout size if ok
-    if (w >0 && h >0) {
-      return result.set(w, h)
+    if (w < 0 || h < 0) {
+      s := prefContentSize(result)
+  
+      if (w < 0) {
+        w = s.w
+      }
+  
+      if (h < 0) {
+        h = s.h
+      }
     }
 
-    //get preferred size
-    s := prefContentSize(hintsWidth, hintsHeight, result)
-    Int pw := s.w + padding.left + padding.right
-    Int ph := s.h + padding.top + padding.bottom
+    Int pw := w + padding.left + padding.right
+    Int ph := h + padding.top + padding.bottom
 
-    if (w < 0) {
-      w = pw
-    }
-
-    if (h < 0) {
-      h = ph
-    }
-
-    return result.set(w, h)
+    return result.set(pw, ph)
   }
 
   **
   ** preferred size of content without padding
   **
-  protected virtual Dimension prefContentSize(Int hintsWidth, Int hintsHeight, Dimension result) {
+  protected virtual Dimension prefContentSize(Dimension result) {
     result.w = width
     result.h = height
     return result
   }
 
-  Int getContentWidth() {
+  Int contentWidth() {
     width - padding.left - padding.right
   }
 
-  Int getBufferedWidth() {
+  Int bufferedWidth() {
     width + layoutParam.margin.left + layoutParam.margin.right
   }
 
-  Int getContentHeight() {
+  Int contentHeight() {
     height - padding.top - padding.bottom
   }
 
-  Int getBufferedHeight() {
+  Int bufferedHeight() {
     height + layoutParam.margin.top + layoutParam.margin.bottom
   }
 
   **
   ** layout the children
   **
-  Void layout() {
-    result := Dimension(0, 0)
-    doLayout(result)
-    this.requestPaint
+  Void layout(Int x, Int y, Int w, Int h, Dimension result) {
+    this.x = x
+    this.y = y
+    this.width = w
+    this.height = h
+    if (layoutDirty) {
+      layoutChildren(result)
+    }
+    layoutDirty = false
   }
 
   **
   ** layout the children
   **
-  protected virtual Void doLayout(Dimension result) {}
+  protected virtual Void layoutChildren(Dimension result) {}
 
   **
   ** Requset relayout this widget
   **
-//  virtual Void requestLayout() {
-//    getRootView?.requestLayout
-//  }
+  virtual Void requestLayout() {
+    this.layoutDirty = true
+    getRootView?.requestLayout
+    this.requestPaint
+  }
 
 //////////////////////////////////////////////////////////////////////////
 // rootView

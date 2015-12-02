@@ -119,7 +119,7 @@ class MenuItem : ButtonBase
       }
     }
 
-    group.layout
+    group.requestLayout
   }
 
   @Operator virtual This add(MenuItem item)

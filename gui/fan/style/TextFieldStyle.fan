@@ -25,7 +25,7 @@ class TextFieldStyle : WidgetStyle
     g.brush = outlineColor
 
     left := 1
-    bottom := widget.padding.top + widget.getContentHeight-1
+    bottom := widget.padding.top + widget.contentHeight-1
     right := widget.width - 1
 
     g.drawLine(left, bottom, right-1, bottom)

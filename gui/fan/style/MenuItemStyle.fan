@@ -53,7 +53,7 @@ class MenuItemStyle : WidgetStyle
     //draw text
     g.brush = fontColor
     g.font = btn.font
-    y := widget.padding.top + (widget.getContentHeight / 2)
+    y := widget.padding.top + (widget.contentHeight / 2)
     h := btn.font.height
     offset := btn.font.ascent + btn.font.leading
     g.drawText(btn.text, widget.padding.left+1, y-(h/2f).toInt+offset)

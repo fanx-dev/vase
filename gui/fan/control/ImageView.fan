@@ -23,10 +23,10 @@ class ImageView : Widget
     f(this)
   }
 
-  protected override Dimension prefContentSize(Int hintsWidth, Int hintsHeight, Dimension result) {
+  protected override Dimension prefContentSize(Dimension result) {
     if (!image.isReady) {
       Toolkit.cur.callLater(1000) |->| {
-        this.getRootView.layout
+        this.getRootView.requestLayout
       }
       return result.set(0, 0)
     }

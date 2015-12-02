@@ -22,7 +22,7 @@ class ToggleButtonStyle : WidgetStyle
   protected Void drawText(ToggleButton btn, Graphics g) {
     g.brush = fontColor
     g.font = btn.font
-    y := btn.padding.top + (btn.getContentHeight / 2)
+    y := btn.padding.top + (btn.contentHeight / 2)
     h := btn.font.height
     offset := btn.font.ascent + btn.font.leading
     g.drawText(btn.text, btn.padding.left+1, y-(h/2f).toInt+offset)
@@ -32,10 +32,10 @@ class ToggleButtonStyle : WidgetStyle
   {
     ToggleButton btn := widget
 
-    size := btn.getContentWidth.min(btn.getContentHeight)
+    size := btn.contentWidth.min(btn.contentHeight)
     r := size / 2
-    x := widget.padding.left + (widget.getContentWidth) - size
-    y := widget.padding.top + (widget.getContentHeight) - r
+    x := widget.padding.left + (widget.contentWidth) - size
+    y := widget.padding.top + (widget.contentHeight) - r
     r = (r*0.7f).toInt
     size = r + r
 
@@ -72,10 +72,10 @@ class RadioButtonStyle : ToggleButtonStyle
   {
     ToggleButton btn := widget
 
-    size := btn.getContentWidth.min(btn.getContentHeight)
+    size := btn.contentWidth.min(btn.contentHeight)
     r := size / 2
-    x := widget.padding.left + (widget.getContentWidth) - size
-    y := widget.padding.top + (widget.getContentHeight) - r
+    x := widget.padding.left + (widget.contentWidth) - size
+    y := widget.padding.top + (widget.contentHeight) - r
     r = (r*0.9f).toInt
     size = r + r
 
@@ -108,10 +108,10 @@ class SwitchStyle : ToggleButtonStyle {
   {
     Switch btn := widget
 
-    size := btn.getContentHeight*2
-    r := btn.getContentHeight
-    centerX := widget.padding.left + (widget.getContentWidth) - r
-    centerY := widget.padding.top + (widget.getContentHeight) - (r/2)
+    size := btn.contentHeight*2
+    r := btn.contentHeight
+    centerX := widget.padding.left + (widget.contentWidth) - r
+    centerY := widget.padding.top + (widget.contentHeight) - (r/2)
     r = (r*0.9f).toInt
     size = r + r
 

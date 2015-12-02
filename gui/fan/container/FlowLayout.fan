@@ -14,12 +14,12 @@ class FlowLayout : WidgetGroup
 {
   Int spacing := 0
 
-  override Void doLayout(Dimension result)
+  override Void layoutChildren(Dimension result)
   {
     Int x := padding.left
     Int y := padding.top
-    Int hintsW := getContentWidth
-    Int hintsH := getContentHeight
+    Int hintsW := contentWidth
+    Int hintsH := contentHeight
 
     Int spaceUsage := 0
     Float allWeight := 0f
@@ -44,12 +44,12 @@ class FlowLayout : WidgetGroup
 
   }
 
-  protected override Dimension prefContentSize(Int hintsWidth, Int hintsHeight, Dimension result) {
+  protected override Dimension prefContentSize(Dimension result) {
     Int w := 0
     Int h := 0
     this.each |c, i|
     {
-      size := c.prefBufferedSize(hintsWidth, hintsHeight, result)
+      size := c.bufferedPrefSize(result)
     }
 
     return result.set(w, h)

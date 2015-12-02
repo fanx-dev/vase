@@ -57,8 +57,10 @@ class EdgePane : FrameLayout
 // Layout
 //////////////////////////////////////////////////////////////////////////
 
-  override Dimension prefContentSize(Int hintsWidth, Int hintsHeight, Dimension result)
+  override Dimension prefContentSize(Dimension result)
   {
+    Int hintsWidth := -1
+    Int hintsHeight := -1
     result = pref(this.top, hintsWidth, hintsHeight, result)
     top_w := result.w
     top_h := result.h
@@ -94,60 +96,54 @@ class EdgePane : FrameLayout
     if (w == null) {
       return result.set(0, 0)
     }
-    return w.prefBufferedSize(hintsWidth, hintsHeight, result)
+    return w.bufferedPrefSize(result)
   }
 
-  override Void doLayout(Dimension result)
+  override Void layoutChildren(Dimension result)
   {
     //s := size
     x := padding.left; y := padding.top;
-    w := getContentWidth; h := getContentHeight
+    w := contentWidth; h := contentHeight
 
     //echo("size$size")
 
     top := this.top
     if (top != null)
     {
-      prefh := top.prefBufferedSize(w, -1, result).h
-      top.bounds = Rect(x, y, w, prefh)
-      top.doLayout(result)
+      prefh := top.canonicalPrefSize(w, -1, result).h
+      top.layout(x, y, w, prefh, result)
       y += prefh; h -= prefh
     }
 
     bottom := this.bottom
     if (bottom != null)
     {
-      prefh := bottom.prefBufferedSize(w, -1, result).h
-      bottom.bounds = Rect(x, y+h-prefh, w, prefh)
-      bottom.doLayout(result)
+      prefh := bottom.canonicalPrefSize(w, -1, result).h
+      bottom.layout(x, y+h-prefh, w, prefh, result)
       h -= prefh
     }
 
     left := this.left
     if (left != null)
     {
-      prefw := left.prefBufferedSize(-1, h, result).w
-      left.bounds = Rect(x, y, prefw, h)
-      left.doLayout(result)
+      prefw := left.canonicalPrefSize(-1, h, result).w
+      left.layout(x, y, prefw, h, result)
       x += prefw; w -= prefw
     }
 
     right := this.right
     if (right != null)
     {
-      prefw := right.prefBufferedSize(-1, h, result).w
-      right.bounds = Rect(x+w-prefw, y, prefw, h)
-      right.doLayout(result)
+      prefw := right.canonicalPrefSize(-1, h, result).w
+      right.layout(x+w-prefw, y, prefw, h, result)
       w -= prefw
     }
 
     center := this.center
     if (center != null)
     {
-      center.bounds = Rect(x, y, w, h)
-      center.doLayout(result)
+      center.layout(x, y, w, h, result)
     }
-
   }
 
 }

@@ -49,7 +49,7 @@ class Table : ScrollBase
     set { header.x = -it; super.offsetX = it }
   }
 
-  protected override Dimension prefContentSize(Int hintsWidth, Int hintsHeight, Dimension result) {
+  protected override Dimension prefContentSize(Dimension result) {
     Int w := 0
     model.numCols.times |c|
     {

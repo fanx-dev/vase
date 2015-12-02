@@ -18,7 +18,7 @@ mixin TextView
   abstract Str text
   abstract Font font
 
-  protected virtual Dimension prefContentSize(Int hintsWidth, Int hintsHeight, Dimension result) {
+  protected virtual Dimension prefContentSize(Dimension result) {
     w := font.width(text)
     h := font.height
     return result.set(w, h)

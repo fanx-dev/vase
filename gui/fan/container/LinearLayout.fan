@@ -16,12 +16,12 @@ class LinearLayout : WidgetGroup
 
   Bool vertical := true
 
-  override Void doLayout(Dimension result)
+  override Void layoutChildren(Dimension result)
   {
     Int x := padding.left
     Int y := padding.top
-    Int hintsW := getContentWidth
-    Int hintsH := getContentHeight
+    Int hintsW := contentWidth
+    Int hintsH := contentHeight
 
     Int spaceUsage := 0
     Float allWeight := 0f
@@ -31,7 +31,7 @@ class LinearLayout : WidgetGroup
         if (c.layoutParam.height == LayoutParam.matchParent) {
           allWeight += c.layoutParam.weight
         } else {
-          size := c.prefBufferedSize(hintsW, hintsH, result)
+          size := c.canonicalPrefSize(hintsW, hintsH, result)
           spaceUsage += size.h
         }
         if (i > 0) spaceUsage += spacing
@@ -40,7 +40,7 @@ class LinearLayout : WidgetGroup
         if (c.layoutParam.width == LayoutParam.matchParent) {
           allWeight += c.layoutParam.weight
         } else {
-          size := c.prefBufferedSize(hintsW, hintsH, result)
+          size := c.canonicalPrefSize(hintsW, hintsH, result)
           spaceUsage += size.w
         }
         if (i > 0) spaceUsage += spacing
@@ -62,49 +62,43 @@ class LinearLayout : WidgetGroup
 
     this.each |Widget c|
     {
-      size := c.measureSize(hintsW, hintsH, result)
+      size := c.canonicalPrefSize(hintsW, hintsH, result)
       left := c.layoutParam.margin.left
       top := c.layoutParam.margin.top
-      c.x = x + left
-      c.y = y + top
+      cx := x + left
+      cy := y + top
 //      echo("pos$c.pos")
 
+      cw := size.w
+      ch := size.h
       if (vertical)
       {
         if (c.layoutParam.height == LayoutParam.matchParent) {
-          c.width = size.w
-          c.height = (c.layoutParam.weight*weightSpace).toInt
-        } else {
-          c.width = size.w
-          c.height = size.h
+          ch = (c.layoutParam.weight*weightSpace).toInt
         }
-        y += c.getBufferedHeight + spacing
+        y += c.bufferedHeight + spacing
       }
       else
       {
         if (c.layoutParam.width == LayoutParam.matchParent) {
-          c.width = (c.layoutParam.weight*weightSpace).toInt
-          c.height = size.h
-        } else {
-          c.width = size.w
-          c.height = size.h
+          cw = (c.layoutParam.weight*weightSpace).toInt
         }
-        x += c.getBufferedWidth + spacing
+        x += c.bufferedWidth + spacing
       }
 
-      c.doLayout(result)
+      c.layout(cx, cy, cw, ch, result)
     }
 
 //    echo("layoutY$y")
 
   }
 
-  protected override Dimension prefContentSize(Int hintsWidth, Int hintsHeight, Dimension result) {
+  protected override Dimension prefContentSize(Dimension result) {
     Int w := 0
     Int h := 0
     this.each |c, i|
     {
-      size := c.prefBufferedSize(hintsWidth, hintsHeight, result)
+      size := c.bufferedPrefSize(result)
       //echo("size$size")
       if (vertical)
       {
