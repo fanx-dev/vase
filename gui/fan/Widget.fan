@@ -68,8 +68,12 @@ abstract class Widget : DisplayMetrics
   **
   @Transient
   protected Bool dirtyRenderCache := true
-  
+
+  @Transient
   protected Bool layoutDirty := true
+
+  Insets padding := Insets.defVal
+  LayoutParam layoutParam := LayoutParam()
 
 //////////////////////////////////////////////////////////////////////////
 // State
@@ -100,6 +104,7 @@ abstract class Widget : DisplayMetrics
     }
   }
 
+  @Transient
   Int x := 0 {
     protected set {
       fireStateChange(&x, it, #x)
@@ -107,6 +112,7 @@ abstract class Widget : DisplayMetrics
     }
   }
 
+  @Transient
   Int y := 0 {
     protected set {
       fireStateChange(&y, it, #y)
@@ -114,6 +120,7 @@ abstract class Widget : DisplayMetrics
     }
   }
 
+  @Transient
   Int width := 50 {
     protected set {
       fireStateChange(&width, it, #width)
@@ -121,6 +128,7 @@ abstract class Widget : DisplayMetrics
     }
   }
 
+  @Transient
   Int height := 50 {
     protected set {
       fireStateChange(&height, it, #height)
@@ -131,6 +139,7 @@ abstract class Widget : DisplayMetrics
   **
   ** Size of this widget.
   **
+  @Transient
   Size size {
     get { return Size(width, height) }
     set {
@@ -138,7 +147,7 @@ abstract class Widget : DisplayMetrics
       height = it.h
     }
   }
-  
+
   **
   ** Position and size of this widget relative to its parent.
   ** If this a window, this is the position on the screen.
@@ -153,7 +162,7 @@ abstract class Widget : DisplayMetrics
       height = it.h
     }
   }
-  
+
   protected Void fireStateChange(Obj? oldValue, Obj? newValue, Field? field) {
     e := StateChangedEvent (oldValue, newValue, field, this )
     onStateChanged.fire(e)
@@ -267,10 +276,11 @@ abstract class Widget : DisplayMetrics
 // layout
 //////////////////////////////////////////////////////////////////////////
 
-  LayoutParam layoutParam := LayoutParam()
-  Insets padding := Insets.defVal
+  @Transient
   private Int prefWidth := 100
+  @Transient
   private Int prefHeight := 50
+  @Transient
   private Bool prefSizeDirty := true
 
   **
@@ -303,7 +313,7 @@ abstract class Widget : DisplayMetrics
       return result.set(prefWidth, prefHeight)
     }
     prefSizeDirty = false
-    
+
     Int w := -1
     Int h := -1
 
@@ -314,20 +324,19 @@ abstract class Widget : DisplayMetrics
     //layout size if ok
     if (w < 0 || h < 0) {
       s := prefContentSize(result)
-  
+
       if (w < 0) {
-        w = s.w
+        w = s.w + padding.left + padding.right
       }
-  
+
       if (h < 0) {
-        h = s.h
+        h = s.h + padding.top + padding.bottom
       }
     }
 
-    Int pw := w + padding.left + padding.right
-    Int ph := h + padding.top + padding.bottom
-
-    return result.set(pw, ph)
+    prefWidth = w
+    prefHeight = h
+    return result.set(w, h)
   }
 
   **
@@ -358,13 +367,16 @@ abstract class Widget : DisplayMetrics
   **
   ** layout the children
   **
-  Void layout(Int x, Int y, Int w, Int h, Dimension result) {
+  Void layout(Int x, Int y, Int w, Int h, Dimension result, Bool force) {
     this.x = x
     this.y = y
     this.width = w
     this.height = h
-    if (layoutDirty) {
-      layoutChildren(result)
+
+    printInfo("layout: x$x, y$y, w$w, h$h")
+
+    if (layoutDirty || force) {
+      layoutChildren(result, force)
     }
     layoutDirty = false
   }
@@ -372,17 +384,18 @@ abstract class Widget : DisplayMetrics
   **
   ** layout the children
   **
-  protected virtual Void layoutChildren(Dimension result) {}
+  protected virtual Void layoutChildren(Dimension result, Bool force) {}
 
   **
   ** Requset relayout this widget
   **
   virtual Void requestLayout() {
     this.layoutDirty = true
-    getRootView?.requestLayout
-    this.requestPaint
+    this.prefSizeDirty = true
+    this.dirtyRenderCache = true
+    this.parent?.requestLayout
   }
-
+  
 //////////////////////////////////////////////////////////////////////////
 // rootView
 //////////////////////////////////////////////////////////////////////////
@@ -523,4 +536,17 @@ abstract class Widget : DisplayMetrics
   ** Callback this widget mounted.
   **
   protected virtual Void onMounted() {}
+
+  **
+  ** print debug info
+  **
+  Void printInfo(Str msg) {
+    if (debug) {
+      echo("$typeof.name,id=$id,bounds=$bounds:\t$msg")
+    }
+  }
+
+  static Bool debug() {
+    return Widget#.pod.config("debug", "false") == "true"
+  }
 }

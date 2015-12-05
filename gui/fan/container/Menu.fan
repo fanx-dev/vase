@@ -32,12 +32,13 @@ class Menu : LinearLayout
 @Js
 internal class MenuList : LinearLayout
 {
+  @Transient
   MenuItem? owner
 
   new make()
   {
-    //spacing = (dpToPixel(10))
-    layoutParam.margin = Insets(dpToPixel(10f))
+    spacing = 0//(dpToPixel(10f))
+    layoutParam.margin = Insets(dpToPixel(3f))
   }
 }
 

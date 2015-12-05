@@ -12,14 +12,11 @@ using fanvasWindow
 @Js
 class LinearLayout : WidgetGroup
 {
-  Int spacing := 0
+  Int spacing := dpToPixel(2f)
 
   Bool vertical := true
 
-  override Void layoutChildren(Dimension result)
-  {
-    Int x := padding.left
-    Int y := padding.top
+  private Float getWeightSpace(Dimension result) {
     Int hintsW := contentWidth
     Int hintsH := contentHeight
 
@@ -31,7 +28,7 @@ class LinearLayout : WidgetGroup
         if (c.layoutParam.height == LayoutParam.matchParent) {
           allWeight += c.layoutParam.weight
         } else {
-          size := c.canonicalPrefSize(hintsW, hintsH, result)
+          size := c.bufferedPrefSize(result)
           spaceUsage += size.h
         }
         if (i > 0) spaceUsage += spacing
@@ -40,7 +37,7 @@ class LinearLayout : WidgetGroup
         if (c.layoutParam.width == LayoutParam.matchParent) {
           allWeight += c.layoutParam.weight
         } else {
-          size := c.canonicalPrefSize(hintsW, hintsH, result)
+          size := c.bufferedPrefSize(result)
           spaceUsage += size.w
         }
         if (i > 0) spaceUsage += spacing
@@ -59,6 +56,16 @@ class LinearLayout : WidgetGroup
       }
     }
 
+    return weightSpace
+  }
+
+  override Void layoutChildren(Dimension result, Bool force)
+  {
+    Int x := padding.left
+    Int y := padding.top
+    Int hintsW := contentWidth
+    Int hintsH := contentHeight
+    Float weightSpace := getWeightSpace(result)
 
     this.each |Widget c|
     {
@@ -67,7 +74,6 @@ class LinearLayout : WidgetGroup
       top := c.layoutParam.margin.top
       cx := x + left
       cy := y + top
-//      echo("pos$c.pos")
 
       cw := size.w
       ch := size.h
@@ -76,20 +82,18 @@ class LinearLayout : WidgetGroup
         if (c.layoutParam.height == LayoutParam.matchParent) {
           ch = (c.layoutParam.weight*weightSpace).toInt
         }
-        y += c.bufferedHeight + spacing
+        y += ch + c.layoutParam.margin.top + c.layoutParam.margin.bottom + spacing
       }
       else
       {
         if (c.layoutParam.width == LayoutParam.matchParent) {
           cw = (c.layoutParam.weight*weightSpace).toInt
         }
-        x += c.bufferedWidth + spacing
+        x += cw + c.layoutParam.margin.left + c.layoutParam.margin.right + spacing
       }
 
-      c.layout(cx, cy, cw, ch, result)
+      c.layout(cx, cy, cw, ch, result, force)
     }
-
-//    echo("layoutY$y")
 
   }
 
@@ -114,7 +118,6 @@ class LinearLayout : WidgetGroup
       }
     }
 
-//    echo("prefH$h")
     return result.set(w, h)
   }
 }

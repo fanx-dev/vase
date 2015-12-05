@@ -22,6 +22,7 @@ class ButtonBase : Label
   const static Int mouseOut := 1
   const static Int mouseDown := 2
 
+  @Transient
   Int state := mouseOut
   {
     set

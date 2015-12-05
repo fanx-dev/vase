@@ -22,6 +22,7 @@ abstract class WidgetGroup : Widget
 // Widget Tree
 //////////////////////////////////////////////////////////////////////////
 
+  @Transient
   private Widget[] children := Widget[,]
 
 
@@ -120,7 +121,7 @@ abstract class WidgetGroup : Widget
   **
   ** layout the children
   **
-  abstract override Void layoutChildren(Dimension result);
+  abstract override Void layoutChildren(Dimension result, Bool force);
 
   **
   ** get the prefer content size
@@ -197,7 +198,7 @@ abstract class WidgetGroup : Widget
 
     //debug
     if (Env.cur.runtime != "js" && Toolkit.cur.name != "Android") {
-      if (this.typeof.pod.config("debug", "false") == "true") {
+      if (debug) {
         g.brush = Color.black
         g.drawLine(0, 0, width, height)
         g.drawLine(width, 0, 0, height)

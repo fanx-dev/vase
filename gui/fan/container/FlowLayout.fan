@@ -14,7 +14,7 @@ class FlowLayout : WidgetGroup
 {
   Int spacing := 0
 
-  override Void layoutChildren(Dimension result)
+  override Void layoutChildren(Dimension result, Bool force)
   {
     Int x := padding.left
     Int y := padding.top

@@ -94,8 +94,8 @@ class TextField : Widget, TextView, EditText
     edit.setBound(pos.x, pos.y, width, height)
   }
 
-  protected override Void layoutChildren(Dimension result) {
-    super.layoutChildren(result)
+  protected override Void layoutChildren(Dimension result, Bool force) {
+    super.layoutChildren(result, force)
     resetNativeView
   }
 

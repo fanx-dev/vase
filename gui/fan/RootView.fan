@@ -19,6 +19,7 @@ class RootView : FrameLayout, View
   **
   ** Root View
   **
+  @Transient
   Widget mainView {
     set {
       remove(&mainView)
@@ -108,6 +109,7 @@ class RootView : FrameLayout, View
   **
   ** global motion event
   **
+  @Transient
   EventListeners onTouchEvent := EventListeners()
 
   **
@@ -165,8 +167,8 @@ class RootView : FrameLayout, View
       doAdd(topLayer)
     }
 //    moveToTop(topLayerGroup)
-    topLayer.layoutParam.width = this.width
-    topLayer.layoutParam.height = this.height
+    topLayer.layoutParam.width = LayoutParam.matchParent
+    topLayer.layoutParam.height = LayoutParam.matchParent
     topLayer.width = this.width
     topLayer.height = this.height
     topLayer.x = 0
@@ -197,8 +199,8 @@ class RootView : FrameLayout, View
   }
 
   override Void requestLayout() {
-    layoutDirty = true
-    requestPaint
+    super.requestLayout
+    this.requestPaint
   }
 
   protected Void onUpdate() {
@@ -229,14 +231,16 @@ class RootView : FrameLayout, View
   override Void onPaint(Graphics g) {
     //beginTime := Duration.nowTicks
     s := host.size
+    Bool force := false
     if (width != s.w || height != s.h) {
       onResize(s.w, s.h)
+      layoutDirty = true
+      force = true
     }
 
-    if (layoutDirty) {
-      layoutDirty = false
+    if (layoutDirty || force) {
       pos := host.pos
-      layout(pos.x, pos.y, s.w, s.h, sharedDimension)
+      layout(pos.x, pos.y, s.w, s.h, sharedDimension, force)
     }
 
     onUpdate

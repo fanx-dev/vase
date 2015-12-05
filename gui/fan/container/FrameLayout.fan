@@ -15,7 +15,7 @@ class FrameLayout : WidgetGroup
   **
   ** Frame Layout
   **
-  override Void layoutChildren(Dimension result)
+  override Void layoutChildren(Dimension result, Bool force)
   {
     Int x := padding.left
     Int y := padding.top
@@ -25,28 +25,16 @@ class FrameLayout : WidgetGroup
     this.each |Widget c|
     {
       size := c.canonicalPrefSize(hintsW, hintsH, result)
+
       left := c.layoutParam.margin.left
       top := c.layoutParam.margin.top
-      posX := c.layoutParam.posX
-      posY := c.layoutParam.posY
-
-      if (posX == LayoutParam.alignCenter) {
-        posX = (hintsW - c.bufferedWidth) / 2
-      }
-      else if (posX == LayoutParam.alignEnd) {
-        posX = hintsW
-      }
-
-      if (posY == LayoutParam.alignCenter) {
-        posY = (hintsH - c.bufferedHeight) / 2
-      }
-      else if (posY == LayoutParam.alignEnd) {
-        posY = hintsH
-      }
+      posX := c.layoutParam.prefX(hintsW, size.w)
+      posY := c.layoutParam.prefY(hintsH, size.h)
 
       cx := x + left + posX
       cy := y + top + posY
-      c.layout(cx, cy, size.w, size.h, result)
+
+      c.layout(cx, cy, size.w, size.h, result, force)
     }
   }
 
@@ -61,15 +49,18 @@ class FrameLayout : WidgetGroup
 
       offsetX := c.layoutParam.posX
       offsetY := c.layoutParam.posY
-      if (offsetX != LayoutParam.alignCenter && offsetX != LayoutParam.alignEnd) {
+      if (offsetX > 0) {
         x += offsetX
       }
-      if (offsetY != LayoutParam.alignCenter && offsetY != LayoutParam.alignEnd) {
+      if (offsetY >0) {
         y += offsetY
       }
+
       if (maxX < x) maxX = x
       if (maxY < y) maxY = y
     }
+
+    //echo("$maxX, $maxY")
     return result.set(maxX, maxY)
   }
 }

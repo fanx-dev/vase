@@ -99,7 +99,7 @@ class EdgePane : FrameLayout
     return w.bufferedPrefSize(result)
   }
 
-  override Void layoutChildren(Dimension result)
+  override Void layoutChildren(Dimension result, Bool force)
   {
     //s := size
     x := padding.left; y := padding.top;
@@ -111,7 +111,7 @@ class EdgePane : FrameLayout
     if (top != null)
     {
       prefh := top.canonicalPrefSize(w, -1, result).h
-      top.layout(x, y, w, prefh, result)
+      top.layout(x, y, w, prefh, result, force)
       y += prefh; h -= prefh
     }
 
@@ -119,7 +119,7 @@ class EdgePane : FrameLayout
     if (bottom != null)
     {
       prefh := bottom.canonicalPrefSize(w, -1, result).h
-      bottom.layout(x, y+h-prefh, w, prefh, result)
+      bottom.layout(x, y+h-prefh, w, prefh, result, force)
       h -= prefh
     }
 
@@ -127,7 +127,7 @@ class EdgePane : FrameLayout
     if (left != null)
     {
       prefw := left.canonicalPrefSize(-1, h, result).w
-      left.layout(x, y, prefw, h, result)
+      left.layout(x, y, prefw, h, result, force)
       x += prefw; w -= prefw
     }
 
@@ -135,14 +135,14 @@ class EdgePane : FrameLayout
     if (right != null)
     {
       prefw := right.canonicalPrefSize(-1, h, result).w
-      right.layout(x+w-prefw, y, prefw, h, result)
+      right.layout(x+w-prefw, y, prefw, h, result, force)
       w -= prefw
     }
 
     center := this.center
     if (center != null)
     {
-      center.layout(x, y, w, h, result)
+      center.layout(x, y, w, h, result, force)
     }
   }
 

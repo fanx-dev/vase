@@ -93,11 +93,11 @@ abstract class ScrollBase : FrameLayout
     return bs.h
   }
 
-  override Void layoutChildren(Dimension result)
+  override Void layoutChildren(Dimension result, Bool force)
   {
     this.remove(hbar)
     this.remove(vbar)
-    super.layoutChildren(result)
+    super.layoutChildren(result, force)
 
     hbar.width = contentWidth + barSize
     hbar.height = barSize
