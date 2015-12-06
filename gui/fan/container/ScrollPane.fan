@@ -32,13 +32,13 @@ abstract class ScrollBase : FrameLayout
     {
       if (e.field == ScrollBar#curPos)
       {
-        newVal := ((Int)e.newValue)
-        oldVal := ((Int)e.oldValue)
+        newVal := ((Float)e.newValue)
+        oldVal := ((Float)e.oldValue)
 
-        offsetX = newVal
+        offsetX = newVal.toInt
 
         if (autoAdjustChildren) {
-          dx := newVal - oldVal
+          dx := (newVal - oldVal).toInt
           this.each {
             it.x = it.x + dx
           }
@@ -51,13 +51,13 @@ abstract class ScrollBase : FrameLayout
     {
       if (e.field == ScrollBar#curPos)
       {
-        newVal := ((Int)e.newValue)
-        oldVal := ((Int)e.oldValue)
+        newVal := ((Float)e.newValue)
+        oldVal := ((Float)e.oldValue)
 
-        offsetY = newVal
+        offsetY = newVal.toInt
 
         if (autoAdjustChildren) {
-          dy := newVal - oldVal
+          dy := (newVal - oldVal).toInt
           this.each {
             it.y = it.y + dy
           }

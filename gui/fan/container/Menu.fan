@@ -46,22 +46,33 @@ internal class MenuList : LinearLayout
 class MenuItem : ButtonBase
 {
   internal MenuList list
+  private Bool topLevel := true
 
   new make()
   {
-    this.onAction.add
-    {
-      if (list.childrenSize > 0)
-      {
+    this.onAction.add {
+      if (list.childrenSize > 0) {
         expand(getRootView.topOverlayer)
         //getRootView.modal = true
       }
-      else
-      {
+      else {
         //getRootView.modal = false
         rootMenu?.close
       }
     }
+
+    this.onStateChanged.add |StateChangedEvent e| {
+      if (!topLevel && e.field == ButtonBase#state) {
+        newVal := ((Int)e.newValue)
+        if (newVal == ButtonBase.mouseOver) {
+          if (list.childrenSize > 0) {
+            expand(getRootView.topOverlayer)
+            //getRootView.modal = true
+          }
+        }
+      }
+    }
+
     list = MenuList()
     list.owner = this
     padding = Insets(dpToPixel(20f))
@@ -128,6 +139,7 @@ class MenuItem : ButtonBase
     list.add(item)
     item.layoutParam.width = font.height * 10
     item.padding = Insets.defVal
+    item.topLevel = false
     return this
   }
 }

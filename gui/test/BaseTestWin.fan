@@ -34,25 +34,24 @@ abstract class BaseTestWin
     return true
   }
 
+  protected RootView? root
+
   Void main()
   {
     if (!initEnv) return
 
-    RootView? view
-    view = RootView
-    {
-      mainView = build
-    }
-
-    init(view)
-    view.show(null)
+    root = RootView()
+    view := build
+    root.mainView = view
+    init(root)
+    root.show(null)
 
     buf := StrBuf()
-    buf.out.writeObj(view, ["indent":2,"skipDefaults":true])
+    buf.out.writeObj(root, ["indent":2,"skipDefaults":true])
     echo(buf)
   }
 
   protected abstract Widget build()
 
-  protected virtual Void init(RootView root) {}
+  protected virtual Void init(RootView root) { }
 }
