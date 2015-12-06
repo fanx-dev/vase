@@ -18,17 +18,17 @@ class ScrollBar : Widget
   **
   ** max content length
   **
-  Int max := dpToPixel(2000f)
+  Float max := (2000f)
 
   **
-  ** size of bar
+  ** view size of content
   **
-  Int viewport := 0
+  Float viewport := 0f
 
   **
   ** start position at content
   **
-  Int startPos := 0
+  Float curPos := 0f
   {
     set
     {
@@ -37,21 +37,24 @@ class ScrollBar : Widget
       {
         val = max - viewport
       }
-      else if (it < 0)
+      else if (it < 0f)
       {
-        val = 0
+        val = 0f
       }
       else
       {
         val = it
       }
 
-      if (&startPos == val) return
-      &startPos = val
-      e := StateChangedEvent (&startPos, val, #startPos, this )
+      if (&curPos == val) return
+      &curPos = val
+      e := StateChangedEvent (&curPos, val, #curPos, this )
       onStateChanged.fire(e)
+      onChanged.fire(e)
     }
   }
+
+  once EventListeners onChanged() { EventListeners() }
 
   **
   ** is vertical
@@ -78,6 +81,9 @@ class ScrollBar : Widget
     }
   }
 
+  **
+  ** bar length in screen coordinate
+  **
   Int barLength() {
     if (vertical) {
       return this.contentHeight
@@ -91,27 +97,27 @@ class ScrollBar : Widget
   **
   Int thumbSize()
   {
-    return ((viewport.toFloat / max) * barLength.toFloat).toInt
+    return toScreenCoord(viewport).toInt
   }
 
   Int screenPos() {
-    toViewCoord(startPos)
+    toScreenCoord(curPos).toInt
   }
 
   **
   ** maping from world to screen
   **
-  protected Int toViewCoord(Int val)
+  protected Float toScreenCoord(Float val)
   {
-    return ((val.toFloat / max.toFloat) * barLength.toFloat).toInt
+    return ((val.toFloat / max.toFloat) * barLength.toFloat)
   }
 
   **
   ** map from screen to world
   **
-  protected Int toWorldCoord(Int val)
+  protected Float toWorldCoord(Float val)
   {
-    return ((val.toFloat /barLength.toFloat )* max).toInt
+    return ((val.toFloat /barLength.toFloat )* max)
   }
 
   override Void onMounted()
@@ -153,15 +159,31 @@ class ScrollBar : Widget
     {
       if (vertical)
       {
-        startPos = toWorldCoord(p.y - lastY) + startPos
+        curPos = toWorldCoord((p.y - lastY).toFloat) + curPos
       }
       else
       {
-        startPos = toWorldCoord(p.x - lastX) + startPos
+        curPos = toWorldCoord((p.x - lastX).toFloat) + curPos
       }
+      //echo("=====>$curPos")
       lastX = p.x
       lastY = p.y
       requestPaint
     }
+  }
+}
+
+
+**
+** An implementation base scroll bar.
+**
+@Js
+class SeekBar : ScrollBar
+{
+  new make() : super.make(false, dpToPixel(50f))
+  {
+    this.viewport = 0f
+    this.max = 100f
+    this.padding = Insets(dpToPixel(50f))
   }
 }

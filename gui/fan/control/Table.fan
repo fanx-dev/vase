@@ -29,7 +29,7 @@ class Table : ScrollBase
     this.model = model
     font = Font(dpToPixel(41f))
     //header
-    header = LinearLayout { vertical = false }
+    header = LinearLayout { vertical = false; it.layoutParam.width = LayoutParam.wrapContent }
     colWidthCache = Int[,]
     model.numCols.times |c|
     {

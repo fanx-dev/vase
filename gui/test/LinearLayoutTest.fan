@@ -16,6 +16,7 @@ class LinearLayoutTest : BaseTestWin
       it.id = "mainView"
       //it.spacing = 20
       //it.padding = Insets(50)
+      //it.vertical = false
       it.layoutParam.margin = Insets(50)
       Button
       {
@@ -37,7 +38,7 @@ class LinearLayoutTest : BaseTestWin
       {
         it.id = "btn3"
         it.text = "btn3"
-        it.layoutParam.width = LayoutParam.matchParent
+        //it.layoutParam.width = LayoutParam.matchParent
       },
 
     }

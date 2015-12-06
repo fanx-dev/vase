@@ -75,6 +75,9 @@ abstract class Widget : DisplayMetrics
   Insets padding := Insets.defVal
   LayoutParam layoutParam := LayoutParam()
 
+  @Transient
+  private Style? style := null
+
 //////////////////////////////////////////////////////////////////////////
 // State
 //////////////////////////////////////////////////////////////////////////
@@ -259,7 +262,10 @@ abstract class Widget : DisplayMetrics
   }
 
   protected virtual Void doPaint(Graphics g) {
-    getRootView.findStyle(this).paint(this, g)
+    if (style == null) {
+      style = getRootView.findStyle(this)
+    }
+    style.paint(this, g)
   }
 
   **
@@ -395,7 +401,7 @@ abstract class Widget : DisplayMetrics
     this.dirtyRenderCache = true
     this.parent?.requestLayout
   }
-  
+
 //////////////////////////////////////////////////////////////////////////
 // rootView
 //////////////////////////////////////////////////////////////////////////

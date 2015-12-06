@@ -18,7 +18,7 @@ abstract class ScrollBase : FrameLayout
   virtual Int offsetX := 0
   virtual Int offsetY := 0
 
-  Int barSize := dpToPixel(40f)
+  Int barSize := dpToPixel(30f)
 
   Bool autoAdjustChildren := false
 
@@ -30,7 +30,7 @@ abstract class ScrollBase : FrameLayout
 
     hbar.onStateChanged.add |StateChangedEvent e|
     {
-      if (e.field == ScrollBar#startPos)
+      if (e.field == ScrollBar#curPos)
       {
         newVal := ((Int)e.newValue)
         oldVal := ((Int)e.oldValue)
@@ -49,7 +49,7 @@ abstract class ScrollBase : FrameLayout
     }
     vbar.onStateChanged.add |StateChangedEvent e|
     {
-      if (e.field == ScrollBar#startPos)
+      if (e.field == ScrollBar#curPos)
       {
         newVal := ((Int)e.newValue)
         oldVal := ((Int)e.oldValue)
@@ -103,8 +103,8 @@ abstract class ScrollBase : FrameLayout
     hbar.height = barSize
     hbar.x = padding.left
     hbar.y = height-barSize
-    hbar.max = contentMaxWidth(result)
-    hbar.viewport = viewportWidth
+    hbar.max = contentMaxWidth(result).toFloat
+    hbar.viewport = viewportWidth.toFloat
 
     //echo("size$size, getContentHeight$getContentHeight, padding$padding")
     if (hbar.max <= hbar.viewport)
@@ -123,8 +123,8 @@ abstract class ScrollBase : FrameLayout
     vbar.height = contentHeight
     vbar.x = width-barSize
     vbar.y = padding.top
-    vbar.max = contentMaxHeight(result)
-    vbar.viewport = viewportHeight
+    vbar.max = contentMaxHeight(result).toFloat
+    vbar.viewport = viewportHeight.toFloat
 
     if (vbar.max <= vbar.viewport)
     {
@@ -164,7 +164,7 @@ abstract class ScrollBase : FrameLayout
 
     if (e.type == MotionEvent.wheel && e.delta != null)
     {
-      vbar.startPos += e.delta * dpToPixel(40f)
+      vbar.curPos += e.delta * dpToPixel(40f)
       vbar.requestPaint
       e.consume
     }

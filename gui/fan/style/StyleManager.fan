@@ -25,6 +25,7 @@ class StyleManager
       ToggleButton# : ToggleButtonStyle(),
       RadioButton# : RadioButtonStyle(),
       ScrollBar# : ScrollBarStyle(),
+      SeekBar# : SeekBarStyle(),
       MessageBox# : MessageBoxStyle(),
       ComboBox# : ComboBoxStyle(),
       ButtonBase# : ButtonBaseStyle(),
@@ -41,6 +42,18 @@ class StyleManager
     styleClassMap["tableHeader"] = TableHeaderStyle()
   }
 
+  private Style? findByType(Type type) {
+    s := typeMap.get(type)
+    if (s != null) {
+      return s
+    }
+    if (type == Obj#) {
+      return null
+    }
+
+    return findByType(type.base)
+  }
+
   Style find(Widget widget)
   {
     s := idMap.get(widget.id)
@@ -49,7 +62,7 @@ class StyleManager
     s = styleClassMap.get(widget.styleClass)
     if (s != null) return s
 
-    s = typeMap.get(widget.typeof)
+    s = findByType(widget.typeof)
     if (s != null) return s
 
     return defStyle

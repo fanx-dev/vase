@@ -96,7 +96,7 @@ const class Scalar {
 @Js
 @Serializable
 class LayoutParam {
-  
+
   **
   ** fill parent or others define by layout pane
   **
@@ -125,7 +125,7 @@ class LayoutParam {
   **
   ** layout weight compare to sibling widget
   **
-  Float weight := 0f
+  Float weight := 1.0f
 
 
   **
@@ -151,7 +151,7 @@ class LayoutParam {
   ** positive for top side. negative for bottom side
   **
   Int posY := 0
-  
+
   Int prefX(Int parentWidth, Int selfWidth) {
     if (posX == alignCenter) {
       return (parentWidth - selfWidth) / 2
@@ -181,7 +181,7 @@ class LayoutParam {
       return posY
     }
   }
-  
+
   Int prefWidth(Int parentWidth, Int selfWidth) {
     if (width == matchParent) {
       return (parentWidth)

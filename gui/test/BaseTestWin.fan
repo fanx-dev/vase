@@ -30,7 +30,8 @@ abstract class BaseTestWin
       }
     }
     echo("AWT or SWT ?")
-    return false
+    FwtToolkitEnv.init
+    return true
   }
 
   Void main()
