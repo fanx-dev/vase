@@ -42,9 +42,13 @@ class TextField : Widget, TextView, EditText
 
   override Font font := Font(dpToPixel(41f))
 
+  @Transient
   Caret caret := Caret()
+
+  @Transient
   private Timer? timer
 
+  @Transient
   override NativeView? host
 
   new make()

@@ -59,7 +59,7 @@ class ScrollBar : Widget
   **
   ** is vertical
   **
-  Bool vertical { private set }
+  Bool vertical := true { internal set }
 
   **
   ** touch position
@@ -68,17 +68,20 @@ class ScrollBar : Widget
   private Int lastY := -1
   private Bool draging := false
 
-  new make(Bool vertical, Int width)
+  Int barSize := dpToPixel(30f)
+
+  new make(|This|? f := null)
   {
-    this.vertical = vertical
+    if (f != null) f(this)
+
     if (vertical) {
       layoutParam.widthType = SizeType.fixed
-      layoutParam.widthVal = width
+      layoutParam.widthVal = barSize
       layoutParam.heightType = SizeType.matchParent
     }
     else {
       layoutParam.heightType = SizeType.fixed
-      layoutParam.heightVal = width
+      layoutParam.heightVal = barSize
       layoutParam.widthType = SizeType.matchParent
     }
   }
@@ -182,8 +185,10 @@ class ScrollBar : Widget
 @Js
 class SeekBar : ScrollBar
 {
-  new make() : super.make(false, dpToPixel(50f))
+  new make() : super.make()
   {
+    this.vertical = false
+    this.barSize = dpToPixel(50f)
     this.viewport = 0f
     this.max = 100f
     this.padding = Insets(dpToPixel(50f))

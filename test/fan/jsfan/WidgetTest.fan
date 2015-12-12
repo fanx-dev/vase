@@ -57,10 +57,10 @@ class WinTest
           Label { id = "label"; text = "Label"; },
           ImageView { id = "image";  image = ConstImage(`fan://icons/x16/folder.png`) },
           TextField { hint = "hint" },
-          Switch { text = "switch"; it.layoutParam.width = LayoutParam.matchParent },
-          ToggleButton { text = "checkBox"; it.layoutParam.width = LayoutParam.matchParent },
-          RadioButton { text = "radio1"; it.layoutParam.width = LayoutParam.matchParent },
-          RadioButton { text = "radio2"; it.layoutParam.width = LayoutParam.matchParent },
+          Switch { text = "switch" },
+          ToggleButton { text = "checkBox" },
+          RadioButton { text = "radio1" },
+          RadioButton { text = "radio2" },
         }
 //      },
     }

@@ -12,10 +12,16 @@ using fanvasWindow
 @Js
 abstract class ScrollBase : FrameLayout
 {
+  @Transient
   ScrollBar hbar
+
+  @Transient
   ScrollBar vbar
 
+  @Transient
   virtual Int offsetX := 0
+
+  @Transient
   virtual Int offsetY := 0
 
   Int barSize := dpToPixel(30f)
@@ -25,8 +31,8 @@ abstract class ScrollBase : FrameLayout
   new make()
   {
     //scroll bar
-    hbar = ScrollBar(false, barSize)
-    vbar = ScrollBar(true, barSize)
+    hbar = ScrollBar { vertical = false; it.barSize = this.barSize }
+    vbar = ScrollBar { vertical = true; it.barSize = this.barSize }
 
     hbar.onStateChanged.add |StateChangedEvent e|
     {

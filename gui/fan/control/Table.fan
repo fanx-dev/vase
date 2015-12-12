@@ -12,21 +12,25 @@ using fanvasWindow
 @Js
 class Table : ScrollBase
 {
-  TableModel model
+  @Transient
+  TableModel model := TableModel()
 
   Int colWidth := dpToPixel(360f)
   Int headerHeight { private set }
+
+  @Transient
   internal Int[] colWidthCache
 
+  @Transient
   internal WidgetGroup? header
   Int rowHeight
   Font font {
     set { rowHeight = it.height; headerHeight = rowHeight; &font = it; }
   }
 
-  new make(TableModel model)
+  new make(|This|? f := null)
   {
-    this.model = model
+    if (f != null) f(this)
     font = Font(dpToPixel(41f))
     //header
     header = LinearLayout { vertical = false; it.layoutParam.widthType = SizeType.wrapContent }

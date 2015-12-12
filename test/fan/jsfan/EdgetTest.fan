@@ -88,9 +88,10 @@ class EdgeTest
       {
         top = menu
 
-        left = TreeView(FileTreeModel())
+        left = TreeView { model = FileTreeModel() }
 
-        center = TextArea(DefTextAreaModel("""
+        center = TextArea { model = DefTextAreaModel(
+                                           """
                                               //
                                               // Copyright (c) 2011, chunquedong
                                               // Licensed under the Academic Free License version 3.0
@@ -102,7 +103,7 @@ class EdgeTest
                                               //   2011-7-4  Jed Young  Creation
                                               //
 
-                                              """))
+                                              """)}
       }
     }
 

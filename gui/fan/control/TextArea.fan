@@ -32,7 +32,10 @@ class TextArea : ScrollBase
 
 
   Int rowHeight { private set }
+
+  @Transient
   Caret caret := Caret() { private set }
+
   Font font {
     set { rowHeight = it.height; &font = it; }
   }
@@ -44,11 +47,12 @@ class TextArea : ScrollBase
   ** Exclusive end position
   Int selectionEnd := -1
 
+  @Transient
   private Bool draging := false
 
-  new make(TextAreaModel model)
+  new make(|This|? f := null)
   {
-    this.model = model
+    if (f != null) f(this)
     font = Font(dpToPixel(41f))
   }
 
@@ -147,7 +151,8 @@ class TextArea : ScrollBase
   ** The model cannot be changed once the widget has been
   ** been mounted into an open window.
   **
-  TextAreaModel? model
+  @Transient
+  TextAreaModel? model := DefTextAreaModel("")
   {
     set
     {
@@ -158,6 +163,7 @@ class TextArea : ScrollBase
     }
   }
 
+  @Transient
   private |Event| onModelModifyFunc := |e| { onModelModify(e) }
   protected virtual Void onModelModify(Event event) {}
 

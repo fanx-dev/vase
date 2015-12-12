@@ -19,17 +19,26 @@ class TreeView : ScrollBase
   **
   ** Backing data model of tree.
   **
-  TreeModel model
+  @Transient
+  TreeModel model := TreeModel()
+
+  @Transient
   internal TreeItem[] items := [,]
+
   Int rowHeight { private set }
+
   Font font {
     set { rowHeight = it.height; &font = it; }
   }
+
   Int indent := dpToPixel(60f)
 
-  new make(TreeModel model)
+  **
+  ** Default constructor.
+  **
+  new make(|This|? f := null)
   {
-    this.model = model
+    if (f != null) f(this)
     font = Font(dpToPixel(41f))
     init
   }
@@ -115,7 +124,9 @@ class TreeView : ScrollBase
 @Js
 class TreeItem
 {
+  @Transient
   private TreeView tree
+
   Obj node
 
   Str text() { tree.model.text(node) }

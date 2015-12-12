@@ -1,90 +1,59 @@
-  //
+//
 // Copyright (c) 2011, chunquedong
 // Licensed under the Academic Free License version 3.0
 //
 // History:
-//   2011-7-4  Jed Young  Creation
+//   2015-12-5  Jed Young  Creation
 //
-
-using concurrent
-using fanvasGraphics
-using fanvasWindow
 using fanvasGui
-using fanvasFwt
 
-**
-** MenuTest
-**
 @Js
-class MenuTest
+class MenuTest : BaseTestWin
 {
-  Bool initEnv() {
-    if (Env.cur.runtime != "java") {
-      ToolkitEnv.init
-      return true
+  protected override Widget build() {
+    Menu
+    {
+      MenuItem
+      {
+        it.text = "File"
+        MenuItem
+        {
+          it.text = "Open"
+          MenuItem{it.text = "From 1"},
+          MenuItem{it.text = "From 2"},
+        },
+        MenuItem
+        {
+          it.text = "Save"
+          MenuItem{it.text = "as 1"},
+          MenuItem{it.text = "as 2"},
+        },
+      },
+      MenuItem
+      {
+        it.text = "Edit"
+        MenuItem{it.text = "Copy"},
+        MenuItem{it.text = "Paste"},
+      },
+      MenuItem
+      {
+        it.text = "Help"
+        MenuItem
+        {
+          it.text = "About"
+          it.onAction.add
+          {
+            MessageBox { it.label.text = "hello world" }.show(root)
+          }
+        },
+      },
     }
-    if (Env.cur.args.size > 0) {
-      if (Env.cur.args.first == "AWT") {
-        ToolkitEnv.init
-        return true
-      }
-      else if (Env.cur.args.first == "SWT") {
-        FwtToolkitEnv.init
-        return true
-      }
-    }
-    echo("AWT or SWT ?")
-    return false
   }
 
-  Void main()
-  {
-    if (!initEnv) return
-
-    RootView? view
-    view = RootView
-    {
-      mainView = Menu
-      {
-        MenuItem
-        {
-          it.text = "File"
-          MenuItem
-          {
-            it.text = "Open"
-            MenuItem{it.text = "From 1"},
-            MenuItem{it.text = "From 2"},
-          },
-          MenuItem
-          {
-            it.text = "Save"
-            MenuItem{it.text = "as 1"},
-            MenuItem{it.text = "as 2"},
-          },
-        },
-        MenuItem
-        {
-          it.text = "Edit"
-          MenuItem{it.text = "Copy"},
-          MenuItem{it.text = "Paste"},
-        },
-        MenuItem
-        {
-          it.text = "Help"
-          MenuItem
-          {
-            it.text = "About"
-            it.onAction.add
-            {
-              MessageBox { it.label.text = "hello world" }.show(view)
-            }
-          },
-        },
-      }
-    }
-
-    view.layoutParam.width = 600
-    view.layoutParam.height = 600
-    view.show(null)
+  protected override Void init(RootView view) {
+    view.layoutParam.widthType = SizeType.fixed
+    view.layoutParam.heightType = SizeType.fixed
+    view.layoutParam.widthVal = 600
+    view.layoutParam.heightVal = 600
   }
 }

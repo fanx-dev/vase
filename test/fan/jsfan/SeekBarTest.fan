@@ -6,6 +6,7 @@
 //   2015-12-5  Jed Young  Creation
 //
 
+using fanvasGui
 
 @Js
 class SeekBarTest : BaseTestWin
