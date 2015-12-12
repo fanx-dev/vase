@@ -29,7 +29,7 @@ class Table : ScrollBase
     this.model = model
     font = Font(dpToPixel(41f))
     //header
-    header = LinearLayout { vertical = false; it.layoutParam.width = LayoutParam.wrapContent }
+    header = LinearLayout { vertical = false; it.layoutParam.widthType = SizeType.wrapContent }
     colWidthCache = Int[,]
     model.numCols.times |c|
     {
@@ -37,8 +37,10 @@ class Table : ScrollBase
       btn.styleClass = "tableHeader"
       w := model.prefWidth(c) ?: colWidth
       colWidthCache.add(w)
-      btn.layoutParam.width = w
-      btn.layoutParam.height = headerHeight
+      btn.layoutParam.widthType = SizeType.fixed
+      btn.layoutParam.widthVal = w
+      btn.layoutParam.heightType = SizeType.fixed
+      btn.layoutParam.heightVal = headerHeight
       header.add(btn)
     }
     this.add(header)

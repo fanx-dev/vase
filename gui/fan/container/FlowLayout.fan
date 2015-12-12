@@ -27,16 +27,16 @@ class FlowLayout : WidgetGroup
     Int rowHeight := 0
 
     this.each |c, i| {
-      if (c.layoutParam.width == LayoutParam.matchParent) {
+      if (c.layoutParam.widthType == SizeType.matchParent) {
         x = padding.left
 
       } else {
 
       }
 
-      if (c.layoutParam.height != LayoutParam.matchParent) {
-        if (c.layoutParam.height > rowHeight) {
-          rowHeight = c.layoutParam.height
+      if (c.layoutParam.heightType != SizeType.matchParent) {
+        if (c.layoutParam.heightVal > rowHeight) {
+          rowHeight = c.layoutParam.heightVal
         }
         y += rowHeight + spacing
       }

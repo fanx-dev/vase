@@ -18,8 +18,8 @@ class Menu : LinearLayout
   new make()
   {
     vertical = false
-    layoutParam.height = LayoutParam.wrapContent
-    layoutParam.width = LayoutParam.matchParent
+    layoutParam.heightType = SizeType.wrapContent
+    layoutParam.widthType = SizeType.matchParent
   }
 
   Void close()
@@ -76,7 +76,7 @@ class MenuItem : ButtonBase
     list = MenuList()
     list.owner = this
     padding = Insets(dpToPixel(20f))
-    this.layoutParam.width = LayoutParam.wrapContent
+    this.layoutParam.widthType = SizeType.wrapContent
   }
 
   private Menu? rootMenu()
@@ -137,7 +137,8 @@ class MenuItem : ButtonBase
   @Operator virtual This add(MenuItem item)
   {
     list.add(item)
-    item.layoutParam.width = font.height * 10
+    item.layoutParam.widthType = SizeType.fixed
+    item.layoutParam.widthVal = font.height * 10
     item.padding = Insets.defVal
     item.topLevel = false
     return this

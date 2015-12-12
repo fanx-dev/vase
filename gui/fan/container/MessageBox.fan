@@ -35,15 +35,15 @@ class MessageBox : LinearLayout
         a.run(this)
       };
       it.text = "OK"
-      it.layoutParam.width = LayoutParam.matchParent
+      it.layoutParam.widthType = SizeType.matchParent
       it.staticCache = false
     }
 
     this.add(label)
     this.add(btn)
-    this.layoutParam.posX = LayoutParam.alignCenter
-    this.layoutParam.posY = LayoutParam.alignCenter
-    this.layoutParam.width = LayoutParam.wrapContent//dpToPixel(500f)
+    this.layoutParam.hAlign = Align.center
+    this.layoutParam.vAlign = Align.center
+    this.layoutParam.widthType = SizeType.wrapContent//dpToPixel(500f)
     padding = Insets(dpToPixel(40f))
   }
 

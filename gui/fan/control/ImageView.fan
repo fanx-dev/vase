@@ -19,7 +19,7 @@ class ImageView : Widget
 
   new make(|This| f)
   {
-    layoutParam.width = LayoutParam.wrapContent
+    layoutParam.widthType = SizeType.wrapContent
     f(this)
   }
 

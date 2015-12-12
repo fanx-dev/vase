@@ -155,6 +155,7 @@ abstract class Widget : DisplayMetrics
   ** Position and size of this widget relative to its parent.
   ** If this a window, this is the position on the screen.
   **
+  @Transient
   Rect bounds
   {
     get { return Rect.make(x, y, width, height) }

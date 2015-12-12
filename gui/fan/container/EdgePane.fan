@@ -21,8 +21,8 @@ using fanvasGraphics
 class EdgePane : FrameLayout
 {
   new make() {
-    layoutParam.height = LayoutParam.matchParent
-    layoutParam.width = LayoutParam.matchParent
+    layoutParam.heightType = SizeType.matchParent
+    layoutParam.widthType = SizeType.matchParent
   }
 //////////////////////////////////////////////////////////////////////////
 // Children

@@ -24,10 +24,10 @@ class ToggleButton : ButtonBase
       &selected = it
     }
   }
-  
+
   new make() {
     text = "ToggleButton"
-    layoutParam.width = LayoutParam.matchParent
+    layoutParam.widthType = SizeType.matchParent
   }
 
   protected override Void clicked() {
@@ -69,10 +69,10 @@ class RadioButton : ToggleButton {
 @Js
 class Switch : ToggleButton {
   Float animPostion := 0f
-  
+
   protected override Void clicked() {
     super.clicked
-    
+
     afrom := 0f
     ato := 1f
     if (!this.selected) {
@@ -80,8 +80,8 @@ class Switch : ToggleButton {
       ato = 0f
     }
     anim := Animation {
-      FloatPropertyAnimChannel(this, #animPostion) { 
-        from = afrom; to = ato 
+      FloatPropertyAnimChannel(this, #animPostion) {
+        from = afrom; to = ato
         it.updateFunc = |->| {
           this.requestPaint
         }

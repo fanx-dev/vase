@@ -20,24 +20,26 @@ class FrameLayoutTest : BaseTestWin
         it.text = "btn1"
         it.layoutParam.posX = 800
         it.layoutParam.posY = 500
-        it.layoutParam.width = LayoutParam.wrapContent
+        it.layoutParam.widthType = SizeType.wrapContent
       },
       Button
       {
         it.text = "btn2"
-        it.layoutParam.width = LayoutParam.wrapContent
+        it.layoutParam.widthType = SizeType.wrapContent
       },
       Button
       {
         it.text = "btn3"
-        it.layoutParam.width = LayoutParam.wrapContent
-        it.layoutParam.posX = -20
-        it.layoutParam.posY = -200
+        it.layoutParam.widthType = SizeType.wrapContent
+        it.layoutParam.vAlign = Align.end
+        it.layoutParam.hAlign = Align.end
+        it.layoutParam.posX = 20
+        it.layoutParam.posY = 200
       },
       Button
       {
         it.text = "btn4"
-        it.layoutParam.width = LayoutParam.wrapContent
+        it.layoutParam.widthType = SizeType.wrapContent
         it.layoutParam.margin = Insets(60)
       },
     }

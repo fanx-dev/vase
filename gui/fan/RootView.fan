@@ -167,8 +167,8 @@ class RootView : FrameLayout, View
       doAdd(topLayer)
     }
 //    moveToTop(topLayerGroup)
-    topLayer.layoutParam.width = LayoutParam.matchParent
-    topLayer.layoutParam.height = LayoutParam.matchParent
+    topLayer.layoutParam.widthType = SizeType.matchParent
+    topLayer.layoutParam.heightType = SizeType.matchParent
     topLayer.width = this.width
     topLayer.height = this.height
     topLayer.x = 0
@@ -293,7 +293,7 @@ class RootView : FrameLayout, View
     if (!host.hasFocus) return false
     return w === focusWidget
   }
-  
+
   protected override Void gestureEvent(GestureEvent e) {
     if (modal) {
       topLayer.gestureEvent(e)

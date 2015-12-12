@@ -25,7 +25,7 @@ class LinearLayout : WidgetGroup
 
     this.each |c, i|{
       if (vertical) {
-        if (c.layoutParam.height == LayoutParam.matchParent) {
+        if (c.layoutParam.heightType == SizeType.matchParent) {
           allWeight += c.layoutParam.weight
         } else {
           size := c.bufferedPrefSize(result)
@@ -34,7 +34,7 @@ class LinearLayout : WidgetGroup
         if (i > 0) spaceUsage += spacing
       }
       else {
-        if (c.layoutParam.width == LayoutParam.matchParent) {
+        if (c.layoutParam.widthType == SizeType.matchParent) {
           allWeight += c.layoutParam.weight
         } else {
           size := c.bufferedPrefSize(result)
@@ -77,14 +77,14 @@ class LinearLayout : WidgetGroup
       ch := size.h
       if (vertical)
       {
-        if (c.layoutParam.height == LayoutParam.matchParent) {
+        if (c.layoutParam.heightType == SizeType.matchParent) {
           ch = (c.layoutParam.weight*weightSpace).toInt
         }
         y += ch + spacing
       }
       else
       {
-        if (c.layoutParam.width == LayoutParam.matchParent) {
+        if (c.layoutParam.widthType == SizeType.matchParent) {
           cw = (c.layoutParam.weight*weightSpace).toInt
         }
         x += cw + spacing

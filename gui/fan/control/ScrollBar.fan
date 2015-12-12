@@ -72,12 +72,14 @@ class ScrollBar : Widget
   {
     this.vertical = vertical
     if (vertical) {
-      layoutParam.width = width
-      layoutParam.height = LayoutParam.matchParent
+      layoutParam.widthType = SizeType.fixed
+      layoutParam.widthVal = width
+      layoutParam.heightType = SizeType.matchParent
     }
     else {
-      layoutParam.height = width
-      layoutParam.width = LayoutParam.matchParent
+      layoutParam.heightType = SizeType.fixed
+      layoutParam.heightVal = width
+      layoutParam.widthType = SizeType.matchParent
     }
   }
 

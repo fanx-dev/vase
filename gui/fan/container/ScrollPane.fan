@@ -69,8 +69,8 @@ abstract class ScrollBase : FrameLayout
 
     this.add(hbar)
     this.add(vbar)
-    layoutParam.height = LayoutParam.matchParent
-    layoutParam.width = LayoutParam.matchParent
+    layoutParam.heightType = SizeType.matchParent
+    layoutParam.widthType = SizeType.matchParent
     padding = Insets(0, barSize, barSize, 0)
   }
 
