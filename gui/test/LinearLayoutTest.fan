@@ -38,7 +38,7 @@ class LinearLayoutTest : BaseTestWin
       {
         it.id = "btn3"
         it.text = "btn3"
-        //it.layoutParam.width = LayoutParam.matchParent
+        it.layoutParam.width = LayoutParam.matchParent
       },
 
     }

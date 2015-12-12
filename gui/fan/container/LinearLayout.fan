@@ -69,11 +69,9 @@ class LinearLayout : WidgetGroup
 
     this.each |Widget c|
     {
-      size := c.canonicalPrefSize(hintsW, hintsH, result)
-      left := c.layoutParam.margin.left
-      top := c.layoutParam.margin.top
-      cx := x + left
-      cy := y + top
+      size := c.canonicalSize(hintsW, hintsH, result)
+      cx := x
+      cy := y
 
       cw := size.w
       ch := size.h
@@ -82,14 +80,14 @@ class LinearLayout : WidgetGroup
         if (c.layoutParam.height == LayoutParam.matchParent) {
           ch = (c.layoutParam.weight*weightSpace).toInt
         }
-        y += ch + c.layoutParam.margin.top + c.layoutParam.margin.bottom + spacing
+        y += ch + spacing
       }
       else
       {
         if (c.layoutParam.width == LayoutParam.matchParent) {
           cw = (c.layoutParam.weight*weightSpace).toInt
         }
-        x += cw + c.layoutParam.margin.left + c.layoutParam.margin.right + spacing
+        x += cw + spacing
       }
 
       c.layout(cx, cy, cw, ch, result, force)

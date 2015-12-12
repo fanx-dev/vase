@@ -59,29 +59,23 @@ class EdgePane : FrameLayout
 
   override Dimension prefContentSize(Dimension result)
   {
-    Int hintsWidth := -1
-    Int hintsHeight := -1
-    result = pref(this.top, hintsWidth, hintsHeight, result)
+    result = pref(this.top, result)
     top_w := result.w
     top_h := result.h
-    hintsHeight -= top_h
 
-    result = pref(this.bottom, hintsWidth, hintsHeight, result)
+    result = pref(this.bottom, result)
     bottom_w := result.w
     bottom_h := result.h
-    hintsHeight -= bottom_h
 
-    result = pref(this.left, hintsWidth, hintsHeight, result)
+    result = pref(this.left, result)
     left_w := result.w
     left_h := result.h
-    hintsWidth -= left_w
 
-    result = pref(this.right, hintsWidth, hintsHeight, result)
+    result = pref(this.right, result)
     right_w := result.w
     right_h := result.h
-    hintsWidth -= right_w
 
-    center := pref(this.center, hintsWidth, hintsHeight, result)
+    center := pref(this.center, result)
 
     w := (left_w + center.w + right_w).max(top_w).max(bottom_w)
     h := top_h + bottom_h + (left_h.max(center.h).max(right_h))
@@ -91,7 +85,7 @@ class EdgePane : FrameLayout
     return result
   }
 
-  private Dimension pref(Widget? w, Int hintsWidth, Int hintsHeight, Dimension result)
+  private Dimension pref(Widget? w, Dimension result)
   {
     if (w == null) {
       return result.set(0, 0)
@@ -101,47 +95,43 @@ class EdgePane : FrameLayout
 
   override Void layoutChildren(Dimension result, Bool force)
   {
-    //s := size
     x := padding.left; y := padding.top;
     w := contentWidth; h := contentHeight
 
-    //echo("size$size")
-
-    top := this.top
     if (top != null)
     {
-      prefh := top.canonicalPrefSize(w, -1, result).h
+      prefh := top.bufferedPrefSize(result).h
       top.layout(x, y, w, prefh, result, force)
       y += prefh; h -= prefh
     }
 
-    bottom := this.bottom
     if (bottom != null)
     {
-      prefh := bottom.canonicalPrefSize(w, -1, result).h
+      prefh := bottom.bufferedPrefSize(result).h
       bottom.layout(x, y+h-prefh, w, prefh, result, force)
       h -= prefh
     }
 
-    left := this.left
     if (left != null)
     {
-      prefw := left.canonicalPrefSize(-1, h, result).w
-      left.layout(x, y, prefw, h, result, force)
+      prefw := left.bufferedPrefSize(result).w
+      prefh := h
+      left.layout(x, y, prefw, prefh, result, force)
       x += prefw; w -= prefw
     }
 
-    right := this.right
     if (right != null)
     {
-      prefw := right.canonicalPrefSize(-1, h, result).w
-      right.layout(x+w-prefw, y, prefw, h, result, force)
+      prefw := right.bufferedPrefSize(result).w
+      prefh := h
+      right.layout(x+w-prefw, y, prefw, prefh, result, force)
       w -= prefw
     }
 
     center := this.center
     if (center != null)
     {
+      //mg := center.layoutParam.margin
       center.layout(x, y, w, h, result, force)
     }
   }

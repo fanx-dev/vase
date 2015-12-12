@@ -97,10 +97,7 @@ class TreeView : ScrollBase
     sy := e.relativeY - y
     if (e.type == GestureEvent.click)
     {
-      Int start := offsetY / rowHeight
-      Int ti := sy / rowHeight
-      Int i := start + ti
-
+      Int i := (offsetY + sy) / rowHeight
       if (i < items.size)
       {
         expanded(items[i])

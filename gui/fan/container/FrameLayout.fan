@@ -24,15 +24,12 @@ class FrameLayout : WidgetGroup
 
     this.each |Widget c|
     {
-      size := c.canonicalPrefSize(hintsW, hintsH, result)
-
-      left := c.layoutParam.margin.left
-      top := c.layoutParam.margin.top
+      size := c.canonicalSize(hintsW, hintsH, result)
       posX := c.layoutParam.prefX(hintsW, size.w)
       posY := c.layoutParam.prefY(hintsH, size.h)
 
-      cx := x + left + posX
-      cy := y + top + posY
+      cx := x + posX
+      cy := y + posY
 
       c.layout(cx, cy, size.w, size.h, result, force)
     }

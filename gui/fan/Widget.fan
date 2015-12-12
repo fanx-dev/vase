@@ -292,11 +292,11 @@ abstract class Widget : DisplayMetrics
   **
   ** Compute the preferred size of this widget by layoutParam
   **
-  virtual Dimension canonicalPrefSize(Int parentContentWidth, Int parentContentHeight, Dimension result) {
-    hintsWidth := parentContentWidth - layoutParam.margin.left-layoutParam.margin.right
-    hintsHeight := parentContentHeight - layoutParam.margin.top-layoutParam.margin.bottom
+  virtual Dimension canonicalSize(Int parentContentWidth, Int parentContentHeight, Dimension result) {
+    hintsWidth := parentContentWidth// - layoutParam.margin.left-layoutParam.margin.right
+    hintsHeight := parentContentHeight// - layoutParam.margin.top-layoutParam.margin.bottom
 
-    pref := prefSize(result)
+    pref := bufferedPrefSize(result)
     w := layoutParam.prefWidth(hintsWidth, pref.w)
     h := layoutParam.prefHeight(hintsHeight, pref.h)
     return result.set(w, h)
@@ -374,12 +374,12 @@ abstract class Widget : DisplayMetrics
   ** layout the children
   **
   Void layout(Int x, Int y, Int w, Int h, Dimension result, Bool force) {
-    this.x = x
-    this.y = y
-    this.width = w
-    this.height = h
+    this.x = x + layoutParam.margin.left
+    this.y = y + layoutParam.margin.top
+    this.width = w - layoutParam.margin.left - layoutParam.margin.right
+    this.height = h - layoutParam.margin.top - layoutParam.margin.bottom
 
-    printInfo("layout: x$x, y$y, w$w, h$h")
+    printInfo("layout: x$this.x, y$this.y, w$this.width, h$this.height")
 
     if (layoutDirty || force) {
       layoutChildren(result, force)
