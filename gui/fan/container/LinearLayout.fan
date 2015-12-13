@@ -10,6 +10,7 @@ using fanvasGraphics
 using fanvasWindow
 
 @Js
+@Serializable { collection = true }
 class LinearLayout : WidgetGroup
 {
   Float spacing := 4f

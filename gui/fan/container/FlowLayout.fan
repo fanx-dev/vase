@@ -10,6 +10,7 @@ using fanvasGraphics
 using fanvasWindow
 
 @Js
+@Serializable { collection = true }
 class FlowLayout : WidgetGroup
 {
   Int spacing := 0

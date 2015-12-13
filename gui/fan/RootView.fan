@@ -15,12 +15,11 @@ using fanvasMath
 ** Represent a top level Widget
 **
 @Js
-class RootView : FrameLayout, View
+class RootView : Pane, View
 {
   **
   ** Root View
   **
-  @Transient
   Widget mainView {
     set {
       remove(&mainView)

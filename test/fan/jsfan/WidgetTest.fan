@@ -29,7 +29,7 @@ class WidgetTest : BaseTestWin
         selectedIndex = 0
       },
       Label { id = "label"; text = "Label"; },
-      ImageView { id = "image";  image = ConstImage(`fan://icons/x16/folder.png`) },
+      ImageView { id = "image";  uri = (`fan://icons/x16/folder.png`) },
       TextField { hint = "hint" },
       Switch { text = "switch" },
       ToggleButton { text = "checkBox" },
@@ -53,8 +53,6 @@ class WidgetTest : BaseTestWin
     {
       MessageBox { it.label.text = "hello world" }.show(root)
     }
-
-    root.show
   }
 
 }

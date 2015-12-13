@@ -15,15 +15,23 @@ using fanvasWindow
 @Js
 class ImageView : Widget
 {
+  @Transient
   ConstImage? image
+
+  Uri? uri
 
   new make(|This|? f := null)
   {
     layoutParam.widthType = SizeType.wrapContent
     if (f != null) f(this)
+
+    if (image == null && uri != null) {
+      image = ConstImage(uri)
+    }
   }
 
   protected override Dimension prefContentSize(Dimension result) {
+    if (image == null) return result.set(0, 0)
     if (!image.isReady) {
       Toolkit.cur.callLater(1000) |->| {
         this.getRootView.requestLayout
