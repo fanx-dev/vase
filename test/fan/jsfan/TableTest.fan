@@ -19,12 +19,13 @@ class TableTest : BaseTestWin
 @Js
 class MyTableModel : TableModel
 {
-  Str[] vals := ["apple", "orange", "red", "pink", "fantom",
-    "java", "javascript", "python", "ruby", "purple",
-    "black", "star wars", "fight club", "casablanca", "inception",
-    "aug", "sep", "oct", "nov", "dec"]
+  Str[] vals := Str[,]
 
   Str headerPrefix := "Col-"
+
+  new make() {
+    20.times { vals.add("row $it") }
+  }
 
   override Str header(Int col) { headerPrefix + col }
   override Str text(Int col, Int row)
@@ -32,6 +33,6 @@ class MyTableModel : TableModel
     if (col == 0) return vals[row]
     return "$row : $col"
   }
-  override Int numRows := vals.size
+  override Int numRows() { vals.size }
   override Int numCols := 5
 }

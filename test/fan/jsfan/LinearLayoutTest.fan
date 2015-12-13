@@ -23,8 +23,8 @@ class LinearLayoutTest : BaseTestWin
       {
         it.id = "btn1"
         it.text = "btn1"
-        it.layoutParam.posX = 800
-        it.layoutParam.posY = 500
+        it.layoutParam.posX = 800f
+        it.layoutParam.posY = 500f
         it.layoutParam.widthType = SizeType.wrapContent
       },
       Button
@@ -34,7 +34,7 @@ class LinearLayoutTest : BaseTestWin
         it.layoutParam.weight = 1.0f
         it.layoutParam.heightType = SizeType.matchParent
         it.layoutParam.widthType = SizeType.fixed
-        it.layoutParam.widthVal = 600//dpToPixel(600f)
+        it.layoutParam.widthVal = 600f
       },
       Button
       {

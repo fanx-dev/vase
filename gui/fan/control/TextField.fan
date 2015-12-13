@@ -40,7 +40,9 @@ class TextField : Widget, TextView, EditText
   Str hint := ""
   Bool password := false
 
-  override Font font := Font(dpToPixel(41f))
+  protected override Font font() {
+    getStyle.font
+  }
 
   @Transient
   Caret caret := Caret()
@@ -77,7 +79,7 @@ class TextField : Widget, TextView, EditText
         requestPaint
       }
     }
-    this.padding = Insets(dpToPixel(20f))
+    this.padding = Insets(40)
   }
 
   override Void willTextChange(Str text) {

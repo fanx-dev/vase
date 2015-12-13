@@ -16,56 +16,31 @@ using fanvasFwt
 ** Win Test
 **
 @Js
-class WinTest
+class WidgetTest : BaseTestWin
 {
-  Bool initEnv() {
-    if (Env.cur.runtime != "java") {
-      ToolkitEnv.init
-      return true
+  protected override Widget build() {
+    LinearLayout
+    {
+      padding = Insets(100)
+      spacing = 30f
+      Button { id = "button"; text = "Hello Button" },
+      ComboBox {
+        it.items = ["comboBox1","comboBox2","comboBox3","comboBox4"]
+        selectedIndex = 0
+      },
+      Label { id = "label"; text = "Label"; },
+      ImageView { id = "image";  image = ConstImage(`fan://icons/x16/folder.png`) },
+      TextField { hint = "hint" },
+      Switch { text = "switch" },
+      ToggleButton { text = "checkBox" },
+      RadioButton { text = "radio1" },
+      RadioButton { text = "radio2" },
     }
-    if (Env.cur.args.size > 0) {
-      if (Env.cur.args.first == "AWT") {
-        ToolkitEnv.init
-        return true
-      }
-      else if (Env.cur.args.first == "SWT") {
-        FwtToolkitEnv.init
-        return true
-      }
-    }
-    echo("AWT or SWT ?")
-    return false
   }
 
-  Void main()
-  {
-    if (!initEnv) return
+  protected override Void init(RootView root) {
 
-    view := RootView
-    {
-      //ScrollPane
-      //{
-        mainView = LinearLayout
-        {
-          padding = Insets(20)
-          spacing = dpToPixel(15f)
-          Button { id = "button"; text = "Hello Button" },
-          ComboBox {
-            it.items = ["comboBox1","comboBox2","comboBox3","comboBox4"]
-            selectedIndex = 0
-          },
-          Label { id = "label"; text = "Label"; },
-          ImageView { id = "image";  image = ConstImage(`fan://icons/x16/folder.png`) },
-          TextField { hint = "hint" },
-          Switch { text = "switch" },
-          ToggleButton { text = "checkBox" },
-          RadioButton { text = "radio1" },
-          RadioButton { text = "radio2" },
-        }
-//      },
-    }
-
-    label := view.findById("label")
+    label := root.findById("label")
     a := TweenAnimation() {
       AlphaAnimChannel {},
 //      ScaleAnimChannel {},
@@ -73,13 +48,13 @@ class WinTest
     }
     a.run(label)
 
-    Button btn := view.findById("button")
+    Button btn := root.findById("button")
     btn.onAction.add
     {
-      MessageBox { it.label.text = "hello world" }.show(view)
+      MessageBox { it.label.text = "hello world" }.show(root)
     }
 
-    view.show
+    root.show
   }
 
 }

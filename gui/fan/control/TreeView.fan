@@ -20,18 +20,21 @@ class TreeView : ScrollBase
   ** Backing data model of tree.
   **
   @Transient
-  TreeModel model := TreeModel()
+  TreeModel model := TreeModel() {
+    set { &model = it; init }
+  }
 
   @Transient
   internal TreeItem[] items := [,]
 
-  Int rowHeight { private set }
+  Int rowHeight() { font.height }
 
-  Font font {
-    set { rowHeight = it.height; &font = it; }
+  private Font font() {
+    getStyle.font
   }
 
-  Int indent := dpToPixel(60f)
+  Float minWidth := 1200f
+  Float indent := (120f)
 
   **
   ** Default constructor.
@@ -39,12 +42,11 @@ class TreeView : ScrollBase
   new make(|This|? f := null)
   {
     if (f != null) f(this)
-    font = Font(dpToPixel(41f))
-    init
   }
 
   protected override Int contentMaxWidth(Dimension result) {
-    Int w := dpToPixel(600f)
+    Int w := dpToPixel(minWidth)
+    Int indent := dpToPixel(this.indent)
     items.each {
       x := it.level * indent + font.width("- "+it.text)
       if (w < x) {
@@ -55,7 +57,7 @@ class TreeView : ScrollBase
   }
 
   protected override Dimension prefContentSize(Dimension result) {
-    Int w := dpToPixel(600f)
+    Int w := dpToPixel(minWidth)
     Int h := items.size * rowHeight
     return result.set(w, h)
   }
@@ -92,6 +94,7 @@ class TreeView : ScrollBase
   **
   private Void init()
   {
+    items.clear
     model.roots.each |subNode|
     {
       item := TreeItem(this, subNode, 0)

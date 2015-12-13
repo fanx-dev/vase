@@ -21,12 +21,12 @@ class ImageStyle : WidgetStyle
 
     Int w := widget.contentWidth
     Int h := widget.contentHeight
-    x := widget.padding.left
-    y := widget.padding.top
+    top := widget.paddingTop
+    left := widget.paddingLeft
 
     Size srcSize := img.image.size
     src := Rect(0, 0, srcSize.w, srcSize.h)
-    dst := Rect(x,y,w,h)
+    dst := Rect(left,top,w,h)
 //    echo("src$src,dst$dst")
     g.copyImage(img.image, src, dst)
   }

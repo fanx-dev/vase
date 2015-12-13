@@ -37,8 +37,8 @@ internal class MenuList : LinearLayout
 
   new make()
   {
-    spacing = 0//(dpToPixel(10f))
-    layoutParam.margin = Insets(dpToPixel(3f))
+    spacing = 0f//(dpToPixel(10f))
+    layoutParam.margin = Insets(6)
   }
 }
 
@@ -75,7 +75,7 @@ class MenuItem : ButtonBase
 
     list = MenuList()
     list.owner = this
-    padding = Insets(dpToPixel(20f))
+    padding = Insets((40))
     this.layoutParam.widthType = SizeType.wrapContent
   }
 
@@ -121,13 +121,13 @@ class MenuItem : ButtonBase
       rc := this.posOnWindow(pos)
       if (parent is Menu)
       {
-        list.layoutParam.posX = pos.x
-        list.layoutParam.posY = pos.y + this.height
+        list.layoutParam.posX = pixelToDp(pos.x)
+        list.layoutParam.posY = pixelToDp(pos.y + this.height)
       }
       else
       {
-        list.layoutParam.posX = pos.x + this.width
-        list.layoutParam.posY = pos.y
+        list.layoutParam.posX = pixelToDp(pos.x + this.width)
+        list.layoutParam.posY = pixelToDp(pos.y)
       }
     }
 
@@ -138,7 +138,7 @@ class MenuItem : ButtonBase
   {
     list.add(item)
     item.layoutParam.widthType = SizeType.fixed
-    item.layoutParam.widthVal = font.height * 10
+    item.layoutParam.widthVal = 500f
     item.padding = Insets.defVal
     item.topLevel = false
     return this

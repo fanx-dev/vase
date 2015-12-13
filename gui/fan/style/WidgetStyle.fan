@@ -11,9 +11,10 @@ using fanvasWindow
 using fanvasMath
 
 @Js
-mixin Style : DisplayMetrics
+mixin Style
 {
   abstract Void paint(Widget widget, Graphics g)
+  abstract Font font()
 }
 
 @Js
@@ -25,7 +26,18 @@ class WidgetStyle : Style
   Brush fontColor := Color(0x222222)
 
   ConstImage? backgroundImage
+  Float lineWidth := 5f
 
+  private Bool fontSizeInit := false
+  override Font font := Font(80) {
+    get {
+      if (!fontSizeInit) {
+        &font = &font.toSize(dpToPixel(&font.size.toFloat))
+        fontSizeInit = true
+      }
+      return &font
+    }
+  }
 
   final override Void paint(Widget widget, Graphics g)
   {
@@ -34,4 +46,43 @@ class WidgetStyle : Style
   }
 
   virtual Void doPaint(Widget widget, Graphics g) {}
+
+  protected Int dpToPixel(Float dp) {
+    DisplayMetrics.dpToPixel(dp)
+  }
+
+  protected Void drawText(Widget widget, Graphics g, Str text, Align align, Align vAlign := Align.center) {
+    top := widget.paddingTop
+    left := widget.paddingLeft
+    //draw text
+    g.brush = fontColor
+    g.font = font
+
+    offset := font.ascent + font.leading
+    y := top
+    if (vAlign == Align.begin) {
+      y = top + offset
+    }
+    else if (vAlign == Align.center) {
+      y = top + (widget.contentHeight / 2) - (font.height/2f).toInt + offset
+    }
+    else if (vAlign == Align.end) {
+      y = top + (widget.contentHeight) - (font.height).toInt + offset
+    }
+
+    x := left
+    if (align == Align.begin) {
+      x = left + dpToPixel(2f)
+    }
+    else if (align == Align.center) {
+      w := font.width(text)
+      x = left + (widget.contentWidth / 2) - (w/2f).toInt
+    }
+    else if (align == Align.end) {
+      w := font.width(text)
+      x = left + (widget.contentWidth) - (w/2f).toInt
+    }
+
+    g.drawText(text, x, y)
+  }
 }

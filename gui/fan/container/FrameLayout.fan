@@ -10,23 +10,23 @@ using fanvasGraphics
 using fanvasWindow
 
 @Js
-class FrameLayout : WidgetGroup
+class Pane : WidgetGroup
 {
   **
   ** Frame Layout
   **
   override Void layoutChildren(Dimension result, Bool force)
   {
-    Int x := padding.left
-    Int y := padding.top
+    Int x := paddingLeft
+    Int y := paddingTop
     Int hintsW := contentWidth
     Int hintsH := contentHeight
 
     this.each |Widget c|
     {
       size := c.canonicalSize(hintsW, hintsH, result)
-      posX := c.layoutParam.prefX(hintsW, size.w)
-      posY := c.layoutParam.prefY(hintsH, size.h)
+      posX := c.layoutParam.prefX(this, hintsW, size.w)
+      posY := c.layoutParam.prefY(this, hintsH, size.h)
 
       cx := x + posX
       cy := y + posY
@@ -44,8 +44,8 @@ class FrameLayout : WidgetGroup
       x := size.w
       y := size.h
 
-      offsetX := c.layoutParam.posX
-      offsetY := c.layoutParam.posY
+      offsetX := dpToPixel(c.layoutParam.posX)
+      offsetY := dpToPixel(c.layoutParam.posY)
       if (offsetX > 0) {
         x += offsetX
       }
@@ -60,4 +60,9 @@ class FrameLayout : WidgetGroup
     //echo("$maxX, $maxY")
     return result.set(maxX, maxY)
   }
+}
+
+@Js
+@Serializable { collection = true }
+class FrameLayout : Pane {
 }

@@ -19,10 +19,8 @@ mixin DisplayMetrics
   ** scale dp to pixel
   **
   private static Float dp() {
-    Toolkit.cur.density
+    Toolkit.cur.density * 0.5f
   }
-
-  static Int dpi() { (dp * 320).toInt }
 
   static Int dpToPixel(Float d) { (d * dp).toInt }
 

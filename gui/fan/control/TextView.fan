@@ -15,8 +15,8 @@ using fanvasWindow
 @Js
 mixin TextView
 {
-  abstract Str text
-  abstract Font font
+  abstract Str text()
+  protected abstract Font font()
 
   protected virtual Dimension prefContentSize(Dimension result) {
     w := font.width(text)

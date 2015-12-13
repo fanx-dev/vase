@@ -16,32 +16,11 @@ class FlowLayout : WidgetGroup
 
   override Void layoutChildren(Dimension result, Bool force)
   {
-    Int x := padding.left
-    Int y := padding.top
+    Int x := paddingLeft
+    Int y := paddingTop
     Int hintsW := contentWidth
     Int hintsH := contentHeight
-
-    Int spaceUsage := 0
-    Float allWeight := 0f
-
-    Int rowHeight := 0
-
-    this.each |c, i| {
-      if (c.layoutParam.widthType == SizeType.matchParent) {
-        x = padding.left
-
-      } else {
-
-      }
-
-      if (c.layoutParam.heightType != SizeType.matchParent) {
-        if (c.layoutParam.heightVal > rowHeight) {
-          rowHeight = c.layoutParam.heightVal
-        }
-        y += rowHeight + spacing
-      }
-    }
-
+    //TODO
   }
 
   protected override Dimension prefContentSize(Dimension result) {

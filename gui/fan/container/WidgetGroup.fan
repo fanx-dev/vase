@@ -14,7 +14,7 @@ using fanvasMath
 ** WidgetGroup is a Widget Container
 **
 @Js
-@Serializable { collection = true }
+@Serializable
 abstract class WidgetGroup : Widget
 {
 
@@ -225,3 +225,4 @@ abstract class WidgetGroup : Widget
   }
 
 }
+

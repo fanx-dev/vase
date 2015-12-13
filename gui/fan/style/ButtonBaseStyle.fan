@@ -22,10 +22,10 @@ class ComboBoxStyle : WidgetStyle {
       Color(0xffffff),
       Color(0xcccccc)
     ]
-    
+
     outlineColor = Color(0x7f7f7f)
   }
-  
+
   override Void doPaint(Widget widget, Graphics g)
   {
     ButtonBase btn := widget
@@ -39,19 +39,19 @@ class ComboBoxStyle : WidgetStyle {
     }
 
     g.fillRect(0, 0, widget.width, widget.height)
-    
+
     g.brush = outlineColor
-    bottom := widget.padding.top + widget.contentHeight
-    right := widget.padding.left + widget.contentWidth
-//    pen := Pen { width = btn.dpToPixel(8) }
-//    g.pen = pen
-    g.drawLine(widget.padding.left, bottom, right-1, bottom)
-    
-    cornerSize := (btn.font.height * 0.6f).toInt
-//    path := Path()
-//    path.moveTo(right-cornerSize, bottom)
-//        .moveTo(right, bottom)
-//        .moveTo(right, bottom-cornerSize).close
+    lWidth := dpToPixel(lineWidth)
+    g.pen = Pen { it.width = lWidth }
+
+    top := widget.paddingTop
+    left := widget.paddingLeft
+    bottom := top + widget.contentHeight
+    right :=  left + widget.contentWidth
+
+    g.drawLine(left, bottom, right-1, bottom)
+
+    cornerSize := (font.height * 0.6f).toInt
     pa := PointArray(3)
     pa.setX(0, right-cornerSize)
     pa.setY(0, bottom)
@@ -60,17 +60,9 @@ class ComboBoxStyle : WidgetStyle {
     pa.setX(2, right)
     pa.setY(2, bottom-cornerSize)
     g.fillPolygon(pa)
-    
 
     //draw text
-    g.brush = fontColor
-    g.font = btn.font
-    x := widget.padding.left
-    y := widget.padding.top + (widget.contentHeight / 2)
-    //w := btn.font.width(btn.text)
-    h := btn.font.height
-    offset := btn.font.ascent + btn.font.leading
-    g.drawText(btn.text, x, y-(h/2f).toInt+offset)
+    drawText(widget, g, btn.text, Align.begin)
   }
 }
 
@@ -103,14 +95,6 @@ class ButtonBaseStyle : WidgetStyle
 
     g.fillRect(0, 0, widget.width, widget.height)
 
-    //draw text
-    g.brush = fontColor
-    g.font = btn.font
-    x := widget.padding.left + (widget.contentWidth / 2)
-    y := widget.padding.top + (widget.contentHeight / 2)
-    w := btn.font.width(btn.text)
-    h := btn.font.height
-    offset := btn.font.ascent + btn.font.leading
-    g.drawText(btn.text, x-(w/2f).toInt, y-(h/2f).toInt+offset)
+    drawText(widget, g, btn.text, Align.center)
   }
 }

@@ -44,7 +44,7 @@ class MessageBox : LinearLayout
     this.layoutParam.hAlign = Align.center
     this.layoutParam.vAlign = Align.center
     this.layoutParam.widthType = SizeType.wrapContent//dpToPixel(500f)
-    padding = Insets(dpToPixel(40f))
+    padding = Insets((80))
   }
 
   Void show(Widget w)

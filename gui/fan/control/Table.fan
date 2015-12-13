@@ -13,28 +13,32 @@ using fanvasWindow
 class Table : ScrollBase
 {
   @Transient
-  TableModel model := TableModel()
+  TableModel model := TableModel() {
+    set { &model = it; init }
+  }
 
-  Int colWidth := dpToPixel(360f)
-  Int headerHeight { private set }
+  Float colWidth := 360 * 2f
+  Float rowHeight := 120f
 
   @Transient
-  internal Int[] colWidthCache
+  internal Int[]? colWidthCache
 
   @Transient
-  internal WidgetGroup? header
-  Int rowHeight
-  Font font {
-    set { rowHeight = it.height; headerHeight = rowHeight; &font = it; }
+  internal WidgetGroup header := LinearLayout {
+    it.vertical = false
+    it.layoutParam.widthType = SizeType.wrapContent
   }
 
   new make(|This|? f := null)
   {
     if (f != null) f(this)
-    font = Font(dpToPixel(41f))
-    //header
-    header = LinearLayout { vertical = false; it.layoutParam.widthType = SizeType.wrapContent }
+    this.add(header)
+  }
+
+  private Void init() {
     colWidthCache = Int[,]
+    header.removeAll
+    colWidth := dpToPixel(colWidth)
     model.numCols.times |c|
     {
       btn := ButtonBase { it.text = model.header(c) }
@@ -42,12 +46,11 @@ class Table : ScrollBase
       w := model.prefWidth(c) ?: colWidth
       colWidthCache.add(w)
       btn.layoutParam.widthType = SizeType.fixed
-      btn.layoutParam.widthVal = w
+      btn.layoutParam.widthVal = pixelToDp(w)
       btn.layoutParam.heightType = SizeType.fixed
-      btn.layoutParam.heightVal = headerHeight
+      btn.layoutParam.heightVal = rowHeight
       header.add(btn)
     }
-    this.add(header)
   }
 
   override Int offsetX
@@ -57,22 +60,23 @@ class Table : ScrollBase
 
   protected override Dimension prefContentSize(Dimension result) {
     Int w := 0
+    Int colWidth := dpToPixel(colWidth)
     model.numCols.times |c|
     {
       w += model.prefWidth(c) ?: colWidth
     }
-    Int h := model.numRows * rowHeight + headerHeight
+    Int h := model.numRows * dpToPixel(rowHeight) + dpToPixel(rowHeight)
 
     return result.set(w, h)
   }
 
   protected override Int contentMaxHeight(Dimension result) {
-    t := model.numRows * rowHeight
+    t := model.numRows * dpToPixel(rowHeight)
     //echo("contentMaxHeight$t")
     return t
   }
   protected override Int viewportHeight() {
-    t := super.viewportHeight - headerHeight
+    t := super.viewportHeight - dpToPixel(rowHeight)
     //echo("viewportHeight$t, headerHeight$headerHeight, super.viewportHeight$super.viewportHeight")
     return t
   }

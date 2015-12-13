@@ -53,7 +53,7 @@ class MenuTest : BaseTestWin
   protected override Void init(RootView view) {
     view.layoutParam.widthType = SizeType.fixed
     view.layoutParam.heightType = SizeType.fixed
-    view.layoutParam.widthVal = 600
-    view.layoutParam.heightVal = 600
+    view.layoutParam.widthVal = view.pixelToDp(600)
+    view.layoutParam.heightVal = view.pixelToDp(600)
   }
 }

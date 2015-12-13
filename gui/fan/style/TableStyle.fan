@@ -27,15 +27,7 @@ class TableHeaderStyle : WidgetStyle
     g.brush = foreground
     g.drawRect(0, 0, widget.width, widget.height)
 
-    //draw text
-    g.brush = fontColor
-    g.font = btn.font
-    x := widget.padding.left + (widget.contentWidth / 2)
-    y := widget.padding.top + (widget.contentHeight / 2)
-    w := btn.font.width(btn.text)
-    h := btn.font.height
-    offset := btn.font.ascent + btn.font.leading
-    g.drawText(btn.text, x-(w/2f).toInt, y-(h/2f).toInt+offset)
+    drawText(widget, g, btn.text, Align.center)
   }
 }
 
@@ -45,32 +37,35 @@ class TableStyle : WidgetStyle
   override Void doPaint(Widget widget, Graphics g)
   {
     Table tab := widget
-    g.font = tab.font
+    top := widget.paddingTop
+    left := widget.paddingLeft
+    g.font = font
+    Int rowHeight := dpToPixel(tab.rowHeight)
 
     // get num of cols
     Int numCols := tab.model.numCols
-    Int fontOffset := tab.font.ascent + tab.font.leading
-    bottomLine := tab.padding.top+tab.contentHeight
-    rightLine := tab.padding.left+tab.contentWidth
+    Int fontOffset := font.ascent + font.leading
+    bottomLine := top+tab.contentHeight
+    rightLine := left+tab.contentWidth
 
-    Int start := tab.offsetY / tab.rowHeight
-    Int topOffset := tab.offsetY - (start * tab.rowHeight)
+    Int start := tab.offsetY / rowHeight
+    Int topOffset := tab.offsetY - (start * rowHeight)
 
-    Int y := -topOffset + tab.headerHeight + widget.padding.top
+    Int y := -topOffset + rowHeight + top
     for (i := start; i< tab.model.numRows; ++i)
     {
-      Int x := -tab.offsetX + widget.padding.left
+      Int x := -tab.offsetX + left
       for (j := 0; j<numCols; ++j)
       {
         Str text := tab.model.text(j, i)
-        drawCell(g, x, y, tab.colWidthCache[j], tab.rowHeight, text, fontOffset)
+        drawCell(g, x, y, tab.colWidthCache[j], rowHeight, text, fontOffset)
         x += tab.colWidthCache[j]
         if (x > rightLine) {
           break
         }
       }
 
-      y += tab.rowHeight
+      y += rowHeight
       if (y > bottomLine) {
         break
       }

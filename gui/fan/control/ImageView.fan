@@ -15,12 +15,12 @@ using fanvasWindow
 @Js
 class ImageView : Widget
 {
-  ConstImage image
+  ConstImage? image
 
-  new make(|This| f)
+  new make(|This|? f := null)
   {
     layoutParam.widthType = SizeType.wrapContent
-    f(this)
+    if (f != null) f(this)
   }
 
   protected override Dimension prefContentSize(Dimension result) {
@@ -31,8 +31,8 @@ class ImageView : Widget
       return result.set(0, 0)
     }
     s := image.size
-    result.w = s.w
-    result.h = s.h
+    result.w = dpToPixel(s.w.toFloat * 4)
+    result.h = dpToPixel(s.h.toFloat * 4)
     return result
   }
 }

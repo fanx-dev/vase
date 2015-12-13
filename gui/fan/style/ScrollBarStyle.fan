@@ -28,15 +28,16 @@ class ScrollBarStyle : WidgetStyle
     g.brush = foreground
     Int pos := bar.screenPos
     Int thumb := bar.thumbSize
-    x := widget.padding.left
-    y := widget.padding.top
+    top := widget.paddingTop
+    left := widget.paddingLeft
+
     if (bar.vertical)
     {
-      g.fillRect(x, y+pos, widget.contentWidth, thumb)
+      g.fillRect(left, top+pos, widget.contentWidth, thumb)
     }
     else
     {
-      g.fillRect(x+pos, y, thumb, widget.contentHeight)
+      g.fillRect(left+pos, top, thumb, widget.contentHeight)
     }
   }
 }
@@ -44,8 +45,8 @@ class ScrollBarStyle : WidgetStyle
 @Js
 class SeekBarStyle : WidgetStyle
 {
-  Int size := dpToPixel(50f)
-  Int width := dpToPixel(8f)
+  //Float size := (100f)
+  Float width := (16f)
 
   new make()
   {
@@ -56,17 +57,22 @@ class SeekBarStyle : WidgetStyle
   override Void doPaint(Widget widget, Graphics g)
   {
     ScrollBar bar := widget
+    top := widget.paddingTop
+    left := widget.paddingLeft
 
-    Int cx := widget.contentWidth/2 + widget.padding.top
-    Int cy := widget.contentHeight/2 + widget.padding.left
+    Int cx := widget.contentWidth/2 + top
+    Int cy := widget.contentHeight/2 + left
+
+    width := dpToPixel(this.width)
+    size := widget.contentHeight
 
     g.brush = outlineColor
-    g.pen = Pen { it.width = this.width }
+    g.pen = Pen { it.width = width }
 
     if (bar.vertical) {
-      g.drawLine(cx, widget.padding.top, cx, widget.padding.top + widget.contentHeight)
+      g.drawLine(cx, top, cx, top + widget.contentHeight)
     } else {
-      g.drawLine(widget.padding.left, cy, widget.padding.left + widget.contentWidth, cy)
+      g.drawLine(left, cy, left + widget.contentWidth, cy)
     }
 
     g.brush = foreground
@@ -76,9 +82,9 @@ class SeekBarStyle : WidgetStyle
     cy -= r
 
     if (bar.vertical) {
-      g.fillOval(cx, pos + widget.padding.top - r, size, size)
+      g.fillOval(cx, pos + top - r, size, size)
     } else {
-      g.fillOval(pos + widget.padding.left - r, cy, size, size)
+      g.fillOval(pos + left - r, cy, size, size)
     }
   }
 }

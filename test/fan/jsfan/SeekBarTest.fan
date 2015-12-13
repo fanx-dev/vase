@@ -15,7 +15,7 @@ class SeekBarTest : BaseTestWin
     LinearLayout
     {
       it.id = "mainView"
-      it.layoutParam.margin = Insets(dpToPixel(50f))
+      it.layoutParam.margin = Insets(100)
       SeekBar {
         it.id = "seekBar"
         it.curPos = 10f

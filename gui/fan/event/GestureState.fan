@@ -93,7 +93,7 @@ class DownState : GestureState {
       dy := e.y - lastY
       distance := (dx*dx + dy*dy).toFloat.sqrt
 
-      if (distance > DisplayMetrics.dpToPixel(25f).toFloat) {
+      if (distance > DisplayMetrics.dpToPixel(50f).toFloat) {
         ns := DragState(machine)
         machine.setCurrentState(ns, e)
       } else {
@@ -203,7 +203,7 @@ class DragState : GestureState {
     dx := e.x - beginX
     dy := e.y - beginY
     distance := (dx*dx + dy*dy).toFloat.sqrt
-    minDis := DisplayMetrics.dpToPixel(50f).toFloat
+    minDis := DisplayMetrics.dpToPixel(100f).toFloat
     if (distance > minDis) {
       ge := makeEvent(e, GestureEvent.fling)
       ge.deltaX = dx

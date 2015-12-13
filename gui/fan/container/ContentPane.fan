@@ -14,7 +14,7 @@ using fanvasWindow
 ** contain one child widget called 'content'.
 **
 @Js
-class ContentPane : FrameLayout
+class ContentPane : Pane
 {
   new make()
   {

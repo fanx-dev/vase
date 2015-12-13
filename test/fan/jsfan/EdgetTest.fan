@@ -18,32 +18,9 @@ using fanvasArray
 ** EdgeTest
 **
 @Js
-class EdgeTest
+class EdgeTest : BaseTestWin
 {
-  Bool initEnv() {
-    if (Env.cur.runtime != "java") {
-      ToolkitEnv.init
-      return true
-    }
-    if (Env.cur.args.size > 0) {
-      if (Env.cur.args.first == "AWT") {
-        ToolkitEnv.init
-        return true
-      }
-      else if (Env.cur.args.first == "SWT") {
-        FwtToolkitEnv.init
-        return true
-      }
-    }
-    echo("AWT or SWT ?")
-    return false
-  }
-
-  Void main()
-  {
-    if (!initEnv) return
-
-    RootView? view
+  protected override Widget build() {
     menu := Menu
     {
       MenuItem
@@ -76,38 +53,36 @@ class EdgeTest
           it.text = "About"
           it.onAction.add
           {
-            MessageBox { it.label.text = "hello world" }.show(view)
+            MessageBox { it.label.text = "hello world" }.show(root)
           }
         },
       },
     }
 
-    view = RootView
+
+    mainView := EdgePane
     {
-      mainView = EdgePane
-      {
-        top = menu
+      top = menu
 
-        left = TreeView { model = FileTreeModel() }
+      left = TreeView { model = FileTreeModel() }
 
-        center = TextArea { model = DefTextAreaModel(
-                                           """
-                                              //
-                                              // Copyright (c) 2011, chunquedong
-                                              // Licensed under the Academic Free License version 3.0
-                                              //
+      center = TextArea { model = DefTextAreaModel(
+                                         """
+                                            //
+                                            // Copyright (c) 2011, chunquedong
+                                            // Licensed under the Academic Free License version 3.0
+                                            //
 
 
 
-                                              // History:
-                                              //   2011-7-4  Jed Young  Creation
-                                              //
+                                            // History:
+                                            //   2011-7-4  Jed Young  Creation
+                                            //
 
-                                              """)}
-      }
+                                            """)}
     }
 
-    view.show
+    return mainView
   }
 
 }

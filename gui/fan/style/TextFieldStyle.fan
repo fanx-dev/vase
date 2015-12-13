@@ -21,23 +21,27 @@ class TextFieldStyle : WidgetStyle
   override Void doPaint(Widget widget, Graphics g)
   {
     TextField lab := widget
+    top := widget.paddingTop
+    left := widget.paddingLeft
 
     g.brush = outlineColor
+    lWidth := dpToPixel(lineWidth)
+    g.pen = Pen { it.width = lWidth }
 
-    left := 1
-    bottom := widget.padding.top + widget.contentHeight-1
-    right := widget.width - 1
+    lineLeft := lWidth
+    bottom := top + widget.contentHeight-lWidth
+    right := widget.width - lWidth
 
-    g.drawLine(left, bottom, right-1, bottom)
+    g.drawLine(lineLeft, bottom, right-lWidth, bottom)
     upSize := (lab.font.height * 0.3f).toInt
-    g.drawLine(left, bottom, left, bottom-upSize)
-    g.drawLine(right-1, bottom, right-1, bottom-upSize)
+    g.drawLine(lineLeft, bottom, lineLeft, bottom-upSize)
+    g.drawLine(right-lWidth, bottom, right-lWidth, bottom-upSize)
 
 
-    g.font = lab.font
-    offset := lab.font.ascent + lab.font.leading
-    x := widget.padding.left
-    y := widget.padding.top
+    g.font = font
+    offset := font.ascent + font.leading
+    x := left
+    y := top
 
     if (!lab.text.isEmpty) {
       g.brush = fontColor

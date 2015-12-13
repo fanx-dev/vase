@@ -35,7 +35,7 @@ class ComboBox : ButtonBase
   {
     text = "v"
     this.onAction.add { show }
-    padding = Insets(dpToPixel(10f))
+    padding = Insets(20)
   }
 
   private Void select(ButtonBase btn, Int i)
@@ -63,8 +63,8 @@ class ComboBox : ButtonBase
       button = ButtonBase {
         it.text = name;
         it.styleClass = "menuItem";
-        it.layoutParam.widthType = SizeType.fixed
-        it.layoutParam.widthVal = it.font.height * 10
+        it.layoutParam.widthType = SizeType.matchParent
+        //it.layoutParam.widthVal = it.pixelToDp()
         it.onAction.add { select(button, i) }
       }
       pane.add(button)
@@ -76,9 +76,11 @@ class ComboBox : ButtonBase
 
     pos := Coord(0, 0)
     rc := posOnWindow(pos)
-    pane.layoutParam.widthType = SizeType.wrapContent
-    pane.layoutParam.posX = pos.x
-    pane.layoutParam.posY = pos.y + height
+    pane.spacing = 0f
+    pane.layoutParam.widthType = SizeType.fixed
+    pane.layoutParam.widthVal = pixelToDp(this.width)
+    pane.layoutParam.posX = pixelToDp(pos.x)
+    pane.layoutParam.posY = pixelToDp(pos.y + height)
     pane.focus
 
     pane.onFocusChanged.add |e| {

@@ -18,14 +18,14 @@ class FrameLayoutTest : BaseTestWin
       {
         it.id = "btn1"
         it.text = "btn1"
-        it.layoutParam.posX = 800
-        it.layoutParam.posY = 500
+        it.layoutParam.posX = 800f
+        it.layoutParam.posY = 500f
         it.layoutParam.widthType = SizeType.wrapContent
       },
       Button
       {
         it.text = "btn2"
-        it.layoutParam.widthType = SizeType.wrapContent
+        //it.layoutParam.widthType = SizeType.wrapContent
       },
       Button
       {
@@ -33,14 +33,14 @@ class FrameLayoutTest : BaseTestWin
         it.layoutParam.widthType = SizeType.wrapContent
         it.layoutParam.vAlign = Align.end
         it.layoutParam.hAlign = Align.end
-        it.layoutParam.posX = 20
-        it.layoutParam.posY = 200
+        it.layoutParam.posX = 20f
+        it.layoutParam.posY = 200f
       },
       Button
       {
         it.text = "btn4"
         it.layoutParam.widthType = SizeType.wrapContent
-        it.layoutParam.margin = Insets(60)
+        it.layoutParam.margin = Insets(220)
       },
     }
   }

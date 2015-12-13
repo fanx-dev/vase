@@ -52,16 +52,6 @@ class RoundButtonStyle : WidgetStyle
 
     g.fillRoundRect(offsetR, offsetR, width, height, arc, arc)
 
-
-    //draw text
-    g.brush = fontColor
-    g.font = btn.font
-    x := widget.padding.left + (widget.contentWidth / 2)
-    y := widget.padding.top + (widget.contentHeight / 2)
-    w := btn.font.width(btn.text)
-    h := btn.font.height
-    offset := btn.font.ascent + btn.font.leading
-    offset += (btn.font.height - (btn.font.descent+btn.font.ascent + btn.font.leading))/2
-    g.drawText(btn.text, x-(w/2f).toInt, y-(h/2f).toInt+offset)
+    drawText(widget, g, btn.text, Align.center)
   }
 }

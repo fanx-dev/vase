@@ -15,7 +15,9 @@ class TextAreaStyle : WidgetStyle
   override Void doPaint(Widget widget, Graphics g)
   {
     TextArea area := widget
-    g.font = area.font
+    top := widget.paddingTop
+    left := widget.paddingLeft
+    g.font = font
 
     Int start := area.offsetY / area.rowHeight
     Int topOffset := area.offsetY - (start * area.rowHeight)
@@ -23,7 +25,7 @@ class TextAreaStyle : WidgetStyle
     if (end >= area.model.lineCount) {
       end = area.model.lineCount-1
     }
-    Int fontOffset := area.font.ascent + area.font.leading
+    Int fontOffset := font.ascent + font.leading
 
     Int selectionStartLine := -1
     Int selectionEndLine := -1
@@ -53,9 +55,9 @@ class TextAreaStyle : WidgetStyle
     Int selStart := -1
     Int selEnd := -1
     Int c := 0
-    Int x := -area.offsetX + area.padding.left
-    Int y := -topOffset + area.padding.top
-    Int bottomY := area.padding.top + area.contentHeight
+    Int x := -area.offsetX + left
+    Int y := -topOffset + top
+    Int bottomY := top + area.contentHeight
     for (i := start; i< area.model.lineCount; ++i)
     {
       lineText := area.model.line(i)
@@ -89,7 +91,7 @@ class TextAreaStyle : WidgetStyle
       }
       //echo("- $selStart, $selEnd")
       drawLineText(g, area.rowHeight, fontOffset, x, y, lineText, selStart, selEnd)
-      
+
       y += area.rowHeight
       if (y > bottomY) {
         break
@@ -112,7 +114,7 @@ class TextAreaStyle : WidgetStyle
         Int y := (lineIndex - start) * area.rowHeight
         Str line := area.model.line(lineIndex)
         Int xOffset := area.caret.offset - area.model.offsetAtLine(lineIndex)
-        Int x := area.font.width(line[0..<xOffset]) -area.offsetX
+        Int x := font.width(line[0..<xOffset]) -area.offsetX
         g.drawLine(x, y, x, y + area.rowHeight)
       }
     }

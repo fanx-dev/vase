@@ -9,6 +9,7 @@
 using fanvasGraphics
 using fanvasWindow
 using concurrent
+using fanvasMath
 
 **
 ** Represent a top level Widget
@@ -248,7 +249,31 @@ class RootView : FrameLayout, View
     g.antialias = this.antialias
     g.brush = background
     g.fillRect(0, 0, width, height)
-    super.paint(g)
+    //super.paint(g)
+
+    //-------------mainView
+    g.push
+    //g.clip(it.bounds)
+    g.transform(Transform2D.make.translate(mainView.x.toFloat, mainView.y.toFloat))
+    mainView.paint(g)
+
+    if (modal) {
+      g.alpha = 100
+      g.brush = Color.black
+      g.fillRect(0, 0, width, height)
+      //TODO restore this
+      g.alpha = 255
+    }
+    g.pop
+
+    //-------------topLayer
+    if (topLayer != null) {
+      g.push
+      //g.clip(it.bounds)
+      g.transform(Transform2D.make.translate(topLayer.x.toFloat, topLayer.y.toFloat))
+      topLayer.paint(g)
+      g.pop
+    }
   }
 
   virtual Void onResize(Int w, Int h) {

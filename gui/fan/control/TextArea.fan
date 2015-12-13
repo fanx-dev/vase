@@ -17,7 +17,7 @@ using fanvasWindow
 class TextArea : ScrollBase
 {
   **
-  ** Tab width measured in space characters.  Default is 2.
+  ** Tab width measured in space characters.
   **
   Int tabSpacing := 4
 
@@ -31,13 +31,13 @@ class TextArea : ScrollBase
   }
 
 
-  Int rowHeight { private set }
+  Int rowHeight() { font.height }
 
   @Transient
   Caret caret := Caret() { private set }
 
-  Font font {
-    set { rowHeight = it.height; &font = it; }
+  private Font font() {
+    getStyle.font
   }
 
 
@@ -53,7 +53,6 @@ class TextArea : ScrollBase
   new make(|This|? f := null)
   {
     if (f != null) f(this)
-    font = Font(dpToPixel(41f))
   }
 
   protected override Dimension prefContentSize(Dimension result) {

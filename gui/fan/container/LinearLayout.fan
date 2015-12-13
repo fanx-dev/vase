@@ -12,13 +12,14 @@ using fanvasWindow
 @Js
 class LinearLayout : WidgetGroup
 {
-  Int spacing := dpToPixel(2f)
+  Float spacing := 4f
 
   Bool vertical := true
 
   private Float getWeightSpace(Dimension result) {
     Int hintsW := contentWidth
     Int hintsH := contentHeight
+    Int spacing := dpToPixel(this.spacing)
 
     Int spaceUsage := 0
     Float allWeight := 0f
@@ -61,10 +62,11 @@ class LinearLayout : WidgetGroup
 
   override Void layoutChildren(Dimension result, Bool force)
   {
-    Int x := padding.left
-    Int y := padding.top
+    Int x := paddingLeft
+    Int y := paddingTop
     Int hintsW := contentWidth
     Int hintsH := contentHeight
+    spacing := dpToPixel(this.spacing)
     Float weightSpace := getWeightSpace(result)
 
     this.each |Widget c|
@@ -98,6 +100,7 @@ class LinearLayout : WidgetGroup
   protected override Dimension prefContentSize(Dimension result) {
     Int w := 0
     Int h := 0
+    spacing := dpToPixel(this.spacing)
     this.each |c, i|
     {
       size := c.bufferedPrefSize(result)

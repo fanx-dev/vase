@@ -10,7 +10,7 @@ using fanvasGraphics
 using fanvasWindow
 
 @Js
-abstract class ScrollBase : FrameLayout
+abstract class ScrollBase : Pane
 {
   @Transient
   ScrollBar hbar
@@ -24,7 +24,7 @@ abstract class ScrollBase : FrameLayout
   @Transient
   virtual Int offsetY := 0
 
-  Int barSize := dpToPixel(30f)
+  Float barSize := 60f
 
   Bool autoAdjustChildren := false
 
@@ -77,7 +77,7 @@ abstract class ScrollBase : FrameLayout
     this.add(vbar)
     layoutParam.heightType = SizeType.matchParent
     layoutParam.widthType = SizeType.matchParent
-    padding = Insets(0, barSize, barSize, 0)
+    padding = Insets(0, barSize.toInt, barSize.toInt, 0)
   }
 
   protected virtual Int viewportWidth() { contentWidth }
@@ -105,9 +105,10 @@ abstract class ScrollBase : FrameLayout
     this.remove(vbar)
     super.layoutChildren(result, force)
 
-    hbar.width = contentWidth + barSize
-    hbar.height = barSize
-    hbar.x = padding.left
+    barSize := dpToPixel(this.barSize)
+    hbar.width = contentWidth + (barSize)
+    hbar.height = (barSize)
+    hbar.x = paddingLeft
     hbar.y = height-barSize
     hbar.max = contentMaxWidth(result).toFloat
     hbar.viewport = viewportWidth.toFloat
@@ -128,7 +129,7 @@ abstract class ScrollBase : FrameLayout
     vbar.width = barSize
     vbar.height = contentHeight
     vbar.x = width-barSize
-    vbar.y = padding.top
+    vbar.y = paddingTop
     vbar.max = contentMaxHeight(result).toFloat
     vbar.viewport = viewportHeight.toFloat
 
@@ -170,7 +171,7 @@ abstract class ScrollBase : FrameLayout
 
     if (e.type == MotionEvent.wheel && e.delta != null)
     {
-      vbar.curPos += e.delta * dpToPixel(40f)
+      vbar.curPos += e.delta * dpToPixel(80f)
       vbar.requestPaint
       e.consume
     }

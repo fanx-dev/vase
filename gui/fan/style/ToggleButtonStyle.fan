@@ -17,27 +17,25 @@ class ToggleButtonStyle : WidgetStyle
 
   new make() {
     foreground = Color(0x51d166)
-  }
-
-  protected Void drawText(ToggleButton btn, Graphics g) {
-    g.brush = fontColor
-    g.font = btn.font
-    y := btn.padding.top + (btn.contentHeight / 2)
-    h := btn.font.height
-    offset := btn.font.ascent + btn.font.leading
-    g.drawText(btn.text, btn.padding.left+1, y-(h/2f).toInt+offset)
+    background = Color.white
   }
 
   override Void doPaint(Widget widget, Graphics g)
   {
     ToggleButton btn := widget
+    drawText(btn, g, btn.text, Align.begin)
+    top := widget.paddingTop
+    left := widget.paddingLeft
 
     size := btn.contentWidth.min(btn.contentHeight)
     r := size / 2
-    x := widget.padding.left + (widget.contentWidth) - size
-    y := widget.padding.top + (widget.contentHeight) - r
+    x := left + (widget.contentWidth) - size
+    y := top + (widget.contentHeight) - r
     r = (r*0.7f).toInt
     size = r + r
+
+    g.brush = this.background
+    g.fillRect(x-r, y-r, size, size)
 
     g.brush = this.outlineColor
     g.pen = outLinePen
@@ -54,8 +52,6 @@ class ToggleButtonStyle : WidgetStyle
           .lineTo(x+(r*1.05f), y-(r*1.05f))
       g.drawPath(path)
     }
-
-    drawText(btn, g)
   }
 }
 
@@ -71,11 +67,14 @@ class RadioButtonStyle : ToggleButtonStyle
   override Void doPaint(Widget widget, Graphics g)
   {
     ToggleButton btn := widget
+    drawText(btn, g, btn.text, Align.begin)
+    top := widget.paddingTop
+    left := widget.paddingLeft
 
     size := btn.contentWidth.min(btn.contentHeight)
     r := size / 2
-    x := widget.padding.left + (widget.contentWidth) - size
-    y := widget.padding.top + (widget.contentHeight) - r
+    x := left + (widget.contentWidth) - size
+    y := top + (widget.contentHeight) - r
     r = (r*0.9f).toInt
     size = r + r
 
@@ -92,7 +91,6 @@ class RadioButtonStyle : ToggleButtonStyle
       g.fillOval(x-cw, y-cw, cw+cw, cw+cw)
     }
 
-    drawText(btn, g)
   }
 }
 
@@ -107,11 +105,15 @@ class SwitchStyle : ToggleButtonStyle {
   override Void doPaint(Widget widget, Graphics g)
   {
     Switch btn := widget
+    drawText(btn, g, btn.text, Align.begin)
+
+    top := widget.paddingTop
+    left := widget.paddingLeft
 
     size := btn.contentHeight*2
     r := btn.contentHeight
-    centerX := widget.padding.left + (widget.contentWidth) - r
-    centerY := widget.padding.top + (widget.contentHeight) - (r/2)
+    centerX := left + (widget.contentWidth) - r
+    centerY := top + (widget.contentHeight) - (r/2)
     r = (r*0.9f).toInt
     size = r + r
 
@@ -144,6 +146,5 @@ class SwitchStyle : ToggleButtonStyle {
     //g.drawOval(centerX-widthR+xOffset, centerY-heightR, height, height)
     g.fillOval(centerX-widthR+xOffset, centerY-heightR, height, height)
 
-    drawText(btn, g)
   }
 }

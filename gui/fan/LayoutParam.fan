@@ -59,12 +59,12 @@ class LayoutParam {
   **
   ** width of widget
   **
-  Int widthVal := 0
+  Float widthVal := 0f
 
   **
   ** height of widget
   **
-  Int heightVal := 0
+  Float heightVal := 0f
 
   **
   ** layout weight compare to sibling widget
@@ -77,66 +77,66 @@ class LayoutParam {
   **
   ** x position of widget.
   **
-  Int posX := 0
+  Float posX := 0f
 
   **
   ** y position of widget.
   **
-  Int posY := 0
+  Float posY := 0f
 
-  Int prefX(Int parentWidth, Int selfWidth) {
+  Int prefX(Widget w, Int parentWidth, Int selfWidth) {
     switch (hAlign) {
       case Align.center:
         return (parentWidth - selfWidth) / 2
       case Align.end:
-        return (parentWidth - selfWidth) - posX
+        return (parentWidth - selfWidth) - w.dpToPixel(posX)
       case Align.begin:
-        return posX
+        return w.dpToPixel(posX)
       default:
-        return posX
+        return w.dpToPixel(posX)
     }
   }
 
-  Int prefY(Int parentHeight, Int selfHeight) {
+  Int prefY(Widget w, Int parentHeight, Int selfHeight) {
     switch (vAlign) {
       case Align.center:
         return (parentHeight - selfHeight) / 2
       case Align.end:
-        return (parentHeight - selfHeight) - posY
+        return (parentHeight - selfHeight) - w.dpToPixel(posY)
       case Align.begin:
-        return posY
+        return w.dpToPixel(posY)
       default:
-        return posY
+        return w.dpToPixel(posY)
     }
   }
 
-  Int prefWidth(Int parentWidth, Int selfWidth) {
+  Int prefWidth(Widget w, Int parentWidth, Int selfWidth) {
     switch (widthType) {
       case SizeType.matchParent:
         return parentWidth
       case SizeType.wrapContent:
         return selfWidth
       case SizeType.percent:
-        return parentWidth * widthVal / 100
+        return (parentWidth * widthVal / 100).toInt
       case SizeType.fixed:
-        return widthVal
+        return w.dpToPixel(widthVal)
       default:
-        return widthVal
+        return w.dpToPixel(widthVal)
     }
   }
 
-  Int prefHeight(Int parentHeight, Int selfHeight) {
+  Int prefHeight(Widget w, Int parentHeight, Int selfHeight) {
     switch (heightType) {
       case SizeType.matchParent:
         return parentHeight
       case SizeType.wrapContent:
         return selfHeight
       case SizeType.percent:
-        return parentHeight * heightVal / 100
+        return (parentHeight * heightVal / 100).toInt
       case SizeType.fixed:
-        return heightVal
+        return w.dpToPixel(heightVal)
       default:
-        return heightVal
+        return w.dpToPixel(heightVal)
     }
   }
 }

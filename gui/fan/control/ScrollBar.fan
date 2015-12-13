@@ -68,7 +68,7 @@ class ScrollBar : Widget
   private Int lastY := -1
   private Bool draging := false
 
-  Int barSize := dpToPixel(30f)
+  Float barSize := 60f
 
   new make(|This|? f := null)
   {
@@ -185,12 +185,10 @@ class ScrollBar : Widget
 @Js
 class SeekBar : ScrollBar
 {
-  new make() : super.make()
+  new make() : super.make(|i|{ i.vertical = false; i.barSize = 120f })
   {
-    this.vertical = false
-    this.barSize = dpToPixel(50f)
     this.viewport = 0f
     this.max = 100f
-    this.padding = Insets(dpToPixel(50f))
+    this.padding = Insets(100)
   }
 }

@@ -16,7 +16,9 @@ using fanvasWindow
 class Label : Widget, TextView
 {
   override Str text := "Label"
-  override Font font := Font(dpToPixel(41f))
+  protected override Font font() {
+    return getStyle.font
+  }
 
   new make()
   {

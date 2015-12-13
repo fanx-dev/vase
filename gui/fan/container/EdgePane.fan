@@ -18,7 +18,7 @@ using fanvasGraphics
 ** width.  Any remaining space is given to the center component.
 **
 @Js
-class EdgePane : FrameLayout
+class EdgePane : Pane
 {
   new make() {
     layoutParam.heightType = SizeType.matchParent
@@ -95,7 +95,7 @@ class EdgePane : FrameLayout
 
   override Void layoutChildren(Dimension result, Bool force)
   {
-    x := padding.left; y := padding.top;
+    x := paddingLeft; y := paddingTop;
     w := contentWidth; h := contentHeight
 
     if (top != null)

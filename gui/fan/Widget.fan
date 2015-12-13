@@ -15,7 +15,7 @@ using fanvasMath
 **
 @Js
 @Serializable
-abstract class Widget : DisplayMetrics
+abstract class Widget
 {
   **
   ** The unique identifies of widget.
@@ -262,11 +262,18 @@ abstract class Widget : DisplayMetrics
     //}
   }
 
-  protected virtual Void doPaint(Graphics g) {
+  Int dpToPixel(Float d) { DisplayMetrics.dpToPixel(d) }
+  Float pixelToDp(Int d) { DisplayMetrics.pixelToDp(d) }
+
+  protected Style getStyle() {
     if (style == null) {
       style = getRootView.findStyle(this)
     }
-    style.paint(this, g)
+    return style
+  }
+
+  protected virtual Void doPaint(Graphics g) {
+    getStyle.paint(this, g)
   }
 
   **
@@ -298,8 +305,8 @@ abstract class Widget : DisplayMetrics
     hintsHeight := parentContentHeight// - layoutParam.margin.top-layoutParam.margin.bottom
 
     pref := bufferedPrefSize(result)
-    w := layoutParam.prefWidth(hintsWidth, pref.w)
-    h := layoutParam.prefHeight(hintsHeight, pref.h)
+    w := layoutParam.prefWidth(this, hintsWidth, pref.w)
+    h := layoutParam.prefHeight(this, hintsHeight, pref.h)
     return result.set(w, h)
   }
 
@@ -308,8 +315,8 @@ abstract class Widget : DisplayMetrics
   **
   protected Dimension bufferedPrefSize(Dimension result) {
     size := prefSize(result)
-    return result.set(size.w+layoutParam.margin.left+layoutParam.margin.right
-      , size.h+layoutParam.margin.top + layoutParam.margin.bottom)
+    return result.set(size.w+dpToPixel((layoutParam.margin.left + layoutParam.margin.right).toFloat)
+      , size.h+dpToPixel((layoutParam.margin.top + layoutParam.margin.bottom).toFloat))
   }
 
   **
@@ -325,19 +332,19 @@ abstract class Widget : DisplayMetrics
     Int h := -1
 
     //using layout size
-    w = layoutParam.prefWidth(-1, -1)
-    h = layoutParam.prefHeight(-1, -1)
+    w = (layoutParam.prefWidth(this, -1, -1))
+    h = (layoutParam.prefHeight(this, -1, -1))
 
     //layout size if ok
     if (w < 0 || h < 0) {
       s := prefContentSize(result)
 
       if (w < 0) {
-        w = s.w + padding.left + padding.right
+        w = s.w + dpToPixel((padding.left + padding.right).toFloat)
       }
 
       if (h < 0) {
-        h = s.h + padding.top + padding.bottom
+        h = s.h + dpToPixel((padding.top + padding.bottom).toFloat)
       }
     }
 
@@ -356,29 +363,37 @@ abstract class Widget : DisplayMetrics
   }
 
   Int contentWidth() {
-    width - padding.left - padding.right
-  }
-
-  Int bufferedWidth() {
-    width + layoutParam.margin.left + layoutParam.margin.right
+    width - dpToPixel((padding.left + padding.right).toFloat)
   }
 
   Int contentHeight() {
-    height - padding.top - padding.bottom
+    height - dpToPixel((padding.top + padding.bottom).toFloat)
+  }
+
+  Int bufferedWidth() {
+    width + dpToPixel((layoutParam.margin.left + layoutParam.margin.right).toFloat)
   }
 
   Int bufferedHeight() {
-    height + layoutParam.margin.top + layoutParam.margin.bottom
+    height + dpToPixel((layoutParam.margin.top + layoutParam.margin.bottom).toFloat)
+  }
+
+  Int paddingLeft() {
+    dpToPixel(padding.left.toFloat)
+  }
+
+  Int paddingTop() {
+    dpToPixel(padding.top.toFloat)
   }
 
   **
   ** layout the children
   **
   Void layout(Int x, Int y, Int w, Int h, Dimension result, Bool force) {
-    this.x = x + layoutParam.margin.left
-    this.y = y + layoutParam.margin.top
-    this.width = w - layoutParam.margin.left - layoutParam.margin.right
-    this.height = h - layoutParam.margin.top - layoutParam.margin.bottom
+    this.x = x + dpToPixel(layoutParam.margin.left.toFloat)
+    this.y = y + dpToPixel(layoutParam.margin.top.toFloat)
+    this.width = w - dpToPixel((layoutParam.margin.left + layoutParam.margin.right).toFloat)
+    this.height = h - dpToPixel((layoutParam.margin.top + layoutParam.margin.bottom).toFloat)
 
     printInfo("layout: x$this.x, y$this.y, w$this.width, h$this.height")
 
