@@ -55,19 +55,19 @@ abstract class Widget
   **
   ** flag for using renderCache
   **
-  Bool staticCache := true
+  Bool useRenderCache := true
 
   **
   ** render result cache in bitmap image
   **
   @Transient
-  private BufImage? renderCache
+  private BufImage? renderCacheImage
 
   **
   ** invalidate the renderCache bitmap image
   **
   @Transient
-  protected Bool dirtyRenderCache := true
+  protected Bool renderCacheDirty := true
 
   @Transient
   protected Bool layoutDirty := true
@@ -235,18 +235,18 @@ abstract class Widget
     //  g = effect.prepare(this, g)
     //}
 
-    if (staticCache) {
-      if (renderCache == null || renderCache.size.w != width || renderCache.size.h != height) {
-        renderCache = BufImage.make(Size(width, height))
-        dirtyRenderCache = false
-        cg := renderCache.graphics
+    if (useRenderCache) {
+      if (renderCacheImage == null || renderCacheImage.size.w != width || renderCacheImage.size.h != height) {
+        renderCacheImage = BufImage.make(Size(width, height))
+        renderCacheDirty = false
+        cg := renderCacheImage.graphics
         cg.antialias = true
         doPaint(cg)
         cg.dispose
       }
-      else if (dirtyRenderCache) {
-        dirtyRenderCache = false
-        cg := renderCache.graphics
+      else if (renderCacheDirty) {
+        renderCacheDirty = false
+        cg := renderCacheImage.graphics
         cg.antialias = true
         //if (Toolkit.cur.name != "SWT") {
         //  cg.brush = Color.makeArgb(0, 0, 0, 0)
@@ -258,7 +258,7 @@ abstract class Widget
         cg.dispose
       }
 
-      g.drawImage(renderCache, 0, 0)
+      g.drawImage(renderCacheImage, 0, 0)
     } else {
       doPaint(g)
     }
@@ -420,7 +420,7 @@ abstract class Widget
   virtual Void requestLayout() {
     this.layoutDirty = true
     this.prefSizeDirty = true
-    this.dirtyRenderCache = true
+    this.renderCacheDirty = true
     this.parent?.requestLayout
   }
 
@@ -513,7 +513,7 @@ abstract class Widget
   **
   virtual Void requestPaint(Rect? dirty := null)
   {
-    dirtyRenderCache = true
+    renderCacheDirty = true
     if (dirty == null) dirty = this.bounds
     //convert dirty coordinate system to realative to parent
     else dirty = Rect(dirty.x + x, dirty.y + y, dirty.w, dirty.h)

@@ -119,7 +119,7 @@ class RootView : Pane, View
     id = "root"
     width = 0
     height = 0
-    this.staticCache = false
+    this.useRenderCache = false
 
     gesture.onGestureEvent.add |GestureEvent e|{
       e.relativeX = e.x
@@ -163,7 +163,7 @@ class RootView : Pane, View
     if (topLayer == null)
     {
       topLayer = FrameLayout()
-      topLayer.staticCache = false
+      topLayer.useRenderCache = false
       doAdd(topLayer)
     }
 //    moveToTop(topLayerGroup)
@@ -185,7 +185,7 @@ class RootView : Pane, View
   **
   override Void requestPaint(Rect? dirty := null)
   {
-    dirtyRenderCache = true
+    renderCacheDirty = true
     if (dirty == null) dirty = this.bounds
     //convert dirty coordinate system to realative to parent
     else dirty = Rect(dirty.x + x, dirty.y + y, dirty.w, dirty.h)

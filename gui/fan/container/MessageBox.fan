@@ -22,7 +22,7 @@ class MessageBox : LinearLayout
     label = Label {
       it.id = "messageBox_msg"
       it.text = "messageBox"
-      it.staticCache = false
+      it.useRenderCache = false
       it.margin = Insets(30)
     }
     btn := Button {
@@ -36,7 +36,7 @@ class MessageBox : LinearLayout
       };
       it.text = "OK"
       it.layoutParam.widthType = SizeType.matchParent
-      it.staticCache = false
+      it.useRenderCache = false
     }
 
     this.add(label)

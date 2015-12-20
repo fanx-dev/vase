@@ -17,6 +17,9 @@ using fanvasMath
 @Serializable
 abstract class WidgetGroup : Widget
 {
+  new make() {
+    useRenderCache = false
+  }
 
 //////////////////////////////////////////////////////////////////////////
 // Widget Tree
