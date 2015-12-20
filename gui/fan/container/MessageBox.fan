@@ -23,7 +23,7 @@ class MessageBox : LinearLayout
       it.id = "messageBox_msg"
       it.text = "messageBox"
       it.staticCache = false
-      it.layoutParam.margin = Insets(30)
+      it.margin = Insets(30)
     }
     btn := Button {
       it.id = "messageBox_ok"
@@ -41,10 +41,14 @@ class MessageBox : LinearLayout
 
     this.add(label)
     this.add(btn)
-    this.layoutParam.hAlign = Align.center
-    this.layoutParam.vAlign = Align.center
+    //this.layoutParam.hAlign = Align.center
+    //this.layoutParam.vAlign = Align.center
+
+    this.layoutParam.posX.with { it.parent = 0.5f; anchor = -0.5f; offset = 0f }
+    this.layoutParam.posY.with { it.parent = 0.5f; anchor = -0.5f; offset = 0f }
+
     this.layoutParam.widthType = SizeType.wrapContent//dpToPixel(500f)
-    padding = Insets((80))
+    padding = Insets((100))
   }
 
   Void show(Widget w)

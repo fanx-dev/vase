@@ -41,6 +41,28 @@ enum class SizeType {
   percent
 }
 
+@Js
+@Serializable
+class LayoutPosition {
+  Float parent := 0f
+  Float anchor := 0f
+  Float offset := 0f
+
+  ** Return hash of x and y.
+  override Int hash() { parent.hash.xor(anchor.hash.shiftl(16)).xor(offset.hash.shiftl(31)) }
+
+  ** Return if obj is same Point value.
+  override Bool equals(Obj? obj)
+  {
+    that := obj as LayoutPosition
+    if (that == null) return false
+    return this.parent == that.parent && this.anchor == that.anchor && this.offset == that.offset
+  }
+
+  ** Return '"x,y"'
+  override Str toStr() { "$parent,$anchor,$offset" }
+}
+
 **
 ** Tell parent how to layout this widget
 ** The parent may ignore the param
@@ -48,10 +70,6 @@ enum class SizeType {
 @Js
 @Serializable
 class LayoutParam {
-  **
-  ** out side bounder
-  **
-  Insets margin := Insets.defVal
 
   SizeType widthType := SizeType.matchParent
   SizeType heightType := SizeType.wrapContent
@@ -71,43 +89,24 @@ class LayoutParam {
   **
   Float weight := 1.0f
 
-  Align hAlign := Align.begin
-  Align vAlign := Align.begin
-
   **
   ** x position of widget.
   **
-  Float posX := 0f
+  LayoutPosition posX := LayoutPosition()
 
   **
   ** y position of widget.
   **
-  Float posY := 0f
+  LayoutPosition posY := LayoutPosition()
 
   Int prefX(Widget w, Int parentWidth, Int selfWidth) {
-    switch (hAlign) {
-      case Align.center:
-        return (parentWidth - selfWidth) / 2
-      case Align.end:
-        return (parentWidth - selfWidth) - w.dpToPixel(posX)
-      case Align.begin:
-        return w.dpToPixel(posX)
-      default:
-        return w.dpToPixel(posX)
-    }
+    Float x := (posX.parent * parentWidth) + (posX.anchor * selfWidth) + w.dpToPixel(posX.offset)
+    return x.toInt
   }
 
   Int prefY(Widget w, Int parentHeight, Int selfHeight) {
-    switch (vAlign) {
-      case Align.center:
-        return (parentHeight - selfHeight) / 2
-      case Align.end:
-        return (parentHeight - selfHeight) - w.dpToPixel(posY)
-      case Align.begin:
-        return w.dpToPixel(posY)
-      default:
-        return w.dpToPixel(posY)
-    }
+    Float y:= (posY.parent * parentHeight) + (posY.anchor * selfHeight) + w.dpToPixel(posY.offset)
+    return y.toInt
   }
 
   Int prefWidth(Widget w, Int parentWidth, Int selfWidth) {
@@ -138,5 +137,32 @@ class LayoutParam {
       default:
         return w.dpToPixel(heightVal)
     }
+  }
+
+  ** Return hash of x and y.
+  override Int hash() {
+    Int hash := 17
+    hash += 31 * widthType.hash
+    hash += 31 * heightType.hash
+    hash += 31 * widthVal.hash
+    hash += 31 * heightVal.hash
+    hash += 31 * posX.hash
+    hash += 31 * posY.hash
+    hash += 31 * weight.hash
+    return hash
+  }
+
+  ** Return if obj is same Point value.
+  override Bool equals(Obj? obj)
+  {
+    that := obj as LayoutParam
+    if (that == null) return false
+    return this.widthType == that.widthType
+      && this.heightType == that.heightType
+      && this.widthVal == that.widthVal
+      && this.heightVal == that.heightVal
+      && this.weight == that.weight
+      && this.posX == that.posX
+      && this.posY == that.posY
   }
 }

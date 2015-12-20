@@ -28,3 +28,55 @@ class Label : Widget, TextView
     return TextView.super.prefContentSize(result)
   }
 }
+
+@Js
+class Toast : Label {
+
+  new make() {
+    layoutParam.widthType = SizeType.wrapContent
+    layoutParam.posX.with { it.parent = 0.5f; it.anchor = -0.5f; it.offset = 0f }
+    layoutParam.posY.with { it.parent = 0.8f; it.anchor = -0.5f; it.offset = 0f }
+    padding = Insets(40)
+  }
+
+  Void show(Widget w)
+  {
+    root := w.getRootView
+    overlayer := root.topOverlayer
+    overlayer.add(this)
+    overlayer.requestLayout
+
+    a := TweenAnimation() {
+      duration = 2000
+      AlphaAnimChannel {},
+    }
+    a.whenDone.add {
+      fadeout
+    }
+    a.run(this)
+  }
+
+  Void fadeout() {
+    a := TweenAnimation() {
+      duration = 2000
+      AlphaAnimChannel { from = 1f; to = 0f; },
+    }
+    a.whenDone.add {
+      hide
+    }
+    a.run(this)
+  }
+
+  Void hide()
+  {
+    WidgetGroup? p := parent
+    if (p == null) return
+
+    if (this.hasFocus) {
+      p.getRootView.focusIt(null)
+    }
+    p.remove(this)
+    p.requestPaint
+    p.getRootView.modal = false
+  }
+}

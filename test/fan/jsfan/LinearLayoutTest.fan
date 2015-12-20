@@ -18,13 +18,13 @@ class LinearLayoutTest : BaseTestWin
       //it.spacing = 20
       //it.padding = Insets(50)
       //it.vertical = false
-      it.layoutParam.margin = Insets(50)
+      it.margin = Insets(50)
       Button
       {
         it.id = "btn1"
         it.text = "btn1"
-        it.layoutParam.posX = 800f
-        it.layoutParam.posY = 500f
+        it.layoutParam.posX.offset = 800f
+        it.layoutParam.posY.offset = 500f
         it.layoutParam.widthType = SizeType.wrapContent
       },
       Button

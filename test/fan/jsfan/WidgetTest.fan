@@ -51,7 +51,7 @@ class WidgetTest : BaseTestWin
     Button btn := root.findById("button")
     btn.onAction.add
     {
-      MessageBox { it.label.text = "hello world" }.show(root)
+      Toast { it.text = "hello world" }.show(root)
     }
   }
 

@@ -38,7 +38,7 @@ internal class MenuList : LinearLayout
   new make()
   {
     spacing = 0f//(dpToPixel(10f))
-    layoutParam.margin = Insets(6)
+    margin = Insets(6)
   }
 }
 
@@ -121,13 +121,13 @@ class MenuItem : ButtonBase
       rc := this.posOnWindow(pos)
       if (parent is Menu)
       {
-        list.layoutParam.posX = pixelToDp(pos.x)
-        list.layoutParam.posY = pixelToDp(pos.y + this.height)
+        list.layoutParam.posX.offset = pixelToDp(pos.x)
+        list.layoutParam.posY.offset = pixelToDp(pos.y + this.height)
       }
       else
       {
-        list.layoutParam.posX = pixelToDp(pos.x + this.width)
-        list.layoutParam.posY = pixelToDp(pos.y)
+        list.layoutParam.posX.offset = pixelToDp(pos.x + this.width)
+        list.layoutParam.posY.offset = pixelToDp(pos.y)
       }
     }
 

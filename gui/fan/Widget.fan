@@ -73,6 +73,12 @@ abstract class Widget
   protected Bool layoutDirty := true
 
   Insets padding := Insets.defVal
+
+  **
+  ** out side bounder
+  **
+  Insets margin := Insets.defVal
+
   LayoutParam layoutParam := LayoutParam()
 
   @Transient
@@ -315,8 +321,8 @@ abstract class Widget
   **
   protected Dimension bufferedPrefSize(Dimension result) {
     size := prefSize(result)
-    return result.set(size.w+dpToPixel((layoutParam.margin.left + layoutParam.margin.right).toFloat)
-      , size.h+dpToPixel((layoutParam.margin.top + layoutParam.margin.bottom).toFloat))
+    return result.set(size.w+dpToPixel((margin.left + margin.right).toFloat)
+      , size.h+dpToPixel((margin.top + margin.bottom).toFloat))
   }
 
   **
@@ -371,11 +377,11 @@ abstract class Widget
   }
 
   Int bufferedWidth() {
-    width + dpToPixel((layoutParam.margin.left + layoutParam.margin.right).toFloat)
+    width + dpToPixel((margin.left + margin.right).toFloat)
   }
 
   Int bufferedHeight() {
-    height + dpToPixel((layoutParam.margin.top + layoutParam.margin.bottom).toFloat)
+    height + dpToPixel((margin.top + margin.bottom).toFloat)
   }
 
   Int paddingLeft() {
@@ -390,10 +396,10 @@ abstract class Widget
   ** layout the children
   **
   Void layout(Int x, Int y, Int w, Int h, Dimension result, Bool force) {
-    this.x = x + dpToPixel(layoutParam.margin.left.toFloat)
-    this.y = y + dpToPixel(layoutParam.margin.top.toFloat)
-    this.width = w - dpToPixel((layoutParam.margin.left + layoutParam.margin.right).toFloat)
-    this.height = h - dpToPixel((layoutParam.margin.top + layoutParam.margin.bottom).toFloat)
+    this.x = x + dpToPixel(margin.left.toFloat)
+    this.y = y + dpToPixel(margin.top.toFloat)
+    this.width = w - dpToPixel((margin.left + margin.right).toFloat)
+    this.height = h - dpToPixel((margin.top + margin.bottom).toFloat)
 
     printInfo("layout: x$this.x, y$this.y, w$this.width, h$this.height")
 

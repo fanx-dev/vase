@@ -35,6 +35,7 @@ class StyleManager
       MenuItem# : MenuItemStyle(),
       Menu# :  MenuStyle(),
       Switch# : SwitchStyle(),
+      Toast# : ToastStyle(),
     ]
     defStyle = WidgetStyle()
 

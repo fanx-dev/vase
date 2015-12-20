@@ -79,8 +79,8 @@ class ComboBox : ButtonBase
     pane.spacing = 0f
     pane.layoutParam.widthType = SizeType.fixed
     pane.layoutParam.widthVal = pixelToDp(this.width)
-    pane.layoutParam.posX = pixelToDp(pos.x)
-    pane.layoutParam.posY = pixelToDp(pos.y + height)
+    pane.layoutParam.posX.offset = pixelToDp(pos.x)
+    pane.layoutParam.posY.offset = pixelToDp(pos.y + height)
     pane.focus
 
     pane.onFocusChanged.add |e| {
