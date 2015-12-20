@@ -25,7 +25,7 @@ import org.lwjgl.LWJGLException;
 
 public class GlCanvasPeer extends CanvasPeer implements PaintListener
 {
-  private LwjglGlContext gl = new LwjglGlContext();
+  private FanGlContext gl = new FanGlContext();
 
   public static GlCanvasPeer make(GlCanvas self)
     throws Exception

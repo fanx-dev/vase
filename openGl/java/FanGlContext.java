@@ -21,7 +21,7 @@ import static org.lwjgl.opengl.GL21.*;
 import static org.lwjgl.opengl.GL30.*;
 import static org.lwjgl.opengl.GL31.*;
 
-class LwjglGlContext implements GlContext
+class FanGlContext implements GlContext
 {
 //////////////////////////////////////////////////////////////////////////
 // rename

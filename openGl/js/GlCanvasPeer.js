@@ -53,7 +53,7 @@ fan.fanvasOpenGl.GlCanvasPeer.prototype.initGL = function(canvas)
   try
   {
     var gl = canvas.getContext("experimental-webgl");
-    this.m_gl = new fan.fanvasOpenGl.WebGlContext();
+    this.m_gl = new fan.fanvasOpenGl.FanGlContext();
     this.m_gl.gl = gl;
     //lastGl = gl;
 

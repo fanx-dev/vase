@@ -575,6 +575,10 @@ abstract class Widget
   }
 
   static Bool debug() {
-    return Widget#.pod.config("debug", "false") == "true"
+    if (Env.cur.runtime != "js" && Toolkit.cur.name != "Android") {
+      return Widget#.pod.config("debug", "false") == "true"
+    } else {
+      return false
+    }
   }
 }

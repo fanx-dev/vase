@@ -14,6 +14,8 @@ class TableTest : BaseTestWin
   protected override Widget build() {
     Table { model = MyTableModel() }
   }
+
+  override Void main() { super.main }
 }
 
 @Js

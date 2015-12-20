@@ -55,4 +55,6 @@ class WidgetTest : BaseTestWin
     }
   }
 
+  override Void main() { super.main }
+
 }

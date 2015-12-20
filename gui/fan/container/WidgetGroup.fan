@@ -200,12 +200,10 @@ abstract class WidgetGroup : Widget
     paintChildren(g)
 
     //debug
-    if (Env.cur.runtime != "js" && Toolkit.cur.name != "Android") {
-      if (debug) {
-        g.brush = Color.black
-        g.drawLine(0, 0, width, height)
-        g.drawLine(width, 0, 0, height)
-      }
+    if (debug) {
+      g.brush = Color.black
+      g.drawLine(0, 0, width, height)
+      g.drawLine(width, 0, 0, height)
     }
   }
 

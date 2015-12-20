@@ -36,7 +36,7 @@ abstract class BaseTestWin
 
   protected RootView? root
 
-  Void main()
+  virtual Void main()
   {
     if (!initEnv) return
 
@@ -51,7 +51,7 @@ abstract class BaseTestWin
     echo(buf)
   }
 
-  protected abstract Widget build()
+  protected virtual Widget build() { return Label{ text = "Hello "} }
 
   protected virtual Void init(RootView root) { }
 }

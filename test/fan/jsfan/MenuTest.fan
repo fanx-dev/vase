@@ -56,4 +56,6 @@ class MenuTest : BaseTestWin
     view.layoutParam.widthVal = view.pixelToDp(600)
     view.layoutParam.heightVal = view.pixelToDp(600)
   }
+
+  override Void main() { super.main }
 }

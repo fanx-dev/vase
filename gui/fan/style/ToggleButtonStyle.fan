@@ -12,8 +12,8 @@ using fanvasWindow
 @Js
 class ToggleButtonStyle : WidgetStyle
 {
-  Pen outLinePen := Pen { width = dpToPixel(5f) }
-  Pen contectPen := Pen { width = dpToPixel(9f) }
+  Pen outLinePen := Pen { width = dpToPixel(6f) }
+  Pen contectPen := Pen { width = dpToPixel(15f) }
 
   new make() {
     foreground = Color(0x51d166)

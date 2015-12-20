@@ -27,37 +27,34 @@ class WinTest
 
   RootView build()
   {
-    view := RootView
+    root := RootView()
+    root.mainView = LinearLayout
     {
-        LinearLayout
-        {
-          padding = Insets(dpToPixel(40f))
-          spacing = dpToPixel(15f)
-          it.layoutParam.width = LayoutParam.matchParent
+      padding = Insets((40*2))
+      spacing = (15f*2)
 
-          Button { id = "button"; text = "Hello Button" },
-          ComboBox {
-            it.items = ["comboBox1","comboBox2","comboBox3","comboBox4"]
-            selectedIndex = 0
-          },
-          Label { id = "label"; text = "Label"; },
-          //ImageView { id = "image";  image = ConstImage(`fan://icons/x16/folder.png`) },
+      Button { id = "button"; text = "Hello Button" },
+      ComboBox {
+        it.items = ["comboBox1","comboBox2","comboBox3","comboBox4"]
+        selectedIndex = 0
+      },
+      Label { id = "label"; text = "Label"; },
+      //ImageView { id = "image";  image = ConstImage(`fan://icons/x16/folder.png`) },
 
-          Switch { text = "switch"; it.layoutParam.width = LayoutParam.matchParent },
-          ToggleButton { text = "checkBox"; it.layoutParam.width = LayoutParam.matchParent },
-          RadioButton { text = "radio1"; it.layoutParam.width = LayoutParam.matchParent },
-          RadioButton { text = "radio2"; it.layoutParam.width = LayoutParam.matchParent },
-          TextField { hint = "hint" },
-        },
+      Switch { text = "switch"; },
+      ToggleButton { text = "checkBox"; },
+      RadioButton { text = "radio1"; },
+      RadioButton { text = "radio2"; },
+      TextField { hint = "hint" },
     }
 
-    Button btn := view.findById("button")
+    Button btn := root.findById("button")
     btn.onAction.add
     {
-      MessageBox { it.label.text = "hello world" }.show(view)
+      MessageBox { it.label.text = "hello world" }.show(root)
     }
 
-    return view
+    return root
   }
 
 }

@@ -12,7 +12,7 @@ using fanvasArray
 ** Stub for native implementation of GlContext
 **
 @Js
-internal native class WebGlContext : GlContext
+internal native class FanGlContext : GlContext
 {
   override native Void bindTexture(GlEnum target, GlTexture? texture)
   override native Void bufferData(GlEnum target, ArrayBuffer data, GlEnum usage)

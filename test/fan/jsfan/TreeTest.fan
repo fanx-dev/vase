@@ -13,6 +13,8 @@ class TreeTest : BaseTestWin
   protected override Widget build() {
     TreeView { model = MyTreeModel() }
   }
+
+  override Void main() { super.main }
 }
 
 @Js

@@ -31,7 +31,7 @@ class GlDisplayPeer
     Display.setTitle("fan3d");
     Display.create();
 
-    gl = new LwjglGlContext();
+    gl = new FanGlContext();
     self.init(gl);
 
     while(true)

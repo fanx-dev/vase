@@ -194,7 +194,7 @@ class RootView : Pane, View
   }
 
   override Size getPrefSize(Int hintsWidth, Int hintsHeight) {
-    result := super.bufferedPrefSize(sharedDimension)
+    result := super.canonicalSize(hintsWidth, hintsHeight, sharedDimension)
     return Size(result.w, result.h)
   }
 
