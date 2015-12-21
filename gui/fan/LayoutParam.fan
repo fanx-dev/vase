@@ -142,13 +142,13 @@ class LayoutParam {
   ** Return hash of x and y.
   override Int hash() {
     Int hash := 17
-    hash += 31 * widthType.hash
-    hash += 31 * heightType.hash
-    hash += 31 * widthVal.hash
-    hash += 31 * heightVal.hash
-    hash += 31 * posX.hash
-    hash += 31 * posY.hash
-    hash += 31 * weight.hash
+    hash = 31 * hash + widthType.hash
+    hash = 31 * hash + heightType.hash
+    hash = 31 * hash + widthVal.hash
+    hash = 31 * hash + heightVal.hash
+    hash = 31 * hash + posX.hash
+    hash = 31 * hash + posY.hash
+    hash = 31 * hash + weight.hash
     return hash
   }
 
