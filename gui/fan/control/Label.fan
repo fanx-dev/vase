@@ -34,8 +34,8 @@ class Toast : Label {
 
   new make() {
     layoutParam.widthType = SizeType.wrapContent
-    layoutParam.posX.with { it.parent = 0.5f; it.anchor = -0.5f; it.offset = 0f }
-    layoutParam.posY.with { it.parent = 0.8f; it.anchor = -0.5f; it.offset = 0f }
+    layoutParam.posX.with { it.parent = 0.5f; it.anchor = 0.5f; it.offset = 0f }
+    layoutParam.posY.with { it.parent = 0.8f; it.anchor = 0.5f; it.offset = 0f }
     padding = Insets(40)
   }
 

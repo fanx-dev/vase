@@ -31,8 +31,8 @@ class FrameLayoutTest : BaseTestWin
       {
         it.text = "btn3"
         it.layoutParam.widthType = SizeType.wrapContent
-        it.layoutParam.posX.with { it.parent = 1.0f; it.anchor = -1f; it.offset = -20f }
-        it.layoutParam.posY.with { it.parent = 1.0f; it.anchor = -1f; it.offset = -200f }
+        it.layoutParam.posX.with { it.parent = 1.0f; it.anchor = 1f; it.offset = -20f }
+        it.layoutParam.posY.with { it.parent = 1.0f; it.anchor = 1f; it.offset = -200f }
         //it.layoutParam.hAlign = Align.end
         //it.layoutParam.posX = 20f
         //it.layoutParam.posY = 200f

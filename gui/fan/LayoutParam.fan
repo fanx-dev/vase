@@ -100,12 +100,12 @@ class LayoutParam {
   LayoutPosition posY := LayoutPosition()
 
   Int prefX(Widget w, Int parentWidth, Int selfWidth) {
-    Float x := (posX.parent * parentWidth) + (posX.anchor * selfWidth) + w.dpToPixel(posX.offset)
+    Float x := (posX.parent * parentWidth) - (posX.anchor * selfWidth) + w.dpToPixel(posX.offset)
     return x.toInt
   }
 
   Int prefY(Widget w, Int parentHeight, Int selfHeight) {
-    Float y:= (posY.parent * parentHeight) + (posY.anchor * selfHeight) + w.dpToPixel(posY.offset)
+    Float y:= (posY.parent * parentHeight) - (posY.anchor * selfHeight) + w.dpToPixel(posY.offset)
     return y.toInt
   }
 
