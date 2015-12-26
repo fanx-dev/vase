@@ -99,6 +99,16 @@ class LayoutParam {
   **
   LayoutPosition posY := LayoutPosition()
 
+  **
+  ** vertical Alignment
+  **
+  Align vAlign := Align.begin
+
+  **
+  ** horizontal Alignment
+  **
+  Align hAlign := Align.begin
+
   Int prefX(Widget w, Int parentWidth, Int selfWidth) {
     Float x := (posX.parent * parentWidth) - (posX.anchor * selfWidth) + w.dpToPixel(posX.offset)
     return x.toInt

@@ -36,6 +36,7 @@ class StyleManager
       Menu# :  MenuStyle(),
       Switch# : SwitchStyle(),
       Toast# : ToastStyle(),
+      ImageButton# : ImageButtonStyle()
     ]
     defStyle = WidgetStyle()
 

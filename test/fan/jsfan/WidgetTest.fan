@@ -29,12 +29,13 @@ class WidgetTest : BaseTestWin
         selectedIndex = 0
       },
       Label { id = "label"; text = "Label"; },
-      ImageView { id = "image";  uri = (`fan://icons/x16/folder.png`) },
+      ImageView { id = "image";  uri = (`fan://icons/x64/check.png`) },
       TextField { hint = "hint" },
       Switch { text = "switch" },
       ToggleButton { text = "checkBox" },
       RadioButton { text = "radio1" },
       RadioButton { text = "radio2" },
+      ImageButton { id = "imageButton"; uri = `fan://icons/x64/sync.png` }
     }
   }
 
@@ -50,6 +51,12 @@ class WidgetTest : BaseTestWin
 
     Button btn := root.findById("button")
     btn.onAction.add
+    {
+      Toast { it.text = "hello world" }.show(root)
+    }
+
+    ButtonBase btn2 := root.findById("imageButton")
+    btn2.onAction.add
     {
       Toast { it.text = "hello world" }.show(root)
     }

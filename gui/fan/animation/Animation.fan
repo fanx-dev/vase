@@ -81,10 +81,11 @@ class Animation
     Float percent := this.elapsedTime / this.duration.toFloat
     updateChannel(percent)
   }
-  
+
   private Void updateChannel(Float percent) {
     for (i:=0; i<this.channelList.size; ++i) {
-      this.channelList[i]->update(this.elapsedTime, percent, this.blendWeight)
+      channel := this.channelList[i]
+      channel.update(this.elapsedTime, percent, this.blendWeight)
     }
   }
 }

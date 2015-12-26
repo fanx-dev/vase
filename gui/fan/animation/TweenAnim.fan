@@ -66,7 +66,7 @@ class TransAnimChannel : TweenAnimChannel {
     lastX = x
     lastY = y
     //echo("dx$dx,dy$dy,lx$lastX,ly$lastY")
-    widget.transform.translate(dx, dy)
+    widget?.transform?.translate(dx, dy)
   }
 }
 
@@ -93,7 +93,7 @@ class ScaleAnimChannel : TweenAnimChannel {
     x := widget.width /2.0f
     y := widget.height /2.0f
     lastScale = scale
-    widget.transform.scale(x, y, dscale, dscale)
+    widget?.transform?.scale(x, y, dscale, dscale)
     //echo("x$x,y$y")
     //widget.transform.matrix = Transform2D.makeScale(0f, 100f, scale, scale)
   }
