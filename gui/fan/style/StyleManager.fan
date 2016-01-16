@@ -36,7 +36,8 @@ class StyleManager
       Menu# :  MenuStyle(),
       Switch# : SwitchStyle(),
       Toast# : ToastStyle(),
-      ImageButton# : ImageButtonStyle()
+      ImageButton# : ImageButtonStyle(),
+      ProgressView# : ProgressViewStyle()
     ]
     defStyle = WidgetStyle()
 

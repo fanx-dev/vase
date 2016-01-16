@@ -124,7 +124,7 @@ abstract class WidgetGroup : Widget
   **
   ** layout the children
   **
-  abstract override Void layoutChildren(Dimension result, Bool force);
+  abstract protected override Void layoutChildren(Dimension result, Bool force);
 
   **
   ** get the prefer content size
@@ -194,7 +194,7 @@ abstract class WidgetGroup : Widget
 // Paint
 //////////////////////////////////////////////////////////////////////////
 
-  override Void doPaint(Graphics g)
+  protected override Void doPaint(Graphics g)
   {
     super.doPaint(g)
     paintChildren(g)
