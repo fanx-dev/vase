@@ -74,6 +74,8 @@ class LayoutParam {
   SizeType widthType := SizeType.matchParent
   SizeType heightType := SizeType.wrapContent
 
+  Bool ignore := false
+
   **
   ** width of widget
   **

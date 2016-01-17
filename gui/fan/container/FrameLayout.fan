@@ -24,14 +24,16 @@ class Pane : WidgetGroup
 
     this.each |Widget c|
     {
-      size := c.canonicalSize(hintsW, hintsH, result)
-      posX := c.layoutParam.prefX(this, hintsW, size.w)
-      posY := c.layoutParam.prefY(this, hintsH, size.h)
+      if (!c.layoutParam.ignore) {
+        size := c.canonicalSize(hintsW, hintsH, result)
+        posX := c.layoutParam.prefX(this, hintsW, size.w)
+        posY := c.layoutParam.prefY(this, hintsH, size.h)
 
-      cx := x + posX
-      cy := y + posY
+        cx := x + posX
+        cy := y + posY
 
-      c.layout(cx, cy, size.w, size.h, result, force)
+        c.layout(cx, cy, size.w, size.h, result, force)
+      }
     }
   }
 
@@ -40,21 +42,23 @@ class Pane : WidgetGroup
     Int maxY := 0
     this.each |c|
     {
-      size := c.bufferedPrefSize(result)
-      x := size.w
-      y := size.h
+      if (!c.layoutParam.ignore) {
+        size := c.bufferedPrefSize(result)
+        x := size.w
+        y := size.h
 
-      offsetX := dpToPixel(c.layoutParam.posX.offset)
-      offsetY := dpToPixel(c.layoutParam.posY.offset)
-      if (offsetX > 0) {
-        x += offsetX
-      }
-      if (offsetY >0) {
-        y += offsetY
-      }
+        offsetX := dpToPixel(c.layoutParam.posX.offset)
+        offsetY := dpToPixel(c.layoutParam.posY.offset)
+        if (offsetX > 0) {
+          x += offsetX
+        }
+        if (offsetY >0) {
+          y += offsetY
+        }
 
-      if (maxX < x) maxX = x
-      if (maxY < y) maxY = y
+        if (maxX < x) maxX = x
+        if (maxY < y) maxY = y
+      }
     }
 
     //echo("$maxX, $maxY")

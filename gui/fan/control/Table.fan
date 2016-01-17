@@ -32,7 +32,7 @@ class Table : ScrollBase
   new make(|This|? f := null)
   {
     if (f != null) f(this)
-    this.add(header)
+    doAdd(header)
   }
 
   private Void init() {
@@ -70,15 +70,15 @@ class Table : ScrollBase
     return result.set(w, h)
   }
 
-  protected override Int contentMaxHeight(Dimension result) {
+  protected override Float contentMaxHeight(Dimension result) {
     t := model.numRows * dpToPixel(rowHeight)
     //echo("contentMaxHeight$t")
-    return t
+    return t.toFloat
   }
-  protected override Int viewportHeight() {
+  protected override Float viewportHeight() {
     t := super.viewportHeight - dpToPixel(rowHeight)
     //echo("viewportHeight$t, headerHeight$headerHeight, super.viewportHeight$super.viewportHeight")
-    return t
+    return t.toFloat
   }
 }
 

@@ -34,6 +34,7 @@ class ScrollBarStyle : WidgetStyle
     if (bar.vertical)
     {
       g.fillRect(left, top+pos, widget.contentWidth, thumb)
+      //echo("doPaint: $left, ${top+pos}, $widget.contentWidth, $thumb")
     }
     else
     {
@@ -43,7 +44,7 @@ class ScrollBarStyle : WidgetStyle
 }
 
 @Js
-class SeekBarStyle : WidgetStyle
+class SliderBarStyle : WidgetStyle
 {
   //Float size := (100f)
   Float width := (16f)

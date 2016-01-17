@@ -16,9 +16,9 @@ class SeekBarTest : BaseTestWin
     {
       it.id = "mainView"
       it.margin = Insets(100)
-      SeekBar {
+      SliderBar {
         it.id = "seekBar"
-        it.curPos = 10f
+        it.setCurPos(10f, false)
       },
     }
   }

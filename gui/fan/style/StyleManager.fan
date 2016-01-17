@@ -25,7 +25,7 @@ class StyleManager
       ToggleButton# : ToggleButtonStyle(),
       RadioButton# : RadioButtonStyle(),
       ScrollBar# : ScrollBarStyle(),
-      SeekBar# : SeekBarStyle(),
+      SliderBar# : SliderBarStyle(),
       MessageBox# : MessageBoxStyle(),
       ComboBox# : ComboBoxStyle(),
       ButtonBase# : ButtonBaseStyle(),

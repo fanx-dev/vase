@@ -13,10 +13,10 @@ using fanvasWindow
 abstract class ScrollBase : Pane
 {
   @Transient
-  ScrollBar hbar
+  protected ScrollBar hbar
 
   @Transient
-  ScrollBar vbar
+  protected ScrollBar vbar
 
   @Transient
   virtual Int offsetX := 0
@@ -31,10 +31,10 @@ abstract class ScrollBase : Pane
   new make()
   {
     //scroll bar
-    hbar = ScrollBar { vertical = false; it.barSize = this.barSize }
-    vbar = ScrollBar { vertical = true; it.barSize = this.barSize }
+    hbar = ScrollBar { vertical = false; it.barSize = this.barSize; it.layoutParam.ignore = true }
+    vbar = ScrollBar { vertical = true; it.barSize = this.barSize; it.layoutParam.ignore = true }
 
-    hbar.onStateChanged.add |StateChangedEvent e|
+    hbar.onPosChanged.add |StateChangedEvent e|
     {
       if (e.field == ScrollBar#curPos)
       {
@@ -53,7 +53,7 @@ abstract class ScrollBase : Pane
         this.requestPaint
       }
     }
-    vbar.onStateChanged.add |StateChangedEvent e|
+    vbar.onPosChanged.add |StateChangedEvent e|
     {
       if (e.field == ScrollBar#curPos)
       {
@@ -73,45 +73,37 @@ abstract class ScrollBase : Pane
       }
     }
 
-    this.add(hbar)
-    this.add(vbar)
+    doAdd(hbar)
+    doAdd(vbar)
     layoutParam.heightType = SizeType.matchParent
     layoutParam.widthType = SizeType.matchParent
     padding = Insets(0, barSize.toInt, barSize.toInt, 0)
   }
 
-  protected virtual Int viewportWidth() { contentWidth }
+  protected Void doAdd(Widget? child) { super.add(child) }
 
-  protected virtual Int viewportHeight() { contentHeight }
+  protected virtual Float viewportWidth() { contentWidth.toFloat }
 
-  private Dimension wrapContentSize(Int hintsWidth, Int hintsHeight, Dimension result) {
-    s := prefContentSize(result)
-    return s
+  protected virtual Float viewportHeight() { contentHeight.toFloat }
+
+  protected virtual Float contentMaxWidth(Dimension result) {
+    bs := prefContentSize(result)
+    return bs.w.toFloat
   }
 
-  protected virtual Int contentMaxWidth(Dimension result) {
-    bs := this.wrapContentSize(this.contentWidth, this.contentHeight, result)
-    return bs.w
+  protected virtual Float contentMaxHeight(Dimension result) {
+    bs := prefContentSize(result)
+    return bs.h.toFloat
   }
 
-  protected virtual Int contentMaxHeight(Dimension result) {
-    bs := this.wrapContentSize(this.contentWidth, this.contentHeight, result)
-    return bs.h
-  }
-
-  override Void layoutChildren(Dimension result, Bool force)
-  {
-    this.remove(hbar)
-    this.remove(vbar)
-    super.layoutChildren(result, force)
-
+  private Void layoutScroolBar(Dimension result) {
     barSize := dpToPixel(this.barSize)
     hbar.width = contentWidth + (barSize)
     hbar.height = (barSize)
     hbar.x = paddingLeft
     hbar.y = height-barSize
-    hbar.max = contentMaxWidth(result).toFloat
-    hbar.viewport = viewportWidth.toFloat
+    hbar.max = contentMaxWidth(result)
+    hbar.viewport = viewportWidth
 
     //echo("size$size, getContentHeight$getContentHeight, padding$padding")
     if (hbar.max <= hbar.viewport)
@@ -130,8 +122,8 @@ abstract class ScrollBase : Pane
     vbar.height = contentHeight
     vbar.x = width-barSize
     vbar.y = paddingTop
-    vbar.max = contentMaxHeight(result).toFloat
-    vbar.viewport = viewportHeight.toFloat
+    vbar.max = contentMaxHeight(result)
+    vbar.viewport = viewportHeight
 
     if (vbar.max <= vbar.viewport)
     {
@@ -147,16 +139,30 @@ abstract class ScrollBase : Pane
 
     //offset children
     if (autoAdjustChildren) {
-      adjustChildren
+      adjustContent
     }
-    this.add(hbar)
-    this.add(vbar)
 
-    //echo("x$hbar.x,y$hbar.y")
   }
 
-  protected virtual Void adjustChildren() {
-    each {
+  override Void layoutChildren(Dimension result, Bool force)
+  {
+    hbar.detach
+    vbar.detach
+
+    layoutContent(result, force)
+
+    layoutScroolBar(result)
+
+    doAdd(hbar)
+    doAdd(vbar)
+  }
+
+  protected virtual Void layoutContent(Dimension result, Bool force) {
+    super.layoutChildren(result, force)
+  }
+
+  protected virtual Void adjustContent() {
+    this.each {
       it.x = it.x - offsetX
       it.y = it.y - offsetY
     }
@@ -171,7 +177,8 @@ abstract class ScrollBase : Pane
 
     if (e.type == MotionEvent.wheel && e.delta != null)
     {
-      vbar.curPos += e.delta * dpToPixel(80f)
+      pos := vbar.curPos + e.delta * dpToPixel(80f)
+      vbar.setCurPos(pos, true)
       vbar.requestPaint
       e.consume
     }

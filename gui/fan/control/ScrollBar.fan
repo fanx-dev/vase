@@ -28,33 +28,32 @@ class ScrollBar : Widget
   **
   ** start position at content
   **
-  Float curPos := 0f
-  {
-    set
-    {
-      val := it
-      if (it + viewport > max)
-      {
-        val = max - viewport
-      }
-      else if (it < 0f)
-      {
-        val = 0f
-      }
-      else
-      {
-        val = it
-      }
+  Float curPos := 0f { private set }
 
-      if (&curPos == val) return
-      &curPos = val
-      e := StateChangedEvent (&curPos, val, #curPos, this )
-      onStateChanged.fire(e)
-      onChanged.fire(e)
+  Void setCurPos(Float pos, Bool fireEvent) {
+    val := pos
+    if (pos + viewport > max)
+    {
+      val = max - viewport
+    }
+    else if (pos < 0f)
+    {
+      val = 0f
+    }
+
+    if (curPos == val) return
+    curPos = val
+    //echo("curPos:$curPos")
+
+    e := StateChangedEvent (&curPos, val, #curPos, this )
+    onStateChanged.fire(e)
+
+    if (fireEvent) {
+      onPosChanged.fire(e)
     }
   }
 
-  once EventListeners onChanged() { EventListeners() }
+  once EventListeners onPosChanged() { EventListeners() }
 
   **
   ** is vertical
@@ -164,11 +163,13 @@ class ScrollBar : Widget
     {
       if (vertical)
       {
-        curPos = toWorldCoord((p.y - lastY).toFloat) + curPos
+        pos := toWorldCoord((p.y - lastY).toFloat) + curPos
+        setCurPos(pos, true)
       }
       else
       {
-        curPos = toWorldCoord((p.x - lastX).toFloat) + curPos
+        pos := toWorldCoord((p.x - lastX).toFloat) + curPos
+        setCurPos(pos, true)
       }
       //echo("=====>$curPos")
       lastX = p.x
@@ -183,7 +184,7 @@ class ScrollBar : Widget
 ** An implementation base scroll bar.
 **
 @Js
-class SeekBar : ScrollBar
+class SliderBar : ScrollBar
 {
   new make() : super.make(|i|{ i.vertical = false; i.barSize = 120f })
   {

@@ -13,7 +13,11 @@ using fanvasMath
 @Js
 class ListView : ScrollBase
 {
-  Float rowHeight := 120f
+  @Transient
+  private Float rowHeight := 100f
+
+  @Transient
+  private Widget[] tempChildren := [,]
 
   @Transient
   ListAdapter? model {
@@ -23,66 +27,76 @@ class ListView : ScrollBase
   new make(|This|? f := null)
   {
     if (f != null) f(this)
+    layoutParam.heightType = SizeType.matchParent
   }
 
   private Void init() {
   }
 
+  protected override Float viewportHeight() {
+    contentHeight.toFloat
+  }
+
+  protected override Float contentMaxHeight(Dimension result) {
+    t := model.size * rowHeight
+    return t.toFloat
+  }
+
   protected override Dimension prefContentSize(Dimension result) {
-    result = super.prefContentSize(result)
-    result.h = model.size * dpToPixel(rowHeight)
-    return result
+    //r := super.prefContentSize(result)
+    return result.set(dpToPixel(200f), dpToPixel(400f))
   }
 
-  protected override Int contentMaxHeight(Dimension result) {
-    t := model.size * dpToPixel(rowHeight)
-    return t
-  }
-
-  Widget getView(Int i) {
+  protected Widget getView(Int i) {
     item := model.getItem(i)
     return item.view
   }
 
   protected override Void paintChildren(Graphics g) {
+    result := Dimension(-1, -1)
+    layoutItem(result)
+
+    vbar.viewport = viewportHeight
+    vbar.max = contentMaxHeight(result)
+
+    moveToTop(vbar)
+    moveToTop(hbar)
+    super.paintChildren(g)
+  }
+
+  protected virtual Void layoutItem(Dimension result) {
     x := paddingTop
     y := paddingLeft
     w := width
     h := height
 
-    result := Dimension(-1, -1)
-    Int i := offsetY
+    Int i := (offsetY / rowHeight).toInt
+    Int topOffset := offsetY - (i * rowHeight).toInt
+    y -= topOffset
+
+    tempChildren.each { it.detach }
+    tempChildren.clear
+
+    Int count := 0
     for (; i< model.size; ++i)
     {
       view := getView(i)
-      add(view)
+      tempChildren.add(view)
+      view.layoutParam.ignore = true
+      doAdd(view)
+      ++count
 
       itemH := view.bufferedPrefSize(result).h
       view.layout(x, y, w, itemH, result, false)
       y += itemH
-
-      if (view.visible)
-      {
-        g.push
-        //g.clip(it.bounds)
-        g.transform(Transform2D.make.translate(view.x.toFloat, view.y.toFloat))
-        view.paint(g)
-        g.pop
-      }
-
-      view.detach
+      rowHeight = itemH.toFloat
 
       if (y > h) {
         break
       }
     }
+
     model.flush
-
-    super.paintChildren(g)
-  }
-
-  override Void layoutChildren(Dimension result, Bool force) {
-    super.layoutChildren(result, force)
   }
 }
 

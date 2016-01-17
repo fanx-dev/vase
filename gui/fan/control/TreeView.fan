@@ -44,7 +44,7 @@ class TreeView : ScrollBase
     if (f != null) f(this)
   }
 
-  protected override Int contentMaxWidth(Dimension result) {
+  protected override Float contentMaxWidth(Dimension result) {
     Int w := dpToPixel(minWidth)
     Int indent := dpToPixel(this.indent)
     items.each {
@@ -53,7 +53,7 @@ class TreeView : ScrollBase
         w = x
       }
     }
-    return w
+    return w.toFloat
   }
 
   protected override Dimension prefContentSize(Dimension result) {
