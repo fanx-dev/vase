@@ -12,7 +12,7 @@ using fanvasWindow
 @Js
 class ProgressViewStyle : WidgetStyle {
   override Void doPaint(Widget widget, Graphics g) {
-    p := widget
+    ProgressView p := widget
     Int w := widget.contentWidth
     Int h := widget.contentHeight
     top := widget.paddingTop
@@ -22,8 +22,14 @@ class ProgressViewStyle : WidgetStyle {
     g.brush = outlineColor
     g.pen = Pen { it.width = width }
 
-    for (i:=0; i<360; i+=30) {
+    Int i := p.proVal.toInt
+    for (; i<=360; i+=30) {
       g.drawArc(top, left, w, h, i, 5)
+    }
+
+    p.proVal += 1
+    if (p.proVal > 30f) {
+      p.proVal -= 30f
     }
   }
 }

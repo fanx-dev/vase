@@ -14,8 +14,16 @@ using fanvasWindow
 @Js
 class ProgressView : Widget
 {
+  internal Float proVal := 0f
+
   new make() {
     padding = Insets(50)
     layoutParam.widthType = SizeType.wrapContent
+    useRenderCache = false
+  }
+
+  protected override Void doPaint(Graphics g) {
+    super.doPaint(g)
+    requestPaint
   }
 }
