@@ -78,6 +78,10 @@ class ListView : ScrollBase
     tempChildren.clear
 
     Int count := 0
+    if (i < 0) {
+      y += (-i * rowHeight.toInt)
+      i = 0
+    }
     for (; i< model.size; ++i)
     {
       view := getView(i)

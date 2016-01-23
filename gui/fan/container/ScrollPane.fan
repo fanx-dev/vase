@@ -28,6 +28,9 @@ abstract class ScrollBase : Pane
 
   Bool autoAdjustChildren := false
 
+  @Transient
+  private Animation? animation
+
   new make()
   {
     //scroll bar
@@ -181,6 +184,57 @@ abstract class ScrollBase : Pane
       vbar.setCurPos(pos, true)
       vbar.requestPaint
       e.consume
+    }
+    else if (e.type == MotionEvent.pressed) {
+      if (animation != null) {
+        animation.stop
+      }
+    }
+  }
+
+  private Void startAnimation(Animation anim) {
+    if (animation != null) {
+      animation.stop
+    }
+    getRootView.animManager.add(anim)
+    anim.start
+    animation = anim
+  }
+
+  private Void animatOverScroll() {
+    if (vbar.isOverScroll) {
+      anim := Animation {
+        duration = 2000
+        OverScrollAnimChannel { target = vbar; startV = 0f },
+      }
+      startAnimation(anim)
+    }
+  }
+
+  protected override Void gestureEvent(GestureEvent e) {
+    super.gestureEvent(e)
+    if (e.consumed) return
+
+    if (e.type == GestureEvent.drag) {
+      pos := vbar.curPos - (e.deltaY)
+      vbar.setCurPos(pos, true, true)
+      vbar.requestPaint
+      e.consume
+    }
+    else if (e.type == GestureEvent.fling) {
+      if (vbar.isOverScroll) {
+        animatOverScroll
+      } else {
+        anim := Animation {
+          duration = 2000
+          ScrollAnimChannel { target = vbar; startV = e.speedY.toFloat },
+        }
+        startAnimation(anim)
+      }
+      vbar.requestPaint
+    }
+    else if (e.type == GestureEvent.drop) {
+      animatOverScroll
     }
   }
 

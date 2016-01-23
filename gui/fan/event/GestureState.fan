@@ -23,7 +23,8 @@ abstract class GestureState
     ge.y = e.y
     ge.pressure = e.pressure
     ge.size = e.size
-    ge.speed = e.speed
+    ge.speedX = e.speed
+    ge.speedY = e.speed
     ge.rawEvent = e
     return ge
   }
@@ -198,8 +199,8 @@ class DragState : GestureState {
   }
 
   Bool asFling(MotionEvent e) {
-    Int elapsedTime := Duration.nowTicks - beginTime
-    if (elapsedTime > 1000) return false
+    Int elapsedTime := (Duration.nowTicks - beginTime) / 1000_000
+    //if (elapsedTime > 1000) return false
     dx := e.x - beginX
     dy := e.y - beginY
     distance := (dx*dx + dy*dy).toFloat.sqrt
@@ -211,7 +212,8 @@ class DragState : GestureState {
       if (click) {
         ge.flag = 1
       }
-      ge.speed = elapsedTime / distance
+      ge.speedX = dx.toFloat / elapsedTime
+      ge.speedY = dy.toFloat / elapsedTime
       machine.onGestureEvent.fire(ge)
       e.consume
       machine.onFinished(e)
@@ -241,6 +243,9 @@ class DragState : GestureState {
       if (asFling(e)) {
         return
       }
+      ge := makeEvent(e, GestureEvent.drop)
+      machine.onGestureEvent.fire(ge)
+      e.consume
       machine.onFinished(e)
     } else {
       machine.onFinished(e)

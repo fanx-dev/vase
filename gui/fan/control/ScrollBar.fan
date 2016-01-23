@@ -30,15 +30,26 @@ class ScrollBar : Widget
   **
   Float curPos := 0f { private set }
 
-  Void setCurPos(Float pos, Bool fireEvent) {
-    val := pos
-    if (pos + viewport > max)
-    {
-      val = max - viewport
+  Bool isOverScroll() {
+    if (curPos + viewport > max) {
+      return true
     }
-    else if (pos < 0f)
-    {
-      val = 0f
+    else if (curPos < 0f) {
+      return true
+    }
+    return false
+  }
+
+  Void setCurPos(Float pos, Bool fireEvent, Bool allowOverScroll := false) {
+    val := pos
+
+    if (!allowOverScroll) {
+      if (pos + viewport > max) {
+        val = max - viewport
+      }
+      else if (pos < 0f) {
+        val = 0f
+      }
     }
 
     if (curPos == val) return

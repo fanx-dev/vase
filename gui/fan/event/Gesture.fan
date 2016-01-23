@@ -15,7 +15,8 @@ class GestureEvent : Event {
   const static Int fling := 3
   const static Int doubleClick := 4
   const static Int drag := 5
-  const static Int multiTouch := 6
+  const static Int drop := 6
+  const static Int multiTouch := 7
 
   **
   ** X coordinates
@@ -50,7 +51,9 @@ class GestureEvent : Event {
   **
   ** pixel move per millisecond
   **
-  Float? speed
+  Float? speedX
+
+  Float? speedY
 
   Int? relativeX
   Int? relativeY
