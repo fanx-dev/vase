@@ -71,7 +71,7 @@ class FanGlContext implements GlContext
 
   public long getShaderParameter(GlShader shader, GlEnum pname)
   {
-    return glGetShader(shader.peer.getValue(), (int)pname.val);
+    return glGetShaderi(shader.peer.getValue(), (int)pname.val);
   }
 
   public String getShaderInfoLog(GlShader shader)
@@ -81,7 +81,7 @@ class FanGlContext implements GlContext
 
   public long getProgramParameter(GlProgram program, GlEnum pname)
   {
-    return glGetProgram(program.peer.getValue(), (int)pname.val);
+    return glGetProgrami(program.peer.getValue(), (int)pname.val);
   }
 
   public void uniformMatrix4fv(GlUniformLocation location, boolean transpose, ArrayBuffer value)
@@ -89,7 +89,7 @@ class FanGlContext implements GlContext
     java.nio.Buffer d = value.peer.getValue();
     if (d instanceof java.nio.FloatBuffer)
     {
-      glUniformMatrix4(location.peer.getValue(), transpose, (java.nio.FloatBuffer)d);
+      glUniformMatrix4fv(location.peer.getValue(), transpose, (java.nio.FloatBuffer)d);
     }
     else
     {
