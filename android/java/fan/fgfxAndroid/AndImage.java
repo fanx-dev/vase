@@ -13,9 +13,8 @@ import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
 import android.graphics.Canvas;
 import fan.fanvasGraphics.*;
-import fan.sys.MimeType;
-import fan.sys.OutStream;
-import fan.sys.UnsupportedErr;
+import fan.sys.*;
+import fan.std.*;
 import fanx.interop.Interop;
 
 public class AndImage  implements BufImage {
@@ -53,7 +52,7 @@ public class AndImage  implements BufImage {
     OutputStream jout = Interop.toJava(out);
 
       CompressFormat swtFormat = Bitmap.CompressFormat.PNG;
-      String subType = format.subType();
+      String subType = format.subType;
       if (subType.equals("png")) swtFormat = Bitmap.CompressFormat.PNG;
       else if (subType.equals("jpeg")) swtFormat = Bitmap.CompressFormat.JPEG;
       else if (subType.equals("jpg")) swtFormat = Bitmap.CompressFormat.JPEG;

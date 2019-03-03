@@ -37,7 +37,7 @@ public class WtkGfxEnv extends GfxEnv {
 
   @Override
   public Image fromUri(Uri uri, Func onLoad) {
-    if (uri.scheme.equals("http")) {
+    if ("http".equals(uri.scheme)) {
       onLoad = (Func) onLoad.toImmutable();
       WtkImage p = new WtkImage();
       loadFromWeb(p, uri, onLoad);
@@ -101,7 +101,7 @@ public class WtkGfxEnv extends GfxEnv {
   public ConstImage makeConstImage(Uri uri) {
     InputStream jin;
 
-    if (uri.scheme.equals("http")) {
+    if ("http".equals(uri.scheme)) {
       try {
         URL requestUrl = new URL(uri.toStr());
         URLConnection con = requestUrl.openConnection();

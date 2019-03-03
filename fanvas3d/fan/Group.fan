@@ -10,7 +10,7 @@ using fanvasMath
 
 
 @Js
-class Node
+virtual class Node
 {
   Transform3D? transform
   Program? program

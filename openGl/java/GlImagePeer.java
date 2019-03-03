@@ -15,7 +15,7 @@ import javax.imageio.ImageIO;
 import java.awt.image.*;
 
 import org.lwjgl.BufferUtils;
-
+import fanx.interop.Interop;
 
 class GlImagePeer
 {
@@ -27,7 +27,7 @@ class GlImagePeer
 
   public void load(GlImage self, Func f)
   {
-    InputStream in = SysInStream.java(self.uri.toFile().in());
+    InputStream in = Interop.toJava(self.uri.toFile().in());
     BufferedImage bimage;
     try
     {

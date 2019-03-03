@@ -6,7 +6,7 @@
 //   2011-5-31  Jed Young  Creation
 //
 
-package fan.fanvasArray;
+package fan.fanvasOpenGl;
 
 import fan.sys.*;
 

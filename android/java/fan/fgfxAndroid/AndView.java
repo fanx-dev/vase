@@ -89,7 +89,7 @@ public class AndView extends View implements NativeView {
   // ////////////////////////////////////////////////////////////////////////
 
   static fan.fanvasWindow.MotionEvent andToFan(MotionEvent event) {
-    List pointers = List.make(fan.fanvasWindow.MotionEvent.$Type, event.getPointerCount());
+    List pointers = List.make(event.getPointerCount(), fan.fanvasWindow.MotionEvent.$Type);
     for (int i = 0, n = event.getPointerCount(); i < n; ++i) {
       pointers.add(getMotionPointer(event, i));
     }

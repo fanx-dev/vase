@@ -7,10 +7,10 @@
 //
 
 **
-** GlIndex is a int value. like a resource handle.
+** GlHandle is a int value. like a resource handle.
 **
 @Js
-const class GlIndex { internal native Obj? val() }
+const virtual class GlHandle { internal native Obj? val() }
 
 **
 ** The Buffer interface represents an OpenGL Buffer Object.
@@ -19,7 +19,7 @@ const class GlIndex { internal native Obj? val() }
 ** destroyed as if by calling glDeleteBuffers (OpenGL ES 2.0 §2.9, man page) .
 **
 @Js
-const class GlBuffer : GlIndex {}
+const class GlBuffer : GlHandle {}
 
 **
 ** The WebGLFramebuffer interface represents an OpenGL Framebuffer Object.
@@ -28,7 +28,7 @@ const class GlBuffer : GlIndex {}
 ** and destroyed as if by calling glDeleteFramebuffers (OpenGL ES 2.0 §4.4.1, man page) .
 **
 @Js
-const class GlFramebuffer : GlIndex {}
+const class GlFramebuffer : GlHandle {}
 
 **
 ** The WebGLRenderbuffer interface represents an OpenGL Renderbuffer Object.
@@ -37,7 +37,7 @@ const class GlFramebuffer : GlIndex {}
 ** and destroyed as if by calling glDeleteRenderbuffers (OpenGL ES 2.0 §4.4.3, man page) .
 **
 @Js
-const class GlRenderbuffer : GlIndex {}
+const class GlRenderbuffer : GlHandle {}
 
 **
 ** The Program interface represents an OpenGL Program Object.
@@ -46,7 +46,7 @@ const class GlRenderbuffer : GlIndex {}
 ** destroyed as if by calling glDeleteProgram (OpenGL ES 2.0 §2.10.3, man page) .
 **
 @Js
-const class GlProgram : GlIndex {}
+const class GlProgram : GlHandle {}
 
 **
 ** The Shader interface represents an OpenGL Shader Object.
@@ -55,13 +55,13 @@ const class GlProgram : GlIndex {}
 ** destroyed as if by calling glDeleteShader (OpenGL ES 2.0 §2.10.1, man page) .
 **
 @Js
-const class GlShader : GlIndex {}
+const class GlShader : GlHandle {}
 
 **
 ** The UniformLocation interface represents the location of a uniform variable in a shader program.
 **
 @Js
-const class GlUniformLocation : GlIndex {}
+const class GlUniformLocation : GlHandle {}
 
 **
 ** The WebGLTexture interface represents an OpenGL Texture Object.
@@ -70,7 +70,8 @@ const class GlUniformLocation : GlIndex {}
 ** and destroyed as if by calling glDeleteTextures (OpenGL ES 2.0 §3.7.13, man page) .
 **
 @Js
-const class GlTexture : GlIndex {}
+const class GlTexture : GlHandle {}
 
 @Js
-const class GlActiveInfo : GlIndex {}
+const class GlActiveInfo : GlHandle {}
+

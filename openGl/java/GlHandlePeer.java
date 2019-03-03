@@ -9,13 +9,13 @@
 package fan.fanvasOpenGl;
 
 
-class GlIndexPeer
+class GlHandlePeer
 {
   private int value;
 
-  public static GlIndexPeer make(GlIndex self){ return new GlIndexPeer(); }
+  public static GlHandlePeer make(GlHandle self){ return new GlHandlePeer(); }
 
-  public Object val(GlIndex self){ return value; }
+  public Object val(GlHandle self){ return value; }
 
   public int getValue(){ return value; }
   public void setValue(int v){ value = v; }

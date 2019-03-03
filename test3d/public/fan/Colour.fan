@@ -10,7 +10,6 @@
 using fanvasOpenGl
 using fanvasMath
 using fanvasMath::Transform3D as Transform
-using fanvasArray
 
 **
 ** fan D:/code/Hg/fan3d/jsTest/fan/jsfan/Colour.fan

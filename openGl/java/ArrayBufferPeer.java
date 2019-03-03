@@ -6,10 +6,11 @@
 //   2011-5-31  Jed Young  Creation
 //
 
-package fan.fanvasArray;
+package fan.fanvasOpenGl;
 
 import fan.sys.*;
 import java.nio.*;
+import fan.std.*;
 
 public class ArrayBufferPeer
 {

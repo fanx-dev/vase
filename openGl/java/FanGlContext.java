@@ -9,7 +9,6 @@
 package fan.fanvasOpenGl;
 
 import fan.sys.*;
-import fan.fanvasArray.*;
 
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL12.*;

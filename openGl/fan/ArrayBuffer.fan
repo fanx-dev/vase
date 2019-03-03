@@ -7,6 +7,18 @@
 //
 
 **
+** primeval number type
+**
+@Js
+enum class NumType
+{
+  tInt(4), tShort(2), tLong(8), tDouble(8), tFloat(4), tByte(1)
+
+  private new make(Int size) { this.size = size }
+  const Int size;
+}
+
+**
 ** Wrapping a native array buffer.
 **
 @Js

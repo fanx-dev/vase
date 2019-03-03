@@ -8,7 +8,6 @@
 
 using fanvasMath
 using fanvasOpenGl
-using fanvasArray
 
 @Js
 class Scene

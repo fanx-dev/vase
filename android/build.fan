@@ -15,7 +15,7 @@ class Build : build::BuildPod
     podName = "fanvasAndroid"
     summary = "fanvasWindow android impl"
     srcDirs = [`fan/`]
-    depends = ["sys 1.0", "fanvasGraphics 1.0", "fanvasWindow 1.0", "concurrent 1.0", "fanvasMath 1.0"]
+    depends = ["sys 2.0", "std 1.0", "fanvasGraphics 1.0", "fanvasWindow 1.0", "concurrent 1.0", "fanvasMath 1.0"]
     javaDirs = [`java/`]
   }
 }

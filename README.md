@@ -1,18 +1,15 @@
-Fanvas
-=======
+## Fanvas
+
 A cross-platform Fantom framework for creating GUI or game on mobile and desktop.
 
-
-Feature
--------
+### Feature
 - Full features 2D Graphics API
 - Lightweight GUI widget system
 - Fantom OpenGL/WebGL binding
 - Cross-platform support Java/Android/Javascript
 
 
-Run on Android
--------
+### Run on Android
 II. compile fanGx lib and Android Demo
   1.copy android jar
   copy fanGfx/lib/*.jar file to fan/lib/java/ext/
@@ -25,16 +22,13 @@ II. compile fanGx lib and Android Demo
 
   4.run Android project from Eclipse ADT from fanGfx/androidDemo/android/
 
-Setting LWJGL
--------
+### Setting LWJGL
 1. copy all .jar to fanHome/lib/java/ext/
-2. modify fanHome/ect/sys/congif.proops:
+2. modify test3d/runJava.sh:
   java.options=-Xmx512M -Djava.library.path=yourPath/lib/lwjgl-2.7.1/native/windows
 
-Run WebGL on Browser
--------
-1. Get a browser that support WegGL
-2. run /test3d/startup.bat
+### Run Javascript
+1. Get a browser that support WebGL
+2. run /test3d/runJs.sh
 3. Go to http://localhost:8080/ with your browser.
-
 

@@ -22,11 +22,9 @@ import fan.fanvasGraphics.Image;
 import fan.fanvasGraphics.Path;
 import fan.fanvasGraphics.PointArray;
 import fan.fanvasGraphics.Size;
-import fan.sys.Func;
-import fan.sys.IOErr;
-import fan.sys.InStream;
-import fan.sys.SysInStream;
-import fan.sys.Uri;
+import fan.sys.*;
+import fan.std.*;
+import fanx.interop.Interop;
 
 public class AndGfxEnv extends GfxEnv{
 
@@ -43,7 +41,7 @@ public class AndGfxEnv extends GfxEnv{
 
   @Override
   public Image fromStream(InStream in) {
-    InputStream jin = SysInStream.java(in);
+    InputStream jin = Interop.toJava(in);
     Bitmap image = BitmapFactory.decodeStream(jin);
     AndImage p = new AndImage();
     p.setImage(image);
@@ -53,14 +51,14 @@ public class AndGfxEnv extends GfxEnv{
   @Override
   public Image fromUri(Uri uri, Func onLoad) {
 
-    if (uri.scheme().equals("http")) {
+    if ("http".equals(uri.scheme)) {
       onLoad = (Func) onLoad.toImmutable();
       AndImage p = new AndImage();
       loadFromWeb(p, uri, onLoad);
       return p;
     }
 
-    InputStream jin = SysInStream.java(((fan.sys.File) uri.get()).in());
+    InputStream jin = Interop.toJava(((fan.std.File) uri.get()).in());
     Bitmap image = BitmapFactory.decodeStream(jin);
     AndImage p = new AndImage();
     p.setImage(image);
@@ -91,7 +89,7 @@ public class AndGfxEnv extends GfxEnv{
   public ConstImage makeConstImage(Uri uri) {
     InputStream jin;
 
-    if (uri.scheme().equals("http")) {
+    if ("http".equals(uri.scheme)) {
       try {
         URL requestUrl = new URL(uri.toStr());
         URLConnection con = requestUrl.openConnection();
@@ -100,7 +98,7 @@ public class AndGfxEnv extends GfxEnv{
         throw IOErr.make(e);
       }
     } else {
-      jin = SysInStream.java(((fan.sys.File) uri.get()).in());
+      jin = Interop.toJava(((fan.std.File) uri.get()).in());
     }
 
     Bitmap image = BitmapFactory.decodeStream(jin);

@@ -15,7 +15,7 @@ class Build : BuildPod
   {
     podName  = "fanvas3d"
     summary  = "Fantom 3D lib"
-    depends  = ["sys 1.0", "fwt 1.0", "fanvasArray 1.0", "fanvasOpenGl 1.0", "fanvasMath 1.0"]
+    depends  = ["sys 2.0", "std 1.0", "fanvasMath 1.0", "fanvasOpenGl 1.0"]
     srcDirs  = [`fan/`]
 
     //index = ["compiler.dsl.fanvas3d::Shader": "fanvas3d::ShaderDslPlugin"]
