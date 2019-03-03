@@ -15,7 +15,7 @@ class Build : BuildPod
   {
     podName  = "fanvasWindow"
     summary  = "Window toolkit"
-    depends  = ["sys 1.0", "fanvasGraphics 1.0", "concurrent 1.0", "fanvasMath 1.0"]
+    depends  = ["sys 2.0", "std 1.0", "fanvasGraphics 1.0", "concurrent 1.0", "fanvasMath 1.0"]
     srcDirs  = [`fan/`, `fan/event/`]
     javaDirs = [`java/`]
     jsDirs   = [`js/`]

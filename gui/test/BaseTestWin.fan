@@ -9,37 +9,14 @@
 using concurrent
 using fanvasGraphics
 using fanvasWindow
-using fanvasFwt
 
 @Js
-abstract class BaseTestWin
+virtual class BaseTestWin
 {
-  private Bool initEnv() {
-    if (Env.cur.runtime != "java") {
-      ToolkitEnv.init
-      return true
-    }
-    if (Env.cur.args.size > 0) {
-      if (Env.cur.args.first == "AWT") {
-        ToolkitEnv.init
-        return true
-      }
-      else if (Env.cur.args.first == "SWT") {
-        FwtToolkitEnv.init
-        return true
-      }
-    }
-    echo("AWT or SWT ?")
-    FwtToolkitEnv.init
-    return true
-  }
-
   protected RootView? root
 
   virtual Void main()
   {
-    if (!initEnv) return
-
     root = RootView()
     view := build
     root.mainView = view
@@ -47,7 +24,7 @@ abstract class BaseTestWin
     root.show(null)
 
     buf := StrBuf()
-    buf.out.writeObj(root, ["indent":2,"skipDefaults":true])
+    buf.out.writeObj(root, true, ["indent":2,"skipDefaults":true])
     echo(buf)
   }
 

@@ -25,7 +25,7 @@ const class Point
 
   ** Parse from string.  If invalid and checked is
   ** true then throw ParseErr otherwise return null.
-  static new fromStr(Str s, Bool checked := true)
+  static Point? fromStr(Str s, Bool checked := true)
   {
     try
     {
@@ -80,7 +80,7 @@ const class Size
 
   ** Parse from string.  If invalid and checked is
   ** true then throw ParseErr otherwise return null.
-  static new fromStr(Str s, Bool checked := true)
+  static Size? fromStr(Str s, Bool checked := true)
   {
     try
     {
@@ -137,7 +137,7 @@ const class Rect
 
   ** Parse from string.  If invalid and checked is
   ** true then throw ParseErr otherwise return null.
-  static new fromStr(Str s, Bool checked := true)
+  static Rect? fromStr(Str s, Bool checked := true)
   {
     try
     {

@@ -19,9 +19,10 @@ import javax.imageio.ImageIO;
 import fan.fanvasGraphics.*;
 import fan.sys.Func;
 import fan.sys.IOErr;
-import fan.sys.InStream;
-import fan.sys.SysInStream;
-import fan.sys.Uri;
+import fan.std.InStream;
+import fan.std.SysInStream;
+import fan.std.Uri;
+import fanx.interop.Interop;
 
 public class WtkGfxEnv extends GfxEnv {
 
@@ -36,14 +37,14 @@ public class WtkGfxEnv extends GfxEnv {
 
   @Override
   public Image fromUri(Uri uri, Func onLoad) {
-    if (uri.scheme().equals("http")) {
+    if (uri.scheme.equals("http")) {
       onLoad = (Func) onLoad.toImmutable();
       WtkImage p = new WtkImage();
       loadFromWeb(p, uri, onLoad);
       return p;
     }
 
-    InputStream jin = SysInStream.java(((fan.sys.File) uri.get()).in());
+    InputStream jin = Interop.toJava(((fan.std.File) uri.get()).in());
     WtkImage p = new WtkImage();
     streamToImage(jin, p);
     onLoad.call(p);
@@ -52,7 +53,7 @@ public class WtkGfxEnv extends GfxEnv {
 
   public Image fromStream(InStream in)
   {
-    InputStream jin = SysInStream.java(in);
+    InputStream jin = Interop.toJava(in);
     WtkImage p = new WtkImage();
     streamToImage(jin, p);
     return p;
@@ -100,7 +101,7 @@ public class WtkGfxEnv extends GfxEnv {
   public ConstImage makeConstImage(Uri uri) {
     InputStream jin;
 
-    if (uri.scheme().equals("http")) {
+    if (uri.scheme.equals("http")) {
       try {
         URL requestUrl = new URL(uri.toStr());
         URLConnection con = requestUrl.openConnection();
@@ -109,7 +110,7 @@ public class WtkGfxEnv extends GfxEnv {
         throw IOErr.make(e);
       }
     } else {
-      jin = SysInStream.java(((fan.sys.File) uri.get()).in());
+      jin = Interop.toJava(((fan.std.File) uri.get()).in());
     }
 
     BufferedImage image;

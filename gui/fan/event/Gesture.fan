@@ -9,7 +9,7 @@
 using fanvasWindow
 
 @Js
-class GestureEvent : Event {
+virtual class GestureEvent : Event {
   const static Int click := 1
   const static Int longPress := 2
   const static Int fling := 3

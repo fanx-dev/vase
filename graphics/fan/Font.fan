@@ -47,7 +47,7 @@ const abstract class Font
   **   Font.fromStr("bold 10pt Courier")
   **   Font.fromStr("bold italic 8pt Times Roman")
   **
-  static new fromStr(Str s, Bool checked := true)
+  static Font? fromStr(Str s, Bool checked := true)
   {
     try
     {

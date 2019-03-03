@@ -18,10 +18,10 @@
 const class Gradient : Brush
 {
   ** Percent unit constant
-  const static Unit percent := loadUnit("percent", "%")
+  const static Str percent := "%"
 
   ** Pixel unit constant
-  const static Unit pixel := loadUnit("pixel", "px")
+  const static Str pixel := "px"
 
   ** Mode is linear or radial
   const GradientMode mode := GradientMode.linear
@@ -39,16 +39,16 @@ const class Gradient : Brush
   const Int y2 := 100
 
   ** Unit of `x1` which must be `percent` or `pixel`
-  const Unit x1Unit := pixel
+  const Str x1Unit := pixel
 
   ** Unit of `y1` which must be `percent` or `pixel`
-  const Unit y1Unit  := pixel
+  const Str y1Unit  := pixel
 
   ** Unit of `x2` which must be `percent` or `pixel`
-  const Unit x2Unit := pixel
+  const Str x2Unit := pixel
 
   ** Unit of `y2` which must be `percent` or `pixel`
-  const Unit y2Unit  := pixel
+  const Str y2Unit  := pixel
 
   ** List of gradient stops, default is "white 0.0" to "black 1.0".
   const GradientStop[] stops := defStops
@@ -82,7 +82,7 @@ const class Gradient : Brush
   **   Gradient("5px 3px, 25px 30px, #f00, #00f")       =>  linear(5px 3px, 25px 30px, #ff0000 0.0, #0000ff 1.0)
   **   Gradient("0% 50%, 100% 50%, #f00 0.1, #00f 0.9") =>  linear(0% 50%, 100% 50%, #ff0000 0.1, #0000ff 0.9)
   **
-  static new fromStr(Str str, Bool checked := true)
+  static Gradient? fromStr(Str str, Bool checked := true)
   {
     try
     {
@@ -114,7 +114,7 @@ const class Gradient : Brush
       if (coor.size != 2) throw Err()
 
       Int? x; Int? y
-      Unit? xUnit; Unit? yUnit
+      Str? xUnit; Str? yUnit
 
       xs := coor[0]
       if (xs.endsWith("%"))       { x = xs[0..-2].toInt; xUnit = percent }
@@ -220,21 +220,12 @@ const class Gradient : Brush
   {
     s := StrBuf()
     s.add(mode.name).addChar('(')
-    s.add(x1).add(x1Unit.symbol).addChar(' ')
-    s.add(y1).add(y1Unit.symbol).addChar(',')
-    s.add(x2).add(x2Unit.symbol).addChar(' ')
-    s.add(y2).add(y2Unit.symbol)
+    s.add(x1).add(x1Unit).addChar(' ')
+    s.add(y1).add(y1Unit).addChar(',')
+    s.add(x2).add(x2Unit).addChar(' ')
+    s.add(y2).add(y2Unit)
     stops.each |stop| { s.addChar(',').add(stop) }
     return s.addChar(')').toStr
-  }
-
-  ** Just in case unit database is not available, create unit as fallback
-  private static Unit loadUnit(Str name, Str symbol)
-  {
-    try
-      return Unit(name)
-    catch (Err e)
-      return Unit.define("$name,$symbol")
   }
 
   ** white 0% to black 100%

@@ -1,1 +1,0 @@
-fan idraft -appHome file:/Users/yangjiandong/workspace/code/fangfx/test/ fanvasTest::RootMod

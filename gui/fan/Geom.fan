@@ -29,7 +29,7 @@ class Coord {
 
   ** Parse from string.  If invalid and checked is
   ** true then throw ParseErr otherwise return null.
-  static new fromStr(Str s, Bool checked := true)
+  static Coord? fromStr(Str s, Bool checked := true)
   {
     try
     {
@@ -80,7 +80,7 @@ class Dimension {
 
   ** Parse from string.  If invalid and checked is
   ** true then throw ParseErr otherwise return null.
-  static new fromStr(Str s, Bool checked := true)
+  static Dimension? fromStr(Str s, Bool checked := true)
   {
     try
     {
@@ -141,7 +141,7 @@ const class Insets
   ** formats are:
   **   - "len"
   **   - "top,right,bottom,left"
-  static new fromStr(Str s, Bool checked := true)
+  static Insets? fromStr(Str s, Bool checked := true)
   {
     try
     {

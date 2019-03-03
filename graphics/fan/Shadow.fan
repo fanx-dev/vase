@@ -24,7 +24,7 @@ const class Shadow
   **
   new make(|This| f) { f(this) }
 
-  static new fromStr(Str s, Bool checked := true)
+  static Shadow? fromStr(Str s, Bool checked := true)
   {
     try
     {

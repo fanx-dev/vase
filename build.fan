@@ -19,16 +19,18 @@ class Build : BuildGroup
   {
     childrenScripts =
     [
-      `array/build.fan`,
+      
       `math/build.fan`,
       `graphics/build.fan`,
       `window/build.fan`,
-      `fwtPort/build.fan`,
+      //`fwtPort/build.fan`,
       `gui/build.fan`,
-      `android/build.fan`,
-      `openGL/build.fan`,
-      `fanvas3d/build.fan`,
-      `androidDemo/build.fan`
+      
+      //`android/build.fan`,
+      //`array/build.fan`,
+      //`openGL/build.fan`,
+      //`fanvas3d/build.fan`,
+      //`androidDemo/build.fan`
     ]
   }
 

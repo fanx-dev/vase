@@ -195,7 +195,7 @@ class TreeModel
   ** Get the children of the specified node.  If no children
   ** return an empty list.  Default behavior is no children.
   **
-  virtual Obj[] children(Obj node) { Obj#.emptyList }
+  virtual Obj[] children(Obj node) { List.defVal }
 
 }
 

@@ -15,7 +15,7 @@ class Build : BuildPod
   {
     podName  = "fanvasMath"
     summary  = "math lib for 3d transformation"
-    depends  = ["sys 1.0"]
+    depends  = ["sys 2.0", "std 1.0"]
     srcDirs  = [`fan/`, `test/`]
     javaDirs = Uri[,]
   }

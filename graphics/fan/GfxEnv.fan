@@ -30,10 +30,17 @@ abstract const class GfxEnv
   {
     GfxEnv? env := Actor.locals["fanvasGraphics.env"]
     if (env != null) return env
-    if (checked) throw Err("No fanvasGraphics.env is active")
+  
+    //try load env
+    Pod.find("fanvasWindow").type("ToolkitEnv").method("init").call
+    env = Actor.locals["fanvasGraphics.env"]
+    if (env != null) return env
+
+    if (checked) {
+      throw Err("No fanvasGraphics.env is active")
+    }
     return null
   }
-
 
 //////////////////////////////////////////////////////////////////////////
 // Font Support

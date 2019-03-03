@@ -22,8 +22,12 @@ abstract const class Toolkit
   static Toolkit cur()
   {
     Toolkit? env := Actor.locals["fanvasWindow.env"]
-    if (env == null) throw Err("No fanvasWindow.env is active")
-    return env
+    if (env != null) return env
+
+    ToolkitEnv.init
+    env = Actor.locals["fanvasWindow.env"]
+    if (env != null) return env
+    throw Err("No fanvasWindow.env is active")
   }
 
   **
@@ -56,7 +60,7 @@ abstract const class Toolkit
 **
 ** Default Toolkit maker
 **
-@Js
+@Js @NoDoc
 class ToolkitEnv
 {
   **

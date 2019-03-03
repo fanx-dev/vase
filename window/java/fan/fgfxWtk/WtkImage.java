@@ -15,8 +15,8 @@ import javax.imageio.ImageIO;
 
 import fan.fanvasGraphics.*;
 import fan.sys.Err;
-import fan.sys.MimeType;
-import fan.sys.OutStream;
+import fan.std.MimeType;
+import fan.std.OutStream;
 import fan.sys.UnsupportedErr;
 import fanx.interop.Interop;
 
@@ -50,7 +50,7 @@ public class WtkImage implements BufImage
     public void save(OutStream out, MimeType format)
     {
       OutputStream jout = Interop.toJava(out);
-      String subType = format.subType();
+      String subType = format.subType;
 
       try
       {

@@ -64,10 +64,10 @@ fan.fanvasWindow.WtkGraphics.prototype.brush$  = function(b)
     var y2 = b.m_y2;
 
     // handle percent
-    if (b.m_x1Unit.symbol() == "%") x1 = this.size.m_w * (x1 / 100);
-    if (b.m_y1Unit.symbol() == "%") y1 = this.size.m_h * (y1 / 100);
-    if (b.m_x2Unit.symbol() == "%") x2 = this.size.m_w * (x2 / 100);
-    if (b.m_y2Unit.symbol() == "%") y2 = this.size.m_h * (y2 / 100);
+    if (b.m_x1Unit == "%") x1 = this.size.m_w * (x1 / 100);
+    if (b.m_y1Unit == "%") y1 = this.size.m_h * (y1 / 100);
+    if (b.m_x2Unit == "%") x2 = this.size.m_w * (x2 / 100);
+    if (b.m_y2Unit == "%") y2 = this.size.m_h * (y2 / 100);
 
     // add stops
     var style = this.cx.createLinearGradient(x1, y1, x2, y2);

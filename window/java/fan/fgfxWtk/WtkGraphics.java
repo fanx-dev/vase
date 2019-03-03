@@ -268,7 +268,7 @@ public class WtkGraphics implements Graphics {
     float width = pen.width;
     int cap = penCap(pen.cap);
     int join = penJoin(pen.join);
-    float[] dash = pen.dash != null ? GfxUtil.intsToFloats(pen.dash.toInts())
+    float[] dash = pen.dash != null ? GfxUtil.toFloats(pen.dash)
         : null;
 
     BasicStroke stroke;

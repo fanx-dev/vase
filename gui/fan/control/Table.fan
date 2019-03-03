@@ -133,6 +133,6 @@ class TableModel
   **
   virtual Int sortCompare(Int col, Int row1, Int row2)
   {
-    text(col, row1).localeCompare(text(col, row2))
+    text(col, row1).compare(text(col, row2))
   }
 }
