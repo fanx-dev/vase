@@ -21,8 +21,10 @@ A cross-platform framework for creating GUI or game on mobile and desktop.
 
 ### Setting LWJGL
 1. copy all .jar to fanHome/lib/java/ext/
-2. modify test3d/runJava.sh:
-  add java options: -Xmx512M -Djava.library.path=yourPath/lib/lwjgl-2.7.1/native/windows
+2. test3d/runJava.sh:
+  * java options: -Xmx512M -Djava.library.path=yourPath/lib/lwjgl-2.7.1/native/windows
+  * etc/build/config.props: javacParams=-source 1.8 -target 1.8
+  * add -XstartOnFirstThread on Mac OS
 
 ### Run Javascript
 1. Get a browser that support WebGL

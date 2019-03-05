@@ -105,7 +105,7 @@ class RealObject : GlDisplay
   Int lastTime := 0
   private Void animate()
   {
-    timeNow := DateTime.nowTicks / 1000000
+    timeNow := DateTime.nowTicks
     if (lastTime != 0)
     {
       elapsed := timeNow - lastTime

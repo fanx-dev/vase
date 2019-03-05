@@ -17,7 +17,7 @@ fan.fanvasOpenGl.GlDisplayPeer.prototype.initGL = function(self, canvas)
 {
   try
   {
-    var gl = canvas.getContext("experimental-webgl");
+    var gl = canvas.getContext("webgl");
     this.gl = new fan.fanvasOpenGl.FanGlContext();
     this.gl.gl = gl;
     lastGl = gl;
@@ -51,7 +51,7 @@ window.requestAnimFrame = (function() {
 fan.fanvasOpenGl.GlDisplayPeer.prototype.open = function(self)
 {
   // check for alt root
-  var rootId = fan.sys.Env.cur().vars().get("fwt.window.root")
+  var rootId = fan.std.Env.cur().vars().get("fwt.window.root")
   if (rootId == null) this.root = document.body;
   else
   {

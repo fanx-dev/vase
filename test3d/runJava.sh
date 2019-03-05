@@ -10,7 +10,7 @@ echo $jfan
 #$jfan Fan3dMain.fan
 #$jfan Movement.fan
 #$jfan RealObject.fan
-$jfan Textures.fan
+$jfan Textures.fwt
 #$jfan Triangle.fan
 
 echo "end"

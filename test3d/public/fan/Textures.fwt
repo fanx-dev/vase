@@ -37,7 +37,7 @@ class Textures : GlDisplay
 
   Void initTexture()
   {
-    neheTexture = gl.createTexture()
+    neheTexture := gl.createTexture()
 
     //isJs  := Env.cur.runtime == "js"
     uri := `../nehe.gif`
@@ -50,12 +50,18 @@ class Textures : GlDisplay
       echo(image.height)
 
       gl.bindTexture(GlEnum.texture2d, neheTexture)
-      //gl.pixelStorei(GlEnum.unpackFlipYWebgl, 1)
-      //gl.pixelStorei(GlEnum.unpackAlignment, 1)
+
+      if (Env.cur.runtime == "js") {
+        gl.pixelStorei(GlEnum.unpackFlipYWebgl, 1)
+        gl.pixelStorei(GlEnum.unpackAlignment, 1)
+      }
+
       gl.texImage2D(GlEnum.texture2d, 0, GlEnum.rgba, GlEnum.rgba, GlEnum.unsignedByte, image)
       gl.texParameteri(GlEnum.texture2d, GlEnum.textureMagFilter, GlEnum.nearest.val)
       gl.texParameteri(GlEnum.texture2d, GlEnum.textureMinFilter, GlEnum.nearest.val)
       gl.bindTexture(GlEnum.texture2d, null)
+
+      this.neheTexture = neheTexture
     }
   }
 
@@ -86,6 +92,8 @@ class Textures : GlDisplay
   {
     this.gl = gl
     gl.clear(GlEnum.colorBufferBit.mix(GlEnum.depthBufferBit))
+    if (neheTexture == null) return
+
     pMatrix = Transform.makePerspective(45f, w.toFloat/h.toFloat, 0.1f, 100.0f).flatten
     transform := Transform()
 
@@ -121,7 +129,7 @@ class Textures : GlDisplay
   Int lastTime := 0
   private Void animate()
   {
-    timeNow := DateTime.nowTicks / 1000000
+    timeNow := DateTime.nowTicks
     if (lastTime != 0)
     {
       elapsed := timeNow - lastTime

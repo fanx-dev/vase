@@ -21,10 +21,10 @@ fan.fanvasOpenGl.ArrayBufferPeer.prototype.size = function(self) { return this.m
 
 fan.fanvasOpenGl.ArrayBufferPeer.prototype.m_offset;
 
-fan.fanvasOpenGl.ArrayBufferPeer.prototype.m_endian = fan.sys.Endian.big;
+fan.fanvasOpenGl.ArrayBufferPeer.prototype.m_endian = fan.std.Endian.big;
 fan.fanvasOpenGl.ArrayBufferPeer.prototype.endian = function(self) { return this.m_endian; }
 fan.fanvasOpenGl.ArrayBufferPeer.prototype.endian$  = function(self, v) { this.m_endian = v; }
-fan.fanvasOpenGl.ArrayBufferPeer.prototype.isLittleEndian = function() { return this.m_endian == fan.sys.Endian.little; }
+fan.fanvasOpenGl.ArrayBufferPeer.prototype.isLittleEndian = function() { return this.m_endian == fan.std.Endian.little; }
 
 fan.fanvasOpenGl.ArrayBufferPeer.prototype.type = function(self)
 {
@@ -126,17 +126,29 @@ fan.fanvasOpenGl.ArrayBufferPeer.prototype.setFloat = function(self, index, v)
 
 fan.fanvasOpenGl.ArrayBufferPeer.prototype.putFloat = function(self, data)
 {
-  this.bufferView.set(data.m_values);
+  var a = data.toJs();
+  if (a.length != this.bufferView.length) {
+    a = a.slice(0, this.bufferView.length);
+  }
+  this.bufferView.set(a);
   return self;
 }
 fan.fanvasOpenGl.ArrayBufferPeer.prototype.putInt = function(self, data)
 {
-  this.bufferView.set(data.m_values);
+  var a = data.toJs();
+  if (a.length != this.bufferView.length) {
+    a = a.slice(0, this.bufferView.length);
+  }
+  this.bufferView.set(a);
   return self;
 }
 fan.fanvasOpenGl.ArrayBufferPeer.prototype.putShort = function(self, data)
 {
-  this.bufferView.set(data.m_values);
+  var a = data.toJs();
+  if (a.length != this.bufferView.length) {
+    a = a.slice(0, this.bufferView.length);
+  }
+  this.bufferView.set(a);
   return self;
 }
 
