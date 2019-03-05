@@ -6,6 +6,11 @@ jfan='java -Xmx512M -XstartOnFirstThread -cp '$FAN_HOME'/lib/java/fanx.jar -Dfan
 
 echo $jfan
 
-$jfan Colour.fan
+#$jfan Colour.fan
+#$jfan Fan3dMain.fan
+#$jfan Movement.fan
+#$jfan RealObject.fan
+$jfan Textures.fan
+#$jfan Triangle.fan
 
 echo "end"

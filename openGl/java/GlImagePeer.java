@@ -16,6 +16,13 @@ import java.awt.image.*;
 
 import org.lwjgl.BufferUtils;
 import fanx.interop.Interop;
+import java.nio.ByteBuffer;
+import java.nio.IntBuffer;
+import org.lwjgl.system.MemoryStack;
+
+import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GL13.GL_CLAMP_TO_BORDER;
+import static org.lwjgl.stb.STBImage.*;
 
 class GlImagePeer
 {
@@ -25,24 +32,30 @@ class GlImagePeer
 
   public static GlImagePeer make(GlImage self) { return new GlImagePeer(); }
 
-  public void load(GlImage self, Func f)
+  public void load(GlImage self, Func f) throws FileNotFoundException
   {
-    InputStream in = Interop.toJava(self.uri.toFile().in());
-    BufferedImage bimage;
-    try
-    {
-      bimage = ImageIO.read(in);
+    String path = self.uri.toFile().osPath();
+    ByteBuffer image;
+    //int width, height;
+    try (MemoryStack stack = MemoryStack.stackPush()) {
+        /* Prepare image buffers */
+        IntBuffer w = stack.mallocInt(1);
+        IntBuffer h = stack.mallocInt(1);
+        IntBuffer comp = stack.mallocInt(1);
+
+        /* Load image */
+        stbi_set_flip_vertically_on_load(true);
+        image = stbi_load(path, w, h, comp, 4);
+        if (image == null) {
+            throw new RuntimeException("Failed to load a texture file!"
+                                       + System.lineSeparator() + stbi_failure_reason());
+        }
+
+        /* Get width and height of image */
+        width = w.get();
+        height = h.get();
     }
-    catch(IOException e)
-    {
-      throw new Err(e);
-    }
-
-    width = bimage.getWidth();
-    height = bimage.getHeight();
-
-    data = ImageConverter.convert(bimage);
-
+    data = image;
     f.call(self);
   }
 

@@ -10,7 +10,6 @@
 using fanvasOpenGl
 using fanvasMath
 using fanvasMath::Transform3D as Transform
-using fanvasArray
 
 **
 ** fan D:/code/Hg/fan3d/jsTest/fan/jsfan/Textures.fan /D:/code/Hg/fan3d/jsTest
@@ -40,8 +39,8 @@ class Textures : GlDisplay
   {
     neheTexture = gl.createTexture()
 
-    path  := Env.cur.args.first
-    uri := path == null ? `/public/nehe.gif` : `$path/public/nehe.gif`
+    //isJs  := Env.cur.runtime == "js"
+    uri := `../nehe.gif`
     echo(uri)
 
     image := GlImage(uri)

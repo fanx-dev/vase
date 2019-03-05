@@ -8,7 +8,6 @@
 
 using fanvasOpenGl
 using fanvasMath
-using fanvasArray
 using fanvas3d
 
 class Fan3dMain : GlDisplay
