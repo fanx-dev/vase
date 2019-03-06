@@ -1,49 +1,57 @@
 package fan.fanvasWindow;
 
+import java.awt.Dimension;
 import java.awt.EventQueue;
-import java.awt.event.WindowEvent;
+//import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.awt.event.WindowStateListener;
 
 import javax.swing.JFrame;
 
 import fan.fanvasGraphics.Size;
+import javax.swing.JPanel;
+
+import fan.fanvasGraphics.Graphics;
+import fan.fanvasGraphics.Point;
+import fan.fanvasGraphics.Rect;
+import fan.fanvasGraphics.Size;
 
 public class WtkWindow implements Window {
 
+  View view;
+  AwtCanvas canvas;
   JFrame frame;
-  java.util.List<View> list;
 
-  WtkWindow() {
-    frame = new JFrame();
-    list = new java.util.ArrayList<View>();
-  }
+  class AwtCanvas extends JPanel {
+    private static final long serialVersionUID = 1L;
 
-  @Override
-  public WtkWindow add(View view) {
-    if (view instanceof fan.fanvasWindow.EditText) {
-      return this;
+    @Override
+    public void paint(java.awt.Graphics g) {
+      Graphics gc = new WtkGraphics((java.awt.Graphics2D)g);
+      view.onPaint(gc);
     }
-    WtkView awtView = new WtkView(view);
-    awtView.win = this;
-    view.host(awtView);
-    frame.add(awtView.canvas);
-    list.add(view);
-    return this;
+    
+    @Override
+    public void doLayout() {
+      super.doLayout();
+      view.onResize(canvas.getWidth(), canvas.getHeight());
+    }
   }
 
-  @Override
-  public void remove(View view) {
-    list.remove(view);
-    frame.remove(((WtkView)view).canvas);
+  public WtkWindow(View rootView) {
+    canvas = new AwtCanvas();
+    frame = new JFrame();
+    this.view = rootView;
+    ComponentUtils.bindEvent(view, canvas);
+
+    //TODO fix size
+    Size size = rootView.getPrefSize(600, 600);
+    canvas.setPreferredSize(new Dimension((int)size.w, (int)size.h));
+
+    rootView.host(this);
+    frame.add(canvas);
   }
 
-  @Override
-  public void show() {
-    show(null);
-  }
-
-  @Override
   public void show(Size s) {
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     //frame.setContentPane(canvas);
@@ -73,8 +81,37 @@ public class WtkWindow implements Window {
     }
   }
 
+  public void textInput(TextInput textInput) {
+    //TODO
+  }
+
+  @Override
+  public void focus() {
+    canvas.requestFocus();
+  }
+
+  @Override
+  public boolean hasFocus() {
+    return canvas.hasFocus();
+  }
+
+  @Override
+  public Point pos() {
+    return Point.make(canvas.getX(), canvas.getY());
+  }
+
+  @Override
+  public void repaint() {
+    canvas.repaint();
+  }
+
+  @Override
+  public void repaint(Rect r) {
+    canvas.repaint((int)r.x, (int)r.y, (int)r.w, (int)r.h);
+  }
+
 //////////////////////////////////////////////////////////////////////////
-//
+// Window Event
 //////////////////////////////////////////////////////////////////////////
 
   private void postDisplayEvent(int id)
@@ -82,59 +119,54 @@ public class WtkWindow implements Window {
     long fid = id;
     switch(id)
     {
-    case WindowEvent.WINDOW_ACTIVATED:
-      fid = DisplayEvent.activated;
+    case java.awt.event.WindowEvent.WINDOW_ACTIVATED:
+      fid = WindowEvent.activated;
       break;
-    case WindowEvent.WINDOW_OPENED:
-      fid = DisplayEvent.opened;
+    case java.awt.event.WindowEvent.WINDOW_OPENED:
+      fid = WindowEvent.opened;
       break;
     }
 
-    DisplayEvent e = DisplayEvent.make(fid);
-    for (int i=0,n=list.size(); i<n; ++i)
-    {
-      View v = (View)list.get(i);
-      v.onDisplayEvent(e);
-    }
+    WindowEvent e = WindowEvent.make(fid);
+    view.onWindowEvent(e);
   }
 
   private WindowListener winListener = new WindowListener()
   {
-    public void windowClosing(WindowEvent e) {
+    public void windowClosing(java.awt.event.WindowEvent e) {
       postDisplayEvent(e.getID());
     }
 
-    public void windowClosed(WindowEvent e) {
+    public void windowClosed(java.awt.event.WindowEvent e) {
       postDisplayEvent(e.getID());
     }
 
-    public void windowOpened(WindowEvent e) {
+    public void windowOpened(java.awt.event.WindowEvent e) {
       postDisplayEvent(e.getID());
     }
 
-    public void windowIconified(WindowEvent e) {
+    public void windowIconified(java.awt.event.WindowEvent e) {
       postDisplayEvent(e.getID());
     }
 
-    public void windowDeiconified(WindowEvent e) {
+    public void windowDeiconified(java.awt.event.WindowEvent e) {
       postDisplayEvent(e.getID());
     }
 
-    public void windowActivated(WindowEvent e) {
+    public void windowActivated(java.awt.event.WindowEvent e) {
       postDisplayEvent(e.getID());
     }
 
-    public void windowDeactivated(WindowEvent e) {
+    public void windowDeactivated(java.awt.event.WindowEvent e) {
       postDisplayEvent(e.getID());
     }
   };
 
   private WindowStateListener winStateListenner = new WindowStateListener()
   {
-    public void windowStateChanged(WindowEvent e)
+    public void windowStateChanged(java.awt.event.WindowEvent e)
     {
       postDisplayEvent(e.getID());
     }
   };
-
 }

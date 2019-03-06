@@ -24,12 +24,14 @@ mixin View
 
   virtual Void onKeyEvent(KeyEvent e) {}
 
-  virtual Void onDisplayEvent(DisplayEvent e) {}
+  virtual Void onWindowEvent(WindowEvent e) {}
+
+  virtual Void onResize(Int w, Int h) {}
 
   **
   ** get native host
   **
-  abstract NativeView? host
+  abstract Window? host
 
   **
   ** get prefer size
@@ -41,7 +43,7 @@ mixin View
 ** native host view
 **
 @Js
-mixin NativeView
+mixin Window
 {
   **
   ** request repaint
@@ -49,9 +51,8 @@ mixin NativeView
   abstract Void repaint(Rect? dirty := null)
 
   **
-  ** get current size
+  ** get current position
   **
-  abstract Size size()
   abstract Point pos()
 
   **
@@ -65,18 +66,8 @@ mixin NativeView
   abstract Void focus()
 
   **
-  ** get the window
+  ** show text edit view
   **
-  abstract Window win()
-}
-
-@Js
-internal native class WtkView : NativeView {
-  override Void repaint(Rect? dirty := null)
-  override Size size()
-  override Point pos()
-  override Bool hasFocus()
-  override Void focus()
-  override Window win()
+  abstract Void textInput(TextInput edit)
 }
 

@@ -32,7 +32,7 @@ class RootView : Pane, View
   ** The reference of nativeView
   **
   @Transient
-  override NativeView? host
+  override Window? host
 
   **
   ** current focus widget
@@ -133,13 +133,10 @@ class RootView : Pane, View
   **
   ** Show View
   **
-  Void show(Window? host := null, Size? size := null)
+  Void show()
   {
-    if (host == null)
-      host = Toolkit.cur.build()
-    host.add(this)
+    Toolkit.cur.show(this)
     onMounted
-    host.show(size)
   }
 
   @Operator
@@ -201,7 +198,7 @@ class RootView : Pane, View
 
   override Void requestLayout() {
     super.requestLayout
-    this.requestPaint
+    this.requestPaint(null)
   }
 
   protected Void onUpdate() {
@@ -231,17 +228,9 @@ class RootView : Pane, View
 
   override Void onPaint(Graphics g) {
     //beginTime := Duration.nowTicks
-    s := host.size
-    Bool force := false
-    if (width != s.w || height != s.h) {
-      onResize(s.w, s.h)
-      layoutDirty = true
-      force = true
-    }
-
-    if (layoutDirty || force) {
-      pos := host.pos
-      layout(pos.x, pos.y, s.w, s.h, sharedDimension, force)
+    if (layoutDirty > 0) {
+      //pos := host.pos
+      layout(0, 0, width, height, sharedDimension, layoutDirty>1)
     }
 
     onUpdate
@@ -276,8 +265,13 @@ class RootView : Pane, View
     }
   }
 
-  virtual Void onResize(Int w, Int h) {
+  override Void onResize(Int w, Int h) {
+    this.width = w
+    this.height = h
+    layoutDirty = 2
+    requestLayout
   }
+
 //////////////////////////////////////////////////////////////////////////
 // event
 //////////////////////////////////////////////////////////////////////////
@@ -361,14 +355,14 @@ class RootView : Pane, View
     if (focusWidget.enabled) focusWidget.keyPress(e)
   }
 
-  override Void onDisplayEvent(DisplayEvent e)
+  override Void onWindowEvent(WindowEvent e)
   {
-    if (e.type == DisplayEvent.opened) onOpened.fire(e)
-    else if (e.type == DisplayEvent.activated) onActivated.fire(e)
-    else onDisplayStateChange.fire(e)
+    if (e.type == WindowEvent.opened) onOpened.fire(e)
+    else if (e.type == WindowEvent.activated) onActivated.fire(e)
+    else onWindowStateChange.fire(e)
   }
 
-  once EventListeners onDisplayStateChange() { EventListeners() }
+  once EventListeners onWindowStateChange() { EventListeners() }
 
   **
   ** Callback function when window is opended.

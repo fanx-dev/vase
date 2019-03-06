@@ -33,9 +33,9 @@ public class ToolkitEnvPeer
   static class AwtToolkit extends Toolkit
   {
     Timer timer = new Timer(true);
-    public Window build()
+    public void show(View view)
     {
-      return new WtkWindow();
+      new WtkWindow(view).show(null);
     }
 
     public String name() {

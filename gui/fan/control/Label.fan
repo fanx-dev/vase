@@ -13,10 +13,10 @@ using fanvasWindow
 ** A display area for a short text string.
 **
 @Js
-class Label : Widget, TextView
+class Label : Widget
 {
-  override Str text := "Label"
-  protected override Font font() {
+  Str text := "Label"
+  protected Font font() {
     return getStyle.font
   }
 
@@ -25,7 +25,9 @@ class Label : Widget, TextView
   }
 
   protected override Dimension prefContentSize(Dimension result) {
-    return TextView.super.prefContentSize(result)
+    w := font.width(text)
+    h := font.height
+    return result.set(w, h)
   }
 }
 

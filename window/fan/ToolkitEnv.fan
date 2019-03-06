@@ -33,7 +33,7 @@ abstract const class Toolkit
   **
   ** make a new window
   **
-  abstract Window build()
+  abstract Void show(View view)
 
   **
   ** call on UI thread. delay on millisecond

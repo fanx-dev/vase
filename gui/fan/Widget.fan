@@ -70,7 +70,7 @@ abstract class Widget
   protected Bool renderCacheDirty := true
 
   @Transient
-  protected Bool layoutDirty := true
+  protected Int layoutDirty := 1
 
   Insets padding := Insets.defVal
 
@@ -403,10 +403,10 @@ abstract class Widget
 
     printInfo("layout: x$this.x, y$this.y, w$this.width, h$this.height")
 
-    if (layoutDirty || force) {
-      layoutChildren(result, force)
+    if (layoutDirty > 0) {
+      layoutChildren(result, force || layoutDirty>1)
     }
-    layoutDirty = false
+    layoutDirty = 0
   }
 
   **
@@ -418,7 +418,7 @@ abstract class Widget
   ** Requset relayout this widget
   **
   virtual Void requestLayout() {
-    this.layoutDirty = true
+    this.layoutDirty = 1
     this.prefSizeDirty = true
     this.renderCacheDirty = true
     this.parent?.requestLayout

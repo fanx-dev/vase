@@ -10,7 +10,7 @@
 ** Windows host Event
 **
 @Js
-class DisplayEvent : Event
+class WindowEvent : Event
 {
   static const Int opened := 0
   static const Int closing := 1

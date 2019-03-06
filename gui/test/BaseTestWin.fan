@@ -21,7 +21,7 @@ virtual class BaseTestWin
     view := build
     root.mainView = view
     init(root)
-    root.show(null)
+    root.show
 
     buf := StrBuf()
     buf.out.writeObj(root, true, ["indent":2,"skipDefaults":true])

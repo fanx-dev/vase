@@ -24,7 +24,7 @@ class Caret
 ** JTextField is a lightweight component that allows the editing of a single line of text.
 **
 @Js
-class TextField : Widget, TextView, EditText
+class TextField : Widget, TextInput
 {
   override Str text := ""
   {
@@ -40,7 +40,7 @@ class TextField : Widget, TextView, EditText
   Str hint := ""
   Bool password := false
 
-  protected override Font font() {
+  override Font font() {
     getStyle.font
   }
 
@@ -51,7 +51,7 @@ class TextField : Widget, TextView, EditText
   private Timer? timer
 
   @Transient
-  override NativeView? host
+  override TextInputPeer? host
 
   new make()
   {
@@ -60,12 +60,9 @@ class TextField : Widget, TextView, EditText
       focused := e.data
       if (focused)
       {
-        this.getRootView.host.win.add(this)
+        this.getRootView.host.textInput(this)
         if (host == null) {
           startCaret
-        } else {
-          host?.focus
-          resetNativeView
         }
       }
       else
@@ -73,8 +70,7 @@ class TextField : Widget, TextView, EditText
         stopCaret
         caret.visible = false
         if (host != null) {
-          text = (host as NativeEditText).text
-          this.getRootView.host.win.remove(this)
+          host.close
         }
         requestPaint
       }
@@ -89,24 +85,25 @@ class TextField : Widget, TextView, EditText
     this.text = text
   }
 
-  protected Void resetNativeView() {
-    if (host == null) return
-    NativeEditText edit := host
+  override Point getPos() { Point(x, y) }
+  override Size getSize() { super.size }
 
-    edit.text = text
-    Coord pos := Coord(x, y)
-    rc := posOnWindow(pos)
-    if (!rc) return
-    edit.setBound(pos.x, pos.y, width, height)
-  }
+  override Int inputType() { 0 }
+  override Bool singleLine() { true }
+  override Bool selectable() { true }
+
+  override Color textColor() { Color.black }
+  override Color backgroundColor() { Color.white }
 
   protected override Void layoutChildren(Dimension result, Bool force) {
     super.layoutChildren(result, force)
-    resetNativeView
+    host?.update
   }
 
-  override Dimension prefContentSize(Dimension result) {
-    return TextView.super.prefContentSize(result)
+  protected override Dimension prefContentSize(Dimension result) {
+    w := font.width(text)
+    h := font.height
+    return result.set(w, h)
   }
 
   private Void startCaret()
