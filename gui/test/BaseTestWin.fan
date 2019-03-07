@@ -13,11 +13,11 @@ using fanvasWindow
 @Js
 virtual class BaseTestWin
 {
-  protected RootView? root
+  protected Frame? root
 
   virtual Void main()
   {
-    root = RootView()
+    root = Frame()
     view := build
     root.mainView = view
     init(root)
@@ -30,5 +30,5 @@ virtual class BaseTestWin
 
   protected virtual Widget build() { return Label{ text = "Hello "} }
 
-  protected virtual Void init(RootView root) { }
+  protected virtual Void init(Frame root) { }
 }

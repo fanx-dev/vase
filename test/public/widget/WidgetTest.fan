@@ -38,7 +38,7 @@ class WidgetTest : BaseTestWin
     }
   }
 
-  protected override Void init(RootView root) {
+  protected override Void init(Frame root) {
 
     label := root.findById("label")
     a := TweenAnimation() {

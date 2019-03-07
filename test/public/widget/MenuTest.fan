@@ -50,7 +50,7 @@ class MenuTest : BaseTestWin
     }
   }
 
-  protected override Void init(RootView view) {
+  protected override Void init(Frame view) {
     view.layoutParam.widthType = SizeType.fixed
     view.layoutParam.heightType = SizeType.fixed
     view.layoutParam.widthVal = view.pixelToDp(600)

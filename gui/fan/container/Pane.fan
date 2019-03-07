@@ -65,8 +65,3 @@ class Pane : WidgetGroup
     return result.set(maxX, maxY)
   }
 }
-
-@Js
-@Serializable { collection = true }
-class FrameLayout : Pane {
-}

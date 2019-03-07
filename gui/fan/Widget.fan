@@ -403,7 +403,7 @@ abstract class Widget
 
     printInfo("layout: x$this.x, y$this.y, w$this.width, h$this.height")
 
-    if (layoutDirty > 0) {
+    if (layoutDirty > 0 || force) {
       layoutChildren(result, force || layoutDirty>1)
     }
     layoutDirty = 0
@@ -447,7 +447,7 @@ abstract class Widget
   **
   Bool posOnWindow(Coord result)
   {
-    if (this is RootView) {
+    if (this is Frame) {
       result.set(0, 0)
       return true
     }
@@ -494,11 +494,11 @@ abstract class Widget
   ** Get this widget's parent View or null if not
   ** mounted under a View widget.
   **
-  RootView? getRootView() {
+  Frame? getRootView() {
     Widget? x := this
     while (x != null)
     {
-      if (x is RootView) return (RootView)x
+      if (x is Frame) return (Frame)x
       x = x.parent
     }
     return null

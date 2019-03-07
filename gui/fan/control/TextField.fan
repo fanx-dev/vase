@@ -60,7 +60,7 @@ class TextField : Widget, TextInput
       focused := e.data
       if (focused)
       {
-        this.getRootView.host.textInput(this)
+        this.getRootView.host?.textInput(this)
         if (host == null) {
           startCaret
         }

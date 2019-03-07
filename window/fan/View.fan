@@ -26,7 +26,7 @@ mixin View
 
   virtual Void onWindowEvent(WindowEvent e) {}
 
-  virtual Void onResize(Int w, Int h) {}
+  //virtual Void onResize(Int w, Int h) {}
 
   **
   ** get native host
@@ -54,6 +54,9 @@ mixin Window
   ** get current position
   **
   abstract Point pos()
+
+  ** get window size
+  abstract Size size()
 
   **
   ** return true if has focus

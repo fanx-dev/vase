@@ -15,8 +15,10 @@ using fanvasMath
 ** Represent a top level Widget
 **
 @Js
-class RootView : Pane, View
+class Frame : Pane
 {
+  private WinView view
+
   **
   ** Root View
   **
@@ -27,12 +29,6 @@ class RootView : Pane, View
       &mainView = it
     }
   }
-
-  **
-  ** The reference of nativeView
-  **
-  @Transient
-  override Window? host
 
   **
   ** current focus widget
@@ -68,19 +64,11 @@ class RootView : Pane, View
   **
   ** double buffer
   **
-  Bool doubleBuffered := false
+  //Bool doubleBuffered := false
 
-  **
-  ** animation manager
-  **
-  @Transient
-  AnimManager animManager := AnimManager()
+  AnimManager animManager() { view.animManager }
 
-  **
-  ** last animation update time
-  **
-  @Transient
-  private Int lastUpdateTime := 0
+  Window? host() { view.host }
 
   **
   ** has modal dialog
@@ -96,15 +84,8 @@ class RootView : Pane, View
   **
   ** Shared dimension for layout
   **
-  @Transient
-  private Dimension sharedDimension := Dimension(0, 0)
-
-  **
-  ** gesture recognizer
-  ** convert motion event to gesture event
-  **
-  @Transient
-  Gesture gesture := Gesture()
+  //@Transient
+  //private Dimension sharedDimension := Dimension(0, 0)
 
   **
   ** global motion event
@@ -116,18 +97,13 @@ class RootView : Pane, View
   ** ctor
   **
   new make() {
-    id = "root"
+    view = WinView(this)
+    id = "frame"
     width = 0
     height = 0
     this.useRenderCache = false
 
-    gesture.onGestureEvent.add |GestureEvent e|{
-      e.relativeX = e.x
-      e.relativeY = e.y
-      gestureEvent(e)
-    }
-
-    mainView = FrameLayout()
+    mainView = Pane()
   }
 
   **
@@ -135,7 +111,7 @@ class RootView : Pane, View
   **
   Void show()
   {
-    Toolkit.cur.show(this)
+    Toolkit.cur.show(view)
     onMounted
   }
 
@@ -159,7 +135,7 @@ class RootView : Pane, View
   {
     if (topLayer == null)
     {
-      topLayer = FrameLayout()
+      topLayer = Pane()
       topLayer.useRenderCache = false
       doAdd(topLayer)
     }
@@ -187,59 +163,23 @@ class RootView : Pane, View
     //convert dirty coordinate system to realative to parent
     else dirty = Rect(dirty.x + x, dirty.y + y, dirty.w, dirty.h)
     if (dirty == null) dirty = this.bounds
-    host?.repaint(dirty)
-  }
-
-  override Size getPrefSize(Int hintsWidth, Int hintsHeight) {
-    result := super.canonicalSize(hintsWidth, hintsHeight, sharedDimension)
-    //echo("hintsHeight$hintsHeight, result$result")
-    return Size(result.w, result.h)
+    view.host?.repaint(dirty)
   }
 
   override Void requestLayout() {
     super.requestLayout
-    this.requestPaint(null)
+    view.layoutDirty = 1
+    view.host?.repaint(null)
   }
 
-  protected Void onUpdate() {
-    if (lastUpdateTime == 0) {
-      lastUpdateTime = Duration.nowTicks
-    }
-    now := Duration.nowTicks
-
-    elapsedTime := ((now - lastUpdateTime) / 1000_000)
-
-    // elapsedTime is millisecond.
-    // elapsedTime is 0 cause a bug on updatee animation
-    if (elapsedTime == 0) {
-      if (animManager.hasAnimation) {
-        this.requestPaint
-      }
-      return
-    }
-
-    if (animManager.update(elapsedTime)) {
-//      echo("anim continue")
-      requestPaint
-    }
-
-    lastUpdateTime = now
-  }
-
-  override Void onPaint(Graphics g) {
+  protected override Void doPaint(Graphics g) {
     //beginTime := Duration.nowTicks
-    if (layoutDirty > 0) {
-      //pos := host.pos
-      layout(0, 0, width, height, sharedDimension, layoutDirty>1)
-    }
-
-    onUpdate
-
     g.antialias = this.antialias
     g.brush = background
     g.fillRect(0, 0, width, height)
     //super.paint(g)
 
+    //echo("$width $height")
     //-------------mainView
     g.push
     //g.clip(it.bounds)
@@ -265,13 +205,6 @@ class RootView : Pane, View
     }
   }
 
-  override Void onResize(Int w, Int h) {
-    this.width = w
-    this.height = h
-    layoutDirty = 2
-    requestLayout
-  }
-
 //////////////////////////////////////////////////////////////////////////
 // event
 //////////////////////////////////////////////////////////////////////////
@@ -286,7 +219,7 @@ class RootView : Pane, View
     focusWidget?.onFocusChanged?.fire(e)
 
     this.focusWidget = w
-    host.focus
+    view.host.focus
 
     e.data = true
     focusWidget?.onFocusChanged?.fire(e)
@@ -306,10 +239,10 @@ class RootView : Pane, View
   **
   ** return true if host windows has focus
   **
-  override Bool hasFocus() { host.hasFocus }
+  override Bool hasFocus() { view.host.hasFocus }
 
   Bool isFocusWidiget(Widget w) {
-    if (!host.hasFocus) return false
+    if (!hasFocus()) return false
     return w === focusWidget
   }
 
@@ -321,7 +254,7 @@ class RootView : Pane, View
     }
   }
 
-  override Void onMotionEvent(MotionEvent e) {
+  override Void motionEvent(MotionEvent e) {
     e.relativeX = e.x
     e.relativeY = e.y
 
@@ -340,8 +273,6 @@ class RootView : Pane, View
       return
     }
 
-    gesture.onEvent(e)
-
     if (modal) {
       topLayer.motionEvent(e)
     } else {
@@ -350,12 +281,12 @@ class RootView : Pane, View
     //echo("type$e.type, x$e.x,y$e.y")
   }
 
-  override Void onKeyEvent(KeyEvent e) {
+  override Void keyPress(KeyEvent e) {
     if (focusWidget == null) return
     if (focusWidget.enabled) focusWidget.keyPress(e)
   }
 
-  override Void onWindowEvent(WindowEvent e)
+  protected Void windowEvent(WindowEvent e)
   {
     if (e.type == WindowEvent.opened) onOpened.fire(e)
     else if (e.type == WindowEvent.activated) onActivated.fire(e)

@@ -34,7 +34,7 @@ public class WtkWindow implements Window {
     @Override
     public void doLayout() {
       super.doLayout();
-      view.onResize(canvas.getWidth(), canvas.getHeight());
+      //view.onResize(canvas.getWidth(), canvas.getHeight());
     }
   }
 
@@ -101,13 +101,19 @@ public class WtkWindow implements Window {
   }
 
   @Override
+  public Size size() {
+    return Size.make(canvas.getWidth(), canvas.getHeight());
+  }
+
+  @Override
   public void repaint() {
     canvas.repaint();
   }
 
   @Override
   public void repaint(Rect r) {
-    canvas.repaint((int)r.x, (int)r.y, (int)r.w, (int)r.h);
+    if (r == null) canvas.repaint();
+    else canvas.repaint((int)r.x, (int)r.y, (int)r.w, (int)r.h);
   }
 
 //////////////////////////////////////////////////////////////////////////
