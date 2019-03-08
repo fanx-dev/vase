@@ -13,7 +13,7 @@ using fanvasWindow
 ** MessageBox
 **
 @Js
-class MessageBox : LinearLayout
+class MessageBox : VBox
 {
   Label label { private set }
 

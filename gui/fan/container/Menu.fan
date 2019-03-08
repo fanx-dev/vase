@@ -13,11 +13,11 @@ using fanvasWindow
 ** Menu contains MenuItems.
 **
 @Js
-class Menu : LinearLayout
+class Menu : HBox
 {
   new make()
   {
-    vertical = false
+    //vertical = false
     layoutParam.heightType = SizeType.wrapContent
     layoutParam.widthType = SizeType.matchParent
   }
@@ -30,7 +30,7 @@ class Menu : LinearLayout
 }
 
 @Js
-internal class MenuList : LinearLayout
+internal class MenuList : VBox
 {
   @Transient
   MenuItem? owner

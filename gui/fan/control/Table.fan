@@ -24,8 +24,8 @@ class Table : ScrollBase
   internal Int[]? colWidthCache
 
   @Transient
-  internal WidgetGroup header := LinearLayout {
-    it.vertical = false
+  internal WidgetGroup header := HBox {
+    //it.vertical = false
     it.layoutParam.widthType = SizeType.wrapContent
   }
 

@@ -53,7 +53,7 @@ class ComboBox : ButtonBase
       return
     }
 
-    pane := LinearLayout()
+    pane := VBox()
     list = pane
 
     items.each |item, i|
