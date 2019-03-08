@@ -12,7 +12,7 @@ using concurrent
 
 @Js
 mixin AnimChannel {
-  abstract Void update(Int elapsedTime, Float percent, Float blendWeight)
+  abstract Void update(Int frameTime, Float percent, Float blendWeight)
 }
 
 @Js
@@ -24,9 +24,11 @@ class Animation
   Int elapsedTime := 0
   Float speed := 1f
   Float blendWeight := 1f
-  Bool repeat := false
+  Int repeat := 0
+  Int delay := 0
+
   Bool isRuning := false { private set }
-  Bool isFinished := false
+  Bool isFinished := false { private set }
 
   protected AnimChannel[] channelList := [,]
 
@@ -61,31 +63,35 @@ class Animation
     isFinished = true
   }
 
-  Void update(Int elapsedTime) {
+  Void update(Int frameTime) {
     Int i := 0
     if (!this.isRuning) {
       return
     }
-    this.elapsedTime += (elapsedTime.toFloat * speed).toInt
+    this.elapsedTime += (frameTime.toFloat * speed).toInt
 
-    if (this.elapsedTime > this.duration) {
-      if (this.repeat) {
-        this.elapsedTime %= this.duration
+    elapsed := this.elapsedTime - delay
+    if (elapsed < 0) return
+
+    if (elapsed > this.duration) {
+      if (this.repeat > 1) {
+        elapsed %= this.duration
+        --repeat
       } else {
-        updateChannel(1.0f)
+        updateChannel(frameTime, 1.0f)
         onFinised
         return
       }
     }
 
-    Float percent := this.elapsedTime / this.duration.toFloat
-    updateChannel(percent)
+    Float percent := elapsed / this.duration.toFloat
+    updateChannel(frameTime, percent)
   }
 
-  private Void updateChannel(Float percent) {
+  private Void updateChannel(Int frameTime, Float percent) {
     for (i:=0; i<this.channelList.size; ++i) {
       channel := this.channelList[i]
-      channel.update(this.elapsedTime, percent, this.blendWeight)
+      channel.update(frameTime, percent, this.blendWeight)
     }
   }
 }

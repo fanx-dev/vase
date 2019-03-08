@@ -77,12 +77,6 @@ class ImageButton : ButtonBase {
   }
 
   protected override Void clicked() {
-    a := TweenAnimation() {
-      duration = 200
-      //AlphaAnimChannel {},
-      ScaleAnimChannel { from = 0.9f; to = 1.0f },
-      //TransAnimChannel {  from = Point(-3, -3); to = Point(0, 0) },
-    }
-    a.run(this)
+    this.scaleAnim(0.9).start
   }
 }

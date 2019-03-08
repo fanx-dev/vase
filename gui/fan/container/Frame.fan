@@ -203,6 +203,21 @@ class Frame : Pane
 // event
 //////////////////////////////////////////////////////////////////////////
 
+  ** call by detach widget
+  internal Void onRemove(Widget w) {
+    if (focusWidget === w) {
+      focusWidget = null
+    }
+
+    if (mouseOverWidget === w) {
+      mouseOverWidget = null
+    }
+
+    if (topLayer === w.parent) {
+      modal = false
+    }
+  }
+
   **
   ** request focus for widget
   **

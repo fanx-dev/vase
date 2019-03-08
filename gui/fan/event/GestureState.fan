@@ -94,7 +94,7 @@ class DownState : GestureState {
       dy := e.y - lastY
       distance := (dx*dx + dy*dy).toFloat.sqrt
 
-      if (distance > DisplayMetrics.dpToPixel(50f).toFloat) {
+      if (distance > DisplayMetrics.dpToPixel(70f).toFloat) {
         ns := DragState(machine)
         machine.setCurrentState(ns, e)
       } else {

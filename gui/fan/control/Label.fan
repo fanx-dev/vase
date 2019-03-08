@@ -48,37 +48,10 @@ class Toast : Label {
     overlayer.add(this)
     overlayer.relayout
 
-    a := TweenAnimation() {
-      duration = 2000
-      AlphaAnimChannel {},
-    }
+    a := this.fadeInAnim
     a.whenDone.add {
-      fadeout
+      this.fadeOutAnim { delay = 1000 }.start
     }
-    a.run(this)
-  }
-
-  Void fadeout() {
-    a := TweenAnimation() {
-      duration = 2000
-      AlphaAnimChannel { from = 1f; to = 0f; },
-    }
-    a.whenDone.add {
-      hide
-    }
-    a.run(this)
-  }
-
-  Void hide()
-  {
-    WidgetGroup? p := parent
-    if (p == null) return
-
-    if (this.hasFocus) {
-      p.getRootView.focusIt(null)
-    }
-    p.remove(this)
-    p.repaint
-    p.getRootView.modal = false
+    a.start
   }
 }

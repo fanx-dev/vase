@@ -43,10 +43,16 @@ abstract class WidgetGroup : Widget
   This remove(Widget? child)
   {
     if (child == null) return this
+
+    root := getRootView
+    root?.onRemove(child)
+
     if (children.removeSame(child) == null) {
       throw ArgErr("not my child: $child, parent$child.parent")
     }
     child.setParent(null)
+
+    if (root != null) this.relayout
     return this
   }
 

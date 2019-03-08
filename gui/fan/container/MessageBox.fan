@@ -28,11 +28,14 @@ class MessageBox : VBox
     btn := Button {
       it.id = "messageBox_ok"
       onAction.add {
+        /*
         a := TweenAnimation() {
           AlphaAnimChannel { from = 1f; to = 0f },
         }
         a.whenDone.add |->|{ hide }
         a.run(this)
+        */
+        this.shrinkAnim.start
       };
       it.text = "OK"
       it.layoutParam.widthType = SizeType.matchParent
@@ -59,14 +62,16 @@ class MessageBox : VBox
     this.focus
     root.modal = true
     overlayer.relayout
-
+    /*
     a := TweenAnimation() {
       AlphaAnimChannel {},
       TransAnimChannel {},
     }
     a.run(this)
+    */
+    this.expandAnim.start
   }
-
+  /*
   Void hide()
   {
     WidgetGroup? p := parent
@@ -79,4 +84,5 @@ class MessageBox : VBox
     p.repaint
     p.getRootView.modal = false
   }
+  */
 }

@@ -14,11 +14,11 @@ using concurrent
 class AnimManager {
   private Animation[] animationList := [,]
 
-  Bool update(Int elapsedTime) {
+  Bool update(Int frameTime) {
     n := animationList.size
     for (i:=0; i<n; ++i) {
       anim := animationList.get(i)
-      anim.update(elapsedTime)
+      anim.update(frameTime)
       if (anim.isFinished) {
         animationList.removeAt(i)
         --i

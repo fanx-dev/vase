@@ -18,7 +18,7 @@ using fanvasGui
 class WidgetTest : BaseTestWin
 {
   protected override Widget build() {
-    LinearLayout
+    VBox
     {
       padding = Insets(100)
       spacing = 30f
@@ -41,12 +41,7 @@ class WidgetTest : BaseTestWin
   protected override Void init(Frame root) {
 
     label := root.findById("label")
-    a := TweenAnimation() {
-      AlphaAnimChannel {},
-//      ScaleAnimChannel {},
-      TransAnimChannel {},
-    }
-    a.run(label)
+    label.moveInAnim(Direction.down).start
 
     Button btn := root.findById("button")
     btn.onAction.add

@@ -11,7 +11,7 @@ class ScrollAnimChannel : AnimChannel {
   protected Float endV := 0f
   Float acceleration := -0.001f
   Float startV := 1f
-  private Int lastT := 0
+  //private Int lastT := 0
 
   protected Bool backwards := true
   ScrollBar? target
@@ -42,22 +42,25 @@ class ScrollAnimChannel : AnimChannel {
     return false
   }
 
-  override Void update(Int elapsedTime, Float percent, Float blendWeight) {
+  override Void update(Int frameTime, Float percent, Float blendWeight) {
+    /*
     if (lastT == 0) {
       lastT = elapsedTime
       init
       target.repaint
       return
     }
+    */
     if (isFinished) {
       return
     }
 
-    t := (elapsedTime - lastT).toFloat
+    //t := (elapsedTime - lastT).toFloat
+    t := frameTime
     s := (startV * t) + (acceleration * t * t / 2)
 
-    startV = startV + (acceleration * t)
-    lastT += t.toInt
+    //startV = startV + (acceleration * t)
+    //lastT += t.toInt
 
     pos := target.curPos - s
     //echo("pos$pos, s$s, $allowOverScroll")

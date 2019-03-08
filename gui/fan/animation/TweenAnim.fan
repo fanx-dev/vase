@@ -25,14 +25,16 @@ class TweenAnimation : Animation {
     if (widget.transform == null) {
       widget.transform = Transform2D()
     }
+    widget.repaint
   }
 
-  Void run(Widget widget) {
+  This bind(Widget widget) {
     this.widget = widget
     channelList.each |TweenAnimChannel c| { c.widget = widget }
     widget.getRootView.animManager.add(this)
-    this.start
-    widget.repaint
+    //this.start
+    //widget.repaint
+    return this
   }
 }
 
@@ -41,7 +43,7 @@ abstract class TweenAnimChannel : AnimChannel {
   Widget? widget
   Interpolation interpolation := Interpolation()
 
-  override Void update(Int elapsedTime, Float percent, Float blendWeight) {
+  override Void update(Int frameTime, Float percent, Float blendWeight) {
     Float p := interpolation.evaluate(percent)
     onUpdate(p)
     widget.repaint
@@ -51,7 +53,7 @@ abstract class TweenAnimChannel : AnimChannel {
 }
 
 @Js
-class TransAnimChannel : TweenAnimChannel {
+class TranslateAnimChannel : TweenAnimChannel {
   Point from := Point(0, 100)
   Point to := Point.defVal
 
@@ -67,6 +69,23 @@ class TransAnimChannel : TweenAnimChannel {
     lastY = y
     //echo("dx$dx,dy$dy,lx$lastX,ly$lastY")
     widget?.transform?.translate(dx, dy)
+  }
+}
+
+@Js
+class RotateAnimChannel : TweenAnimChannel {
+  Float from := 0f
+  Float to := 1f
+
+  private Float lastRotate := 1f
+
+  override Void onUpdate(Float percent) {
+    rotate := (from + (to - from) * percent)
+    drotate := rotate - lastRotate
+    x := widget.width /2.0f
+    y := widget.height /2.0f
+    lastRotate = rotate
+    widget?.transform?.rotate(x, y, drotate)
   }
 }
 
@@ -87,6 +106,7 @@ class ScaleAnimChannel : TweenAnimChannel {
   Float to := 1f
 
   private Float lastScale := 1f
+
   override Void onUpdate(Float percent) {
     scale := (from + (to - from) * percent)
     dscale := scale / lastScale

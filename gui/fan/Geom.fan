@@ -198,3 +198,9 @@ const class Insets
   const Int left
 }
 
+enum class Direction {
+  top,
+  right,
+  down,
+  left
+}
