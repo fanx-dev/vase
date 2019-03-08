@@ -46,7 +46,7 @@ class ScrollAnimChannel : AnimChannel {
     if (lastT == 0) {
       lastT = elapsedTime
       init
-      target.requestPaint
+      target.repaint
       return
     }
     if (isFinished) {
@@ -62,7 +62,7 @@ class ScrollAnimChannel : AnimChannel {
     pos := target.curPos - s
     //echo("pos$pos, s$s, $allowOverScroll")
     target.setCurPos(pos, true, allowOverScroll)
-    target.requestPaint
+    target.repaint
 
     isFinished = isEnd
   }

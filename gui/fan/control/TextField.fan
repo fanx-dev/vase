@@ -72,7 +72,7 @@ class TextField : Widget, TextInput
         if (host != null) {
           host.close
         }
-        requestPaint
+        repaint
       }
     }
     this.padding = Insets(40)
@@ -112,7 +112,7 @@ class TextField : Widget, TextInput
 
     //show caret
     caret.visible = true
-    requestPaint
+    repaint
 
     //caret blink
     timer = Timer(500)|->|
@@ -120,7 +120,7 @@ class TextField : Widget, TextInput
       if (this.hasFocus)
       {
         caret.visible = !caret.visible
-        requestPaint
+        repaint
       }
     }
     timer.start
@@ -129,7 +129,7 @@ class TextField : Widget, TextInput
   private Void stopCaret() { timer?.cancel }
 
 
-  override Void keyPress(KeyEvent e)
+  override Void keyEvent(KeyEvent e)
   {
     if (e.key == Key.backspace)
     {
@@ -138,7 +138,7 @@ class TextField : Widget, TextInput
         if (text.size > 0)
         {
           text = text[0..-2]
-          requestPaint
+          repaint
         }
       }
       return
@@ -149,7 +149,7 @@ class TextField : Widget, TextInput
     if (e.keyChar < 32) return
 
     text += e.keyChar.toChar
-    requestPaint
+    repaint
   }
 
   protected override Void gestureEvent(GestureEvent e)

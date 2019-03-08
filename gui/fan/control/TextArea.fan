@@ -244,7 +244,7 @@ class TextArea : ScrollBase
         selectionStart = -1
         selectionEnd = -1
         draging = false
-        this.requestPaint
+        this.repaint
         return
       }
       caret.offset = offset
@@ -257,12 +257,12 @@ class TextArea : ScrollBase
         selectionStart = selectionEnd
         selectionEnd = temp
       }
-      this.requestPaint
+      this.repaint
       e.consume
     }
   }
 
-  override Void keyPress(KeyEvent e)
+  override Void keyEvent(KeyEvent e)
   {
     // remove text
     if (e.key == Key.backspace)
@@ -276,14 +276,14 @@ class TextArea : ScrollBase
           selectionStart = -1
           selectionEnd = -1
           draging = false
-          requestPaint
+          repaint
         }
         else if (caret.offset > 0)
         {
           --caret.offset
           model.modify(caret.offset, 1, "")
 
-          requestPaint
+          repaint
         }
       }
       return
@@ -297,6 +297,6 @@ class TextArea : ScrollBase
 
     model.modify(caret.offset, 0, e.keyChar.toChar)
     caret.offset++
-    requestPaint
+    repaint
   }
 }

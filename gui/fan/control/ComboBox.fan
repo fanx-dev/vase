@@ -41,7 +41,7 @@ class ComboBox : ButtonBase
   private Void select(ButtonBase btn, Int i)
   {
     selectedIndex = i
-    this.requestPaint
+    this.repaint
     hide
   }
 
@@ -89,7 +89,7 @@ class ComboBox : ButtonBase
       }
     }
 
-    overlayer.requestLayout
+    overlayer.relayout
     root.modal = true
   }
 
@@ -101,7 +101,7 @@ class ComboBox : ButtonBase
     root := this.getRootView
     root.focusIt(null)
     root.modal = false
-    p.requestPaint
+    p.repaint
     list = null
   }
 }

@@ -46,7 +46,7 @@ class Toast : Label {
     root := w.getRootView
     overlayer := root.topOverlayer
     overlayer.add(this)
-    overlayer.requestLayout
+    overlayer.relayout
 
     a := TweenAnimation() {
       duration = 2000
@@ -78,7 +78,7 @@ class Toast : Label {
       p.getRootView.focusIt(null)
     }
     p.remove(this)
-    p.requestPaint
+    p.repaint
     p.getRootView.modal = false
   }
 }

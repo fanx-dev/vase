@@ -25,7 +25,7 @@ class Menu : HBox
   Void close()
   {
     getRootView.topOverlayer.removeAll
-    getRootView.requestPaint
+    getRootView.repaint
   }
 }
 
@@ -131,7 +131,7 @@ class MenuItem : ButtonBase
       }
     }
 
-    group.requestLayout
+    group.relayout
   }
 
   @Operator virtual This add(MenuItem item)

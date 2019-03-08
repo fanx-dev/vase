@@ -32,7 +32,7 @@ class TweenAnimation : Animation {
     channelList.each |TweenAnimChannel c| { c.widget = widget }
     widget.getRootView.animManager.add(this)
     this.start
-    widget.requestPaint
+    widget.repaint
   }
 }
 
@@ -44,7 +44,7 @@ abstract class TweenAnimChannel : AnimChannel {
   override Void update(Int elapsedTime, Float percent, Float blendWeight) {
     Float p := interpolation.evaluate(percent)
     onUpdate(p)
-    widget.requestPaint
+    widget.repaint
   }
 
   abstract Void onUpdate(Float percent)

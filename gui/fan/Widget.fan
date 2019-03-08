@@ -213,7 +213,7 @@ abstract class Widget
   **
   ** Post key event
   **
-  protected virtual Void keyPress(KeyEvent e) {}
+  protected virtual Void keyEvent(KeyEvent e) {}
 
   **
   ** Paints this component.
@@ -417,11 +417,11 @@ abstract class Widget
   **
   ** Requset relayout this widget
   **
-  virtual Void requestLayout() {
+  virtual Void relayout() {
     this.layoutDirty = 1
     this.prefSizeDirty = true
     this.renderCacheDirty = true
-    this.parent?.requestLayout
+    this.parent?.relayout
   }
 
 //////////////////////////////////////////////////////////////////////////
@@ -511,13 +511,13 @@ abstract class Widget
   **
   ** Repaints the specified rectangle.
   **
-  virtual Void requestPaint(Rect? dirty := null)
+  virtual Void repaint(Rect? dirty := null)
   {
     renderCacheDirty = true
     if (dirty == null) dirty = this.bounds
     //convert dirty coordinate system to realative to parent
     else dirty = Rect(dirty.x + x, dirty.y + y, dirty.w, dirty.h)
-    this.parent?.requestPaint(dirty)
+    this.parent?.repaint(dirty)
   }
 
 //////////////////////////////////////////////////////////////////////////

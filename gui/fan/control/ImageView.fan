@@ -34,7 +34,7 @@ class ImageView : Widget
     if (image == null) return result.set(0, 0)
     if (!image.isReady) {
       Toolkit.cur.callLater(1000) |->| {
-        this.getRootView.requestLayout
+        this.getRootView.relayout
       }
       return result.set(0, 0)
     }
@@ -66,7 +66,7 @@ class ImageButton : ButtonBase {
     if (image == null) return result.set(0, 0)
     if (!image.isReady) {
       Toolkit.cur.callLater(1000) |->| {
-        this.getRootView.requestLayout
+        this.getRootView.relayout
       }
       return result.set(0, 0)
     }

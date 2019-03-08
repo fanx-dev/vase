@@ -185,7 +185,7 @@ class ScrollBar : Widget
       //echo("=====>$curPos")
       lastX = p.x
       lastY = p.y
-      requestPaint
+      repaint
     }
   }
 }

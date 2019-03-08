@@ -219,7 +219,7 @@ class SimpleListAdapter : ListAdapter
   protected override Void bind(Widget w, Obj data) {
     Label l := w
     l.text = data.toStr
-    l.requestPaint
+    l.repaint
   }
 
   protected override Widget newView(Int type) {

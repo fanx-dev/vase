@@ -113,7 +113,7 @@ class TreeView : ScrollBase
       if (i < items.size)
       {
         expanded(items[i])
-        this.requestLayout
+        this.relayout
         e.consume
       }
     }

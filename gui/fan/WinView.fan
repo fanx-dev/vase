@@ -115,7 +115,7 @@ internal class WinView : View
   }
 
   override Void onKeyEvent(KeyEvent e) {
-    widget.keyPress(e)
+    widget.keyEvent(e)
   }
 
   override Void onWindowEvent(WindowEvent e) {

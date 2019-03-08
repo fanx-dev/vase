@@ -53,7 +53,7 @@ abstract class ScrollBase : Pane
           }
         }
 
-        this.requestPaint
+        this.repaint
       }
     }
     vbar.onPosChanged.add |StateChangedEvent e|
@@ -72,7 +72,7 @@ abstract class ScrollBase : Pane
           }
         }
 
-        this.requestPaint
+        this.repaint
       }
     }
 
@@ -182,7 +182,7 @@ abstract class ScrollBase : Pane
     {
       pos := vbar.curPos + e.delta * dpToPixel(80f)
       vbar.setCurPos(pos, true)
-      vbar.requestPaint
+      vbar.repaint
       e.consume
     }
     else if (e.type == MotionEvent.pressed) {
@@ -218,7 +218,7 @@ abstract class ScrollBase : Pane
     if (e.type == GestureEvent.drag) {
       pos := vbar.curPos - (e.deltaY)
       vbar.setCurPos(pos, true, true)
-      vbar.requestPaint
+      vbar.repaint
       e.consume
     }
     else if (e.type == GestureEvent.fling) {
@@ -231,7 +231,7 @@ abstract class ScrollBase : Pane
         }
         startAnimation(anim)
       }
-      vbar.requestPaint
+      vbar.repaint
     }
     else if (e.type == GestureEvent.drop) {
       animatOverScroll

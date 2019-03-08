@@ -31,7 +31,7 @@ class ButtonBase : Label
       e := StateChangedEvent (&state, it, #state, this )
       onStateChanged.fire(e)
       &state = it
-      this.requestPaint
+      this.repaint
     }
   }
 
@@ -80,7 +80,7 @@ class ButtonBase : Label
 
   override Void mouseEnter() { state = mouseOver }
 
-  override Void keyPress(KeyEvent e)
+  override Void keyEvent(KeyEvent e)
   {
     if (e.type == KeyEvent.released && e.key == Key.enter)
     {

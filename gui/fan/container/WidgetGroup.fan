@@ -174,10 +174,10 @@ abstract class WidgetGroup : Widget
     e.relativeY = py
   }
 
-  protected override Void keyPress(KeyEvent e) {
+  protected override Void keyEvent(KeyEvent e) {
     children.eachr {
       if (it.enabled) {
-        it.keyPress(e)
+        it.keyEvent(e)
       }
     }
   }

@@ -58,7 +58,7 @@ class MessageBox : VBox
     overlayer.add(this)
     this.focus
     root.modal = true
-    overlayer.requestLayout
+    overlayer.relayout
 
     a := TweenAnimation() {
       AlphaAnimChannel {},
@@ -76,7 +76,7 @@ class MessageBox : VBox
       p.getRootView.focusIt(null)
     }
     p.remove(this)
-    p.requestPaint
+    p.repaint
     p.getRootView.modal = false
   }
 }

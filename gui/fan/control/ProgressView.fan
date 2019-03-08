@@ -24,6 +24,6 @@ class ProgressView : Widget
 
   protected override Void doPaint(Graphics g) {
     super.doPaint(g)
-    requestPaint
+    repaint
   }
 }

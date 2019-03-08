@@ -33,7 +33,7 @@ class ToggleButton : ButtonBase
   protected override Void clicked() {
     super.clicked
     selected = !selected
-    this.requestPaint
+    this.repaint
   }
 
   protected override Dimension prefContentSize(Dimension result) {
@@ -57,12 +57,12 @@ class RadioButton : ToggleButton {
         RadioButton r := w
         if (r.selected) {
           r.selected = false
-          r.requestPaint
+          r.repaint
         }
       }
     }
     selected = true
-    this.requestPaint
+    this.repaint
   }
 }
 
@@ -83,16 +83,16 @@ class Switch : ToggleButton {
       FloatPropertyAnimChannel(this, #animPostion) {
         from = afrom; to = ato
         it.updateFunc = |->| {
-          this.requestPaint
+          this.repaint
         }
       },
     }
     anim.whenDone.add {
-      this.requestPaint
+      this.repaint
     }
     anim.duration = 200
     this.getRootView.animManager.add(anim)
     anim.start
-    this.requestPaint
+    this.repaint
   }
 }

@@ -88,12 +88,6 @@ class Frame : Pane
   //private Dimension sharedDimension := Dimension(0, 0)
 
   **
-  ** global motion event
-  **
-  @Transient
-  EventListeners onTouchEvent := EventListeners()
-
-  **
   ** ctor
   **
   new make() {
@@ -156,7 +150,7 @@ class Frame : Pane
   **
   ** repaint the dirty region on later
   **
-  override Void requestPaint(Rect? dirty := null)
+  override Void repaint(Rect? dirty := null)
   {
     renderCacheDirty = true
     if (dirty == null) dirty = this.bounds
@@ -166,8 +160,8 @@ class Frame : Pane
     view.host?.repaint(dirty)
   }
 
-  override Void requestLayout() {
-    super.requestLayout
+  override Void relayout() {
+    super.relayout
     view.layoutDirty = 1
     view.host?.repaint(null)
   }
@@ -281,15 +275,15 @@ class Frame : Pane
     //echo("type$e.type, x$e.x,y$e.y")
   }
 
-  override Void keyPress(KeyEvent e) {
+  override Void keyEvent(KeyEvent e) {
     if (focusWidget == null) return
-    if (focusWidget.enabled) focusWidget.keyPress(e)
+    if (focusWidget.enabled) focusWidget.keyEvent(e)
   }
 
   protected Void windowEvent(WindowEvent e)
   {
     if (e.type == WindowEvent.opened) onOpened.fire(e)
-    else if (e.type == WindowEvent.activated) onActivated.fire(e)
+    //else if (e.type == WindowEvent.activated) onActivated.fire(e)
     else onWindowStateChange.fire(e)
   }
 
@@ -301,8 +295,9 @@ class Frame : Pane
   once EventListeners onOpened() { EventListeners() }
 
   **
-  ** Callback function when window becomes the active window on the desktop with focus.
+  ** global motion event
   **
-  once EventListeners onActivated() { EventListeners() }
+  @Transient
+  EventListeners onTouchEvent := EventListeners()
 
 }
