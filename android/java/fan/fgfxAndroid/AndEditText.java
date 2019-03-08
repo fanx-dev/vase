@@ -21,14 +21,14 @@ import fan.fanvasGraphics.Color;
 import fan.fanvasGraphics.Font;
 import fan.fanvasGraphics.Point;
 import fan.fanvasGraphics.Size;
-import fan.fanvasWindow.NativeEditText;
+import fan.fanvasWindow.TextInput;
+import fan.fanvasWindow.TextInputPeer;
 import fan.fanvasWindow.Window;
 
-public class AndEditText extends EditText implements NativeEditText {
-	fan.fanvasWindow.EditText view;
-	Window win;
+public class AndEditText extends EditText implements TextInputPeer {
+	fan.fanvasWindow.TextInput view;
 
-	public AndEditText(Context context, fan.fanvasWindow.EditText view) {
+	public AndEditText(Context context, fan.fanvasWindow.TextInput view) {
 		super(context);
 		this.view = view;
 
@@ -61,76 +61,56 @@ public class AndEditText extends EditText implements NativeEditText {
 //	protected void onTextChanged(CharSequence text, int start, int lengthBefore, int lengthAfter) {
 //		AndEditText.this.view.onTextChanged(text.toString());
 //	}
-
-	@Override
-	public Size size() {
-		return Size.make(this.getWidth(), this.getHeight());
-	}
-
-	@Override
-	public Point pos() {
-		int x = this.getLeft();
-		int y = this.getTop();
-		return Point.make(x, y);
-	}
-
-	@Override
-	public void repaint(fan.fanvasGraphics.Rect dirty) {
-		if (dirty == null) {
-			this.invalidate();
-			return;
-		}
-		Rect rect = new Rect((int) dirty.x, (int) dirty.y,
-				((int) dirty.x + (int) dirty.w),
-				((int) dirty.y + (int) dirty.h));
-		this.invalidate(rect);
-	}
-
-	@Override
-	public void repaint() {
-		repaint(null);
-	}
-
-	@Override
-	public boolean hasFocus() {
-		return super.hasFocus();
-	}
 	
 	private void showInputMethod() {
 		InputMethodManager imm = (InputMethodManager)this.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
 		imm.showSoftInput(this, InputMethodManager.SHOW_IMPLICIT);
 	}
 
-	@Override
-	public void focus() {
+	private void hideInputMethod() {
+	  InputMethodManager imm = (InputMethodManager)this.getContext().getSystemService(Context.INPUT_METHOD_SERVICE); 
+	  imm.hideSoftInputFromWindow(this.getWindowToken(),0);
+  }
+
+  @Override
+  public void close() {
+  	hideInputMethod();
+  }
+
+  @Override
+  public void update() {
+  	setInputType(view.inputType());
+
+  	Typeface tf = AndUtil.toAndFont(view.font());
+		this.setTypeface(tf);
+		this.setTextSize(0, (float)view.font().size);
+
+		super.setBackgroundColor((int)view.backgroundColor().argb);
+  	super.setTextColor((int)view.textColor().argb);
+
+  	Point pos = view.getPos();
+  	Size size = view.getSize();
+  	setBound(pos.x, pos.y, size.w, size.h);
+
+  	//TODO
+  	//this.setTextIsSelectable(view.selectable());
+  	this.setSingleLine(view.singleLine());
+
+  	String text = view.text();
+  	super.setText(text);
+		//super.setTextKeepState(t);
+		super.setSelection(text.length());
+
 		this.requestFocus();
 		showInputMethod();
-	}
-
-	@Override
-	public Window win() {
-		return win;
-	}
-
-	@Override
-	public void setBackgroundColor(Color ca) {
-		super.setBackgroundColor((int) ca.argb);
-	}
-
-	@Override
-	public void setFont(Font f) {
-		Typeface tf = AndUtil.toAndFont(f);
-		this.setTypeface(tf);
-		this.setTextSize(f.size);
-	}
+  }
 
 	final static int inputTypeText = 1;
 	final static int inputTypeIntNumber = 2;
 	final static int inputTypeFloatNumber = 3;
 	final static int inputTypePassword = 4;
 
-	@Override
-	public void setInputType(long t) {
+	private void setInputType(long t) {
 		int type = 0;
 		switch ((int) t) {
 		case inputTypeText:
@@ -149,36 +129,13 @@ public class AndEditText extends EditText implements NativeEditText {
 		super.setInputType(type);
 	}
 
-	@Override
+	/*
 	public void setSelection(long start, long stop) {
 		super.setSelection((int) start, (int) stop);
 	}
-
-	@Override
-	public void setTextColor(Color ca) {
-		this.setBackgroundColor((int) ca.argb);
-	}
-
-	@Override
-	public void setTextSelectable(boolean s) {
-		this.setTextSelectable(s);
-	}
-
-	@Override
-	public String text() {
-		String t = this.getEditableText().toString();
-		return t;
-	}
-
-	@Override
-	public void text(String t) {
-		super.setText(t);
-		//super.setTextKeepState(t);
-		super.setSelection(t.length());
-	}
+	*/
 	
-	@Override
-	public void setBound(long x, long y, long w, long h) {
+	private void setBound(long x, long y, long w, long h) {
 		this.setWidth((int)w);
 		this.setHeight((int)h);
 		FrameLayout.LayoutParams param = new FrameLayout.LayoutParams(

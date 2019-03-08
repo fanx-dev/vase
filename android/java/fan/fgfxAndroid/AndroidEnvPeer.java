@@ -39,15 +39,16 @@ public class AndroidEnvPeer {
         float dpi = (float) Math.ceil(Math.max(Math.max(metrics.xdpi, metrics.ydpi),
             metrics.densityDpi));
         this.dpi = (long)dpi;
-        density = metrics.density / 2.0;
+        density = metrics.density;
       }
       
       handler = new Handler();
     }
 
     @Override
-    public Window build() {
-      return new AndWindow(context);
+    public void show(fan.fanvasWindow.View view)
+    {
+      new AndWindow(context, view).show(null);
     }
 
     @Override
