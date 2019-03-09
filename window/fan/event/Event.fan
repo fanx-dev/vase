@@ -64,7 +64,7 @@ class EventListeners
       }
       catch (Err e)
       {
-        echo("event: $event")
+        //echo("event: $event")
         e.trace
       }
     }

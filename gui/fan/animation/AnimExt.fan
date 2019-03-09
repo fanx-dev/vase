@@ -6,6 +6,7 @@ using fanvasGraphics
 // Animation convenience
 //////////////////////////////////////////////////////////////////////////
 
+@Js
 class AnimExt {
   static extension Animation fadeInAnim(Widget self, Int time := 500) {
     a := TweenAnimation {

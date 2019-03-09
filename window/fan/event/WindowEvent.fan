@@ -30,5 +30,5 @@ class WindowEvent : Event
     this.type = type
   }
 
-  override Str toStr() { "DisplayEvent: $type" }
+  override Str toStr() { "WindowEvent: $type" }
 }

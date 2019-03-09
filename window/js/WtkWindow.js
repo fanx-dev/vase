@@ -145,8 +145,9 @@ fan.fanvasWindow.WtkWindow.prototype.createCanvas = function(shell, size) {
   c.height = size.m_h;
 
   this.elem = c;
+  shell.appendChild(this.elem);
   this.bindEvent(c);
-  c.setAttribute('tabindex','0');
+  //c.setAttribute('tabindex','0');
   c.focus();
 
   //create fan graphics
@@ -156,7 +157,7 @@ fan.fanvasWindow.WtkWindow.prototype.createCanvas = function(shell, size) {
   fan.fanvasWindow.WtkWindow.graphics = g;
 
   //init graphics
-  var cx = view.m_host.elem.getContext("2d");
+  var cx = this.elem.getContext("2d");
   var rect = new fan.fanvasGraphics.Rect.make(0,0, size.m_w, size.m_h);
   g.init(cx, rect);
 }
@@ -183,20 +184,22 @@ fan.fanvasWindow.WtkWindow.prototype.show = function(size)
     height     = "100%";
     background = "#fff";
   }
+
   this.root.appendChild(shell);
   this.shell = shell;
-  shell.appendChild(this.elem);
-
   var self = this;
   fan.fanvasWindow.WtkWindow.instance = this;
 
   this.createCanvas(shell, size);
   // attach resize listener
-  fan.fanvasWindow.GfxUtil.addEventListener(window, "resize", function() { self.createCanvas(shell, null); });
+  fan.fanvasWindow.GfxUtil.addEventListener(window, "resize", function() {
+    self.createCanvas(shell, null);
+    self.needRepaint = true;
+  });
 
   //fire event
   var event = fan.fanvasWindow.WindowEvent.make(fan.fanvasWindow.WindowEvent.m_opened);
-  view.onWindowEvent(event);
+  this.view.onWindowEvent(event);
 
   //paint
   this.needRepaint = false;
@@ -213,13 +216,14 @@ fan.fanvasWindow.WtkWindow.prototype.show = function(size)
 fan.fanvasWindow.WtkWindow.prototype.textInput = function(view) {
   if (!view.host()) {
     var jsEditText = new fan.fanvasWindow.WtkEditText();
-    var field = jsEditText.init(view);
+    jsEditText.init(view);
     view.host$(jsEditText);
   }
 
-  if (!view.host().parentNode) {
-    this.shell.appendChild(field);
+  var jsEditText = view.host();
+  if (!jsEditText.elem.parentNode) {
+    this.shell.appendChild(jsEditText.elem);
   }
   
-  view.host().update();
+  jsEditText.update();
 }

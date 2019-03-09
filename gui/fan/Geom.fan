@@ -198,6 +198,7 @@ const class Insets
   const Int left
 }
 
+@Js
 enum class Direction {
   top,
   right,

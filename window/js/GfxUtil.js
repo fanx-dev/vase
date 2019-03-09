@@ -20,7 +20,7 @@ fan.fanvasWindow.GfxUtil.fontToCss = function(font)
 
 fan.fanvasWindow.GfxUtil.uriToImageSrc = function(uri)
 {
-  if (uri.scheme() == "fan")
+  if ("fan" == uri.scheme)
     return fan.sys.UriPodBase + uri.host() + uri.pathStr()
   else
     return uri.toStr();

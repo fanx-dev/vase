@@ -97,7 +97,7 @@ public class WtkWindow implements Window {
       frame.add(edit.comp(), 0);
     }
 
-    textInput.host().update();
+    edit.update();
     return;
   }
 

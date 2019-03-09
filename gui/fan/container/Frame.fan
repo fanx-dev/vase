@@ -17,6 +17,7 @@ using fanvasMath
 @Js
 class Frame : Pane
 {
+  @Transient
   private WinView view
 
   **
