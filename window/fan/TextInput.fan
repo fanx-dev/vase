@@ -35,8 +35,8 @@ mixin TextInput
   
   abstract Str text()
 
-  abstract Void willTextChange(Str text)
-  abstract Void didTextChange(Str text)
+  abstract Str textChange(Str text)
+  abstract Void keyAction(Str text)
 }
 
 @Js

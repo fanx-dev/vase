@@ -5,6 +5,8 @@ import java.awt.EventQueue;
 //import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.awt.event.WindowStateListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 
 import javax.swing.JFrame;
 
@@ -44,10 +46,6 @@ public class WtkWindow implements Window {
     this.view = rootView;
     ComponentUtils.bindEvent(view, canvas);
 
-    //TODO fix size
-    Size size = rootView.getPrefSize(600, 600);
-    canvas.setPreferredSize(new Dimension((int)size.w, (int)size.h));
-
     rootView.host(this);
     frame.add(canvas);
   }
@@ -57,12 +55,19 @@ public class WtkWindow implements Window {
     //frame.setContentPane(canvas);
     frame.addWindowStateListener(winStateListenner);
     frame.addWindowListener(winListener);
+    frame.setLayout(null);
 
-    if (s != null) {
-      frame.setSize((int)s.w, (int)s.h);
-    } else {
-      frame.pack();
+    if (s == null) {
+      s = view.getPrefSize(600, 600);
     }
+    canvas.setSize((int)s.w, (int)s.h);
+    //frame.pack();
+    frame.setSize((int)s.w, (int)s.h);
+
+    frame.addComponentListener(new ComponentAdapter(){
+      @Override public void componentResized(ComponentEvent e){
+          canvas.setSize(frame.getWidth(), frame.getHeight());
+      }});
 
     EventQueue.invokeLater(new Runnable()
     {
@@ -82,7 +87,18 @@ public class WtkWindow implements Window {
   }
 
   public void textInput(TextInput textInput) {
-    //TODO
+    if (textInput.host() == null) {
+      WtkEditText edit = new WtkEditText(textInput);
+      textInput.host(edit);
+    }
+    
+    WtkEditText edit = (WtkEditText)textInput.host();
+    if (edit.comp().getParent() == null) {
+      frame.add(edit.comp(), 0);
+    }
+
+    textInput.host().update();
+    return;
   }
 
   @Override

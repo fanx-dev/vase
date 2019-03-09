@@ -14,10 +14,8 @@ fan.fanvasWindow.ToolkitEnvPeer.init = function() {
    fan.concurrent.Actor.locals().set("fanvasWindow.env", new fan.fanvasWindow.Toolkit());
 }
 
-fan.fanvasWindow.Toolkit.prototype.build = function() {
-   var win = new fan.fanvasWindow.WtkWindow();
-   fan.fanvasWindow.ToolkitEnvPeer.win = win;
-   return win;
+fan.fanvasWindow.Toolkit.prototype.show = function(view) {
+   fan.fanvasWindow.WtkWindow.make(view).show(null);
 }
 
 fan.fanvasWindow.Toolkit.prototype.name = function() {

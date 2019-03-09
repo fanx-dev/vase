@@ -6,72 +6,153 @@
 //   2011-7-4  Jed Young  Creation
 //
 
-fan.fanvasWindow.WtkWindow = fan.sys.Obj.$extend(fan.sys.Obj);
+fan.fanvasWindow.WtkWindow = fan.sys.Obj.$extend(fan.fanvasWindow.Window);
 fan.fanvasWindow.WtkWindow.prototype.$ctor = function() {}
 fan.fanvasWindow.WtkWindow.prototype.$typeof = function() {
   return fan.fanvasWindow.WtkWindow.$type;
 }
-fan.fanvasWindow.WtkWindow.prototype.list = new Array();
+
+fan.fanvasWindow.WtkWindow.prototype.view = null;
+fan.fanvasWindow.WtkWindow.prototype.m_size = null;
+fan.fanvasWindow.WtkWindow.prototype.elem = null;
+fan.fanvasWindow.WtkWindow.prototype.needRepaint = true;
+fan.fanvasWindow.WtkWindow.prototype.graphics = null;
+
 
 //////////////////////////////////////////////////////////////////////////
 // cavans
 //////////////////////////////////////////////////////////////////////////
 
-fan.fanvasWindow.WtkWindow.prototype.add = function(view)
+fan.fanvasWindow.WtkWindow.prototype.invalid = function()
 {
-  if (view.willTextChange) {
-    this.root.appendChild(this.createEditText(view));
-  } else {
-    this.list.push(view);
-  }
-  return this;
+  this.needRepaint = true;
 }
 
-fan.fanvasWindow.WtkWindow.prototype.createEditText = function(view) {
-  var jsEditText = new fan.fanvasWindow.WtkEditText();
-  jsEditText.m_win = this;
-  view.host$(jsEditText);
-  jsEditText.view = view;
+//////////////////////////////////////////////////////////////////////////
+// Event
+//////////////////////////////////////////////////////////////////////////
 
-  var field = document.createElement("input");
-  field.type = "text";
-  field.style.position = "absolute";
-
-  jsEditText.elem = field;
-
-  return field;
+fan.fanvasWindow.WtkWindow.prototype.bindEvent = function(elem)
+{
+  //this.addEvent(this.elem, "mouseover",  fan.fwt.EventId.m_mouseEnter, self.onMouseEnter());
+  //this.addEvent(this.elem, "mouseout",   fan.fwt.EventId.m_mouseExit,  self.onMouseExit());
+  this.addMotionEvent(this.elem, "mousedown",  fan.fanvasWindow.MotionEvent.m_pressed);
+  this.addMotionEvent(this.elem, "mousemove",  fan.fanvasWindow.MotionEvent.m_moved);
+  this.addMotionEvent(this.elem, "mouseup",    fan.fanvasWindow.MotionEvent.m_released);
+  this.addMotionEvent(this.elem, "mousewheel", fan.fanvasWindow.MotionEvent.m_wheel);
+  this.addKeyEvent(this.elem, "keydown",    fan.fanvasWindow.KeyEvent.m_pressed);
+  this.addKeyEvent(this.elem, "keyup",      fan.fanvasWindow.KeyEvent.m_released);
+  this.addKeyEvent(this.elem, "keypress",   fan.fanvasWindow.KeyEvent.m_typed);
+  //this.addEvent(this.elem, "blur",       fan.fanvasWindow.InputEvent.m_blur);
+  //this.addEvent(this.elem, "focus",      fan.fanvasWindow.InputEvent.m_focus);
 }
 
-fan.fanvasWindow.WtkWindow.prototype.createNativeView = function(view, size, shell) {
-  if (!size) {
-    size = view.getPrefSize(shell.offsetWidth, shell.offsetHeight);
-  }
-  //console.log(size)
+fan.fanvasWindow.WtkWindow.prototype.addMotionEvent = function(elem, type, id)
+{
+  var view = this.view;
+  var mouseEvent = function(e)
+  {
+    //console.log(e);
+    var event = fan.fanvasWindow.MotionEvent.make(id);
+    //event.m_id = id;
+    event.m_x = e.clientX;
+    event.m_y = e.clientY;
+    event.m_widget = this.elem;
+    if (type == "mousewheel")
+    {
+      event.m_delta = fan.fanvasWindow.Event.toWheelDelta(e);
+    }
+    event.m_key = fan.fanvasWindow.Event.toKey(e);
+    view.onMotionEvent(event);
+  };
+  fan.fanvasWindow.GfxUtil.addEventListener(elem, type, mouseEvent);
+}
 
-  if (view.m_host) {
-    shell.removeChild(view.m_host.elem);
-  }
+fan.fanvasWindow.WtkWindow.prototype.addKeyEvent = function(elem, type, id)
+{
+  var view = this.view;
+  var mouseEvent = function(e)
+  {
+    //console.log(e);
+    var event = fan.fanvasWindow.KeyEvent.make(id);
+    //event.m_id = id;
+    event.m_widget = this.elem;
+    event.m_key = fan.fanvasWindow.Event.toKey(e);
+    event.m_keyChar =  e.charCode || e.keyCode;
+    view.onKeyEvent(event);
+  };
+  fan.fanvasWindow.GfxUtil.addEventListener(elem, type, mouseEvent);
+}
 
-  var nativeView = new fan.fanvasWindow.WtkView();
-  nativeView.m_win = this;
+//////////////////////////////////////////////////////////////////////////
+//
+//////////////////////////////////////////////////////////////////////////
+
+fan.fanvasWindow.WtkWindow.prototype.focus = function() {
+  this.elem.focus();
+}
+
+fan.fanvasWindow.WtkWindow.prototype.hasFocus = function() {
+  return document.activeElement == this.elem;
+}
+
+fan.fanvasWindow.WtkWindow.prototype.pos = function() {
+  var x = this.elem.offsetLeft;
+  var y = this.elem.offsetTop;
+  return fan.fanvasGraphics.Point.make(x, y);
+}
+
+fan.fanvasWindow.WtkWindow.prototype.repaint = function(r) {
+  this.needRepaint = true;
+}
+
+fan.fanvasWindow.WtkWindow.prototype.repaintNow = function(r) {
+  this.graphics.push();
+  this.view.onPaint(this.graphics);
+  this.graphics.pop();
+}
+
+fan.fanvasWindow.WtkWindow.prototype.size = function() {
+  return this.m_size;
+}
+
+////////////////////////////////////////////////////////////////////////
+// Window
+////////////////////////////////////////////////////////////////////////
+
+//cotr
+fan.fanvasWindow.WtkWindow.make = function(view) {  
+  var nativeView = new fan.fanvasWindow.WtkWindow();
   view.host$(nativeView);
   nativeView.view = view;
-  nativeView.m_size = size;
+  return nativeView;
+}
+
+fan.fanvasWindow.WtkWindow.prototype.createCanvas = function(shell, size) {
+  if (this.elem) {
+    shell.removeChild(this.elem);
+  }
+
+  if (!size) {
+    size = this.view.getPrefSize(shell.offsetWidth, shell.offsetHeight);
+  }
+  //console.log(size)
+  this.m_size = size;
 
   //create canvas
   var c = document.createElement("canvas");
   c.width  = size.m_w;
   c.height = size.m_h;
 
-  nativeView.elem = c;
-  nativeView.bindEvent(c);
+  this.elem = c;
+  this.bindEvent(c);
   c.setAttribute('tabindex','0');
   c.focus();
 
-  //create graphics
+  //create fan graphics
   var g = new fan.fanvasWindow.WtkGraphics();
-  g.widget = view.m_host;
-  view.m_host.graphics = g;
+  g.widget = this;
+  this.graphics = g;
   fan.fanvasWindow.WtkWindow.graphics = g;
 
   //init graphics
@@ -80,43 +161,10 @@ fan.fanvasWindow.WtkWindow.prototype.createNativeView = function(view, size, she
   g.init(cx, rect);
 }
 
-fan.fanvasWindow.WtkWindow.prototype.remove = function(view) {
-  //remove at
-  for (var i=0; i<this.list.length; ++i) {
-    var v = this.list[i];
-    if (v === view) {
-      this.list.slice(i, 1);
-      break;
-    }
-  }
-
-  this.root.removeChild(view.m_host.elem);
-}
-
-fan.fanvasWindow.WtkWindow.prototype.mount = function(size, shell) {
-  for (var i=0; i<this.list.length; ++i) {
-    var view = this.list[i];
-
-    if (view.willTextChange) {
-      this.root.removeChild(view.m_host.elem);
-      continue;
-    }
-    this.createNativeView(view, size, shell);
-
-    shell.appendChild(view.m_host.elem);
-
-    view.m_host.needRepaint = false;
-    view.m_host.repaintNow();
-
-    var event = fan.fanvasWindow.DisplayEvent.make(fan.fanvasWindow.DisplayEvent.m_opened);
-    view.onDisplayEvent(event);
-  }
-}
-
 fan.fanvasWindow.WtkWindow.prototype.show = function(size)
 {
   // check for alt root
-  var rootId = fan.sys.Env.cur().vars().get("fwt.window.root")
+  var rootId = fan.std.Env.cur().vars().get("fwt.window.root")
   if (rootId == null) this.root = document.body;
   else
   {
@@ -136,23 +184,42 @@ fan.fanvasWindow.WtkWindow.prototype.show = function(size)
     background = "#fff";
   }
   this.root.appendChild(shell);
+  this.shell = shell;
+  shell.appendChild(this.elem);
 
-  this.mount(size, shell);
   var self = this;
   fan.fanvasWindow.WtkWindow.instance = this;
 
+  this.createCanvas(shell, size);
   // attach resize listener
-  window.addEventListener("resize", function() { self.mount(size, shell); }, false);
+  fan.fanvasWindow.GfxUtil.addEventListener(window, "resize", function() { self.createCanvas(shell, null); });
+
+  //fire event
+  var event = fan.fanvasWindow.WindowEvent.make(fan.fanvasWindow.WindowEvent.m_opened);
+  view.onWindowEvent(event);
+
+  //paint
+  this.needRepaint = false;
+  this.repaintNow();
 
   //Repaint handling
   setInterval(function(){
-    for (var i=0; i<self.list.length; ++i) {
-      var view = self.list[i];
-      if (view.willTextChange) continue;
-      if (!view.m_host) continue;
-      if (!view.m_host.needRepaint) continue;
-      view.m_host.needRepaint = false;
-      view.m_host.repaintNow();
-    }
+    if (!self.needRepaint) return;
+    self.needRepaint = false;
+    self.repaintNow();
   }, 50);
+}
+
+fan.fanvasWindow.WtkWindow.prototype.textInput = function(view) {
+  if (!view.host()) {
+    var jsEditText = new fan.fanvasWindow.WtkEditText();
+    var field = jsEditText.init(view);
+    view.host$(jsEditText);
+  }
+
+  if (!view.host().parentNode) {
+    this.shell.appendChild(field);
+  }
+  
+  view.host().update();
 }

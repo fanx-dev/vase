@@ -95,6 +95,12 @@ public class AndWindow extends View implements Window {
       AndEditText edit = new AndEditText(context, textInput);
       textInput.host(edit);
     }
+
+    AndEditText edit = (AndEditText)textInput.host();
+    if (edit.getParent() == null) {
+      this.add(edit);
+    }
+
     textInput.host().update();
     return;
   }

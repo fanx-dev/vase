@@ -78,11 +78,13 @@ class TextField : Widget, TextInput
     this.padding = Insets(40)
   }
 
-  override Void willTextChange(Str text) {
+  override Str textChange(Str text) {
+    this.text = text
+    return text;
   }
 
-  override Void didTextChange(Str text) {
-    this.text = text
+  override Void keyAction(Str text) {
+    this.text = text;
   }
 
   override Point getPos() { Point(x, y) }

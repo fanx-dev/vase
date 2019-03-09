@@ -41,13 +41,13 @@ public class AndEditText extends EditText implements TextInputPeer {
 			@Override
 			public void beforeTextChanged(CharSequence str, int arg1, int arg2,
 					int arg3) {
-				AndEditText.this.view.willTextChange(str.toString());
+				//AndEditText.this.view.willTextChange(str.toString());
 			}
 
 			@Override
 			public void onTextChanged(CharSequence str, int arg1, int arg2,
 					int arg3) {
-				AndEditText.this.view.didTextChange(str.toString());
+				AndEditText.this.view.textChange(str.toString());
 			}
 		});
 	}
@@ -74,6 +74,7 @@ public class AndEditText extends EditText implements TextInputPeer {
 
   @Override
   public void close() {
+    this.getParent().removeView(this);
   	hideInputMethod();
   }
 

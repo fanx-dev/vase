@@ -37,6 +37,10 @@ public class WtkUtil {
     return new java.awt.Font(f.name, style, (int) f.size);
   }
 
+  public static java.awt.Color toAwtColor(Color ca) {
+    return new java.awt.Color((int) ca.argb, true);
+  }
+
   static public AffineTransform toAwtTransform(Transform2D trans) {
     return new AffineTransform(
        (float)trans.get(0,0),

@@ -30,7 +30,7 @@ class Event
 
   override Str toStr()
   {
-    "type:$type, consumed:$consumed"
+    return "type:$type, consumed:$consumed"
   }
 }
 
