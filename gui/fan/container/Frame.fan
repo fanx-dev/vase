@@ -106,7 +106,6 @@ class Frame : Pane
   Void show()
   {
     Toolkit.cur.show(view)
-    onMounted
   }
 
   @Operator
@@ -297,9 +296,7 @@ class Frame : Pane
 
   protected Void windowEvent(WindowEvent e)
   {
-    if (e.type == WindowEvent.opened) onOpened.fire(e)
-    //else if (e.type == WindowEvent.activated) onActivated.fire(e)
-    else onWindowStateChange.fire(e)
+    onWindowStateChange.fire(e)
   }
 
   once EventListeners onWindowStateChange() { EventListeners() }

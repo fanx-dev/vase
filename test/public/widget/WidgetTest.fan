@@ -39,9 +39,10 @@ class WidgetTest : BaseTestWin
   }
 
   protected override Void init(Frame root) {
-
-    label := root.findById("label")
-    label.moveInAnim(Direction.down).start
+    root.onOpened.add {
+      label := root.findById("label")
+      label.moveInAnim(Direction.down).start
+    }
 
     Button btn := root.findById("button")
     btn.onAction.add

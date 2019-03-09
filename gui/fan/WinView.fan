@@ -50,6 +50,8 @@ internal class WinView : View
   private Int height := 0
   protected Int layoutDirty := 1
 
+  private Bool inited := false
+
   ** ctor
   new make(Frame widget) {
     this.widget = widget
@@ -101,6 +103,14 @@ internal class WinView : View
     if (layoutDirty > 0) {
       widget.layout(0, 0, s.w, s.h, sharedDimension, layoutDirty>1)
       layoutDirty = 0
+
+      //echo("layout $s")
+
+      if (!inited) {
+        inited = true
+        widget.onMounted
+        widget.onOpened.fire(null)
+      }
     }
     
     onUpdate
