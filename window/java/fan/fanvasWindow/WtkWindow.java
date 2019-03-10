@@ -23,6 +23,7 @@ public class WtkWindow implements Window {
   View view;
   AwtCanvas canvas;
   JFrame frame;
+  private JPanel shell;
 
   class AwtCanvas extends JPanel {
     private static final long serialVersionUID = 1L;
@@ -47,7 +48,6 @@ public class WtkWindow implements Window {
     ComponentUtils.bindEvent(view, canvas);
 
     rootView.host(this);
-    frame.add(canvas);
   }
 
   public void show(Size s) {
@@ -55,18 +55,21 @@ public class WtkWindow implements Window {
     //frame.setContentPane(canvas);
     frame.addWindowStateListener(winStateListenner);
     frame.addWindowListener(winListener);
-    frame.setLayout(null);
+    shell = new JPanel();
+    shell.setLayout(null);
+    shell.add(canvas);
+    frame.add(shell);
 
     if (s == null) {
       s = view.getPrefSize(600, 600);
     }
-    canvas.setSize((int)s.w, (int)s.h);
-    //frame.pack();
-    frame.setSize((int)s.w, (int)s.h);
+    //canvas.setSize((int)s.w, (int)s.h);
+    shell.setPreferredSize(new Dimension((int)s.w, (int)s.h));
+    frame.pack();
 
     frame.addComponentListener(new ComponentAdapter(){
       @Override public void componentResized(ComponentEvent e){
-          canvas.setSize(frame.getWidth(), frame.getHeight());
+          canvas.setSize(shell.getWidth(), shell.getHeight());
       }});
 
     EventQueue.invokeLater(new Runnable()
@@ -94,7 +97,7 @@ public class WtkWindow implements Window {
     
     WtkEditText edit = (WtkEditText)textInput.host();
     if (edit.comp().getParent() == null) {
-      frame.add(edit.comp(), 0);
+      shell.add(edit.comp(), 0);
     }
 
     edit.update();
