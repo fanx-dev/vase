@@ -23,7 +23,7 @@ class MessageBox : VBox
       it.id = "messageBox_msg"
       it.text = "messageBox"
       it.useRenderCache = false
-      it.margin = Insets(15)
+      it.margin = Insets(20)
     }
     btn := Button {
       it.id = "messageBox_ok"
@@ -35,7 +35,8 @@ class MessageBox : VBox
         a.whenDone.add |->|{ hide }
         a.run(this)
         */
-        this.shrinkAnim.start
+        this.moveOutAnim(Direction.down).start
+        //this.shrinkAnim(200).start
       };
       it.text = "OK"
       it.layoutParam.widthType = SizeType.matchParent
@@ -69,7 +70,8 @@ class MessageBox : VBox
     }
     a.run(this)
     */
-    this.expandAnim.start
+    this.moveInAnim(Direction.down).start
+    //this.expandAnim(200).start
   }
   /*
   Void hide()

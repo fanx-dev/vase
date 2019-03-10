@@ -90,9 +90,9 @@ class TextField : Widget, TextInput
   override Point getPos() { Point(x, y) }
   override Size getSize() { super.size }
 
-  override Int inputType() { 0 }
+  override Int inputType() { 1 }
   override Bool singleLine() { true }
-  override Bool selectable() { true }
+  override Bool editable() { true }
 
   override Color textColor() { Color.black }
   override Color backgroundColor() { Color.white }

@@ -115,7 +115,7 @@ public class AndEditText extends EditText implements TextInputPeer {
 	final static int inputTypePassword = 4;
 
 	private void setInputType(long t) {
-		int type = 0;
+		int type = InputType.TYPE_CLASS_TEXT;
 		switch ((int) t) {
 		case inputTypeText:
 			type = InputType.TYPE_CLASS_TEXT;

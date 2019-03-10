@@ -365,9 +365,9 @@ public class AndGraphics implements Graphics {
   public void pop() {
     gc.restore();
     State s = (State) stack.pop();
-    alpha(s.alpha);
     pen(s.pen);
     brush(s.brush);
+    alpha(s.alpha);
     font(s.font);
     this.antialias(s.antialias);
     //gc.setMatrix(s.transform);

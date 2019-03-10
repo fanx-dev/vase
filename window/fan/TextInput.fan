@@ -27,7 +27,7 @@ mixin TextInput
 
   abstract Int inputType()
   abstract Bool singleLine()
-  abstract Bool selectable()
+  abstract Bool editable()
 
   abstract Color textColor()
   abstract Color backgroundColor()

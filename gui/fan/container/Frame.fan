@@ -181,8 +181,9 @@ class Frame : Pane
     mainView.paint(g)
 
     if (modal) {
-      g.alpha = 100
+      //g.brush = Color.fromArgb(100, 0, 0, 0)
       g.brush = Color.black
+      g.alpha = 100
       g.fillRect(0, 0, width, height)
       //TODO restore this
       g.alpha = 255

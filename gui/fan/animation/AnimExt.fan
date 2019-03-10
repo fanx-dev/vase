@@ -121,6 +121,7 @@ class AnimExt {
       it.duration = time
       ScaleAnimChannel { to = 0.0; from = 1.0 },
       TranslateAnimChannel { to = Point(p.x, p.y); from = Point.defVal },
+      AlphaAnimChannel { to = 0f; from = 1f; },
     }
     a.whenDone.add {
       if (detach) self.detach
@@ -142,6 +143,7 @@ class AnimExt {
       it.duration = time
       ScaleAnimChannel { from = 0.0; to = 1.0 },
       TranslateAnimChannel { from = Point(p.x, p.y); to = Point.defVal },
+      AlphaAnimChannel { to = 1f; from = 0f; },
     }
     a.bind(self)
     return a
@@ -151,6 +153,7 @@ class AnimExt {
     a := TweenAnimation() {
       it.duration = time
       ScaleAnimChannel { it.from = from; to = 1.0f },
+      AlphaAnimChannel { to = 1f; from = 0f; },
     }
     a.bind(self)
     return a
