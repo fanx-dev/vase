@@ -46,9 +46,9 @@ abstract const class Toolkit
   protected virtual Int dpi() { 135 }
 
   **
-  ** density base on 320 dpi
+  ** density base on 160 dpi
   **
-  virtual Float density() { dpi / 320.0f }
+  virtual Float density() { dpi / 160.0f }
 
   **
   ** current Env name

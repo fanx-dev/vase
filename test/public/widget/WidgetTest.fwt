@@ -20,8 +20,8 @@ class WidgetTest : BaseTestWin
   protected override Widget build() {
     VBox
     {
-      padding = Insets(100)
-      spacing = 30f
+      padding = Insets(50)
+      spacing = 15f
       Button { id = "button"; text = "Hello Button" },
       ComboBox {
         it.items = ["comboBox1","comboBox2","comboBox3","comboBox4"]

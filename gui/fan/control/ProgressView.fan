@@ -17,7 +17,7 @@ class ProgressView : Widget
   internal Float proVal := 0f
 
   new make() {
-    padding = Insets(50)
+    padding = Insets(20)
     layoutParam.widthType = SizeType.wrapContent
     useRenderCache = false
   }

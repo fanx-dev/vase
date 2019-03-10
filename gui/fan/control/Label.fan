@@ -38,7 +38,7 @@ class Toast : Label {
     layoutParam.widthType = SizeType.wrapContent
     layoutParam.posX.with { it.parent = 0.5f; it.anchor = 0.5f; it.offset = 0f }
     layoutParam.posY.with { it.parent = 0.8f; it.anchor = 0.5f; it.offset = 0f }
-    padding = Insets(40)
+    padding = Insets(20)
   }
 
   Void show(Widget w)

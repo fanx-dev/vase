@@ -38,7 +38,7 @@ internal class MenuList : VBox
   new make()
   {
     spacing = 0f//(dpToPixel(10f))
-    margin = Insets(6)
+    margin = Insets(3)
   }
 }
 
@@ -75,7 +75,7 @@ class MenuItem : ButtonBase
 
     list = MenuList()
     list.owner = this
-    padding = Insets((40))
+    padding = Insets(20)
     this.layoutParam.widthType = SizeType.wrapContent
   }
 
@@ -139,7 +139,7 @@ class MenuItem : ButtonBase
     list.add(item)
     item.layoutParam.widthType = SizeType.fixed
     item.layoutParam.widthVal = 500f
-    item.padding = Insets.defVal
+    item.padding = Insets(1)
     item.topLevel = false
     return this
   }

@@ -39,8 +39,8 @@ class ImageView : Widget
       return result.set(0, 0)
     }
     s := image.size
-    result.w = dpToPixel(s.w.toFloat * 2)
-    result.h = dpToPixel(s.h.toFloat * 2)
+    result.w = dpToPixel(s.w.toFloat)
+    result.h = dpToPixel(s.h.toFloat)
     return result
   }
 }
@@ -71,8 +71,8 @@ class ImageButton : ButtonBase {
       return result.set(0, 0)
     }
     s := image.size
-    result.w = dpToPixel(s.w.toFloat * 2)
-    result.h = dpToPixel(s.h.toFloat * 2)
+    result.w = dpToPixel(s.w.toFloat)
+    result.h = dpToPixel(s.h.toFloat)
     return result
   }
 

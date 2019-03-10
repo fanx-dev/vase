@@ -75,7 +75,7 @@ class TextField : Widget, TextInput
         repaint
       }
     }
-    this.padding = Insets(40)
+    this.padding = Insets(20)
   }
 
   override Str textChange(Str text) {

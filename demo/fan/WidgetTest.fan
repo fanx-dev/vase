@@ -24,8 +24,8 @@ class WinTest
     root := Frame()
     root.mainView = VBox
     {
-      padding = Insets((40*2))
-      spacing = (15f*2)
+      padding = Insets(40)
+      spacing = 15f
 
       Button { id = "button"; text = "Hello Button" },
       ComboBox {

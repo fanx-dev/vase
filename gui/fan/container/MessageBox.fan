@@ -23,7 +23,7 @@ class MessageBox : VBox
       it.id = "messageBox_msg"
       it.text = "messageBox"
       it.useRenderCache = false
-      it.margin = Insets(30)
+      it.margin = Insets(15)
     }
     btn := Button {
       it.id = "messageBox_ok"
@@ -51,7 +51,7 @@ class MessageBox : VBox
     this.layoutParam.posY.with { it.parent = 0.5f; anchor = 0.5f; offset = 0f }
 
     this.layoutParam.widthType = SizeType.wrapContent//dpToPixel(500f)
-    padding = Insets((100))
+    padding = Insets(50)
   }
 
   Void show(Widget w)

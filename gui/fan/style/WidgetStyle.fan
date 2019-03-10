@@ -26,10 +26,10 @@ class WidgetStyle : Style
   Brush fontColor := Color(0x222222)
 
   ConstImage? backgroundImage
-  Float lineWidth := 5f
+  Float lineWidth := 2f
 
   private Bool fontSizeInit := false
-  override Font font := Font(80) {
+  override Font font := Font(40) {
     get {
       if (!fontSizeInit) {
         &font = &font.toSize(dpToPixel(&font.size.toFloat))

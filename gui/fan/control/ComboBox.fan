@@ -35,7 +35,7 @@ class ComboBox : ButtonBase
   {
     text = "v"
     this.onAction.add { show }
-    padding = Insets(20)
+    padding = Insets(10)
   }
 
   private Void select(ButtonBase btn, Int i)

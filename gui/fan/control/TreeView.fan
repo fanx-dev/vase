@@ -33,8 +33,8 @@ class TreeView : ScrollBase
     getStyle.font
   }
 
-  Float minWidth := 1200f
-  Float indent := (120f)
+  Float minWidth := 600f
+  Float indent := (60f)
 
   **
   ** Default constructor.

@@ -201,6 +201,6 @@ class SliderBar : ScrollBar
   {
     this.viewport = 0f
     this.max = 100f
-    this.padding = Insets(100)
+    this.padding = Insets(50)
   }
 }

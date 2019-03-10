@@ -96,6 +96,6 @@ class ButtonBase : Label
 class Button : ButtonBase
 {
   new make() {
-    padding = Insets(50)
+    padding = Insets(25)
   }
 }

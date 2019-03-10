@@ -17,8 +17,8 @@ class Table : ScrollBase
     set { &model = it; init }
   }
 
-  Float colWidth := 360 * 2f
-  Float rowHeight := 120f
+  Float colWidth := 360f
+  Float rowHeight := 60f
 
   @Transient
   internal Int[]? colWidthCache

@@ -47,7 +47,7 @@ class ScrollBarStyle : WidgetStyle
 class SliderBarStyle : WidgetStyle
 {
   //Float size := (100f)
-  Float width := (16f)
+  Float width := (8f)
 
   new make()
   {
