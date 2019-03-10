@@ -24,13 +24,16 @@ import fan.fanvasGraphics.Size;
 import fan.fanvasWindow.TextInput;
 import fan.fanvasWindow.TextInputPeer;
 import fan.fanvasWindow.Window;
+import android.view.ViewGroup;
 
 public class AndEditText extends EditText implements TextInputPeer {
 	fan.fanvasWindow.TextInput view;
+  android.view.ViewGroup parent;
 
-	public AndEditText(Context context, fan.fanvasWindow.TextInput view) {
+	public AndEditText(Context context, fan.fanvasWindow.TextInput view, android.view.ViewGroup parent) {
 		super(context);
 		this.view = view;
+    this.parent = parent;
 
 		this.addTextChangedListener(new TextWatcher() {
 			@Override
@@ -74,7 +77,7 @@ public class AndEditText extends EditText implements TextInputPeer {
 
   @Override
   public void close() {
-    this.getParent().removeView(this);
+    this.parent.removeView(this);
   	hideInputMethod();
   }
 

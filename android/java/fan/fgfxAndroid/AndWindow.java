@@ -23,11 +23,15 @@ import fan.sys.List;
 public class AndWindow extends View implements Window {
   fan.fanvasWindow.View view;
   Context context;
+  android.widget.FrameLayout shell;
   
   public AndWindow(Context context, fan.fanvasWindow.View view) {
     super(context);
     this.view = view;
     this.context = context;
+    this.shell = new android.widget.FrameLayout(context);
+    shell.addView(this);
+    view.host(this);
   }
 
   @Override
@@ -83,7 +87,7 @@ public class AndWindow extends View implements Window {
 
   public void show(Size size) {
     Activity act = (Activity) this.getContext();
-    act.setContentView(this);
+    act.setContentView(this.shell);
   }
 
   public void show() {
@@ -92,13 +96,13 @@ public class AndWindow extends View implements Window {
 
   public void textInput(TextInput textInput) {
     if (textInput.host() == null) {
-      AndEditText edit = new AndEditText(context, textInput);
+      AndEditText edit = new AndEditText(context, textInput, shell);
       textInput.host(edit);
     }
 
     AndEditText edit = (AndEditText)textInput.host();
     if (edit.getParent() == null) {
-      this.add(edit);
+      this.shell.addView(edit);
     }
 
     textInput.host().update();
