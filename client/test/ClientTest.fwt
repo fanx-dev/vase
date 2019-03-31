@@ -5,7 +5,13 @@ using fanvasClient
 class ClientTest {
   Label? lab
 
+  Uri url := `http://www.so.com`
+
   Void main() {
+    if (Env.cur.runtime == "js") {
+      url = `http://localhost:8080/`
+    }
+
     root := Frame {
       mainView = VBox {
         Button { id = "button"; text = "Req"; onAction.add { request } },
@@ -18,7 +24,7 @@ class ClientTest {
   }
 
   async Void request() {
-    Obj p := HttpReq { uri = `http://www.baidu.com` }.get
+    Obj p := HttpReq { uri = url }.get
     HttpRes res = await p
     lab.text = res.content.toStr
     lab.repaint

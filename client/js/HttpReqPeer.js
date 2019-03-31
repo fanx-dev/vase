@@ -19,20 +19,20 @@ fan.fanvasClient.HttpReqPeer.prototype.send = function(self, method, content, f)
   });
 }
 
-fan.fanvasClient.HttpReqPeer.doRequest = function(self, method, content, f)
+fan.fanvasClient.HttpReqPeer.doRequest = function(self, method, content, resolve)
 {
   var xhr = new XMLHttpRequest();
   var buf;
   var view;
-  xhr.open(method.toUpperCase(), self.m_uri.m_str, self.m_async);
-  if (self.m_asynch)
-  {
-    xhr.onreadystatechange = function ()
-    {
-      if (xhr.readyState == 4)
-        f.call(fan.fanvasClient.HttpReqPeer.makeRes(xhr));
+  xhr.open(method.toUpperCase(), self.m_uri.m_str, true);
+
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState == 4) {
+      res = fan.fanvasClient.HttpReqPeer.makeRes(xhr);
+      resolve(res);
     }
   }
+
   var ct = false;
   var k = self.m_headers.keys();
   for (var i=0; i<k.size(); i++)
