@@ -30,6 +30,13 @@ abstract const class Toolkit
     throw Err("No fanvasWindow.env is active")
   }
 
+  internal static Void tryInitAsyncRunner() {
+    client := Pod.find("fanvasClient", false)
+    if (client != null) {
+      client.type("AsyncRunner").method("init").call()
+    }
+  }
+
   **
   ** make a new window
   **

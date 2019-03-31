@@ -72,13 +72,7 @@ public class WtkWindow implements Window {
           canvas.setSize(shell.getWidth(), shell.getHeight());
       }});
 
-    EventQueue.invokeLater(new Runnable()
-    {
-      public void run()
-      {
-        ToolkitEnvPeer.init();
-      }
-    });
+    ToolkitEnvPeer.initMainThread();
 
     frame.setVisible(true);
 

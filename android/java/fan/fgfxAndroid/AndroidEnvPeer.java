@@ -2,6 +2,7 @@ package fan.fanvasAndroid;
 
 import android.app.Activity;
 import android.os.Handler;
+import android.os.Looper;
 import android.util.DisplayMetrics;
 import android.view.WindowManager;
 import fan.concurrent.Actor;
@@ -15,18 +16,33 @@ public class AndroidEnvPeer {
     return peer;
   }
 
+  public static boolean isMainThread() {
+    return Looper.getMainLooper().getThread() == Thread.currentThread();
+  }
+
   public static void init(Activity context)
   {
     Actor.locals().set("fanvasGraphics.env", AndGfxEnv.instance);
-    Actor.locals().set("fanvasWindow.env", new AndToolkit(context));
+    Actor.locals().set("fanvasWindow.env", AndToolkit.getInstance(context));
+
+    if (isMainThread()) {
+      Toolkit.tryInitAsyncRunner();
+    }
   }
 
   static class AndToolkit extends Toolkit
   {
-    Activity context;
+    static AndToolkit instance = null;
+
+    private Activity context;
     long dpi = 326;
     Handler handler;
     double density = 2.0f;
+
+    static AndToolkit getInstance(Activity context) {
+      if (instance == null) instance = new AndToolkit(context);
+      return instance;
+    }
 
     public AndToolkit(Activity context)
     {

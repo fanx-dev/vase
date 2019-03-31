@@ -1,0 +1,26 @@
+
+using fanvasGui
+using fanvasClient
+
+class ClientTest {
+  Label? lab
+
+  Void main() {
+    root := Frame {
+      mainView = VBox {
+        Button { id = "button"; text = "Req"; onAction.add { request } },
+        Label { id = "label"; text = "Res" }
+      }
+    }
+
+    lab = root.findById("label")
+    root.show
+  }
+
+  async Void request() {
+    Obj p := HttpReq { uri = `http://www.baidu.com` }.get
+    HttpRes res = await p
+    lab.text = res.content.toStr
+    lab.repaint
+  }
+}

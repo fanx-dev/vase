@@ -27,11 +27,24 @@ public class ToolkitEnvPeer
   public static void init()
   {
     Actor.locals().set("fanvasGraphics.env", WtkGfxEnv.instance);
-    Actor.locals().set("fanvasWindow.env", new AwtToolkit());
+    Actor.locals().set("fanvasWindow.env", AwtToolkit.instance);
+  }
+
+  public static void initMainThread() {
+    EventQueue.invokeLater(new Runnable()
+    {
+      public void run()
+      {
+        init();
+        Toolkit.tryInitAsyncRunner();
+      }
+    });
   }
 
   static class AwtToolkit extends Toolkit
   {
+    static AwtToolkit instance = new AwtToolkit();
+
     Timer timer = new Timer(true);
     public void show(View view)
     {
