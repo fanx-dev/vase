@@ -1,31 +1,15 @@
 
+//
+// Copyright (c) 2011, chunquedong
+// Licensed under the Academic Free License version 3.0
+//
+// History:
+//   2019-03-31  Jed Young  Creation
+//
+
 using concurrent
 using fanvasWindow
 
-
-class Promise {
-  protected |Obj?|? callback := |res| {
-    lock.sync {
-      result = res
-      isDone = true
-      lret null
-    }
-  }
-
-  private Bool isDone := false
-  private Obj? result
-  private Lock lock := Lock()
-
-  Void then(|Obj?| f) {
-    lock.sync {
-      if (isDone) {
-        f.call(result)
-      }
-      else callback = f
-      lret null
-    }
-  }
-}
 
 class AsyncRunner {
 

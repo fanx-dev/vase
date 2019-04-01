@@ -7,6 +7,8 @@
 //   8 Jul 09  Andy Frank  Split webappClient into sys/dom
 //
 
+using concurrent
+
 **
 ** HttpReq models the request side of an XMLHttpRequest instance.
 **
@@ -49,16 +51,16 @@ const class HttpReq
   ** the response, call the given closure with the resulting
   ** HttpRes object.
   **
-  native Promise send(Str method, Obj? content)
+  native Promise<HttpRes> send(Str method, Obj? content)
 
   ** Convenience for 'send("GET", "", c)'.
-  Promise get()
+  Promise<HttpRes> get()
   {
     send("GET", null)
   }
 
   ** Convenience for 'send("POST", content, c)'.
-  Promise post(Obj content)
+  Promise<HttpRes> post(Obj content)
   {
     send("POST", content)
   }

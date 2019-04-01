@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.concurrent.*;
 
 import fan.sys.*;
+import fan.concurrent.*;
 
 class HttpReqPeer {
 
@@ -34,7 +35,7 @@ class HttpReqPeer {
   }
 
   Promise send(final HttpReq self, final String method, final Object content) {
-    final Promise promise = Promise.make();
+    final Promise promise = Promise$.make();
     threadPool.execute(new Runnable() {
       @Override
       public void run() {
@@ -60,11 +61,11 @@ class HttpReqPeer {
       }
 
       HttpRes res = makeRes(connection);
-      promise.callback.call(res);
+      promise.complete(res);
 
     } catch (Exception e) {
       e.printStackTrace();
-      promise.callback.call(Err.make(e));
+      promise.complete(Err.make(e));
     }
     finally {
       try {
@@ -90,10 +91,10 @@ class HttpReqPeer {
           return null;
         }
 
-		@Override
-		public long arity() {
-			return 2;
-		}
+    		@Override
+    		public long arity() {
+    			return 2;
+    		}
       }
     );
   }

@@ -24,8 +24,7 @@ class ClientTest {
   }
 
   async Void request() {
-    Obj p := HttpReq { uri = url }.get
-    HttpRes res = await p
+    res := await HttpReq { uri = url }.get
     lab.text = res.content.toStr
     lab.repaint
   }
