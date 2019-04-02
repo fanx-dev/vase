@@ -25,22 +25,13 @@ class AsyncRunner {
 
       if (awaitObj is Promise) {
         Promise promise = awaitObj
-        promise.then |res| {
+        promise.then |res, err| {
           s.awaitObj = res
+          s.err = err
           Toolkit.cur.callLater(0) {
             s.run
           }
         }
-      }
-      else if (awaitObj is Async) {
-        Async sub := awaitObj
-        sub.then {
-          s.awaitObj = sub.result
-          Toolkit.cur.callLater(0) {
-            s.run
-          }
-        }
-        sub.run
       }
       else if (awaitObj is Future) {
         Future future := awaitObj

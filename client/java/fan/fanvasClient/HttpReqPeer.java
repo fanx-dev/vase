@@ -49,8 +49,7 @@ class HttpReqPeer {
     URL url = null;
     HttpURLConnection connection = null;
     try {
-      url = new URL(urlStr);
-      
+      url = new URL(urlStr);      
       connection = (HttpURLConnection) url.openConnection();
       connection.setRequestMethod(method);
 
@@ -61,11 +60,11 @@ class HttpReqPeer {
       }
 
       HttpRes res = makeRes(connection);
-      promise.complete(res);
+      promise.complete(res, true);
 
     } catch (Exception e) {
       e.printStackTrace();
-      promise.complete(Err.make(e));
+      promise.complete(Err.make(e), false);
     }
     finally {
       try {
