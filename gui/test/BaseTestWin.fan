@@ -19,7 +19,7 @@ virtual class BaseTestWin
   {
     root = Frame()
     view := build
-    root.mainView = view
+    root.content = view
     init(root)
     root.show
 

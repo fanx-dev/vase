@@ -20,9 +20,9 @@ import fan.fanvasGraphics.Size;
 
 public class WtkWindow implements Window {
 
-  View view;
-  AwtCanvas canvas;
-  JFrame frame;
+  private View view;
+  private AwtCanvas canvas;
+  private JFrame frame;
   private JPanel shell;
 
   class AwtCanvas extends JPanel {
@@ -49,6 +49,9 @@ public class WtkWindow implements Window {
 
     rootView.host(this);
   }
+
+  public View view() { return view; }
+  //public void view(View v) { view = v; }
 
   public void show(Size s) {
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

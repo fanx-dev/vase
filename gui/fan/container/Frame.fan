@@ -15,21 +15,10 @@ using fanvasMath
 ** Represent a top level Widget
 **
 @Js
-class Frame : Pane
+class Frame : ContentPane
 {
   @Transient
-  private WinView view
-
-  **
-  ** Root View
-  **
-  Widget mainView {
-    set {
-      remove(&mainView)
-      doAdd(it)
-      &mainView = it
-    }
-  }
+  private WinView? view
 
   **
   ** current focus widget
@@ -82,6 +71,8 @@ class Frame : Pane
   **
   Brush background := Color.white
 
+  Bool inited := false
+
   **
   ** Shared dimension for layout
   **
@@ -92,13 +83,10 @@ class Frame : Pane
   ** ctor
   **
   new make() {
-    view = WinView(this)
     id = "frame"
     width = 0
     height = 0
     this.useRenderCache = false
-
-    mainView = Pane()
   }
 
   **
@@ -106,21 +94,20 @@ class Frame : Pane
   **
   Void show()
   {
-    Toolkit.cur.show(view)
+    win := Toolkit.cur.window(null)
+    if (win == null) {
+      view = WinView(this)
+      Toolkit.cur.window(view)
+    }
+    else {
+      view = win.view
+      view.pushFrame(this)
+    }
   }
 
-  @Operator
-  override This add(Widget child)
-  {
-    throw UnsupportedErr("RootView not support add, pelease using mainView.")
-    return this
+  Void pop() {
+    view.popFrame
   }
-
-  **
-  ** Internal hook to call Widget.add version directly and skip
-  ** hook to implicitly mount any added child as content.
-  **
-  internal Void doAdd(Widget? child) { super.add(child) }
 
   **
   ** get or make a widget that layout top of root view
@@ -174,11 +161,11 @@ class Frame : Pane
     //super.paint(g)
 
     //echo("$width $height")
-    //-------------mainView
+    //-------------content
     g.push
     //g.clip(it.bounds)
-    g.transform(Transform2D.make.translate(mainView.x.toFloat, mainView.y.toFloat))
-    mainView.paint(g)
+    g.transform(Transform2D.make.translate(content.x.toFloat, content.y.toFloat))
+    content.paint(g)
 
     if (modal) {
       //g.brush = Color.fromArgb(100, 0, 0, 0)

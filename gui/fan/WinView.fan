@@ -23,7 +23,9 @@ internal class WinView : View
   @Transient
   override Window? host
 
-  private Frame widget
+  private Frame curFrame
+
+  private Frame[] stack := Frame[,]
 
   private Dimension sharedDimension := Dimension(0, 0)
 
@@ -50,17 +52,31 @@ internal class WinView : View
   private Int height := 0
   protected Int layoutDirty := 1
 
-  private Bool inited := false
-
   ** ctor
-  new make(Frame widget) {
-    this.widget = widget
+  new make(Frame curFrame) {
+    this.curFrame = curFrame
 
     gesture.onGestureEvent.add |GestureEvent e|{
       e.relativeX = e.x
       e.relativeY = e.y
-      widget.gestureEvent(e)
+      this.curFrame.gestureEvent(e)
     }
+  }
+
+  Void pushFrame(Frame frame) {
+    stack.push(curFrame)
+    curFrame = frame
+    layoutDirty = 2
+    host.repaint
+  }
+
+  Frame popFrame() {
+    frame := stack.pop
+    curFrame = frame
+    layoutDirty = 2
+    host.repaint
+    //echo("popFrame $frame")
+    return frame
   }
 
   protected Void onUpdate() {
@@ -101,42 +117,42 @@ internal class WinView : View
     }
 
     if (layoutDirty > 0) {
-      widget.layout(0, 0, s.w, s.h, sharedDimension, layoutDirty>1)
+      curFrame.layout(0, 0, s.w, s.h, sharedDimension, layoutDirty>1)
       layoutDirty = 0
 
       //echo("layout $s")
 
-      if (!inited) {
-        inited = true
-        widget.onMounted
-        widget.onOpened.fire(null)
+      if (!curFrame.inited) {
+        curFrame.inited = true
+        curFrame.onMounted
+        curFrame.onOpened.fire(null)
       }
     }
     
     onUpdate
-    widget.paint(g)
+    curFrame.paint(g)
   }
 
   override Void onMotionEvent(MotionEvent e) {
-    widget.motionEvent(e)
+    curFrame.motionEvent(e)
     if (!e.consumed) {
       gesture.onEvent(e)
     }
   }
 
   override Void onKeyEvent(KeyEvent e) {
-    widget.keyEvent(e)
+    curFrame.keyEvent(e)
   }
 
   override Void onWindowEvent(WindowEvent e) {
-    widget.windowEvent(e)
+    curFrame.windowEvent(e)
   }
 
   **
   ** get prefer size
   **
   override Size getPrefSize(Int hintsWidth, Int hintsHeight) {
-    result := widget.canonicalSize(hintsWidth, hintsHeight, sharedDimension)
+    result := curFrame.canonicalSize(hintsWidth, hintsHeight, sharedDimension)
     //echo("hintsHeight$hintsHeight, result$result")
     return Size(result.w, result.h)
   }

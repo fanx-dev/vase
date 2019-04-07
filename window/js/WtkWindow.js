@@ -12,7 +12,7 @@ fan.fanvasWindow.WtkWindow.prototype.$typeof = function() {
   return fan.fanvasWindow.WtkWindow.$type;
 }
 
-fan.fanvasWindow.WtkWindow.prototype.view = null;
+fan.fanvasWindow.WtkWindow.prototype.m_view = null;
 fan.fanvasWindow.WtkWindow.prototype.m_size = null;
 fan.fanvasWindow.WtkWindow.prototype.elem = null;
 fan.fanvasWindow.WtkWindow.prototype.needRepaint = true;
@@ -49,7 +49,7 @@ fan.fanvasWindow.WtkWindow.prototype.bindEvent = function(elem)
 
 fan.fanvasWindow.WtkWindow.prototype.addMotionEvent = function(elem, type, id)
 {
-  var view = this.view;
+  var view = this.m_view;
   var mouseEvent = function(e)
   {
     //console.log(e);
@@ -70,7 +70,7 @@ fan.fanvasWindow.WtkWindow.prototype.addMotionEvent = function(elem, type, id)
 
 fan.fanvasWindow.WtkWindow.prototype.addKeyEvent = function(elem, type, id)
 {
-  var view = this.view;
+  var view = this.m_view;
   var mouseEvent = function(e)
   {
     //console.log(e);
@@ -108,12 +108,16 @@ fan.fanvasWindow.WtkWindow.prototype.repaint = function(r) {
 
 fan.fanvasWindow.WtkWindow.prototype.repaintNow = function(r) {
   this.graphics.push();
-  this.view.onPaint(this.graphics);
+  this.m_view.onPaint(this.graphics);
   this.graphics.pop();
 }
 
 fan.fanvasWindow.WtkWindow.prototype.size = function() {
   return this.m_size;
+}
+
+fan.fanvasWindow.WtkWindow.prototype.view = function() {
+  return this.m_view;
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -124,7 +128,7 @@ fan.fanvasWindow.WtkWindow.prototype.size = function() {
 fan.fanvasWindow.WtkWindow.make = function(view) {  
   var nativeView = new fan.fanvasWindow.WtkWindow();
   view.host$(nativeView);
-  nativeView.view = view;
+  nativeView.m_view = view;
   return nativeView;
 }
 
@@ -134,7 +138,7 @@ fan.fanvasWindow.WtkWindow.prototype.createCanvas = function(shell, size) {
   }
 
   if (!size) {
-    size = this.view.getPrefSize(shell.offsetWidth, shell.offsetHeight);
+    size = this.m_view.getPrefSize(shell.offsetWidth, shell.offsetHeight);
   }
   //console.log(size)
   this.m_size = size;
@@ -199,7 +203,7 @@ fan.fanvasWindow.WtkWindow.prototype.show = function(size)
 
   //fire event
   var event = fan.fanvasWindow.WindowEvent.make(fan.fanvasWindow.WindowEvent.m_opened);
-  this.view.onWindowEvent(event);
+  this.m_view.onWindowEvent(event);
 
   //paint
   this.needRepaint = false;

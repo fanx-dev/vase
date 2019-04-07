@@ -44,11 +44,16 @@ public class ToolkitEnvPeer
   static class AwtToolkit extends Toolkit
   {
     static AwtToolkit instance = new AwtToolkit();
+    private WtkWindow curWindow = null;
 
     Timer timer = new Timer(true);
-    public void show(View view)
+    public WtkWindow window(View view)
     {
-      new WtkWindow(view).show(null);
+      if (view != null) {
+        curWindow = new WtkWindow(view);
+        curWindow.show(null);
+      }
+      return curWindow;
     }
 
     public String name() {

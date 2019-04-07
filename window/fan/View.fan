@@ -45,6 +45,8 @@ mixin View
 @Js
 mixin Window
 {
+  abstract View view()
+  
   **
   ** request repaint
   **

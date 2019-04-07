@@ -14,8 +14,12 @@ fan.fanvasWindow.ToolkitEnvPeer.init = function() {
    fan.concurrent.Actor.locals().set("fanvasWindow.env", new fan.fanvasWindow.Toolkit());
 }
 
-fan.fanvasWindow.Toolkit.prototype.show = function(view) {
-   fan.fanvasWindow.WtkWindow.make(view).show(null);
+fan.fanvasWindow.Toolkit.prototype.window = function(view) {
+  if (view) {
+   this.m_curWindow = fan.fanvasWindow.WtkWindow.make(view);
+   this.m_curWindow.show(null);
+  }
+  return this.m_curWindow;
 }
 
 fan.fanvasWindow.Toolkit.prototype.name = function() {

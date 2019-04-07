@@ -21,9 +21,9 @@ import fan.fanvasWindow.TextInput;
 import fan.sys.List;
 
 public class AndWindow extends View implements Window {
-  fan.fanvasWindow.View view;
-  Context context;
-  android.widget.FrameLayout shell;
+  private fan.fanvasWindow.View view;
+  private Context context;
+  private android.widget.FrameLayout shell;
   
   public AndWindow(Context context, fan.fanvasWindow.View view) {
     super(context);
@@ -32,6 +32,10 @@ public class AndWindow extends View implements Window {
     this.shell = new android.widget.FrameLayout(context);
     shell.addView(this);
     view.host(this);
+  }
+
+  public View view() {
+    return view;
   }
 
   @Override

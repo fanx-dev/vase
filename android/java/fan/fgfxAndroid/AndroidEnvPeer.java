@@ -39,6 +39,8 @@ public class AndroidEnvPeer {
     Handler handler;
     double density = 2.0f;
 
+    private Window curWindow = null;
+
     static AndToolkit getInstance(Activity context) {
       if (instance == null) instance = new AndToolkit(context);
       return instance;
@@ -62,9 +64,13 @@ public class AndroidEnvPeer {
     }
 
     @Override
-    public void show(fan.fanvasWindow.View view)
+    public Window window(fan.fanvasWindow.View view)
     {
-      new AndWindow(context, view).show(null);
+      if (view != null) {
+        curWindow = new AndWindow(context, view);
+        curWindow.show(null);
+      }
+      return curWindow;
     }
 
     @Override
