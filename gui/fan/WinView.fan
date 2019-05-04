@@ -36,17 +36,6 @@ internal class WinView : View
   @Transient
   private Gesture gesture := Gesture()
 
-  **
-  ** animation manager
-  **
-  @Transient
-  protected AnimManager animManager := AnimManager()
-
-  **
-  ** last animation update time
-  **
-  @Transient
-  private Int lastUpdateTime := 0
 
   private Int width := 0
   private Int height := 0
@@ -79,31 +68,6 @@ internal class WinView : View
     return frame
   }
 
-  protected Void onUpdate() {
-    if (lastUpdateTime == 0) {
-      lastUpdateTime = TimePoint.nowMillis
-    }
-    now := TimePoint.nowMillis
-
-    elapsedTime := now - lastUpdateTime
-
-    // elapsedTime is millisecond.
-    // elapsedTime is 0 cause a bug on updatee animation
-    if (elapsedTime == 0) {
-      if (animManager.hasAnimation) {
-        host.repaint
-      }
-      return
-    }
-
-    if (animManager.update(elapsedTime)) {
-//      echo("anim continue")
-      host.repaint
-    }
-
-    lastUpdateTime = now
-  }
-
   **
   ** do paint at here
   **
@@ -129,7 +93,7 @@ internal class WinView : View
       }
     }
     
-    onUpdate
+    curFrame.onUpdate
     curFrame.paint(g)
   }
 

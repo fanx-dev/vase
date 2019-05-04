@@ -52,11 +52,10 @@ class Frame : ContentPane
   Style findStyle(Widget widget) { styleManager.find(widget) }
 
   **
-  ** double buffer
+  ** animation manager
   **
-  //Bool doubleBuffered := false
-
-  AnimManager animManager() { view.animManager }
+  @Transient
+  protected AnimManager animManager := AnimManager()
 
   Window? host() { view.host }
 
@@ -128,6 +127,17 @@ class Frame : ContentPane
     topLayer.x = 0
     topLayer.y = 0
     return topLayer
+  }
+
+//////////////////////////////////////////////////////////////////////////
+// animation
+//////////////////////////////////////////////////////////////////////////
+
+  protected Void onUpdate() {
+    if (animManager.updateFrame) {
+//      echo("anim continue")
+      host.repaint
+    }
   }
 
 //////////////////////////////////////////////////////////////////////////

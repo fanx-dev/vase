@@ -12,7 +12,28 @@ using concurrent
 
 @Js
 class AnimManager {
+  **
+  ** last animation update time
+  **
+  Int lastUpdateTime := 0
+
   private Animation[] animationList := [,]
+
+  Bool updateFrame() {
+    if (lastUpdateTime == 0) {
+      lastUpdateTime = TimePoint.nowMillis
+    }
+    now := TimePoint.nowMillis
+
+    elapsedTime := now - lastUpdateTime
+
+    if (elapsedTime > 0) {
+      update(elapsedTime)
+    }
+
+    lastUpdateTime = now
+    return hasAnimation
+  }
 
   Bool update(Int frameTime) {
     n := animationList.size
