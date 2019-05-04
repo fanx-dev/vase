@@ -514,9 +514,8 @@ abstract class Widget
   virtual Void repaint(Rect? dirty := null)
   {
     renderCacheDirty = true
-    if (dirty == null) dirty = this.bounds
     //convert dirty coordinate system to realative to parent
-    else dirty = Rect(dirty.x + x, dirty.y + y, dirty.w, dirty.h)
+    if (dirty != null) dirty = Rect(dirty.x + x, dirty.y + y, dirty.w, dirty.h)
     this.parent?.repaint(dirty)
   }
 

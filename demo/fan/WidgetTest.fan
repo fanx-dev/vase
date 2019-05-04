@@ -21,25 +21,26 @@ class WinTest
 {
 
   static Void main() {
-    root := Frame()
-    root.mainView = VBox
-    {
-      padding = Insets(40)
-      spacing = 15f
+    root := Frame {
+      VBox
+      {
+        padding = Insets(40)
+        spacing = 15f
 
-      Button { id = "button"; text = "Hello Button" },
-      ComboBox {
-        it.items = ["comboBox1","comboBox2","comboBox3","comboBox4"]
-        selectedIndex = 0
+        Button { id = "button"; text = "Hello Button" },
+        ComboBox {
+          it.items = ["comboBox1","comboBox2","comboBox3","comboBox4"]
+          selectedIndex = 0
+        },
+        Label { id = "label"; text = "Label"; },
+        //ImageView { id = "image";  image = ConstImage(`fan://icons/x16/folder.png`) },
+
+        Switch { text = "switch"; },
+        ToggleButton { text = "checkBox"; },
+        RadioButton { text = "radio1"; },
+        RadioButton { text = "radio2"; },
+        TextField { hint = "hint" },
       },
-      Label { id = "label"; text = "Label"; },
-      //ImageView { id = "image";  image = ConstImage(`fan://icons/x16/folder.png`) },
-
-      Switch { text = "switch"; },
-      ToggleButton { text = "checkBox"; },
-      RadioButton { text = "radio1"; },
-      RadioButton { text = "radio2"; },
-      TextField { hint = "hint" },
     }
 
     Button btn := root.findById("button")
