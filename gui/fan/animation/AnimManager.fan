@@ -49,6 +49,11 @@ class AnimManager {
     return animationList.size > 0
   }
 
+  Void clear() {
+    animationList.clear
+    lastUpdateTime = 0
+  }
+
   Bool hasAnimation() {
     animationList.size > 0
   }

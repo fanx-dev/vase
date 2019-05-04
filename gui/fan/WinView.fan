@@ -20,10 +20,11 @@ internal class WinView : View
   **
   ** The reference of nativeView
   **
-  @Transient
   override Window? host
 
   private Frame curFrame
+  internal Frame? oldFrame
+  private Bool frameOut := false
 
   private Frame[] stack := Frame[,]
 
@@ -42,26 +43,67 @@ internal class WinView : View
   protected Int layoutDirty := 1
 
   ** ctor
-  new make(Frame curFrame) {
-    this.curFrame = curFrame
+  new make(Frame frame) {
+    this.curFrame = frame
 
     gesture.onGestureEvent.add |GestureEvent e|{
       e.relativeX = e.x
       e.relativeY = e.y
-      this.curFrame.gestureEvent(e)
+      if (this.oldFrame == null) this.curFrame.gestureEvent(e)
     }
   }
 
   Void pushFrame(Frame frame) {
     stack.push(curFrame)
+    oldFrame = curFrame
     curFrame = frame
+    frameOut = false
+
+    //animation for frame
+    if (oldFrame != null) {
+      curFrame.animManager.clear
+      anim := TweenAnimation {
+        it.duration = 300
+        TranslateAnimChannel { to = Point.defVal; from = Point(oldFrame.width, 0)},
+      }
+      anim.bind(curFrame)
+      anim.whenDone.add {
+        oldFrame.detach
+        //echo("curFrame in done")
+      }
+      anim.start
+    }
+
     layoutDirty = 2
     host.repaint
   }
 
-  Frame popFrame() {
+  Frame? popFrame() {
     frame := stack.pop
+    if (frame == null) {
+      echo("nomore frame")
+      return null
+    }
+
+    oldFrame = curFrame
     curFrame = frame
+    frameOut = true
+
+    //frame animation
+    if (oldFrame != null) {
+      oldFrame.animManager.clear
+      anim := TweenAnimation {
+        it.duration = 300
+        TranslateAnimChannel { from = Point.defVal; to = Point(oldFrame.width, 0)},
+      }
+      anim.bind(oldFrame)
+      anim.whenDone.add {
+        oldFrame.detach
+        //echo("oldFrame in done")
+      }
+      anim.start
+    }
+
     layoutDirty = 2
     host.repaint
     //echo("popFrame $frame")
@@ -92,24 +134,37 @@ internal class WinView : View
         curFrame.onOpened.fire(null)
       }
     }
+
+    oldFrame?.onUpdate
+    if (!frameOut && oldFrame != null) {
+      g.push
+      oldFrame.paint(g)
+      g.pop
+    }
     
     curFrame.onUpdate
     curFrame.paint(g)
+
+    if (frameOut && oldFrame != null) {
+      g.push
+      oldFrame.paint(g)
+      g.pop
+    }
   }
 
   override Void onMotionEvent(MotionEvent e) {
-    curFrame.motionEvent(e)
+    if (oldFrame == null) curFrame.motionEvent(e)
     if (!e.consumed) {
       gesture.onEvent(e)
     }
   }
 
   override Void onKeyEvent(KeyEvent e) {
-    curFrame.keyEvent(e)
+    if (oldFrame == null) curFrame.keyEvent(e)
   }
 
   override Void onWindowEvent(WindowEvent e) {
-    curFrame.windowEvent(e)
+    if (oldFrame == null) curFrame.windowEvent(e)
   }
 
   **
