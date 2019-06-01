@@ -9,6 +9,9 @@
 using fanvasGraphics
 using fanvasWindow
 
+class NativeCaret : Caret {
+  
+}
 
 **
 ** Text

@@ -34,7 +34,7 @@ public class AndWindow extends View implements Window {
     view.host(this);
   }
 
-  public View view() {
+  public fan.fanvasWindow.View view() {
     return view;
   }
 

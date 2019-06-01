@@ -14,7 +14,7 @@ using fanvasWindow
 ** where things can be inserted into the document model.
 **
 @Js
-class Caret
+virtual class Caret
 {
   Bool visible := false
   Int offset := 0

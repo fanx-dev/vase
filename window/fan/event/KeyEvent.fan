@@ -32,7 +32,7 @@ class KeyEvent : Event
 
   override Str toStr()
   {
-    super.toStr + "KeyEvent: key:$key, keyChar:$keyChar"
+    super.toStr + ", KeyEvent: key:$key, keyChar:$keyChar.toChar"
   }
 
   const static Int pressed := 9

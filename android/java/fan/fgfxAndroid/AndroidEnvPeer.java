@@ -39,7 +39,7 @@ public class AndroidEnvPeer {
     Handler handler;
     double density = 2.0f;
 
-    private Window curWindow = null;
+    private AndWindow curWindow = null;
 
     static AndToolkit getInstance(Activity context) {
       if (instance == null) instance = new AndToolkit(context);

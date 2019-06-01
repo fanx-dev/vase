@@ -98,6 +98,6 @@ class MotionEvent : Event
 
   override Str toStr()
   {
-    super.toStr + "MotionEvent: x:$x, y:$y, key:$key, count:$count, button:$button"
+    super.toStr + ", MotionEvent: x:$x, y:$y, key:$key, count:$count, button:$button"
   }
 }
