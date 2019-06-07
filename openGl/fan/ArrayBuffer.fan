@@ -40,6 +40,9 @@ class ArrayBuffer
   native This putInt(Int[] data)
   native This putShort(Int[] data)
 
+  native This setFloatArray(FloatArray data)
+  native This setIntArray(IntArray data)
+
   internal new make() {}
 
   static ArrayBuffer makeFloat(Float[] data)
@@ -60,6 +63,20 @@ class ArrayBuffer
   {
     buf := ArrayBuffer.allocateDirect(data.size, NumType.tShort)
     buf.putShort(data)
+    return buf
+  }
+
+  static ArrayBuffer makeFloatArray(FloatArray data)
+  {
+    buf := ArrayBuffer.allocateDirect(data.size, NumType.tFloat)
+    buf.setFloatArray(data)
+    return buf
+  }
+
+  static ArrayBuffer makeIntArray(IntArray data)
+  {
+    buf := ArrayBuffer.allocateDirect(data.size, NumType.tInt)
+    buf.setIntArray(data)
     return buf
   }
 }

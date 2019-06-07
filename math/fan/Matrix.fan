@@ -25,7 +25,7 @@ const class MatrixErr : Err
 class Matrix
 {
   ** value of matrix elements
-  private Float[][] a
+  private FloatArray a
 
   ** num of rows
   Int m
@@ -42,17 +42,19 @@ class Matrix
   new make(Float[][] list)
   {
     m = list.size
-
-    //check dimensional
     n = list.first.size
-    for (i := 1; i < m; ++i)
-    {
-      if (n != list[i].size)
-      {
-        throw MatrixErr("sawtooth matrix")
+    a = FloatArray.makeF8(m*n)
+
+    for (i := 0; i < m; i++) {
+      row := list[i]
+
+      //check dimensional
+      if (row.size != n) throw MatrixErr("sawtooth matrix")
+      
+      for (j := 0; j < n; j++) {
+        set(i, j, row[j])
       }
     }
-    a = list
   }
 
   **
@@ -62,15 +64,8 @@ class Matrix
   {
     m = am
     n = an
-
-    list := [,]
-    for (i := 0; i < m; i++)
-    {
-      row := Float[,]
-      row.fill(0f, n)
-      list.add(row)
-    }
-    a = list
+    a = FloatArray.makeF8(m*n)
+    a.fill(0.0, m*n)
   }
 
   **
@@ -78,7 +73,7 @@ class Matrix
   **
   Void set(Int r, Int c, Float value)
   {
-    a[r][c] = value
+    a[r + c*m] = value
   }
 
   **
@@ -86,21 +81,22 @@ class Matrix
   **
   Float get(Int r, Int c)
   {
-    return a[r][c]
+    return a[r + c*m]
   }
 
   **
   ** return a one-dimensional list
   **
-  Float[] flatten()
+  FloatArray flatten()
   {
+    /*
     f := Float[,] { capacity = m * n }
 
     for (i := 0; i < n; i++)
       for (j := 0; j < m; j++)
         f.add(get(j, i))
-
-    return f
+    */
+    return a
   }
 
   **
@@ -109,13 +105,7 @@ class Matrix
   Matrix clone()
   {
     Matrix b := Matrix.makeZero(m, n)
-    for (i := 0; i < m; i++)
-    {
-      for (j := 0; j < n; j++)
-      {
-        b.a[i][j] = this.get(i, j)
-      }
-    }
+    b.a.copyFrom(this.a, 0, 0, m*n)
     return b
   }
 
@@ -139,19 +129,17 @@ class Matrix
   {
     if (m != other.m) return false
     if (n != other.n) return false
-    if (!approxFloatList(this.a, other.a, tolerance)) return false
+    if (!approxFloatArray(this.a, other.a, tolerance)) return false
     return true
   }
 
-  private Bool approxFloatList(Float[][] a, Float[][] b, Float? tolerance)
+  private Bool approxFloatArray(FloatArray a, FloatArray b, Float? tolerance)
   {
-    for (i := 0; i < m; i++)
+    size := m*n
+    for (i := 0; i < size; i++)
     {
-      for (j := 0; j < n; j++)
-      {
-        if (!a[i][j].approx(b[i][j], tolerance))
+        if (!a[i].approx(b[i], tolerance))
           return false
-      }
     }
     return true
   }

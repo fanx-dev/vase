@@ -103,6 +103,14 @@ class ArrayUtil
     return a;
   }
 
+  static float[] doubleToFloat(double [] d) {
+    float[] f = new float[d.length];
+    for (int i=0; i<d.length; ++i) {
+      f[i] = (float)d[i];
+    }
+    return f;
+  }
+
   static byte[] toByteArray(fan.sys.List list)
   {
     int size = (int)list.size();

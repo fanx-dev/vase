@@ -79,8 +79,8 @@ class Textures : GlDisplay
   GlUniformLocation? mvMatrixUniform
   GlUniformLocation? samplerUniform
 
-  Float[]? mvMatrix
-  Float[]? pMatrix
+  FloatArray? mvMatrix
+  FloatArray? pMatrix
 
   Float xRot := 0f
   Float yRot := 0f
@@ -122,8 +122,8 @@ class Textures : GlDisplay
 
   private Void setMatrixUniforms()
   {
-    gl.uniformMatrix4fv(pMatrixUniform, false, ArrayBuffer.makeFloat(pMatrix))
-    gl.uniformMatrix4fv(mvMatrixUniform, false, ArrayBuffer.makeFloat(mvMatrix))
+    gl.uniformMatrix4fv(pMatrixUniform, false, ArrayBuffer.makeFloatArray(pMatrix))
+    gl.uniformMatrix4fv(mvMatrixUniform, false, ArrayBuffer.makeFloatArray(mvMatrix))
   }
 
   Int lastTime := 0

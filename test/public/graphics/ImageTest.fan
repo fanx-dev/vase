@@ -19,10 +19,7 @@ class ImageTest
   Void main()
   {
     view := MyImageView()
-    win := Toolkit.cur.build()
-    win.add(view)
-
-    win.show()
+    win := Toolkit.cur.window(view)
   }
 }
 
@@ -31,7 +28,7 @@ class MyImageView : View
 {
   Int i := 0
 
-  override NativeView? host
+  override Window? host
 
   Image p := BufImage.fromUri(`fan://icons/x16/folder.png`) |p|
   {

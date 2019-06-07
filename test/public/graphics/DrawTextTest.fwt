@@ -17,17 +17,14 @@ class DrawTextTest
   Void main()
   {
     view := DrawTextTestView()
-    win := Toolkit.cur.build()
-    win.add(view)
-
-    win.show()
+    win := Toolkit.cur.window(view)
   }
 }
 
 @Js
 class DrawTextTestView : View
 {
-  override NativeView? host
+  override Window? host
 
   new make()
   {

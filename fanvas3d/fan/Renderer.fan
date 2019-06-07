@@ -108,11 +108,11 @@ class Renderer
     pMatrixUniform := program.getUniformLocation("uPMatrix")
     mvMatrixUniform := program.getUniformLocation("uMVMatrix")
 
-    Float[] mvMatrixA  := (camera.transform.matrix * mvMatrix).flatten
-    Float[] pMatrixA  := projection.flatten
+    mvMatrixA  := (camera.transform.matrix * mvMatrix).flatten
+    pMatrixA  := projection.flatten
 
-    gl.uniformMatrix4fv(pMatrixUniform, false, ArrayBuffer.makeFloat(pMatrixA))
-    gl.uniformMatrix4fv(mvMatrixUniform, false, ArrayBuffer.makeFloat(mvMatrixA))
+    gl.uniformMatrix4fv(pMatrixUniform, false, ArrayBuffer.makeFloatArray(pMatrixA))
+    gl.uniformMatrix4fv(mvMatrixUniform, false, ArrayBuffer.makeFloatArray(mvMatrixA))
   }
 
   **
@@ -142,7 +142,8 @@ class Renderer
     //set buffer
     obj.vertexPositionBuffer = gl.createBuffer
     gl.bindBuffer(GlEnum.arrayBuffer, obj.vertexPositionBuffer)
-    arrayBuffer := ArrayBuffer.makeFloat(obj.vertices)
+    //arrayBuffer := ArrayBuffer.makeFloatArray(obj.vertices)
+    arrayBuffer := obj.vertices
     gl.bufferData(GlEnum.arrayBuffer, arrayBuffer, GlEnum.staticDraw)
   }
 }

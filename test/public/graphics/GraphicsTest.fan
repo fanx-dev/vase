@@ -18,10 +18,7 @@ class GraphicsTest
   Void main()
   {
     view := GraphicsView()
-    win := Toolkit.cur.build()
-    win.add(view)
-
-    win.show()
+    win := Toolkit.cur.window(view)
   }
 }
 
@@ -32,7 +29,7 @@ class GraphicsTest
 @Js
 class GraphicsView : View
 {
-  override NativeView? host
+  override Window? host
 
   Image p := BufImage.fromUri(`fan://icons/x16/folder.png`) |p|
   {

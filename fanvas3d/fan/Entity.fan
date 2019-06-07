@@ -15,7 +15,7 @@ using fanvasOpenGl
 @Js
 class Entity : Node
 {
-  Float[]? vertices
+  ArrayBuffer? vertices
   internal GlBuffer? vertexPositionBuffer
   internal Int vertexPositionAttribute
 

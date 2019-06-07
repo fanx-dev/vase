@@ -45,11 +45,11 @@ class Fan3dMain : GlDisplay
 
     obj := Entity
     {
-      vertices = [
+      vertices = ArrayBuffer.makeFloat([
                     0.0f,  1.0f,  0.0f,
                    -1.0f, -1.0f,  0.0f,
                     1.0f, -1.0f,  0.0f,
-                 ]
+                 ])
     }
 
     renderer := Renderer

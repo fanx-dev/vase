@@ -152,6 +152,25 @@ fan.fanvasOpenGl.ArrayBufferPeer.prototype.putShort = function(self, data)
   return self;
 }
 
+fan.fanvasOpenGl.ArrayBufferPeer.prototype.setFloatArray = function(self, data)
+{
+  var a = data.m_array;
+  if (a.length != this.bufferView.length) {
+    a = a.slice(0, this.bufferView.length);
+  }
+  this.bufferView.set(a);
+  return self;
+}
+fan.fanvasOpenGl.ArrayBufferPeer.prototype.setIntArray = function(self, data)
+{
+  var a = data.m_array;
+  if (a.length != this.bufferView.length) {
+    a = a.slice(0, this.bufferView.length);
+  }
+  this.bufferView.set(a);
+  return self;
+}
+
 //////////////////////////////////////////////////////////////////////////
 // methods
 //////////////////////////////////////////////////////////////////////////

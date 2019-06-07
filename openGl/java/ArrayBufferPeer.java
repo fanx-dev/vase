@@ -216,6 +216,26 @@ public class ArrayBufferPeer
     return self;
   }
 
+  public ArrayBuffer setFloatArray(ArrayBuffer self, FloatArray a) {
+    FloatBuffer buf = (FloatBuffer)getValue();
+    Object o = a.raw();
+    float[] f;
+    if (o instanceof double[]) f = ArrayUtil.doubleToFloat((double[])o);
+    else f = (float[])o;
+
+    buf.put(f);
+    reset();
+    return self;
+  }
+
+  public ArrayBuffer setFloatArray(ArrayBuffer self, IntArray a) {
+    IntBuffer buf = (IntBuffer)getValue();
+    int[] o = (int[])a.raw();
+    buf.put(o);
+    reset();
+    return self;
+  }
+
 //////////////////////////////////////////////////////////////////////////
 // methods
 //////////////////////////////////////////////////////////////////////////

@@ -47,8 +47,8 @@ class Movement : GlDisplay
   GlUniformLocation? pMatrixUniform
   GlUniformLocation? mvMatrixUniform
 
-  Float[]? mvMatrix
-  Float[]? pMatrix
+  FloatArray? mvMatrix
+  FloatArray? pMatrix
 
   Float rTri := 0f
   Float rSquare := 0f
@@ -101,8 +101,8 @@ class Movement : GlDisplay
 
   private Void setMatrixUniforms()
   {
-    gl.uniformMatrix4fv(pMatrixUniform, false, ArrayBuffer.makeFloat(pMatrix))
-    gl.uniformMatrix4fv(mvMatrixUniform, false, ArrayBuffer.makeFloat(mvMatrix))
+    gl.uniformMatrix4fv(pMatrixUniform, false, ArrayBuffer.makeFloatArray(pMatrix))
+    gl.uniformMatrix4fv(mvMatrixUniform, false, ArrayBuffer.makeFloatArray(mvMatrix))
   }
 
   Int lastTime := 0

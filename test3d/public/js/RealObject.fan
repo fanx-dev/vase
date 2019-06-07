@@ -49,8 +49,8 @@ class RealObject : GlDisplay
   GlUniformLocation? pMatrixUniform
   GlUniformLocation? mvMatrixUniform
 
-  Float[]? mvMatrix
-  Float[]? pMatrix
+  FloatArray? mvMatrix
+  FloatArray? pMatrix
 
   Float rPyramid := 0f
   Float rCube := 0f
@@ -98,8 +98,8 @@ class RealObject : GlDisplay
 
   private Void setMatrixUniforms()
   {
-    gl.uniformMatrix4fv(pMatrixUniform, false, ArrayBuffer.makeFloat(pMatrix))
-    gl.uniformMatrix4fv(mvMatrixUniform, false, ArrayBuffer.makeFloat(mvMatrix))
+    gl.uniformMatrix4fv(pMatrixUniform, false, ArrayBuffer.makeFloatArray(pMatrix))
+    gl.uniformMatrix4fv(mvMatrixUniform, false, ArrayBuffer.makeFloatArray(mvMatrix))
   }
 
   Int lastTime := 0
