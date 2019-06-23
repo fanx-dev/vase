@@ -9,8 +9,45 @@
 using fanvasGraphics
 using fanvasWindow
 
-class NativeCaret : Caret {
+@Js
+class NativeCaret : Caret, TextInput {
+
+  Int x
+  Int y
+  Int lineIndex := 0
+
+  TextArea area
+
+  new make(TextArea area) { this.area = area }
+
+  override TextInputPeer? host
+
+  override Point getPos() {
+    c := Coord(0, 0)
+    area.posOnWindow(c)
+    return Point(c.x+x, c.y+y)
+  }
+
+  override Size getSize() { Size(1, area.rowHeight) }
+
+  override Int inputType() { 1 }
+  override Bool singleLine() { true }
+  override Bool editable() { true }
+
+  override Color textColor() { Color.black }
+  override Color backgroundColor() { Color.white }
+  override Font font() { area.font }
   
+  override Str text() { area.model.line(lineIndex) }
+
+  override Str textChange(Str text) {
+    area.model.modifyLine(lineIndex, text, false)
+    area.repaint
+    return text
+  }
+  override Void keyAction(Str text) {
+    //TODO
+  }
 }
 
 **
@@ -37,9 +74,9 @@ class TextArea : ScrollBase
   Int rowHeight() { font.height }
 
   @Transient
-  Caret caret := Caret() { private set }
+  NativeCaret caret := NativeCaret(this) { private set }
 
-  private Font font() {
+  internal Font font() {
     getStyle.font
   }
 
@@ -173,6 +210,26 @@ class TextArea : ScrollBase
 // Utils
 //////////////////////////////////////////////////////////////////////////
 
+  Int? updateCaretAtPos(Int x, Int y) {
+    Int absX := x + offsetX
+    Int absY := y + offsetY
+
+    //echo("absX$absX,absY$absY,dx$offsetX,dy$offsetY")
+
+    Int lineIndex := absY / rowHeight
+    if (lineIndex >= model.lineCount) return null
+    Int lineOffset := textIndex(model.line(lineIndex) , absX)
+
+    caret.lineIndex = lineIndex
+    caret.y = (lineIndex) * rowHeight
+    caret.x = font.width(model.line(lineIndex)[0..<lineOffset])
+    caret.offset = model.offsetAtLine(lineIndex) + lineOffset
+    caret.visible = true
+    this.getRootView.host?.textInput(caret)
+
+    return caret.offset
+  }
+
   **
   ** Map a coordinate on the widget to an offset in the text,
   ** or return null if no mapping at specified point.
@@ -230,12 +287,10 @@ class TextArea : ScrollBase
     if (e.type == MotionEvent.pressed)
     {
       //echo("e.x$e.x,e.y$e.y")
-      offset := offsetAtPos(sx, sy) ?: model.charCount
-      caret.offset = offset
+      offset := updateCaretAtPos(sx, sy) ?: model.charCount
       selectionStart = offset
-      caret.visible = true
       draging = true
-      focus
+      //focus
       //this.repaint
       e.consume
     }

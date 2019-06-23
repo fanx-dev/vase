@@ -137,6 +137,8 @@ abstract class TextAreaModel
   **
   abstract Void modify(Int start, Int replaceLen, Str newText)
 
+  abstract Void modifyLine(Int lineIndex, Str? line, Bool add)
+
   **
   ** Return the styled segments for the given zero based line index.
   ** The result is a list of Int/RichTextStyle pairs where the Int
@@ -174,14 +176,20 @@ class DefTextAreaModel : TextAreaModel
     set
     {
       lines = it.splitLines
-      &text = it
+    }
+    get {
+      lines.join("\n")
     }
   }
 
   **
   ** Return the number of characters in the content.
   **
-  override Int charCount() { text.size }
+  override Int charCount() {
+    s := 0
+    lines.each { s += it.size }
+    return s
+  }
 
   **
   ** Return the number of lines.
@@ -209,6 +217,23 @@ class DefTextAreaModel : TextAreaModel
       count += lines[i].size + 1
     }
     return n
+  }
+
+  Point posAtOffset(Int offset) {
+    Int count := 0
+    n := lines.size
+    for (i:=0; i<n; ++i)
+    {
+      if (offset < count + lines[i].size + 1)
+      {
+        y := i
+        x := offset - count
+        return Point(x, y)
+      }
+      count += lines[i].size + 1
+    }
+    if (n == 0) return Point(0, 0)
+    return Point(lines[n-1].size, n-1)
   }
 
   **
@@ -242,6 +267,18 @@ class DefTextAreaModel : TextAreaModel
     return font.width(lines[maxIndex])
   }*/
 
+  override Void modifyLine(Int lineIndex, Str? line, Bool add) {
+    if (line == null) {
+      lines.removeAt(lineIndex)
+    }
+    else if (add) {
+      lines.insert(lineIndex, line)
+    }
+    else {
+      lines[lineIndex] = line
+    }
+  }
+
   **
   ** Replace the text with 'newText' starting at position 'start'
   ** for a length of 'replaceLen'.  The model implementation must
@@ -249,7 +286,47 @@ class DefTextAreaModel : TextAreaModel
   **
   override Void modify(Int start, Int replaceLen, Str newText)
   {
-    text = text[0..<start] + newText + text[start+replaceLen..-1]
+    sp := posAtOffset(start)
+    addLines := newText.split
+
+    if (replaceLen == 0 && addLines.size == 1) {
+      line := lines[sp.y]
+      line = line[0..sp.x] + newText + line[sp.x..-1]
+      lines[sp.y] = line
+      return
+    }
+
+    ep := posAtOffset(start+replaceLen)
+    
+    newLines := Str[,]
+    Str? tempText := null
+    for (i:=0; i<lines.size; ++i) {
+      if (i<sp.y) {
+        newLines.add(lines[i])
+        continue
+      }
+      if (i == sp.y) {
+        nline := lines[i][0..sp.x] + addLines[0]
+        newLines.add(nline)
+        for (j:=1; j<addLines.size-1; ++j) {
+          newLines.add(addLines[j])
+        }
+        if (addLines.size > 1) tempText = addLines.last
+        continue
+      }
+      if (i == ep.y) {
+        nline := lines[i][ep.x..-1]
+        if (tempText != null) nline = tempText + nline
+        newLines.add(nline)
+        continue
+      }
+      if (i > ep.y) {
+        newLines.add(lines[i])
+        continue
+      }
+    }
+
+    lines = newLines
   }
 }
 

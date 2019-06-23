@@ -151,7 +151,7 @@ fan.fanvasWindow.WtkWindow.prototype.createCanvas = function(shell, size) {
   this.elem = c;
   shell.appendChild(this.elem);
   this.bindEvent(c);
-  //c.setAttribute('tabindex','0');
+  c.setAttribute('tabindex','0');
   c.focus();
 
   //create fan graphics

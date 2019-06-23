@@ -33,7 +33,7 @@ fan.fanvasWindow.WtkEditText.prototype.init = function(view) {
 
 fan.fanvasWindow.WtkEditText.prototype.update = function() {
   var view = this.view;
-  this.elem.disabled = !view.enabled();
+  this.elem.disabled = !view.editable();
 
   var pos = view.getPos();
   var size = view.getSize();

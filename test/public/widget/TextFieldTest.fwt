@@ -12,7 +12,7 @@ class TextFieldTest : BaseTestWin
 {
   protected override Widget build() {
     TextField {
-      text = "Hello"
+      text = "Hello2"
     }
   }
 }
