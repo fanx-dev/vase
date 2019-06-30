@@ -47,4 +47,5 @@ mixin TextInputPeer
   abstract Void close()
   abstract Void update()
   abstract Void select(Int start, Int end)
+  abstract Int caretPos()
 }

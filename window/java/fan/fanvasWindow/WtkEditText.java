@@ -51,7 +51,7 @@ class WtkEditText implements TextInputPeer {
       }
 
       private void sendKeyEvent(java.awt.event.KeyEvent e, long type) {
-        KeyEvent ce = KeyEvent.make(KeyEvent.typed);
+        KeyEvent ce = KeyEvent.make(type);
         ce.keyChar((long)e.getKeyChar());
         ce.key(ComponentUtils.keyCodeToKey(e.getKeyCode()));
         view.onKeyEvent(ce);
@@ -125,5 +125,10 @@ class WtkEditText implements TextInputPeer {
   public void select(long start, long end) {
     textComp.select((int)start, (int)end);
     textComp.setCaretPosition((int)start);
+  }
+
+  @Override
+  public long caretPos() {
+    return textComp.getCaretPosition();
   }
 }

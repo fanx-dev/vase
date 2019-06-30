@@ -14,6 +14,7 @@ class NativeCaret : Caret, TextInput {
 
   Int x
   Int y
+
   Int lineIndex := 0
 
   TextArea area
@@ -28,7 +29,7 @@ class NativeCaret : Caret, TextInput {
     return Point(c.x+x, c.y+y)
   }
 
-  override Size getSize() { Size(0, area.rowHeight) }
+  override Size getSize() { Size(1, area.rowHeight) }
 
   override Int inputType() { 1 }
   override Bool singleLine() { true }
@@ -49,7 +50,7 @@ class NativeCaret : Caret, TextInput {
     //TODO
   }
   override Void onKeyEvent(KeyEvent e) {
-    echo("onKeyEvent: $e")
+    area.keyEvent(e)
   }
 }
 
@@ -213,7 +214,7 @@ class TextArea : ScrollBase
 // Utils
 //////////////////////////////////////////////////////////////////////////
 
-  Int? updateCaretAtPos(Int x, Int y) {
+  private Int? updateCaretByCoord(Int x, Int y) {
     Int absX := x + offsetX
     Int absY := y + offsetY
 
@@ -221,24 +222,58 @@ class TextArea : ScrollBase
 
     Int lineIndex := absY / rowHeight
     if (lineIndex >= model.lineCount) return null
-    Int lineOffset := textIndex(model.line(lineIndex) , absX)
+    Int lineOffset := textIndexAtPos(model.line(lineIndex) , absX)
 
-    caret.lineIndex = lineIndex
-    caret.y = (lineIndex) * rowHeight
-    caret.x = font.width(model.line(lineIndex)[0..<lineOffset])
-    caret.offset = model.offsetAtLine(lineIndex) + lineOffset
+    updateCaretAt(lineIndex, lineOffset)
+
+    return model.offsetAtLine(lineIndex) + lineOffset
+  }
+
+  protected override Void doPaint(Graphics g) {
+    //update caret pos before paint
+    if (caret.host != null) {
+      caretPos := caret.host.caretPos
+      if (caret.offset != caretPos) {
+        updateCaretAt(caret.lineIndex, caretPos, true)
+      }
+    }
+    super.doPaint(g)
+  }
+
+  private Void updateCaretAt(Int row, Int column, Bool onlyUpdatePos := false) {
+    if (column == -1) {
+      --row
+      if (row < 0) row = 0
+      column = model.line(row).size
+    }
+    if (column > model.line(row).size) {
+      if (row < model.lineCount) {
+        ++row
+        column = 0
+      }
+      else if (column > 0) {
+        --column
+      }
+    }
+
+    caret.lineIndex = row
+    caret.y = (row) * rowHeight
+    caret.x = font.width(model.line(row)[0..<column])
+    //caret.offset = model.offsetAtLine(row) + column
     caret.visible = true
-    this.getRootView.host?.textInput(caret)
-    caret.host.select(lineOffset, lineOffset)
+    caret.offset = column
+    if (!onlyUpdatePos) this.getRootView.host?.textInput(caret)
 
-    return caret.offset
+    //echo("updateCaretAt: $row, $column")
+    //Err().trace
+    caret.host.select(column, column)
   }
 
   **
   ** Map a coordinate on the widget to an offset in the text,
   ** or return null if no mapping at specified point.
   **
-  Int? offsetAtPos(Int x, Int y)
+  private Int? offsetAtPos(Int x, Int y)
   {
     Int absX := x + offsetX
     Int absY := y + offsetY
@@ -247,11 +282,11 @@ class TextArea : ScrollBase
 
     Int lineIndex := absY / rowHeight
     if (lineIndex >= model.lineCount) return null
-    Int lineOffset := textIndex(model.line(lineIndex) , absX)
+    Int lineOffset := textIndexAtPos(model.line(lineIndex) , absX)
     return model.offsetAtLine(lineIndex) + lineOffset
   }
 
-  Int textIndex(Str text, Int w)
+  private Int textIndexAtPos(Str text, Int w)
   {
     Int size := text.size
     for (i := 0; i<size; ++i)
@@ -263,6 +298,10 @@ class TextArea : ScrollBase
       }
     }
     return size
+  }
+
+  Bool hasSelected() {
+    selectionStart != selectionEnd && selectionStart != -1
   }
 
 //////////////////////////////////////////////////////////////////////////
@@ -291,74 +330,68 @@ class TextArea : ScrollBase
     if (e.type == MotionEvent.pressed)
     {
       //echo("e.x$e.x,e.y$e.y")
-      offset := updateCaretAtPos(sx, sy) ?: model.charCount
+      offset := updateCaretByCoord(sx, sy) ?: model.charCount
       selectionStart = offset
       draging = true
       //focus
       //this.repaint
       e.consume
     }
-    else if (draging && e.type == MotionEvent.released)
+    else if (draging)
     {
-      offset := offsetAtPos(sx, sy) ?: model.charCount
-      if (offset == selectionStart)
-      {
-        selectionStart = -1
-        selectionEnd = -1
-        draging = false
-        this.repaint
-        return
-      }
-      caret.offset = offset
-      selectionEnd = offset
+      if (e.type == MotionEvent.moved) {
+        selectionEnd = offsetAtPos(sx, sy) ?: model.charCount
 
-      //swap value
-      if (selectionStart > selectionEnd)
-      {
-        temp := selectionStart
-        selectionStart = selectionEnd
-        selectionEnd = temp
+        //swap value
+        if (selectionStart > selectionEnd)
+        {
+          temp := selectionStart
+          selectionStart = selectionEnd
+          selectionEnd = temp
+        }
+
+        this.repaint
+        //echo("move: $selectionStart, $selectionEnd")
+        e.consume
       }
-      this.repaint
-      e.consume
+      if (e.type == MotionEvent.released) {
+        updateCaretByCoord(sx, sy)
+        draging = false
+        e.consume
+      }
     }
+  }
+
+  private Void clearSelected() {
+    selectionStart = -1
+    selectionEnd = -1
   }
 
   override Void keyEvent(KeyEvent e)
   {
-    // remove text
-    if (e.key == Key.backspace)
-    {
-      if (e.type == KeyEvent.pressed)
-      {
-        if (text.size == 0) return
-        if (selectionStart >= 0 && selectionEnd >= 0)
-        {
+    echo(e)
+    if (e.type == KeyEvent.pressed) {
+      //echo(e.key)
+      if (e.key == Key.left) {
+        updateCaretAt(caret.lineIndex, caret.offset-1)
+        clearSelected
+        this.repaint
+        return
+      }
+      else if (e.key == Key.right) {
+        updateCaretAt(caret.lineIndex, caret.offset+1)
+        clearSelected
+        this.repaint
+        return
+      }
+      else {
+        if (hasSelected) {
           model.modify(selectionStart, selectionEnd-selectionStart, "")
-          selectionStart = -1
-          selectionEnd = -1
-          draging = false
-          repaint
-        }
-        else if (caret.offset > 0)
-        {
-          --caret.offset
-          model.modify(caret.offset, 1, "")
-
-          repaint
+          clearSelected
+          this.repaint
+          e.consume
         }
       }
-      return
     }
-
-    //typed
-    if (e.type != KeyEvent.typed) return
-
-    //skip ctrl char
-    if (e.keyChar < 32) return
-
-    model.modify(caret.offset, 0, e.keyChar.toChar)
-    caret.offset++
-    repaint
   }
 }

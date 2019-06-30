@@ -52,6 +52,9 @@ abstract class TextAreaModel
   **
   abstract Str line(Int lineIndex)
 
+
+  abstract Point posAtOffset(Int offset)
+
   **
   ** Return the zero based line index at the given character offset.
   **
@@ -219,7 +222,7 @@ class DefTextAreaModel : TextAreaModel
     return n
   }
 
-  Point posAtOffset(Int offset) {
+  override Point posAtOffset(Int offset) {
     Int count := 0
     n := lines.size
     for (i:=0; i<n; ++i)

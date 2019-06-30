@@ -33,7 +33,7 @@ class TextAreaStyle : WidgetStyle
     Int selectionEndOffset := -1
     Bool hasSelection := false
     //get selection
-    if (area.selectionStart >= 0 && area.selectionEnd >= 0)
+    if (area.hasSelected)
     {
       selectionStartLine = area.model.lineAtOffset(area.selectionStart)
       selectionEndLine = area.model.lineAtOffset(area.selectionEnd)
@@ -49,7 +49,7 @@ class TextAreaStyle : WidgetStyle
       }
     }
 
-    //echo("$selectionStartLine, $selectionEndLine")
+    //echo("hasSelection:$hasSelection: $selectionStartLine($area.selectionStart), $selectionEndLine($area.selectionEnd)")
 
     //draw line
     Int selStart := -1
@@ -105,7 +105,7 @@ class TextAreaStyle : WidgetStyle
   private Void drawCaret(TextArea area, Graphics g, Int start, Int end) {
     if (area.caret.visible)
     {
-      Int lineIndex := area.model.lineAtOffset(area.caret.offset)
+      Int lineIndex := area.caret.lineIndex
       if (lineIndex < start || lineIndex > end)
       {
       }
@@ -113,7 +113,7 @@ class TextAreaStyle : WidgetStyle
       {
         Int y := (lineIndex - start) * area.rowHeight
         Str line := area.model.line(lineIndex)
-        Int xOffset := area.caret.offset - area.model.offsetAtLine(lineIndex)
+        Int xOffset := area.caret.offset
         Int x := font.width(line[0..<xOffset]) -area.offsetX
         g.drawLine(x, y, x, y + area.rowHeight)
       }
