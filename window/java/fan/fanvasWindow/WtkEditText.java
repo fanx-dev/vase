@@ -34,6 +34,32 @@ class WtkEditText implements TextInputPeer {
       });
     }
 
+    textComp.addKeyListener(new KeyAdapter() {
+      @Override
+      public void keyPressed(java.awt.event.KeyEvent e) {
+        sendKeyEvent(e, KeyEvent.pressed);
+      }
+
+      @Override
+      public void keyReleased(java.awt.event.KeyEvent e) {
+        sendKeyEvent(e, KeyEvent.released);
+      }
+
+      @Override
+      public void keyTyped(java.awt.event.KeyEvent e) {
+        sendKeyEvent(e, KeyEvent.typed);
+      }
+
+      private void sendKeyEvent(java.awt.event.KeyEvent e, long type) {
+        KeyEvent ce = KeyEvent.make(KeyEvent.typed);
+        ce.keyChar((long)e.getKeyChar());
+        ce.key(ComponentUtils.keyCodeToKey(e.getKeyCode()));
+        view.onKeyEvent(ce);
+        if (ce.consumed()) e.consume();
+
+      }
+    });
+  
     textComp.getDocument().addDocumentListener(new DocumentListener() {
       public void insertUpdate(DocumentEvent e) {
         docChange(e);
@@ -93,5 +119,11 @@ class WtkEditText implements TextInputPeer {
   public void close() {
     java.awt.Container p = textComp.getParent();
     if (p != null) p.remove(textComp);
+  }
+
+  @Override
+  public void select(long start, long end) {
+    textComp.select((int)start, (int)end);
+    textComp.setCaretPosition((int)start);
   }
 }

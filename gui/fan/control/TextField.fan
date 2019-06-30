@@ -130,6 +130,8 @@ class TextField : Widget, TextInput
 
   private Void stopCaret() { timer?.cancel }
 
+  override Void onKeyEvent(KeyEvent e) {
+  }
 
   override Void keyEvent(KeyEvent e)
   {

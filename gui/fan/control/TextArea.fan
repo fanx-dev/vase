@@ -28,13 +28,13 @@ class NativeCaret : Caret, TextInput {
     return Point(c.x+x, c.y+y)
   }
 
-  override Size getSize() { Size(1, area.rowHeight) }
+  override Size getSize() { Size(0, area.rowHeight) }
 
   override Int inputType() { 1 }
   override Bool singleLine() { true }
   override Bool editable() { true }
 
-  override Color textColor() { Color.black }
+  override Color textColor() { Color.blue }
   override Color backgroundColor() { Color.white }
   override Font font() { area.font }
   
@@ -47,6 +47,9 @@ class NativeCaret : Caret, TextInput {
   }
   override Void keyAction(Str text) {
     //TODO
+  }
+  override Void onKeyEvent(KeyEvent e) {
+    echo("onKeyEvent: $e")
   }
 }
 
@@ -226,6 +229,7 @@ class TextArea : ScrollBase
     caret.offset = model.offsetAtLine(lineIndex) + lineOffset
     caret.visible = true
     this.getRootView.host?.textInput(caret)
+    caret.host.select(lineOffset, lineOffset)
 
     return caret.offset
   }

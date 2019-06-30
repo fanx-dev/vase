@@ -37,6 +37,8 @@ mixin TextInput
 
   abstract Str textChange(Str text)
   abstract Void keyAction(Str text)
+
+  abstract Void onKeyEvent(KeyEvent e)
 }
 
 @Js
@@ -44,4 +46,5 @@ mixin TextInputPeer
 {
   abstract Void close()
   abstract Void update()
+  abstract Void select(Int start, Int end)
 }
