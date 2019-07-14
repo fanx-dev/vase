@@ -294,7 +294,11 @@ class DefTextAreaModel : TextAreaModel
 
     if (replaceLen == 0 && newText == "\n") {
       line := lines[sp.y]
-      line1 := line[0..sp.x]
+      if (line.size == sp.x) {
+        lines.insert(sp.y+1, "")
+        return
+      }
+      line1 := line[0..<sp.x]
       line2 := line[sp.x..-1]
       lines[sp.y] = line1
       lines.insert(sp.y+1, line2)

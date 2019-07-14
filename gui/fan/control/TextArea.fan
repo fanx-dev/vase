@@ -348,7 +348,7 @@ class TextArea : ScrollBase
       offset := updateCaretByCoord(sx, sy) ?: model.charCount
       selectionStart = offset
       draging = true
-      if (caret.host != null) caret.host.update
+      //if (caret.host != null) caret.host.update
       //focus
       this.repaint
       e.consume
@@ -372,7 +372,10 @@ class TextArea : ScrollBase
       }
       if (e.type == MotionEvent.released) {
         //updateCaretByCoord(sx, sy)
-        if (caret.host != null) caret.host.update
+        if (caret.host != null) {
+          caret.host.update
+          caret.host.select(caret.offset, caret.offset)
+        }
         draging = false
         e.consume
         this.repaint
@@ -380,7 +383,10 @@ class TextArea : ScrollBase
     }
     else if (e.type == MotionEvent.released) {
       //updateCaretByCoord(sx, sy)
-      if (caret.host != null) caret.host.update
+      if (caret.host != null) {
+        caret.host.update
+        caret.host.select(caret.offset, caret.offset)
+      }
       draging = false
     }
   }
