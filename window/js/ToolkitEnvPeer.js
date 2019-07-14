@@ -34,3 +34,11 @@ fan.fanvasWindow.Toolkit.prototype.callLater = function(delay, callback)
 {
   window.setTimeout(function(){ callback.call(); }, delay);
 }
+
+fan.fanvasWindow.Toolkit.prototype.clipboard = function()
+{
+  if (!fan.fanvasWindow.Toolkit.m_clipboard) {
+    fan.fanvasWindow.Toolkit.m_clipboard = new fan.fanvasWindow.JSClipboard();
+  } 
+  return fan.fanvasWindow.Toolkit.m_clipboard;
+}

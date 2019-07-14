@@ -78,5 +78,38 @@ public class ToolkitEnvPeer
 
       timer.schedule(task, delay);
     }
+
+    private static Clipboard m_clipboard;
+
+    public Clipboard clipboard() {
+      if (m_clipboard == null) {
+        m_clipboard = new Clipboard() {
+          java.awt.datatransfer.Clipboard sysClipboard = java.awt.Toolkit.getDefaultToolkit().getSystemClipboard();
+
+          public String getText(Func callback) {
+              java.awt.datatransfer.Transferable trans = sysClipboard.getContents(null);
+              if (trans != null) {
+                  if (trans.isDataFlavorSupported(java.awt.datatransfer.DataFlavor.stringFlavor)) {
+                      try {
+                          String text = (String) trans.getTransferData(java.awt.datatransfer.DataFlavor.stringFlavor);
+                          callback.call(text);
+                          return text;
+                      } catch (Exception e) {
+                          e.printStackTrace();
+                      }
+                  }
+              }
+              callback.call(null);
+              return null;
+          }
+
+          public void setText(String text) {
+            java.awt.datatransfer.Transferable trans = new java.awt.datatransfer.StringSelection(text);
+            sysClipboard.setContents(trans, null);
+          }
+        };
+      }
+      return m_clipboard;
+    }
   }
 }

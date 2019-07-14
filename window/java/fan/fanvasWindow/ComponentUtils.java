@@ -71,31 +71,43 @@ public class ComponentUtils {
     component.addKeyListener(new KeyListener() {
       @Override
       public void keyPressed(java.awt.event.KeyEvent e) {
-        KeyEvent ce = KeyEvent.make(KeyEvent.pressed);
-        ce.keyChar((long)e.getKeyChar());
-        ce.key(keyCodeToKey(e.getKeyCode()));
+        KeyEvent ce = keyEventToFan(e, KeyEvent.pressed);
         view.onKeyEvent(ce);
       }
 
       @Override
       public void keyReleased(java.awt.event.KeyEvent e) {
-        KeyEvent ce = KeyEvent.make(KeyEvent.released);
-        ce.keyChar((long)e.getKeyChar());
-        ce.key(keyCodeToKey(e.getKeyCode()));
+        KeyEvent ce = keyEventToFan(e, KeyEvent.released);
         view.onKeyEvent(ce);
       }
 
       @Override
       public void keyTyped(java.awt.event.KeyEvent e) {
-        KeyEvent ce = KeyEvent.make(KeyEvent.typed);
-        ce.keyChar((long)e.getKeyChar());
-        ce.key(keyCodeToKey(e.getKeyCode()));
+        KeyEvent ce = keyEventToFan(e, KeyEvent.typed);
         view.onKeyEvent(ce);
       }
     });
   }
 
-  static Key keyCodeToKey(int keyCode)
+  static KeyEvent keyEventToFan(java.awt.event.KeyEvent e, long type)
+  {
+    KeyEvent ce = KeyEvent.make(type);
+    ce.keyChar((long)e.getKeyChar());
+    Key key = keyCodeToKey(e.getKeyCode());
+    if ((e.getModifiers() & java.awt.event.KeyEvent.CTRL_MASK) != 0) {
+      key = key.plus(Key.ctrl);
+    }
+    if ((e.getModifiers() & java.awt.event.KeyEvent.ALT_MASK) != 0) {
+      key = key.plus(Key.alt);
+    }
+    if ((e.getModifiers() & java.awt.event.KeyEvent.SHIFT_MASK) != 0) {
+      key = key.plus(Key.shift);
+    }
+    ce.key(key);
+    return ce;
+  }
+
+  private static Key keyCodeToKey(int keyCode)
   {
     // TODO FIXIT: map rest of non-alpha keys
     switch (keyCode)

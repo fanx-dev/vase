@@ -398,7 +398,7 @@ class TextArea : ScrollBase
 
   override Void keyEvent(KeyEvent e)
   {
-    //echo(e)
+    echo(e)
     if (e.type == KeyEvent.pressed) {
       //echo(e.key)
       if (e.key == Key.left) {
@@ -429,6 +429,7 @@ class TextArea : ScrollBase
         e.consume
         return
       }
+      //new line
       else if (e.key == Key.enter) {
         if (hasSelected) {
           model.modify(selectionStart, selectionEnd-selectionStart, "\n")
@@ -442,6 +443,25 @@ class TextArea : ScrollBase
         this.repaint
         e.consume
         return
+      }
+      //copy
+      else if (e.key.primary == Key.c && e.key.isShift) {
+        if (hasSelected) {
+          Toolkit.cur.clipboard.setText(model.textRange(selectionEnd, selectionStart))
+        }
+      }
+      //paste
+      else if (e.key.primary == Key.c && e.key.isShift) {
+        if (hasSelected) {
+          model.modify(selectionStart, selectionEnd-selectionStart, "")
+          clearSelected
+        }
+
+        Toolkit.cur.clipboard.getText |text|{
+          if (text == null) lret
+          pos := model.offsetAtLine(caret.lineIndex) + caret.offset
+          model.modify(pos, 0, text)
+        }
       }
       else {
         if (hasSelected) {

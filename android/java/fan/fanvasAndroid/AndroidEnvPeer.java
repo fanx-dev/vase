@@ -1,13 +1,17 @@
 package fan.fanvasAndroid;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
+import android.text.ClipboardManager;
 import android.util.DisplayMetrics;
 import android.view.WindowManager;
 import fan.concurrent.Actor;
 import fan.fanvasWindow.Toolkit;
 import fan.fanvasWindow.Window;
+import fan.sys.Func;
+import fan.fanvasWindow.Clipboard;
 
 public class AndroidEnvPeer {
   public static AndroidEnvPeer make(AndroidEnv self)
@@ -97,6 +101,39 @@ public class AndroidEnvPeer {
     @Override
     public double density() {
       return density;
+    }
+
+    private static Clipboard m_clipboard;
+
+    public Clipboard clipboard() {
+      if (m_clipboard == null) {
+        m_clipboard = new Clipboard() {
+          private android.text.ClipboardManager sysClipboard = (ClipboardManager)context.getSystemService(Context.CLIPBOARD_SERVICE);
+
+          public String getText(Func callback) {
+            try {
+//              android.content.ClipData abc = sysClipboard.getPrimaryClip();
+//              android.content.ClipData.Item item = abc.getItemAt(0);
+//              String text = item.getText().toString();
+            	String text = sysClipboard.getText().toString();
+
+              callback.call(text);
+              return text;
+            } catch (Exception e) {
+              e.printStackTrace();
+              callback.call(null);
+              return null;
+            }
+          }
+
+          public void setText(String text) {
+              //android.content.ClipData myClip = android.content.ClipData.newPlainText("text", text);
+              //sysClipboard.setPrimaryClip(myClip);
+        	  sysClipboard.setText(text);
+          }
+        };
+      }
+      return m_clipboard;
     }
   }
 }

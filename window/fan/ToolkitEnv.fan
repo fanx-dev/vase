@@ -62,6 +62,11 @@ abstract const class Toolkit
   ** one of "HTML5","SWT","AWT","Android"
   **
   abstract Str name()
+
+  **
+  ** Reference to the system clipboard for data transfer.
+  **
+  abstract Clipboard clipboard()
 }
 
 **
@@ -76,3 +81,21 @@ class ToolkitEnv
   native static Void init()
 }
 
+**
+** Clipboard provides access to the system clipboard for data transfer.
+** Access is via `Desktop.clipboard`.
+**
+@Js
+abstract class Clipboard
+{
+  **
+  ** Get the current clipboard contents as plain text or null
+  ** if clipboard doesn't contain text data.
+  **
+  abstract Str? getText(|Str?| callback)
+
+  **
+  ** Set the clipboard contents to given plain text data.
+  **
+  abstract Void setText(Str data)
+}

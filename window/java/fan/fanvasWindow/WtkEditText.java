@@ -51,12 +51,9 @@ class WtkEditText implements TextInputPeer {
       }
 
       private void sendKeyEvent(java.awt.event.KeyEvent e, long type) {
-        KeyEvent ce = KeyEvent.make(type);
-        ce.keyChar((long)e.getKeyChar());
-        ce.key(ComponentUtils.keyCodeToKey(e.getKeyCode()));
+        KeyEvent ce = ComponentUtils.keyEventToFan(e, type);
         view.onKeyEvent(ce);
         if (ce.consumed()) e.consume();
-
       }
     });
   
