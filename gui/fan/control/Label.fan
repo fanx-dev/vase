@@ -15,7 +15,12 @@ using fanvasWindow
 @Js
 class Label : Widget
 {
-  Str text := "Label"
+  Str text := "Label" {
+    set {
+      &text = it
+      this.repaint
+    }
+  }
   protected Font font() {
     return getStyle.font
   }

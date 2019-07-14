@@ -115,6 +115,7 @@ class TextAreaStyle : WidgetStyle
         Str line := area.model.line(lineIndex)
         Int xOffset := area.caret.offset
         Int x := font.width(line[0..<xOffset]) -area.offsetX
+        //echo("x $x, offsetX:${area.offsetX} ${line[0..<xOffset]}")
         g.drawLine(x, y, x, y + area.rowHeight)
       }
     }

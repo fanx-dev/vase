@@ -289,9 +289,19 @@ class DefTextAreaModel : TextAreaModel
   **
   override Void modify(Int start, Int replaceLen, Str newText)
   {
+    //echo("modify $start $replaceLen, $newText")
     sp := posAtOffset(start)
-    addLines := newText.split
 
+    if (replaceLen == 0 && newText == "\n") {
+      line := lines[sp.y]
+      line1 := line[0..sp.x]
+      line2 := line[sp.x..-1]
+      lines[sp.y] = line1
+      lines.insert(sp.y+1, line2)
+      return
+    }
+
+    addLines := newText.split
     if (replaceLen == 0 && addLines.size == 1) {
       line := lines[sp.y]
       line = line[0..sp.x] + newText + line[sp.x..-1]
@@ -309,13 +319,17 @@ class DefTextAreaModel : TextAreaModel
         continue
       }
       if (i == sp.y) {
-        nline := lines[i][0..sp.x] + addLines[0]
-        newLines.add(nline)
-        for (j:=1; j<addLines.size-1; ++j) {
-          newLines.add(addLines[j])
+        nline := lines[i][0..<sp.x] + addLines[0]
+        if (addLines.size <= 1) {
+          tempText = nline
         }
-        if (addLines.size > 1) tempText = addLines.last
-        continue
+        else {
+          newLines.add(nline)
+          for (j:=1; j<addLines.size-1; ++j) {
+            newLines.add(addLines[j])
+          }
+          tempText = addLines.last
+        }        
       }
       if (i == ep.y) {
         nline := lines[i][ep.x..-1]
@@ -323,7 +337,7 @@ class DefTextAreaModel : TextAreaModel
         newLines.add(nline)
         continue
       }
-      if (i > ep.y) {
+      else if (i > ep.y) {
         newLines.add(lines[i])
         continue
       }

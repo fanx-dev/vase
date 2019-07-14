@@ -22,13 +22,43 @@ fan.fanvasWindow.WtkEditText.prototype.init = function(view) {
   var field = document.createElement("input");
   field.type = "text";
   field.style.position = "absolute";
+  field.style.border = "0";
 
   fan.fanvasWindow.GfxUtil.addEventListener(field, "input", function() {
     view.textChange(field.value);
   });
 
   this.elem = field;
+
+  this.addKeyEvent(this.elem, "keydown",    fan.fanvasWindow.KeyEvent.m_pressed);
+  this.addKeyEvent(this.elem, "keyup",      fan.fanvasWindow.KeyEvent.m_released);
+  this.addKeyEvent(this.elem, "keypress",   fan.fanvasWindow.KeyEvent.m_typed);
+
   return field;
+}
+
+fan.fanvasWindow.WtkEditText.prototype.addKeyEvent = function(elem, type, id)
+{
+  var view = this.view;
+  var mouseEvent = function(e)
+  {
+    //console.log(e);
+    var event = fan.fanvasWindow.KeyEvent.make(id);
+    //event.m_id = id;
+    event.m_widget = this.elem;
+    event.m_key = fan.fanvasWindow.Event.toKey(e);
+    event.m_keyChar =  e.charCode || e.keyCode;
+    view.onKeyEvent(event);
+
+    //console.log(event.m_consumed)
+
+    if (event.m_consumed) {
+      e.stopPropagation();
+      e.preventDefault();
+      e.cancelBubble = true;
+    }
+  };
+  fan.fanvasWindow.GfxUtil.addEventListener(elem, type, mouseEvent);
 }
 
 fan.fanvasWindow.WtkEditText.prototype.update = function() {
@@ -53,10 +83,17 @@ fan.fanvasWindow.WtkEditText.prototype.update = function() {
 
   this.elem.value = view.text();
 
-  this.elem.select();
+  this.elem.focus();
 }
 
 fan.fanvasWindow.WtkEditText.prototype.close = function() {
   return this.elem.parentNode.removeChild(this.elem);
 }
 
+fan.fanvasWindow.WtkEditText.prototype.select = function(start, end) {
+  this.elem.setSelectionRange(start, end);
+}
+
+fan.fanvasWindow.WtkEditText.prototype.caretPos = function() {
+  return this.elem.selectionStart;
+}

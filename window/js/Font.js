@@ -43,7 +43,7 @@ fan.fanvasGraphics.Font.prototype.width = function(str)
     {
       fan.fanvasGraphics.Font.fontCx = document.createElement("canvas").getContext("2d");
     }
-    fan.fanvasGraphics.Font.fontCx.font = fan.fanvasGraphics.GfxUtil.fontToCss(this);
+    fan.fanvasGraphics.Font.fontCx.font = fan.fanvasWindow.GfxUtil.fontToCss(this);
     return Math.round(fan.fanvasGraphics.Font.fontCx.measureText(str).width);
   }
   catch (err)
