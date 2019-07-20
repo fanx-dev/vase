@@ -115,6 +115,7 @@ fan.fanvasWindow.WtkEditText.prototype.setText = function( text) {
 fan.fanvasWindow.WtkEditText.prototype.setType = function( multiLine,  inputType,  editable) {
   if (multiLine <= 1) {
     if (this.elem.type != "text") {
+      this.close();
       var field = document.createElement("input");
       field.type = "text";
       this.elem = field;
@@ -123,6 +124,7 @@ fan.fanvasWindow.WtkEditText.prototype.setType = function( multiLine,  inputType
   }
   else {
     if (this.elem.type == "text") {
+      this.close();
       var field = document.createElement("textarea");
       field.rows = multiLine;
       this.elem = field;

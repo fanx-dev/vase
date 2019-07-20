@@ -138,12 +138,14 @@ class WtkEditText implements TextInputPeer {
   public void setType(long multiLine, long inputType, boolean editable) {
     if (multiLine <= 1) {
       if (!(textComp instanceof JTextField)) {
+        this.close();
         textComp = new JTextField();
         init(textComp);
       }
     }
     else {
       if (!(textComp instanceof JTextArea)) {
+        this.close();
         textComp = new JTextArea();
         init(textComp);
       }
