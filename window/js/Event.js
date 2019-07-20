@@ -15,7 +15,7 @@ fan.fanvasWindow.Event.toKey = function(event)
   {
     // force alpha keys to lowercase so we map correctly
     var code = event.keyCode;
-    if (code >= 65 && code <= 90) code += 32;
+    //if (code >= 65 && code <= 90) code += 32;
     key = fan.fanvasWindow.Event.keyCodeToKey(code);
   }
 

@@ -11,8 +11,14 @@ using fanvasGui
 class TextFieldTest : BaseTestWin
 {
   protected override Widget build() {
-    TextField {
-      text = "Hello2"
+    VBox {
+      EditText {
+        text = "Hello1"
+      },
+      EditText {
+        multiLine = 2
+        text = "Hello2"
+      }
     }
   }
 }

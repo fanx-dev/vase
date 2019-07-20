@@ -104,10 +104,12 @@ public class AndEditText extends EditText implements TextInputPeer {
 
   @Override
   public void close() {
-    this.parent.removeView(this);
+    if (this.parent != null) {
+      this.parent.removeView(this);
+    }
   	hideInputMethod();
   }
-
+/*
   @Override
   public void update() {
   	setInputType(view.inputType());
@@ -135,6 +137,37 @@ public class AndEditText extends EditText implements TextInputPeer {
 		this.requestFocus();
 		showInputMethod();
   }
+*/
+
+  @Override
+  public void setPos(long x, long y, long w, long h) {
+    setBound((int)x, (int)y, (int)w, (int)h);
+  }
+  @Override
+  public void setStyle(Font font, Color textColor, Color backgroundColor) {
+    Typeface tf = AndUtil.toAndFont(font);
+    this.setTypeface(tf);
+    this.setTextSize(0, (float)font.size);
+
+    super.setBackgroundColor((int)backgroundColor.argb);
+    super.setTextColor((int)textColor.argb);
+  }
+  @Override
+  public void setText(String text) {
+    super.setText(text);
+  }
+  @Override
+  public void setType(long multiLine, long inputType, boolean editable) {
+    setInputType(inputType);
+    this.setSingleLine(multiLine <= 1);
+    this.setFocusableInTouchMode(editable);
+  }
+  @Override
+  public void focus() {
+    this.requestFocus();
+    showInputMethod();
+  }
+
 
 	final static int inputTypeText = 1;
 	final static int inputTypeIntNumber = 2;

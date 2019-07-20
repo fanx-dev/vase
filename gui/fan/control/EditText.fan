@@ -21,12 +21,12 @@ virtual class Caret
 }
 
 **
-** JTextField is a lightweight component that allows the editing of a single line of text.
+** EditText.
 **
 @Js
-class TextField : Widget, TextInput
+class EditText : Widget, TextInput
 {
-  override Str text := ""
+  Str text := ""
   {
     set
     {
@@ -40,7 +40,7 @@ class TextField : Widget, TextInput
   Str hint := ""
   Bool password := false
 
-  override Font font() {
+  Font font() {
     getStyle.font
   }
 
@@ -61,6 +61,7 @@ class TextField : Widget, TextInput
       if (focused)
       {
         this.getRootView.host?.textInput(this)
+        updateHost
         if (host == null) {
           startCaret
         }
@@ -86,7 +87,7 @@ class TextField : Widget, TextInput
   override Void keyAction(Str text) {
     this.text = text;
   }
-
+/*
   override Point getPos() { Point(x, y) }
   override Size getSize() { super.size }
 
@@ -96,15 +97,32 @@ class TextField : Widget, TextInput
 
   override Color textColor() { Color.black }
   override Color backgroundColor() { Color.white }
+*/
+
+  Int inputType := 1
+  Int multiLine := 0
+  Bool editable := true
+
+  private Void updateHost() {
+    if (host == null) return
+    host.setType(multiLine, inputType, editable)
+    host.setPos(x, y, width, height)
+    host.setStyle(font, Color.black, Color.white)
+    host.setText(text)
+    host.focus
+  }
 
   protected override Void layoutChildren(Dimension result, Bool force) {
     super.layoutChildren(result, force)
-    host?.update
+    updateHost
   }
 
   protected override Dimension prefContentSize(Dimension result) {
     w := font.width(text)
     h := font.height
+    if (multiLine > 1) {
+      h *= multiLine
+    }
     return result.set(w, h)
   }
 

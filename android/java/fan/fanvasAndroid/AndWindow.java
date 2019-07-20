@@ -109,7 +109,7 @@ public class AndWindow extends View implements Window {
       this.shell.addView(edit);
     }
 
-    textInput.host().update();
+    //textInput.host().update();
     return;
   }
 

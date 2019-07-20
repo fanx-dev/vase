@@ -95,9 +95,11 @@ public class WtkWindow implements Window {
     WtkEditText edit = (WtkEditText)textInput.host();
     if (edit.comp().getParent() == null) {
       shell.add(edit.comp(), 0);
+      edit.comp().validate(); 
+      edit.comp().repaint();
     }
 
-    edit.update();
+    //edit.update();
     return;
   }
 

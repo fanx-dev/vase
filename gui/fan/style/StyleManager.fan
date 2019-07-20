@@ -21,7 +21,7 @@ class StyleManager
       Button# : RoundButtonStyle(),
       ImageView# : ImageStyle(),
       Label# : LabelStyle(),
-      TextField# : TextFieldStyle(),
+      EditText# : EditTextStyle(),
       ToggleButton# : ToggleButtonStyle(),
       RadioButton# : RadioButtonStyle(),
       ScrollBar# : ScrollBarStyle(),

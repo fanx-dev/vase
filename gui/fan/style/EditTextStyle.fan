@@ -10,7 +10,7 @@ using fanvasGraphics
 using fanvasWindow
 
 @Js
-class TextFieldStyle : WidgetStyle
+class EditTextStyle : WidgetStyle
 {
   Color hintColor := Color(0xd7d7d7)
 
@@ -20,7 +20,7 @@ class TextFieldStyle : WidgetStyle
 
   override Void doPaint(Widget widget, Graphics g)
   {
-    TextField lab := widget
+    EditText lab := widget
     top := widget.paddingTop
     left := widget.paddingLeft
 

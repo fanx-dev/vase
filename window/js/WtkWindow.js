@@ -220,7 +220,7 @@ fan.fanvasWindow.WtkWindow.prototype.show = function(size)
 fan.fanvasWindow.WtkWindow.prototype.textInput = function(view) {
   if (!view.host()) {
     var jsEditText = new fan.fanvasWindow.WtkEditText();
-    jsEditText.init(view);
+    jsEditText.make(view);
     view.host$(jsEditText);
   }
 
@@ -229,5 +229,5 @@ fan.fanvasWindow.WtkWindow.prototype.textInput = function(view) {
     this.shell.appendChild(jsEditText.elem);
   }
   
-  jsEditText.update();
+  //jsEditText.update();
 }

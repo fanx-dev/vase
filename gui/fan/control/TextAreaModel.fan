@@ -308,7 +308,7 @@ class DefTextAreaModel : TextAreaModel
     addLines := newText.split
     if (replaceLen == 0 && addLines.size == 1) {
       line := lines[sp.y]
-      line = line[0..sp.x] + newText + line[sp.x..-1]
+      line = line[0..<sp.x] + newText + line[sp.x..-1]
       lines[sp.y] = line
       return
     }

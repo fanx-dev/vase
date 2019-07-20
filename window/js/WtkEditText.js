@@ -15,26 +15,29 @@ fan.fanvasWindow.WtkEditText.prototype.$typeof = function() {
 fan.fanvasWindow.WtkEditText.prototype.view = null;
 fan.fanvasWindow.WtkEditText.prototype.elem = null;
 
-fan.fanvasWindow.WtkEditText.prototype.init = function(view) {
+fan.fanvasWindow.WtkEditText.prototype.make = function(view) {
   this.view = view;
   //view.host$(this);
 
   var field = document.createElement("input");
   field.type = "text";
+  this.elem = field;
+  this.init(field);
+}
+
+fan.fanvasWindow.WtkEditText.prototype.init = function(field) {
+  var view = this.view;
   field.style.position = "absolute";
   field.style.border = "0";
+  field.style.outline = "0";
 
   fan.fanvasWindow.GfxUtil.addEventListener(field, "input", function() {
     view.textChange(field.value);
   });
 
-  this.elem = field;
-
-  this.addKeyEvent(this.elem, "keydown",    fan.fanvasWindow.KeyEvent.m_pressed);
-  this.addKeyEvent(this.elem, "keyup",      fan.fanvasWindow.KeyEvent.m_released);
-  this.addKeyEvent(this.elem, "keypress",   fan.fanvasWindow.KeyEvent.m_typed);
-
-  return field;
+  this.addKeyEvent(field, "keydown",    fan.fanvasWindow.KeyEvent.m_pressed);
+  this.addKeyEvent(field, "keyup",      fan.fanvasWindow.KeyEvent.m_released);
+  this.addKeyEvent(field, "keypress",   fan.fanvasWindow.KeyEvent.m_typed);
 }
 
 fan.fanvasWindow.WtkEditText.prototype.addKeyEvent = function(elem, type, id)
@@ -60,13 +63,12 @@ fan.fanvasWindow.WtkEditText.prototype.addKeyEvent = function(elem, type, id)
   };
   fan.fanvasWindow.GfxUtil.addEventListener(elem, type, mouseEvent);
 }
-
-fan.fanvasWindow.WtkEditText.prototype.update = function() {
+/*
+fan.fanvasWindow.WtkEditText.prototype.update = function(type) {
   var view = this.view;
-  this.elem.disabled = !view.editable();
-
   var pos = view.getPos();
   var size = view.getSize();
+  
   this.elem.style.left = pos.m_x + "px";
   this.elem.style.top = pos.m_y + "px";
   this.elem.style.width = size.m_w + "px";
@@ -74,6 +76,7 @@ fan.fanvasWindow.WtkEditText.prototype.update = function() {
   this.elem.style.margin = 0;
   this.elem.style.padding = 0;
 
+  this.elem.disabled = !view.editable();
   this.elem.inputType = view.inputType();
   this.elem.singleLine = view.singleLine();
 
@@ -85,9 +88,54 @@ fan.fanvasWindow.WtkEditText.prototype.update = function() {
 
   this.elem.focus();
 }
+*/
+fan.fanvasWindow.WtkEditText.prototype.focus = function() {
+  this.elem.focus();
+}
+
+fan.fanvasWindow.WtkEditText.prototype.setPos = function(x, y, w, h) {
+  this.elem.style.left = x + "px";
+  this.elem.style.top = y + "px";
+  this.elem.style.width = w + "px";
+  this.elem.style.height = h + "px";
+  this.elem.style.margin = 0;
+  this.elem.style.padding = 0;
+}
+
+fan.fanvasWindow.WtkEditText.prototype.setStyle = function(font, textColor, backgroundColor) {
+  this.elem.style.background = backgroundColor.toCss();
+  this.elem.style.color = textColor.toCss();
+  this.elem.style.font = fan.fanvasWindow.GfxUtil.fontToCss(font);
+}
+
+fan.fanvasWindow.WtkEditText.prototype.setText = function( text) {
+  this.elem.value = text;
+}
+
+fan.fanvasWindow.WtkEditText.prototype.setType = function( multiLine,  inputType,  editable) {
+  if (multiLine <= 1) {
+    if (this.elem.type != "text") {
+      var field = document.createElement("input");
+      field.type = "text";
+      this.elem = field;
+      this.init(field);
+    }
+  }
+  else {
+    if (this.elem.type == "text") {
+      var field = document.createElement("textarea");
+      field.rows = multiLine;
+      this.elem = field;
+      this.init(field);
+    }
+  }
+  this.elem.disabled = !editable;
+  this.elem.inputType = inputType;
+}
 
 fan.fanvasWindow.WtkEditText.prototype.close = function() {
-  return this.elem.parentNode.removeChild(this.elem);
+  if (this.elem.parentNode)
+    this.elem.parentNode.removeChild(this.elem);
 }
 
 fan.fanvasWindow.WtkEditText.prototype.select = function(start, end) {

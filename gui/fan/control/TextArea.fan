@@ -22,13 +22,12 @@ class NativeCaret : Caret, TextInput {
   new make(TextArea area) { this.area = area }
 
   override TextInputPeer? host
-
+/*
   override Point getPos() {
     c := Coord(0, 0)
     area.posOnWindow(c)
     return Point(c.x+x, c.y+y)
   }
-
   override Size getSize() { Size(1, area.rowHeight) }
 
   override Int inputType() { 1 }
@@ -38,8 +37,31 @@ class NativeCaret : Caret, TextInput {
   override Color textColor() { Color.blue }
   override Color backgroundColor() { Color.white }
   override Font font() { area.font }
+*/
+
+  internal Void updateHost(Bool all := true) {
+    if (host == null) return
+
+    if (!all) {
+      c := Coord(0, 0)
+      area.posOnWindow(c)
+      host.setPos(c.x+x, c.y+y, 1, area.rowHeight)
+      return
+    }
+
+    host.setType(0, 0, true)
+
+    c := Coord(0, 0)
+    area.posOnWindow(c)
+    host.setPos(c.x+x, c.y+y, 1, area.rowHeight)
+
+    host.setStyle(area.font, Color.black, Color.white)
+    host.setText(text)
+    host.select(this.offset, this.offset)
+    host.focus
+  }
   
-  override Str text() { area.model.line(lineIndex) }
+  private Str text() { area.model.line(lineIndex) }
 
   override Str textChange(Str text) {
     area.model.modifyLine(lineIndex, text, false)
@@ -241,7 +263,7 @@ class TextArea : ScrollBase
     super.doPaint(g)
   }
 
-  private Void updateCaretAt(Int row, Int column, Bool clipColumn := true, Bool updateHost := true) {
+  private Void updateCaretAt(Int row, Int column, Bool clipColumn := true, Bool updateAll := true) {
     //echo("updateCaretAt row $row column $column")
 
     if (row < 0) row = 0
@@ -276,11 +298,12 @@ class TextArea : ScrollBase
     //caret.offset = model.offsetAtLine(row) + column
     caret.visible = true
     caret.offset = column
-    if (updateHost) this.getRootView.host?.textInput(caret)
 
+    this.getRootView.host?.textInput(caret)
+    caret.updateHost(updateAll)
     //echo("updateCaretAt: $row, $column")
     //Err().trace
-    caret.host.select(column, column)
+    //caret.host.select(column, column)
   }
 
   **
@@ -373,8 +396,8 @@ class TextArea : ScrollBase
       if (e.type == MotionEvent.released) {
         //updateCaretByCoord(sx, sy)
         if (caret.host != null) {
-          caret.host.update
-          caret.host.select(caret.offset, caret.offset)
+          caret.updateHost
+          //caret.host.select(caret.offset, caret.offset)
         }
         draging = false
         e.consume
@@ -384,8 +407,8 @@ class TextArea : ScrollBase
     else if (e.type == MotionEvent.released) {
       //updateCaretByCoord(sx, sy)
       if (caret.host != null) {
-        caret.host.update
-        caret.host.select(caret.offset, caret.offset)
+        caret.updateHost
+        //caret.host.select(caret.offset, caret.offset)
       }
       draging = false
     }
@@ -445,13 +468,17 @@ class TextArea : ScrollBase
         return
       }
       //copy
-      else if (e.key.primary == Key.c && e.key.isShift) {
+      else if (e.key.primary == Key.c && e.key.isCtrl) {
+        //echo("copy")
         if (hasSelected) {
-          Toolkit.cur.clipboard.setText(model.textRange(selectionEnd, selectionStart))
+          Toolkit.cur.clipboard.setText(model.textRange(selectionStart, selectionEnd-selectionStart))
         }
+        e.consume
+        return
       }
       //paste
-      else if (e.key.primary == Key.c && e.key.isShift) {
+      else if (e.key.primary == Key.v && e.key.isCtrl) {
+        //echo("paste")
         if (hasSelected) {
           model.modify(selectionStart, selectionEnd-selectionStart, "")
           clearSelected
@@ -461,9 +488,12 @@ class TextArea : ScrollBase
           if (text == null) lret
           pos := model.offsetAtLine(caret.lineIndex) + caret.offset
           model.modify(pos, 0, text)
+          this.repaint
         }
+        e.consume
+        return
       }
-      else {
+      else if (!e.key.hasModifier) {
         if (hasSelected) {
           model.modify(selectionStart, selectionEnd-selectionStart, "")
           clearSelected
@@ -471,6 +501,7 @@ class TextArea : ScrollBase
           e.consume
         }
       }
+      
     }
   }
 }
