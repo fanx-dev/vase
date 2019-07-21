@@ -33,6 +33,7 @@ abstract class ScrollBase : Pane
 
   new make()
   {
+    clip = true
     //scroll bar
     hbar = ScrollBar { vertical = false; it.barSize = this.barSize; it.layoutParam.ignore = true }
     vbar = ScrollBar { vertical = true; it.barSize = this.barSize; it.layoutParam.ignore = true }

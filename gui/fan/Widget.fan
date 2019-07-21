@@ -52,6 +52,8 @@ abstract class Widget
   **
   //Effect? effect
 
+  Bool clip := false
+
   **
   ** flag for using renderCache
   **
@@ -222,6 +224,10 @@ abstract class Widget
     if (!visible) return
     if (width <= 0 || height <= 0) {
       return
+    }
+
+    if (clip) {
+      g.clip(Rect(0, 0, width, height))
     }
 
     if (transform != null) {

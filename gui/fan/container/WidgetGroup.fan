@@ -207,9 +207,12 @@ abstract class WidgetGroup : Widget
 
     //debug
     if (debug) {
-      g.brush = Color.black
-      g.drawLine(0, 0, width, height)
-      g.drawLine(width, 0, 0, height)
+      //g.brush = Color.black
+      //g.drawLine(0, 0, width, height)
+      //g.drawLine(width, 0, 0, height)
+      g.brush = Color.red
+      g.pen = Pen { it.width = 1 }
+      g.drawRect(x+2, y+2, width-4, height-4)
     }
   }
 
@@ -223,7 +226,6 @@ abstract class WidgetGroup : Widget
       if (it.visible)
       {
         g.push
-        //g.clip(it.bounds)
         g.transform(Transform2D.make.translate(it.x.toFloat, it.y.toFloat))
         it.paint(g)
         g.pop

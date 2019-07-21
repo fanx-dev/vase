@@ -48,9 +48,15 @@ public class WtkGraphics implements Graphics {
 
   @Override
   public void alpha(long a) {
-    Composite c = AlphaComposite.getInstance(AlphaComposite.SRC_OVER,
-        a / 255f);
-    gc.setComposite(c);
+    this.alpha = (int)a;
+    if (composite == null) {
+      Composite c = AlphaComposite.getInstance(AlphaComposite.SRC_OVER,
+          a / 255f);
+      gc.setComposite(c);
+    }
+    else {
+      composite(composite);
+    }
   }
 
   @Override
@@ -360,12 +366,14 @@ public class WtkGraphics implements Graphics {
     s.alpha = alpha;
     s.transform = gc.getTransform();
     s.clip = gc.getClip();
+    s.composite = composite;
     stack.push(s);
   }
 
   public void pop() {
     State s = (State) stack.pop();
-    alpha = s.alpha;
+    alpha(s.alpha);
+    composite(s.composite);
     pen(s.pen);
     brush(s.brush);
     font(s.font);
@@ -386,6 +394,7 @@ public class WtkGraphics implements Graphics {
     int alpha;
     AffineTransform transform;
     Shape clip;
+    fan.fanvasGraphics.Composite composite;
   }
 
   @Override
