@@ -30,6 +30,8 @@ class ScrollBar : Widget
   **
   Float curPos := 0f { private set }
 
+  Bool isActive() { draging }
+
   Bool isOverScroll() {
     if (curPos + viewport > max) {
       return true
@@ -143,6 +145,12 @@ class ScrollBar : Widget
       doTouch(e)
     }
   }
+
+  /*
+  protected override Void doPaint(Graphics g) {
+    super.doPaint(g)
+  }
+  */
 
   private Void doTouch(MotionEvent e)
   {

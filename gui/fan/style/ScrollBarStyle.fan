@@ -12,6 +12,8 @@ using fanvasWindow
 @Js
 class ScrollBarStyle : WidgetStyle
 {
+  Float barWidth := 8f
+
   new make()
   {
     background = Color(0xfafafa)
@@ -22,9 +24,14 @@ class ScrollBarStyle : WidgetStyle
   {
     ScrollBar bar := widget
 
-    g.brush = background
-    g.fillRect(0, 0, widget.width, widget.height)
-
+    if  (bar.isActive) {
+      g.brush = background
+      g.fillRect(0, 0, widget.width, widget.height)
+      //g.alpha = 100
+    }
+    else {
+      g.alpha = 100
+    }
     g.brush = foreground
     Int pos := bar.screenPos
     Int thumb := bar.thumbSize
@@ -33,12 +40,22 @@ class ScrollBarStyle : WidgetStyle
 
     if (bar.vertical)
     {
-      g.fillRect(left, top+pos, widget.contentWidth, thumb)
+      if  (bar.isActive)
+        g.fillRect(left, top+pos, widget.contentWidth, thumb)
+      else {
+        barW := dpToPixel(barWidth)
+        g.fillRect(left + widget.contentWidth - barW, top+pos, barW, thumb)
+      }
       //echo("doPaint: $left, ${top+pos}, $widget.contentWidth, $thumb")
     }
     else
     {
-      g.fillRect(left+pos, top, thumb, widget.contentHeight)
+      if  (bar.isActive)
+        g.fillRect(left+pos, top, thumb, widget.contentHeight)
+      else {
+        barW := dpToPixel(barWidth)
+        g.fillRect(left+pos, top+widget.contentHeight-barW, thumb, barW)
+      }
     }
   }
 }
