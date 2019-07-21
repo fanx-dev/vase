@@ -27,7 +27,7 @@ class ProgressViewStyle : WidgetStyle {
       g.drawArc(top, left, w, h, i, 5)
     }
 
-    p.proVal += 1
+    p.proVal += 0.2
     if (p.proVal > 30f) {
       p.proVal -= 30f
     }

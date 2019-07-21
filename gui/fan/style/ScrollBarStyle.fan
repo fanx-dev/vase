@@ -12,7 +12,7 @@ using fanvasWindow
 @Js
 class ScrollBarStyle : WidgetStyle
 {
-  Float barWidth := 8f
+  Float barWidth := 12f
 
   new make()
   {
@@ -78,8 +78,8 @@ class SliderBarStyle : WidgetStyle
     top := widget.paddingTop
     left := widget.paddingLeft
 
-    Int cx := widget.contentWidth/2 + top
-    Int cy := widget.contentHeight/2 + left
+    Int cx := widget.contentWidth/2 + left
+    Int cy := widget.contentHeight/2 + top
 
     width := dpToPixel(this.width)
     size := widget.contentHeight

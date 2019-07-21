@@ -53,7 +53,7 @@ abstract class ScrollBase : Pane
             it.x = it.x + dx
           }
         }
-
+        onViewportChanged
         this.repaint
       }
     }
@@ -72,7 +72,7 @@ abstract class ScrollBase : Pane
             it.y = it.y + dy
           }
         }
-
+        onViewportChanged
         this.repaint
       }
     }
@@ -83,6 +83,8 @@ abstract class ScrollBase : Pane
     layoutParam.widthType = SizeType.matchParent
     padding = Insets(0, barSize.toInt, barSize.toInt, 0)
   }
+
+  protected virtual Void onViewportChanged() {}
 
   protected Void doAdd(Widget? child) { super.add(child) }
 

@@ -29,7 +29,7 @@ class WidgetTest : BaseTestWin
       },
       Label { id = "label"; text = "Label"; },
       //ImageView { id = "image";  uri = (`fan://icons/x64/check.png`) },
-      TextField { hint = "hint" },
+      EditText { hint = "hint" },
       Switch { text = "switch" },
       ToggleButton { text = "checkBox" },
       RadioButton { text = "radio1" },

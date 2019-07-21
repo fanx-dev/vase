@@ -167,12 +167,13 @@ abstract class WidgetGroup : Widget
   protected override Void gestureEvent(GestureEvent e) {
     px := e.relativeX
     py := e.relativeY
-    children.eachr {
-      if (it.enabled && it.visible && !e.consumed) {
+    for (i:=children.size-1; i>=0 && i<children.size; --i) {
+      t := children.get(i)
+      if (t.enabled && t.visible && !e.consumed) {
         e.relativeX = px - this.x
         e.relativeY = py - this.y
-        if (it.contains(e.relativeX, e.relativeY)) {
-          it.gestureEvent(e)
+        if (t.contains(e.relativeX, e.relativeY)) {
+          t.gestureEvent(e)
         }
       }
     }
@@ -212,7 +213,7 @@ abstract class WidgetGroup : Widget
       //g.drawLine(width, 0, 0, height)
       g.brush = Color.red
       g.pen = Pen { it.width = 1 }
-      g.drawRect(x+2, y+2, width-4, height-4)
+      g.drawRect(2, 2, width-4, height-4)
     }
   }
 

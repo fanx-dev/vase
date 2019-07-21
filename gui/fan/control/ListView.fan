@@ -19,6 +19,8 @@ class ListView : ScrollBase
   @Transient
   private Widget[] tempChildren := [,]
 
+  private Bool itemLayoutDirty := true
+
   @Transient
   ListAdapter? model {
     set { &model = it; init }
@@ -52,9 +54,15 @@ class ListView : ScrollBase
     return item.view
   }
 
+  protected override Void onViewportChanged() { itemLayoutDirty = true }
+
   protected override Void paintChildren(Graphics g) {
     result := Dimension(-1, -1)
-    layoutItem(result)
+    
+    if (itemLayoutDirty) {
+      itemLayoutDirty = false
+      layoutItem(result)
+    }
 
     vbar.viewport = viewportHeight
     vbar.max = contentMaxHeight(result)
@@ -219,7 +227,6 @@ class SimpleListAdapter : ListAdapter
   protected override Void bind(Widget w, Obj data) {
     Label l := w
     l.text = data.toStr
-    l.repaint
   }
 
   protected override Widget newView(Int type) {

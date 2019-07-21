@@ -12,7 +12,7 @@ using fanvasGui
 class ProgressViewTest : BaseTestWin
 {
   protected override Widget build() {
-    LinearLayout
+    VBox
     {
       it.id = "mainView"
       it.margin = Insets(100)
