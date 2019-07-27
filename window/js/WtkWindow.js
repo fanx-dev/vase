@@ -231,3 +231,21 @@ fan.fanvasWindow.WtkWindow.prototype.textInput = function(view) {
   
   //jsEditText.update();
 }
+
+fan.fanvasWindow.WtkWindow.prototype.fileDialog = function(accept, callback)
+{
+  var field = document.createElement("input");
+  field.type = "file";
+  field.style.display = "none";
+  field.accept = accept;
+  field.multiple="multiple";
+  field.addEventListener('change', function() {
+    fileList = field.files;
+    files = fan.sys.List.make();
+    for (var i = 0; i<fileList.length; ++i) {
+      files.add(fileList[i]);
+    }
+    callback.call(files);
+  });
+  field.click();
+}

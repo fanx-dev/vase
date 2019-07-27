@@ -61,6 +61,11 @@ fan.fanvasClient.HttpReqPeer.doRequest = function(self, method, content, resolve
     view.set(content.m_buf.slice(0, content.size()));
     xhr.send(view);
   }
+  else if (content instanceof File)
+  {
+    // send file as raw data
+    xhr.send(content);
+  }
   else
   {
     throw fan.sys.Err.make("Can only send Str or Buf: " + content);

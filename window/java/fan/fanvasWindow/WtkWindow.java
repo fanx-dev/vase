@@ -193,4 +193,17 @@ public class WtkWindow implements Window {
       postDisplayEvent(e.getID());
     }
   };
+
+  public void fileDialog(String accept, fan.sys.Func c) {
+    javax.swing.JFileChooser fileChooser = new javax.swing.JFileChooser();
+    fileChooser.setMultiSelectionEnabled(true);
+
+    int option = fileChooser.showOpenDialog(frame);
+    java.io.File[] files = fileChooser.getSelectedFiles();
+    fan.sys.List list = fan.sys.List.makeObj(files.length);
+    for (int i=0; i<files.length; ++i) {
+      list.add(fanx.interop.Interop.toFan(files[i]));
+    }
+    c.call(list);
+  }
 }

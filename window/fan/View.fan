@@ -74,5 +74,8 @@ mixin Window
   ** show text edit view
   **
   abstract Void textInput(TextInput edit)
+
+
+  abstract Void fileDialog(Str accept, |Obj[]?| f)
 }
 
