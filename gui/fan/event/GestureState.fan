@@ -60,9 +60,11 @@ class DownState : GestureState {
 
   override Void onEnter(MotionEvent e) {
     valid = true
+    lastX = e.x
+    lastY = e.y
+
     Toolkit.cur.callLater(machine.longPressTimeLimit) |->|{
       if (machine.currentState == this && valid) {
-
         ge := makeEvent(e, GestureEvent.longPress)
         machine.onGestureEvent.fire(ge)
         e.consume
@@ -94,7 +96,7 @@ class DownState : GestureState {
       dy := e.y - lastY
       distance := (dx*dx + dy*dy).toFloat.sqrt
 
-      if (distance > DisplayMetrics.dpToPixel(80f).toFloat) {
+      if (distance > DisplayMetrics.dpToPixel(10f).toFloat) {
         ns := DragState(machine)
         machine.setCurrentState(ns, e)
       } else {
