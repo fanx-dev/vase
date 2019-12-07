@@ -6,10 +6,10 @@
 //   2014-11-14  Jed Young  Creation
 //
 
-using fanvasGraphics
-using fanvasWindow
+using vaseGraphics
+using vaseWindow
 using concurrent
-using fanvasMath
+using vaseMath
 
 @Js
 class TweenAnimation : Animation {

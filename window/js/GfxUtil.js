@@ -6,9 +6,9 @@
 //   2011-08-20  Jed Young  Creation
 //
 
-fan.fanvasWindow.GfxUtil = {}
+fan.vaseWindow.GfxUtil = {}
 
-fan.fanvasWindow.GfxUtil.fontToCss = function(font)
+fan.vaseWindow.GfxUtil.fontToCss = function(font)
 {
   var s = "";
   if (font.m_bold)   s += "bold ";
@@ -18,7 +18,7 @@ fan.fanvasWindow.GfxUtil.fontToCss = function(font)
   return s;
 }
 
-fan.fanvasWindow.GfxUtil.uriToImageSrc = function(uri)
+fan.vaseWindow.GfxUtil.uriToImageSrc = function(uri)
 {
   if ("fan" == uri.scheme)
     return fan.sys.UriPodBase + uri.host() + uri.pathStr()
@@ -26,7 +26,7 @@ fan.fanvasWindow.GfxUtil.uriToImageSrc = function(uri)
     return uri.toStr();
 }
 
-fan.fanvasWindow.GfxUtil.addEventListener = function(obj, type, func)
+fan.vaseWindow.GfxUtil.addEventListener = function(obj, type, func)
 {
   // for IE
   if (!obj.addEventListener) {
@@ -37,7 +37,7 @@ fan.fanvasWindow.GfxUtil.addEventListener = function(obj, type, func)
   }
 }
 
-fan.fanvasWindow.GfxUtil.doJsPath = function(cx, path)
+fan.vaseWindow.GfxUtil.doJsPath = function(cx, path)
 {
   var size = path.steps().size();
   cx.beginPath();
@@ -45,23 +45,23 @@ fan.fanvasWindow.GfxUtil.doJsPath = function(cx, path)
   {
     var s = path.steps().get(i);
 
-    if (s instanceof fan.fanvasGraphics.PathMoveTo)
+    if (s instanceof fan.vaseGraphics.PathMoveTo)
     {
       cx.moveTo(s.m_x, s.m_y);
     }
-    else if (s instanceof fan.fanvasGraphics.PathLineTo)
+    else if (s instanceof fan.vaseGraphics.PathLineTo)
     {
       cx.lineTo(s.m_x, s.m_y);
     }
-    else if (s instanceof fan.fanvasGraphics.PathQuadTo)
+    else if (s instanceof fan.vaseGraphics.PathQuadTo)
     {
       cx.quadraticCurveTo(s.m_cx, s.m_cy, s.m_x, s.m_y);
     }
-    else if (s instanceof fan.fanvasGraphics.PathCubicTo)
+    else if (s instanceof fan.vaseGraphics.PathCubicTo)
     {
       cx.bezierCurveTo(s.m_cx1, s.m_cy1, s.m_cx2, s.m_cy2, s.m_x, s.m_y);
     }
-    else if (s instanceof fan.fanvasGraphics.PathClose)
+    else if (s instanceof fan.vaseGraphics.PathClose)
     {
       cx.closePath();
     }
@@ -72,7 +72,7 @@ fan.fanvasWindow.GfxUtil.doJsPath = function(cx, path)
   }
 }
 
-fan.fanvasWindow.GfxUtil.doJsTransform = function(cx, trans)
+fan.vaseWindow.GfxUtil.doJsTransform = function(cx, trans)
 {
   cx.transform(
        trans.get(0,0),

@@ -6,7 +6,7 @@
 //   2012-7-7  Jed Young  Creation
 //
 
-using fanvasGraphics
+using vaseGraphics
 using concurrent
 
 **
@@ -21,17 +21,17 @@ abstract const class Toolkit
   **
   static Toolkit cur()
   {
-    Toolkit? env := Actor.locals["fanvasWindow.env"]
+    Toolkit? env := Actor.locals["vaseWindow.env"]
     if (env != null) return env
 
     ToolkitEnv.init
-    env = Actor.locals["fanvasWindow.env"]
+    env = Actor.locals["vaseWindow.env"]
     if (env != null) return env
-    throw Err("No fanvasWindow.env is active")
+    throw Err("No vaseWindow.env is active")
   }
 
   internal static Void tryInitAsyncRunner() {
-    client := Pod.find("fanvasClient", false)
+    client := Pod.find("vaseClient", false)
     if (client != null) {
       client.type("AsyncRunner").method("init").call()
     }

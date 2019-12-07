@@ -6,8 +6,8 @@
 //   2012-08-12  Jed Young  Creation
 //
 
-using fanvasGraphics
-using fanvasWindow
+using vaseGraphics
+using vaseWindow
 
 @Js
 class Table : ScrollBase

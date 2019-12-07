@@ -7,10 +7,10 @@
 //
 
 using concurrent
-using fanvasGraphics
-using fanvasWindow
-using fanvasGui
-using fanvasMath
+using vaseGraphics
+using vaseWindow
+using vaseGui
+using vaseMath
 
 **
 ** EdgeTest

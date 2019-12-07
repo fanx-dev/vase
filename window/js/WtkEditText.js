@@ -6,16 +6,16 @@
 //   2011-7-4  Jed Young  Creation
 //
 
-fan.fanvasWindow.WtkEditText = fan.sys.Obj.$extend(fan.fanvasWindow.TextInputPeer);
-fan.fanvasWindow.WtkEditText.prototype.$ctor = function() {}
-fan.fanvasWindow.WtkEditText.prototype.$typeof = function() {
-  return fan.fanvasWindow.WtkEditText.$type;
+fan.vaseWindow.WtkEditText = fan.sys.Obj.$extend(fan.vaseWindow.TextInputPeer);
+fan.vaseWindow.WtkEditText.prototype.$ctor = function() {}
+fan.vaseWindow.WtkEditText.prototype.$typeof = function() {
+  return fan.vaseWindow.WtkEditText.$type;
 }
 
-fan.fanvasWindow.WtkEditText.prototype.view = null;
-fan.fanvasWindow.WtkEditText.prototype.elem = null;
+fan.vaseWindow.WtkEditText.prototype.view = null;
+fan.vaseWindow.WtkEditText.prototype.elem = null;
 
-fan.fanvasWindow.WtkEditText.prototype.make = function(view) {
+fan.vaseWindow.WtkEditText.prototype.make = function(view) {
   this.view = view;
   //view.host$(this);
 
@@ -25,31 +25,31 @@ fan.fanvasWindow.WtkEditText.prototype.make = function(view) {
   this.init(field);
 }
 
-fan.fanvasWindow.WtkEditText.prototype.init = function(field) {
+fan.vaseWindow.WtkEditText.prototype.init = function(field) {
   var view = this.view;
   field.style.position = "absolute";
   field.style.border = "0";
   field.style.outline = "0";
 
-  fan.fanvasWindow.GfxUtil.addEventListener(field, "input", function() {
+  fan.vaseWindow.GfxUtil.addEventListener(field, "input", function() {
     view.textChange(field.value);
   });
 
-  this.addKeyEvent(field, "keydown",    fan.fanvasWindow.KeyEvent.m_pressed);
-  this.addKeyEvent(field, "keyup",      fan.fanvasWindow.KeyEvent.m_released);
-  this.addKeyEvent(field, "keypress",   fan.fanvasWindow.KeyEvent.m_typed);
+  this.addKeyEvent(field, "keydown",    fan.vaseWindow.KeyEvent.m_pressed);
+  this.addKeyEvent(field, "keyup",      fan.vaseWindow.KeyEvent.m_released);
+  this.addKeyEvent(field, "keypress",   fan.vaseWindow.KeyEvent.m_typed);
 }
 
-fan.fanvasWindow.WtkEditText.prototype.addKeyEvent = function(elem, type, id)
+fan.vaseWindow.WtkEditText.prototype.addKeyEvent = function(elem, type, id)
 {
   var view = this.view;
   var mouseEvent = function(e)
   {
     //console.log(e);
-    var event = fan.fanvasWindow.KeyEvent.make(id);
+    var event = fan.vaseWindow.KeyEvent.make(id);
     //event.m_id = id;
     event.m_widget = this.elem;
-    event.m_key = fan.fanvasWindow.Event.toKey(e);
+    event.m_key = fan.vaseWindow.Event.toKey(e);
     event.m_keyChar =  e.charCode || e.keyCode;
     view.onKeyEvent(event);
 
@@ -61,10 +61,10 @@ fan.fanvasWindow.WtkEditText.prototype.addKeyEvent = function(elem, type, id)
       e.cancelBubble = true;
     }
   };
-  fan.fanvasWindow.GfxUtil.addEventListener(elem, type, mouseEvent);
+  fan.vaseWindow.GfxUtil.addEventListener(elem, type, mouseEvent);
 }
 /*
-fan.fanvasWindow.WtkEditText.prototype.update = function(type) {
+fan.vaseWindow.WtkEditText.prototype.update = function(type) {
   var view = this.view;
   var pos = view.getPos();
   var size = view.getSize();
@@ -82,18 +82,18 @@ fan.fanvasWindow.WtkEditText.prototype.update = function(type) {
 
   this.elem.style.background = view.backgroundColor().toCss();
   this.elem.style.color = view.textColor().toCss();
-  this.elem.style.font = fan.fanvasWindow.GfxUtil.fontToCss(view.font());
+  this.elem.style.font = fan.vaseWindow.GfxUtil.fontToCss(view.font());
 
   this.elem.value = view.text();
 
   this.elem.focus();
 }
 */
-fan.fanvasWindow.WtkEditText.prototype.focus = function() {
+fan.vaseWindow.WtkEditText.prototype.focus = function() {
   this.elem.focus();
 }
 
-fan.fanvasWindow.WtkEditText.prototype.setPos = function(x, y, w, h) {
+fan.vaseWindow.WtkEditText.prototype.setPos = function(x, y, w, h) {
   this.elem.style.left = x + "px";
   this.elem.style.top = y + "px";
   this.elem.style.width = w + "px";
@@ -102,17 +102,17 @@ fan.fanvasWindow.WtkEditText.prototype.setPos = function(x, y, w, h) {
   this.elem.style.padding = 0;
 }
 
-fan.fanvasWindow.WtkEditText.prototype.setStyle = function(font, textColor, backgroundColor) {
+fan.vaseWindow.WtkEditText.prototype.setStyle = function(font, textColor, backgroundColor) {
   this.elem.style.background = backgroundColor.toCss();
   this.elem.style.color = textColor.toCss();
-  this.elem.style.font = fan.fanvasWindow.GfxUtil.fontToCss(font);
+  this.elem.style.font = fan.vaseWindow.GfxUtil.fontToCss(font);
 }
 
-fan.fanvasWindow.WtkEditText.prototype.setText = function( text) {
+fan.vaseWindow.WtkEditText.prototype.setText = function( text) {
   this.elem.value = text;
 }
 
-fan.fanvasWindow.WtkEditText.prototype.setType = function( multiLine,  inputType,  editable) {
+fan.vaseWindow.WtkEditText.prototype.setType = function( multiLine,  inputType,  editable) {
   if (multiLine <= 1) {
     if (this.elem.type != "text") {
       this.close();
@@ -135,15 +135,15 @@ fan.fanvasWindow.WtkEditText.prototype.setType = function( multiLine,  inputType
   this.elem.inputType = inputType;
 }
 
-fan.fanvasWindow.WtkEditText.prototype.close = function() {
+fan.vaseWindow.WtkEditText.prototype.close = function() {
   if (this.elem.parentNode)
     this.elem.parentNode.removeChild(this.elem);
 }
 
-fan.fanvasWindow.WtkEditText.prototype.select = function(start, end) {
+fan.vaseWindow.WtkEditText.prototype.select = function(start, end) {
   this.elem.setSelectionRange(start, end);
 }
 
-fan.fanvasWindow.WtkEditText.prototype.caretPos = function() {
+fan.vaseWindow.WtkEditText.prototype.caretPos = function() {
   return this.elem.selectionStart;
 }

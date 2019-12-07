@@ -5,10 +5,10 @@ import android.os.Bundle;
 
 //import android.app.Activity;
 //import android.os.Bundle;
-//import fan.fanvasAndroid.AndWindow;
+//import fan.vaseAndroid.AndWindow;
 
-import fan.fanvasAndroid.AndroidEnv;
-import fan.fanvasDemo.WinTest;
+import fan.vaseAndroid.AndroidEnv;
+import fan.vaseDemo.WinTest;
 import fanjardist.Main;
 
 public class MainActivity extends AppCompatActivity {

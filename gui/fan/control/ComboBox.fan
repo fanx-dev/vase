@@ -6,8 +6,8 @@
 //   2011-10-06  Jed Young  Creation
 //
 
-using fanvasGraphics
-using fanvasWindow
+using vaseGraphics
+using vaseWindow
 
 **
 ** ComboBox

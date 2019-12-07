@@ -6,9 +6,9 @@
 //   2014-11-14  Jed Young  Creation
 //
 
-using fanvasGraphics
-using fanvasWindow
-using fanvasMath
+using vaseGraphics
+using vaseWindow
+using vaseMath
 
 
 @Js

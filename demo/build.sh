@@ -1,3 +1,5 @@
+set -e
+
 fan build.fan
 fan build.fan dist
 

@@ -6,9 +6,9 @@
 //   2012-02-24  Jed Young  Creation
 //
 
-using fanvasOpenGl
-using fanvasMath
-using fanvas3d
+using vaseOpenGl
+using vaseMath
+using vase3d
 
 class Fan3dMain : GlDisplay
 {

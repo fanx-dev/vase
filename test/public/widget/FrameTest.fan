@@ -7,9 +7,9 @@
 //
 
 using concurrent
-using fanvasGraphics
-using fanvasWindow
-using fanvasGui
+using vaseGraphics
+using vaseWindow
+using vaseGui
 
 @Js
 class FrameTest

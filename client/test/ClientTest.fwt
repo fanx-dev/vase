@@ -1,6 +1,6 @@
 
-using fanvasGui
-using fanvasClient
+using vaseGui
+using vaseClient
 
 class ClientTest {
   Label? lab

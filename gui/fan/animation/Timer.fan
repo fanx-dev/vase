@@ -6,8 +6,8 @@
 //   2012-07-23  Jed Young  Creation
 //
 
-using fanvasGraphics
-using fanvasWindow
+using vaseGraphics
+using vaseWindow
 using concurrent
 
 **

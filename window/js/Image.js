@@ -6,39 +6,39 @@
 //   2011-08-20  Jed Young  Creation
 //
 
-fan.fanvasWindow.Image = fan.sys.Obj.$extend(fan.sys.Obj);
-fan.fanvasWindow.Image.prototype.$ctor = function() {}
-fan.fanvasWindow.Image.prototype.$typeof = function()
+fan.vaseWindow.Image = fan.sys.Obj.$extend(fan.sys.Obj);
+fan.vaseWindow.Image.prototype.$ctor = function() {}
+fan.vaseWindow.Image.prototype.$typeof = function()
 {
-  return fan.fanvasGraphics.BufImage.$type;
+  return fan.vaseGraphics.BufImage.$type;
 }
 
 //field
-fan.fanvasWindow.Image.prototype.m_canvas = null;
+fan.vaseWindow.Image.prototype.m_canvas = null;
 
 //cache field
-fan.fanvasWindow.Image.prototype.m_imageData = null; //image data
-fan.fanvasWindow.Image.prototype.m_image = null; //image element
-fan.fanvasWindow.Image.prototype.m_context  = null; //canvas rendering context
-fan.fanvasWindow.Image.prototype.m_graphics = null; //fanvasGraphics graphics context
+fan.vaseWindow.Image.prototype.m_imageData = null; //image data
+fan.vaseWindow.Image.prototype.m_image = null; //image element
+fan.vaseWindow.Image.prototype.m_context  = null; //canvas rendering context
+fan.vaseWindow.Image.prototype.m_graphics = null; //vaseGraphics graphics context
 
 //loaded info
-fan.fanvasWindow.Image.prototype.m_isLoaded = false;
-fan.fanvasWindow.Image.prototype.isLoaded = function() { return this.m_isLoaded; }
-fan.fanvasWindow.Image.prototype.m_uri = null;
+fan.vaseWindow.Image.prototype.m_isLoaded = false;
+fan.vaseWindow.Image.prototype.isLoaded = function() { return this.m_isLoaded; }
+fan.vaseWindow.Image.prototype.m_uri = null;
 
 //image data pixcel be modify
-fan.fanvasWindow.Image.prototype.m_imageChanged = false;
+fan.vaseWindow.Image.prototype.m_imageChanged = false;
 
 //size
-fan.fanvasWindow.Image.prototype.m_size = null;
-fan.fanvasWindow.Image.prototype.size = function() { return this.m_size; }
+fan.vaseWindow.Image.prototype.m_size = null;
+fan.vaseWindow.Image.prototype.size = function() { return this.m_size; }
 
 //////////////////////////////////////////////////////////////////////////
 // Image Load
 //////////////////////////////////////////////////////////////////////////
 
-fan.fanvasWindow.Image.prototype.getImage = function()
+fan.vaseWindow.Image.prototype.getImage = function()
 {
   if (!this.m_isLoaded)
   {
@@ -49,10 +49,10 @@ fan.fanvasWindow.Image.prototype.getImage = function()
   return this.m_canvas;
 }
 
-fan.fanvasWindow.Image.prototype.initFromImage = function(image)
+fan.vaseWindow.Image.prototype.initFromImage = function(image)
 {
   this.m_canvas = document.createElement("canvas");
-  this.m_size = fan.fanvasGraphics.Size.make(image.width, image.height);
+  this.m_size = fan.vaseGraphics.Size.make(image.width, image.height);
   this.m_canvas.width = this.m_size.m_w;
   this.m_canvas.height = this.m_size.m_h;
 
@@ -60,19 +60,19 @@ fan.fanvasWindow.Image.prototype.initFromImage = function(image)
   this.m_isLoaded = true;
 }
 
-fan.fanvasWindow.Image.fromUri = function(uri, onLoaded)
+fan.vaseWindow.Image.fromUri = function(uri, onLoaded)
 {
-  var p = new fan.fanvasWindow.Image();
+  var p = new fan.vaseWindow.Image();
   p.m_uri = uri;
   p.m_isLoaded = false;
   var image = new Image();
   p.m_image = image;
 
-  fan.fanvasWindow.GfxUtil.addEventListener(image, "load", function(){
+  fan.vaseWindow.GfxUtil.addEventListener(image, "load", function(){
     p.initFromImage(image);
     onLoaded.call(p);
   });
-  image.src = fan.fanvasWindow.GfxUtil.uriToImageSrc(p.m_uri);
+  image.src = fan.vaseWindow.GfxUtil.uriToImageSrc(p.m_uri);
   return p;
 }
 
@@ -80,7 +80,7 @@ fan.fanvasWindow.Image.fromUri = function(uri, onLoaded)
 // Pixel of Image Data
 //////////////////////////////////////////////////////////////////////////
 
-fan.fanvasWindow.Image.prototype.flush = function()
+fan.vaseWindow.Image.prototype.flush = function()
 {
   if (this.m_imageData && this.m_imageChanged)
   {
@@ -89,7 +89,7 @@ fan.fanvasWindow.Image.prototype.flush = function()
   }
 }
 
-fan.fanvasWindow.Image.prototype.getImageData = function()
+fan.vaseWindow.Image.prototype.getImageData = function()
 {
   if (!this.m_imageData)
   {
@@ -98,7 +98,7 @@ fan.fanvasWindow.Image.prototype.getImageData = function()
   return this.m_imageData;
 }
 
-fan.fanvasWindow.Image.prototype.getPixel = function(x, y)
+fan.vaseWindow.Image.prototype.getPixel = function(x, y)
 {
   var index = (y * this.getImageData().width + x)*4;
   var r = this.getImageData().data[index];
@@ -109,7 +109,7 @@ fan.fanvasWindow.Image.prototype.getPixel = function(x, y)
   return (a << 24) | (r << 16) | (g << 8) | b
 }
 
-fan.fanvasWindow.Image.prototype.setPixel = function(x, y, value)
+fan.vaseWindow.Image.prototype.setPixel = function(x, y, value)
 {
   var index = (y * this.getImageData().width + x)*4;
   var r = (value >> 16) & 0xff;
@@ -128,7 +128,7 @@ fan.fanvasWindow.Image.prototype.setPixel = function(x, y, value)
 // Graphics
 //////////////////////////////////////////////////////////////////////////
 
-fan.fanvasWindow.Image.prototype.context = function()
+fan.vaseWindow.Image.prototype.context = function()
 {
   if (!this.m_context)
   {
@@ -137,9 +137,9 @@ fan.fanvasWindow.Image.prototype.context = function()
   return this.m_context;
 }
 
-fan.fanvasWindow.Image.make = function(size)
+fan.vaseWindow.Image.make = function(size)
 {
-  var p = new fan.fanvasWindow.Image();
+  var p = new fan.vaseWindow.Image();
   p.m_size = size;
   p.m_canvas = document.createElement("canvas");
   p.m_canvas.width = size.m_w;
@@ -149,14 +149,14 @@ fan.fanvasWindow.Image.make = function(size)
   return p;
 }
 
-fan.fanvasWindow.Image.prototype.graphics = function()
+fan.vaseWindow.Image.prototype.graphics = function()
 {
   this.flush();
   if (!this.m_graphics)
   {
     //create cx
-    var g = new fan.fanvasWindow.WtkGraphics();
-    var rect = new fan.fanvasGraphics.Rect.make(0,0, this.m_size.m_w, this.m_size.m_h);
+    var g = new fan.vaseWindow.WtkGraphics();
+    var rect = new fan.vaseGraphics.Rect.make(0,0, this.m_size.m_w, this.m_size.m_h);
     g.init(this.context(), rect);
     this.m_graphics = g;
   }
@@ -167,12 +167,12 @@ fan.fanvasWindow.Image.prototype.graphics = function()
 // Other
 //////////////////////////////////////////////////////////////////////////
 
-fan.fanvasWindow.Image.prototype.toConst = function()
+fan.vaseWindow.Image.prototype.toConst = function()
 {
   throw fan.sys.UnsupportedErr.make();
 }
 
-fan.fanvasWindow.Image.prototype.save = function(out, format)
+fan.vaseWindow.Image.prototype.save = function(out, format)
 {
   //TODO
 }

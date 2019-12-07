@@ -134,8 +134,8 @@ const class Key
   private static const Int modifierMask := alt.mask.or(shift.mask).or(ctrl.mask).or(command.mask)
   private static const Int modifierUnmask := modifierMask.not
   private static const Key none := predefine(0, "")
-  private static const Int:Key byMask
-  private static const Str:Key byStr
+  private static const [Int:Key] byMask
+  private static const [Str:Key] byStr
   static
   {
     m := Int:Key[:]

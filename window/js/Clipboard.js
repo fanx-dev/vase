@@ -1,10 +1,10 @@
 
 
 
-fan.fanvasWindow.JSClipboard = fan.sys.Obj.$extend(fan.fanvasWindow.Clipboard);
-fan.fanvasWindow.JSClipboard.prototype.$ctor = function() {}
+fan.vaseWindow.JSClipboard = fan.sys.Obj.$extend(fan.vaseWindow.Clipboard);
+fan.vaseWindow.JSClipboard.prototype.$ctor = function() {}
 
-fan.fanvasWindow.JSClipboard.prototype.getText = function(callback)
+fan.vaseWindow.JSClipboard.prototype.getText = function(callback)
 {
   navigator.clipboard.readText()
   .then(text => {
@@ -18,7 +18,7 @@ fan.fanvasWindow.JSClipboard.prototype.getText = function(callback)
   });
 }
 
-fan.fanvasWindow.JSClipboard.prototype.setText = function(text) {
+fan.vaseWindow.JSClipboard.prototype.setText = function(text) {
   navigator.clipboard.writeText(text)
   .then(() => {
     // Success!

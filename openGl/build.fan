@@ -13,9 +13,9 @@ class Build : BuildPod
 {
   new make()
   {
-    podName  = "fanvasOpenGl"
+    podName  = "vaseOpenGl"
     summary  = "Fantom OpenGL/WebGL Binding"
-    depends  = ["sys 2.0", "std 1.0"]
+    depends  = ["sys 2.0", "std 1.0", "util 1.0"]
     srcDirs  = [`fan/`]
     javaDirs = [`java/`]
     jsDirs   = [`js/`]

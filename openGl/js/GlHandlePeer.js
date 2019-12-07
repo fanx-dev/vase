@@ -7,11 +7,11 @@
 //
 
 
-fan.fanvasOpenGl.GlHandlePeer = fan.sys.Obj.$extend(fan.sys.Obj);
-fan.fanvasOpenGl.GlHandlePeer.prototype.$ctor = function(self) {}
-fan.fanvasOpenGl.GlHandlePeer.prototype.value = null;
-fan.fanvasOpenGl.GlHandlePeer.prototype.val = function(self){ return this.value; }
+fan.vaseOpenGl.GlHandlePeer = fan.sys.Obj.$extend(fan.sys.Obj);
+fan.vaseOpenGl.GlHandlePeer.prototype.$ctor = function(self) {}
+fan.vaseOpenGl.GlHandlePeer.prototype.value = null;
+fan.vaseOpenGl.GlHandlePeer.prototype.val = function(self){ return this.value; }
 
-fan.fanvasOpenGl.GlHandlePeer.prototype.getValue = function(){ return this.value; }
-fan.fanvasOpenGl.GlHandlePeer.prototype.setValue = function(v){ this.value = v; }
+fan.vaseOpenGl.GlHandlePeer.prototype.getValue = function(){ return this.value; }
+fan.vaseOpenGl.GlHandlePeer.prototype.setValue = function(v){ this.value = v; }
 

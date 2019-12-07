@@ -6,8 +6,8 @@
 //   2012-07-15  Jed Young  Creation
 //
 
-using fanvasGraphics
-using fanvasWindow
+using vaseGraphics
+using vaseWindow
 
 **
 ** A display area for a short text string.

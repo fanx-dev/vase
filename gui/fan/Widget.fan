@@ -6,9 +6,9 @@
 //   2011-10-05  Jed Young  Creation
 //
 
-using fanvasGraphics
-using fanvasWindow
-using fanvasMath
+using vaseGraphics
+using vaseWindow
+using vaseMath
 
 **
 ** Widget is the base class for all UI widgets.
@@ -575,7 +575,7 @@ abstract class Widget
   **
   Void printInfo(Str msg) {
     if (debug) {
-      echo("$typeof.name,id=$id,bounds=$bounds:\t$msg")
+      echo("$this.typeof.name,id=$id,bounds=$bounds:\t$msg")
     }
   }
 

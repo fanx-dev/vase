@@ -6,7 +6,7 @@
 //   2014-11-14  Jed Young  Creation
 //
 
-using fanvasWindow
+using vaseWindow
 
 @Js
 virtual class GestureEvent : Event {

@@ -6,50 +6,50 @@
 //   2011-7-4  Jed Young  Creation
 //
 
-fan.fanvasWindow.GfxEnv = fan.sys.Obj.$extend(fan.fanvasGraphics.GfxEnv);
-fan.fanvasWindow.GfxEnv.prototype.$ctor = function() {}
+fan.vaseWindow.GfxEnv = fan.sys.Obj.$extend(fan.vaseGraphics.GfxEnv);
+fan.vaseWindow.GfxEnv.prototype.$ctor = function() {}
 
-fan.fanvasWindow.GfxEnv.prototype.fromUri = function(uri, onLoaded)
+fan.vaseWindow.GfxEnv.prototype.fromUri = function(uri, onLoaded)
 {
-  return fan.fanvasWindow.Image.fromUri(uri, onLoaded);
+  return fan.vaseWindow.Image.fromUri(uri, onLoaded);
 }
 
-fan.fanvasWindow.GfxEnv.prototype.makeConstImage = function(uri)
+fan.vaseWindow.GfxEnv.prototype.makeConstImage = function(uri)
 {
-  var p = new fan.fanvasWindow.ConstImage();
+  var p = new fan.vaseWindow.ConstImage();
   p.m_uri = uri;
   var image = new Image();
   p.m_image = image;
 
-  fan.fanvasWindow.GfxUtil.addEventListener(image, "load", function(){
-    p.m_size = fan.fanvasGraphics.Size.make(image.width, image.height);
+  fan.vaseWindow.GfxUtil.addEventListener(image, "load", function(){
+    p.m_size = fan.vaseGraphics.Size.make(image.width, image.height);
     p.m_isLoaded = true;
   });
-  image.src = fan.fanvasWindow.GfxUtil.uriToImageSrc(p.m_uri);
+  image.src = fan.vaseWindow.GfxUtil.uriToImageSrc(p.m_uri);
   return p;
 }
 
-fan.fanvasWindow.GfxEnv.prototype.makeImage = function(size)
+fan.vaseWindow.GfxEnv.prototype.makeImage = function(size)
 {
-  return fan.fanvasWindow.Image.make(size);
+  return fan.vaseWindow.Image.make(size);
 }
 
-fan.fanvasWindow.GfxEnv.prototype.contains = function(path, x, y)
+fan.vaseWindow.GfxEnv.prototype.contains = function(path, x, y)
 {
   var canvas = document.createElement("canvas");
   var cx = canvas.getContext("2d");
-  fan.fanvasWindow.GfxUtil.doJsPath(cx, path);
+  fan.vaseWindow.GfxUtil.doJsPath(cx, path);
   return cx.isPointInPath(x, y);
 }
 
-fan.fanvasWindow.GfxEnv.prototype.makeFont = function(func)
+fan.vaseWindow.GfxEnv.prototype.makeFont = function(func)
 {
-  var font = new fan.fanvasGraphics.Font();
+  var font = new fan.vaseGraphics.Font();
   func.call(font);
   return font;
 }
 
-fan.fanvasWindow.GfxEnv.prototype.makePointArray = function(size)
+fan.vaseWindow.GfxEnv.prototype.makePointArray = function(size)
 {
-  return fan.fanvasWindow.PointArray.make(size);
+  return fan.vaseWindow.PointArray.make(size);
 }

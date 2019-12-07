@@ -1,4 +1,4 @@
-using fanvasGui
+using vaseGui
 
 @Js
 class TextFieldTest : BaseTestWin

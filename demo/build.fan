@@ -12,11 +12,11 @@ class Build : build::BuildPod
 {
   new make()
   {
-    podName = "fanvasDemo"
-    summary = "fanvasWindow mobile demo"
+    podName = "vaseDemo"
+    summary = "vaseWindow mobile demo"
     srcDirs = [`fan/`]
-    depends = ["sys 2.0", "std 1.0", "fanvasGraphics 1.0", "fanvasWindow 1.0"
-               , "concurrent 1.0", "fanvasMath 1.0", "fanvasAndroid 1.0", "fanvasGui 1.0"]
+    depends = ["sys 2.0", "std 1.0", "vaseGraphics 1.0", "vaseWindow 1.0"
+               , "concurrent 1.0", "vaseMath 1.0", "vaseAndroid 1.0", "vaseGui 1.0"]
   }
 
   @Target { help = "build my app as a single JAR dist" }
@@ -24,9 +24,9 @@ class Build : build::BuildPod
   {
     dist := JarDist(this)
     dist.outFile = (scriptDir+`android/app/libs/androidDemo.jar`).normalize
-    dist.podNames = Str["sys", "std", "concurrent", "fanvasGraphics", "fanvasWindow", "fanvasMath", "fanvasGui"
-           , "fanvasAndroid", "fanvasDemo"]
-    dist.mainMethod = "fanvasDemo::WinTest.main"
+    dist.podNames = Str["sys", "std", "concurrent", "vaseGraphics", "vaseWindow", "vaseMath", "vaseGui"
+           , "vaseAndroid", "vaseDemo", "util", "vaseClient"]
+    dist.mainMethod = "vaseDemo::WinTest.main"
     dist.run
   }
 }

@@ -6,9 +6,9 @@
 //   2011-7-4  Jed Young  Creation
 //
 
-using fanvasGraphics
-using fanvasWindow
-using fanvasMath
+using vaseGraphics
+using vaseWindow
+using vaseMath
 
 **
 ** Image Test

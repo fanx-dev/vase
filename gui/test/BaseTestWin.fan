@@ -7,8 +7,8 @@
 //
 
 using concurrent
-using fanvasGraphics
-using fanvasWindow
+using vaseGraphics
+using vaseWindow
 
 @Js
 virtual class BaseTestWin

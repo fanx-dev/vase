@@ -6,8 +6,8 @@
 //   2011-10-05  Jed Young  Creation
 //
 
-using fanvasGraphics
-using fanvasWindow
+using vaseGraphics
+using vaseWindow
 
 **
 ** ContentPane is the base class for panes which only

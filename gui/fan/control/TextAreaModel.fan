@@ -6,8 +6,8 @@
 //   28 Jul 08  Brian Frank  Creation
 //
 
-using fanvasGraphics
-using fanvasWindow
+using vaseGraphics
+using vaseWindow
 
 
 **************************************************************************

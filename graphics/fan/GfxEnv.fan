@@ -28,16 +28,16 @@ abstract const class GfxEnv
   **
   static GfxEnv? cur(Bool checked := true)
   {
-    GfxEnv? env := Actor.locals["fanvasGraphics.env"]
+    GfxEnv? env := Actor.locals["vaseGraphics.env"]
     if (env != null) return env
   
     //try load env
-    Pod.find("fanvasWindow").type("ToolkitEnv").method("init").call
-    env = Actor.locals["fanvasGraphics.env"]
+    Pod.find("vaseWindow").type("ToolkitEnv").method("init").call
+    env = Actor.locals["vaseGraphics.env"]
     if (env != null) return env
 
     if (checked) {
-      throw Err("No fanvasGraphics.env is active")
+      throw Err("No vaseGraphics.env is active")
     }
     return null
   }

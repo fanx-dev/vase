@@ -6,9 +6,9 @@
 //   2011-10-05  Jed Young  Creation
 //
 
-using fanvasGraphics
-using fanvasWindow
-using fanvasMath
+using vaseGraphics
+using vaseWindow
+using vaseMath
 
 **
 ** WidgetGroup is a Widget Container

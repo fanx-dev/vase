@@ -27,13 +27,15 @@ const abstract class Font
   **
   static new make(Int size := 12, Str name := "Arial", Bool bold := false, Bool italic := false)
   {
-    font := GfxEnv.cur.makeFont
-    {
-      it.name = name
-      it.size   = size
-      it.bold   = bold
-      it.italic = italic
-    }
+
+    func := Field.makeSetFunc([#name:name, #size:size, #bold:bold, #italic:italic])
+    font := GfxEnv.cur.makeFont(func)
+    // {
+    //   it.name = name
+    //   it.size   = size
+    //   it.bold   = bold
+    //   it.italic = italic
+    // }
     return font
   }
 

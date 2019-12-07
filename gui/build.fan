@@ -13,9 +13,9 @@ class Build : BuildPod
 {
   new make()
   {
-    podName  = "fanvasGui"
+    podName  = "vaseGui"
     summary  = "fantom widget"
-    depends  = ["sys 2.0", "std 1.0", "fanvasGraphics 1.0", "concurrent 1.0", "fanvasMath 1.0", "fanvasWindow 1.0"]
+    depends  = ["sys 2.0", "std 1.0", "vaseGraphics 1.0", "concurrent 1.0", "vaseMath 1.0", "vaseWindow 1.0"]
     srcDirs  = [`fan/`, `fan/animation/`, `fan/container/`, `fan/control/`, `fan/effect/`, `fan/event/`, `fan/style/`, `test/`]
   }
 }

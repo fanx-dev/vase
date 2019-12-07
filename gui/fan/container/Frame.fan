@@ -6,10 +6,10 @@
 //   2011-10-04  Jed Young  Creation
 //
 
-using fanvasGraphics
-using fanvasWindow
+using vaseGraphics
+using vaseWindow
 using concurrent
-using fanvasMath
+using vaseMath
 
 **
 ** Represent a top level Widget

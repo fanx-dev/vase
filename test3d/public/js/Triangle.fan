@@ -7,9 +7,9 @@
 //   2011-5-29  Jed Young  Creation
 //
 
-using fanvasOpenGl
-using fanvasMath
-using fanvasMath::Transform3D as Transform
+using vaseOpenGl
+using vaseMath
+using vaseMath::Transform3D as Transform
 
 **
 ** fan D:/code/Hg/fan3d/jsTest/fan/jsfan/Triangle.fan

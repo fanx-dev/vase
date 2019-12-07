@@ -8,18 +8,18 @@
 //   8 Jul 09   Andy Frank  Split webappClient into sys/dom
 //
 
-fan.fanvasClient.HttpReqPeer = fan.sys.Obj.$extend(fan.sys.Obj);
+fan.vaseClient.HttpReqPeer = fan.sys.Obj.$extend(fan.sys.Obj);
 
-fan.fanvasClient.HttpReqPeer.prototype.$ctor = function(self) {}
+fan.vaseClient.HttpReqPeer.prototype.$ctor = function(self) {}
 
-fan.fanvasClient.HttpReqPeer.prototype.send = function(self, method, content, f)
+fan.vaseClient.HttpReqPeer.prototype.send = function(self, method, content, f)
 {
   return new Promise(function(resolve, reject) {
-    fan.fanvasClient.HttpReqPeer.doRequest(self, method, content, resolve);
+    fan.vaseClient.HttpReqPeer.doRequest(self, method, content, resolve);
   });
 }
 
-fan.fanvasClient.HttpReqPeer.doRequest = function(self, method, content, resolve)
+fan.vaseClient.HttpReqPeer.doRequest = function(self, method, content, resolve)
 {
   var xhr = new XMLHttpRequest();
   var buf;
@@ -28,7 +28,7 @@ fan.fanvasClient.HttpReqPeer.doRequest = function(self, method, content, resolve
 
   xhr.onreadystatechange = function () {
     if (xhr.readyState == 4) {
-      res = fan.fanvasClient.HttpReqPeer.makeRes(xhr);
+      res = fan.vaseClient.HttpReqPeer.makeRes(xhr);
       resolve(res);
     }
   }
@@ -72,9 +72,9 @@ fan.fanvasClient.HttpReqPeer.doRequest = function(self, method, content, resolve
   }
 }
 
-fan.fanvasClient.HttpReqPeer.makeRes = function(xhr)
+fan.vaseClient.HttpReqPeer.makeRes = function(xhr)
 {
-  var res = fan.fanvasClient.HttpRes.make();
+  var res = fan.vaseClient.HttpRes.make();
   res.m_status  = xhr.status;
   res.m_content = xhr.responseText;
 
@@ -91,7 +91,7 @@ fan.fanvasClient.HttpReqPeer.makeRes = function(xhr)
   return res;
 }
 /*
-fan.fanvasClient.HttpReqPeer.prototype.encodeForm = function(self, form)
+fan.vaseClient.HttpReqPeer.prototype.encodeForm = function(self, form)
 {
   var content = ""
   var k = form.keys();

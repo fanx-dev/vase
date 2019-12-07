@@ -6,6 +6,8 @@
 //   2011-07-09  Jed Young  Creation
 //
 
+using util
+
 **
 ** Not a valid matrix operate
 **

@@ -17,7 +17,7 @@
  * Created on Aug 11, 2007
  * $Id$
  */
-package fan.fanvasOpenGl;
+package fan.vaseOpenGl;
 
 import java.awt.Color;
 import java.awt.Graphics;

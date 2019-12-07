@@ -7,11 +7,11 @@
 //
 
 //using concurrent
-using fanvasGraphics
-using fanvasWindow
-using fanvasGui
-//using fanvasFwt
-//using fanvasAndroid
+using vaseGraphics
+using vaseWindow
+using vaseGui
+//using vaseFwt
+//using vaseAndroid
 
 **
 ** Win Test
@@ -39,7 +39,7 @@ class WinTest
         ToggleButton { text = "checkBox"; },
         RadioButton { text = "radio1"; },
         RadioButton { text = "radio2"; },
-        TextField { hint = "hint" },
+        EditText { hint = "hint" },
       },
     }
 

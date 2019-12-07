@@ -26,7 +26,7 @@ const class HttpReq
   const Uri uri := `#`
 
   ** The request headers to send.
-  const Str:Str headers := Str:Str[:]
+  const [Str:Str] headers := Str:Str[:]
 
   const Int timeout := 10000
 
