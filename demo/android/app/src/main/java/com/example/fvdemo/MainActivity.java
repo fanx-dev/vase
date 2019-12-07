@@ -2,6 +2,7 @@ package com.example.fvdemo;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 
 //import android.app.Activity;
 //import android.os.Bundle;
@@ -13,6 +14,7 @@ import fanjardist.Main;
 
 public class MainActivity extends AppCompatActivity {
     static {
+        Log.d("fvdemo", "init");
         Main.boot();
     }
 
@@ -20,6 +22,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //setContentView(R.layout.activity_main);
+
+        Log.d("fvdemo", "onCreate");
 
         AndroidEnv.init(this);
         WinTest.make().main();

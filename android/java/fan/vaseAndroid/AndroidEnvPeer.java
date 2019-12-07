@@ -27,7 +27,7 @@ public class AndroidEnvPeer {
   public static void init(Activity context)
   {
     Actor.locals().set("vaseGraphics.env", AndGfxEnv.instance);
-    Actor.locals().set("vaseWindow.env", AndToolkit.getInstance(context));
+    Actor.locals().set("vaseWindow.env", new AndToolkit(context));
 
     if (isMainThread()) {
       Toolkit.tryInitAsyncRunner();
@@ -36,7 +36,7 @@ public class AndroidEnvPeer {
 
   static class AndToolkit extends Toolkit
   {
-    static AndToolkit instance = null;
+    //static AndToolkit instance = null;
 
     private Activity context;
     long dpi = 326;
@@ -45,10 +45,10 @@ public class AndroidEnvPeer {
 
     private AndWindow curWindow = null;
 
-    static AndToolkit getInstance(Activity context) {
-      if (instance == null) instance = new AndToolkit(context);
-      return instance;
-    }
+    // static AndToolkit getInstance(Activity context) {
+    //   if (instance == null) instance = new AndToolkit(context);
+    //   return instance;
+    // }
 
     public AndToolkit(Activity context)
     {
