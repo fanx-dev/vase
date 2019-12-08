@@ -7,15 +7,17 @@ A cross-platform framework for creating GUI or game on mobile and desktop.
 - 3D Graphics by OpenGL/WebGL
 - Cross-platform support Java/Android/Javascript
 
+### Screenshot
+
+![image](https://raw.githubusercontent.com/fanx-dev/vase/master/res/snap.png)
+
+
 ### Run on Android
   1. copy android jar:
-  copy lib/*.jar file to env/lib/java/ext/
-  
-  2. build project:
-  sh build.sh
+  ```cp lib/*.jar env/lib/java/ext/```
 
-  3. build demo:
-  cd demo; sh build.sh
+  2. build demo:
+  ```cd demo; sh build.sh```
 
 ### Setting LWJGL
 1. copy all .jar to fanHome/lib/java/ext/
