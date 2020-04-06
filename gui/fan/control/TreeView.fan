@@ -26,6 +26,10 @@ class TreeView : ScrollBase
 
   @Transient
   internal TreeItem[] items := [,]
+  
+  TreeItem? selectedItem
+  TreeItem? dragDropItem
+  Bool editable := true
 
   Int rowHeight() { font.height }
 
@@ -101,21 +105,57 @@ class TreeView : ScrollBase
       items.add(item)
     }
   }
+  
+  protected override Void motionEvent(MotionEvent e) {
+    super.motionEvent(e)
+    
+    if (e.type == MotionEvent.pressed) {
+        selectedItem = findItemAt(e.relativeY)
+        dragDropItem = null
+    }
+  }
+  
+  private TreeItem? findItemAt(Int eventY) {
+    sy := eventY - y
+    Int i := (offsetY + sy) / rowHeight
+    if (i < items.size) {
+        return items[i]
+    }
+    else {
+        return null
+    }
+  }
 
   protected override Void gestureEvent(GestureEvent e)
   {
-    super.gestureEvent(e)
+    if (!editable) {
+      super.gestureEvent(e)
+      return
+    }
+    
     if (e.consumed) return
     sy := e.relativeY - y
     if (e.type == GestureEvent.click)
     {
-      Int i := (offsetY + sy) / rowHeight
-      if (i < items.size)
+      item := findItemAt(e.relativeY)
+      if (item != null)
       {
-        expanded(items[i])
+        expanded(item)
         this.relayout
         e.consume
       }
+    }
+    else if (e.type == GestureEvent.drag) {
+      dragDropItem = findItemAt(e.relativeY)
+      e.consume
+      this.repaint
+    }
+    else if (e.type == GestureEvent.drop) {
+      dragDropItem = findItemAt(e.relativeY)
+      model.onDragDrop(selectedItem, dragDropItem)
+      dragDropItem = null
+      this.relayout
+      e.consume
     }
   }
 }
@@ -196,6 +236,9 @@ class TreeModel
   ** return an empty list.  Default behavior is no children.
   **
   virtual Obj[] children(Obj node) { List.defVal }
+  
+  
+  virtual Void onDragDrop(Obj from, Obj to) {}
 
 }
 

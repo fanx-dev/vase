@@ -24,6 +24,7 @@ class WidgetStyle : Style
   Brush foreground := Color(0x33b5e5)
   Brush outlineColor := Color(0xe9e9e9)
   Brush fontColor := Color(0x222222)
+  Brush selectedColor := Color(0x8888f9)
 
   ConstImage? backgroundImage
   Float lineWidth := 2f

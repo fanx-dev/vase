@@ -30,13 +30,14 @@ class TreeStyle : WidgetStyle
     g.font = font
     Int y := -topOffset + top
     Int bottomLine := tree.height - bottom
+    treeX := - tree.offsetX + left
     for (i := start; i< tree.items.size; ++i)
     {
       if (i >= 0) {
         item := tree.items[i]
-        x := item.level * dpToPixel(tree.indent) - tree.offsetX + left
+        x := item.level * dpToPixel(tree.indent) + treeX
 
-        drawItem(g, x, y + fontOffset, item.text, item)
+        drawItem(g, item, tree, treeX, x, y, fontOffset)
       }
       y += tree.rowHeight
       if (y > bottomLine) {
@@ -46,15 +47,27 @@ class TreeStyle : WidgetStyle
     }
   }
 
-  protected virtual Void drawItem(Graphics g, Int x, Int y, Str text, TreeItem item)
+  protected virtual Void drawItem(Graphics g, TreeItem item
+    , TreeView tree, Int treeX, Int itemX, Int itemY, Int fontOffset)
   {
     //backgound
+    if (item === tree.selectedItem) {
+       g.brush = selectedColor
+       g.fillRect(treeX, itemY, tree.contentWidth, tree.rowHeight)
+       g.brush = fontColor
+    }
+    else if (item === tree.dragDropItem) {
+       g.brush = Color(0xf04455)
+       g.fillRect(treeX, itemY, tree.contentWidth, tree.rowHeight)
+       g.brush = fontColor
+    }
 
     //text
+    text := item.text
     if (item.hasChildren) {
-       g.drawText("- "+text, x, y)
+       g.drawText("- "+text, itemX, itemY+fontOffset)
     } else {
-       g.drawText("  "+text, x, y)
+       g.drawText("  "+text, itemX, itemY+fontOffset)
     }
   }
 }
