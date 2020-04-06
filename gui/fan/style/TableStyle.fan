@@ -54,14 +54,16 @@ class TableStyle : WidgetStyle
     Int y := -topOffset + rowHeight + top
     for (i := start; i< tab.model.numRows; ++i)
     {
-      Int x := -tab.offsetX + left
-      for (j := 0; j<numCols; ++j)
-      {
-        Str text := tab.model.text(j, i)
-        drawCell(g, x, y, tab.colWidthCache[j], rowHeight, text, fontOffset)
-        x += tab.colWidthCache[j]
-        if (x > rightLine) {
-          break
+      if (i >= 0) {
+        Int x := -tab.offsetX + left
+        for (j := 0; j<numCols; ++j)
+        {
+          Str text := tab.model.text(j, i)
+          drawCell(g, x, y, tab.colWidthCache[j], rowHeight, text, fontOffset)
+          x += tab.colWidthCache[j]
+          if (x > rightLine) {
+            break
+          }
         }
       }
 

@@ -8,12 +8,11 @@
 
 @Js
 class ScrollAnimChannel : AnimChannel {
-  protected Float endV := 0f
   Float acceleration := -0.001f
   Float startV := 1f
-  //private Int lastT := 0
 
-  protected Bool backwards := true
+  protected Bool backwards := false
+  protected Bool inited := false
   ScrollBar? target
   protected Bool allowOverScroll := false
 
@@ -27,6 +26,7 @@ class ScrollAnimChannel : AnimChannel {
   }
 
   protected virtual Bool isEnd() {
+    Float endV := 0f
     if (backwards) {
       if (startV >= endV) {
         return true
@@ -42,32 +42,26 @@ class ScrollAnimChannel : AnimChannel {
     return false
   }
 
-  override Void update(Int frameTime, Float percent, Float blendWeight) {
-    /*
-    if (lastT == 0) {
-      lastT = elapsedTime
+  override Void update(Int elapsedTime, Int frameTime, Float percent, Float blendWeight) {
+
+    if (!inited) {
+      inited = true
       init
-      target.repaint
-      return
     }
-    */
+    
     if (isFinished) {
       return
     }
 
-    //t := (elapsedTime - lastT).toFloat
     t := frameTime
     s := (startV * t) + (acceleration * t * t / 2)
-
-    //startV = startV + (acceleration * t)
-    //lastT += t.toInt
+    startV = startV + (acceleration * t)
 
     pos := target.curPos - s
-    //echo("pos$pos, s$s, $allowOverScroll")
+    //echo("t:$t, a:$acceleration, vt:startV, s:$s, pos:$pos, $allowOverScroll")
     target.setCurPos(pos, true, allowOverScroll)
-    target.repaint
-
     isFinished = isEnd
+    target.repaint
   }
 }
 
@@ -80,15 +74,26 @@ class OverScrollAnimChannel : ScrollAnimChannel {
     startV = 0f
     if (target.curPos > 0f) {
       acceleration = -acceleration
+      backwards = true
+      startPos = target.max - target.viewport
     }
-    startPos = target.curPos
+    
     allowOverScroll = true
   }
 
   protected override Bool isEnd() {
-    if (!target.isOverScroll) {
-      target.setCurPos(startPos, true)
-      return true
+    //echo("backwards:$backwards, startPos:$startPos, target.curPos:$target.curPos")
+    if (backwards) {
+      if (target.curPos <= startPos) {
+        target.setCurPos(startPos, true)
+        return true
+      }
+    }
+    else {
+      if (target.curPos >= startPos) {
+        target.setCurPos(startPos, true)
+        return true
+      }
     }
     return false
   }

@@ -291,11 +291,11 @@ abstract class Widget
   **
   ** Detach from parent
   **
-  virtual Void detach()
+  virtual Void detach(Bool doRelayout := true)
   {
     WidgetGroup? p := this.parent
     if (p == null) return
-    p.remove(this)
+    p.remove(this, doRelayout)
   }
 
 //////////////////////////////////////////////////////////////////////////

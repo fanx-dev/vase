@@ -40,7 +40,7 @@ abstract class WidgetGroup : Widget
   **
   ** Remove a child widget
   **
-  This remove(Widget? child)
+  This remove(Widget? child, Bool doRelayout := true)
   {
     if (child == null) return this
 
@@ -52,7 +52,7 @@ abstract class WidgetGroup : Widget
     }
     child.setParent(null)
 
-    if (root != null) this.relayout
+    if (doRelayout && root != null) this.relayout
     return this
   }
 

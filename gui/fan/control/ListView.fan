@@ -82,7 +82,7 @@ class ListView : ScrollBase
     Int topOffset := offsetY - (i * rowHeight).toInt
     y -= topOffset
 
-    tempChildren.each { it.detach }
+    tempChildren.each { it.detach(false) }
     tempChildren.clear
 
     Int count := 0

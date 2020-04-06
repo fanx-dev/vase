@@ -111,12 +111,13 @@ abstract class ScrollBase : Pane
     hbar.max = contentMaxWidth(result)
     hbar.viewport = viewportWidth
 
-    //echo("size$size, getContentHeight$getContentHeight, padding$padding")
+    //echo("size$size, contentWidth$contentWidth, padding$padding")
     if (hbar.max <= hbar.viewport)
     {
       hbar.enabled = false
       hbar.visible = false
       offsetX = 0
+      hbar.max = hbar.viewport
     }
     else
     {
@@ -135,7 +136,8 @@ abstract class ScrollBase : Pane
     {
       vbar.enabled = false
       vbar.visible = false
-      offsetY = 0
+      //offsetY = 0
+      vbar.max = vbar.viewport
     }
     else
     {
@@ -161,6 +163,8 @@ abstract class ScrollBase : Pane
 
     doAdd(hbar)
     doAdd(vbar)
+    
+    onViewportChanged
   }
 
   protected virtual Void layoutContent(Dimension result, Bool force) {
@@ -208,7 +212,7 @@ abstract class ScrollBase : Pane
     if (vbar.isOverScroll) {
       anim := Animation {
         duration = 2000
-        OverScrollAnimChannel { target = vbar; startV = 0f },
+        OverScrollAnimChannel { target = vbar},
       }
       startAnimation(anim)
     }
@@ -217,6 +221,8 @@ abstract class ScrollBase : Pane
   protected override Void gestureEvent(GestureEvent e) {
     super.gestureEvent(e)
     if (e.consumed) return
+    
+    //if (!vbar.enabled) return
 
     if (e.type == GestureEvent.drag) {
       pos := vbar.curPos - (e.deltaY)

@@ -43,7 +43,7 @@ abstract class TweenAnimChannel : AnimChannel {
   Widget? widget
   Interpolation interpolation := Interpolation()
 
-  override Void update(Int frameTime, Float percent, Float blendWeight) {
+  override Void update(Int elapsedTime, Int frameTime, Float percent, Float blendWeight) {
     Float p := interpolation.evaluate(percent)
     onUpdate(p)
     widget.repaint

@@ -12,7 +12,7 @@ using concurrent
 
 @Js
 mixin AnimChannel {
-  abstract Void update(Int frameTime, Float percent, Float blendWeight)
+  abstract Void update(Int elapsedTime, Int frameTime, Float percent, Float blendWeight)
 }
 
 @Js
@@ -78,20 +78,20 @@ class Animation
         elapsed %= this.duration
         --repeat
       } else {
-        updateChannel(frameTime, 1.0f)
+        updateChannel(elapsed, frameTime, 1.0f)
         onFinised
         return
       }
     }
 
     Float percent := elapsed / this.duration.toFloat
-    updateChannel(frameTime, percent)
+    updateChannel(elapsed, frameTime, percent)
   }
 
-  private Void updateChannel(Int frameTime, Float percent) {
+  private Void updateChannel(Int elapsed, Int frameTime, Float percent) {
     for (i:=0; i<this.channelList.size; ++i) {
       channel := this.channelList[i]
-      channel.update(frameTime, percent, this.blendWeight)
+      channel.update(elapsed, frameTime, percent, this.blendWeight)
     }
   }
 }

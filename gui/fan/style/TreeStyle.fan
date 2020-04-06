@@ -22,6 +22,9 @@ class TreeStyle : WidgetStyle
     top := widget.paddingTop
     left := widget.paddingLeft
     bottom := dpToPixel(widget.padding.bottom.toFloat)
+    
+    //g.brush = Color.red
+    //g.fillRect(widget.x, widget.y, widget.width, widget.height)
 
     g.brush = fontColor
     g.font = font
@@ -29,11 +32,12 @@ class TreeStyle : WidgetStyle
     Int bottomLine := tree.height - bottom
     for (i := start; i< tree.items.size; ++i)
     {
-      item := tree.items[i]
-      x := item.level * dpToPixel(tree.indent) - tree.offsetX + left
+      if (i >= 0) {
+        item := tree.items[i]
+        x := item.level * dpToPixel(tree.indent) - tree.offsetX + left
 
-      drawItem(g, x, y + fontOffset, item.text, item)
-
+        drawItem(g, x, y + fontOffset, item.text, item)
+      }
       y += tree.rowHeight
       if (y > bottomLine) {
 //        echo("topOffset$topOffset")

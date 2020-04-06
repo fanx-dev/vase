@@ -140,7 +140,7 @@ class Frame : ContentPane
     }
   }
 
-  override Void detach()
+  override Void detach(Bool doRelayout := true)
   {
     if (view.oldFrame == this) {
       view.oldFrame = null
