@@ -106,7 +106,10 @@ class EditText : Widget, TextInput
   private Void updateHost() {
     if (host == null) return
     host.setType(multiLine, inputType, editable)
-    host.setPos(x, y, width, height)
+    
+    p := Coord(0, 0)
+    this.posOnWindow(p)
+    host.setPos(p.x, p.y, width, height)
     host.setStyle(font, Color.black, Color.white)
     host.setText(text)
     host.focus
