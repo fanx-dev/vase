@@ -28,7 +28,7 @@ internal class WinView : View
 
   private Frame[] stack := Frame[,]
 
-  private Dimension sharedDimension := Dimension(0, 0)
+  //private Dimension sharedDimension := Dimension(0, 0)
 
   **
   ** gesture recognizer
@@ -123,7 +123,7 @@ internal class WinView : View
     }
 
     if (layoutDirty > 0) {
-      curFrame.layout(0, 0, s.w, s.h, sharedDimension, layoutDirty>1)
+      curFrame.layout(0, 0, s.w, s.h, layoutDirty>1)
       layoutDirty = 0
 
       //echo("layout $s")
@@ -171,7 +171,7 @@ internal class WinView : View
   ** get prefer size
   **
   override Size getPrefSize(Int hintsWidth, Int hintsHeight) {
-    result := curFrame.canonicalSize(hintsWidth, hintsHeight, sharedDimension)
+    result := curFrame.prefSize(hintsWidth, hintsHeight)
     //echo("hintsHeight$hintsHeight, result$result")
     return Size(result.w, result.h)
   }

@@ -15,7 +15,7 @@ class Pane : WidgetGroup
   **
   ** Frame Layout
   **
-  override Void layoutChildren(Dimension result, Bool force)
+  override Void layoutChildren(Bool force)
   {
     Int x := paddingLeft
     Int y := paddingTop
@@ -25,25 +25,25 @@ class Pane : WidgetGroup
     this.each |Widget c|
     {
       if (!c.layoutParam.ignore) {
-        size := c.canonicalSize(hintsW, hintsH, result)
+        size := c.bufferedPrefSize(hintsW, hintsH)
         posX := c.layoutParam.prefX(this, hintsW, size.w)
         posY := c.layoutParam.prefY(this, hintsH, size.h)
 
         cx := x + posX
         cy := y + posY
 
-        c.layout(cx, cy, size.w, size.h, result, force)
+        c.layout(cx, cy, size.w, size.h, force)
       }
     }
   }
 
-  protected override Dimension prefContentSize(Dimension result) {
+  protected override Dimension prefContentSize() {
     Int maxX := 0
     Int maxY := 0
     this.each |c|
     {
       if (!c.layoutParam.ignore) {
-        size := c.bufferedPrefSize(result)
+        size := c.bufferedPrefSize()
         x := size.w
         y := size.h
 
@@ -62,6 +62,6 @@ class Pane : WidgetGroup
     }
 
     //echo("$maxX, $maxY")
-    return result.set(maxX, maxY)
+    return Dimension(maxX, maxY)
   }
 }

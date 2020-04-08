@@ -20,6 +20,8 @@ class ImageView : Widget
 
   Uri? uri
 
+  Dimension defSize := Dimension(0, 0)
+
   new make(|This|? f := null)
   {
     layoutParam.widthType = SizeType.wrapContent
@@ -30,18 +32,18 @@ class ImageView : Widget
     }
   }
 
-  protected override Dimension prefContentSize(Dimension result) {
-    if (image == null) return result.set(0, 0)
+  protected override Dimension prefContentSize() {
+    if (image == null) return defSize
     if (!image.isReady) {
       Toolkit.cur.callLater(1000) |->| {
         this.getRootView.relayout
       }
-      return result.set(0, 0)
+      return defSize
     }
     s := image.size
-    result.w = dpToPixel(s.w.toFloat)
-    result.h = dpToPixel(s.h.toFloat)
-    return result
+    w := dpToPixel(s.w.toFloat)
+    h := dpToPixel(s.h.toFloat)
+    return Dimension(w, h)
   }
 }
 
@@ -52,6 +54,8 @@ class ImageButton : ButtonBase {
 
   Uri? uri
 
+  Dimension defSize := Dimension(0, 0)
+
   new make(|This|? f := null)
   {
     layoutParam.widthType = SizeType.wrapContent
@@ -62,18 +66,18 @@ class ImageButton : ButtonBase {
     }
   }
 
-  protected override Dimension prefContentSize(Dimension result) {
-    if (image == null) return result.set(0, 0)
+  protected override Dimension prefContentSize() {
+    if (image == null) return defSize
     if (!image.isReady) {
       Toolkit.cur.callLater(1000) |->| {
         this.getRootView.relayout
       }
-      return result.set(0, 0)
+      return defSize
     }
     s := image.size
-    result.w = dpToPixel(s.w.toFloat)
-    result.h = dpToPixel(s.h.toFloat)
-    return result
+    w := dpToPixel(s.w.toFloat)
+    h := dpToPixel(s.h.toFloat)
+    return Dimension(w, h)
   }
 
   protected override Void clicked() {

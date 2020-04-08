@@ -11,7 +11,7 @@ using vaseGui
 class FrameLayoutTest : BaseTestWin
 {
   protected override Widget build() {
-    FrameLayout
+    Pane
     {
       it.id = "mainView"
       Button

@@ -36,9 +36,9 @@ class ToggleButton : ButtonBase
     this.repaint
   }
 
-  protected override Dimension prefContentSize(Dimension result) {
-    size := super.prefContentSize(result)
-    return result.set(size.w+(size.h*2), (size.h*1.3f).toInt)
+  protected override Dimension prefContentSize() {
+    size := super.prefContentSize()
+    return Dimension(size.w+(size.h*2), (size.h*1.3f).toInt)
   }
 }
 

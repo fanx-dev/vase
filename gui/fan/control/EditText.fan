@@ -115,18 +115,18 @@ class EditText : Widget, TextInput
     host.focus
   }
 
-  protected override Void layoutChildren(Dimension result, Bool force) {
-    super.layoutChildren(result, force)
+  protected override Void layoutChildren(Bool force) {
+    super.layoutChildren(force)
     updateHost
   }
 
-  protected override Dimension prefContentSize(Dimension result) {
+  protected override Dimension prefContentSize() {
     w := font.width(text)
     h := font.height
     if (multiLine > 1) {
       h *= multiLine
     }
-    return result.set(w, h)
+    return Dimension(w, h)
   }
 
   private Void startCaret()

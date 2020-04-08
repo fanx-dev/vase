@@ -130,12 +130,12 @@ abstract class WidgetGroup : Widget
   **
   ** layout the children
   **
-  abstract protected override Void layoutChildren(Dimension result, Bool force);
+  abstract protected override Void layoutChildren(Bool force);
 
   **
   ** get the prefer content size
   **
-  abstract protected override Dimension prefContentSize(Dimension result);
+  abstract protected override Dimension prefContentSize();
 
 //////////////////////////////////////////////////////////////////////////
 // event

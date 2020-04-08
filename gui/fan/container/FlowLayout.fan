@@ -15,7 +15,7 @@ class FlowLayout : WidgetGroup
 {
   Int spacing := 0
 
-  override Void layoutChildren(Dimension result, Bool force)
+  override Void layoutChildren(Bool force)
   {
     Int x := paddingLeft
     Int y := paddingTop
@@ -24,14 +24,14 @@ class FlowLayout : WidgetGroup
     //TODO
   }
 
-  protected override Dimension prefContentSize(Dimension result) {
+  protected override Dimension prefContentSize() {
     Int w := 0
     Int h := 0
     this.each |c, i|
     {
-      size := c.bufferedPrefSize(result)
+      size := c.bufferedPrefSize(-1, -1)
     }
 
-    return result.set(w, h)
+    return Dimension(w, h)
   }
 }

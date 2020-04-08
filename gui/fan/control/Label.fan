@@ -29,10 +29,10 @@ class Label : Widget
   {
   }
 
-  protected override Dimension prefContentSize(Dimension result) {
+  protected override Dimension prefContentSize() {
     w := font.width(text)
     h := font.height
-    return result.set(w, h)
+    return Dimension(w, h)
   }
 }
 

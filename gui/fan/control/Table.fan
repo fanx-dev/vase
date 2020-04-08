@@ -58,7 +58,7 @@ class Table : ScrollBase
     set { header.x = -it; super.offsetX = it }
   }
 
-  protected override Dimension prefContentSize(Dimension result) {
+  protected override Dimension prefContentSize() {
     Int w := 0
     Int colWidth := dpToPixel(colWidth)
     model.numCols.times |c|
@@ -67,10 +67,10 @@ class Table : ScrollBase
     }
     Int h := model.numRows * dpToPixel(rowHeight) + dpToPixel(rowHeight)
 
-    return result.set(w, h)
+    return Dimension(w, h)
   }
 
-  protected override Float contentMaxHeight(Dimension result) {
+  protected override Float contentMaxHeight() {
     t := model.numRows * dpToPixel(rowHeight)
     //echo("contentMaxHeight$t")
     return t.toFloat

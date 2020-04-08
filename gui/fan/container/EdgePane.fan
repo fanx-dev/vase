@@ -57,25 +57,26 @@ class EdgePane : Pane
 // Layout
 //////////////////////////////////////////////////////////////////////////
 
-  override Dimension prefContentSize(Dimension result)
+  override Dimension prefContentSize()
   {
-    result = pref(this.top, result)
+    result := Dimension(0, 0)
+    result = pref(this.top)
     top_w := result.w
     top_h := result.h
 
-    result = pref(this.bottom, result)
+    result = pref(this.bottom)
     bottom_w := result.w
     bottom_h := result.h
 
-    result = pref(this.left, result)
+    result = pref(this.left)
     left_w := result.w
     left_h := result.h
 
-    result = pref(this.right, result)
+    result = pref(this.right)
     right_w := result.w
     right_h := result.h
 
-    center := pref(this.center, result)
+    center := pref(this.center)
 
     w := (left_w + center.w + right_w).max(top_w).max(bottom_w)
     h := top_h + bottom_h + (left_h.max(center.h).max(right_h))
@@ -85,46 +86,46 @@ class EdgePane : Pane
     return result
   }
 
-  private Dimension pref(Widget? w, Dimension result)
+  private Dimension pref(Widget? w)
   {
     if (w == null) {
-      return result.set(0, 0)
+      return Dimension(0, 0)
     }
-    return w.bufferedPrefSize(result)
+    return w.bufferedPrefSize()
   }
 
-  override Void layoutChildren(Dimension result, Bool force)
+  override Void layoutChildren(Bool force)
   {
     x := paddingLeft; y := paddingTop;
     w := contentWidth; h := contentHeight
 
     if (top != null)
     {
-      prefh := top.bufferedPrefSize(result).h
-      top.layout(x, y, w, prefh, result, force)
+      prefh := top.bufferedPrefSize().h
+      top.layout(x, y, w, prefh, force)
       y += prefh; h -= prefh
     }
 
     if (bottom != null)
     {
-      prefh := bottom.bufferedPrefSize(result).h
-      bottom.layout(x, y+h-prefh, w, prefh, result, force)
+      prefh := bottom.bufferedPrefSize().h
+      bottom.layout(x, y+h-prefh, w, prefh, force)
       h -= prefh
     }
 
     if (left != null)
     {
-      prefw := left.bufferedPrefSize(result).w
+      prefw := left.bufferedPrefSize().w
       prefh := h
-      left.layout(x, y, prefw, prefh, result, force)
+      left.layout(x, y, prefw, prefh, force)
       x += prefw; w -= prefw
     }
 
     if (right != null)
     {
-      prefw := right.bufferedPrefSize(result).w
+      prefw := right.bufferedPrefSize().w
       prefh := h
-      right.layout(x+w-prefw, y, prefw, prefh, result, force)
+      right.layout(x+w-prefw, y, prefw, prefh, force)
       w -= prefw
     }
 
@@ -132,7 +133,7 @@ class EdgePane : Pane
     if (center != null)
     {
       //mg := center.layoutParam.margin
-      center.layout(x, y, w, h, result, force)
+      center.layout(x, y, w, h, force)
     }
   }
 

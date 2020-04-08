@@ -9,38 +9,33 @@
 using vaseGui
 
 @Js
-class LinearLayoutTest : BaseTestWin
+class HBoxTest : BaseTestWin
 {
   protected override Widget build() {
-    VBox
+    HBox
     {
       it.id = "mainView"
       //it.spacing = 20
       //it.padding = Insets(50)
       //it.vertical = false
-      it.margin = Insets(50)
+      //it.margin = Insets(50)
       Button
       {
         it.id = "btn1"
         it.text = "btn1"
-        it.layoutParam.posX.offset = 800f
-        it.layoutParam.posY.offset = 500f
-        it.layoutParam.widthType = SizeType.wrapContent
+        //it.layoutParam.widthType = SizeType.wrapContent
       },
       Button
       {
         it.id = "btn2"
         it.text = "btn2"
-        it.layoutParam.weight = 1.0f
-        it.layoutParam.heightType = SizeType.matchParent
-        it.layoutParam.widthType = SizeType.fixed
-        it.layoutParam.widthVal = 600f
+        //it.layoutParam.widthType = SizeType.wrapContent
       },
       Button
       {
         it.id = "btn3"
         it.text = "btn3"
-        it.layoutParam.widthType = SizeType.matchParent
+        //it.layoutParam.widthType = SizeType.wrapContent
       },
 
     }

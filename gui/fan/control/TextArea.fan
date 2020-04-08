@@ -121,7 +121,7 @@ class TextArea : ScrollBase
     if (f != null) f(this)
   }
 
-  protected override Dimension prefContentSize(Dimension result) {
+  protected override Dimension prefContentSize() {
     Int h := model.lineCount * rowHeight
 
     Int max := 0
@@ -137,7 +137,7 @@ class TextArea : ScrollBase
       }
     }
     w := font.width(model.line(maxIndex))
-    return result.set(w, h)
+    return Dimension(w, h)
   }
 
 //////////////////////////////////////////////////////////////////////////

@@ -150,14 +150,14 @@ abstract class Widget
   **
   ** Size of this widget.
   **
-  @Transient
-  Size size {
-    get { return Size(width, height) }
-    set {
-      width = it.w
-      height = it.h
-    }
-  }
+//  @Transient
+//  Size size {
+//    get { return Size(width, height) }
+//    set {
+//      width = it.w
+//      height = it.h
+//    }
+//  }
 
   **
   ** Position and size of this widget relative to its parent.
@@ -302,54 +302,44 @@ abstract class Widget
 // layout
 //////////////////////////////////////////////////////////////////////////
 
-  @Transient
-  private Int prefWidth := 100
-  @Transient
-  private Int prefHeight := 50
-  @Transient
-  private Bool prefSizeDirty := true
-
-  **
-  ** Compute the preferred size of this widget by layoutParam
-  **
-  virtual Dimension canonicalSize(Int parentContentWidth, Int parentContentHeight, Dimension result) {
-    hintsWidth := parentContentWidth// - layoutParam.margin.left-layoutParam.margin.right
-    hintsHeight := parentContentHeight// - layoutParam.margin.top-layoutParam.margin.bottom
-
-    pref := bufferedPrefSize(result)
-    w := layoutParam.prefWidth(this, hintsWidth, pref.w)
-    h := layoutParam.prefHeight(this, hintsHeight, pref.h)
-    return result.set(w, h)
-  }
+//  @Transient
+//  private Int prefWidth := 100
+//  @Transient
+//  private Int prefHeight := 50
+//  @Transient
+//  private Bool prefSizeDirty := true
 
   **
   ** preferred size with margin
   **
-  protected Dimension bufferedPrefSize(Dimension result) {
-    size := prefSize(result)
-    return result.set(size.w+dpToPixel((margin.left + margin.right).toFloat)
+  protected Dimension bufferedPrefSize(Int parentContentWidth := -1, Int parentContentHeight := -1) {
+    size := prefSize(parentContentWidth, parentContentHeight)
+    return size.set(size.w+dpToPixel((margin.left + margin.right).toFloat)
       , size.h+dpToPixel((margin.top + margin.bottom).toFloat))
   }
 
   **
   ** preferred size without margin
   **
-  private Dimension prefSize(Dimension result) {
-    if (!prefSizeDirty) {
-      return result.set(prefWidth, prefHeight)
-    }
-    prefSizeDirty = false
+  virtual Dimension prefSize(Int parentContentWidth := -1, Int parentContentHeight := -1) {
+//    if (!prefSizeDirty) {
+//      return result.set(prefWidth, prefHeight)
+//    }
+//    prefSizeDirty = false
+
+    hintsWidth := parentContentWidth - dpToPixel((margin.left + margin.right).toFloat)
+    hintsHeight := parentContentHeight - dpToPixel((margin.top + margin.bottom).toFloat)
 
     Int w := -1
     Int h := -1
 
     //using layout size
-    w = (layoutParam.prefWidth(this, -1, -1))
-    h = (layoutParam.prefHeight(this, -1, -1))
+    w = (layoutParam.prefWidth(this, hintsWidth, -1))
+    h = (layoutParam.prefHeight(this, hintsHeight, -1))
 
-    //layout size if ok
+    //get layout fail
     if (w < 0 || h < 0) {
-      s := prefContentSize(result)
+      s := prefContentSize()
 
       if (w < 0) {
         w = s.w + dpToPixel((padding.left + padding.right).toFloat)
@@ -360,18 +350,18 @@ abstract class Widget
       }
     }
 
-    prefWidth = w
-    prefHeight = h
-    return result.set(w, h)
+//    prefWidth = w
+//    prefHeight = h
+    return Dimension(w, h)
   }
 
   **
   ** preferred size of content without padding
   **
-  protected virtual Dimension prefContentSize(Dimension result) {
-    result.w = width
-    result.h = height
-    return result
+  protected virtual Dimension prefContentSize() {
+//    result.w = width
+//    result.h = height
+    return Dimension(width, height)
   }
 
   Int contentWidth() {
@@ -401,7 +391,7 @@ abstract class Widget
   **
   ** layout the children
   **
-  Void layout(Int x, Int y, Int w, Int h, Dimension result, Bool force) {
+  Void layout(Int x, Int y, Int w, Int h, Bool force) {
     this.x = x + dpToPixel(margin.left.toFloat)
     this.y = y + dpToPixel(margin.top.toFloat)
     this.width = w - dpToPixel((margin.left + margin.right).toFloat)
@@ -410,7 +400,7 @@ abstract class Widget
     printInfo("layout: x$this.x, y$this.y, w$this.width, h$this.height")
 
     if (layoutDirty > 0 || force) {
-      layoutChildren(result, force || layoutDirty>1)
+      layoutChildren(force || layoutDirty>1)
     }
     layoutDirty = 0
   }
@@ -418,14 +408,14 @@ abstract class Widget
   **
   ** layout the children
   **
-  protected virtual Void layoutChildren(Dimension result, Bool force) {}
+  protected virtual Void layoutChildren(Bool force) {}
 
   **
   ** Requset relayout this widget
   **
   virtual Void relayout() {
     this.layoutDirty = 1
-    this.prefSizeDirty = true
+    //this.prefSizeDirty = true
     this.renderCacheDirty = true
     this.parent?.relayout
   }

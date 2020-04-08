@@ -92,23 +92,23 @@ abstract class ScrollBase : Pane
 
   protected virtual Float viewportHeight() { contentHeight.toFloat }
 
-  protected virtual Float contentMaxWidth(Dimension result) {
-    bs := prefContentSize(result)
+  protected virtual Float contentMaxWidth() {
+    bs := prefContentSize()
     return bs.w.toFloat
   }
 
-  protected virtual Float contentMaxHeight(Dimension result) {
-    bs := prefContentSize(result)
+  protected virtual Float contentMaxHeight() {
+    bs := prefContentSize()
     return bs.h.toFloat
   }
 
-  private Void layoutScroolBar(Dimension result) {
+  private Void layoutScroolBar() {
     barSize := dpToPixel(this.barSize)
     hbar.width = contentWidth + (barSize)
     hbar.height = (barSize)
     hbar.x = paddingLeft
     hbar.y = height-barSize
-    hbar.max = contentMaxWidth(result)
+    hbar.max = contentMaxWidth()
     hbar.viewport = viewportWidth
 
     //echo("size$size, contentWidth$contentWidth, padding$padding")
@@ -129,7 +129,7 @@ abstract class ScrollBase : Pane
     vbar.height = contentHeight
     vbar.x = width-barSize
     vbar.y = paddingTop
-    vbar.max = contentMaxHeight(result)
+    vbar.max = contentMaxHeight()
     vbar.viewport = viewportHeight
 
     if (vbar.max <= vbar.viewport)
@@ -152,14 +152,14 @@ abstract class ScrollBase : Pane
 
   }
 
-  override Void layoutChildren(Dimension result, Bool force)
+  override Void layoutChildren(Bool force)
   {
     hbar.detach
     vbar.detach
 
-    layoutContent(result, force)
+    layoutContent(force)
 
-    layoutScroolBar(result)
+    layoutScroolBar()
 
     doAdd(hbar)
     doAdd(vbar)
@@ -167,8 +167,8 @@ abstract class ScrollBase : Pane
     onViewportChanged
   }
 
-  protected virtual Void layoutContent(Dimension result, Bool force) {
-    super.layoutChildren(result, force)
+  protected virtual Void layoutContent(Bool force) {
+    super.layoutChildren(force)
   }
 
   protected virtual Void adjustContent() {

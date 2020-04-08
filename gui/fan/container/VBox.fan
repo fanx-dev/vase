@@ -15,7 +15,7 @@ class VBox : WidgetGroup
 {
   Float spacing := 4f
 
-  private Float getWeightSpace(Dimension result) {
+  private Float getWeightSpace() {
     Int hintsW := contentWidth
     Int hintsH := contentHeight
     Int spacing := dpToPixel(this.spacing)
@@ -27,7 +27,7 @@ class VBox : WidgetGroup
       if (c.layoutParam.heightType == SizeType.matchParent) {
         allWeight += c.layoutParam.weight
       } else {
-        size := c.bufferedPrefSize(result)
+        size := c.bufferedPrefSize(-1, -1)
         spaceUsage += size.h
       }
       if (i > 0) spaceUsage += spacing      
@@ -42,18 +42,18 @@ class VBox : WidgetGroup
     return weightSpace
   }
 
-  override Void layoutChildren(Dimension result, Bool force)
+  override Void layoutChildren(Bool force)
   {
     Int x := paddingLeft
     Int y := paddingTop
     Int hintsW := contentWidth
     Int hintsH := contentHeight
     spacing := dpToPixel(this.spacing)
-    Float weightSpace := getWeightSpace(result)
+    Float weightSpace := getWeightSpace()
 
     this.each |Widget c|
     {
-      size := c.canonicalSize(hintsW, hintsH, result)
+      size := c.bufferedPrefSize(hintsW, hintsH)
       cx := x
       cy := y
 
@@ -65,23 +65,23 @@ class VBox : WidgetGroup
       }
       y += ch + spacing
     
-      c.layout(cx, cy, cw, ch, result, force)
+      c.layout(cx, cy, cw, ch, force)
     }
   }
 
-  protected override Dimension prefContentSize(Dimension result) {
+  protected override Dimension prefContentSize() {
     Int w := 0
     Int h := 0
     spacing := dpToPixel(this.spacing)
     this.each |c, i|
     {
-      size := c.bufferedPrefSize(result)
+      size := c.bufferedPrefSize()
       //echo("size$size")
       w = w.max(size.w)
       h += size.h
       if (i > 0) h += spacing
     }
 
-    return result.set(w, h)
+    return Dimension(w, h)
   }
 }

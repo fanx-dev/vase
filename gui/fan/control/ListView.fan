@@ -39,14 +39,14 @@ class ListView : ScrollBase
     contentHeight.toFloat
   }
 
-  protected override Float contentMaxHeight(Dimension result) {
+  protected override Float contentMaxHeight() {
     t := model.size * rowHeight
     return t.toFloat
   }
 
-  protected override Dimension prefContentSize(Dimension result) {
+  protected override Dimension prefContentSize() {
     //r := super.prefContentSize(result)
-    return result.set(dpToPixel(200f), dpToPixel(400f))
+    return Dimension(dpToPixel(200f), dpToPixel(400f))
   }
 
   protected Widget getView(Int i) {
@@ -57,22 +57,22 @@ class ListView : ScrollBase
   protected override Void onViewportChanged() { itemLayoutDirty = true }
 
   protected override Void paintChildren(Graphics g) {
-    result := Dimension(-1, -1)
+    //result := Dimension(-1, -1)
     
     if (itemLayoutDirty) {
       itemLayoutDirty = false
-      layoutItem(result)
+      layoutItem()
     }
 
     vbar.viewport = viewportHeight
-    vbar.max = contentMaxHeight(result)
+    vbar.max = contentMaxHeight()
 
     moveToTop(vbar)
     moveToTop(hbar)
     super.paintChildren(g)
   }
 
-  protected virtual Void layoutItem(Dimension result) {
+  protected virtual Void layoutItem() {
     x := paddingTop
     y := paddingLeft
     w := width
@@ -98,8 +98,8 @@ class ListView : ScrollBase
       doAdd(view)
       ++count
 
-      itemH := view.bufferedPrefSize(result).h
-      view.layout(x, y, w, itemH, result, false)
+      itemH := view.bufferedPrefSize().h
+      view.layout(x, y, w, itemH, false)
       y += itemH
       rowHeight = itemH.toFloat
 
