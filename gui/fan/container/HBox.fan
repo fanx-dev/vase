@@ -14,8 +14,13 @@ using vaseWindow
 class HBox : WidgetGroup
 {
   Float spacing := 4f
+  
+  Align align := Align.begin
+  
+  private Float weightSpace
+  private Int alignOffset
 
-  private Float getWeightSpace() {
+  private Void calSpace() {
     Int hintsW := contentWidth
     Int hintsH := contentHeight
     Int spacing := dpToPixel(this.spacing)
@@ -33,13 +38,21 @@ class HBox : WidgetGroup
       if (i > 0) spaceUsage += spacing
     }
 
-    Float weightSpace := 1f
+    weightSpace = 1f
+    alignOffset = 0
     
-    if (hintsW > spaceUsage && allWeight>0f) {
+    if (hintsW <= spaceUsage) return
+    
+    if (allWeight>0f) {
       weightSpace = (hintsW - spaceUsage)/allWeight
     }
   
-    return weightSpace
+    if (align == Align.center) {
+        alignOffset = ((hintsW - spaceUsage)/2).toInt
+    }
+    else if (align == Align.end) {
+        alignOffset = (hintsW - spaceUsage)
+    } 
   }
 
   override Void layoutChildren(Bool force)
@@ -49,7 +62,8 @@ class HBox : WidgetGroup
     Int hintsW := contentWidth
     Int hintsH := contentHeight
     spacing := dpToPixel(this.spacing)
-    Float weightSpace := getWeightSpace()
+    calSpace()
+    x += alignOffset
 
     this.each |Widget c|
     {

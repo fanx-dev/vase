@@ -47,7 +47,7 @@ enum class SizeType {
 **
 @Js
 @Serializable
-class LayoutParam {
+virtual class LayoutParam {
 
   SizeType widthType := SizeType.matchParent
   SizeType heightType := SizeType.wrapContent
@@ -87,8 +87,10 @@ class LayoutParam {
   **
   ** horizontal Alignment
   **
-  Align hAlign := Align.begin
-
+  Align hAlign := Align.begin 
+  
+  
+  
   Int prefX(Widget w, Int parentWidth, Int selfWidth) {
     Float parent := 0.0f
     Float anchor := 0.0f

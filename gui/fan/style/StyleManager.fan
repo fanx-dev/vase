@@ -43,6 +43,7 @@ class StyleManager
 
     styleClassMap["menuItem"] = MenuItemStyle()
     styleClassMap["tableHeader"] = TableHeaderStyle()
+    styleClassMap["pane"] = PaneStyle()
   }
 
   private Style? findByType(Type type) {
