@@ -47,8 +47,8 @@ class Pane : WidgetGroup
         x := size.w
         y := size.h
 
-        offsetX := dpToPixel(c.layoutParam.posX.offset)
-        offsetY := dpToPixel(c.layoutParam.posY.offset)
+        offsetX := dpToPixel(c.layoutParam.offsetX)
+        offsetY := dpToPixel(c.layoutParam.offsetY)
         if (offsetX > 0) {
           x += offsetX
         }

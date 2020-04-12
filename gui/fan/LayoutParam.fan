@@ -41,28 +41,6 @@ enum class SizeType {
   percent
 }
 
-@Js
-@Serializable
-class LayoutPosition {
-  Float parent := 0f
-  Float anchor := 0f
-  Float offset := 0f
-
-  ** Return hash of x and y.
-  override Int hash() { parent.hash.xor(anchor.hash.shiftl(16)).xor(offset.hash.shiftl(31)) }
-
-  ** Return if obj is same Point value.
-  override Bool equals(Obj? obj)
-  {
-    that := obj as LayoutPosition
-    if (that == null) return false
-    return this.parent == that.parent && this.anchor == that.anchor && this.offset == that.offset
-  }
-
-  ** Return '"x,y"'
-  override Str toStr() { "$parent,$anchor,$offset" }
-}
-
 **
 ** Tell parent how to layout this widget
 ** The parent may ignore the param
@@ -94,12 +72,12 @@ class LayoutParam {
   **
   ** x position of widget.
   **
-  LayoutPosition posX := LayoutPosition()
+  Float offsetX := 0.0f
 
   **
   ** y position of widget.
   **
-  LayoutPosition posY := LayoutPosition()
+  Float offsetY := 0.0f
 
   **
   ** vertical Alignment
@@ -112,12 +90,32 @@ class LayoutParam {
   Align hAlign := Align.begin
 
   Int prefX(Widget w, Int parentWidth, Int selfWidth) {
-    Float x := (posX.parent * parentWidth) - (posX.anchor * selfWidth) + w.dpToPixel(posX.offset)
+    Float parent := 0.0f
+    Float anchor := 0.0f
+    if (hAlign == Align.center) {
+        parent = 0.5f
+        anchor = 0.5f
+    }
+    else if (hAlign == Align.end) {
+        parent = 1.0f
+        anchor = 1.0f
+    }
+    Float x := (parent * parentWidth) - (anchor * selfWidth) + w.dpToPixel(offsetX)
     return x.toInt
   }
 
   Int prefY(Widget w, Int parentHeight, Int selfHeight) {
-    Float y:= (posY.parent * parentHeight) - (posY.anchor * selfHeight) + w.dpToPixel(posY.offset)
+    Float parent := 0.0f
+    Float anchor := 0.0f
+    if (vAlign == Align.center) {
+        parent = 0.5f
+        anchor = 0.5f
+    }
+    else if (vAlign == Align.end) {
+        parent = 1.0f
+        anchor = 1.0f
+    }
+    Float y := (parent * parentHeight) - (anchor * selfHeight) + w.dpToPixel(offsetY)
     return y.toInt
   }
 
@@ -158,8 +156,8 @@ class LayoutParam {
     hash = 31 * hash + heightType.hash
     hash = 31 * hash + widthVal.hash
     hash = 31 * hash + heightVal.hash
-    hash = 31 * hash + posX.hash
-    hash = 31 * hash + posY.hash
+    hash = 31 * hash + offsetX.hash
+    hash = 31 * hash + offsetY.hash
     hash = 31 * hash + weight.hash
     return hash
   }
@@ -174,7 +172,7 @@ class LayoutParam {
       && this.widthVal == that.widthVal
       && this.heightVal == that.heightVal
       && this.weight == that.weight
-      && this.posX == that.posX
-      && this.posY == that.posY
+      && this.offsetX == that.offsetX
+      && this.offsetY == that.offsetY
   }
 }

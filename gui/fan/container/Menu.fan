@@ -121,13 +121,13 @@ class MenuItem : ButtonBase
       rc := this.posOnWindow(pos)
       if (parent is Menu)
       {
-        list.layoutParam.posX.offset = pixelToDp(pos.x)
-        list.layoutParam.posY.offset = pixelToDp(pos.y + this.height)
+        list.layoutParam.offsetX = pixelToDp(pos.x)
+        list.layoutParam.offsetY = pixelToDp(pos.y + this.height)
       }
       else
       {
-        list.layoutParam.posX.offset = pixelToDp(pos.x + this.width)
-        list.layoutParam.posY.offset = pixelToDp(pos.y)
+        list.layoutParam.offsetX = pixelToDp(pos.x + this.width)
+        list.layoutParam.offsetY = pixelToDp(pos.y)
       }
     }
 

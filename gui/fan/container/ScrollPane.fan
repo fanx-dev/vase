@@ -104,8 +104,8 @@ abstract class ScrollBase : Pane
 
   private Void layoutScroolBar() {
     barSize := dpToPixel(this.barSize)
-    hbar.width = contentWidth + (barSize)
-    hbar.height = (barSize)
+    hbar.width = contentWidth + barSize
+    hbar.height = barSize
     hbar.x = paddingLeft
     hbar.y = height-barSize
     hbar.max = contentMaxWidth()
