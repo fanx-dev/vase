@@ -21,6 +21,7 @@ class WidgetTest : BaseTestWin
     VBox
     {
       padding = Insets(50)
+      layoutParam.heightType = SizeType.matchParent
       spacing = 15f
       Button { id = "button"; text = "Hello Button" },
       ComboBox {
@@ -29,12 +30,13 @@ class WidgetTest : BaseTestWin
       },
       Label { id = "label"; text = "Label"; },
       //ImageView { id = "image";  uri = (`fan://icons/x64/check.png`) },
-      EditText { hint = "hint" },
+      
       Switch { text = "switch" },
       ToggleButton { text = "checkBox" },
       RadioButton { text = "radio1" },
       RadioButton { text = "radio2" },
       //ImageButton { id = "imageButton"; uri = `fan://icons/x64/sync.png` }
+      EditText { hint = "hint"; it.margin = Insets(350, 0, 0, 0) },
     }
   }
 
@@ -46,7 +48,8 @@ class WidgetTest : BaseTestWin
     Button btn := root.findById("button")
     btn.onAction.add
     {
-      Toast { it.text = "hello world" }.show(root)
+      msg := Toolkit.cur.density.toStr + "," + root.width
+      Toast { it.text = "msg: $msg" }.show(root)
     }
     /*
     ButtonBase btn2 := root.findById("imageButton")

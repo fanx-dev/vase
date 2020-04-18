@@ -104,6 +104,11 @@ fan.vaseWindow.WtkWindow.prototype.pos = function() {
 
 fan.vaseWindow.WtkWindow.prototype.repaint = function(r) {
   this.needRepaint = true;
+  var self = this;
+  if (requestAnimationFrame && !self.callback) {
+    self.callback = function() { self.update(); }
+    requestAnimationFrame(self.callback);
+  }
 }
 
 fan.vaseWindow.WtkWindow.prototype.repaintNow = function(r) {
@@ -120,6 +125,14 @@ fan.vaseWindow.WtkWindow.prototype.view = function() {
   return this.m_view;
 }
 
+fan.vaseWindow.WtkWindow.prototype.update = function() {
+  var self = this;
+  self.callback = null;
+  if (!self.needRepaint) return;
+  self.needRepaint = false;
+  self.repaintNow();
+}
+
 ////////////////////////////////////////////////////////////////////////
 // Window
 ////////////////////////////////////////////////////////////////////////
@@ -133,8 +146,12 @@ fan.vaseWindow.WtkWindow.make = function(view) {
 }
 
 fan.vaseWindow.WtkWindow.prototype.createCanvas = function(shell, size) {
-  if (this.elem) {
-    shell.removeChild(this.elem);
+  // if (this.elem) {
+  //   shell.removeChild(this.elem);
+  // }
+
+  if (size && this.m_size) {
+    if (size.equlas(this.m_size)) return;
   }
 
   if (!size) {
@@ -145,14 +162,25 @@ fan.vaseWindow.WtkWindow.prototype.createCanvas = function(shell, size) {
 
   //create canvas
   var c = document.createElement("canvas");
-  c.width  = size.m_w;
-  c.height = size.m_h;
+  var density = window.devicePixelRatio || 1;
+  c.width  = size.m_w * density;
+  c.height = size.m_h * density;
+  c.style.width = size.m_w+"px";
+  c.style.height = size.m_h +"px";
 
-  this.elem = c;
-  shell.appendChild(this.elem);
-  this.bindEvent(c);
-  c.setAttribute('tabindex','0');
-  c.focus();
+  if (this.elem) {
+    shell.replaceChild(c, this.elem);
+    this.elem = c;
+    this.bindEvent(c);
+    c.setAttribute('tabindex','0');
+  }
+  else {
+    this.elem = c;
+    shell.appendChild(this.elem);
+    this.bindEvent(c);
+    c.setAttribute('tabindex','0');
+    c.focus();
+  }
 
   //create fan graphics
   var g = new fan.vaseWindow.WtkGraphics();
@@ -162,12 +190,26 @@ fan.vaseWindow.WtkWindow.prototype.createCanvas = function(shell, size) {
 
   //init graphics
   var cx = this.elem.getContext("2d");
+  cx.scale(density, density);
   var rect = new fan.vaseGraphics.Rect.make(0,0, size.m_w, size.m_h);
   g.init(cx, rect);
 }
 
 fan.vaseWindow.WtkWindow.prototype.show = function(size)
 {
+  if (!requestAnimationFrame) {
+    window.requestAnimationFrame = (function(){
+      return  window.requestAnimationFrame       || 
+              window.webkitRequestAnimationFrame || 
+              window.mozRequestAnimationFrame    || 
+              window.oRequestAnimationFrame      || 
+              window.msRequestAnimationFrame     || 
+              function( callback ){
+                window.setTimeout(callback, 1000 / 60);
+              };
+    })();
+  }
+
   // check for alt root
   var rootId = fan.std.Env.cur().vars().get("fwt.window.root")
   if (rootId == null) this.root = document.body;
@@ -181,7 +223,7 @@ fan.vaseWindow.WtkWindow.prototype.show = function(size)
   var shell = document.createElement("div")
   with (shell.style)
   {
-    position   = this.root === document.body ? "fixed" : "absolute";
+    position   = "absolute";//this.root === document.body ? "fixed" : "absolute";
     top        = "0";
     left       = "0";
     width      = "100%";
@@ -198,7 +240,7 @@ fan.vaseWindow.WtkWindow.prototype.show = function(size)
   // attach resize listener
   fan.vaseWindow.GfxUtil.addEventListener(window, "resize", function() {
     self.createCanvas(shell, null);
-    self.needRepaint = true;
+    self.repaint();
   });
 
   //fire event
@@ -210,11 +252,13 @@ fan.vaseWindow.WtkWindow.prototype.show = function(size)
   this.repaintNow();
 
   //Repaint handling
-  setInterval(function(){
-    if (!self.needRepaint) return;
-    self.needRepaint = false;
-    self.repaintNow();
-  }, 50);
+  // if (!requestAnimationFrame) {
+  //   setInterval(function(){
+  //     if (!self.needRepaint) return;
+  //     self.needRepaint = false;
+  //     self.repaintNow();
+  //   }, 17);
+  // }
 }
 
 fan.vaseWindow.WtkWindow.prototype.textInput = function(view) {

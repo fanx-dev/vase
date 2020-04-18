@@ -30,6 +30,17 @@ fan.vaseWindow.Toolkit.prototype.$name = function() {
   return "HTML5"
 }
 
+// fan.vaseWindow.Toolkit.prototype.dpi = function() {
+//   if (window.devicePixelRatio) {
+//     return window.devicePixelRatio * 135;
+//   }
+//   return 135;
+// }
+
+fan.vaseWindow.Toolkit.prototype.density = function() {
+  return 1;
+}
+
 fan.vaseWindow.Toolkit.prototype.callLater = function(delay, callback)
 {
   window.setTimeout(function(){ callback.call(); }, delay);

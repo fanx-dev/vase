@@ -91,6 +91,13 @@ fan.vaseWindow.WtkEditText.prototype.update = function(type) {
 */
 fan.vaseWindow.WtkEditText.prototype.focus = function() {
   this.elem.focus();
+
+  var elem = this.elem;
+  setTimeout(function() {
+    elem.scrollIntoView(true);
+    //console.log("scrollIntoView:"+elem);
+    //elem.scrollIntoViewIfNeeded();
+  }, 200);
 }
 
 fan.vaseWindow.WtkEditText.prototype.setPos = function(x, y, w, h) {
