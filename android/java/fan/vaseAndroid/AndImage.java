@@ -43,6 +43,11 @@ public class AndImage  implements BufImage {
   }
 
   @Override
+  public boolean isReady() {
+    return image != null;
+  }
+
+  @Override
   public void save(OutStream out) {
     save(out, MimeType.forExt("png"));
   }

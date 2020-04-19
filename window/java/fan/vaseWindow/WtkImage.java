@@ -66,6 +66,7 @@ public class WtkImage implements BufImage
       save(out, MimeType.forExt("png"));
     }
     public boolean isLoaded() { return image != null; }
+    public boolean isReady() { return image != null; }
 
     /**
      * get graphics context from image

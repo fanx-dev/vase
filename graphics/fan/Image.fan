@@ -13,6 +13,11 @@
 mixin Image
 {
   abstract Size size()
+
+  **
+  ** is loaded ready for javascript
+  **
+  abstract Bool isReady()
 }
 
 **
@@ -25,11 +30,6 @@ const mixin ConstImage : Image
   ** make form uri
   **
   static new make(Uri uri) { GfxEnv.cur.makeConstImage(uri) }
-
-  **
-  ** is loaded ready for javascript
-  **
-  abstract Bool isReady()
 }
 
 **
@@ -66,11 +66,6 @@ mixin BufImage : Image
   ** - TIFF
   **
   abstract Void save(OutStream out, MimeType format := MimeType.forExt("png"))
-
-  **
-  ** is loaded
-  **
-  abstract Bool isLoaded()
 
   **
   ** make form uri

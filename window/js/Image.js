@@ -25,6 +25,7 @@ fan.vaseWindow.Image.prototype.m_graphics = null; //vaseGraphics graphics contex
 //loaded info
 fan.vaseWindow.Image.prototype.m_isLoaded = false;
 fan.vaseWindow.Image.prototype.isLoaded = function() { return this.m_isLoaded; }
+fan.vaseWindow.Image.prototype.isReady = function() { return this.m_isLoaded; }
 fan.vaseWindow.Image.prototype.m_uri = null;
 
 //image data pixcel be modify
