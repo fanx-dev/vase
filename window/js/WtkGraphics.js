@@ -387,7 +387,9 @@ fan.vaseWindow.WtkGraphics.prototype.drawImage = function(image, x, y)
 fan.vaseWindow.WtkGraphics.loadImage = function(self, jsImg)
 {
   fan.vaseWindow.GfxUtil.addEventListener(jsImg, "load",
-    function(){ if(self.widget){ self.widget.invalid(); }; });
+    function(){
+      if(self.widget){ self.widget.repaint(); };
+    });
 }
 
 fan.vaseWindow.WtkGraphics.prototype.copyImage = function(image, src, dst)

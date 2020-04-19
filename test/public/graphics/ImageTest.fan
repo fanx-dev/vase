@@ -30,7 +30,7 @@ class MyImageView : View
 
   override Window? host
 
-  Image p := BufImage.fromUri(`fan://icons/x16/folder.png`) |p|
+  Image p := Image.fromUri(`image.png`) |p|
   {
     //image filter
     for (i:=0; i < p.size.w; ++i)

@@ -15,7 +15,6 @@ import java.net.URLConnection;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Region;
-import fan.vaseGraphics.ConstImage;
 import fan.vaseGraphics.Font;
 import fan.vaseGraphics.GfxEnv;
 import fan.vaseGraphics.Image;
@@ -58,11 +57,19 @@ public class AndGfxEnv extends GfxEnv{
       return p;
     }
 
-    InputStream jin = Interop.toJava(((fan.std.File) uri.get()).in());
+    InStream fin = null;
+    if (uri.scheme != null) {
+      fin = ((fan.std.File) uri.get()).in();
+    }
+    else {
+      fin = ((fan.std.File) uri.toFile()).in();
+    }
+    InputStream jin = Interop.toJava(fin);
     Bitmap image = BitmapFactory.decodeStream(jin);
     AndImage p = new AndImage();
     p.setImage(image);
-    onLoad.call(p);
+    fin.close();
+    if (onLoad != null) onLoad.call(p);
     return p;
   }
 
@@ -80,31 +87,10 @@ public class AndGfxEnv extends GfxEnv{
 
         Bitmap image = BitmapFactory.decodeStream(jin);
         p.setImage(image);
-        onLoad.call(p);
+        try { jin.close(); } catch(Exception e) {}
+        if (onLoad != null) onLoad.call(p);
       }
     }).start();
-  }
-
-  @Override
-  public ConstImage makeConstImage(Uri uri) {
-    InputStream jin;
-
-    if ("http".equals(uri.scheme)) {
-      try {
-        URL requestUrl = new URL(uri.toStr());
-        URLConnection con = requestUrl.openConnection();
-        jin = con.getInputStream();
-      } catch (IOException e) {
-        throw IOErr.make(e);
-      }
-    } else {
-      jin = Interop.toJava(((fan.std.File) uri.get()).in());
-    }
-
-    Bitmap image = BitmapFactory.decodeStream(jin);
-    AndConstImage img = new AndConstImage();
-    img.setImage(image);
-    return img;
   }
 
   @Override

@@ -14,21 +14,6 @@ fan.vaseWindow.GfxEnv.prototype.fromUri = function(uri, onLoaded)
   return fan.vaseWindow.Image.fromUri(uri, onLoaded);
 }
 
-fan.vaseWindow.GfxEnv.prototype.makeConstImage = function(uri)
-{
-  var p = new fan.vaseWindow.ConstImage();
-  p.m_uri = uri;
-  var image = new Image();
-  p.m_image = image;
-
-  fan.vaseWindow.GfxUtil.addEventListener(image, "load", function(){
-    p.m_size = fan.vaseGraphics.Size.make(image.width, image.height);
-    p.m_isLoaded = true;
-  });
-  image.src = fan.vaseWindow.GfxUtil.uriToImageSrc(p.m_uri);
-  return p;
-}
-
 fan.vaseWindow.GfxEnv.prototype.makeImage = function(size)
 {
   return fan.vaseWindow.Image.make(size);

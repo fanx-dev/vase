@@ -36,6 +36,11 @@ fan.vaseWindow.WtkWindow.prototype.bindEvent = function(elem)
 {
   //this.addEvent(this.elem, "mouseover",  fan.fwt.EventId.m_mouseEnter, self.onMouseEnter());
   //this.addEvent(this.elem, "mouseout",   fan.fwt.EventId.m_mouseExit,  self.onMouseExit());
+
+  this.addMotionEvent(this.elem, "touchstart",  fan.vaseWindow.MotionEvent.m_pressed);
+  this.addMotionEvent(this.elem, "touchmove",  fan.vaseWindow.MotionEvent.m_moved);
+  this.addMotionEvent(this.elem, "touchend",    fan.vaseWindow.MotionEvent.m_released);
+
   this.addMotionEvent(this.elem, "mousedown",  fan.vaseWindow.MotionEvent.m_pressed);
   this.addMotionEvent(this.elem, "mousemove",  fan.vaseWindow.MotionEvent.m_moved);
   this.addMotionEvent(this.elem, "mouseup",    fan.vaseWindow.MotionEvent.m_released);
@@ -47,23 +52,60 @@ fan.vaseWindow.WtkWindow.prototype.bindEvent = function(elem)
   //this.addEvent(this.elem, "focus",      fan.vaseWindow.InputEvent.m_focus);
 }
 
+fan.vaseWindow.WtkWindow.toMotionEvent = function(e, type) {
+  var event = fan.vaseWindow.MotionEvent.make(type);
+  if (e.identifier !== undefined) event.m_id = e.identifier;
+  event.m_x = e.clientX;
+  event.m_y = e.clientY;
+  if (type == "mousewheel")
+  {
+    event.m_delta = fan.vaseWindow.Event.toWheelDelta(e);
+  }
+  event.m_key = fan.vaseWindow.Event.toKey(e); 
+  return event
+}
+
 fan.vaseWindow.WtkWindow.prototype.addMotionEvent = function(elem, type, id)
 {
   var view = this.m_view;
   var mouseEvent = function(e)
   {
     //console.log(e);
-    var event = fan.vaseWindow.MotionEvent.make(id);
-    //event.m_id = id;
-    event.m_x = e.clientX;
-    event.m_y = e.clientY;
-    event.m_widget = this.elem;
-    if (type == "mousewheel")
-    {
-      event.m_delta = fan.vaseWindow.Event.toWheelDelta(e);
+    var event;
+    if (e.touches || e.changedTouches) {
+      var ps = fan.sys.List.make(2)
+      var map = {};
+
+      for (var i=0; i<e.changedTouches.length; ++i) {
+        var t = e.changedTouches[i];
+        var te = fan.vaseWindow.WtkWindow.toMotionEvent(t, id)
+        ps.add(te);
+        map[te.m_id] = te
+      }
+
+      for (var i=0; i<e.touches.length; ++i) {
+        var t = e.touches[i];
+        var te = fan.vaseWindow.WtkWindow.toMotionEvent(t, id)
+        
+        if (te.m_id in map) continue;
+        map[te.m_id] = te;
+        ps.add(te);
+      }
+      
+      event = ps.get(0);
+      event.pointers$(ps);
     }
-    event.m_key = fan.vaseWindow.Event.toKey(e);
+    else {
+      event = fan.vaseWindow.WtkWindow.toMotionEvent(e, id)
+      //event.m_widget = this.elem;
+    }
+
     view.onMotionEvent(event);
+    if (event.m_consumed) {
+      e.stopPropagation();
+      e.preventDefault();
+      e.cancelBubble = true;
+    }
   };
   fan.vaseWindow.GfxUtil.addEventListener(elem, type, mouseEvent);
 }

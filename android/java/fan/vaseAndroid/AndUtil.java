@@ -52,10 +52,10 @@ public class AndUtil {
     {
       return ((AndImage)image).getImage();
     }
-    else if (image instanceof AndConstImage)
-    {
-      return ((AndConstImage)image).getImage();
-    }
+    // else if (image instanceof AndConstImage)
+    // {
+    //   return ((AndConstImage)image).getImage();
+    // }
     return null;
   }
 

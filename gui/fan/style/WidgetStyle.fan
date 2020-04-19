@@ -26,7 +26,7 @@ class WidgetStyle : Style
   Brush fontColor := Color(0x222222)
   Brush selectedColor := Color(0x8888f9)
 
-  ConstImage? backgroundImage
+  Image? backgroundImage
   Float lineWidth := 2f
 
   private Bool fontSizeInit := false

@@ -202,6 +202,7 @@ class DragState : GestureState {
 
   Bool asFling(MotionEvent e) {
     Int elapsedTime := (Duration.nowTicks - beginTime) / 1000_000
+    if (elapsedTime == 0) elapsedTime = 1
     //if (elapsedTime > 1000) return false
     dx := e.x - beginX
     dy := e.y - beginY

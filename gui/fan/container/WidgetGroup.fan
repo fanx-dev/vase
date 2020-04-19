@@ -146,6 +146,9 @@ abstract class WidgetGroup : Widget
   ** process motion event
   **
   protected override Void motionEvent(MotionEvent e) {
+    super.motionEvent(e)
+    if (e.consumed) return
+    
     px := e.relativeX
     py := e.relativeY
     children.eachr {
@@ -165,6 +168,9 @@ abstract class WidgetGroup : Widget
   ** process gesture event
   **
   protected override Void gestureEvent(GestureEvent e) {
+    super.gestureEvent(e)
+    if (e.consumed) return
+    
     px := e.relativeX
     py := e.relativeY
     for (i:=children.size-1; i>=0 && i<children.size; --i) {
@@ -182,6 +188,9 @@ abstract class WidgetGroup : Widget
   }
 
   protected override Void keyEvent(KeyEvent e) {
+    super.keyEvent(e)
+    if (e.consumed) return
+    
     children.eachr {
       if (it.enabled) {
         it.keyEvent(e)

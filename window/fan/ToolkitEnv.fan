@@ -50,7 +50,7 @@ abstract const class Toolkit
   **
   ** return the current devices DPI(dot per inch)
   **
-  protected virtual Int dpi() { 135 }
+  protected virtual Int dpi() { 80 }
 
   **
   ** density base on 160 dpi

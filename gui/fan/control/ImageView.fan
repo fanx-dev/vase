@@ -16,11 +16,23 @@ using vaseWindow
 class ImageView : Widget
 {
   @Transient
-  ConstImage? image
+  Image? image
+  
+  static const Int keepSize = 0
+  static const Int stretch = 1
+  static const Int fitWidth = 2
+  static const Int fitHeight = 3
+  Int scaleType = keepSize
+
+  static const Int maskCircle := 1
+  Int mask := 0
 
   Uri? uri
+  
+  Float imagePrefWidth := 240f
+  Float imagePrefHeight := 240f
 
-  Dimension defSize := Dimension(0, 0)
+  //Dimension defSize := Dimension(0, 0)
 
   new make(|This|? f := null)
   {
@@ -28,59 +40,20 @@ class ImageView : Widget
     if (f != null) f(this)
 
     if (image == null && uri != null) {
-      image = ConstImage(uri)
+      image = Image.fromUri(uri)
     }
   }
 
   protected override Dimension prefContentSize() {
-    if (image == null) return defSize
-    if (!image.isReady) {
-      Toolkit.cur.callLater(1000) |->| {
-        this.getRootView.relayout
-      }
-      return defSize
-    }
-    s := image.size
-    w := dpToPixel(s.w.toFloat)
-    h := dpToPixel(s.h.toFloat)
+//    if (!image.isReady) {
+//      Toolkit.cur.callLater(1000) |->| {
+//        this.getRootView.relayout
+//      }
+//      return defSize
+//    }
+    
+    w := dpToPixel(imagePrefWidth)
+    h := dpToPixel(imagePrefHeight)
     return Dimension(w, h)
-  }
-}
-
-@Js
-class ImageButton : ButtonBase {
-  @Transient
-  ConstImage? image
-
-  Uri? uri
-
-  Dimension defSize := Dimension(0, 0)
-
-  new make(|This|? f := null)
-  {
-    layoutParam.widthType = SizeType.wrapContent
-    if (f != null) f(this)
-
-    if (image == null && uri != null) {
-      image = ConstImage(uri)
-    }
-  }
-
-  protected override Dimension prefContentSize() {
-    if (image == null) return defSize
-    if (!image.isReady) {
-      Toolkit.cur.callLater(1000) |->| {
-        this.getRootView.relayout
-      }
-      return defSize
-    }
-    s := image.size
-    w := dpToPixel(s.w.toFloat)
-    h := dpToPixel(s.h.toFloat)
-    return Dimension(w, h)
-  }
-
-  protected override Void clicked() {
-    this.scaleAnim(0.9).start
   }
 }

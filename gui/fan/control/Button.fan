@@ -42,8 +42,8 @@ class ButtonBase : Label
   once EventListeners onAction() { EventListeners() }
 
   protected override Void gestureEvent(GestureEvent e) {
-    super.gestureEvent(e)
-    if (e.consumed) return
+    //super.gestureEvent(e)
+    //if (e.consumed) return
 
     if (e.type == GestureEvent.click) {
       this.focus
@@ -73,7 +73,12 @@ class ButtonBase : Label
     }
   }
 
-  protected virtual Void clicked() {
+  override protected Void clicked() {
+    try {
+      onClicked?.call(this)
+    } catch (Err e) {
+      e.trace
+    }
   }
 
   override Void mouseExit() { state = mouseOut }

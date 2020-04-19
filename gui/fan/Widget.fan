@@ -63,7 +63,7 @@ abstract class Widget
   ** render result cache in bitmap image
   **
   @Transient
-  private BufImage? renderCacheImage
+  private Image? renderCacheImage
 
   **
   ** invalidate the renderCache bitmap image
@@ -85,6 +85,10 @@ abstract class Widget
 
   @Transient
   private Style? style := null
+  
+  @Transient
+  protected |Widget|? onClicked := null
+  Void onClick(|Widget| c) { onClicked =  c }
 
 //////////////////////////////////////////////////////////////////////////
 // State
@@ -210,7 +214,22 @@ abstract class Widget
   **
   ** process gesture event
   **
-  protected virtual Void gestureEvent(GestureEvent e) {}
+  protected virtual Void gestureEvent(GestureEvent e) {
+    if (onClicked != null && e.type == GestureEvent.click) {
+      this.focus
+      clicked
+      e.consume
+    }
+  }
+  
+  protected virtual Void clicked() {
+    try {
+      this.scaleAnim(0.95).start
+      onClicked?.call(this)
+    } catch (Err e) {
+      e.trace
+    }
+  }
 
   **
   ** Post key event
@@ -243,7 +262,7 @@ abstract class Widget
 
     if (useRenderCache) {
       if (renderCacheImage == null || renderCacheImage.size.w != width || renderCacheImage.size.h != height) {
-        renderCacheImage = BufImage.make(Size(width, height))
+        renderCacheImage = Image.make(Size(width, height))
         renderCacheDirty = false
         cg := renderCacheImage.graphics
         cg.antialias = true

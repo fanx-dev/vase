@@ -55,8 +55,8 @@ abstract const class GfxEnv
 // Image op
 //////////////////////////////////////////////////////////////////////////
 
-  abstract Image fromUri(Uri uri, |Image| onLoad)
-  abstract ConstImage makeConstImage(Uri uri)
+  abstract Image fromUri(Uri uri, |Image|? onLoad)
+  //abstract ConstImage makeConstImage(Uri uri)
   abstract Image makeImage(Size size)
   abstract Image fromStream(InStream in)
 

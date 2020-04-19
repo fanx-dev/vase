@@ -58,7 +58,7 @@ class ScrollAnimChannel : AnimChannel {
     startV = startV + (acceleration * t)
 
     pos := target.curPos - s
-    //echo("t:$t, a:$acceleration, vt:startV, s:$s, pos:$pos, $allowOverScroll")
+    //echo("t:$t, a:$acceleration, vt:$startV, s:$s, pos:$pos, $allowOverScroll")
     target.setCurPos(pos, true, allowOverScroll)
     isFinished = isEnd
     target.repaint

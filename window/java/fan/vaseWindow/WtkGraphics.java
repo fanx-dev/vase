@@ -317,9 +317,10 @@ public class WtkGraphics implements Graphics {
     BufferedImage img = null;
     if (img2 instanceof WtkImage) {
       img = ((WtkImage) img2).getImage();
-    } else if (img2 instanceof WtkConstImage) {
-      img = ((WtkConstImage) img2).getImage();
     }
+    //  else if (img2 instanceof WtkConstImage) {
+    //   img = ((WtkConstImage) img2).getImage();
+    // }
     gc.drawImage(img, (int) dest.x, (int) dest.y, (int) dest.x
         + (int) dest.w, (int) dest.y + (int) dest.h, (int) src.x,
         (int) src.y, (int) src.x + (int) src.w, (int) src.y
@@ -332,9 +333,10 @@ public class WtkGraphics implements Graphics {
     BufferedImage img = null;
     if (img2 instanceof WtkImage) {
       img = ((WtkImage) img2).getImage();
-    } else if (img2 instanceof WtkConstImage) {
-      img = ((WtkConstImage) img2).getImage();
     }
+    // else if (img2 instanceof WtkConstImage) {
+    //   img = ((WtkConstImage) img2).getImage();
+    // }
     gc.drawImage(img, (int) x, (int) y, null);
     return this;
   }

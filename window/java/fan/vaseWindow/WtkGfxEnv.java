@@ -44,10 +44,18 @@ public class WtkGfxEnv extends GfxEnv {
       return p;
     }
 
-    InputStream jin = Interop.toJava(((fan.std.File) uri.get()).in());
+    InStream fin = null;
+    if (uri.scheme != null) {
+      fin = ((fan.std.File) uri.get()).in();
+    }
+    else {
+      fin = ((fan.std.File) uri.toFile()).in();
+    }
+    InputStream jin = Interop.toJava(fin);
     WtkImage p = new WtkImage();
     streamToImage(jin, p);
-    onLoad.call(p);
+    fin.close();
+    if (onLoad != null) onLoad.call(p);
     return p;
   }
 
@@ -73,7 +81,8 @@ public class WtkGfxEnv extends GfxEnv {
         }
 
         streamToImage(jin, p);
-        onLoad.call(p);
+        try { jin.close(); } catch(Exception e) {}
+        if (onLoad != null) onLoad.call(p);
       }
     }).start();
   }
@@ -95,31 +104,6 @@ public class WtkGfxEnv extends GfxEnv {
     WtkImage p = new WtkImage();
     p.setImage(image);
     return p;
-  }
-
-  @Override
-  public ConstImage makeConstImage(Uri uri) {
-    InputStream jin;
-
-    if ("http".equals(uri.scheme)) {
-      try {
-        URL requestUrl = new URL(uri.toStr());
-        URLConnection con = requestUrl.openConnection();
-        jin = con.getInputStream();
-      } catch (IOException e) {
-        throw IOErr.make(e);
-      }
-    } else {
-      jin = Interop.toJava(((fan.std.File) uri.get()).in());
-    }
-
-    BufferedImage image;
-    try {
-      image = ImageIO.read(jin);
-    } catch (IOException e) {
-      throw IOErr.make(e);
-    }
-    return new WtkConstImage(image);
   }
 
   @Override

@@ -38,7 +38,7 @@ fan.vaseWindow.Toolkit.prototype.$name = function() {
 // }
 
 fan.vaseWindow.Toolkit.prototype.density = function() {
-  return 1;
+  return 0.5;
 }
 
 fan.vaseWindow.Toolkit.prototype.callLater = function(delay, callback)

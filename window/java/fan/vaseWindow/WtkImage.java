@@ -20,7 +20,7 @@ import fan.std.OutStream;
 import fan.sys.UnsupportedErr;
 import fanx.interop.Interop;
 
-public class WtkImage implements BufImage
+public class WtkImage extends Image
 {
     private BufferedImage image;
     public BufferedImage getImage(){ return image; };
@@ -47,10 +47,10 @@ public class WtkImage implements BufImage
     /**
      * save image to outSteam
      */
-    public void save(OutStream out, MimeType format)
+    public void save(OutStream out, String format)
     {
       OutputStream jout = Interop.toJava(out);
-      String subType = format.subType;
+      String subType = format;
 
       try
       {
@@ -63,7 +63,7 @@ public class WtkImage implements BufImage
     }
     public void save(OutStream out)
     {
-      save(out, MimeType.forExt("png"));
+      save(out, "png");
     }
     public boolean isLoaded() { return image != null; }
     public boolean isReady() { return image != null; }
@@ -71,7 +71,7 @@ public class WtkImage implements BufImage
     /**
      * get graphics context from image
      */
-    public Graphics graphics()
+    public Graphics createGraphics()
     {
       return new WtkGraphics(image.createGraphics());
     }
@@ -80,8 +80,8 @@ public class WtkImage implements BufImage
   public void dispose() {
   }
 
-  @Override
-  public ConstImage toConst() {
-    throw UnsupportedErr.make();
-  }
+  // @Override
+  // public ConstImage toConst() {
+  //   throw UnsupportedErr.make();
+  // }
 }

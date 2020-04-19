@@ -10,35 +10,24 @@
 ** Image represents a graphical image.
 **
 @Js
-mixin Image
+rtconst abstract class Image
 {
+  private Bool _immutable := false
+  override Bool isImmutable() {
+    return _immutable
+  }
+
+  override Obj toImmutable() {
+    _immutable = false
+    return this
+  }
+
   abstract Size size()
 
   **
-  ** is loaded ready for javascript
+  ** is loaded in javascript
   **
   abstract Bool isReady()
-}
-
-**
-** Immutable Image
-**
-@Js
-const mixin ConstImage : Image
-{
-  **
-  ** make form uri
-  **
-  static new make(Uri uri) { GfxEnv.cur.makeConstImage(uri) }
-}
-
-**
-** Buffered Image
-**
-@Js
-mixin BufImage : Image
-{
-  //abstract Size size()
 
   **
   ** Returns the pixel value at x,y
@@ -51,11 +40,6 @@ mixin BufImage : Image
   abstract Void setPixel(Int x, Int y, Int value)
 
   **
-  ** to Const Image
-  **
-  abstract ConstImage toConst()
-
-  **
   ** Save image to outStream. default format is png.
   ** Currently supported image formats are:
   ** - BMP (Windows or OS/2 Bitmap)
@@ -65,12 +49,12 @@ mixin BufImage : Image
   ** - PNG
   ** - TIFF
   **
-  abstract Void save(OutStream out, MimeType format := MimeType.forExt("png"))
+  abstract Void save(OutStream out, Str format := "png")
 
   **
   ** make form uri
   **
-  static new fromUri(Uri uri, |This| onLoad) { GfxEnv.cur.fromUri(uri, onLoad) }
+  static Image fromUri(Uri uri, |This|? onLoad := null) { GfxEnv.cur.fromUri(uri, onLoad) }
 
   **
   ** make form input stream
@@ -80,12 +64,19 @@ mixin BufImage : Image
   **
   ** make an empty image
   **
-  static new make(Size size) { GfxEnv.cur.makeImage(size); }
+  static Image make(Size size) { GfxEnv.cur.makeImage(size); }
+
+  protected new privateMake() {}
 
   **
   ** get graphics context from image
   **
-  abstract Graphics graphics()
+  Graphics graphics() {
+    if (_immutable) throw ReadonlyErr()
+    return createGraphics
+  }
+
+  protected abstract Graphics createGraphics()
 
   **
   ** Free any operating system resources used by this instance.

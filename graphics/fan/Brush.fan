@@ -33,7 +33,7 @@ const class Pattern : Brush
   **
   ** Image to use for filling.
   **
-  const ConstImage image
+  const Image image
 
   **
   ** Background color to use underneath image filling,

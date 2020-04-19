@@ -13,11 +13,11 @@ using vaseMath
 
 @Js
 class BlurEffect : Effect {
-  protected BufImage? bufImage
+  protected Image? bufImage
   protected Graphics? originalGraphics
   protected Bool gray := false
 
-  protected BufImage tryMakeImage(BufImage? img, Size size) {
+  protected Image tryMakeImage(Image? img, Size size) {
     //SWT not support clearRect
     if (Toolkit.cur.name == "SWT") {
       img = null
@@ -29,7 +29,7 @@ class BlurEffect : Effect {
       }
     }
     if (img == null) {
-      img = BufImage.make(size)
+      img = Image.make(size)
     }
 
     return img
@@ -44,7 +44,7 @@ class BlurEffect : Effect {
     return imageGraphics
   }
 
-  protected virtual Void filter(BufImage bufImage) {
+  protected virtual Void filter(Image bufImage) {
     w := bufImage.size.w
     h := bufImage.size.h
 
@@ -63,7 +63,7 @@ class BlurEffect : Effect {
     }
   }
 
-  private static Void readPixel(BufImage img, Int x, Int y, Int[]  pixels)
+  private static Void readPixel(Image img, Int x, Int y, Int[]  pixels)
   {
     Int xStart := x - 1;
     Int yStart := y - 1;

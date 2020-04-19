@@ -17,7 +17,7 @@ import fan.sys.*;
 import fan.std.*;
 import fanx.interop.Interop;
 
-public class AndImage  implements BufImage {
+public class AndImage extends Image {
 
   private Bitmap image;
   public Bitmap getImage(){ return image; };
@@ -33,11 +33,10 @@ public class AndImage  implements BufImage {
   }
 
   @Override
-  public Graphics graphics() {
+  public Graphics createGraphics() {
     return new AndGraphics(new Canvas(image));
   }
 
-  @Override
   public boolean isLoaded() {
     return image != null;
   }
@@ -49,15 +48,15 @@ public class AndImage  implements BufImage {
 
   @Override
   public void save(OutStream out) {
-    save(out, MimeType.forExt("png"));
+    save(out, "png");
   }
 
   @Override
-  public void save(OutStream out, MimeType format) {
+  public void save(OutStream out, String format) {
     OutputStream jout = Interop.toJava(out);
 
       CompressFormat swtFormat = Bitmap.CompressFormat.PNG;
-      String subType = format.subType;
+      String subType = format;
       if (subType.equals("png")) swtFormat = Bitmap.CompressFormat.PNG;
       else if (subType.equals("jpeg")) swtFormat = Bitmap.CompressFormat.JPEG;
       else if (subType.equals("jpg")) swtFormat = Bitmap.CompressFormat.JPEG;
@@ -76,10 +75,10 @@ public class AndImage  implements BufImage {
     return Size.make(image.getWidth(), image.getHeight());
   }
 
-  @Override
-  public ConstImage toConst() {
-    throw UnsupportedErr.make();
-  }
+  // @Override
+  // public ConstImage toConst() {
+  //   throw UnsupportedErr.make();
+  // }
 
   @Override
   public void dispose() {

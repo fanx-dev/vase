@@ -40,7 +40,7 @@ class Animation
   }
 
   Void start() {
-    this.elapsedTime = 0
+    this.elapsedTime = -1
     this.isRuning = true
     onStart
   }
@@ -68,6 +68,11 @@ class Animation
     if (!this.isRuning) {
       return
     }
+    if (elapsedTime == -1) {
+      elapsedTime = 0
+      return
+    }
+    
     this.elapsedTime += (frameTime.toFloat * speed).toInt
 
     elapsed := this.elapsedTime - delay
@@ -78,6 +83,7 @@ class Animation
         elapsed %= this.duration
         --repeat
       } else {
+        //echo("Finish: $elapsed > $duration")
         updateChannel(elapsed, frameTime, 1.0f)
         onFinised
         return

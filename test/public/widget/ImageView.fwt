@@ -1,0 +1,25 @@
+
+
+
+using vaseGui
+
+@Js
+class ImageViewTest : BaseTestWin
+{
+  protected override Widget build() {
+    return  ImageView {
+      id = "image"
+      uri = (`../image.png`)
+    }
+  }
+
+  protected override Void init(Frame root) {
+    btn := root.findById("image")
+    btn.onClick
+    {
+      msg := "$btn.width, $btn.height"
+      //Toast { it.text = "msg: $msg" }.show(root)
+      echo(msg)
+    }
+  }
+}

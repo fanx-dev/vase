@@ -32,6 +32,7 @@ class AnimManager {
     }
 
     lastUpdateTime = now
+    //echo("animationList:$animationList")
     return hasAnimation
   }
 
@@ -41,6 +42,7 @@ class AnimManager {
       anim := animationList.get(i)
       anim.update(frameTime)
       if (anim.isFinished) {
+        //echo("isFinished: $anim")
         animationList.removeAt(i)
         --i
         --n

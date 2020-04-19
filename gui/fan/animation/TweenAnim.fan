@@ -25,15 +25,13 @@ class TweenAnimation : Animation {
     if (widget.transform == null) {
       widget.transform = Transform2D()
     }
+    widget.getRootView.animManager.add(this)
     widget.repaint
   }
 
   This bind(Widget widget) {
     this.widget = widget
     channelList.each |TweenAnimChannel c| { c.widget = widget }
-    widget.getRootView.animManager.add(this)
-    //this.start
-    //widget.repaint
     return this
   }
 }
