@@ -41,10 +41,10 @@ fan.vaseWindow.Image.prototype.size = function() { return this.m_size; }
 
 fan.vaseWindow.Image.prototype.getImage = function()
 {
-  this.flush();
-  if (this.m_image)
+  if (this.m_canvas)
   {
-    return this.m_image;
+    this.flush();
+    return this.m_canvas;
   }
   return this.m_image;
 }
@@ -58,7 +58,7 @@ fan.vaseWindow.Image.prototype.initCanvas = function()
   this.m_canvas.width = this.m_size.m_w;
   this.m_canvas.height = this.m_size.m_h;
 
-  if (!this.m_uri) p.m_uri = p.m_canvas.toDataURL();
+  if (!this.m_uri) this.m_uri = this.m_canvas.toDataURL();
 
   this.m_context = this.m_canvas.getContext("2d");
   if (this.m_image) this.m_context.drawImage(this.m_image, 0, 0);
@@ -99,7 +99,6 @@ fan.vaseWindow.Image.prototype.flush = function()
 
 fan.vaseWindow.Image.prototype.getImageData = function()
 {
-  this.initCanvas();
   if (!this.m_imageData)
   {
     this.m_imageData = this.context().getImageData(0, 0, this.m_size.m_w, this.m_size.m_h);
@@ -148,7 +147,7 @@ fan.vaseWindow.Image.make = function(size)
   var p = new fan.vaseWindow.Image();
   p.m_size = size;
   p.m_isLoaded = true;
-  this.initCanvas();
+  p.initCanvas();
   return p;
 }
 
