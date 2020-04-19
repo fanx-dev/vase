@@ -30,7 +30,7 @@ class WidgetStyle : Style
   Float lineWidth := 2f
 
   private Bool fontSizeInit := false
-  override Font font := Font(40) {
+  override Font font := Font(35) {
     get {
       if (!fontSizeInit) {
         &font = &font.toSize(dpToPixel(&font.size.toFloat))

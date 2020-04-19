@@ -46,7 +46,8 @@ class WinTest
     Button btn := root.findById("button")
     btn.onAction.add
     {
-      MessageBox { it.label.text = "hello world" }.show(root)
+      msg := Toolkit.cur.density.toStr + "," + root.width
+      MessageBox { it.label.text = msg }.show(root)
     }
 
     root.show

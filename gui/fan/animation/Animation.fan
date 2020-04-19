@@ -70,11 +70,11 @@ class Animation
     }
     if (elapsedTime == -1) {
       elapsedTime = 0
-      return
+    }
+    else {
+      this.elapsedTime += (frameTime.toFloat * speed).toInt
     }
     
-    this.elapsedTime += (frameTime.toFloat * speed).toInt
-
     elapsed := this.elapsedTime - delay
     if (elapsed < 0) return
 

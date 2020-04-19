@@ -61,7 +61,7 @@ public class AndroidEnvPeer {
         float dpi = (float) Math.ceil(Math.max(Math.max(metrics.xdpi, metrics.ydpi),
             metrics.densityDpi));
         this.dpi = (long)dpi;
-        density = metrics.density;
+        density = metrics.density*0.5;
       }
       
       handler = new Handler();

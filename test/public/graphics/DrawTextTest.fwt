@@ -53,7 +53,7 @@ class DrawTextTestView : View
     g.dispose
   }
 
-  BufImage? p := BufImage(Size(310,310))
+  Image? p := Image(Size(310,310))
 
   override Void onPaint(Graphics g) {
     g.drawImage(p, 10, 10)
