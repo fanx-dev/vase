@@ -1,33 +1,56 @@
 ## vase
 
-A cross-platform framework for creating GUI or game on mobile and desktop.
+A cross-platform framework for creating GUI app.
 
 ### Feature
 - Lightweight GUI widget
+- Cross-platform support Android/iOS/Windows/MacOS/Browser
 - 3D Graphics by OpenGL/WebGL
-- Cross-platform support Java/Android/Javascript
 
 ### Screenshot
 
 ![image](https://raw.githubusercontent.com/fanx-dev/vase/master/res/snap.png)
 
 
-### Run on Android
+### Desktop
+  ```
+  cd test/public/widget
+  fan WidgetTest.fwt
+  ```
+
+### Android
   1. copy android jar:
   ```cp lib/*.jar env/lib/java/ext/```
 
   2. build demo:
-  ```cd demo; sh build.sh```
+  ```cd demo; sh build_android.sh```
 
-### Setting LWJGL
+### iOS
+  ```
+  cd demo
+  sh build_cordova.sh
+  cd cordovaDemo
+  cordova run ios
+  ```
+
+### Browser
+  ```
+  cd test
+  sh runJs.sh
+  ```
+  Service started on http://localhost:8080/
+
+### Setting LWJGL (OpenGL support)
 1. copy all .jar to fanHome/lib/java/ext/
 2. test3d/runJava.sh:
-  * java options: -Xmx512M -Djava.library.path=yourPath/lib/lwjgl-2.7.1/native/windows
-  * etc/build/config.props: javacParams=-source 1.8 -target 1.8
-  * add -XstartOnFirstThread on Mac OS
+  ```
+  FAN_HOME=/Users/yangjiandong/workspace/code/fanx/env
+  jfan='java -Xmx512M -XstartOnFirstThread -cp '$FAN_HOME'/lib/java/fanx.jar -Dfan.home='$FAN_HOME/' fanx.tools.Fan'
+  $jfan Textures.fwt
+  ```
 
-### Run Javascript
+### WebGL
 1. Get a browser that support WebGL
-2. run test3d/runJs.sh or test/runJs.sh
+2. run test3d/runJs.sh
 3. Go to http://localhost:8080/ with your browser.
 
