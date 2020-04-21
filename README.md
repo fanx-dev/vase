@@ -3,8 +3,8 @@
 A cross-platform framework for creating GUI app.
 
 ### Feature
-- Lightweight GUI widget
-- Cross-platform support Android/iOS/Windows/MacOS/Browser
+- Design for mobile with fat animation
+- Cross-platform: Android/iOS/Windows/MacOS/Browser
 - 3D Graphics by OpenGL/WebGL
 
 ### Screenshot
@@ -20,10 +20,14 @@ A cross-platform framework for creating GUI app.
 
 ### Android
   1. copy android jar:
-  ```cp lib/*.jar env/lib/java/ext/```
-
+  ```
+  cp lib/*.jar env/lib/java/ext/
+  ```
   2. build demo:
-  ```cd demo; sh build_android.sh```
+  ```
+  cd demo
+  sh build_android.sh
+  ```
 
 ### iOS
   ```
