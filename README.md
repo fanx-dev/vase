@@ -12,6 +12,10 @@ A cross-platform framework for creating GUI app.
 ![image](https://raw.githubusercontent.com/fanx-dev/vase/master/res/snap.png)
 
 
+### How It Works
+
+![image](https://raw.githubusercontent.com/fanx-dev/vase/master/res/architecture.png)
+
 ### Desktop
   ```
   cd test/public/widget
