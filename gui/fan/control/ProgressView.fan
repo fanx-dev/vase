@@ -18,7 +18,7 @@ class ProgressView : Widget
 
   new make() {
     padding = Insets(20)
-    layoutParam.widthType = SizeType.wrapContent
+    layoutParam.width = LayoutParam.wrapContent
     useRenderCache = false
   }
 

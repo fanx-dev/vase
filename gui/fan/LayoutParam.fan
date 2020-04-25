@@ -25,22 +25,6 @@ enum class Align {
   end
 }
 
-@Js
-enum class SizeType {
-  **
-  ** fill parent or others define by layout pane
-  **
-  matchParent,
-  **
-  ** preferred size by prefSize()
-  **
-  wrapContent,
-
-  fixed,
-
-  percent
-}
-
 **
 ** Tell parent how to layout this widget
 ** The parent may ignore the param
@@ -49,20 +33,28 @@ enum class SizeType {
 @Serializable
 virtual class LayoutParam {
 
-  SizeType widthType := SizeType.matchParent
-  SizeType heightType := SizeType.wrapContent
+  **
+  ** fill parent or others define by layout pane
+  **
+  static const Float matchParent := 0f
+  
+  **
+  ** preferred size by prefSize()
+  **
+  static const Float wrapContent := -1f
+
 
   Bool ignore := false
 
   **
   ** width of widget
   **
-  Float widthVal := 0f
+  Float width := matchParent
 
   **
   ** height of widget
   **
-  Float heightVal := 0f
+  Float height := wrapContent
 
   **
   ** layout weight compare to sibling widget
@@ -122,42 +114,24 @@ virtual class LayoutParam {
   }
 
   Int prefWidth(Widget w, Int parentWidth, Int selfWidth) {
-    switch (widthType) {
-      case SizeType.matchParent:
-        return parentWidth
-      case SizeType.wrapContent:
-        return selfWidth
-      case SizeType.percent:
-        return (parentWidth * widthVal / 100).toInt
-      case SizeType.fixed:
-        return w.dpToPixel(widthVal)
-      default:
-        return w.dpToPixel(widthVal)
-    }
+    if (width == matchParent) return parentWidth
+    if (width == wrapContent) return selfWidth
+    return w.dpToPixel(width)
   }
 
   Int prefHeight(Widget w, Int parentHeight, Int selfHeight) {
-    switch (heightType) {
-      case SizeType.matchParent:
-        return parentHeight
-      case SizeType.wrapContent:
-        return selfHeight
-      case SizeType.percent:
-        return (parentHeight * heightVal / 100).toInt
-      case SizeType.fixed:
-        return w.dpToPixel(heightVal)
-      default:
-        return w.dpToPixel(heightVal)
-    }
+    if (height == matchParent) return parentHeight
+    if (height == wrapContent) return selfHeight
+    return w.dpToPixel(height)
   }
 
   ** Return hash of x and y.
   override Int hash() {
     Int hash := 17
-    hash = 31 * hash + widthType.hash
-    hash = 31 * hash + heightType.hash
-    hash = 31 * hash + widthVal.hash
-    hash = 31 * hash + heightVal.hash
+    //hash = 31 * hash + widthType.hash
+    //hash = 31 * hash + heightType.hash
+    hash = 31 * hash + width.hash
+    hash = 31 * hash + height.hash
     hash = 31 * hash + offsetX.hash
     hash = 31 * hash + offsetY.hash
     hash = 31 * hash + weight.hash
@@ -169,10 +143,8 @@ virtual class LayoutParam {
   {
     that := obj as LayoutParam
     if (that == null) return false
-    return this.widthType == that.widthType
-      && this.heightType == that.heightType
-      && this.widthVal == that.widthVal
-      && this.heightVal == that.heightVal
+    return this.width == that.width
+      && this.height == that.height
       && this.weight == that.weight
       && this.offsetX == that.offsetX
       && this.offsetY == that.offsetY

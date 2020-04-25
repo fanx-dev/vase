@@ -86,14 +86,14 @@ class ScrollBar : Widget
     if (f != null) f(this)
 
     if (vertical) {
-      layoutParam.widthType = SizeType.fixed
-      layoutParam.widthVal = barSize
-      layoutParam.heightType = SizeType.matchParent
+      //layoutParam.widthType = SizeType.fixed
+      layoutParam.width = barSize
+      layoutParam.height = LayoutParam.matchParent
     }
     else {
-      layoutParam.heightType = SizeType.fixed
-      layoutParam.heightVal = barSize
-      layoutParam.widthType = SizeType.matchParent
+      //layoutParam.heightType = SizeType.fixed
+      layoutParam.height = barSize
+      layoutParam.width = LayoutParam.matchParent
     }
   }
 

@@ -18,7 +18,7 @@ class ProgressViewStyle : WidgetStyle {
     top := widget.paddingTop
     left := widget.paddingLeft
 
-    width := dpToPixel(20f)
+    width := dpToPixel(10f)
     g.brush = outlineColor
     g.pen = Pen { it.width = width }
 
@@ -27,7 +27,7 @@ class ProgressViewStyle : WidgetStyle {
       g.drawArc(top, left, w, h, i, 5)
     }
 
-    p.proVal += 0.2
+    p.proVal += 1.0
     if (p.proVal > 30f) {
       p.proVal -= 30f
     }

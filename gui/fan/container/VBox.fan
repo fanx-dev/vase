@@ -24,7 +24,7 @@ class VBox : WidgetGroup
     Float allWeight := 0f
 
     this.each |c, i|{
-      if (c.layoutParam.heightType == SizeType.matchParent) {
+      if (c.layoutParam.height == LayoutParam.matchParent) {
         allWeight += c.layoutParam.weight
       } else {
         size := c.bufferedPrefSize(-1, -1)
@@ -60,7 +60,7 @@ class VBox : WidgetGroup
       cw := size.w
       ch := size.h
       
-      if (c.layoutParam.heightType == SizeType.matchParent) {
+      if (c.layoutParam.height == LayoutParam.matchParent) {
         ch = (c.layoutParam.weight*weightSpace).toInt
       }
       y += ch + spacing

@@ -40,7 +40,7 @@ class Label : Widget
 class Toast : Label {
 
   new make() {
-    layoutParam.widthType = SizeType.wrapContent
+    layoutParam.width = LayoutParam.wrapContent
     this.layoutParam.hAlign = Align.center
     this.layoutParam.vAlign = Align.end
     layoutParam.offsetY = -50f

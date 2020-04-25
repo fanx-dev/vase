@@ -29,7 +29,7 @@ class ListView : ScrollBase
   new make(|This|? f := null)
   {
     if (f != null) f(this)
-    layoutParam.heightType = SizeType.matchParent
+    layoutParam.height = LayoutParam.matchParent
   }
 
   private Void init() {

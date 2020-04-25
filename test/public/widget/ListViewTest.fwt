@@ -20,7 +20,8 @@ class ListViewTest : BaseTestWin
       refreshTip = ProgressView {
               it.layoutParam.hAlign = Align.center
               //it.layoutParam.vAlign = Align.center
-              //it.layoutParam.
+              it.layoutParam.height = 100.0
+              it.layoutParam.width = 100.0
             }
     }
   }

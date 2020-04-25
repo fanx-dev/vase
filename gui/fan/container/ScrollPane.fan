@@ -83,8 +83,8 @@ abstract class ScrollBase : Pane
 
     doAdd(hbar)
     doAdd(vbar)
-    layoutParam.heightType = SizeType.matchParent
-    layoutParam.widthType = SizeType.matchParent
+    layoutParam.height = LayoutParam.matchParent
+    layoutParam.width = LayoutParam.matchParent
     padding = Insets(0, barSize.toInt, barSize.toInt, 0)
   }
 

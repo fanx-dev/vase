@@ -39,7 +39,7 @@ class MessageBox : VBox
         //this.shrinkAnim(200).start
       };
       it.text = "OK"
-      it.layoutParam.widthType = SizeType.matchParent
+      it.layoutParam.width = LayoutParam.matchParent
       it.useRenderCache = false
     }
 
@@ -51,7 +51,7 @@ class MessageBox : VBox
 //    this.layoutParam.posX.with { it.Align = 0.5f; anchor = 0.5f; offset = 0f }
 //    this.layoutParam.posY.with { it.parent = 0.5f; anchor = 0.5f; offset = 0f }
 
-    this.layoutParam.widthType = SizeType.wrapContent//dpToPixel(500f)
+    this.layoutParam.width = LayoutParam.wrapContent//dpToPixel(500f)
     padding = Insets(50)
   }
 

@@ -36,7 +36,7 @@ class ImageView : Widget
 
   new make(|This|? f := null)
   {
-    layoutParam.widthType = SizeType.wrapContent
+    layoutParam.width = LayoutParam.wrapContent
     if (f != null) f(this)
 
     if (image == null && uri != null) {
