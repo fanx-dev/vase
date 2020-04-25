@@ -99,6 +99,7 @@ class DownState : GestureState {
       if (distance > DisplayMetrics.dpToPixel(10f).toFloat) {
         ns := DragState(machine)
         machine.setCurrentState(ns, e)
+        e.consume
       } else {
         lastX = e.x
         lastY = e.y

@@ -86,6 +86,7 @@ class Frame : ContentPane
     width = 0
     height = 0
     this.useRenderCache = false
+    layoutParam.heightType = SizeType.matchParent
   }
 
   **

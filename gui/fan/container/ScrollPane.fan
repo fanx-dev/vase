@@ -30,6 +30,10 @@ abstract class ScrollBase : Pane
 
   @Transient
   private Animation? animation
+  
+  |Widget|? onRefresh
+  |Widget|? onLoadMore
+  Widget? refreshTip
 
   new make()
   {
@@ -197,6 +201,20 @@ abstract class ScrollBase : Pane
         animation.stop
       }
     }
+    else if (e.type == MotionEvent.moved) {
+        if (refreshTip != null) {
+          if (vbar.curPos < -dpToPixel(100f).toFloat) {
+            if (refreshTip.parent == null) {
+              this.add(refreshTip)
+              this.relayout
+            }
+          }
+          else if (refreshTip.parent != null) {
+            this.remove(refreshTip)
+            this.relayout
+          }
+        }
+    }
   }
 
   private Void startAnimation(Animation anim) {
@@ -229,6 +247,21 @@ abstract class ScrollBase : Pane
       vbar.setCurPos(pos, true, true)
       vbar.repaint
       e.consume
+    }
+    else if (e.type == GestureEvent.drop) {
+      if (vbar.isOverScroll) {
+        animatOverScroll
+        if (vbar.curPos < 0f) {
+           if (vbar.curPos < -dpToPixel(100f).toFloat) {
+             onRefresh?.call(this)
+             //echo("onRefresh")
+           }
+        }
+        else {
+           onLoadMore?.call(this)
+           //echo("onLoadMore")
+        }
+      }
     }
     else if (e.type == GestureEvent.fling) {
       if (vbar.isOverScroll) {
