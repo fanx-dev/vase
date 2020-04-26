@@ -14,13 +14,14 @@ class FrameLayoutTest : BaseTestWin
     Pane
     {
       it.id = "mainView"
+      layout.height = Layout.matchParent
       Button
       {
         it.id = "btn1"
         it.text = "btn1"
-        it.layoutParam.posX.offset = 800f
-        it.layoutParam.posY.offset = 500f
-        it.layoutParam.widthType = SizeType.wrapContent
+        it.layout.offsetX = 800f
+        it.layout.offsetY = 500f
+        it.layout.width = Layout.wrapContent
       },
       Button
       {
@@ -30,17 +31,18 @@ class FrameLayoutTest : BaseTestWin
       Button
       {
         it.text = "btn3"
-        it.layoutParam.widthType = SizeType.wrapContent
-        it.layoutParam.posX.with { it.parent = 1.0f; it.anchor = 1f; it.offset = -20f }
-        it.layoutParam.posY.with { it.parent = 1.0f; it.anchor = 1f; it.offset = -200f }
-        //it.layoutParam.hAlign = Align.end
-        //it.layoutParam.posX = 20f
-        //it.layoutParam.posY = 200f
+        it.layout.width = Layout.wrapContent
+        //it.layout.posX.with { it.parent = 1.0f; it.anchor = 1f; it.offset = -20f }
+        //it.layout.posY.with { it.parent = 1.0f; it.anchor = 1f; it.offset = -200f }
+        it.layout.hAlign = Align.end
+        it.layout.vAlign = Align.end
+        it.layout.offsetX = -20f
+        it.layout.offsetY = -200f
       },
       Button
       {
         it.text = "btn4"
-        it.layoutParam.widthType = SizeType.wrapContent
+        it.layout.width = Layout.wrapContent
         it.margin = Insets(220)
       },
     }

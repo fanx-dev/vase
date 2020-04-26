@@ -23,24 +23,24 @@ class LinearLayoutTest : BaseTestWin
       {
         it.id = "btn1"
         it.text = "btn1"
-        it.layoutParam.posX.offset = 800f
-        it.layoutParam.posY.offset = 500f
-        it.layoutParam.widthType = SizeType.wrapContent
+        it.layout.offsetX = 800f
+        it.layout.offsetY = 500f
+        it.layout.width = Layout.wrapContent
       },
       Button
       {
         it.id = "btn2"
         it.text = "btn2"
-        it.layoutParam.weight = 1.0f
-        it.layoutParam.heightType = SizeType.matchParent
-        it.layoutParam.widthType = SizeType.fixed
-        it.layoutParam.widthVal = 600f
+        it.layout.weight = 1.0f
+        it.layout.height = Layout.matchParent
+        //it.layout.width = SizeType.fixed
+        it.layout.width = 600f
       },
       Button
       {
         it.id = "btn3"
         it.text = "btn3"
-        it.layoutParam.widthType = SizeType.matchParent
+        it.layout.width = Layout.matchParent
       },
 
     }

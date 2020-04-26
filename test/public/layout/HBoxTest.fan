@@ -50,17 +50,17 @@ class HBoxTest : BaseTestWin
         Button
         {
           it.text = "btn1"
-          it.layoutParam.widthType = SizeType.wrapContent
+          it.layout.width = Layout.wrapContent
         },
         Button
         {
           it.text = "btn2"
-          it.layoutParam.widthType = SizeType.wrapContent
+          it.layout.width = Layout.wrapContent
         },
         Button
         {
           it.text = "btn3"
-          it.layoutParam.widthType = SizeType.wrapContent
+          it.layout.width = Layout.wrapContent
         },
       }
     }

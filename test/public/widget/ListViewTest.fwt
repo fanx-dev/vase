@@ -18,10 +18,10 @@ class ListViewTest : BaseTestWin
     return  ListView {
       model = SimpleListAdapter(list)
       refreshTip = ProgressView {
-              it.layoutParam.hAlign = Align.center
+              it.layout.hAlign = Align.center
               //it.layoutParam.vAlign = Align.center
-              it.layoutParam.height = 100.0
-              it.layoutParam.width = 100.0
+              it.layout.height = 100.0
+              it.layout.width = 100.0
             }
     }
   }

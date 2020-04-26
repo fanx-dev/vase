@@ -39,8 +39,8 @@ abstract class ScrollBase : Pane
   {
     clip = true
     //scroll bar
-    hbar = ScrollBar { vertical = false; it.barSize = this.barSize; it.layoutParam.ignore = true }
-    vbar = ScrollBar { vertical = true; it.barSize = this.barSize; it.layoutParam.ignore = true }
+    hbar = ScrollBar { vertical = false; it.barSize = this.barSize; it.layout.ignore = true }
+    vbar = ScrollBar { vertical = true; it.barSize = this.barSize; it.layout.ignore = true }
 
     hbar.onPosChanged.add |StateChangedEvent e|
     {
@@ -83,8 +83,8 @@ abstract class ScrollBase : Pane
 
     doAdd(hbar)
     doAdd(vbar)
-    layoutParam.height = LayoutParam.matchParent
-    layoutParam.width = LayoutParam.matchParent
+    layout.height = Layout.matchParent
+    layout.width = Layout.matchParent
     //padding = Insets(0, barSize.toInt, barSize.toInt, 0)
     padding = Insets(0, 8, 8, 0)
   }

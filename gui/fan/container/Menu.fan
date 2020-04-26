@@ -18,8 +18,8 @@ class Menu : HBox
   new make()
   {
     //vertical = false
-    layoutParam.height = LayoutParam.wrapContent
-    layoutParam.width = LayoutParam.matchParent
+    layout.height = Layout.wrapContent
+    layout.width = Layout.matchParent
   }
 
   Void close()
@@ -76,7 +76,7 @@ class MenuItem : ButtonBase
     list = MenuList()
     list.owner = this
     padding = Insets(20)
-    this.layoutParam.width = LayoutParam.wrapContent
+    this.layout.width = Layout.wrapContent
   }
 
   private Menu? rootMenu()
@@ -121,13 +121,13 @@ class MenuItem : ButtonBase
       rc := this.posOnWindow(pos)
       if (parent is Menu)
       {
-        list.layoutParam.offsetX = pixelToDp(pos.x)
-        list.layoutParam.offsetY = pixelToDp(pos.y + this.height)
+        list.layout.offsetX = pixelToDp(pos.x)
+        list.layout.offsetY = pixelToDp(pos.y + this.height)
       }
       else
       {
-        list.layoutParam.offsetX = pixelToDp(pos.x + this.width)
-        list.layoutParam.offsetY = pixelToDp(pos.y)
+        list.layout.offsetX = pixelToDp(pos.x + this.width)
+        list.layout.offsetY = pixelToDp(pos.y)
       }
     }
 
@@ -137,8 +137,8 @@ class MenuItem : ButtonBase
   @Operator virtual This add(MenuItem item)
   {
     list.add(item)
-    //item.layoutParam.widthType = SizeType.fixed
-    item.layoutParam.width = 500f
+    //item.layout.widthType = SizeType.fixed
+    item.layout.width = 500f
     item.padding = Insets(1)
     item.topLevel = false
     return this

@@ -29,8 +29,8 @@ class HBox : WidgetGroup
     Float allWeight := 0f
 
     this.each |c, i|{
-      if (c.layoutParam.width == LayoutParam.matchParent) {
-        allWeight += c.layoutParam.weight
+      if (c.layout.width == Layout.matchParent) {
+        allWeight += c.layout.weight
       } else {
         size := c.bufferedPrefSize(-1, -1)
         spaceUsage += size.w
@@ -73,12 +73,12 @@ class HBox : WidgetGroup
 
       cw := size.w
       ch := size.h
-      if (c.layoutParam.width == LayoutParam.matchParent) {
-        cw = (c.layoutParam.weight*weightSpace).toInt
+      if (c.layout.width == Layout.matchParent) {
+        cw = (c.layout.weight*weightSpace).toInt
       }
       x += cw + spacing
     
-      c.layout(cx, cy, cw, ch, force)
+      c.setLayout(cx, cy, cw, ch, force)
     }
 
   }

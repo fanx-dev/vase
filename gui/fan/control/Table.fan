@@ -26,7 +26,7 @@ class Table : ScrollBase
   @Transient
   internal WidgetGroup header := HBox {
     //it.vertical = false
-    it.layoutParam.width = LayoutParam.wrapContent
+    it.layout.width = Layout.wrapContent
   }
 
   new make(|This|? f := null)
@@ -45,10 +45,10 @@ class Table : ScrollBase
       btn.styleClass = "tableHeader"
       w := model.prefWidth(c) ?: colWidth
       colWidthCache.add(w)
-      //btn.layoutParam.widthType = SizeType.fixed
-      btn.layoutParam.width = pixelToDp(w)
-      //btn.layoutParam.heightType = SizeType.fixed
-      btn.layoutParam.height = rowHeight
+      //btn.layout.widthType = SizeType.fixed
+      btn.layout.width = pixelToDp(w)
+      //btn.layout.heightType = SizeType.fixed
+      btn.layout.height = rowHeight
       header.add(btn)
     }
   }

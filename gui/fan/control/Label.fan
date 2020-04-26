@@ -40,12 +40,12 @@ class Label : Widget
 class Toast : Label {
 
   new make() {
-    layoutParam.width = LayoutParam.wrapContent
-    this.layoutParam.hAlign = Align.center
-    this.layoutParam.vAlign = Align.end
-    layoutParam.offsetY = -50f
-//    layoutParam.posX.with { it.parent = 0.5f; it.anchor = 0.5f; it.offset = 0f }
-//    layoutParam.posY.with { it.parent = 0.8f; it.anchor = 0.5f; it.offset = 0f }
+    layout.width = Layout.wrapContent
+    this.layout.hAlign = Align.center
+    this.layout.vAlign = Align.end
+    layout.offsetY = -50f
+//    layout.posX.with { it.parent = 0.5f; it.anchor = 0.5f; it.offset = 0f }
+//    layout.posY.with { it.parent = 0.8f; it.anchor = 0.5f; it.offset = 0f }
     padding = Insets(20)
   }
 

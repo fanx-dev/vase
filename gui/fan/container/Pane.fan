@@ -24,15 +24,15 @@ class Pane : WidgetGroup
 
     this.each |Widget c|
     {
-      if (!c.layoutParam.ignore) {
+      if (!c.layout.ignore) {
         size := c.bufferedPrefSize(hintsW, hintsH)
-        posX := c.layoutParam.prefX(this, hintsW, size.w)
-        posY := c.layoutParam.prefY(this, hintsH, size.h)
+        posX := c.layout.prefX(this, hintsW, size.w)
+        posY := c.layout.prefY(this, hintsH, size.h)
 
         cx := x + posX
         cy := y + posY
 
-        c.layout(cx, cy, size.w, size.h, force)
+        c.setLayout(cx, cy, size.w, size.h, force)
       }
     }
   }
@@ -42,13 +42,13 @@ class Pane : WidgetGroup
     Int maxY := 0
     this.each |c|
     {
-      if (!c.layoutParam.ignore) {
+      if (!c.layout.ignore) {
         size := c.bufferedPrefSize()
         x := size.w
         y := size.h
 
-        offsetX := dpToPixel(c.layoutParam.offsetX)
-        offsetY := dpToPixel(c.layoutParam.offsetY)
+        offsetX := dpToPixel(c.layout.offsetX)
+        offsetY := dpToPixel(c.layout.offsetY)
         if (offsetX > 0) {
           x += offsetX
         }

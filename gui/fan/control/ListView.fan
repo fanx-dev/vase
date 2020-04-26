@@ -29,7 +29,7 @@ class ListView : ScrollBase
   new make(|This|? f := null)
   {
     if (f != null) f(this)
-    layoutParam.height = LayoutParam.matchParent
+    layout.height = Layout.matchParent
   }
 
   private Void init() {
@@ -94,12 +94,12 @@ class ListView : ScrollBase
     {
       view := getView(i)
       tempChildren.add(view)
-      view.layoutParam.ignore = true
+      view.layout.ignore = true
       doAdd(view)
       ++count
 
       itemH := view.bufferedPrefSize().h
-      view.layout(x, y, w, itemH, false)
+      view.setLayout(x, y, w, itemH, false)
       y += itemH
       rowHeight = itemH.toFloat
 

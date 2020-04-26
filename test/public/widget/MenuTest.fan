@@ -51,10 +51,10 @@ class MenuTest : BaseTestWin
   }
 
   protected override Void init(Frame view) {
-    view.layoutParam.widthType = SizeType.fixed
-    view.layoutParam.heightType = SizeType.fixed
-    view.layoutParam.widthVal = view.pixelToDp(600)
-    view.layoutParam.heightVal = view.pixelToDp(600)
+    //view.layout.widthType = SizeType.fixed
+    //view.layout.heightType = SizeType.fixed
+    view.layout.width = view.pixelToDp(600)
+    view.layout.height = view.pixelToDp(600)
   }
 
   override Void main() { super.main }

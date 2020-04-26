@@ -31,7 +31,7 @@ enum class Align {
 **
 @Js
 @Serializable
-virtual class LayoutParam {
+virtual class Layout {
 
   **
   ** fill parent or others define by layout pane
@@ -141,7 +141,7 @@ virtual class LayoutParam {
   ** Return if obj is same Point value.
   override Bool equals(Obj? obj)
   {
-    that := obj as LayoutParam
+    that := obj as Layout
     if (that == null) return false
     return this.width == that.width
       && this.height == that.height

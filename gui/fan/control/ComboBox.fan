@@ -63,8 +63,8 @@ class ComboBox : ButtonBase
       button = ButtonBase {
         it.text = name;
         it.styleClass = "menuItem";
-        it.layoutParam.width = LayoutParam.matchParent
-        //it.layoutParam.widthVal = it.pixelToDp()
+        it.layout.width = Layout.matchParent
+        //it.layout.widthVal = it.pixelToDp()
         it.onAction.add { select(button, i) }
       }
       pane.add(button)
@@ -77,10 +77,10 @@ class ComboBox : ButtonBase
     pos := Coord(0, 0)
     rc := posOnWindow(pos)
     pane.spacing = 0f
-    //pane.layoutParam.widthType = SizeType.fixed
-    pane.layoutParam.width = pixelToDp(this.width)
-    pane.layoutParam.offsetX = pixelToDp(pos.x)
-    pane.layoutParam.offsetY = pixelToDp(pos.y + height)
+    //pane.layout.widthType = SizeType.fixed
+    pane.layout.width = pixelToDp(this.width)
+    pane.layout.offsetX = pixelToDp(pos.x)
+    pane.layout.offsetY = pixelToDp(pos.y + height)
     pane.focus
 
     pane.onFocusChanged.add |e| {

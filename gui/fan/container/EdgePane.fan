@@ -21,8 +21,8 @@ using vaseGraphics
 class EdgePane : Pane
 {
   new make() {
-    layoutParam.height = LayoutParam.matchParent
-    layoutParam.width = LayoutParam.matchParent
+    layout.height = Layout.matchParent
+    layout.width = Layout.matchParent
   }
 //////////////////////////////////////////////////////////////////////////
 // Children
@@ -102,14 +102,14 @@ class EdgePane : Pane
     if (top != null)
     {
       prefh := top.bufferedPrefSize().h
-      top.layout(x, y, w, prefh, force)
+      top.setLayout(x, y, w, prefh, force)
       y += prefh; h -= prefh
     }
 
     if (bottom != null)
     {
       prefh := bottom.bufferedPrefSize().h
-      bottom.layout(x, y+h-prefh, w, prefh, force)
+      bottom.setLayout(x, y+h-prefh, w, prefh, force)
       h -= prefh
     }
 
@@ -117,7 +117,7 @@ class EdgePane : Pane
     {
       prefw := left.bufferedPrefSize().w
       prefh := h
-      left.layout(x, y, prefw, prefh, force)
+      left.setLayout(x, y, prefw, prefh, force)
       x += prefw; w -= prefw
     }
 
@@ -125,15 +125,15 @@ class EdgePane : Pane
     {
       prefw := right.bufferedPrefSize().w
       prefh := h
-      right.layout(x+w-prefw, y, prefw, prefh, force)
+      right.setLayout(x+w-prefw, y, prefw, prefh, force)
       w -= prefw
     }
 
     center := this.center
     if (center != null)
     {
-      //mg := center.layoutParam.margin
-      center.layout(x, y, w, h, force)
+      //mg := center.layout.margin
+      center.setLayout(x, y, w, h, force)
     }
   }
 

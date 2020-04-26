@@ -81,7 +81,7 @@ abstract class Widget
   **
   Insets margin := Insets.defVal
 
-  LayoutParam layoutParam := LayoutParam()
+  Layout layout := Layout()
 
   @Transient
   private Style? style := null
@@ -353,8 +353,8 @@ abstract class Widget
     Int h := -1
 
     //using layout size
-    w = (layoutParam.prefWidth(this, hintsWidth, -1))
-    h = (layoutParam.prefHeight(this, hintsHeight, -1))
+    w = (layout.prefWidth(this, hintsWidth, -1))
+    h = (layout.prefHeight(this, hintsHeight, -1))
 
     //get layout fail
     if (w < 0 || h < 0) {
@@ -410,7 +410,7 @@ abstract class Widget
   **
   ** layout the children
   **
-  Void layout(Int x, Int y, Int w, Int h, Bool force) {
+  Void setLayout(Int x, Int y, Int w, Int h, Bool force) {
     this.x = x + dpToPixel(margin.left.toFloat)
     this.y = y + dpToPixel(margin.top.toFloat)
     this.width = w - dpToPixel((margin.left + margin.right).toFloat)

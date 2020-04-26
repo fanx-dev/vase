@@ -123,7 +123,7 @@ internal class WinView : View
     }
 
     if (layoutDirty > 0) {
-      curFrame.layout(0, 0, s.w, s.h, layoutDirty>1)
+      curFrame.setLayout(0, 0, s.w, s.h, layoutDirty>1)
       layoutDirty = 0
 
       //echo("layout $s")

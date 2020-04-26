@@ -55,7 +55,7 @@ class EditText : Widget, TextInput
 
   new make()
   {
-    //this.layoutParam.width = font.height * 10
+    //this.layout.width = font.height * 10
     onFocusChanged.add |e| {
       focused := e.data
       if (focused)

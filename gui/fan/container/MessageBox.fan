@@ -39,19 +39,19 @@ class MessageBox : VBox
         //this.shrinkAnim(200).start
       };
       it.text = "OK"
-      it.layoutParam.width = LayoutParam.matchParent
+      it.layout.width = Layout.matchParent
       it.useRenderCache = false
     }
 
     this.add(label)
     this.add(btn)
-    this.layoutParam.hAlign = Align.center
-    this.layoutParam.vAlign = Align.center
+    this.layout.hAlign = Align.center
+    this.layout.vAlign = Align.center
 
-//    this.layoutParam.posX.with { it.Align = 0.5f; anchor = 0.5f; offset = 0f }
-//    this.layoutParam.posY.with { it.parent = 0.5f; anchor = 0.5f; offset = 0f }
+//    this.layout.posX.with { it.Align = 0.5f; anchor = 0.5f; offset = 0f }
+//    this.layout.posY.with { it.parent = 0.5f; anchor = 0.5f; offset = 0f }
 
-    this.layoutParam.width = LayoutParam.wrapContent//dpToPixel(500f)
+    this.layout.width = Layout.wrapContent//dpToPixel(500f)
     padding = Insets(50)
   }
 

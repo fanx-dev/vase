@@ -86,7 +86,7 @@ class Frame : ContentPane
     width = 0
     height = 0
     this.useRenderCache = false
-    layoutParam.height = LayoutParam.matchParent
+    layout.height = Layout.matchParent
   }
 
   **
@@ -121,8 +121,8 @@ class Frame : ContentPane
       doAdd(topLayer)
     }
 //    moveToTop(topLayerGroup)
-    topLayer.layoutParam.width = LayoutParam.matchParent
-    topLayer.layoutParam.height = LayoutParam.matchParent
+    topLayer.layout.width = Layout.matchParent
+    topLayer.layout.height = Layout.matchParent
     topLayer.width = this.width
     topLayer.height = this.height
     topLayer.x = 0
