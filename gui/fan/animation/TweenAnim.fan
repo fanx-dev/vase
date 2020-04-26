@@ -15,8 +15,8 @@ using vaseMath
 class TweenAnimation : Animation {
   Widget? widget
 
-  protected override Void onFinised() {
-    super.onFinised
+  protected override Void onFinished() {
+    super.onFinished
     widget.alpha = null
     widget.transform = null
   }

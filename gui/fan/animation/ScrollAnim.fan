@@ -17,6 +17,8 @@ class ScrollAnimChannel : AnimChannel {
   protected Bool allowOverScroll := false
 
   private Bool isFinished := false
+  
+  override Bool isFinish() { isFinished }
 
   protected virtual Void init() {
     backwards = (startV < 0f)
@@ -71,6 +73,7 @@ class OverScrollAnimChannel : ScrollAnimChannel {
   private Float startPos := 0f
 
   protected override Void init() {
+    acceleration = -0.01f
     startV = 0f
     if (target.curPos > 0f) {
       acceleration = -acceleration
@@ -82,7 +85,7 @@ class OverScrollAnimChannel : ScrollAnimChannel {
   }
 
   protected override Bool isEnd() {
-    //echo("backwards:$backwards, startPos:$startPos, target.curPos:$target.curPos")
+    //echo("backwards:$backwards, startPos:$startPos, target.curPos:$target.curPos, acc:$acceleration")
     if (backwards) {
       if (target.curPos <= startPos) {
         target.setCurPos(startPos, true)

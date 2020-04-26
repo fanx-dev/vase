@@ -24,7 +24,7 @@ abstract class ScrollBase : Pane
   @Transient
   virtual Int offsetY := 0
 
-  Float barSize := 60f
+  protected Float barSize := 60f
 
   Bool autoAdjustChildren := false
 
@@ -85,7 +85,8 @@ abstract class ScrollBase : Pane
     doAdd(vbar)
     layoutParam.height = LayoutParam.matchParent
     layoutParam.width = LayoutParam.matchParent
-    padding = Insets(0, barSize.toInt, barSize.toInt, 0)
+    //padding = Insets(0, barSize.toInt, barSize.toInt, 0)
+    padding = Insets(0, 8, 8, 0)
   }
 
   protected virtual Void onViewportChanged() {}

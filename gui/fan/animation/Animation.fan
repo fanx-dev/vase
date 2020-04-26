@@ -13,6 +13,8 @@ using concurrent
 @Js
 mixin AnimChannel {
   abstract Void update(Int elapsedTime, Int frameTime, Float percent, Float blendWeight)
+  
+  virtual Bool isFinish() { false }
 }
 
 @Js
@@ -54,10 +56,10 @@ class Animation
   }
 
   protected virtual Void onStop() {
-    onFinised
+    onFinished
   }
 
-  protected virtual Void onFinised() {
+  protected virtual Void onFinished() {
     this.isRuning = false
     whenDone.fire(null)
     isFinished = true
@@ -85,7 +87,7 @@ class Animation
       } else {
         //echo("Finish: $elapsed > $duration")
         updateChannel(elapsed, frameTime, 1.0f)
-        onFinised
+        onFinished
         return
       }
     }
@@ -95,9 +97,17 @@ class Animation
   }
 
   private Void updateChannel(Int elapsed, Int frameTime, Float percent) {
+    isFinish := true
     for (i:=0; i<this.channelList.size; ++i) {
       channel := this.channelList[i]
       channel.update(elapsed, frameTime, percent, this.blendWeight)
+      if (!channel.isFinish) {
+        isFinish = false
+      }
+    }
+    
+    if (isFinish) {
+      onFinished
     }
   }
 }
