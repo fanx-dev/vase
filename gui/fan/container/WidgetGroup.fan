@@ -152,7 +152,7 @@ abstract class WidgetGroup : Widget
     px := e.relativeX
     py := e.relativeY
     children.eachr {
-      if (it.enabled && it.visible && !e.consumed) {
+      if (it.enabled && !e.consumed) {
         e.relativeX = px - this.x
         e.relativeY = py - this.y
         if (it.contains(e.relativeX, e.relativeY)) {
@@ -175,7 +175,7 @@ abstract class WidgetGroup : Widget
     py := e.relativeY
     for (i:=children.size-1; i>=0 && i<children.size; --i) {
       t := children.get(i)
-      if (t.enabled && t.visible && !e.consumed) {
+      if (t.enabled && !e.consumed) {
         e.relativeX = px - this.x
         e.relativeY = py - this.y
         if (t.contains(e.relativeX, e.relativeY)) {
@@ -192,7 +192,7 @@ abstract class WidgetGroup : Widget
     if (e.consumed) return
     
     children.eachr {
-      if (it.enabled) {
+      if (it.enabled && !e.consumed) {
         it.keyEvent(e)
       }
     }

@@ -90,7 +90,7 @@ class ComboBox : ButtonBase
     }
 
     overlayer.relayout
-    root.modal = true
+    //root.modal = true
   }
 
   Void hide()
@@ -100,7 +100,7 @@ class ComboBox : ButtonBase
     p.remove(list)
     root := this.getRootView
     root.focusIt(null)
-    root.modal = false
+    //root.modal = false
     p.repaint
     list = null
   }

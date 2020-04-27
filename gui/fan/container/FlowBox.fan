@@ -11,7 +11,7 @@ using vaseWindow
 
 @Js
 @Serializable { collection = true }
-class FlowLayout : WidgetGroup
+class FlowBox : WidgetGroup
 {
   Int spacing := 0
 

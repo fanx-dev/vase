@@ -26,7 +26,7 @@ class StyleManager
       RadioButton# : RadioButtonStyle(),
       ScrollBar# : ScrollBarStyle(),
       SliderBar# : SliderBarStyle(),
-      MessageBox# : MessageBoxStyle(),
+      MessageBox# : PaneStyle(),
       ComboBox# : ComboBoxStyle(),
       ButtonBase# : ButtonBaseStyle(),
       Table# : TableStyle(),
