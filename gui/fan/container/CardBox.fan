@@ -26,6 +26,7 @@ class CardBox : Pane
     cur = getChild(i)
     cur.visible = true
     cur.enabled = true
+    this.repaint
   }
   
   @Operator override This add(Widget child) {

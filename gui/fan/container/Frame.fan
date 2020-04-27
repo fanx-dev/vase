@@ -63,7 +63,7 @@ class Frame : ContentPane
   ** has modal dialog
   **
   @Transient
-  Bool modal := false
+  Int modal := 0
 
   **
   ** root background color
@@ -184,7 +184,7 @@ class Frame : ContentPane
     g.transform(Transform2D.make.translate(content.x.toFloat, content.y.toFloat))
     content.paint(g)
 
-    if (modal) {
+    if (modal > 1) {
       //g.brush = Color.fromArgb(100, 0, 0, 0)
       g.brush = Color.black
       g.alpha = 100
@@ -219,7 +219,7 @@ class Frame : ContentPane
     }
 
     if (topLayer === w.parent) {
-      modal = false
+      modal = 0
     }
   }
 
@@ -261,9 +261,10 @@ class Frame : ContentPane
   }
 
   protected override Void gestureEvent(GestureEvent e) {
-    if (modal) {
+    if (modal > 0) {
       topLayer.gestureEvent(e)
-    } else {
+    }
+    if (modal < 2 && !e.consumed) {
       super.gestureEvent(e)
     }
   }
@@ -287,9 +288,11 @@ class Frame : ContentPane
       return
     }
 
-    if (modal) {
+    if (modal > 0) {
       topLayer.motionEvent(e)
-    } else {
+    }
+    
+    if (modal < 2 && !e.consumed && mouseOverWidget == null){
       super.motionEvent(e)
     }
     //echo("type$e.type, x$e.x,y$e.y")

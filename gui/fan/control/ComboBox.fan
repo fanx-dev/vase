@@ -16,15 +16,15 @@ using vaseWindow
 class ComboBox : ButtonBase
 {
   Obj[] items := [,]
-  Int selectedIndex := -1
+  Int selIndex := -1
   {
     set
     {
       val := it
-      if (&selectedIndex == val) return
-      e := StateChangedEvent (&selectedIndex, val, #selectedIndex, this )
+      if (&selIndex == val) return
+      e := StateChangedEvent (&selIndex, val, #selIndex, this )
       onStateChanged.fire(e)
-      &selectedIndex = val
+      &selIndex = val
       this.text = items[val].toStr
     }
   }
@@ -40,7 +40,7 @@ class ComboBox : ButtonBase
 
   private Void select(ButtonBase btn, Int i)
   {
-    selectedIndex = i
+    selIndex = i
     this.repaint
     hide
   }
@@ -90,7 +90,7 @@ class ComboBox : ButtonBase
     }
 
     overlayer.relayout
-    //root.modal = true
+    root.modal = 1
   }
 
   Void hide()
@@ -100,7 +100,7 @@ class ComboBox : ButtonBase
     p.remove(list)
     root := this.getRootView
     root.focusIt(null)
-    //root.modal = false
+    root.modal = 0
     p.repaint
     list = null
   }

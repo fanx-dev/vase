@@ -30,7 +30,7 @@ class WinTest
         Button { id = "button"; text = "Hello Button" },
         ComboBox {
           it.items = ["comboBox1","comboBox2","comboBox3","comboBox4"]
-          selectedIndex = 0
+          selIndex = 0
         },
         Label { id = "label"; text = "Label"; },
         //ImageView { id = "image";  image = ConstImage(`fan://icons/x16/folder.png`) },

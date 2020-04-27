@@ -61,7 +61,7 @@ class MessageBox : VBox
     overlayer := root.topOverlayer
     overlayer.add(this)
     this.focus
-    root.modal = true
+    root.modal = 2
     overlayer.relayout
     /*
     a := TweenAnimation() {

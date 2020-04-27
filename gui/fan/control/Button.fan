@@ -56,7 +56,7 @@ class ButtonBase : Label
 
   protected override Void motionEvent(MotionEvent e)
   {
-//    echo("e.type $e.type")
+    //echo("e.type $e.type, $id")
     super.motionEvent(e)
 
     if (state == mouseOut) {
