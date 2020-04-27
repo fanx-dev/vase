@@ -45,13 +45,13 @@ internal class MenuList : VBox
 @Js
 class MenuItem : ButtonBase
 {
-  internal MenuList list
+  internal MenuList subMenuList
   private Bool topLevel := true
 
   new make()
   {
     this.onAction.add {
-      if (list.childrenSize > 0) {
+      if (subMenuList.childrenSize > 0) {
         expand(getRootView.topOverlayer)
         //getRootView.modal = true
       }
@@ -65,7 +65,7 @@ class MenuItem : ButtonBase
       if (!topLevel && e.field == ButtonBase#state) {
         newVal := ((Int)e.newValue)
         if (newVal == ButtonBase.mouseOver) {
-          if (list.childrenSize > 0) {
+          if (subMenuList.childrenSize > 0) {
             expand(getRootView.topOverlayer)
             //getRootView.modal = true
           }
@@ -73,8 +73,8 @@ class MenuItem : ButtonBase
       }
     }
 
-    list = MenuList()
-    list.owner = this
+    subMenuList = MenuList()
+    subMenuList.owner = this
     padding = Insets(20)
     this.layout.width = Layout.wrapContent
   }
@@ -104,39 +104,39 @@ class MenuItem : ButtonBase
     }
   }
 
-  Void expand(WidgetGroup group)
+  Void expand(WidgetGroup layer)
   {
-    if (list.parent != null)
+    if (subMenuList.parent != null)
     {
-      list.detach
+      subMenuList.detach
     }
     else
     {
       //reset
-      group.removeAll
-      addParentTo(group)
+      layer.removeAll
+      addParentTo(layer)
 
-      group.add(list)
+      layer.add(subMenuList)
       pos := Coord(0, 0)
       rc := this.posOnWindow(pos)
       if (parent is Menu)
       {
-        list.layout.offsetX = pixelToDp(pos.x)
-        list.layout.offsetY = pixelToDp(pos.y + this.height)
+        subMenuList.layout.offsetX = pixelToDp(pos.x)
+        subMenuList.layout.offsetY = pixelToDp(pos.y + this.height)
       }
       else
       {
-        list.layout.offsetX = pixelToDp(pos.x + this.width)
-        list.layout.offsetY = pixelToDp(pos.y)
+        subMenuList.layout.offsetX = pixelToDp(pos.x + this.width)
+        subMenuList.layout.offsetY = pixelToDp(pos.y)
       }
     }
 
-    group.relayout
+    layer.relayout
   }
 
   @Operator virtual This add(MenuItem item)
   {
-    list.add(item)
+    subMenuList.add(item)
     //item.layout.widthType = SizeType.fixed
     item.layout.width = 500f
     item.padding = Insets(1)

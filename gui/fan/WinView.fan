@@ -109,6 +109,21 @@ internal class WinView : View
     //echo("popFrame $frame")
     return frame
   }
+  
+  private Void update() {
+    if (layoutDirty > 0) {
+      curFrame.setLayout(0, 0, width, height, layoutDirty>1)
+      layoutDirty = 0
+
+      //echo("layout $s")
+
+      if (!curFrame.inited) {
+        curFrame.inited = true
+        curFrame.onMounted
+        curFrame.onOpened.fire(null)
+      }
+    }
+  }
 
   **
   ** do paint at here
@@ -121,19 +136,7 @@ internal class WinView : View
       //echo("layout $s")
       layoutDirty = 2
     }
-
-    if (layoutDirty > 0) {
-      curFrame.setLayout(0, 0, s.w, s.h, layoutDirty>1)
-      layoutDirty = 0
-
-      //echo("layout $s")
-
-      if (!curFrame.inited) {
-        curFrame.inited = true
-        curFrame.onMounted
-        curFrame.onOpened.fire(null)
-      }
-    }
+    update
 
     oldFrame?.onUpdate
     if (!frameOut && oldFrame != null) {
@@ -153,6 +156,7 @@ internal class WinView : View
   }
 
   override Void onMotionEvent(MotionEvent e) {
+    update
     if (oldFrame == null) curFrame.motionEvent(e)
     if (!e.consumed) {
       gesture.onEvent(e)
