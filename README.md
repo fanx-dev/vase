@@ -3,7 +3,7 @@
 A cross-platform framework for creating GUI app.
 
 ### Feature
-- Design for mobile with fat animation
+- Mobile first UI toolkit
 - Cross-platform: Android/iOS/Windows/MacOS/Browser
 - 3D Graphics by OpenGL/WebGL
 
