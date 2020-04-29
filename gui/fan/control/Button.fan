@@ -75,7 +75,7 @@ class ButtonBase : Label
 
   override protected Void clicked() {
     try {
-      onClicked?.call(this)
+      onClickCallback?.call(this)
     } catch (Err e) {
       e.trace
     }
@@ -102,5 +102,6 @@ class Button : ButtonBase
 {
   new make() {
     padding = Insets(25)
+    textAlign = Align.center
   }
 }

@@ -15,6 +15,8 @@ using vaseWindow
 @Js
 class Label : Widget
 {
+  Align textAlign := Align.begin
+  
   Str text := "Label" {
     set {
       &text = it

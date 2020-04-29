@@ -19,6 +19,10 @@ class ProgressViewTest : BaseTestWin
       ProgressView {
         it.id = "ProgressView"
       },
+      ProgressView {
+        it.style = "progressBar"
+        it.value = 0.3 
+      },
     }
   }
 }

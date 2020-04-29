@@ -43,7 +43,7 @@ class MenuTest : BaseTestWin
           it.text = "About"
           it.onAction.add
           {
-            MessageBox { it.label.text = "hello world" }.show(root)
+            Toast { it.text = "hello world" }.show(root)
           }
         },
       },

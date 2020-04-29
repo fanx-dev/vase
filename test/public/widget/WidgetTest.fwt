@@ -23,7 +23,7 @@ class WidgetTest : BaseTestWin
       padding = Insets(50)
       layout.height = Layout.matchParent
       spacing = 15f
-      Button { id = "button"; text = "Hello Button" },
+      Button { id = "button"; text = "Hello Button"; style = "flatButton" },
       ComboBox {
         it.items = ["comboBox1","comboBox2","comboBox3","comboBox4","comboBox5"]
         selIndex = 0
@@ -46,8 +46,7 @@ class WidgetTest : BaseTestWin
       label.moveInAnim(Direction.down).start
     }
     Button btn := root.findById("button")
-    btn.onAction.add
-    {
+    btn.onClick {
       msg := Toolkit.cur.density.toStr + "," + root.width
       Toast { it.text = "msg: $msg" }.show(root)
     }

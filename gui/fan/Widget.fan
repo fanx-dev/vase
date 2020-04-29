@@ -25,12 +25,12 @@ abstract class Widget
   **
   ** A name for style
   **
-  Str styleClass := ""
+  Str style := ""
   {
     set
     {
-      fireStateChange(&styleClass, it, #styleClass)
-      &styleClass = it
+      fireStateChange(&style, it, #style)
+      &style = it
     }
   }
 
@@ -84,11 +84,15 @@ abstract class Widget
   Layout layout := Layout()
 
   @Transient
-  private Style? style := null
+  private Style? styleCache := null
   
   @Transient
-  protected |Widget|? onClicked := null
-  Void onClick(|Widget| c) { onClicked =  c }
+  protected |Widget|? onClickCallback := null
+  Void onClick(|Widget| c) { onClickCallback =  c }
+  
+  @Transient
+  protected |Widget|? onLongPressCallback := null
+  Void onLongPress(|Widget| c) { onLongPressCallback =  c }
 
 //////////////////////////////////////////////////////////////////////////
 // State
@@ -215,9 +219,14 @@ abstract class Widget
   ** process gesture event
   **
   protected virtual Void gestureEvent(GestureEvent e) {
-    if (onClicked != null && e.type == GestureEvent.click) {
+    if (onClickCallback != null && e.type == GestureEvent.click) {
       this.focus
       clicked
+      e.consume
+    }
+    else if (onLongPressCallback != null && e.type == GestureEvent.longPress) {
+      this.focus
+      onLongPressCallback.call(this)
       e.consume
     }
   }
@@ -225,7 +234,7 @@ abstract class Widget
   protected virtual Void clicked() {
     try {
       this.scaleAnim(0.95).start
-      onClicked?.call(this)
+      onClickCallback?.call(this)
     } catch (Err e) {
       e.trace
     }
@@ -297,10 +306,10 @@ abstract class Widget
   Float pixelToDp(Int d) { DisplayMetrics.pixelToDp(d) }
 
   protected Style getStyle() {
-    if (style == null) {
-      style = getRootView.findStyle(this)
+    if (styleCache == null) {
+      styleCache = getRootView.findStyle(this)
     }
-    return style
+    return styleCache
   }
 
   protected virtual Void doPaint(Graphics g) {

@@ -22,14 +22,34 @@ class ProgressViewStyle : WidgetStyle {
     g.brush = outlineColor
     g.pen = Pen { it.width = width }
 
-    Int i := p.proVal.toInt
-    for (; i<=360; i+=30) {
-      g.drawArc(top, left, w, h, i, 5)
+    s := w.min(h)
+    Int i := p.value.toInt
+    step := 60
+    for (; i<=360; i+=step) {
+      g.drawArc(top, left, s, s, i, 15)
     }
 
-    p.proVal += 1.0
-    if (p.proVal > 30f) {
-      p.proVal -= 30f
+    p.value += 1.0
+    if (p.value > step.toFloat) {
+      p.value -= step.toFloat
     }
+  }
+}
+
+@Js
+class ProgressBarStyle : WidgetStyle {
+  override Void doPaint(Widget widget, Graphics g) {
+    ProgressView p := widget
+    Int w := widget.contentWidth
+    Int h := widget.contentHeight
+    x := widget.paddingTop
+    y := widget.paddingLeft
+
+    g.brush = background
+    g.fillRect(x, y, w, h)
+    
+    w2 := (w * p.value).toInt
+    g.brush = foreground
+    g.fillRect(x, y, w2, h)
   }
 }

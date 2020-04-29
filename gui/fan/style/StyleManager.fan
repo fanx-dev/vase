@@ -26,7 +26,7 @@ class StyleManager
       RadioButton# : RadioButtonStyle(),
       ScrollBar# : ScrollBarStyle(),
       SliderBar# : SliderBarStyle(),
-      MessageBox# : PaneStyle(),
+      AlertDialog# : PaneStyle(),
       ComboBox# : ComboBoxStyle(),
       ButtonBase# : ButtonBaseStyle(),
       Table# : TableStyle(),
@@ -44,6 +44,8 @@ class StyleManager
     styleClassMap["menuItem"] = MenuItemStyle()
     styleClassMap["tableHeader"] = TableHeaderStyle()
     styleClassMap["pane"] = PaneStyle()
+    styleClassMap["flatButton"] = FlatButtonStyle()
+    styleClassMap["progressBar"] = ProgressBarStyle()
   }
 
   private Style? findByType(Type type) {
@@ -63,7 +65,7 @@ class StyleManager
     s := idMap.get(widget.id)
     if (s != null) return s
 
-    s = styleClassMap.get(widget.styleClass)
+    s = styleClassMap.get(widget.style)
     if (s != null) return s
 
     s = findByType(widget.typeof)

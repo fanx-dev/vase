@@ -13,38 +13,49 @@ using vaseWindow
 ** MessageBox
 **
 @Js
-class MessageBox : VBox
+class AlertDialog : VBox
 {
   Label label { private set }
+  
+  |Bool|? onAction
 
-  new make()
+  new make(Str msg, Str okText := "OK", Str? cancelText := null)
   {
     label = Label {
       it.id = "messageBox_msg"
-      it.text = "messageBox"
-      it.useRenderCache = false
+      it.text = msg
       it.margin = Insets(20)
+      it.textAlign = Align.center
     }
-    btn := Button {
-      it.id = "messageBox_ok"
-      onAction.add {
-        /*
-        a := TweenAnimation() {
-          AlphaAnimChannel { from = 1f; to = 0f },
+    
+    hb := HBox {
+        it.spacing = 80f
+        Button {
+          it.id = "messageBox_ok"
+          it.style = "flatButton"
+          it.onClick {
+            this.moveOutAnim(Direction.down).start
+            onAction?.call(true)
+          };
+          it.text = okText
+        },
+    }
+    
+    if (cancelText != null) {
+        bt := Button {
+          it.id = "messageBox_cancel"
+          it.style = "flatButton"
+          it.onClick {
+            this.moveOutAnim(Direction.down).start
+            onAction?.call(false)
+          };
+          it.text = cancelText
         }
-        a.whenDone.add |->|{ hide }
-        a.run(this)
-        */
-        this.moveOutAnim(Direction.down).start
-        //this.shrinkAnim(200).start
-      };
-      it.text = "OK"
-      it.layout.width = Layout.matchParent
-      it.useRenderCache = false
+        hb.add(bt)
     }
 
     this.add(label)
-    this.add(btn)
+    this.add(hb)
     this.layout.hAlign = Align.center
     this.layout.vAlign = Align.center
 
@@ -52,7 +63,12 @@ class MessageBox : VBox
 //    this.layout.posY.with { it.parent = 0.5f; anchor = 0.5f; offset = 0f }
 
     this.layout.width = Layout.wrapContent//dpToPixel(500f)
-    padding = Insets(50)
+    if (cancelText == null) {
+        padding = Insets(30, 150)
+    }
+    else {
+        padding = Insets(30, 70)
+    }
   }
 
   Void show(Widget w)

@@ -14,16 +14,15 @@ using vaseWindow
 @Js
 class ProgressView : Widget
 {
-  internal Float proVal := 0f
-
-  new make() {
-    padding = Insets(20)
-    layout.width = Layout.wrapContent
-    useRenderCache = false
+  Float value := 0f {
+    set {
+      &value = it
+      super.repaint
+    }
   }
 
-  protected override Void doPaint(Graphics g) {
-    super.doPaint(g)
-    repaint
+  new make() {
+    //padding = Insets(20)
+    //layout.width = Layout.wrapContent
   }
 }

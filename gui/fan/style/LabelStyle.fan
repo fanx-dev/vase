@@ -15,7 +15,16 @@ class LabelStyle : WidgetStyle
   override Void doPaint(Widget widget, Graphics g)
   {
     Label lab := widget
-    drawText(widget, g, lab.text, Align.begin)
+    drawText(widget, g, lab.text, lab.textAlign)
+  }
+}
+
+@Js
+class FlatButtonStyle : LabelStyle
+{
+  new make() {
+    fontColor = Color(0x5577CC)
+    font = Font(37, "Arial", true)
   }
 }
 

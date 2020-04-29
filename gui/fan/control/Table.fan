@@ -42,7 +42,7 @@ class Table : ScrollBase
     model.numCols.times |c|
     {
       btn := ButtonBase { it.text = model.header(c) }
-      btn.styleClass = "tableHeader"
+      btn.style = "tableHeader"
       w := model.prefWidth(c) ?: colWidth
       colWidthCache.add(w)
       //btn.layout.widthType = SizeType.fixed
