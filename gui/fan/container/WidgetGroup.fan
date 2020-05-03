@@ -91,7 +91,7 @@ abstract class WidgetGroup : Widget
   **
   ** get by index
   **
-  Widget getChild(Int i) { children[i] }
+  Widget? getChild(Int i) { children.getSafe(i, null) }
 
   **
   ** find widget by id in this group

@@ -13,35 +13,107 @@ class CardBox : Pane
 {
   Int selIndex := 0 {
     set {
-      if (it != &selIndex) select(it)
+      if (it.toFloat != &offsetIndex) select(it, false)
+      oldVal := &selIndex
       &selIndex = it
+      fireStateChange(oldVal, it, #selIndex)
     }
   }
   
-  private Void select(Int i) {
-    old := getChild(selIndex)
-    old.enabled = false
-    
-    cur := getChild(i)
-    cur.visible = true
-    
-    toLeft := i > selIndex
-
-    outAnim := old.moveOutAnim(toLeft ? Direction.left : Direction.right, 500, false)
-    outAnim.whenDone.add {
-      old.visible = false
-      cur.enabled = true
+  private Float offsetIndex := 0f {
+    set {
+      if (&offsetIndex != it) {
+        this.relayout
+      }
+      &offsetIndex = it
     }
-    outAnim.start
-    cur.moveInAnim(toLeft ? Direction.right : Direction.left , 500).start
-    this.repaint
   }
   
-  @Operator override This add(Widget child) {
-    if (childrenSize > 0) {
-        child.visible = false
-        child.enabled = false
+  private Void select(Int i, Bool updateWhenDone := true) {
+    stdIndex := i
+    if (stdIndex < 0) {
+        stdIndex = this.childrenSize-1
     }
-    return super.add(child)
+    if (stdIndex >= this.childrenSize) {
+        stdIndex = 0
+    }
+    
+    fromIndex := offsetIndex
+    endIndex := i.toFloat
+    if (i >= this.childrenSize) {
+        endIndex = 0f
+    }
+    if (selIndex == this.childrenSize-1 && i == 0) {
+       if (fromIndex > 0.0) {
+         fromIndex = -1.0
+       }
+    }
+    if (selIndex == 0 && i == this.childrenSize-1) {
+       if (endIndex > 0.0) {
+         endIndex = -1.0
+       }
+    }
+    
+    //echo("from$fromIndex -> to:$endIndex, std:$stdIndex")
+    
+    anim := Animation {
+      it.duration = 500
+      FloatPropertyAnimChannel(this, #offsetIndex) {
+        from = fromIndex; to = endIndex
+      },
+    }
+    anim.whenDone.add {
+        this.&offsetIndex = stdIndex.toFloat
+        if (updateWhenDone) this.selIndex = stdIndex
+    }
+    this.getRootView.animManager.add(anim)
+    anim.start
+    this.relayout
+  }
+  
+  protected override Void gestureEvent(GestureEvent e) {
+    super.gestureEvent(e)
+    if (e.consumed) return
+    if (e.type == GestureEvent.drag) {
+        r := e.deltaX.toFloat/width
+        t := offsetIndex - r
+        if (t > (childrenSize-1).toFloat) {
+            t = (t - (childrenSize-1)) - 1
+            //echo(t)
+        }
+        &offsetIndex = t
+        e.consume
+        this.relayout
+    }
+    else if (e.type == GestureEvent.drop || e.type == GestureEvent.fling) {
+        //echo("offsetIndex:$offsetIndex, selIndex:$selIndex")
+        offsetIndex := this.offsetIndex
+        if (offsetIndex < 0f && selIndex == (childrenSize-1)) {
+            offsetIndex = (1+this.offsetIndex) + (childrenSize-1)
+        }
+        
+        if ((offsetIndex-selIndex).abs < 0.1) select(selIndex)
+        else if (offsetIndex > selIndex.toFloat) select(selIndex + 1)
+        else if (offsetIndex < selIndex.toFloat) select(selIndex - 1)
+        e.consume
+        this.relayout
+    }
+  }
+  
+  override Void layoutChildren(Bool force)
+  {
+    super.layoutChildren(force)
+    this.each |Widget c, i|
+    {
+        if (i == childrenSize-1 && offsetIndex < 0f) {
+            pageOffset := (1+offsetIndex) * this.width
+            c.x = paddingLeft-pageOffset.toInt
+            //echo("offsetIndex:$offsetIndex, $c.x")
+        }
+        else {
+            pageOffset := (i-offsetIndex) * this.width
+            c.x += pageOffset.toInt
+        }
+    }
   }
 }

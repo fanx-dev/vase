@@ -4,13 +4,43 @@
 // History:
 //   2020-05-03 Administrator Creation
 //
+using vaseWindow
 
 **
 ** TabView
 **
 class TabView : HBox
 {
-    Int selIndex := 0
+    Int selIndex := 0 {
+      set {
+        w := this.getChild(&selIndex)
+        if (w != null) w.style = "tabItem"
+        
+        w2 := this.getChild(it)
+        if (w2 != null) w2.style = "tabItemHighlight"
+        
+        oldVal := &selIndex
+        &selIndex = it
+        fireStateChange(oldVal, it, #selIndex)
+        
+        this.resetStyle
+        this.repaint
+      }
+    }
+    
+    Void bind(CardBox card) {
+        card.onStateChanged.add |StateChangedEvent e|{
+            if (e.field == CardBox#selIndex) {
+                this.selIndex = e.newValue
+            }
+        }
+        this.onStateChanged.add |StateChangedEvent e|{
+            if (e.field == TabView#selIndex) {
+                card.selIndex = e.newValue
+            }
+        }
+    }
+    
     |Int|? onAction
     private Int offsetX = 0
     private Str[] items
@@ -24,11 +54,7 @@ class TabView : HBox
                 it.layout.width = Layout.wrapContent
                 it.onClick {
                     onAction?.call(i)
-                    this.getChild(selIndex).style = "tabItem"
                     selIndex = i
-                    it.style = "tabItemHighlight"
-                    this.resetStyle
-                    this.repaint
                 }
             }
             this.add(bt)
@@ -45,7 +71,7 @@ class TabView : HBox
   
   protected override Void gestureEvent(GestureEvent e) {
     super.gestureEvent(e)
-    
+    if (e.consumed) return
     if (e.type == GestureEvent.drag) {
         last := this.getChild(items.size-1)
         if (e.deltaX + last.x + last.width < this.contentWidth) {

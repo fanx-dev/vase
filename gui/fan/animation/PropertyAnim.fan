@@ -10,7 +10,7 @@
 class FloatPropertyAnimChannel : AnimChannel {
   Obj target
   Field field
-  |->|? updateFunc
+  //|->|? updateFunc
   
   Float from := 0f
   Float to := 1f

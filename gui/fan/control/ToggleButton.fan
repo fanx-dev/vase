@@ -82,9 +82,9 @@ class Switch : ToggleButton {
     anim := Animation {
       FloatPropertyAnimChannel(this, #animPostion) {
         from = afrom; to = ato
-        it.updateFunc = |->| {
-          this.repaint
-        }
+//        it.updateFunc = |->| {
+//          this.repaint
+//        }
       },
     }
     anim.whenDone.add {

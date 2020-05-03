@@ -29,8 +29,9 @@ abstract class Widget
   {
     set
     {
-      fireStateChange(&style, it, #style)
+      oldVal := &style
       &style = it
+      fireStateChange(oldVal, it, #style)
     }
   }
 
@@ -105,8 +106,9 @@ abstract class Widget
   {
     set
     {
-      fireStateChange(&visible, it, #visible)
+      oldVal := &visible
       &visible = it
+      fireStateChange(oldVal, it, #visible)
     }
   }
 
@@ -118,40 +120,45 @@ abstract class Widget
   {
     set
     {
-      fireStateChange(&enabled, it, #enabled)
+      oldVal := &enabled
       &enabled = it
+      fireStateChange(oldVal, it, #enabled)
     }
   }
 
   @Transient
   Int x := 0 {
     protected set {
-      fireStateChange(&x, it, #x)
+      oldVal := &x
       &x = it
+      fireStateChange(oldVal, it, #x)
     }
   }
 
   @Transient
   Int y := 0 {
     protected set {
-      fireStateChange(&y, it, #y)
+      oldVal := &y
       &y = it
+      fireStateChange(oldVal, it, #y)
     }
   }
 
   @Transient
   Int width := 50 {
     protected set {
-      fireStateChange(&width, it, #width)
+      oldVal := &width
       &width = it
+      fireStateChange(oldVal, it, #width)
     }
   }
 
   @Transient
   Int height := 50 {
     protected set {
-      fireStateChange(&height, it, #height)
+      oldVal := &height
       &height = it
+      fireStateChange(oldVal, it, #height)
     }
   }
 
@@ -184,6 +191,7 @@ abstract class Widget
   }
 
   protected Void fireStateChange(Obj? oldValue, Obj? newValue, Field? field) {
+    if (oldValue == newValue) return
     e := StateChangedEvent (oldValue, newValue, field, this )
     onStateChanged.fire(e)
   }

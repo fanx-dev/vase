@@ -3,15 +3,14 @@
 using vaseGui
 
 @Js
-class PaneStyleTest : BaseTestWin
+class CardTest : BaseTestWin
 {
   CardBox? card
+  TabView? tab
 
   protected override Widget build() {
-    VBox {
-      TabView(["Page1", "Page2", "Page3", "Page4", "Page5"]){
-        it.onAction = |i|{ card.selIndex = i }
-      },
+    r := VBox {
+      tab = TabView(["Page1", "Page2", "Page3", "Page4", "Page5"]),
       card = CardBox
       {
         it.padding = Insets(50)
@@ -44,6 +43,8 @@ class PaneStyleTest : BaseTestWin
         },
       },
     }
+    tab.bind(card)
+    return r
   }
 
 }
