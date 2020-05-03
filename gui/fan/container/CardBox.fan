@@ -19,13 +19,21 @@ class CardBox : Pane
   }
   
   private Void select(Int i) {
-    cur := getChild(selIndex)
-    cur.visible = false
-    cur.enabled = false
+    old := getChild(selIndex)
+    old.enabled = false
     
-    cur = getChild(i)
+    cur := getChild(i)
     cur.visible = true
-    cur.enabled = true
+    
+    toLeft := i > selIndex
+
+    outAnim := old.moveOutAnim(toLeft ? Direction.left : Direction.right, 500, false)
+    outAnim.whenDone.add {
+      old.visible = false
+      cur.enabled = true
+    }
+    outAnim.start
+    cur.moveInAnim(toLeft ? Direction.right : Direction.left , 500).start
     this.repaint
   }
   
