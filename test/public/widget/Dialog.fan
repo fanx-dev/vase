@@ -11,12 +11,12 @@ class DialogTest : BaseTestWin
     {
       Button {
         it.onClick {
-          AlertDialog("HI").show(root)
+          AlertDialog("HI", "OK", "Cancel").show(root)
         }
       },
       Button {
         it.onClick {
-          AlertDialog("HI", "OK", "Cancel").show(root)
+          ActionDialog("HI", ["ABC", "1234", "5678"], "Cancel").show(root)
         }
       },
     }

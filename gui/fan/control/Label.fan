@@ -41,7 +41,8 @@ class Label : Widget
 @Js
 class Toast : Label {
 
-  new make() {
+  new make(Str msg) {
+    text = msg
     layout.width = Layout.wrapContent
     this.layout.hAlign = Align.center
     this.layout.vAlign = Align.end

@@ -46,6 +46,7 @@ class StyleManager
     styleClassMap["pane"] = PaneStyle()
     styleClassMap["flatButton"] = FlatButtonStyle()
     styleClassMap["progressBar"] = ProgressBarStyle()
+    styleClassMap["actionList"] = PaneStyle()
   }
 
   private Style? findByType(Type type) {

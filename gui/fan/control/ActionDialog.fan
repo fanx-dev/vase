@@ -13,59 +13,54 @@ using vaseWindow
 ** MessageBox
 **
 @Js
-class AlertDialog : VBox
+class ActionDialog : VBox
 {
-  Label label { private set }
+  Str[] items
   
-  |Bool|? onAction
+  |Int|? onAction
 
-  new make(Str msg, Str okText := "OK", Str? cancelText := null)
+  new make(Str msg, Str[] items, Str? cancelText)
   {
-    label = Label {
-      it.id = "alertDialog_msg"
+    this.items = items
+    
+    label := Label {
+      it.id = "actionBox_msg"
       it.text = msg
       it.margin = Insets(20)
       it.textAlign = Align.center
     }
+    this.add(label)
     
-    hb := HBox {
-        it.spacing = 80f
-        Button {
-          it.id = "alertDialog_ok"
+    vb := VBox { it.style = "actionList" }
+    items.each |item, i|{
+        lab := Button {
+          it.id = "actionDialog_item"
+          it.text = item
           it.style = "flatButton"
           it.onClick {
             this.moveOutAnim(Direction.down).start
-            onAction?.call(true)
+            onAction?.call(i)
           };
-          it.text = okText
-        },
+        }
+        vb.add(lab)
     }
+    this.add(vb)
     
     if (cancelText != null) {
         bt := Button {
-          it.id = "alertDialog_cancel"
+          it.id = "actionDialog_cancel"
           it.style = "flatButton"
           it.onClick {
             this.moveOutAnim(Direction.down).start
-            onAction?.call(false)
+            onAction?.call(-1)
           };
           it.text = cancelText
         }
-        hb.add(bt)
+        this.add(bt)
     }
 
-    this.add(label)
-    this.add(hb)
     this.layout.hAlign = Align.center
-    this.layout.vAlign = Align.center
-
-    this.layout.width = Layout.wrapContent//dpToPixel(500f)
-    if (cancelText == null) {
-        padding = Insets(30, 150)
-    }
-    else {
-        padding = Insets(30, 70)
-    }
+    this.layout.vAlign = Align.end
   }
 
   Void show(Widget w)

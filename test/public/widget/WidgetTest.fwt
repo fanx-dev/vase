@@ -48,7 +48,7 @@ class WidgetTest : BaseTestWin
     Button btn := root.findById("button")
     btn.onClick {
       msg := Toolkit.cur.density.toStr + "," + root.width
-      Toast { it.text = "msg: $msg" }.show(root)
+      Toast("msg: $msg").show(root)
     }
     /*
     ButtonBase btn2 := root.findById("imageButton")
