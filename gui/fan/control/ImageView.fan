@@ -37,11 +37,11 @@ class ImageView : Widget
   Float imagePrefWidth := 240f
   Float imagePrefHeight := 240f
 
-  Bool scaleTypeInited := false
-  protected Void initFromScaleType() {
+  Bool isInited := false
+  protected Void init() {
     if (!image.isReady) return
-    if (scaleTypeInited) return
-    scaleTypeInited = true
+    if (isInited) return
+    isInited = true
     
     if (scaleType == keepSize) {
         imgScaleX = 1.0
@@ -71,8 +71,20 @@ class ImageView : Widget
         imgPreW := contentWidth / imgScaleY
         imgOffsetX = -(imgPreW - image.size.w.toFloat)/2
     }
+    
+    if (mask == maskCircle) {
+        imgBuf := Image(image.size)
+        g := imgBuf.graphics
+        
+        g.fillOval(0, 0, image.size.w, image.size.h)
+        //g.composite = Composite.dstIn
+        g.composite = Composite.srcIn
+        g.drawImage(image, 0, 0)
+        
+        image = imgBuf
+    }
   }
-  protected override Void layoutChildren(Bool force) { initFromScaleType }
+  protected override Void layoutChildren(Bool force) { init }
   
   Void imgToWidget(Coord p) {
     p.x = (p.x + imgOffsetX) * imgScaleX 

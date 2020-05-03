@@ -13,6 +13,7 @@ class ImageViewTest : BaseTestWin
       imagePrefWidth = 1000f
       imagePrefHeight = 800f
       scaleType = stretch
+      mask = maskCircle
     }
   }
 
