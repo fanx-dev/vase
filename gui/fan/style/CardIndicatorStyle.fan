@@ -26,13 +26,11 @@ class CardIndicatorStyle : WidgetStyle {
     minW := pw.toInt.min(h)
     halfW := minW/2
     g.brush = foreground
+    
+    curX := (pw/2)+(p.cardBox.offsetIndex * pw)
+    g.fillOval(curX.toInt-halfW, y, minW, minW)
     size.times |i| {
-        if (i == p.cardBox.selIndex) {
-            g.fillOval(x.toInt-halfW, y, minW, minW)
-        }
-        else {
-            g.drawOval(x.toInt-halfW, y, minW, minW)
-        }
+        g.drawOval(x.toInt-halfW, y, minW, minW)
         x += pw
     }
   }

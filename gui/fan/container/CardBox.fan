@@ -20,7 +20,7 @@ class CardBox : Pane
     }
   }
   
-  private Float offsetIndex := 0f {
+  Float offsetIndex := 0f {
     set {
       if (&offsetIndex != it) {
         this.relayout
