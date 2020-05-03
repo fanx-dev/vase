@@ -117,3 +117,10 @@ class CardBox : Pane
     }
   }
 }
+
+class CardIndicator : Widget {
+    CardBox? cardBox
+    new make() {
+        layout.height = 20.0
+    }
+}

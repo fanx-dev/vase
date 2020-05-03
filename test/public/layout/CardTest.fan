@@ -7,6 +7,7 @@ class CardTest : BaseTestWin
 {
   CardBox? card
   TabView? tab
+  CardIndicator? indicator
 
   protected override Widget build() {
     r := VBox {
@@ -42,8 +43,10 @@ class CardTest : BaseTestWin
           layout.offsetY = 250f
         },
       },
+      indicator = CardIndicator {},
     }
     tab.bind(card)
+    indicator.cardBox = card
     return r
   }
 
