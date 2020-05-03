@@ -209,7 +209,11 @@ abstract class WidgetGroup : Widget
 //////////////////////////////////////////////////////////////////////////
 // Paint
 //////////////////////////////////////////////////////////////////////////
-
+  override Void resetStyle() {
+    super.resetStyle
+    children.each { it.resetStyle }
+  }
+  
   protected override Void doPaint(Graphics g)
   {
     super.doPaint(g)

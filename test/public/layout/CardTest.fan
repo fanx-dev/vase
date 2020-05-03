@@ -8,34 +8,42 @@ class PaneStyleTest : BaseTestWin
   CardBox? card
 
   protected override Widget build() {
-    card = CardBox
-    {
-      it.padding = Insets(50)
-      it.margin = Insets(50)
-      
-      Button
-      {
-        it.id = "btn1"
-        it.text = "btn1"
-        layout.offsetY = 50f
-        onAction.add { card.selIndex = 1 }
+    VBox {
+      TabView(["Page1", "Page2", "Page3", "Page4", "Page5"]){
+        it.onAction = |i|{ card.selIndex = i }
       },
-      Button
+      card = CardBox
       {
-        it.id = "btn2"
-        it.text = "btn2"
-        layout.offsetY = 100f
-        onAction.add { card.selIndex = 2 }
-      },
-      Button
-      {
-        it.id = "btn3"
-        it.text = "btn3"
-        layout.offsetY = 150f
-        onAction.add { card.selIndex = 0 }
+        it.padding = Insets(50)
+        it.margin = Insets(50)
+        
+        Button
+        {
+          it.text = "btn1"
+          layout.offsetY = 50f
+        },
+        Button
+        {
+          it.text = "btn2"
+          layout.offsetY = 100f
+        },
+        Button
+        {
+          it.text = "btn3"
+          layout.offsetY = 150f
+        },
+        Button
+        {
+          it.text = "btn4"
+          layout.offsetY = 200f
+        },
+        Button
+        {
+          it.text = "btn5"
+          layout.offsetY = 250f
+        },
       },
     }
-    return card
   }
 
 }

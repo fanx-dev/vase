@@ -47,6 +47,8 @@ class StyleManager
     styleClassMap["flatButton"] = FlatButtonStyle()
     styleClassMap["progressBar"] = ProgressBarStyle()
     styleClassMap["actionList"] = PaneStyle()
+    styleClassMap["tabItem"] = TabItemStyle()
+    styleClassMap["tabItemHighlight"] = TabItemHighlightStyle()
   }
 
   private Style? findByType(Type type) {

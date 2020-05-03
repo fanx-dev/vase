@@ -34,7 +34,6 @@ class ActionDialog : VBox
     vb := VBox { it.style = "actionList" }
     items.each |item, i|{
         lab := Button {
-          it.id = "actionDialog_item"
           it.text = item
           it.style = "flatButton"
           it.onClick {

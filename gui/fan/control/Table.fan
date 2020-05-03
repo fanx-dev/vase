@@ -26,6 +26,7 @@ class Table : ScrollBase
   @Transient
   internal WidgetGroup header := HBox {
     //it.vertical = false
+    it.spacing = 0.0
     it.layout.width = Layout.wrapContent
   }
 

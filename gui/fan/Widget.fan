@@ -311,6 +311,10 @@ abstract class Widget
     }
     return styleCache
   }
+  
+  virtual Void resetStyle() {
+    styleCache = null
+  }
 
   protected virtual Void doPaint(Graphics g) {
     getStyle.paint(this, g)
