@@ -10,6 +10,9 @@ class ImageViewTest : BaseTestWin
     return  ImageView {
       id = "image"
       uri = (`../image.png`)
+      imagePrefWidth = 1000f
+      imagePrefHeight = 800f
+      scaleType = stretch
     }
   }
 

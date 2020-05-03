@@ -32,19 +32,19 @@ class AnimExt {
   static extension Animation moveInAnim(Widget self, Direction orig, Int time := 500) {
     x := 0
     y := 0
-    p := Coord(0, 0)
+    p := Coord(0f, 0f)
     self.posOnWindow(p)
     root := self.getRootView
 
     switch (orig) {
       case Direction.top:
-        y = -(p.y + self.height)
+        y = -(p.y + self.height).toInt
       case Direction.right:
-        x = root.width - p.x
+        x = root.width - p.x.toInt
       case Direction.down:
-        y = root.height - p.y
+        y = root.height - p.y.toInt
       case Direction.left:
-        x = -(p.x + self.width)
+        x = -(p.x + self.width).toInt
     }
 
     a := TweenAnimation {
@@ -59,19 +59,19 @@ class AnimExt {
 
     x := 0
     y := 0
-    p := Coord(0, 0)
+    p := Coord(0f, 0f)
     self.posOnWindow(p)
     root := self.getRootView
 
     switch (orig) {
       case Direction.top:
-        y = -(p.y + self.height)
+        y = -(p.y + self.height).toInt
       case Direction.right:
-        x = root.width - p.x
+        x = root.width - p.x.toInt
       case Direction.down:
-        y = root.height - p.y
+        y = root.height - p.y.toInt
       case Direction.left:
-        x = -(p.x + self.width)
+        x = -(p.x + self.width).toInt
     }
 
     /*
@@ -111,7 +111,7 @@ class AnimExt {
 
   static extension Animation shrinkAnim(Widget self, Int time := 500, Coord? p := null, Bool detach := true) {
     if (p == null) {
-      p = Coord(0, 0)
+      p = Coord(0f, 0f)
       self.posOnWindow(p)
     }
 
@@ -120,7 +120,7 @@ class AnimExt {
     a := TweenAnimation() {
       it.duration = time
       ScaleAnimChannel { to = 0.0; from = 1.0 },
-      TranslateAnimChannel { to = Point(p.x, p.y); from = Point.defVal },
+      TranslateAnimChannel { to = Point(p.x.toInt, p.y.toInt); from = Point.defVal },
       AlphaAnimChannel { to = 0f; from = 1f; },
     }
     a.whenDone.add {
@@ -133,7 +133,7 @@ class AnimExt {
 
   static extension Animation expandAnim(Widget self, Int time := 500, Coord? p := null) {
     if (p == null) {
-      p = Coord(0, 0)
+      p = Coord(0f, 0f)
       self.posOnWindow(p)
     }
 
@@ -142,7 +142,7 @@ class AnimExt {
     a := TweenAnimation() {
       it.duration = time
       ScaleAnimChannel { from = 0.0; to = 1.0 },
-      TranslateAnimChannel { from = Point(p.x, p.y); to = Point.defVal },
+      TranslateAnimChannel { from = Point(p.x.toInt, p.y.toInt); to = Point.defVal },
       AlphaAnimChannel { to = 1f; from = 0f; },
     }
     a.bind(self)

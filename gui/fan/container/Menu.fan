@@ -117,17 +117,17 @@ class MenuItem : ButtonBase
       addParentTo(layer)
 
       layer.add(subMenuList)
-      pos := Coord(0, 0)
+      pos := Coord(0f, 0f)
       rc := this.posOnWindow(pos)
       if (parent is Menu)
       {
-        subMenuList.layout.offsetX = pixelToDp(pos.x)
-        subMenuList.layout.offsetY = pixelToDp(pos.y + this.height)
+        subMenuList.layout.offsetX = pixelToDp(pos.x.toInt)
+        subMenuList.layout.offsetY = pixelToDp(pos.y.toInt + this.height)
       }
       else
       {
-        subMenuList.layout.offsetX = pixelToDp(pos.x + this.width)
-        subMenuList.layout.offsetY = pixelToDp(pos.y)
+        subMenuList.layout.offsetX = pixelToDp(pos.x.toInt + this.width)
+        subMenuList.layout.offsetY = pixelToDp(pos.y.toInt)
       }
     }
 

@@ -15,13 +15,13 @@ using vaseWindow
 **
 @Js
 class Coord {
-  Int x
-  Int y
+  Float x
+  Float y
 
   ** Construct with x, y.
-  new make(Int x, Int y) { this.x = x; this.y = y }
+  new make(Float x, Float y) { this.x = x; this.y = y }
 
-  This set(Int x, Int y) {
+  This set(Float x, Float y) {
     this.x = x
     this.y = y
     return this
@@ -34,7 +34,7 @@ class Coord {
     try
     {
       comma := s.index(",")
-      return make(s[0..<comma].trim.toInt, s[comma+1..-1].trim.toInt)
+      return make(s[0..<comma].trim.toFloat, s[comma+1..-1].trim.toFloat)
     }
     catch {}
     if (checked) throw ParseErr("Invalid Point: $s")
@@ -45,12 +45,12 @@ class Coord {
   Coord translate(Coord t) { make(x+t.x, y+t.y) }
 
   ** Return hash of x and y.
-  override Int hash() { x.xor(y.shiftl(16)) }
+  override Int hash() { x.bits.xor(y.bits.shiftl(16)) }
 
   ** Return if obj is same Point value.
   override Bool equals(Obj? obj)
   {
-    that := obj as Point
+    that := obj as Coord
     if (that == null) return false
     return this.x == that.x && this.y == that.y
   }

@@ -153,15 +153,15 @@ class ScrollBar : Widget
 
   private Void doTouch(MotionEvent e)
   {
-    p := Coord(e.x, e.y)
+    p := Coord(e.x.toFloat, e.y.toFloat)
     rc := mapToRelative(p)
-    if (rc && this.contains(p.x, p.y))
+    if (rc && this.contains(p.x.toInt, p.y.toInt))
     {
       if (e.type == MotionEvent.pressed)
       {
         draging = true
-        lastX = p.x
-        lastY = p.y
+        lastX = p.x.toInt
+        lastY = p.y.toInt
         focus
         e.consume
         return
@@ -190,8 +190,8 @@ class ScrollBar : Widget
         setCurPos(pos, true)
       }
       //echo("=====>$curPos")
-      lastX = p.x
-      lastY = p.y
+      lastX = p.x.toInt
+      lastY = p.y.toInt
       repaint
     }
   }

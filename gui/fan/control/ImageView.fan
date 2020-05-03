@@ -18,6 +18,11 @@ class ImageView : Widget
   @Transient
   Image? image
   
+  Float imgScaleX := 1.0
+  Float imgScaleY := 1.0
+  Float imgOffsetX := 0.0
+  Float imgOffsetY := 0.0
+  
   static const Int keepSize = 0
   static const Int stretch = 1
   static const Int fitWidth = 2
@@ -32,7 +37,52 @@ class ImageView : Widget
   Float imagePrefWidth := 240f
   Float imagePrefHeight := 240f
 
-  //Dimension defSize := Dimension(0, 0)
+  Bool scaleTypeInited := false
+  protected Void initFromScaleType() {
+    if (!image.isReady) return
+    if (scaleTypeInited) return
+    scaleTypeInited = true
+    
+    if (scaleType == keepSize) {
+        imgScaleX = 1.0
+        imgScaleY = 1.0
+        imgOffsetX = 0.0
+        imgOffsetY = 0.0
+    }
+    else if (scaleType == stretch) {
+        imgOffsetX = 0.0
+        imgOffsetY = 0.0
+        imgScaleX = contentWidth / image.size.w.toFloat
+        imgScaleY = contentHeight / image.size.h.toFloat
+        echo("width:$width, contentWidth:$contentWidth, size:$image.size")
+    }
+    else if (scaleType == fitWidth) {
+        imgOffsetX = 0.0
+        imgScaleX = contentWidth / image.size.w.toFloat
+        imgScaleY = imgScaleX
+        imgPreH := contentHeight / imgScaleX
+        imgOffsetY = -(imgPreH - image.size.h.toFloat)/2
+    }
+    else if (scaleType == fitHeight) {
+        imgOffsetX = 0.0
+        imgOffsetY = 0.0
+        imgScaleY = contentHeight / image.size.h.toFloat
+        imgScaleX = imgScaleY
+        imgPreW := contentWidth / imgScaleY
+        imgOffsetX = -(imgPreW - image.size.w.toFloat)/2
+    }
+  }
+  protected override Void layoutChildren(Bool force) { initFromScaleType }
+  
+  Void imgToWidget(Coord p) {
+    p.x = (p.x + imgOffsetX) * imgScaleX 
+    p.y = (p.y + imgOffsetY) * imgScaleY
+  }
+  
+  Void widgetToImg(Coord p) {
+    p.x = (p.x / imgScaleX) - imgOffsetX
+    p.y = (p.y / imgScaleY) - imgOffsetY
+  }
 
   new make(|This|? f := null)
   {
@@ -40,20 +90,58 @@ class ImageView : Widget
     if (f != null) f(this)
 
     if (image == null && uri != null) {
-      image = Image.fromUri(uri)
+      image = Image.fromUri(uri) {
+        this.relayout
+      }
     }
   }
 
   protected override Dimension prefContentSize() {
-//    if (!image.isReady) {
-//      Toolkit.cur.callLater(1000) |->| {
-//        this.getRootView.relayout
-//      }
-//      return defSize
-//    }
-    
     w := dpToPixel(imagePrefWidth)
     h := dpToPixel(imagePrefHeight)
     return Dimension(w, h)
+  }
+  
+  protected override Void motionEvent(MotionEvent e)
+  {
+    super.motionEvent(e)
+    if (e.consumed) return
+    if (e.type == MotionEvent.wheel && e.delta != null) {
+        scale := e.delta > 0 ? 0.8 : 1.25
+        zoom(e.relativeX.toFloat, e.relativeY.toFloat, scale)
+    }
+  }
+  
+  protected Void zoom(Float vx, Float vy, Float scale) {
+    //echo("zoom:$vx, $vy, $scale")
+    pos := Coord(vx, vy)
+    widgetToImg(pos)
+    imgX := pos.x
+    imgY := pos.y
+    
+    imgScaleX *= scale
+    imgScaleY *= scale
+    
+    xx := vx / imgScaleX
+    yy := vy / imgScaleY
+    imgOffsetX = xx - imgX
+    imgOffsetY = yy - imgY
+    //echo("imgX:$imgX, xx:$xx, imgY:$imgY, yy:$yy")
+    this.repaint
+  }
+  
+  protected override Void gestureEvent(GestureEvent e) {
+    super.gestureEvent(e)
+    if (e.consumed) return
+    if (e.type == GestureEvent.drag) {
+      imgOffsetX += e.deltaX/imgScaleX
+      imgOffsetY += e.deltaY/imgScaleX
+      this.repaint
+      //echo("imgScaleX:$imgScaleX, imgScaleY")
+    }
+    if (e.type == GestureEvent.multiTouch) {
+        MultiTouchEvent me := e
+        zoom(me.centerX, me.centerY, me.scale)
+    }
   }
 }

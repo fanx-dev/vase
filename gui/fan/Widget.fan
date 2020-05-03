@@ -484,7 +484,7 @@ abstract class Widget
   Bool posOnWindow(Coord result)
   {
     if (this is Frame) {
-      result.set(0, 0)
+      result.set(0f, 0f)
       return true
     }
     if (parent == null) return false

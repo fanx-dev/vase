@@ -75,13 +75,13 @@ class ComboBox : ButtonBase
     overlayer := root.topOverlayer
     overlayer.add(pane)
 
-    pos := Coord(0, 0)
+    pos := Coord(0f, 0f)
     rc := posOnWindow(pos)
     pane.spacing = 0f
     //pane.layout.widthType = SizeType.fixed
     pane.layout.width = pixelToDp(this.width)
-    pane.layout.offsetX = pixelToDp(pos.x)
-    pane.layout.offsetY = pixelToDp(pos.y + height)
+    pane.layout.offsetX = pixelToDp(pos.x.toInt)
+    pane.layout.offsetY = pixelToDp(pos.y.toInt + height)
     pane.focus
 
     pane.onFocusChanged.add |e| {

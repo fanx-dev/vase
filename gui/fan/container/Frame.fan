@@ -275,9 +275,9 @@ class Frame : ContentPane
 
     //fire mouse out event
     if (mouseOverWidget != null) {
-      p := Coord(e.x, e.y)
+      p := Coord(e.x.toFloat, e.y.toFloat)
       b := mouseOverWidget.mapToRelative(p)
-      if (!b || !mouseOverWidget.contains(p.x, p.y)) {
+      if (!b || !mouseOverWidget.contains(p.x.toInt, p.y.toInt)) {
         mouseOverWidget.mouseExit
         mouseOverWidget = null
       }

@@ -43,17 +43,17 @@ class NativeCaret : Caret, TextInput {
     if (host == null) return
 
     if (!all) {
-      c := Coord(0, 0)
+      c := Coord(0f, 0f)
       area.posOnWindow(c)
-      host.setPos(c.x+x, c.y+y, 1, area.rowHeight)
+      host.setPos(c.x.toInt+x, c.y.toInt+y, 1, area.rowHeight)
       return
     }
 
     host.setType(0, 0, true)
 
-    c := Coord(0, 0)
+    c := Coord(0f, 0f)
     area.posOnWindow(c)
-    host.setPos(c.x+x, c.y+y, 1, area.rowHeight)
+    host.setPos(c.x.toInt+x, c.y.toInt+y, 1, area.rowHeight)
 
     host.setStyle(area.font, Color.black, Color.white)
     host.setText(text)
