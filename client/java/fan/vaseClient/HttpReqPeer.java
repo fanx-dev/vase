@@ -82,6 +82,7 @@ class HttpReqPeer {
 
     connection.setDoInput(true);
     connection.setDoOutput(true);
+    //connection.setInstanceFollowRedirects(true);
 
     self.headers.each(
       new Func() {
@@ -119,6 +120,19 @@ class HttpReqPeer {
   private HttpRes makeRes(HttpURLConnection connection) throws IOException {
     HttpRes res = HttpRes.make();
     res.status = connection.getResponseCode();
+
+    java.util.Map<String,List<String>> headers = connection.getHeaderFields();
+    for (java.util.Map.Entry<String,List<String>> e : headers.entrySet()) {
+      String k = e.getKey();
+      if (k == null) continue;
+      String v = null;
+      if (e.getValue() != null && e.getValue().size() > 0) {
+        v = e.getValue().get(0);
+      }
+      if (v == null) v = "";
+      res.headers().set(k, v);
+      System.out.println(k+":"+v);
+    }
 
     String s = null;
     InputStream is = null;
