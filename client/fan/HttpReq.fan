@@ -27,6 +27,11 @@ class HttpReq
 
   ** The request headers to send.
   [Str:Str] headers := Str:Str[:]
+  
+  ** invalide in JS runtime
+  Bool useCache := false
+  //Bool isText := true
+  |InStream->Obj?|? decoder
 
   Int timeout := 10000
 

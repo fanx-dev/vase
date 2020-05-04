@@ -19,10 +19,14 @@ import java.util.concurrent.*;
 
 import fan.sys.*;
 import fan.concurrent.*;
+import fanx.interop.*;
 
 class HttpReqPeer {
 
-  static boolean disconnect = false;
+  Storage storage = new Storage();
+
+  public static boolean debug = false;
+  public static boolean disconnect = false;
   static ExecutorService threadPool;
 
   static {
@@ -39,16 +43,41 @@ class HttpReqPeer {
     threadPool.execute(new Runnable() {
       @Override
       public void run() {
-        doRequest(self, self.uri.toStr(), method, content, promise);
+        String urlStr = self.uri.toStr();
+        boolean useCache = false;
+        if (self.useCache() && "GET".equals(method)) {
+          useCache = true;
+          try {
+            Object c = storage.get(urlStr, self.decoder == null);
+            if (c != null) {
+               HttpRes res = HttpRes.make();
+               res.status = 0;
+               if (self.decoder != null && c instanceof fan.std.Buf) {
+                 res.content = self.decoder.call(((fan.std.Buf)c).in());
+               }
+               else {
+                 res.content = c;
+               }
+               promise.complete(res, true);
+               //System.out.println("use cache");
+               return;
+            }
+          }
+          catch (Throwable e) { e.printStackTrace(); }
+        }
+        doRequest(self, urlStr, method, content, promise, useCache);
       }
     });
     return promise;
   }
 
-  void doRequest(HttpReq self, String urlStr, String method, Object content, Promise promise) {
+  void doRequest(HttpReq self, String urlStr, String method, Object content, Promise promise, boolean useCache) {
     URL url = null;
     HttpURLConnection connection = null;
     try {
+      if (debug) {
+        System.out.println(urlStr);
+      }
       url = new URL(urlStr);      
       connection = (HttpURLConnection) url.openConnection();
       connection.setRequestMethod(method);
@@ -56,11 +85,19 @@ class HttpReqPeer {
       setConnection(self, connection);
       
       if (content != null) {
-        setContent(connection, content);
+        writeContent(connection, content);
       }
 
-      HttpRes res = makeRes(connection);
+      HttpRes res = HttpRes.make();
+      Object rawContent = readRes(self, res, connection, useCache);
       promise.complete(res, true);
+
+      if (useCache) {
+        try {
+          storage.set(urlStr, rawContent);
+        }
+        catch (Throwable e) { e.printStackTrace(); }
+      }
 
     } catch (Exception e) {
       e.printStackTrace();
@@ -99,13 +136,29 @@ class HttpReqPeer {
     );
   }
 
-  private void setContent(HttpURLConnection connection, Object content) throws IOException {
-    if (content instanceof String) {
+  private void writeContent(HttpURLConnection connection, Object content) throws IOException {
+    
+    if (content instanceof fan.std.File) {
+      connection.connect();
+      OutputStream out = connection.getOutputStream();
+      try {
+        fan.std.File file = (fan.std.File)content;
+        fan.std.InStream in = file.in();
+        fan.std.OutStream fout = Interop.toFan(out);
+        in.pipe(fout);
+        fout.flush();
+      } catch (Exception e) {
+        e.printStackTrace();
+      } finally {
+        out.close();
+      }
+    }
+    else {
       connection.connect();
       OutputStream out = connection.getOutputStream();
       BufferedOutputStream os = new BufferedOutputStream(out);
       try {
-        os.write(((String)content).getBytes("UTF-8"));
+        os.write((content.toString()).getBytes("UTF-8"));
         os.flush();
       } catch (UnsupportedEncodingException e) {
         e.printStackTrace();
@@ -117,28 +170,42 @@ class HttpReqPeer {
     }
   }
 
-  private HttpRes makeRes(HttpURLConnection connection) throws IOException {
-    HttpRes res = HttpRes.make();
+  private Object readRes(HttpReq self, HttpRes res, HttpURLConnection connection, boolean useCache) throws IOException {
     res.status = connection.getResponseCode();
 
     java.util.Map<String,List<String>> headers = connection.getHeaderFields();
-    for (java.util.Map.Entry<String,List<String>> e : headers.entrySet()) {
-      String k = e.getKey();
-      if (k == null) continue;
-      String v = null;
-      if (e.getValue() != null && e.getValue().size() > 0) {
-        v = e.getValue().get(0);
-      }
-      if (v == null) v = "";
-      res.headers().set(k, v);
-      System.out.println(k+":"+v);
+    if (headers != null) {
+        for (java.util.Map.Entry<String,List<String>> e : headers.entrySet()) {
+          String k = e.getKey();
+          if (k == null) continue;
+          String v = null;
+          if (e.getValue() != null && e.getValue().size() > 0) {
+            v = e.getValue().get(0);
+          }
+          if (v == null) v = "";
+          res.headers().set(k, v);
+          //System.out.println(k+":"+v);
+        }
     }
 
-    String s = null;
+    Object rawContent = null;
     InputStream is = null;
     try {
       is = connection.getInputStream();
-      s = streamToString(is);
+      if (self.decoder != null) {
+        if (useCache) {
+            fan.std.Buf buf = Interop.toFan(is).readAllBuf();
+            res.content = self.decoder.call(buf.in());
+            rawContent = buf;
+        }
+        else {
+            res.content = self.decoder.call(is);
+        }
+      }
+      else {
+        res.content = streamToString(is);
+        rawContent = res.content;
+      }
       is.close();
     }
     catch (Exception e) {
@@ -147,9 +214,8 @@ class HttpReqPeer {
     finally {
       is.close();
     }
-    res.content = s;
 
-    return res;
+    return rawContent;
   }
 
   //////////////////////////////////////////////////////////////////////

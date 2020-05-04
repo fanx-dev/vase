@@ -25,8 +25,8 @@ class ClientTest {
 
   async Void request() {
     try {
-      res := await HttpReq { uri = url }.get
-      lab.text = res.content.toStr
+      res := await HttpReq { uri = url; }.get
+      lab.text = res.status.toStr
       lab.repaint
     } catch (Err e) {
       echo("Err: $e")
