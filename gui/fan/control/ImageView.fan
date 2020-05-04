@@ -150,10 +150,13 @@ class ImageView : Widget
       imgOffsetY += e.deltaY/imgScaleX
       this.repaint
       //echo("imgScaleX:$imgScaleX, imgScaleY")
+      e.consume
     }
     if (e.type == GestureEvent.multiTouch) {
         MultiTouchEvent me := e
+        //echo("multiTouch:$e")
         zoom(me.centerX, me.centerY, me.scale)
+        e.consume
     }
   }
 }

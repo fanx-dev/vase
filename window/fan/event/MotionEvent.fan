@@ -18,12 +18,12 @@ class MotionEvent : Event
   **
   ** X coordinates
   **
-  Int? x
+  Int x := 0
 
   **
   ** Y coordinates
   **
-  Int? y
+  Int y := 0
 
   **
   ** delta x
@@ -76,8 +76,8 @@ class MotionEvent : Event
   **
   Float? speed
 
-  Int? relativeX
-  Int? relativeY
+  Int relativeX := 0
+  Int relativeY := 0
 
   Int pointerId := 0
 

@@ -77,9 +77,12 @@ class MultiTouchState : GestureState {
 
   override Void onEvent(MotionEvent e) {
     if (e.pointers == null || (e.pointers != null && e.pointers.size <= 1)) {
+      //echo("endMultiTouch:$e")
       machine.onFinished(e)
       return
     }
+
+    //echo(e)
 
     if (e.type == MotionEvent.moved) {
       e1 := e.pointers[0]
@@ -98,6 +101,10 @@ class MultiTouchState : GestureState {
         it.distance = ndistance
         it.centerX = ncenterX
         it.centerY = ncenterY
+        it.x = nx0
+        it.y = ny0
+        it.relativeX = it.x
+        it.relativeY = it.y
       }
 
       multiEvent.scale = ndistance / distance
@@ -122,6 +129,7 @@ class MultiTouchState : GestureState {
 
       multiEvent.rawEvent = e
       machine.onGestureEvent.fire(multiEvent)
+      if (multiEvent.consumed) e.consume
     }
   }
 }

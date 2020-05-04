@@ -101,11 +101,19 @@ fan.vaseWindow.WtkWindow.prototype.addMotionEvent = function(elem, type, id)
     }
 
     view.onMotionEvent(event);
-    if (event.m_consumed) {
+
+    // if (event.pointers()) {
+    //   console.log(event.type(), event.pointers().size());
+    // }
+    // else {
+    //   console.log(event.type(), "null");
+    // }
+
+    //if (event.m_consumed) {
       e.stopPropagation();
       e.preventDefault();
       e.cancelBubble = true;
-    }
+    //}
   };
   fan.vaseWindow.GfxUtil.addEventListener(elem, type, mouseEvent);
 }
@@ -237,8 +245,35 @@ fan.vaseWindow.WtkWindow.prototype.createCanvas = function(shell, size) {
   g.init(cx, rect);
 }
 
+function hookLog() {
+  // Reference to an output container, use 'pre' styling for JSON output
+  var output = document.createElement('textarea');
+  with (output.style)
+  {
+    zIndex=999;
+    position   = "absolute";//this.root === document.body ? "fixed" : "absolute";
+    top        = "0";
+    left       = "0";
+    width      = "300px";
+    height     = "200px";
+    background = "transparent";
+    borderStyle = "none";
+  }
+  document.body.appendChild(output);
+  // Reference to native method(s)
+  var oldLog = console.log;
+  console.log = function( ...items ) {
+      // Call native method first
+      oldLog.apply(this,items);
+      output.innerHTML += items.join(' ') + '\n';
+      var h = output.scrollHeight;
+      output.scrollTop = h;
+  };
+}
+
 fan.vaseWindow.WtkWindow.prototype.show = function(size)
 {
+  //hookLog();
   if (!requestAnimationFrame) {
     window.requestAnimationFrame = (function(){
       return  window.requestAnimationFrame       || 
@@ -335,3 +370,4 @@ fan.vaseWindow.WtkWindow.prototype.fileDialog = function(accept, callback)
   });
   field.click();
 }
+

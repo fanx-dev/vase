@@ -21,12 +21,12 @@ virtual class GestureEvent : Event {
   **
   ** X coordinates
   **
-  Int? x
+  Int x := 0
 
   **
   ** Y coordinates
   **
-  Int? y
+  Int y := 0
 
   **
   ** delta x
@@ -55,8 +55,8 @@ virtual class GestureEvent : Event {
 
   Float? speedY
 
-  Int? relativeX
-  Int? relativeY
+  Int relativeX := 0
+  Int relativeY := 0
 
 
   new make(Int type)
@@ -115,7 +115,8 @@ class Gesture
       firstTouchTime = Duration.nowTicks
     }
 
-    if (e.pointers != null && e.pointers.size > 1) {
+    if (currentState isnot MultiTouchState && e.pointers != null && e.pointers.size > 1) {
+      //echo("multiTouch")
       ns := MultiTouchState(this)
       this.setCurrentState(ns, e)
     } else {

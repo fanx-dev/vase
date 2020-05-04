@@ -9,6 +9,7 @@
 ** lays out child elements as a stack of cards
 ** where only one card may be visible at a time
 **
+@Js
 class CardBox : Pane
 {
   Int selIndex := 0 {
@@ -118,6 +119,7 @@ class CardBox : Pane
   }
 }
 
+@Js
 class CardIndicator : Widget {
     CardBox? cardBox
     new make() {
