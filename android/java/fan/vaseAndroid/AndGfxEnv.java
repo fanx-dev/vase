@@ -50,7 +50,7 @@ public class AndGfxEnv extends GfxEnv{
   @Override
   public Image fromUri(Uri uri, Func onLoad) {
 
-    if ("http".equals(uri.scheme)) {
+    if ("http".equals(uri.scheme) || "https".equals(uri.scheme)) {
       onLoad = (Func) onLoad.toImmutable();
       AndImage p = new AndImage();
       loadFromWeb(p, uri, onLoad);
@@ -73,24 +73,17 @@ public class AndGfxEnv extends GfxEnv{
     return p;
   }
 
-  private static void loadFromWeb(final AndImage p, final Uri uri, final Func onLoad) {
-    new Thread(new Runnable() {
-      public void run() {
-        InputStream jin;
-        try {
-          URL requestUrl = new URL(uri.toStr());
-          URLConnection con = requestUrl.openConnection();
-          jin = con.getInputStream();
-        } catch (IOException e) {
-          throw IOErr.make(e);
-        }
+  public void _swapImage(Image dscImg, Image newImg) {
+    Bitmap b = ((AndImage)dscImg).getImage();
+    ((AndImage)dscImg).setImage(((AndImage)newImg).getImage());
+    ((AndImage)newImg).setImage(b);
+  }
 
-        Bitmap image = BitmapFactory.decodeStream(jin);
-        p.setImage(image);
-        try { jin.close(); } catch(Exception e) {}
-        if (onLoad != null) onLoad.call(p);
-      }
-    }).start();
+  private static void loadFromWeb(final Image p, final Uri uri,
+      final Func onLoad) {
+    Object v = fan.concurrent.Actor.locals().get("vaseWindow.loadImage");
+    if (v == null) throw fan.sys.Err.make("not found vaseWindow.loadImage");
+    ((Func)v).call(p, uri, onLoad);
   }
 
   @Override

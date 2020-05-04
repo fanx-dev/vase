@@ -102,8 +102,9 @@ class ImageView : Widget
     if (f != null) f(this)
 
     if (image == null && uri != null) {
+      s := Unsafe<ImageView>(this)
       image = Image.fromUri(uri) {
-        this.relayout
+        s.val.relayout
       }
     }
   }

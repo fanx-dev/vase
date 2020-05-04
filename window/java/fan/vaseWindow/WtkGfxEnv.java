@@ -37,7 +37,7 @@ public class WtkGfxEnv extends GfxEnv {
 
   @Override
   public Image fromUri(Uri uri, Func onLoad) {
-    if ("http".equals(uri.scheme)) {
+    if ("http".equals(uri.scheme) || "https".equals(uri.scheme)) {
       onLoad = (Func) onLoad.toImmutable();
       WtkImage p = new WtkImage();
       loadFromWeb(p, uri, onLoad);
@@ -67,24 +67,17 @@ public class WtkGfxEnv extends GfxEnv {
     return p;
   }
 
-  private static void loadFromWeb(final WtkImage p, final Uri uri,
-      final Func onLoad) {
-    new Thread(new Runnable() {
-      public void run() {
-        InputStream jin;
-        try {
-          URL requestUrl = new URL(uri.toStr());
-          URLConnection con = requestUrl.openConnection();
-          jin = con.getInputStream();
-        } catch (IOException e) {
-          throw IOErr.make(e);
-        }
+  public void _swapImage(Image dscImg, Image newImg) {
+    BufferedImage b = ((WtkImage)dscImg).getImage();
+    ((WtkImage)dscImg).setImage(((WtkImage)newImg).getImage());
+    ((WtkImage)newImg).setImage(b);
+  }
 
-        streamToImage(jin, p);
-        try { jin.close(); } catch(Exception e) {}
-        if (onLoad != null) onLoad.call(p);
-      }
-    }).start();
+  private static void loadFromWeb(final Image p, final Uri uri,
+      final Func onLoad) {
+    Object v = fan.concurrent.Actor.locals().get("vaseWindow.loadImage");
+    if (v == null) throw fan.sys.Err.make("not found vaseWindow.loadImage");
+    ((Func)v).call(p, uri, onLoad);
   }
 
   private static void streamToImage(InputStream jin, WtkImage p) {

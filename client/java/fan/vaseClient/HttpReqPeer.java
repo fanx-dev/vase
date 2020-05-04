@@ -196,10 +196,11 @@ class HttpReqPeer {
         if (useCache) {
             fan.std.Buf buf = Interop.toFan(is).readAllBuf();
             res.content = self.decoder.call(buf.in());
+            buf.seek(0);
             rawContent = buf;
         }
         else {
-            res.content = self.decoder.call(is);
+            res.content = self.decoder.call(Interop.toFan(is));
         }
       }
       else {

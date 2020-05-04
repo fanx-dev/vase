@@ -82,4 +82,7 @@ rtconst abstract class Image
   ** Free any operating system resources used by this instance.
   **
   abstract Void dispose()
+
+  @NoDoc
+  Void _swapImage(Image newImg) { GfxEnv.cur._swapImage(this, newImg) }
 }
