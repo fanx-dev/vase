@@ -14,7 +14,7 @@ using concurrent
 **
 ** See [pod doc]`pod-doc#xhr` for details.
 **
-const class HttpReq
+class HttpReq
 {
   ** Create a new HttpReq instance.
   new make(|This|? f := null)
@@ -23,12 +23,12 @@ const class HttpReq
   }
 
   ** The Uri to send the request.
-  const Uri uri := `#`
+  Uri uri := `#`
 
   ** The request headers to send.
-  const [Str:Str] headers := Str:Str[:]
+  [Str:Str] headers := Str:Str[:]
 
-  const Int timeout := 10000
+  Int timeout := 10000
 
   **
   ** Indicates whether or not cross-site 'Access-Control' requests
@@ -43,8 +43,24 @@ const class HttpReq
   ** hence can not be accessed by the requesting script through
   ** `Doc.cookies` or from response headers.
   **
-  const Bool withCredentials := false
+  Bool withCredentials := false
 
+  **
+  ** Optional callback to track progress of request transfers, where
+  ** 'loaded' is the number of bytes that have been transferred, and
+  ** 'total' is the total number of bytes to be transferred.
+  **
+  ** For 'GET' requests, the progress will track the response being
+  ** downloaded to the browser.  For 'PUT' and 'POST' requests, the
+  ** progress will track the content being uploaded to the server.
+  **
+  ** Note this callback is only invoked when 'lengthComputable' is
+  ** 'true' on the underlying progress events.
+  **
+  Void onProgress(|Int loaded, Int total| f) { this.cbProgress = f }
+
+  private |Int loaded, Int total|? cbProgress
+  
   **
   ** Send a request with the given content using the given
   ** HTTP method (case does not matter).  After receiving
@@ -64,19 +80,20 @@ const class HttpReq
   {
     send("POST", content)
   }
-/*
+
   **
   ** Post the 'form' map as a HTML form submission.  Formats
   ** the map into a valid url-encoded content string, and sets
   ** 'Content-Type' header to 'application/x-www-form-urlencoded'.
   **
-  Promise postForm(Str:Str form)
+  Promise<HttpRes> postForm([Str:Str] form)
   {
     headers["Content-Type"] = "application/x-www-form-urlencoded"
-    send("POST", encodeForm(form), c)
+    return send("POST", encodeForm(form))
   }
 
   ** Encode the form map into a value URL-encoded string.
-  private native Str encodeForm(Str:Str form)
-  */
+  private Str encodeForm([Str:Str] form) {
+    Uri.encodeQuery(form)
+  }
 }

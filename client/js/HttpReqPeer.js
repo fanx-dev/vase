@@ -24,6 +24,18 @@ fan.vaseClient.HttpReqPeer.doRequest = function(self, method, content, resolve)
   var xhr = new XMLHttpRequest();
   var buf;
   var view;
+
+  // attach progress listener if configured
+  if (self.m_cbProgress != null)
+  {
+    var _p = xhr;
+    var _m = method.toUpperCase();
+    if (_m == "POST" || _m == "PUT") _p = xhr.upload
+    _p.addEventListener("progress", function(e) {
+      if (e.lengthComputable) self.m_cbProgress.call(e.loaded, e.total);
+    });
+  }
+  
   xhr.open(method.toUpperCase(), self.m_uri.m_str, true);
 
   xhr.onreadystatechange = function () {
