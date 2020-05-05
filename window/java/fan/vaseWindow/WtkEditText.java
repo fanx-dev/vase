@@ -11,6 +11,7 @@ import fan.vaseWindow.Window;
 import javax.swing.text.JTextComponent;
 import javax.swing.JTextField;
 import javax.swing.JTextArea;
+import javax.swing.JPasswordField;
 import java.awt.event.KeyAdapter;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -136,7 +137,16 @@ class WtkEditText implements TextInputPeer {
   }
   @Override
   public void setType(long multiLine, long inputType, boolean editable) {
-    if (multiLine <= 1) {
+    //System.out.println(inputType);
+    if (inputType == TextInput$.inputTypePassword) {
+      //System.out.println(textComp);
+      if (!(textComp instanceof JPasswordField)) {
+        this.close();
+        textComp = new JPasswordField();
+        init(textComp);
+      }
+    }
+    else if (multiLine <= 1) {
       if (!(textComp instanceof JTextField)) {
         this.close();
         textComp = new JTextField();

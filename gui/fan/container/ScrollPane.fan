@@ -246,8 +246,7 @@ abstract class ScrollBase : Pane
     if (isFocusable && e.type == GestureEvent.pressed) {
       this.focus
     }
-
-    if (e.type == GestureEvent.drag) {
+    else if (e.type == GestureEvent.drag) {
       pos := vbar.curPos - (e.deltaY)
       vbar.setCurPos(pos, true, true)
       vbar.repaint

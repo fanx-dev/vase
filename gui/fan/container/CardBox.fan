@@ -31,6 +31,10 @@ class CardBox : Pane
     }
   }
   
+  new make() {
+    isFocusable = true
+  }
+  
   private Void select(Int i, Bool updateWhenDone := true) {
     stdIndex := i
     if (stdIndex < 0) {
@@ -76,7 +80,11 @@ class CardBox : Pane
   protected override Void gestureEvent(GestureEvent e) {
     super.gestureEvent(e)
     if (e.consumed) return
-    if (e.type == GestureEvent.drag) {
+    
+    if (isFocusable && e.type == GestureEvent.pressed) {
+      this.focus
+    }
+    else if (e.type == GestureEvent.drag) {
         r := e.deltaX.toFloat/width
         t := offsetIndex - r
         if (t > (childrenSize-1).toFloat) {

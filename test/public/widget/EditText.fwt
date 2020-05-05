@@ -6,6 +6,7 @@
 //   2015-12-5  Jed Young  Creation
 //
 using vaseGui
+using vaseWindow
 
 @Js
 class TextFieldTest : BaseTestWin
@@ -16,9 +17,13 @@ class TextFieldTest : BaseTestWin
         text = "Hello1"
       },
       EditText {
-        multiLine = 2
+        inputType = TextInput.inputTypePassword
         text = "Hello2"
-      }
+      },
+      EditText {
+        multiLine = 2
+        text = "Hello3"
+      },
     }
   }
 }

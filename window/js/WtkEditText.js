@@ -120,7 +120,16 @@ fan.vaseWindow.WtkEditText.prototype.setText = function( text) {
 }
 
 fan.vaseWindow.WtkEditText.prototype.setType = function( multiLine,  inputType,  editable) {
-  if (multiLine <= 1) {
+  if (inputType == fan.vaseWindow.TextInput.m_inputTypePassword) {
+    if (this.elem.type != "password") {
+      this.close();
+      var field = document.createElement("input");
+      field.type = "password";
+      this.elem = field;
+      this.init(field);
+    }
+  }
+  else if (multiLine <= 1) {
     if (this.elem.type != "text") {
       this.close();
       var field = document.createElement("input");

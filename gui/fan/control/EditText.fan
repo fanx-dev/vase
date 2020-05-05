@@ -38,7 +38,7 @@ class EditText : Widget, TextInput
   }
 
   Str hint := ""
-  Bool password := false
+  Bool password() { inputType == TextInput.inputTypePassword }
 
   Font font() {
     getStyle.font
