@@ -1,0 +1,20 @@
+using vaseGui
+
+@Js
+class TextViewTest : BaseTestWin
+{
+  protected override Widget build() {
+    VBox {
+
+      TextView {
+        autoWrap = false
+        text = "Hello1\nHello2"
+      },
+      
+      TextView {
+        s := it
+        100.times { s.text += ",$it" }
+      },
+    }
+  }
+}

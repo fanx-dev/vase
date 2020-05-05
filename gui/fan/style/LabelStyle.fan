@@ -49,3 +49,26 @@ class ToastStyle : WidgetStyle {
     drawText(widget, g, lab.text, Align.center)
   }
 }
+
+@Js
+class TextViewStyle : WidgetStyle {
+  override Void doPaint(Widget widget, Graphics g)
+  {
+    TextView lab := widget
+    lines := lab.wrapText
+    
+    x := widget.paddingLeft
+    y := widget.paddingTop
+    
+    offset := font.ascent + font.leading
+    y += offset
+    
+    g.brush = fontColor
+    g.font = font
+    for (i:=0; i<lines.size; ++i) {
+        s := lines[i]
+        g.drawText(s, x, y)
+        y += lab.rowHeight
+    }
+  }
+}
