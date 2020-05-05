@@ -87,6 +87,7 @@ abstract class ScrollBase : Pane
     layout.width = Layout.matchParent
     //padding = Insets(0, barSize.toInt, barSize.toInt, 0)
     padding = Insets(0, 8, 8, 0)
+    isFocusable = true
   }
 
   protected virtual Void onViewportChanged() {}
@@ -242,6 +243,9 @@ abstract class ScrollBase : Pane
     if (e.consumed) return
     
     //if (!vbar.enabled) return
+    if (isFocusable && e.type == GestureEvent.pressed) {
+      this.focus
+    }
 
     if (e.type == GestureEvent.drag) {
       pos := vbar.curPos - (e.deltaY)

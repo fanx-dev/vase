@@ -138,8 +138,8 @@ class ScrollBar : Widget
 
   override Void onMounted()
   {
-    rootVie := this.getRootView
-    rootVie.onTouchEvent.add |MotionEvent e|
+    rootView := this.getRootView
+    rootView.onTouchEvent.add |MotionEvent e|
     {
       doTouch(e)
     }

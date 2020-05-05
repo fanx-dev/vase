@@ -38,7 +38,8 @@ class StyleManager
       Toast# : ToastStyle(),
       //ImageButton# : ImageButtonStyle(),
       ProgressView# : ProgressViewStyle(),
-      CardIndicator# : CardIndicatorStyle()
+      CardIndicator# : CardIndicatorStyle(),
+      Spinner# : SpinnerStyle()
     ]
     defStyle = WidgetStyle()
 

@@ -17,6 +17,8 @@ virtual class GestureEvent : Event {
   const static Int drag := 5
   const static Int drop := 6
   const static Int multiTouch := 7
+  const static Int pressed := 8
+  const static Int released := 9
 
   **
   ** X coordinates

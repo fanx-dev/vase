@@ -19,6 +19,7 @@ abstract class WidgetGroup : Widget
 {
   new make() {
     useRenderCache = false
+    isFocusable = false
   }
 
 //////////////////////////////////////////////////////////////////////////

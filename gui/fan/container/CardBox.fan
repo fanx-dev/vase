@@ -21,7 +21,8 @@ class CardBox : Pane
     }
   }
   
-  Float offsetIndex := 0f {
+  @Transient
+  protected Float offsetIndex := 0f {
     set {
       if (&offsetIndex != it) {
         this.relayout

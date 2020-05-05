@@ -227,13 +227,16 @@ abstract class Widget
   ** process gesture event
   **
   protected virtual Void gestureEvent(GestureEvent e) {
-    if (onClickCallback != null && e.type == GestureEvent.click) {
+    if (isFocusable && e.type == GestureEvent.pressed) {
       this.focus
+    }
+    else if (onClickCallback != null && e.type == GestureEvent.click) {
+      //this.focus
       clicked
       e.consume
     }
     else if (onLongPressCallback != null && e.type == GestureEvent.longPress) {
-      this.focus
+      //this.focus
       onLongPressCallback.call(this)
       e.consume
     }
@@ -399,9 +402,9 @@ abstract class Widget
   ** preferred size of content without padding
   **
   protected virtual Dimension prefContentSize() {
-//    result.w = width
-//    result.h = height
-    return Dimension(width, height)
+    w := width - dpToPixel((padding.left + padding.right).toFloat)
+    h := height - dpToPixel((padding.top + padding.bottom).toFloat)
+    return Dimension(w, h)
   }
 
   Int contentWidth() {

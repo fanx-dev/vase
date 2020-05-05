@@ -228,6 +228,8 @@ class Frame : ContentPane
   **
   Void focusIt(Widget? w)
   {
+    if (focusWidget === w) return
+    
     Event e := Event()
     e.data = false
     focusWidget?.onFocusChanged?.fire(e)
@@ -261,6 +263,19 @@ class Frame : ContentPane
   }
 
   protected override Void gestureEvent(GestureEvent e) {
+    if (e.type == GestureEvent.fling || e.type == GestureEvent.drag
+            || e.type == GestureEvent.drop || e.type == GestureEvent.multiTouch)
+    {
+      if (focusWidget != null) {
+        coord := Coord(0f, 0f)
+        focusWidget.posOnWindow(coord)
+        e.relativeX = e.x - coord.x.toInt
+        e.relativeY = e.y - coord.y.toInt
+        focusWidget.gestureEvent(e)
+      }
+      return
+    }
+    
     if (modal > 0) {
       topLayer.gestureEvent(e)
     }
