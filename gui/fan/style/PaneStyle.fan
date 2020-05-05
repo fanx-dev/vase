@@ -46,3 +46,20 @@ class PaneStyle : WidgetStyle
     }
   }
 }
+
+@Js
+class RectViewStyle : WidgetStyle {
+  new make() {
+    background = Color.gray
+  }
+  
+  override Void doPaint(Widget widget, Graphics g)
+  {
+    x := widget.paddingLeft
+    y := widget.paddingTop
+    w := widget.width
+    h := widget.height
+    g.brush = background
+    g.fillRect(x, y, w, h)
+  }
+}

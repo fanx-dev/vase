@@ -39,7 +39,8 @@ class StyleManager
       //ImageButton# : ImageButtonStyle(),
       ProgressView# : ProgressViewStyle(),
       CardIndicator# : CardIndicatorStyle(),
-      Spinner# : SpinnerStyle()
+      Spinner# : SpinnerStyle(),
+      RectView# : RectViewStyle()
     ]
     defStyle = WidgetStyle()
 

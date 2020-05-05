@@ -31,7 +31,8 @@ class ActionDialog : VBox
     }
     this.add(label)
     
-    vb := VBox { it.style = "actionList" }
+    this.style = "actionList"
+    vb := VBox {}
     items.each |item, i|{
         lab := Button {
           it.text = item
@@ -46,6 +47,8 @@ class ActionDialog : VBox
     this.add(vb)
     
     if (cancelText != null) {
+        this.add(RectView { it.layout.height = 3.0 })
+        
         bt := Button {
           it.id = "actionDialog_cancel"
           it.style = "flatButton"

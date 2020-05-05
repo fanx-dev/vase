@@ -55,17 +55,13 @@ class AlertDialog : VBox
     }
 
     this.add(label)
+    //this.add(RectView { it.layout.height = 3.0; it.margin = Insets(30, 0) })
     this.add(hb)
     this.layout.hAlign = Align.center
     this.layout.vAlign = Align.center
 
     this.layout.width = Layout.wrapContent//dpToPixel(500f)
-    if (cancelText == null) {
-        padding = Insets(30, 150)
-    }
-    else {
-        padding = Insets(30, 70)
-    }
+    padding = Insets(30, 100)
   }
 
   Void show(Widget w)
