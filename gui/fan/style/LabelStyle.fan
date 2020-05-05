@@ -24,7 +24,7 @@ class FlatButtonStyle : LabelStyle
 {
   new make() {
     fontColor = Color(0x5577CC)
-    font = Font(37, "Arial", true)
+    font = Font(35, "Arial", true)
   }
 }
 

@@ -21,6 +21,8 @@ class AlertDialog : VBox
 
   new make(Str msg, Str okText := "OK", Str? cancelText := null)
   {
+    this.style = "dialog"
+    
     label = Label {
       it.id = "alertDialog_msg"
       it.text = msg

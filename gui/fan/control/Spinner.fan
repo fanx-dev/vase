@@ -32,8 +32,8 @@ class Spinner : Widget
     }
     
     protected override Dimension prefContentSize() {
-        w := 200
-        h := dpToPixel(lineHeight)*3
+        w := dpToPixel(200f)
+        h := dpToPixel(lineHeight)*4
         return Dimension(w, h)
     }
     
@@ -67,7 +67,7 @@ class Spinner : Widget
                 return
             }
             
-            toIndex := offsetIndex-(e.speedY.toFloat * 3)
+            toIndex := offsetIndex-(e.speedY.toFloat * 5)
             if (toIndex >= items.size.toFloat) toIndex = items.size.toFloat
             else if (toIndex < 0.0) toIndex = 0.0
             

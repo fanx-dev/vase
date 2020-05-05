@@ -26,7 +26,6 @@ class StyleManager
       RadioButton# : RadioButtonStyle(),
       ScrollBar# : ScrollBarStyle(),
       SliderBar# : SliderBarStyle(),
-      AlertDialog# : PaneStyle(),
       ComboBox# : ComboBoxStyle(),
       ButtonBase# : ButtonBaseStyle(),
       Table# : TableStyle(),
@@ -50,7 +49,7 @@ class StyleManager
     styleClassMap["pane"] = PaneStyle()
     styleClassMap["flatButton"] = FlatButtonStyle()
     styleClassMap["progressBar"] = ProgressBarStyle()
-    styleClassMap["actionList"] = PaneStyle()
+    styleClassMap["dialog"] = PaneStyle()
     styleClassMap["tabItem"] = TabItemStyle()
     styleClassMap["tabItemHighlight"] = TabItemHighlightStyle()
   }

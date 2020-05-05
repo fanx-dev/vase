@@ -31,7 +31,8 @@ class ActionDialog : VBox
     }
     this.add(label)
     
-    this.style = "actionList"
+    this.style = "dialog"
+    
     vb := VBox {}
     items.each |item, i|{
         lab := Button {
