@@ -307,7 +307,7 @@ class Frame : ContentPane
       topLayer.motionEvent(e)
     }
     
-    if (modal < 2 && !e.consumed && mouseOverWidget == null){
+    if (modal < 2 && !e.consumed){
       super.motionEvent(e)
     }
     //echo("type$e.type, x$e.x,y$e.y")

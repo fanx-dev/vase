@@ -26,6 +26,15 @@ class FlatButtonStyle : LabelStyle
     fontColor = Color(0x5577CC)
     font = Font(35, "Arial", true)
   }
+  
+  override Void doPaint(Widget widget, Graphics g)
+  {
+    super.doPaint(widget, g)
+    ButtonBase bt := widget
+    if (bt.state == ButtonBase.mouseDown) {
+        g.fillRect(0, 0, widget.width, widget.height)
+    }
+  }
 }
 
 @Js
