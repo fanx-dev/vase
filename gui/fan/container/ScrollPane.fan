@@ -10,7 +10,7 @@ using vaseGraphics
 using vaseWindow
 
 @Js
-abstract class ScrollBase : Pane
+class ScrollPane : ContentPane
 {
   @Transient
   protected ScrollBar hbar
@@ -24,9 +24,9 @@ abstract class ScrollBase : Pane
   @Transient
   virtual Int offsetY := 0
 
-  protected Float barSize := 60f
+  protected Float barSize := 50f
 
-  Bool autoAdjustChildren := false
+  Bool autoScrollContent := true
 
   @Transient
   private Animation? animation
@@ -51,10 +51,10 @@ abstract class ScrollBase : Pane
 
         offsetX = newVal.toInt
 
-        if (autoAdjustChildren) {
+        if (autoScrollContent) {
           dx := (newVal - oldVal).toInt
-          this.each {
-            it.x = it.x + dx
+          if (content != null) {
+            content.x = content.x - dx
           }
         }
         onViewportChanged
@@ -70,10 +70,10 @@ abstract class ScrollBase : Pane
 
         offsetY = newVal.toInt
 
-        if (autoAdjustChildren) {
+        if (autoScrollContent) {
           dy := (newVal - oldVal).toInt
-          this.each {
-            it.y = it.y + dy
+          if (content != null) {
+            content.y = content.y - dy
           }
         }
         onViewportChanged
@@ -91,8 +91,6 @@ abstract class ScrollBase : Pane
   }
 
   protected virtual Void onViewportChanged() {}
-
-  protected Void doAdd(Widget? child) { super.add(child) }
 
   protected virtual Float viewportWidth() { contentWidth.toFloat }
 
@@ -151,36 +149,28 @@ abstract class ScrollBase : Pane
       vbar.visible = true
     }
 
-    //offset children
-    if (autoAdjustChildren) {
-      adjustContent
-    }
-
   }
 
   override Void layoutChildren(Bool force)
   {
-    hbar.detach
-    vbar.detach
+    //hbar.detach
+    //vbar.detach
 
-    layoutContent(force)
-
+    super.layoutChildren(force)
     layoutScroolBar()
-
-    doAdd(hbar)
-    doAdd(vbar)
-    
+    //offset children
+    if (autoScrollContent) {
+      adjustContent
+    }
+    //doAdd(hbar)
+    //doAdd(vbar)
     onViewportChanged
   }
 
-  protected virtual Void layoutContent(Bool force) {
-    super.layoutChildren(force)
-  }
-
   protected virtual Void adjustContent() {
-    this.each {
-      it.x = it.x - offsetX
-      it.y = it.y - offsetY
+    if (content != null) {
+      content.x -= offsetX
+      content.y -= offsetY
     }
   }
 
@@ -284,11 +274,4 @@ abstract class ScrollBase : Pane
     }
   }
 
-}
-
-@Js
-class ScrollPane : ScrollBase {
-  new make() {
-    autoAdjustChildren = true
-  }
 }

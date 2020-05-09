@@ -47,7 +47,7 @@ class WinTest
     btn.onAction.add
     {
       msg := Toolkit.cur.density.toStr + "," + root.width
-      MessageBox { it.label.text = msg }.show(root)
+      //MessageBox { it.label.text = msg }.show(root)
     }
 
     root.show

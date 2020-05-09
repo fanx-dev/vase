@@ -54,10 +54,11 @@ class ScrollBar : Widget
     }
 
     if (curPos == val) return
+    oldPos := curPos
     curPos = val
     //echo("curPos:$curPos")
 
-    e := StateChangedEvent (&curPos, val, #curPos, this )
+    e := StateChangedEvent (oldPos, curPos, #curPos, this )
     onStateChanged.fire(e)
 
     if (fireEvent) {

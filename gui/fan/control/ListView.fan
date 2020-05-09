@@ -11,13 +11,10 @@ using vaseWindow
 using vaseMath
 
 @Js
-class ListView : ScrollBase
+class ListView : ScrollPane
 {
   @Transient
   private Float rowHeight := 100f
-
-  @Transient
-  private Widget[] tempChildren := [,]
 
   private Bool itemLayoutDirty := true
 
@@ -30,6 +27,8 @@ class ListView : ScrollBase
   {
     if (f != null) f(this)
     layout.height = Layout.matchParent
+    super.autoScrollContent = false
+    this.content = Pane { it.layout.height = Layout.matchParent }
   }
 
   private Void init() {
@@ -46,7 +45,7 @@ class ListView : ScrollBase
 
   protected override Dimension prefContentSize() {
     //r := super.prefContentSize(result)
-    return Dimension(dpToPixel(200f), dpToPixel(400f))
+    return Dimension(dpToPixel(200f), contentMaxHeight.toInt)
   }
 
   protected Widget getView(Int i) {
@@ -66,9 +65,7 @@ class ListView : ScrollBase
 
     vbar.viewport = viewportHeight
     vbar.max = contentMaxHeight()
-
-    moveToTop(vbar)
-    moveToTop(hbar)
+    
     super.paintChildren(g)
   }
 
@@ -82,8 +79,8 @@ class ListView : ScrollBase
     Int topOffset := offsetY - (i * rowHeight).toInt
     y -= topOffset
 
-    tempChildren.each { it.detach(false) }
-    tempChildren.clear
+    Pane pane := content
+    pane.removeAll
 
     Int count := 0
     if (i < 0) {
@@ -93,9 +90,8 @@ class ListView : ScrollBase
     for (; i< model.size; ++i)
     {
       view := getView(i)
-      tempChildren.add(view)
       view.layout.ignore = true
-      doAdd(view)
+      pane.add(view)
       ++count
 
       itemH := view.bufferedPrefSize().h

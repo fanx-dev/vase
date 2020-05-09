@@ -10,7 +10,7 @@ using vaseGraphics
 using vaseWindow
 
 @Js
-class Table : ScrollBase
+class Table : ScrollPane
 {
   @Transient
   TableModel model := TableModel() {
@@ -33,7 +33,9 @@ class Table : ScrollBase
   new make(|This|? f := null)
   {
     if (f != null) f(this)
-    doAdd(header)
+    layout.height = Layout.matchParent
+    super.autoScrollContent = false
+    this.content = header
   }
 
   private Void init() {

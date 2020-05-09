@@ -145,7 +145,7 @@ abstract class Widget
   }
 
   @Transient
-  Int width := 50 {
+  Int width := 0 {
     protected set {
       oldVal := &width
       &width = it
@@ -154,7 +154,7 @@ abstract class Widget
   }
 
   @Transient
-  Int height := 50 {
+  Int height := 0 {
     protected set {
       oldVal := &height
       &height = it
@@ -402,9 +402,7 @@ abstract class Widget
   ** preferred size of content without padding
   **
   protected virtual Dimension prefContentSize() {
-    w := width - dpToPixel((padding.left + padding.right).toFloat)
-    h := height - dpToPixel((padding.top + padding.bottom).toFloat)
-    return Dimension(w, h)
+    return Dimension(dpToPixel(50f), dpToPixel(50f))
   }
 
   Int contentWidth() {

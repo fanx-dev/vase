@@ -14,7 +14,7 @@ using vaseWindow
 ** TreeView
 **
 @Js
-class TreeView : ScrollBase
+class TreeView : ScrollPane
 {
   **
   ** Backing data model of tree.
@@ -46,6 +46,7 @@ class TreeView : ScrollBase
   new make(|This|? f := null)
   {
     if (f != null) f(this)
+    super.autoScrollContent = false
   }
 
   protected override Float contentMaxWidth() {

@@ -80,7 +80,7 @@ class NativeCaret : Caret, TextInput {
 ** Text
 **
 @Js
-class TextArea : ScrollBase
+class TextArea : ScrollPane
 {
   **
   ** Tab width measured in space characters.
@@ -119,6 +119,7 @@ class TextArea : ScrollBase
   new make(|This|? f := null)
   {
     if (f != null) f(this)
+    super.autoScrollContent = false
   }
 
   protected override Dimension prefContentSize() {
