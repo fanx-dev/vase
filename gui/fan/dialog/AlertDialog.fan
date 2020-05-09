@@ -13,7 +13,7 @@ using vaseWindow
 ** MessageBox
 **
 @Js
-class AlertDialog : VBox
+class AlertDialog : VBox, Dialog
 {
   Label label { private set }
   
@@ -36,7 +36,7 @@ class AlertDialog : VBox
           it.id = "alertDialog_ok"
           it.style = "flatButton"
           it.onClick {
-            this.moveOutAnim(Direction.down).start
+            this.close
             onAction?.call(true)
           };
           it.text = okText
@@ -48,7 +48,7 @@ class AlertDialog : VBox
           it.id = "alertDialog_cancel"
           it.style = "flatButton"
           it.onClick {
-            this.moveOutAnim(Direction.down).start
+            this.close
             onAction?.call(false)
           };
           it.text = cancelText
@@ -64,16 +64,5 @@ class AlertDialog : VBox
 
     this.layout.width = Layout.wrapContent//dpToPixel(500f)
     padding = Insets(30, 100)
-  }
-
-  Void show(Widget w)
-  {
-    root := w.getRootView
-    overlayer := root.topOverlayer
-    overlayer.add(this)
-    this.focus
-    root.modal = 2
-    overlayer.relayout
-    this.moveInAnim(Direction.down).start
   }
 }

@@ -37,32 +37,3 @@ class Label : Widget
     return Dimension(w, h)
   }
 }
-
-@Js
-class Toast : Label {
-
-  new make(Str msg) {
-    text = msg
-    layout.width = Layout.wrapContent
-    this.layout.hAlign = Align.center
-    this.layout.vAlign = Align.end
-    layout.offsetY = -50f
-//    layout.posX.with { it.parent = 0.5f; it.anchor = 0.5f; it.offset = 0f }
-//    layout.posY.with { it.parent = 0.8f; it.anchor = 0.5f; it.offset = 0f }
-    padding = Insets(20)
-  }
-
-  Void show(Widget w)
-  {
-    root := w.getRootView
-    overlayer := root.topOverlayer
-    overlayer.add(this)
-    overlayer.relayout
-
-    a := this.fadeInAnim
-    a.whenDone.add {
-      this.fadeOutAnim { delay = 1000 }.start
-    }
-    a.start
-  }
-}

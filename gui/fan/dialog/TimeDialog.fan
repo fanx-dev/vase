@@ -8,7 +8,7 @@
 **
 ** TimeDialog
 **
-class TimeDialog : VBox
+class TimeDialog : VBox, Dialog
 {  
   |TimeOfDay?|? onAction
   private Spinner spinnerHour
@@ -28,7 +28,7 @@ class TimeDialog : VBox
           it.id = "timeDialog_ok"
           it.style = "flatButton"
           it.onClick {
-            this.moveOutAnim(Direction.down).start
+            this.close
             onAction?.call(time)
           };
           it.text = okText
@@ -40,7 +40,7 @@ class TimeDialog : VBox
           it.id = "timeDialog_cancel"
           it.style = "flatButton"
           it.onClick {
-            this.moveOutAnim(Direction.down).start
+            this.close
             onAction?.call(null)
           };
           it.text = cancelText
@@ -48,14 +48,16 @@ class TimeDialog : VBox
         hb.add(bt)
     }
     
+    spinnerHour = Spinner{ it.layout.width = Layout.matchParent}
+    24.times { spinnerHour.items.add("$it") }
+    spinnerHour.selIndex = 12
+        
+    spinnerMinute = Spinner{ it.layout.width = Layout.matchParent}
+    60.times { spinnerMinute.items.add("$it") }
+    spinnerMinute.selIndex = 30
+        
     hb2 := HBox {
-        spinnerHour = Spinner{ it.layout.width = Layout.matchParent},;
-        24.times { spinnerHour.items.add("$it") }
-        spinnerHour.selIndex = 12
-
-        spinnerMinute = Spinner{ it.layout.width = Layout.matchParent},;
-        60.times { spinnerMinute.items.add("$it") }
-        spinnerMinute.selIndex = 30
+        spinnerHour, spinnerMinute
     }
 
     //this.add(label)
@@ -68,24 +70,13 @@ class TimeDialog : VBox
     this.layout.width = Layout.matchParent//dpToPixel(500f)
     //padding = Insets(30, 100)
   }
-
-  Void show(Widget w)
-  {
-    root := w.getRootView
-    overlayer := root.topOverlayer
-    overlayer.add(this)
-    this.focus
-    root.modal = 2
-    overlayer.relayout
-    this.moveInAnim(Direction.down).start
-  }
 }
 
 
 **
 ** DateDialog
 **
-class DateDialog : VBox
+class DateDialog : VBox, Dialog
 {  
   |Date?|? onAction
   private Spinner spinnerYear
@@ -110,7 +101,7 @@ class DateDialog : VBox
           it.id = "timeDialog_ok"
           it.style = "flatButton"
           it.onClick {
-            this.moveOutAnim(Direction.down).start
+            this.close
             date
             onAction?.call(date)
           };
@@ -123,7 +114,7 @@ class DateDialog : VBox
           it.id = "timeDialog_cancel"
           it.style = "flatButton"
           it.onClick {
-            this.moveOutAnim(Direction.down).start
+            this.close
             onAction?.call(null)
           };
           it.text = cancelText
@@ -132,21 +123,23 @@ class DateDialog : VBox
     }
     
     baseYear = defDate.year - 80
+    spinnerYear = Spinner{ it.layout.width = Layout.matchParent}
+    100.times {
+        year := baseYear+it
+        spinnerYear.items.add("$year")
+    }
+    spinnerYear.selIndex = defDate.year - baseYear
+
+    spinnerMonth = Spinner{ it.layout.width = Layout.matchParent}
+    12.times { spinnerMonth.items.add("${it+1}") }
+    spinnerMonth.selIndex = defDate.month.ordinal
+
+    spinnerDay = Spinner{ it.layout.width = Layout.matchParent}
+    31.times { spinnerDay.items.add("${it+1}") }
+    spinnerDay.selIndex = defDate.day-1
+    
     hb2 := HBox { 
-        spinnerYear = Spinner{ it.layout.width = Layout.matchParent},;
-        100.times {
-            year := baseYear+it
-            spinnerYear.items.add("$year")
-        }
-        spinnerYear.selIndex = defDate.year - baseYear
-
-        spinnerMonth = Spinner{ it.layout.width = Layout.matchParent},;
-        12.times { spinnerMonth.items.add("${it+1}") }
-        spinnerMonth.selIndex = defDate.month.ordinal
-
-        spinnerDay = Spinner{ it.layout.width = Layout.matchParent},;
-        31.times { spinnerDay.items.add("${it+1}") }
-        spinnerDay.selIndex = defDate.day-1
+        spinnerYear, spinnerMonth, spinnerDay
     }
 
     //this.add(label)
@@ -158,16 +151,5 @@ class DateDialog : VBox
 
     this.layout.width = Layout.matchParent//dpToPixel(500f)
     //padding = Insets(30, 100)
-  }
-
-  Void show(Widget w)
-  {
-    root := w.getRootView
-    overlayer := root.topOverlayer
-    overlayer.add(this)
-    this.focus
-    root.modal = 2
-    overlayer.relayout
-    this.moveInAnim(Direction.down).start
   }
 }
