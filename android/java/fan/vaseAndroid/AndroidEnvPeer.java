@@ -12,6 +12,7 @@ import fan.vaseWindow.Toolkit;
 import fan.vaseWindow.Window;
 import fan.sys.Func;
 import fan.vaseWindow.Clipboard;
+import android.content.Intent;
 
 public class AndroidEnvPeer {
   public static AndroidEnvPeer make(AndroidEnv self)
@@ -32,6 +33,18 @@ public class AndroidEnvPeer {
     if (isMainThread()) {
       Toolkit.tryInitAsyncRunner();
     }
+  }
+
+  public static boolean onBack(Activity context)
+  {
+    AndToolkit toolkit = (AndToolkit)Actor.locals().get("vaseWindow.env");
+    Window w = toolkit.window(null);
+    if (w == null) return false;
+    return w.view().onBack();
+  }
+
+  public static void onActivityResult(Activity c, long requestCode, long resultCode, Intent data) {
+
   }
 
   static class AndToolkit extends Toolkit

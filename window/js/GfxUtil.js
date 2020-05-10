@@ -33,7 +33,13 @@ fan.vaseWindow.GfxUtil.addEventListener = function(obj, type, func)
     obj.attachEvent("on" + type, func);
   }
   else {
-    obj.addEventListener(type, func, false);
+    if (type == "mousewheel") {
+      obj.addEventListener("DOMMouseScroll", func, false);
+      window.onmousewheel = document.onmousewheel = func;
+    }
+    else {
+      obj.addEventListener(type, func, false);
+    }
   }
 }
 

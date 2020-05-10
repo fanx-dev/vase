@@ -67,20 +67,20 @@ fan.vaseWindow.Event.toWheelDelta = function(e)
     wy = -e.wheelDeltaY;
 
     // Safari
-    if (wx % 120 == 0) wx = wx / 40;
-    if (wy % 120 == 0) wy = wy / 40;
+    wx = wx / 120;
+    wy = wy / 120;
   }
   else if (e.wheelDelta != null)
   {
     // IE
     wy = -e.wheelDelta;
-    if (wy % 120 == 0) wy = wy / 40;
+    wy = wy / 120;
   }
   else if (e.detail != null)
   {
     // Firefox
-    wx = e.axis == 1 ? e.detail : 0;
-    wy = e.axis == 2 ? e.detail : 0;
+    wx = e.axis == 1 ? e.detail/3 : 0;
+    wy = e.axis == 2 ? e.detail/3 : 0;
   }
 
   // make sure we have ints and return

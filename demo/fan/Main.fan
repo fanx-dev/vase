@@ -35,7 +35,7 @@ abstract class BasePage {
 **
 class Main
 {
-
+  Frame? mainView
   BasePage?[] frames
   
   new make() {
@@ -46,14 +46,15 @@ class Main
       MenuTest(), TableTest(), TreeTest(), null,
       EditTextTest(), TextAreaTest(), FilePickerTest(), null,
     ]
+    init
   }
 
   Void doClick(BasePage frame) {
     frame.run
   }
   
-  Void main() {
-    Frame {
+  Void init() {
+    mainView = Frame {
       ScrollPane {
         VBox {
           padding = Insets(40)
@@ -79,6 +80,12 @@ class Main
           }
         },
       },
-    }.show
+    }
+  }
+
+  Void show() { mainView.show }
+  
+  static Void main() {
+    Main().show
   }
 }
