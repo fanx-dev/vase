@@ -214,8 +214,8 @@ class DragState : GestureState {
     distance = DisplayMetrics.pixelToDp(distance.toInt)
     speed := distance/elapsedTime
     //echo("distance;$distance, speed:$speed")
-    minDis := DisplayMetrics.dpToPixel(100f).toFloat
-    if (distance > 100f && speed > 2.0) {
+    //minDis := DisplayMetrics.dpToPixel(100f).toFloat
+    if (distance > 20f && speed > 1.0) {
       ge := makeEvent(e, GestureEvent.fling)
       ge.deltaX = dx
       ge.deltaY = dy

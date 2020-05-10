@@ -66,8 +66,9 @@ class ComboBox : Button
         it.textAlign = Align.begin
         it.layout.width = Layout.matchParent
         //it.layout.widthVal = it.pixelToDp()
-        it.padding = Insets(10, 0)
+        it.padding = Insets(15, 0)
         it.onAction.add { select(button, i) }
+        it.isFocusable = false
       }
       pane.add(button)
     }

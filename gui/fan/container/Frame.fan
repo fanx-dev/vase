@@ -187,7 +187,7 @@ class Frame : ContentPane
     if (modal > 1) {
       //g.brush = Color.fromArgb(100, 0, 0, 0)
       g.brush = Color.black
-      g.alpha = 100
+      g.alpha = 20
       g.fillRect(0, 0, width, height)
       //TODO restore this
       g.alpha = 255
@@ -306,9 +306,13 @@ class Frame : ContentPane
     if (modal > 0) {
       topLayer.motionEvent(e)
     }
+    if (e.consumed) {
+      return
+    }
+    if (modal == 1 && focusWidget != null) return
     
-    if (modal < 2 && !e.consumed){
-      super.motionEvent(e)
+    if (modal < 2) {
+        super.motionEvent(e)
     }
     //echo("type$e.type, x$e.x,y$e.y")
   }
