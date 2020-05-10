@@ -59,6 +59,8 @@ class TabView : HBox
             }
             this.add(bt)
         }
+        isFocusable = true
+        clip = true
     }
     
   override Void layoutChildren(Bool force)

@@ -12,6 +12,9 @@ using vaseWindow
 @Js
 class Pane : WidgetGroup
 {
+  new make() {
+    clip = true
+  }
   **
   ** Frame Layout
   **

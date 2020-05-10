@@ -33,6 +33,7 @@ class CardPane : Pane
   
   new make() {
     isFocusable = true
+    clip = true
   }
   
   private Void select(Int i, Bool updateWhenDone := true) {
