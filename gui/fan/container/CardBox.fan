@@ -5,6 +5,8 @@
 //   2020-4-27 yangjiandong Creation
 //
 
+using vaseWindow
+
 **
 ** lays out child elements as a stack of cards
 ** where only one card may be visible at a time
@@ -64,7 +66,7 @@ class CardPane : Pane
     //echo("from$fromIndex -> to:$endIndex, std:$stdIndex")
     
     anim := Animation {
-      it.duration = 500
+      it.duration = 300
       FloatPropertyAnimChannel(this, #offsetIndex) {
         from = fromIndex; to = endIndex
       },
@@ -78,14 +80,17 @@ class CardPane : Pane
     this.relayout
   }
   
+  protected override Void motionEvent(MotionEvent e) {
+    if (isFocusable && e.type == MotionEvent.pressed) {
+      this.focus
+    }
+  }
+  
   protected override Void gestureEvent(GestureEvent e) {
     super.gestureEvent(e)
     if (e.consumed) return
     
-    if (isFocusable && e.type == GestureEvent.pressed) {
-      this.focus
-    }
-    else if (e.type == GestureEvent.drag) {
+    if (e.type == GestureEvent.drag) {
         r := e.deltaX.toFloat/width
         t := offsetIndex - r
         if (t > (childrenSize-1).toFloat) {

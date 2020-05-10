@@ -8,7 +8,7 @@ using vaseGraphics
 
 @Js
 class AnimExt {
-  static extension Animation fadeInAnim(Widget self, Int time := 500) {
+  static extension Animation fadeInAnim(Widget self, Int time := 300) {
     a := TweenAnimation {
       it.duration = time
       AlphaAnimChannel { to = 1f; from = 0f; },
@@ -16,7 +16,7 @@ class AnimExt {
     a.bind(self)
     return a
   }
-  static extension Animation fadeOutAnim(Widget self, Int time := 500, Bool detach := true) {
+  static extension Animation fadeOutAnim(Widget self, Int time := 300, Bool detach := true) {
     a := TweenAnimation {
       it.duration = time
       AlphaAnimChannel { from = 1f; to = 0f; },
@@ -29,7 +29,7 @@ class AnimExt {
     return a
   }
 
-  static extension Animation moveInAnim(Widget self, Direction orig, Int time := 500) {
+  static extension Animation moveInAnim(Widget self, Direction orig, Int time := 300) {
     x := 0
     y := 0
     p := Coord(0f, 0f)
@@ -55,7 +55,7 @@ class AnimExt {
     return a
   }
 
-  static extension Animation moveOutAnim(Widget self, Direction orig, Int time := 500, Bool detach := true) {
+  static extension Animation moveOutAnim(Widget self, Direction orig, Int time := 300, Bool detach := true) {
 
     x := 0
     y := 0
@@ -109,7 +109,7 @@ class AnimExt {
     return a
   }
 
-  static extension Animation shrinkAnim(Widget self, Int time := 500, Coord? p := null, Bool detach := true) {
+  static extension Animation shrinkAnim(Widget self, Int time := 300, Coord? p := null, Bool detach := true) {
     if (p == null) {
       p = Coord(0f, 0f)
       self.posOnWindow(p)
@@ -131,7 +131,7 @@ class AnimExt {
     return a
   }
 
-  static extension Animation expandAnim(Widget self, Int time := 500, Coord? p := null) {
+  static extension Animation expandAnim(Widget self, Int time := 300, Coord? p := null) {
     if (p == null) {
       p = Coord(0f, 0f)
       self.posOnWindow(p)
@@ -149,7 +149,7 @@ class AnimExt {
     return a
   }
 
-  static extension Animation scaleAnim(Widget self, Float from := 0f, Int time := 500) {
+  static extension Animation scaleAnim(Widget self, Float from := 0f, Int time := 300) {
     a := TweenAnimation() {
       it.duration = time
       ScaleAnimChannel { it.from = from; to = 1.0f },
@@ -159,7 +159,7 @@ class AnimExt {
     return a
   }
 
-  static extension Animation offsetAnim(Widget self, Float offset := 5f, Int time := 500) {
+  static extension Animation offsetAnim(Widget self, Float offset := 5f, Int time := 300) {
     px := DisplayMetrics.dpToPixel(offset)
     a := TweenAnimation() {
       it.duration = time

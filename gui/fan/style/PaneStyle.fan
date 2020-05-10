@@ -40,8 +40,9 @@ class PaneStyle : WidgetStyle
       }
       if (stroke) {
         g.brush = outlineColor
-        g.pen = Pen { width = dpToPixel(lineWidth) }
-        g.drawRoundRect(x, y, w, h, a, a)
+        lw := dpToPixel(lineWidth)
+        g.pen = Pen { width = lw }
+        g.drawRoundRect(x, y, w-lw, h-lw, a, a)
       }
     }
   }

@@ -45,8 +45,8 @@ class NoneState : GestureState {
       ns := DownState(machine)
       machine.setCurrentState(ns, e)
       
-      ge := makeEvent(e, GestureEvent.pressed)
-      machine.onGestureEvent.fire(ge)
+      //ge := makeEvent(e, GestureEvent.pressed)
+      //machine.onGestureEvent.fire(ge)
     }
   }
 
@@ -254,8 +254,8 @@ class DragState : GestureState {
         return
       }
       
-      ge0 := makeEvent(e, GestureEvent.released)
-      machine.onGestureEvent.fire(ge0)
+      //ge0 := makeEvent(e, GestureEvent.released)
+      //machine.onGestureEvent.fire(ge0)
       
       ge := makeEvent(e, GestureEvent.drop)
       machine.onGestureEvent.fire(ge)

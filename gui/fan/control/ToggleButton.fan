@@ -24,6 +24,8 @@ class ToggleButton : Button
       &selected = it
     }
   }
+  
+  internal Float animPostion := 0f
 
   new make() {
     text = "ToggleButton"
@@ -31,11 +33,33 @@ class ToggleButton : Button
     padding = Insets.defVal
     textAlign = Align.begin
   }
+  
+  protected Void startAnim() {
+    afrom := 0f
+    ato := 1f
+    if (!this.selected) {
+      afrom = 1f
+      ato = 0f
+    }
+    anim := Animation {
+      FloatPropertyAnimChannel(this, #animPostion) {
+        from = afrom; to = ato
+      },
+    }
+    anim.whenDone.add {
+      this.repaint
+    }
+    anim.duration = 200
+    this.getRootView.animManager.add(anim)
+    anim.start
+    this.repaint
+  }
 
   protected override Void clicked() {
     super.clicked
     selected = !selected
-    this.repaint
+    startAnim
+    //this.repaint
   }
 
   protected override Dimension prefContentSize() {
@@ -64,37 +88,7 @@ class RadioButton : ToggleButton {
       }
     }
     selected = true
-    this.repaint
-  }
-}
-
-@Js
-class Switch : ToggleButton {
-  Float animPostion := 0f
-
-  protected override Void clicked() {
-    super.clicked
-
-    afrom := 0f
-    ato := 1f
-    if (!this.selected) {
-      afrom = 1f
-      ato = 0f
-    }
-    anim := Animation {
-      FloatPropertyAnimChannel(this, #animPostion) {
-        from = afrom; to = ato
-//        it.updateFunc = |->| {
-//          this.repaint
-//        }
-      },
-    }
-    anim.whenDone.add {
-      this.repaint
-    }
-    anim.duration = 200
-    this.getRootView.animManager.add(anim)
-    anim.start
-    this.repaint
+    startAnim
+    //this.repaint
   }
 }

@@ -42,6 +42,7 @@ class ToggleButtonStyle : WidgetStyle
     g.drawRect(x-r, y-r, size, size)
     if (btn.selected)
     {
+      r = (r * btn.animPostion).toInt
       g.pen = contectPen
       g.brush = this.foreground
       //g.drawLine(x-(r*0.6f).toInt, y-(r*0.15f).toInt, x, y+(r/2f).toInt)
@@ -80,17 +81,17 @@ class RadioButtonStyle : ToggleButtonStyle
 
     g.brush = this.outlineColor
     g.fillOval(x-r, y-r, size, size)
-    cw := (r*0.85f).toInt
     if (btn.selected)
     {
+      cw := (r * 0.85 * btn.animPostion).toInt
       g.brush = this.foreground
       g.fillOval(x-cw, y-cw, cw+cw, cw+cw)
     }
     else {
+      cw := (r * 0.85).toInt
       g.brush = this.buttonColor
       g.fillOval(x-cw, y-cw, cw+cw, cw+cw)
     }
-
   }
 }
 
@@ -104,7 +105,7 @@ class SwitchStyle : ToggleButtonStyle {
 
   override Void doPaint(Widget widget, Graphics g)
   {
-    Switch btn := widget
+    ToggleButton btn := widget
     drawText(btn, g, btn.text, Align.begin)
 
     top := widget.paddingTop

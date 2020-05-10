@@ -221,16 +221,17 @@ abstract class Widget
   **
   ** process motion event
   **
-  protected virtual Void motionEvent(MotionEvent e) {}
+  protected virtual Void motionEvent(MotionEvent e) {
+    if (isFocusable && e.type == MotionEvent.pressed) {
+      this.focus
+    }
+  }
 
   **
   ** process gesture event
   **
   protected virtual Void gestureEvent(GestureEvent e) {
-    if (isFocusable && e.type == GestureEvent.pressed) {
-      this.focus
-    }
-    else if (onClickCallback != null && e.type == GestureEvent.click) {
+    if (onClickCallback != null && e.type == GestureEvent.click) {
       //this.focus
       clicked
       e.consume

@@ -11,7 +11,7 @@ using vaseGraphics
 class StyleManager
 {
   Str:Style idMap := [:]
-  Str:Style styleClassMap := [:]
+  Str:Style styleClassMap
   Type:Style typeMap
   private Style defStyle
 
@@ -23,7 +23,7 @@ class StyleManager
       ImageView# : ImageStyle(),
       Label# : LabelStyle(),
       EditText# : EditTextStyle(),
-      ToggleButton# : ToggleButtonStyle(),
+      ToggleButton# : SwitchStyle(),
       RadioButton# : RadioButtonStyle(),
       ScrollBar# : ScrollBarStyle(),
       SliderBar# : SliderBarStyle(),
@@ -33,7 +33,6 @@ class StyleManager
       TextArea# : TextAreaStyle(),
       MenuItem# : MenuItemStyle(),
       Menu# :  MenuStyle(),
-      Switch# : SwitchStyle(),
       Toast# : ToastStyle(),
       ProgressView# : ProgressViewStyle(),
       CardIndicator# : CardIndicatorStyle(),
@@ -43,20 +42,22 @@ class StyleManager
     ]
     defStyle = WidgetStyle()
 
-    styleClassMap["buttonBase"] = ButtonBaseStyle()
-    styleClassMap["menuItem"] = MenuItemStyle()
-    styleClassMap["tableHeader"] = TableHeaderStyle()
-    styleClassMap["pane"] = PaneStyle()
-    styleClassMap["flatButton"] = FlatButtonStyle()
-    styleClassMap["progressBar"] = ProgressBarStyle()
-    styleClassMap["dialog"] = PaneStyle()
-    styleClassMap["tabItem"] = TabItemStyle()
-    styleClassMap["tabItemHighlight"] = TabItemHighlightStyle()
-    
-    styleClassMap["h1"] = LabelStyle { font = Font(64) }
-    styleClassMap["h2"] = LabelStyle { font = Font(53) }
-    styleClassMap["h3"] = LabelStyle { font = Font(45) }
-    styleClassMap["h4"] = LabelStyle { font = Font(38) }
+    styleClassMap = [
+        "buttonBase" : ButtonBaseStyle(),
+        "menuItem" : MenuItemStyle(),
+        "tableHeader" : TableHeaderStyle(),
+        "pane" : PaneStyle(),
+        "flatButton" : FlatButtonStyle(),
+        "progressBar" : ProgressBarStyle(),
+        "dialog" : PaneStyle(),
+        "tabItem" : TabItemStyle(),
+        "tabItemHighlight" : TabItemHighlightStyle(),
+        "checkBox" : ToggleButtonStyle(),
+        "h1" : LabelStyle { font = Font(64) },
+        "h2" : LabelStyle { font = Font(53) },
+        "h3" : LabelStyle { font = Font(45) },
+        "h4" : LabelStyle { font = Font(38) },
+    ]
   }
 
   private Style? findByType(Type type) {

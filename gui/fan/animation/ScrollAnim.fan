@@ -63,6 +63,7 @@ class ScrollAnimChannel : AnimChannel {
     //echo("t:$t, a:$acceleration, vt:$startV, s:$s, pos:$pos, $allowOverScroll")
     target.setCurPos(pos, true, allowOverScroll)
     isFinished = isEnd
+    //echo("isFinished:$isFinished")
     target.repaint
   }
 }

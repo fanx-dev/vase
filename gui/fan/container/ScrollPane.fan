@@ -52,9 +52,9 @@ class ScrollPane : ContentPane
         offsetX = newVal.toInt
 
         if (autoScrollContent) {
-          dx := (newVal - oldVal).toInt
+          dx := (newVal - oldVal)
           if (content != null) {
-            content.x = content.x - dx
+            content.x = (content.x - dx).round.toInt
           }
         }
         onViewportChanged
@@ -71,9 +71,9 @@ class ScrollPane : ContentPane
         offsetY = newVal.toInt
 
         if (autoScrollContent) {
-          dy := (newVal - oldVal).toInt
+          dy := (newVal - oldVal)
           if (content != null) {
-            content.y = content.y - dy
+            content.y = (content.y - dy).round.toInt
           }
         }
         onViewportChanged
@@ -192,6 +192,7 @@ class ScrollPane : ContentPane
       if (animation != null) {
         animation.stop
       }
+      this.focus
     }
     else if (e.type == MotionEvent.moved) {
         if (refreshTip != null) {
@@ -216,12 +217,13 @@ class ScrollPane : ContentPane
     getRootView.animManager.add(anim)
     anim.start
     animation = anim
+    this.repaint
   }
 
   private Void animatOverScroll() {
     if (vbar.isOverScroll) {
       anim := Animation {
-        duration = 2000
+        duration = 1500
         OverScrollAnimChannel { target = vbar},
       }
       startAnimation(anim)
@@ -233,16 +235,25 @@ class ScrollPane : ContentPane
     if (e.consumed) return
     
     //if (!vbar.enabled) return
-    if (isFocusable && e.type == GestureEvent.pressed) {
-      this.focus
-    }
-    else if (e.type == GestureEvent.drag) {
-      pos := vbar.curPos - (e.deltaY)
-      vbar.setCurPos(pos, true, true)
-      vbar.repaint
+    if (e.type == GestureEvent.drag) {
+      if (e.deltaY.abs > e.deltaX.abs) {
+        if (vbar.enabled) {
+          pos := vbar.curPos - (e.deltaY)
+          vbar.setCurPos(pos, true, true)
+          vbar.repaint
+        }
+      }
+      else {
+        if (hbar.enabled) {
+          pos := hbar.curPos - (e.deltaX)
+          hbar.setCurPos(pos, true)
+          hbar.repaint
+        }
+      }
       e.consume
     }
     else if (e.type == GestureEvent.drop) {
+      //echo("drop: $vbar.isOverScroll")
       if (vbar.isOverScroll) {
         animatOverScroll
         if (vbar.curPos < 0f) {
@@ -268,9 +279,6 @@ class ScrollPane : ContentPane
         startAnimation(anim)
       }
       vbar.repaint
-    }
-    else if (e.type == GestureEvent.drop) {
-      animatOverScroll
     }
   }
 

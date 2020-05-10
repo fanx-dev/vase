@@ -34,8 +34,8 @@ class ButtonTest : BasePage
         selIndex = 0
       },
       Label { text = "Label"; },
-      Switch { text = "switch" },
-      ToggleButton { text = "checkBox" },
+      ToggleButton { text = "switch" },
+      ToggleButton { text = "checkBox"; style = "checkBox" },
       RadioButton { text = "radio1" },
       RadioButton { text = "radio2" },
     }
