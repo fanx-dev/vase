@@ -171,6 +171,10 @@ internal class WinView : View
     if (oldFrame == null) curFrame.windowEvent(e)
   }
 
+  override Bool onBack() {
+    return popFrame != null
+  }
+
   **
   ** get prefer size
   **

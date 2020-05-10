@@ -336,6 +336,11 @@ fan.vaseWindow.WtkWindow.prototype.show = function(size)
   //     self.repaintNow();
   //   }, 17);
   // }
+  history.pushState(null, null, document.URL);
+  window.addEventListener('popstate', function () {
+      //history.pushState(null, null, document.URL);
+      if (self.m_view.onBack()) history.pushState(null, null, document.URL);
+  });
 }
 
 fan.vaseWindow.WtkWindow.prototype.textInput = function(view) {

@@ -28,6 +28,8 @@ mixin View
 
   //virtual Void onResize(Int w, Int h) {}
 
+  virtual Bool onBack() { false }
+
   **
   ** get native host
   **
