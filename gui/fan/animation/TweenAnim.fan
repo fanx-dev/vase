@@ -63,9 +63,11 @@ class TranslateAnimChannel : TweenAnimChannel {
     y := from.y + ((to.y - from.y) * percent)
     dx := x-lastX
     dy := y-lastY
+    
+    //echo("dx$dx,dy$dy,lx$lastX,ly$lastY, $widget?.transform")
     lastX = x
     lastY = y
-    //echo("dx$dx,dy$dy,lx$lastX,ly$lastY")
+    
     widget?.transform?.translate(dx, dy)
   }
 }

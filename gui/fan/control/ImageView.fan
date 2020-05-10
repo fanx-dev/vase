@@ -27,7 +27,7 @@ class ImageView : Widget
   static const Int stretch = 1
   static const Int fitWidth = 2
   static const Int fitHeight = 3
-  Int scaleType = keepSize
+  Int scaleType = fitWidth
 
   static const Int maskCircle := 1
   Int mask := 0
@@ -98,7 +98,7 @@ class ImageView : Widget
 
   new make(|This|? f := null)
   {
-    layout.width = Layout.wrapContent
+    //layout.width = Layout.wrapContent
     if (f != null) f(this)
 
     if (image == null && uri != null) {

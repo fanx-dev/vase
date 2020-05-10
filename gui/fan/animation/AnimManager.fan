@@ -27,7 +27,7 @@ class AnimManager {
 
     elapsedTime := now - lastUpdateTime
 
-    if (elapsedTime > 0) {
+    if (elapsedTime >= 0) {
       update(elapsedTime)
     }
 

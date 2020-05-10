@@ -19,7 +19,7 @@
 
 function main() {
   // find main
-  var qname = 'vaseDemo::WinTest.main';
+  var qname = 'vaseDemo::Main.main';
   var dot = qname.indexOf('.');
   var type = qname;
   if (dot < 0) qname += '.main';
