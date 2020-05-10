@@ -13,7 +13,7 @@ using vaseWindow
 ** CheckBox or RadioBox
 **
 @Js
-class ToggleButton : ButtonBase
+class ToggleButton : Button
 {
   Bool selected := false
   {
@@ -28,6 +28,8 @@ class ToggleButton : ButtonBase
   new make() {
     text = "ToggleButton"
     layout.width = Layout.matchParent
+    padding = Insets.defVal
+    textAlign = Align.begin
   }
 
   protected override Void clicked() {

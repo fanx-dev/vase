@@ -37,10 +37,10 @@ class MenuItemStyle : WidgetStyle
 
   override Void doPaint(Widget widget, Graphics g)
   {
-    ButtonBase btn := widget
+    Button btn := widget
 
     //backgound
-    if (btn.state == ButtonBase.mouseOver) {
+    if (btn.state == Button.mouseOver) {
       g.brush = this.mouseOverColor
     } else {
       g.brush = background

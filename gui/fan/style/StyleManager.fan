@@ -27,7 +27,7 @@ class StyleManager
       ScrollBar# : ScrollBarStyle(),
       SliderBar# : SliderBarStyle(),
       ComboBox# : ComboBoxStyle(),
-      ButtonBase# : ButtonBaseStyle(),
+      //ButtonBase# : ButtonBaseStyle(),
       Table# : TableStyle(),
       TreeView# : TreeStyle(),
       TextArea# : TextAreaStyle(),
@@ -44,6 +44,7 @@ class StyleManager
     ]
     defStyle = WidgetStyle()
 
+    styleClassMap["buttonBase"] = ButtonBaseStyle()
     styleClassMap["menuItem"] = MenuItemStyle()
     styleClassMap["tableHeader"] = TableHeaderStyle()
     styleClassMap["pane"] = PaneStyle()

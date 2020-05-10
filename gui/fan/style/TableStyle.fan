@@ -19,7 +19,7 @@ class TableHeaderStyle : WidgetStyle
 
   override Void doPaint(Widget widget, Graphics g)
   {
-    ButtonBase btn := widget
+    Button btn := widget
 
     //backgound
     g.brush = background

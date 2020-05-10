@@ -23,7 +23,7 @@ class RoundButtonStyle : WidgetStyle
 
   override Void doPaint(Widget widget, Graphics g)
   {
-    ButtonBase btn := widget
+    Button btn := widget
 
     width := widget.width
     height := widget.height
@@ -52,6 +52,40 @@ class RoundButtonStyle : WidgetStyle
 
     g.fillRoundRect(offsetR, offsetR, width, height, arc, arc)
 
-    drawText(widget, g, btn.text, Align.center)
+    drawText(widget, g, btn.text, btn.textAlign)
+  }
+}
+
+
+@Js
+class ButtonBaseStyle : WidgetStyle
+{
+  Color[] colors
+
+  new make()
+  {
+    colors =
+    [
+      Color.yellow,
+      Color.orange,
+      Color.green
+    ]
+  }
+
+  override Void doPaint(Widget widget, Graphics g)
+  {
+    Button btn := widget
+    if (btn.state < 3)
+    {
+      g.brush = colors[btn.state]
+    }
+    else
+    {
+      g.brush = background
+    }
+
+    g.fillRect(0, 0, widget.width, widget.height)
+
+    drawText(widget, g, btn.text, btn.textAlign)
   }
 }

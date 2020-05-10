@@ -15,17 +15,19 @@ using vaseWindow
 @Js
 class Menu : HBox
 {
+  Pane layer
+  
   new make()
   {
     //vertical = false
     layout.height = Layout.wrapContent
     layout.width = Layout.matchParent
+    layer = Pane { it.layout.height = Layout.matchParent }
   }
 
   Void close()
   {
-    getRootView.topOverlayer.removeAll
-    getRootView.repaint
+    layer.detach
   }
 }
 
@@ -43,16 +45,20 @@ internal class MenuList : VBox
 }
 
 @Js
-class MenuItem : ButtonBase
+class MenuItem : Button
 {
   internal MenuList subMenuList
   private Bool topLevel := true
-
+  
   new make()
   {
     this.onAction.add {
       if (subMenuList.childrenSize > 0) {
-        expand(getRootView.topOverlayer)
+        layer := rootMenu.layer
+        if (layer.parent == null) {
+            getRootView.topOverlayer.add(layer)
+        }
+        expand(layer)
         //getRootView.modal = true
       }
       else {
@@ -62,11 +68,17 @@ class MenuItem : ButtonBase
     }
 
     this.onStateChanged.add |StateChangedEvent e| {
-      if (!topLevel && e.field == ButtonBase#state) {
+      root := rootMenu
+      if (root == null) return
+      layer := root.layer
+      if (layer.parent != null && e.field == Button#state) {
         newVal := ((Int)e.newValue)
-        if (newVal == ButtonBase.mouseOver) {
+        if (newVal == Button.mouseOver) {
           if (subMenuList.childrenSize > 0) {
-            expand(getRootView.topOverlayer)
+            if (layer.parent == null) {
+                getRootView.topOverlayer.add(layer)
+            }
+            expand(layer)
             //getRootView.modal = true
           }
         }
@@ -75,12 +87,16 @@ class MenuItem : ButtonBase
 
     subMenuList = MenuList()
     subMenuList.owner = this
-    padding = Insets(20)
+    padding = Insets(15)
+    textAlign = Align.begin
+    style = "menuItem"
     this.layout.width = Layout.wrapContent
   }
 
   private Menu? rootMenu()
   {
+    if (this.parent is Menu) return (Menu)this.parent
+     
     MenuList? list := this.parent as MenuList
     while (list != null)
     {
@@ -93,12 +109,12 @@ class MenuItem : ButtonBase
     return null
   }
 
-  private Void addParentTo(WidgetGroup group)
+  private Void addParentTo(WidgetGroup layer)
   {
     MenuList? list := this.parent as MenuList
     while (list != null)
     {
-      group.add(list)
+      layer.add(list)
       MenuItem owner := list.owner
       list = owner.parent as MenuList
     }
@@ -139,7 +155,7 @@ class MenuItem : ButtonBase
     subMenuList.add(item)
     //item.layout.widthType = SizeType.fixed
     item.layout.width = 500f
-    item.padding = Insets(1)
+    item.padding = Insets(5)
     item.topLevel = false
     return this
   }

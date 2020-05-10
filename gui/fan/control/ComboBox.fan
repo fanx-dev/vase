@@ -13,7 +13,7 @@ using vaseWindow
 ** ComboBox
 **
 @Js
-class ComboBox : ButtonBase
+class ComboBox : Button
 {
   Obj[] items := [,]
   Int selIndex := -1
@@ -35,10 +35,10 @@ class ComboBox : ButtonBase
   {
     text = "v"
     this.onAction.add { show }
-    padding = Insets(10)
+    padding = Insets(15)
   }
 
-  private Void select(ButtonBase btn, Int i)
+  private Void select(Button btn, Int i)
   {
     selIndex = i
     this.repaint
@@ -59,10 +59,11 @@ class ComboBox : ButtonBase
     items.each |item, i|
     {
       name := item.toStr
-      ButtonBase? button
-      button = ButtonBase {
+      Button? button
+      button = Button {
         it.text = name;
-        it.style = "menuItem";
+        it.style = "menuItem"
+        it.textAlign = Align.begin
         it.layout.width = Layout.matchParent
         //it.layout.widthVal = it.pixelToDp()
         it.padding = Insets(10, 0)

@@ -10,4 +10,7 @@
 **
 class RectView : Widget
 {
+  new make() {
+    isFocusable = false
+  }
 }

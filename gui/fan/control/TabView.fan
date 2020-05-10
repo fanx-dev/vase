@@ -28,9 +28,9 @@ class TabView : HBox
       }
     }
     
-    Void bind(CardBox card) {
+    Void bind(CardPane card) {
         card.onStateChanged.add |StateChangedEvent e|{
-            if (e.field == CardBox#selIndex) {
+            if (e.field == CardPane#selIndex) {
                 this.selIndex = e.newValue
             }
         }

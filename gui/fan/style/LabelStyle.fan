@@ -29,11 +29,12 @@ class FlatButtonStyle : LabelStyle
   
   override Void doPaint(Widget widget, Graphics g)
   {
-    super.doPaint(widget, g)
-    ButtonBase bt := widget
-    if (bt.state == ButtonBase.mouseDown) {
+    Button bt := widget
+    if (bt.state == Button.mouseDown) {
+        g.brush = background
         g.fillRect(0, 0, widget.width, widget.height)
     }
+    super.doPaint(widget, g)
   }
 }
 

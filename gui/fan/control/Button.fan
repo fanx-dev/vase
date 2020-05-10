@@ -13,7 +13,7 @@ using vaseWindow
 ** common behaviors for buttons.
 **
 @Js
-class ButtonBase : Label
+class Button : Label
 {
 //////////////////////////////////////////////////////////////////////////
 // state
@@ -34,12 +34,17 @@ class ButtonBase : Label
       this.repaint
     }
   }
+  
+  new make() {
+    padding = Insets(25)
+    textAlign = Align.center
+  }
 
 //////////////////////////////////////////////////////////////////////////
 // Event
 //////////////////////////////////////////////////////////////////////////
 
-  once EventListeners onAction() { EventListeners() }
+  protected once EventListeners onAction() { EventListeners() }
 
   protected override Void gestureEvent(GestureEvent e) {
     //super.gestureEvent(e)
@@ -91,17 +96,5 @@ class ButtonBase : Label
     {
       onAction.fire(e)
     }
-  }
-}
-
-**
-** Text push button
-**
-@Js
-class Button : ButtonBase
-{
-  new make() {
-    padding = Insets(25)
-    textAlign = Align.center
   }
 }

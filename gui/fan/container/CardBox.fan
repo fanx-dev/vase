@@ -10,7 +10,7 @@
 ** where only one card may be visible at a time
 **
 @Js
-class CardBox : Pane
+class CardPane : Pane
 {
   Int selIndex := 0 {
     set {
@@ -130,7 +130,7 @@ class CardBox : Pane
 
 @Js
 class CardIndicator : Widget {
-    CardBox? cardBox
+    CardPane? cardBox
     new make() {
         layout.height = 20.0
     }

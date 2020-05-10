@@ -44,8 +44,11 @@ class Table : ScrollPane
     colWidth := dpToPixel(colWidth)
     model.numCols.times |c|
     {
-      btn := ButtonBase { it.text = model.header(c) }
-      btn.style = "tableHeader"
+      btn := Button {
+        it.text = model.header(c)
+        it.style = "tableHeader"
+        it.padding = Insets.defVal
+      }
       w := model.prefWidth(c) ?: colWidth
       colWidthCache.add(w)
       //btn.layout.widthType = SizeType.fixed

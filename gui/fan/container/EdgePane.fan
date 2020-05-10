@@ -18,7 +18,7 @@ using vaseGraphics
 ** width.  Any remaining space is given to the center component.
 **
 @Js
-class EdgePane : Pane
+class EdgeBox : WidgetGroup
 {
   new make() {
     layout.height = Layout.matchParent

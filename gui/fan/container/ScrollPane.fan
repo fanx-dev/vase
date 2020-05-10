@@ -42,7 +42,7 @@ class ScrollPane : ContentPane
     hbar = ScrollBar { vertical = false; it.barSize = this.barSize; it.layout.ignore = true }
     vbar = ScrollBar { vertical = true; it.barSize = this.barSize; it.layout.ignore = true }
 
-    hbar.onPosChanged.add |StateChangedEvent e|
+    hbar.onStateChanged.add |StateChangedEvent e|
     {
       if (e.field == ScrollBar#curPos)
       {
@@ -61,7 +61,7 @@ class ScrollPane : ContentPane
         this.repaint
       }
     }
-    vbar.onPosChanged.add |StateChangedEvent e|
+    vbar.onStateChanged.add |StateChangedEvent e|
     {
       if (e.field == ScrollBar#curPos)
       {
@@ -197,7 +197,7 @@ class ScrollPane : ContentPane
         if (refreshTip != null) {
           if (vbar.curPos < -dpToPixel(100f).toFloat) {
             if (refreshTip.parent == null) {
-              this.add(refreshTip)
+              this.doAdd(refreshTip)
               this.relayout
             }
           }

@@ -18,11 +18,12 @@ class Toast : Label {
 //    layout.posX.with { it.parent = 0.5f; it.anchor = 0.5f; it.offset = 0f }
 //    layout.posY.with { it.parent = 0.8f; it.anchor = 0.5f; it.offset = 0f }
     padding = Insets(20)
+    textAlign = Align.center
   }
 
-  Void show(Widget w)
+  Void show(Widget parent)
   {
-    root := w.getRootView
+    root := parent.getRootView
     overlayer := root.topOverlayer
     overlayer.add(this)
     overlayer.relayout

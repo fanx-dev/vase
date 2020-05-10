@@ -28,7 +28,7 @@ class ScrollBar : Widget
   **
   ** start position at content
   **
-  Float curPos := 0f { private set }
+  Float curPos := 0f { set { setCurPos(it, false) } }
 
   Bool isActive() { draging }
 
@@ -55,18 +55,17 @@ class ScrollBar : Widget
 
     if (curPos == val) return
     oldPos := curPos
-    curPos = val
-    //echo("curPos:$curPos")
-
-    e := StateChangedEvent (oldPos, curPos, #curPos, this )
-    onStateChanged.fire(e)
-
+    &curPos = val
     if (fireEvent) {
-      onPosChanged.fire(e)
+        //echo("curPos:$curPos")
+        e := StateChangedEvent (oldPos, curPos, #curPos, this )
+        onStateChanged.fire(e)
+        posChangeFunc?.call(curPos)
     }
   }
 
-  once EventListeners onPosChanged() { EventListeners() }
+  Void onPosChanged(|Float| f) { posChangeFunc = f }
+  |Float|? posChangeFunc
 
   **
   ** is vertical
