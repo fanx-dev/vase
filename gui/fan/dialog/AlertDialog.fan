@@ -65,4 +65,6 @@ class AlertDialog : VBox, Dialog
     this.layout.width = Layout.wrapContent//dpToPixel(500f)
     padding = Insets(30, 100)
   }
+  
+  protected override Int animType() { 1 }
 }

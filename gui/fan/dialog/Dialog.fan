@@ -18,12 +18,20 @@ mixin Dialog
     self.focus
     root.modal = 2
     overlayer.relayout
-    self.moveInAnim(Direction.down).start
+    
+    if (animType == 1)
+        self.expandAnim().start
+    else
+        self.moveInAnim(Direction.down).start
   }
   
-  virtual Widget self() { (Widget)this }
+  protected virtual Widget self() { (Widget)this }
+  protected virtual Int animType() { 0 }
   
   Void close() {
-    self.moveOutAnim(Direction.down).start
+    if (animType == 1)
+        self.shrinkAnim.start
+    else
+        self.moveOutAnim(Direction.down).start
   }
 }

@@ -109,12 +109,13 @@ class ScaleAnimChannel : TweenAnimChannel {
 
   override Void onUpdate(Float percent) {
     scale := (from + (to - from) * percent)
+    if (scale == 0.0) scale = 0.000000001
     dscale := scale / lastScale
     x := widget.width /2.0f
     y := widget.height /2.0f
     lastScale = scale
     widget?.transform?.scale(x, y, dscale, dscale)
-    //echo("x$x,y$y")
+    //echo("x$x,y$y, scale:$scale, dscale:$dscale")
     //widget.transform.matrix = Transform2D.makeScale(0f, 100f, scale, scale)
   }
 }

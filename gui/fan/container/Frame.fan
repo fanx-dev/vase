@@ -106,6 +106,7 @@ class Frame : ContentPane
   }
 
   Void pop() {
+    focusIt(null) //close EditText
     view.popFrame
   }
 
@@ -187,7 +188,7 @@ class Frame : ContentPane
     if (modal > 1) {
       //g.brush = Color.fromArgb(100, 0, 0, 0)
       g.brush = Color.black
-      g.alpha = 20
+      g.alpha = 40
       g.fillRect(0, 0, width, height)
       //TODO restore this
       g.alpha = 255
@@ -229,16 +230,20 @@ class Frame : ContentPane
   Void focusIt(Widget? w)
   {
     if (focusWidget === w) return
-    
+ 
     Event e := Event()
-    e.data = false
-    focusWidget?.onFocusChanged?.fire(e)
-
+    if (focusWidget != null) { 
+        e.data = false
+        focusWidget?.onFocusChanged?.fire(e)
+    }
+    
     this.focusWidget = w
-    view.host.focus
-
-    e.data = true
-    focusWidget?.onFocusChanged?.fire(e)
+    
+    if (w != null) {
+        view.host.focus
+        e.data = true
+        focusWidget?.onFocusChanged?.fire(e)
+    }
   }
 
   **

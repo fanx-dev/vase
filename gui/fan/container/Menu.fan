@@ -27,6 +27,7 @@ class Menu : HBox
 
   Void close()
   {
+    layer.removeAll
     layer.detach
   }
 }

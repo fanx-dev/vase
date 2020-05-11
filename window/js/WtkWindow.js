@@ -111,7 +111,7 @@ fan.vaseWindow.WtkWindow.prototype.addMotionEvent = function(elem, typeStr, type
 
     //if (event.m_consumed) {
       e.stopPropagation();
-      e.preventDefault();
+      if (typeStr != "mousewheel")  e.preventDefault();
       e.cancelBubble = true;
     //}
   };

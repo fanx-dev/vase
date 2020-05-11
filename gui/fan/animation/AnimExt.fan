@@ -109,18 +109,18 @@ class AnimExt {
     return a
   }
 
-  static extension Animation shrinkAnim(Widget self, Int time := 300, Coord? p := null, Bool detach := true) {
-    if (p == null) {
-      p = Coord(0f, 0f)
-      self.posOnWindow(p)
-    }
-
-    self.mapToWidget(p)
+  static extension Animation shrinkAnim(Widget self, Int time := 300, Bool detach := true) {
+//    if (p == null) {
+//      p = Coord(0f, 0f)
+//      self.posOnWindow(p)
+//    }
+//
+//    self.mapToWidget(p)
 
     a := TweenAnimation() {
       it.duration = time
-      ScaleAnimChannel { to = 0.0; from = 1.0 },
-      TranslateAnimChannel { to = Point(p.x.toInt, p.y.toInt); from = Point.defVal },
+      ScaleAnimChannel { to = 0.1; from = 1.0 },
+      //TranslateAnimChannel { to = Point(p.x.toInt, p.y.toInt); from = Point.defVal },
       AlphaAnimChannel { to = 0f; from = 1f; },
     }
     a.whenDone.add {
@@ -131,25 +131,25 @@ class AnimExt {
     return a
   }
 
-  static extension Animation expandAnim(Widget self, Int time := 300, Coord? p := null) {
-    if (p == null) {
-      p = Coord(0f, 0f)
-      self.posOnWindow(p)
-    }
-
-    self.mapToWidget(p)
+  static extension Animation expandAnim(Widget self, Int time := 300) {
+//    if (p == null) {
+//      p = Coord(0f, 0f)
+//      self.posOnWindow(p)
+//    }
+//
+//    self.mapToWidget(p)
 
     a := TweenAnimation() {
       it.duration = time
-      ScaleAnimChannel { from = 0.0; to = 1.0 },
-      TranslateAnimChannel { from = Point(p.x.toInt, p.y.toInt); to = Point.defVal },
+      ScaleAnimChannel { from = 0.1; to = 1.0 },
+      //TranslateAnimChannel { from = Point(p.x.toInt, p.y.toInt); to = Point.defVal },
       AlphaAnimChannel { to = 1f; from = 0f; },
     }
     a.bind(self)
     return a
   }
 
-  static extension Animation scaleAnim(Widget self, Float from := 0f, Int time := 300) {
+  static extension Animation scaleAnim(Widget self, Float from := 0.1f, Int time := 300) {
     a := TweenAnimation() {
       it.duration = time
       ScaleAnimChannel { it.from = from; to = 1.0f },
