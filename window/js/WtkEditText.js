@@ -94,9 +94,9 @@ fan.vaseWindow.WtkEditText.prototype.focus = function() {
 
   var elem = this.elem;
   setTimeout(function() {
-    elem.scrollIntoView(true);
+    //elem.scrollIntoView(true);
     //console.log("scrollIntoView:"+elem);
-    //elem.scrollIntoViewIfNeeded();
+    elem.scrollIntoViewIfNeeded();
   }, 200);
 }
 

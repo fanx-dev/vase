@@ -26,13 +26,13 @@ class VBoxTest : BasePage
       Button
       {
         text = "btn2"
-        layout.height = Layout.matchParent
         layout.width = 600f
       },
       Button
       {
         text = "btn3"
-        layout.width = Layout.matchParent
+        layout.width = Layout.wrapContent
+        layout.hAlign = Align.center
       },
 
     }

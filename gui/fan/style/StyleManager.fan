@@ -53,10 +53,12 @@ class StyleManager
         "tabItem" : TabItemStyle(),
         "tabItemHighlight" : TabItemHighlightStyle(),
         "checkBox" : ToggleButtonStyle(),
-        "h1" : LabelStyle { font = Font(64) },
-        "h2" : LabelStyle { font = Font(53) },
-        "h3" : LabelStyle { font = Font(45) },
-        "h4" : LabelStyle { font = Font(38) },
+        "h1" : LabelStyle { font = Font(85) },
+        "h2" : LabelStyle { font = Font(73) },
+        "h3" : LabelStyle { font = Font(64) },
+        "h4" : LabelStyle { font = Font(53) },
+        "h5" : LabelStyle { font = Font(45) },
+        "h6" : LabelStyle { font = Font(38) },
     ]
   }
 

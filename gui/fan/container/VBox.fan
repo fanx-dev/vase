@@ -64,6 +64,7 @@ class VBox : WidgetGroup
         ch = (c.layout.weight*weightSpace).toInt
       }
       y += ch + spacing
+      cx += c.layout.prefX(this, hintsW, size.w)
     
       c.setLayout(cx, cy, cw, ch, force)
     }

@@ -78,14 +78,14 @@ fan.vaseWindow.WtkWindow.prototype.addMotionEvent = function(elem, typeStr, type
 
       for (var i=0; i<e.changedTouches.length; ++i) {
         var t = e.changedTouches[i];
-        var te = fan.vaseWindow.WtkWindow.toMotionEvent(t, type)
+        var te = fan.vaseWindow.WtkWindow.toMotionEvent(t, typeStr, type)
         ps.add(te);
         map[te.m_id] = te
       }
 
       for (var i=0; i<e.touches.length; ++i) {
         var t = e.touches[i];
-        var te = fan.vaseWindow.WtkWindow.toMotionEvent(t, type)
+        var te = fan.vaseWindow.WtkWindow.toMotionEvent(t, typeStr, type)
         
         if (te.m_id in map) continue;
         map[te.m_id] = te;
