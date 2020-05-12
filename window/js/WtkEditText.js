@@ -18,9 +18,20 @@ fan.vaseWindow.WtkEditText.prototype.elem = null;
 fan.vaseWindow.WtkEditText.prototype.make = function(view) {
   this.view = view;
   //view.host$(this);
-
-  var field = document.createElement("input");
-  field.type = "text";
+  var inputType = view.getInputType();
+  var field = null;
+  if (inputType == fan.vaseWindow.TextInput.m_inputTypePassword) {
+    field = document.createElement("input");
+    field.type = "password";
+  }
+  else if (inputType == fan.vaseWindow.TextInput.m_inputTypeMultiLine) {
+    field = document.createElement("textarea");
+    field.rows = 2;
+  }
+  else {
+    field = document.createElement("input");
+    field.type = "text";
+  }
   this.elem = field;
   this.init(field);
 }
@@ -119,36 +130,8 @@ fan.vaseWindow.WtkEditText.prototype.setText = function( text) {
   this.elem.value = text;
 }
 
-fan.vaseWindow.WtkEditText.prototype.setType = function( multiLine,  inputType,  editable) {
-  if (inputType == fan.vaseWindow.TextInput.m_inputTypePassword) {
-    if (this.elem.type != "password") {
-      this.close();
-      var field = document.createElement("input");
-      field.type = "password";
-      this.elem = field;
-      this.init(field);
-    }
-  }
-  else if (multiLine <= 1) {
-    if (this.elem.type != "text") {
-      this.close();
-      var field = document.createElement("input");
-      field.type = "text";
-      this.elem = field;
-      this.init(field);
-    }
-  }
-  else {
-    if (this.elem.type == "text") {
-      this.close();
-      var field = document.createElement("textarea");
-      field.rows = multiLine;
-      this.elem = field;
-      this.init(field);
-    }
-  }
+fan.vaseWindow.WtkEditText.prototype.setType = function( multiLine,  editable) {
   this.elem.disabled = !editable;
-  this.elem.inputType = inputType;
 }
 
 fan.vaseWindow.WtkEditText.prototype.close = function() {

@@ -53,8 +53,10 @@ class EditText : Widget, TextInput
   @Transient
   override TextInputPeer? host
 
-  new make()
+  new make(|This| f)
   {
+    f(this)
+
     //this.layout.width = font.height * 10
     onFocusChanged.add |e| {
       focused := e.data
@@ -99,18 +101,20 @@ class EditText : Widget, TextInput
   override Color backgroundColor() { Color.white }
 */
 
-  Int inputType := 1
+  const Int inputType := 1
+  override Int getInputType() { inputType }
   Int multiLine := 0
   Bool editable := true
 
   private Void updateHost() {
     if (host == null) return
-    host.setType(multiLine, inputType, editable)
+    host.setType(multiLine, editable)
     
     p := Coord(0f, 0f)
     this.posOnWindow(p)
     host.setPos(p.x.toInt, p.y.toInt, width, height)
-    host.setStyle(font, Color.black, Color.white)
+    //host.setStyle(font, Color.black, Color.white)
+    host.setStyle(font, Color.black, Color.gray)
     host.setText(text)
     host.focus
   }

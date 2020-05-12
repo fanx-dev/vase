@@ -106,7 +106,6 @@ class Frame : ContentPane
   }
 
   Void pop() {
-    focusIt(null) //close EditText
     view.popFrame
   }
 
@@ -212,7 +211,7 @@ class Frame : ContentPane
   ** call by detach widget
   internal Void onRemove(Widget w) {
     if (focusWidget === w) {
-      focusWidget = null
+      focusIt(null)
     }
 
     if (mouseOverWidget === w) {
@@ -230,6 +229,7 @@ class Frame : ContentPane
   Void focusIt(Widget? w)
   {
     if (focusWidget === w) return
+    echo("focus:$w")
  
     Event e := Event()
     if (focusWidget != null) { 

@@ -40,6 +40,9 @@ public class AndEditText extends EditText implements TextInputPeer {
 		this.view = view;
     this.parent = parent;
 
+    long inputType = view.getInputType();
+    this.setInputType(inputType);
+
 		this.addTextChangedListener(new TextWatcher() {
 			@Override
 			public void afterTextChanged(Editable e) {
@@ -157,9 +160,8 @@ public class AndEditText extends EditText implements TextInputPeer {
     super.setText(text);
   }
   @Override
-  public void setType(long multiLine, long inputType, boolean editable) {
-    setInputType(inputType);
-    this.setSingleLine(multiLine <= 1);
+  public void setType(long multiLine, boolean editable) {
+    //this.setSingleLine(multiLine <= 1);
     this.setFocusableInTouchMode(editable);
   }
   @Override
@@ -173,6 +175,7 @@ public class AndEditText extends EditText implements TextInputPeer {
 	final static int inputTypeIntNumber = 2;
 	final static int inputTypeFloatNumber = 3;
 	final static int inputTypePassword = 4;
+  final static int inputTypeMultiLine = 5;
 
 	private void setInputType(long t) {
 		int type = InputType.TYPE_CLASS_TEXT;
@@ -187,8 +190,10 @@ public class AndEditText extends EditText implements TextInputPeer {
 			type = InputType.TYPE_NUMBER_FLAG_DECIMAL;
 			break;
 		case inputTypePassword:
-			type = InputType.TYPE_TEXT_VARIATION_PASSWORD;
+			type = InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD;
 			break;
+    case inputTypeMultiLine:
+      type = InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_MULTI_LINE;
 		}
 		super.setInputType(type);
 	}
@@ -206,6 +211,7 @@ public class AndEditText extends EditText implements TextInputPeer {
 				(int)w, (int)h);
 		param.setMargins((int)x, (int)y, 0, 0);
 		this.setLayoutParams(param);
+    this.invalidate();
 	}
 
   @Override

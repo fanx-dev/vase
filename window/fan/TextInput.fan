@@ -21,6 +21,7 @@ mixin TextInput
   const static Int inputTypeIntNumber := 2
   const static Int inputTypeFloatNumber := 3
   const static Int inputTypePassword := 4
+  const static Int inputTypeMultiLine := 5
 /*
   abstract Point getPos()
   abstract Size getSize()
@@ -35,6 +36,8 @@ mixin TextInput
   
   abstract Str text()
 */
+  abstract Int getInputType()
+
   abstract Str textChange(Str text)
   abstract Void keyAction(Str text)
 
@@ -49,7 +52,7 @@ mixin TextInputPeer
   abstract Void setPos(Int x, Int y, Int w, Int h)
   abstract Void setStyle(Font font, Color textColor, Color backgroundColor)
   abstract Void setText(Str text)
-  abstract Void setType(Int multiLine, Int inputType, Bool editable)
+  abstract Void setType(Int multiLine, Bool editable)
   abstract Void focus()
 
   abstract Void select(Int start, Int end)

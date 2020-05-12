@@ -21,7 +21,7 @@ class EditTextTest : BasePage
         text = "Password"
       },
       EditText {
-        multiLine = 3
+        inputType = TextInput.inputTypeMultiLine
         text = "MultiLine"
       },
     }

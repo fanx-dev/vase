@@ -8,6 +8,7 @@
 **
 ** Dialog
 **
+@Js
 mixin Dialog
 {
   Void show(Widget parent)

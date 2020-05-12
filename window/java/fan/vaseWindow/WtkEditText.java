@@ -26,7 +26,16 @@ class WtkEditText implements TextInputPeer {
 
   WtkEditText(TextInput textInput) {
     this.view = textInput;
-    textComp = new JTextField();
+    long inputType = textInput.getInputType();
+    if (inputType == TextInput$.inputTypePassword) {
+      textComp = new JPasswordField();
+    }
+    else if (inputType == TextInput$.inputTypeMultiLine) {
+      textComp = new JTextArea();
+    }
+    else {
+      textComp = new JTextField();
+    }
     init(textComp);
   }
 
@@ -124,6 +133,8 @@ class WtkEditText implements TextInputPeer {
     textComp.setSize((int)w, (int)h);
     textComp.setLocation((int)x, (int)y);
     //textComp.setBound((int)x, (int)y, (int)w, (int)h);
+    textComp.validate(); 
+    textComp.repaint();
   }
   @Override
   public void setStyle(Font font, Color textColor, Color backgroundColor) {
@@ -136,30 +147,7 @@ class WtkEditText implements TextInputPeer {
     textComp.setText(text);
   }
   @Override
-  public void setType(long multiLine, long inputType, boolean editable) {
-    //System.out.println(inputType);
-    if (inputType == TextInput$.inputTypePassword) {
-      //System.out.println(textComp);
-      if (!(textComp instanceof JPasswordField)) {
-        this.close();
-        textComp = new JPasswordField();
-        init(textComp);
-      }
-    }
-    else if (multiLine <= 1) {
-      if (!(textComp instanceof JTextField)) {
-        this.close();
-        textComp = new JTextField();
-        init(textComp);
-      }
-    }
-    else {
-      if (!(textComp instanceof JTextArea)) {
-        this.close();
-        textComp = new JTextArea();
-        init(textComp);
-      }
-    }
+  public void setType(long multiLine, boolean editable) {
     textComp.setEditable(editable);
   }
   @Override
@@ -171,6 +159,7 @@ class WtkEditText implements TextInputPeer {
   public void close() {
     java.awt.Container p = textComp.getParent();
     if (p != null) p.remove(textComp);
+    //System.out.println("close "+textComp);
   }
 
   @Override

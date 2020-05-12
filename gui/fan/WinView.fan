@@ -84,6 +84,7 @@ internal class WinView : View
       echo("nomore frame")
       return null
     }
+    curFrame.focusIt(null)
 
     oldFrame = curFrame
     curFrame = frame
@@ -172,10 +173,7 @@ internal class WinView : View
   }
 
   override Bool onBack() {
-    f := popFrame 
-    if (f == null) return false
-    f.focusIt(null)
-    return true
+    return popFrame != null
   }
 
   **

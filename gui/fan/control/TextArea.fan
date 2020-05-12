@@ -22,6 +22,7 @@ class NativeCaret : Caret, TextInput {
   new make(TextArea area) { this.area = area }
 
   override TextInputPeer? host
+  override Int getInputType() { 1 }
 /*
   override Point getPos() {
     c := Coord(0, 0)
@@ -49,7 +50,7 @@ class NativeCaret : Caret, TextInput {
       return
     }
 
-    host.setType(0, 0, true)
+    host.setType(0, true)
 
     c := Coord(0f, 0f)
     area.posOnWindow(c)
