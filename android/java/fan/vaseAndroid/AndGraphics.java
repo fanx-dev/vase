@@ -47,7 +47,8 @@ public class AndGraphics implements Graphics {
 
   @Override
   public void alpha(long a) {
-    p.setAlpha((int) a);
+    alpha = (int)a;
+    p.setAlpha(alpha);
   }
 
   @Override
@@ -71,6 +72,7 @@ public class AndGraphics implements Graphics {
     if (brush instanceof Color) {
       Color ca = (Color) brush;
       p.setColor((int) ca.argb);
+      if (ca.a() == 0xff) p.setAlpha(alpha);
     } else if (brush instanceof Gradient) {
       Shader s = pattern((Gradient) brush, 0, 0, 100, 100);
       p.setShader(s);

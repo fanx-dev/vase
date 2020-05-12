@@ -18,7 +18,7 @@ abstract class BasePage {
             VBox() {
                 layout.height = Layout.matchParent
                 Button {
-                  text = "< back"
+                  text = "<"
                   style = "flatButton"
                   textAlign = Align.begin
                   onClick { frame.pop }
@@ -36,10 +36,10 @@ abstract class BasePage {
 class Main
 {
   Frame? mainView
-  BasePage?[] frames
+  BasePage?[] pages
   
   new make() {
-    frames = [null,
+    pages = [null,
       ButtonTest(), ImageViewTest(), DialogTest(), ListViewTest(), null,
       SpinnerTest(), SeekBarTest(), ProgressViewTest(), TextViewTest(), null,
       CardTest(), EdgeTest(), HBoxTest(), VBoxTest(), PaneTest(), null,
@@ -49,7 +49,7 @@ class Main
     init
   }
 
-  Void doClick(BasePage frame) {
+  private Void doClick(BasePage frame) {
     frame.run
   }
   
@@ -65,7 +65,7 @@ class Main
           },;
           
           v := it
-          frames.each |p| {
+          pages.each |p| {
             if (p == null) {
               v.add(RectView { layout.height = 3f })
               lret

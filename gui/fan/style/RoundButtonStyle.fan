@@ -15,6 +15,7 @@ class RoundButtonStyle : WidgetStyle
    Brush overColor := Color(0x6bd4fb)
    Brush outColor := Color(0x33b5e5)
    Brush downColor := Color(0x0099cc)
+   Float arc := 20f
 
    new make()
    {
@@ -28,7 +29,7 @@ class RoundButtonStyle : WidgetStyle
     width := widget.width
     height := widget.height
     g.brush = outlineColor
-    Int arc := height/2
+    Int arc := dpToPixel(this.arc)
     g.fillRoundRect(0, 0, width, height, arc, arc)
 
 
@@ -36,7 +37,6 @@ class RoundButtonStyle : WidgetStyle
     offsetR := dpToPixel(4f)
     width -= offsetW
     height -= offsetW
-    arc = height/2
     if (btn.state == 0)
     {
       g.brush = overColor

@@ -210,6 +210,8 @@ fan.vaseWindow.WtkGraphics.prototype.fillRoundRect = function(x, y, w, h, wArc, 
 // generate path for a rounded rectangle
 fan.vaseWindow.WtkGraphics.prototype.pathRoundRect = function(x, y, w, h, wArc, hArc)
 {
+  if (wArc > w/2) wArc = w/2
+  if (hArc > h/2) hArc = h/2
   this.cx.beginPath();
   this.cx.moveTo(x + wArc, y);
   this.cx.lineTo(x + w - wArc, y);

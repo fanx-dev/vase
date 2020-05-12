@@ -172,7 +172,10 @@ internal class WinView : View
   }
 
   override Bool onBack() {
-    return popFrame != null
+    f := popFrame 
+    if (f == null) return false
+    f.focusIt(null)
+    return true
   }
 
   **
