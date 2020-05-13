@@ -18,21 +18,37 @@ class ProgressViewStyle : WidgetStyle {
     top := widget.paddingTop
     left := widget.paddingLeft
 
-    width := dpToPixel(10f)
-    g.brush = outlineColor
+    width := dpToPixel(8f)
+    g.brush = foreground
     g.pen = Pen { it.width = width }
-
-    s := w.min(h)
-    Int i := p.value.toInt
-    step := 60
-    for (; i<=360; i+=step) {
-      g.drawArc(top, left, s, s, i, 15)
+    
+    elapsed := 0
+    if (p.time == 0) {
+        p.time = TimePoint.nowMillis
+    }
+    else {
+        elapsed = TimePoint.nowMillis - p.time
+        if (elapsed < 0) elapsed = 0
     }
 
-    p.value += 1.0
-    if (p.value > step.toFloat) {
-      p.value -= step.toFloat
+    t := (elapsed / 3)
+
+    start := t * 1
+    end := t * 2
+
+    sweep := end - start
+    if (sweep < 0) {
+        start = end
+        sweep = -sweep
     }
+    if (sweep > 360) {
+        sweep = sweep % 360
+    }
+
+    s := (w.min(h) - width - width).toInt
+    g.drawArc(top+width, left+width, s, s, start, sweep)
+
+    p.repaint
   }
 }
 

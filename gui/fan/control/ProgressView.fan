@@ -14,6 +14,8 @@ using vaseWindow
 @Js
 class ProgressView : Widget
 {
+  internal Int time := 0
+
   Float value := 0f {
     set {
       &value = it

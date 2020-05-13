@@ -157,7 +157,8 @@ public class AndGraphics implements Graphics {
   @Override
   public Graphics drawArc(long x, long y, long w, long h, long s, long a) {
     RectF r = new RectF(x, y, x + w, y + h);
-    gc.drawArc(r, s, a, false, p);
+    p.setStyle(Paint.Style.STROKE);
+    gc.drawArc(r, -s, -a, false, p);
     return this;
   }
 
@@ -201,7 +202,8 @@ public class AndGraphics implements Graphics {
   @Override
   public Graphics fillArc(long x, long y, long w, long h, long s, long a) {
     RectF r = new RectF(x, y, x + w, y + h);
-    gc.drawArc(r, s, a, true, p);
+    p.setStyle(Paint.Style.FILL);
+    gc.drawArc(r, -s, -a, true, p);
     return this;
   }
 
