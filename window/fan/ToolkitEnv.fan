@@ -13,6 +13,7 @@ using concurrent
 ** Window Toolkit
 **
 @Js
+@NoPeer
 abstract const class Toolkit
 {
   **
@@ -21,14 +22,17 @@ abstract const class Toolkit
   **
   static Toolkit cur()
   {
-    Toolkit? env := Actor.locals["vaseWindow.env"]
+    Toolkit? env := instance
     if (env != null) return env
 
     ToolkitEnv.init
-    env = Actor.locals["vaseWindow.env"]
-    if (env != null) return env
-    throw Err("No vaseWindow.env is active")
+    return instance
   }
+
+  @NoDoc
+  protected native static Toolkit instance()
+  @NoDoc
+  abstract GfxEnv gfxEnv()
 
   internal static Void tryInitAsyncRunner() {
     client := Pod.find("vaseClient", false)

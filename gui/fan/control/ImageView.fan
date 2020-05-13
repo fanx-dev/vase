@@ -61,7 +61,7 @@ class ImageView : Widget
         imgScaleX = contentWidth / image.size.w.toFloat
         imgScaleY = imgScaleX
         imgPreH := contentHeight / imgScaleX
-        imgOffsetY = -(imgPreH - image.size.h.toFloat)/2
+        imgOffsetY = (imgPreH - image.size.h.toFloat)/2
     }
     else if (scaleType == fitHeight) {
         imgOffsetX = 0.0
@@ -69,7 +69,7 @@ class ImageView : Widget
         imgScaleY = contentHeight / image.size.h.toFloat
         imgScaleX = imgScaleY
         imgPreW := contentWidth / imgScaleY
-        imgOffsetX = -(imgPreW - image.size.w.toFloat)/2
+        imgOffsetX = (imgPreW - image.size.w.toFloat)/2
     }
     
     if (mask == maskCircle) {

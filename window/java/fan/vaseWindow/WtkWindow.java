@@ -80,6 +80,7 @@ public class WtkWindow implements Window {
     frame.setVisible(true);
 
     try {
+      //bloking for thread safe
       Thread.sleep(Long.MAX_VALUE);
     } catch (InterruptedException e) {
       e.printStackTrace();

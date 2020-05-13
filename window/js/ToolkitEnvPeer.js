@@ -10,8 +10,9 @@ fan.vaseWindow.ToolkitEnvPeer = fan.sys.Obj.$extend(fan.sys.Obj);
 fan.vaseWindow.ToolkitEnvPeer.prototype.$ctor = function(self) {}
 
 fan.vaseWindow.ToolkitEnvPeer.init = function() {
-   fan.concurrent.Actor.locals().set("vaseGraphics.env", new fan.vaseWindow.GfxEnv());
-   fan.concurrent.Actor.locals().set("vaseWindow.env", new fan.vaseWindow.Toolkit());
+   fan.concurrent.Actor.locals().set("vaseGraphics.env", fan.vaseWindow.GfxEnv.m_instance);
+   //fan.concurrent.Actor.locals().set("vaseWindow.env", new fan.vaseWindow.Toolkit());
+   fan.vaseWindow.ToolkitPeer.m_instance = new fan.vaseWindow.Toolkit();
 }
 
 fan.vaseWindow.Toolkit.prototype.window = function(view) {
@@ -28,6 +29,10 @@ fan.vaseWindow.Toolkit.prototype.name = function() {
 
 fan.vaseWindow.Toolkit.prototype.$name = function() {
   return "HTML5"
+}
+
+fan.vaseWindow.Toolkit.prototype.gfxEnv = function() {
+  return fan.vaseWindow.GfxEnv.m_instance;
 }
 
 // fan.vaseWindow.Toolkit.prototype.dpi = function() {

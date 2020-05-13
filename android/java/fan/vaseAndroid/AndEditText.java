@@ -149,7 +149,10 @@ public class AndEditText extends EditText implements TextInputPeer {
   @Override
   public void setStyle(Font font, Color textColor, Color backgroundColor) {
     Typeface tf = AndUtil.toAndFont(font);
-    this.setTypeface(tf);
+    try {
+      this.setTypeface(tf);
+    } catch (Exception e) {}
+
     this.setTextSize(0, (float)font.size);
 
     super.setBackgroundColor((int)backgroundColor.argb);

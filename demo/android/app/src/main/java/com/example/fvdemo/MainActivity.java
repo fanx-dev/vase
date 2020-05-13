@@ -17,7 +17,7 @@ public class MainActivity extends Activity {
         fanjardist.Main.boot();
     }
 
-    Main mainView = Main.make();
+    Main mainView = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +27,7 @@ public class MainActivity extends Activity {
         Log.d("fvdemo", "onCreate");
 
         AndroidEnv.init(this);
+        if (mainView == null) mainView = Main.make();
         mainView.show();
     }
 

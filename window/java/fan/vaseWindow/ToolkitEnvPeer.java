@@ -27,7 +27,9 @@ public class ToolkitEnvPeer
   public static void init()
   {
     Actor.locals().set("vaseGraphics.env", WtkGfxEnv.instance);
-    Actor.locals().set("vaseWindow.env", AwtToolkit.instance);
+    //Actor.locals().set("vaseWindow.env", AwtToolkit.instance);
+    ToolkitPeer.instance = AwtToolkit.instance;
+    AwtToolkit.instance.uiThread = Thread.currentThread().getId();
   }
 
   public static void initMainThread() {
@@ -45,10 +47,15 @@ public class ToolkitEnvPeer
   {
     static AwtToolkit instance = new AwtToolkit();
     private WtkWindow curWindow = null;
+    private long uiThread = -1;
 
     Timer timer = new Timer(true);
     public WtkWindow window(View view)
     {
+      if (uiThread != Thread.currentThread().getId() && !EventQueue.isDispatchThread()) {
+        throw new RuntimeException("must call in ui thread");
+      }
+
       if (view != null) {
         curWindow = new WtkWindow(view);
         curWindow.show(null);
@@ -77,6 +84,12 @@ public class ToolkitEnvPeer
       };
 
       timer.schedule(task, delay);
+    }
+
+
+    @Override
+    public fan.vaseGraphics.GfxEnv gfxEnv() {
+      return WtkGfxEnv.instance;
     }
 
     private static Clipboard m_clipboard;

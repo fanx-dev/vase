@@ -47,10 +47,6 @@ class Main
       EditTextTest(), TextAreaTest(), FilePickerTest(), null,
     ]
     init
-    
-    Toolkit.cur.callLater(10000) {
-        mainView.pop
-    }
   }
 
   private Void doClick(BasePage frame) {

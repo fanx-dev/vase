@@ -13,6 +13,7 @@ import fan.vaseWindow.Window;
 import fan.sys.Func;
 import fan.vaseWindow.Clipboard;
 import android.content.Intent;
+import fan.vaseWindow.ToolkitPeer;
 
 public class AndroidEnvPeer {
   public static AndroidEnvPeer make(AndroidEnv self)
@@ -28,16 +29,21 @@ public class AndroidEnvPeer {
   public static void init(Activity context)
   {
     Actor.locals().set("vaseGraphics.env", AndGfxEnv.instance);
-    Actor.locals().set("vaseWindow.env", new AndToolkit(context));
+    //Actor.locals().set("vaseWindow.env", new AndToolkit(context));
+    ToolkitPeer.instance = new AndToolkit(context);
 
-    if (isMainThread()) {
-      Toolkit.tryInitAsyncRunner();
+    if (!isMainThread()) {
+      throw new RuntimeException("must call in ui thread");
     }
+
+    //if (isMainThread()) {
+      Toolkit.tryInitAsyncRunner();
+    //}
   }
 
   public static boolean onBack(Activity context)
   {
-    AndToolkit toolkit = (AndToolkit)Actor.locals().get("vaseWindow.env");
+    Toolkit toolkit = Toolkit.cur();
     Window w = toolkit.window(null);
     if (w == null) return false;
     return w.view().onBack();
@@ -83,6 +89,10 @@ public class AndroidEnvPeer {
     @Override
     public Window window(fan.vaseWindow.View view)
     {
+      if (!isMainThread()) {
+        throw new RuntimeException("must call in ui thread");
+      }
+
       if (view != null) {
         curWindow = new AndWindow(context, view);
         curWindow.show(null);
@@ -104,6 +114,11 @@ public class AndroidEnvPeer {
     @Override
     public String name() {
       return "Android";
+    }
+
+    @Override
+    public fan.vaseGraphics.GfxEnv gfxEnv() {
+      return AndGfxEnv.instance;
     }
 
     @Override

@@ -26,20 +26,16 @@ abstract const class GfxEnv
   ** on checked flag.  The current environment is configured
   ** with the "gfx.env" Actor local.
   **
-  static GfxEnv? cur(Bool checked := true)
+  static GfxEnv? cur()
   {
     GfxEnv? env := Actor.locals["vaseGraphics.env"]
     if (env != null) return env
   
     //try load env
-    Pod.find("vaseWindow").type("ToolkitEnv").method("init").call
-    env = Actor.locals["vaseGraphics.env"]
-    if (env != null) return env
-
-    if (checked) {
-      throw Err("No vaseGraphics.env is active")
-    }
-    return null
+    toolkitT := Pod.find("vaseWindow").type("Toolkit")
+    toolkit := toolkitT.method("cur").call
+    env = toolkitT.method("gfxEnv").callOn(toolkit, null)
+    return env
   }
 
 //////////////////////////////////////////////////////////////////////////
