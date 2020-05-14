@@ -29,6 +29,8 @@ class Spinner : Widget
     new make() {
         layout.width = Layout.wrapContent
         padding = Insets(20)
+        focusable = true
+        pressFocus = true
     }
     
     protected override Dimension prefContentSize() {

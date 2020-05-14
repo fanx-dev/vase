@@ -38,6 +38,7 @@ class Button : Label
   new make() {
     padding = Insets(25)
     textAlign = Align.center
+    focusable = true
   }
 
 //////////////////////////////////////////////////////////////////////////

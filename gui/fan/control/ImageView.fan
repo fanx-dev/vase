@@ -73,7 +73,7 @@ class ImageView : Widget
     }
     
     if (mask == maskCircle) {
-        imgBuf := Image(image.size)
+        imgBuf := Image.make(image.size)
         g := imgBuf.graphics
         
         g.fillOval(0, 0, image.size.w, image.size.h)
@@ -106,6 +106,11 @@ class ImageView : Widget
       image = Image.fromUri(uri) {
         s.val.relayout
       }
+    }
+    
+    if (enabled) {
+      focusable = true
+      pressFocus = true
     }
   }
 

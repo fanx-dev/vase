@@ -222,7 +222,7 @@ abstract class Widget
   ** process motion event
   **
   protected virtual Void motionEvent(MotionEvent e) {
-    if (isFocusable && e.type == MotionEvent.pressed) {
+    if (pressFocus && e.type == MotionEvent.pressed) {
       this.focus
     }
   }
@@ -561,7 +561,8 @@ abstract class Widget
 // Focus
 //////////////////////////////////////////////////////////////////////////
 
-  Bool isFocusable := true
+  Bool focusable := false
+  Bool pressFocus := false
 
   **
   ** Return if this widget is the focused widget which
@@ -577,7 +578,7 @@ abstract class Widget
   ** Attempt for this widget to take the keyboard focus.
   **
   virtual Void focus() {
-    if (isFocusable) {
+    if (focusable) {
       getRootView.focusIt(this)
     }
   }

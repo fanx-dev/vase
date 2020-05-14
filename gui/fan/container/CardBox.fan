@@ -34,7 +34,8 @@ class CardPane : Pane
   }
   
   new make() {
-    isFocusable = true
+    focusable = true
+    pressFocus = true
     clip = true
   }
   
@@ -81,7 +82,7 @@ class CardPane : Pane
   }
   
   protected override Void motionEvent(MotionEvent e) {
-    if (isFocusable && e.type == MotionEvent.pressed) {
+    if (focusable && e.type == MotionEvent.pressed) {
       this.focus
     }
   }

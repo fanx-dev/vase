@@ -121,6 +121,8 @@ class TextArea : ScrollPane
   {
     if (f != null) f(this)
     super.autoScrollContent = false
+    focusable = true
+    pressFocus = true
   }
 
   protected override Dimension prefContentSize() {

@@ -79,6 +79,7 @@ class EditText : Widget, TextInput
       }
     }
     this.padding = Insets(20)
+    focusable = true
   }
 
   override Str textChange(Str text) {

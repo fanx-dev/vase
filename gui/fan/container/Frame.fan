@@ -229,15 +229,15 @@ class Frame : ContentPane
   Void focusIt(Widget? w)
   {
     if (focusWidget === w) return
-    echo("focus:$w")
- 
-    Event e := Event()
-    if (focusWidget != null) { 
-        e.data = false
-        focusWidget?.onFocusChanged?.fire(e)
-    }
-    
+    //echo("focus:$focusWidget => $w")
+    oldFocus := focusWidget
     this.focusWidget = w
+    
+    Event e := Event()
+    if (oldFocus != null) { 
+        e.data = false
+        oldFocus?.onFocusChanged?.fire(e)
+    }
     
     if (w != null) {
         view.host.focus
@@ -272,10 +272,8 @@ class Frame : ContentPane
             || e.type == GestureEvent.drop || e.type == GestureEvent.multiTouch)
     {
       if (focusWidget != null) {
-        coord := Coord(0f, 0f)
-        focusWidget.posOnWindow(coord)
-        e.relativeX = e.x - coord.x.toInt
-        e.relativeY = e.y - coord.y.toInt
+        e.relativeX = e.relativeX - this.x
+        e.relativeY = e.relativeY - this.y
         focusWidget.gestureEvent(e)
       }
       return

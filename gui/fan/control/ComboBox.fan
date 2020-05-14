@@ -33,7 +33,7 @@ class ComboBox : Button
 
   new make()
   {
-    text = "v"
+    text = ""
     this.onAction.add { show }
     padding = Insets(15)
   }
@@ -53,46 +53,44 @@ class ComboBox : Button
       return
     }
 
-    pane := VBox()
-    list = pane
+    pane := VBox { spacing = 0f }
+    list = ScrollPane {
+      it.layout.width = it.pixelToDp(this.width)
+      it.layout.height = it.pixelToDp(300)
+      pane,
+    }
 
     items.each |item, i|
     {
       name := item.toStr
-      Button? button
-      button = Button {
+      button := Button {
         it.text = name;
         it.style = "menuItem"
         it.textAlign = Align.begin
         it.layout.width = Layout.matchParent
         //it.layout.widthVal = it.pixelToDp()
         it.padding = Insets(15, 0)
-        it.onAction.add { select(button, i) }
-        it.isFocusable = false
+        it.onClick { select(it, i) }
       }
       pane.add(button)
     }
 
-    root := this.getRootView
-    overlayer := root.topOverlayer
-    overlayer.add(pane)
 
     pos := Coord(0f, 0f)
     rc := posOnWindow(pos)
-    pane.spacing = 0f
-    //pane.layout.widthType = SizeType.fixed
-    pane.layout.width = pixelToDp(this.width)
-    pane.layout.offsetX = pixelToDp(pos.x.toInt)
-    pane.layout.offsetY = pixelToDp(pos.y.toInt + height)
-    pane.isFocusable = true
-    pane.focus
+    
+    list.layout.offsetX = pixelToDp(pos.x.toInt)
+    list.layout.offsetY = pixelToDp(pos.y.toInt + height)
 
-    pane.onFocusChanged.add |e| {
+    list.onFocusChanged.add |e| {
       if (e.data == false) {
         hide
       }
     }
 
+    root := this.getRootView
+    overlayer := root.topOverlayer
+    overlayer.add(list)
     overlayer.relayout
     root.modal = 1
   }

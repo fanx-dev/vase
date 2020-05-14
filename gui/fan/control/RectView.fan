@@ -11,6 +11,6 @@
 class RectView : Widget
 {
   new make() {
-    isFocusable = false
+    focusable = false
   }
 }

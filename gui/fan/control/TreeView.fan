@@ -29,7 +29,7 @@ class TreeView : ScrollPane
   
   TreeItem? selectedItem
   TreeItem? dragDropItem
-  Bool editable := true
+  private Bool draging := false
 
   Int rowHeight() { font.height }
 
@@ -111,8 +111,14 @@ class TreeView : ScrollPane
     super.motionEvent(e)
     
     if (e.type == MotionEvent.pressed) {
-        selectedItem = findItemAt(e.relativeY)
-        dragDropItem = null
+        item := findItemAt(e.relativeY)
+        if (selectedItem == item) {
+            draging = true
+            dragDropItem = null
+        }
+    }
+    else if (e.type == MotionEvent.released) {
+        draging = false
     }
   }
   
@@ -129,13 +135,6 @@ class TreeView : ScrollPane
 
   protected override Void gestureEvent(GestureEvent e)
   {
-    if (!editable) {
-      super.gestureEvent(e)
-      return
-    }
-    
-    if (e.consumed) return
-    sy := e.relativeY - y
     if (e.type == GestureEvent.click)
     {
       item := findItemAt(e.relativeY)
@@ -145,8 +144,17 @@ class TreeView : ScrollPane
         this.relayout
         e.consume
       }
+      selectedItem = item
+      dragDropItem = null
     }
-    else if (e.type == GestureEvent.drag) {
+    
+    if (e.consumed) return
+    if (!draging) {
+      super.gestureEvent(e)
+      return
+    }
+    
+    if (e.type == GestureEvent.drag) {
       dragDropItem = findItemAt(e.relativeY)
       e.consume
       this.repaint

@@ -29,10 +29,7 @@ class ButtonTest : BasePage
         text = "Push Button";
         onClick { Toast("hello world").show(it) }
       },
-      ComboBox {
-        items = ["comboBox1","comboBox2","comboBox3","comboBox4","comboBox5"]
-        selIndex = 0
-      },
+      
       Label { text = "Label"; },
       ToggleButton { text = "switch" },
       ToggleButton { text = "checkBox"; style = "checkBox" },
