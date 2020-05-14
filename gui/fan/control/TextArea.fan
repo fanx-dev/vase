@@ -75,6 +75,12 @@ class NativeCaret : Caret, TextInput {
   override Void onKeyEvent(KeyEvent e) {
     area.keyEvent(e)
   }
+  
+  Void hide() {
+    if (host != null) {
+      host.close
+    }
+  }
 }
 
 **
@@ -123,6 +129,14 @@ class TextArea : ScrollPane
     super.autoScrollContent = false
     focusable = true
     pressFocus = true
+    
+    onFocusChanged.add |e| {
+      focused := e.data
+      if (!focused) {
+        caret.hide
+        repaint
+      }
+    }
   }
 
   protected override Dimension prefContentSize() {

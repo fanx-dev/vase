@@ -190,9 +190,14 @@ class DragState : GestureState {
   Bool click := false
   Int beginX := 0
   Int beginY := 0
+  Int beginTime := 0
+  
   Int lastX := 0
   Int lastY := 0
-  Int beginTime := 0
+  Int lastTime := 0
+  Float lastSpeed := 0.0
+  Float lastSpeedX := 0.0
+  Float lastSpeedY := 0.0
 
   new make(Gesture machine) : super(machine) {}
 
@@ -201,29 +206,21 @@ class DragState : GestureState {
     beginY = e.y
     lastX = e.x
     lastY = e.y
-    beginTime = Duration.nowTicks
+    beginTime = TimePoint.nowMillis
   }
 
   Bool asFling(MotionEvent e) {
-    Int elapsedTime := (Duration.nowTicks - beginTime) / 1000_000
-    if (elapsedTime == 0) elapsedTime = 1
-    //if (elapsedTime > 1000) return false
     dx := e.x - beginX
     dy := e.y - beginY
-    distance := (dx*dx + dy*dy).toFloat.sqrt
-    distance = DisplayMetrics.pixelToDp(distance.toInt)
-    speed := distance/elapsedTime
-    //echo("distance;$distance, speed:$speed")
-    //minDis := DisplayMetrics.dpToPixel(100f).toFloat
-    if (distance > 20f && speed > 1.0) {
+    if (lastSpeed > 2.0) {
       ge := makeEvent(e, GestureEvent.fling)
       ge.deltaX = dx
       ge.deltaY = dy
       if (click) {
         ge.flag = 1
       }
-      ge.speedX = dx.toFloat / elapsedTime
-      ge.speedY = dy.toFloat / elapsedTime
+      ge.speedX = lastSpeedX
+      ge.speedY = lastSpeedY
       machine.onGestureEvent.fire(ge)
       e.consume
       machine.onFinished(e)
@@ -238,6 +235,15 @@ class DragState : GestureState {
       dy := e.y - lastY
       lastX = e.x
       lastY = e.y
+      
+      //update speed
+      now := TimePoint.nowMillis
+      Int elapsedTime := now - lastTime
+      if (elapsedTime <= 0) elapsedTime = 1
+      lastSpeed = (dx*dx + dy*dy).toFloat/elapsedTime
+      lastSpeedX = dx.toFloat/elapsedTime
+      lastSpeedY = dy.toFloat/elapsedTime
+      lastTime = now
 
       ge := makeEvent(e, GestureEvent.drag)
       ge.deltaX = dx

@@ -225,7 +225,10 @@ class ScrollPane : ContentPane
     if (vbar.isOverScroll) {
       anim := Animation {
         duration = 1500
-        OverScrollAnimChannel { target = vbar},
+        OverScrollAnimChannel {
+            acceleration = vbar.overScrollVal/10000.0
+            target = vbar
+        },
       }
       startAnimation(anim)
     }

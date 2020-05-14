@@ -73,7 +73,7 @@ class Main
             b := Button {
                 style = "flatButton"
                 textAlign = Align.begin
-                text = p.typeof.name
+                text = p.typeof.name.replace("Test", "")
                 onClick { doClick(p) }
             }
             v.add(b)

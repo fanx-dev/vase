@@ -74,10 +74,10 @@ class OverScrollAnimChannel : ScrollAnimChannel {
   private Float startPos := 0f
 
   protected override Void init() {
-    acceleration = -0.01f
+    //echo(acceleration)
     startV = 0f
     if (target.curPos > 0f) {
-      acceleration = -acceleration
+      //acceleration = -acceleration
       backwards = true
       startPos = target.max - target.viewport
     }

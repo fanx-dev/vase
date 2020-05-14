@@ -112,7 +112,7 @@ class Gesture
       }
     }
     if (history.isEmpty) {
-      firstTouchTime = Duration.nowTicks
+      firstTouchTime = TimePoint.nowMillis
     }
 
     if (currentState isnot MultiTouchState && e.pointers != null && e.pointers.size > 1) {
@@ -124,6 +124,6 @@ class Gesture
     }
     //echo("raw e.type=>$e.type")
     history.add(e)
-    lastTouchTime = Duration.nowTicks
+    lastTouchTime = TimePoint.nowMillis
   }
 }
