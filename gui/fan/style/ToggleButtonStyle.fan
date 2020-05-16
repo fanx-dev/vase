@@ -14,9 +14,10 @@ class ToggleButtonStyle : WidgetStyle
 {
   Pen outLinePen := Pen { width = dpToPixel(3) }
   Pen contectPen := Pen { width = dpToPixel(8) }
+  Brush buttonColor := Color.white
 
   new make() {
-    foreground = Color(0x51d166)
+    //foreground = Color(0x51d166)
     background = Color.white
   }
 
@@ -44,7 +45,7 @@ class ToggleButtonStyle : WidgetStyle
     {
       r = (r * btn.animPostion).toInt
       g.pen = contectPen
-      g.brush = this.foreground
+      g.brush = this.color
       //g.drawLine(x-(r*0.6f).toInt, y-(r*0.15f).toInt, x, y+(r/2f).toInt)
       //g.drawLine(x+(r*1.1f).toInt, y-(r*1.1f).toInt, x, y+(r/2f).toInt)
       path := Path()
@@ -59,10 +60,8 @@ class ToggleButtonStyle : WidgetStyle
 @Js
 class RadioButtonStyle : ToggleButtonStyle
 {
-  Brush buttonColor := Color.white
-
   new make() {
-    foreground = Color(0x51d166)
+    //foreground = Color(0x51d166)
   }
 
   override Void doPaint(Widget widget, Graphics g)
@@ -84,7 +83,7 @@ class RadioButtonStyle : ToggleButtonStyle
     if (btn.selected)
     {
       cw := (r * 0.85 * btn.animPostion).toInt
-      g.brush = this.foreground
+      g.brush = this.color
       g.fillOval(x-cw, y-cw, cw+cw, cw+cw)
     }
     else {
@@ -97,10 +96,8 @@ class RadioButtonStyle : ToggleButtonStyle
 
 @Js
 class SwitchStyle : ToggleButtonStyle {
-  Brush buttonColor := Color.white
-
   new make() {
-    foreground = Color(0x51d166)
+    //foreground = Color(0x51d166)
   }
 
   override Void doPaint(Widget widget, Graphics g)
@@ -129,7 +126,7 @@ class SwitchStyle : ToggleButtonStyle {
     widthR := (widthHalf - outLinePen.width).toInt
     heightR := (heightHalf - outLinePen.width).toInt
     if (btn.selected) {
-      g.brush = this.foreground
+      g.brush = this.color
     } else {
       g.brush = this.buttonColor
     }

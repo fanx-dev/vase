@@ -78,7 +78,7 @@ class ScrollBar : Widget
   **
   ** is vertical
   **
-  Bool vertical := true { internal set }
+  const Bool vertical := true
 
   **
   ** touch position

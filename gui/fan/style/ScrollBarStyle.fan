@@ -17,7 +17,7 @@ class ScrollBarStyle : WidgetStyle
   new make()
   {
     background = Color(0xfafafa)
-    foreground = Color(0x7c7c7c)
+    color = Color(0x7c7c7c)
   }
 
   override Void doPaint(Widget widget, Graphics g)
@@ -32,7 +32,7 @@ class ScrollBarStyle : WidgetStyle
     else {
       g.alpha = 100
     }
-    g.brush = foreground
+    g.brush = color
     Int pos := bar.screenPos
     Int thumb := bar.thumbSize
     top := widget.paddingTop
@@ -65,11 +65,13 @@ class SliderBarStyle : WidgetStyle
 {
   //Float size := (100f)
   Int width := 8
+  Brush buttonColor := Color.white
 
   new make()
   {
+    //outlineColor = Color(0x7c7c7c)
+    //foreground = Color(0x51d166)
     outlineColor = Color(0x7c7c7c)
-    foreground = Color(0x51d166)
   }
 
   override Void doPaint(Widget widget, Graphics g)
@@ -89,20 +91,34 @@ class SliderBarStyle : WidgetStyle
 
     if (bar.vertical) {
       g.drawLine(cx, top, cx, top + widget.contentHeight)
+      g.brush = color
+      pos := bar.screenPos
+      g.drawLine(cx, top, cx, top + pos)
     } else {
       g.drawLine(left, cy, left + widget.contentWidth, cy)
+      g.brush = color
+      pos := bar.screenPos
+      g.drawLine(left, cy, left + pos, cy)
     }
 
-    g.brush = foreground
+    g.brush = buttonColor
     Int pos := bar.screenPos
     Int r := size/2
     cx -= r
     cy -= r
-
+    circleX := cx
+    circleY := cy
     if (bar.vertical) {
-      g.fillOval(cx, pos + top - r, size, size)
-    } else {
-      g.fillOval(pos + left - r, cy, size, size)
+        circleY = pos + top - r
     }
+    else {
+        circleX = pos + left - r
+    }
+    
+    g.brush = outlineColor
+    g.fillOval(circleX, circleY, size, size)
+    g.brush = buttonColor
+    csize := size - dpToPixel(lineWidth)
+    g.fillOval(circleX, circleY, csize, csize)    
   }
 }

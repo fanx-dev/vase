@@ -23,8 +23,8 @@ class LabelStyle : WidgetStyle
 class FlatButtonStyle : LabelStyle
 {
   new make() {
-    fontColor = Color(0x5577CC)
-    font = Font(35, "Arial", true)
+    fontColor = color//Color(0x5577CC)
+    fontInfo.bold = true
   }
   
   override Void doPaint(Widget widget, Graphics g)

@@ -18,26 +18,34 @@ mixin Style
 }
 
 @Js
+class FontInfo {
+    Int size := 35
+    Str name := "Arial"
+    Bool bold := false
+    Bool italic := false
+    
+    new make(|This|? f := null) { f?.call(this) }
+}
+
+@Js
 class WidgetStyle : Style
 {
   Brush background := Color(0xf9f9f9)
-  Brush foreground := Color(0x33b5e5)
+  Brush color := Color(0x33b5e5)
   Brush outlineColor := Color(0xe9e9e9)
   Brush fontColor := Color(0x222222)
-  Brush selectedColor := Color(0x8888f9)
+  Brush disableColor := Color(0xb0b0b0)
 
   Image? backgroundImage
   Int lineWidth := 2
 
-  private Bool fontSizeInit := false
-  override Font font := Font(35) {
-    get {
-      if (!fontSizeInit) {
-        &font = &font.toSize(dpToPixel(&font.size))
-        fontSizeInit = true
-      }
-      return &font
-    }
+  FontInfo fontInfo := FontInfo()
+  @Transient
+  private Font? pixelFont
+  override Font font() {
+     if (pixelFont == null) pixelFont = Font(dpToPixel(fontInfo.size)
+        , fontInfo.name, fontInfo.bold, fontInfo.italic)
+     return pixelFont
   }
 
   final override Void paint(Widget widget, Graphics g)

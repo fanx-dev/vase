@@ -12,6 +12,8 @@ using vaseWindow
 @Js
 class TreeStyle : WidgetStyle
 {
+  Color dropColor := Color(0xf04455)
+  
   override Void doPaint(Widget widget, Graphics g)
   {
 
@@ -52,12 +54,12 @@ class TreeStyle : WidgetStyle
   {
     //backgound
     if (item === tree.selectedItem) {
-       g.brush = selectedColor
+       g.brush = color
        g.fillRect(treeX, itemY, tree.contentWidth, tree.rowHeight)
        g.brush = fontColor
     }
     else if (item === tree.dragDropItem) {
-       g.brush = Color(0xf04455)
+       g.brush = dropColor
        g.fillRect(treeX, itemY, tree.contentWidth, tree.rowHeight)
        g.brush = fontColor
     }
@@ -65,9 +67,11 @@ class TreeStyle : WidgetStyle
     //text
     text := item.text
     if (item.hasChildren) {
-       g.drawText("- "+text, itemX, itemY+fontOffset)
+      if (item.expanded) text = "v " + text
+      else text = "> " + text
+      g.drawText(text, itemX, itemY+fontOffset)
     } else {
-       g.drawText("  "+text, itemX, itemY+fontOffset)
+      g.drawText("  "+text, itemX, itemY+fontOffset)
     }
   }
 }

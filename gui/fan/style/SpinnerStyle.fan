@@ -31,7 +31,7 @@ class SpinnerStyle : WidgetStyle
     fontOffset := font.ascent + font.leading
     cy += (fontOffset/2.toFloat).toInt
     
-    lineHeight := dpToPixel(lab.lineHeight)
+    lineHeight := dpToPixel(lab.rowHeight)
     index := lab.offsetIndex.round.toInt
     viewOffset := (lab.offsetIndex - index) * lineHeight
     

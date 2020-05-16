@@ -25,7 +25,7 @@ class Spinner : Widget
     @Transient
     protected Float offsetIndex := 0f
     
-    Int lineHeight := 60
+    Int rowHeight := 60
     
     new make() {
         layout.width = Layout.wrapContent
@@ -36,7 +36,7 @@ class Spinner : Widget
     
     protected override Size prefContentSize() {
         w := dpToPixel(200)
-        h := dpToPixel(lineHeight)*4
+        h := dpToPixel(rowHeight)*4
         return Size(w, h)
     }
     
@@ -53,7 +53,7 @@ class Spinner : Widget
         if (e.consumed) return
         
         if (e.type == GestureEvent.drag) {
-            r := e.deltaY.toFloat/dpToPixel(lineHeight)
+            r := e.deltaY.toFloat/dpToPixel(rowHeight)
             t := offsetIndex - r
             &offsetIndex = t
             e.consume

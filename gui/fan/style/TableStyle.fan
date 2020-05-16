@@ -24,7 +24,7 @@ class TableHeaderStyle : WidgetStyle
     //backgound
     g.brush = background
     g.fillRect(0, 0, widget.width, widget.height)
-    g.brush = foreground
+    g.brush = color
     g.drawRect(0, 0, widget.width, widget.height)
 
     drawText(widget, g, btn.text, Align.center)
@@ -79,7 +79,7 @@ class TableStyle : WidgetStyle
     //backgound
     g.brush = background
     g.fillRect(x, y, w, h)
-    g.brush = foreground
+    g.brush = color
     g.drawRect(x, y, w, h)
 
     //text

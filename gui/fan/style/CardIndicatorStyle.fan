@@ -25,7 +25,7 @@ class CardIndicatorStyle : WidgetStyle {
     x += (pw/2)
     minW := pw.toInt.min(h)
     halfW := minW/2
-    g.brush = foreground
+    g.brush = color
     
     curX := (pw/2)+(p.cardBox.offsetIndex * pw)
     g.fillOval(curX.toInt-halfW, y, minW, minW)

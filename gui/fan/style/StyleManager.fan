@@ -53,12 +53,12 @@ class StyleManager
         "tabItem" : TabItemStyle(),
         "tabItemHighlight" : TabItemHighlightStyle(),
         "checkBox" : ToggleButtonStyle(),
-        "h1" : LabelStyle { font = Font(85) },
-        "h2" : LabelStyle { font = Font(73) },
-        "h3" : LabelStyle { font = Font(64) },
-        "h4" : LabelStyle { font = Font(53) },
-        "h5" : LabelStyle { font = Font(45) },
-        "h6" : LabelStyle { font = Font(38) },
+        "h1" : LabelStyle { fontInfo.size = (fontInfo.size * 2.0).toInt },
+        "h2" : LabelStyle { fontInfo.size = (fontInfo.size * 1.5).toInt },
+        "h3" : LabelStyle { fontInfo.size = (fontInfo.size * 1.2).toInt },
+        "h4" : LabelStyle { fontInfo.size = (fontInfo.size * 1.0).toInt },
+        "h5" : LabelStyle { fontInfo.size = (fontInfo.size * 0.83).toInt },
+        "h6" : LabelStyle { fontInfo.size = (fontInfo.size * 0.75).toInt },
     ]
   }
 

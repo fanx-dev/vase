@@ -53,7 +53,15 @@ class EditTextStyle : WidgetStyle
         }
         str = buf.toStr
       }
-      g.drawText(str, x, y+offset)
+      if (lab.lines == null) {
+        g.drawText(str, x, y+offset)
+      }
+      else {
+        for (i:=0; i<lab.lines.size; ++i) {
+            g.drawText(lab.lines[i], x, y+offset)
+            y += font.height
+        }
+      }
     }
     else if (!lab.hint.isEmpty) {
       g.brush = hintColor

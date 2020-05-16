@@ -15,7 +15,7 @@ class RoundButtonStyle : WidgetStyle
    Brush overColor := Color(0x6bd4fb)
    Brush outColor := Color(0x33b5e5)
    Brush downColor := Color(0x0099cc)
-   Int arc := 20
+   Int arc := 10
 
    new make()
    {
@@ -48,6 +48,10 @@ class RoundButtonStyle : WidgetStyle
     else if (btn.state == 2)
     {
       g.brush = downColor
+    }
+    
+    if (!btn.enabled) {
+      g.brush = disableColor
     }
 
     g.fillRoundRect(offsetR, offsetR, width, height, arc, arc)

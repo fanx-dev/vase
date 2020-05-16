@@ -12,7 +12,7 @@ class TabItemStyle : LabelStyle
 {
   new make() {
     fontColor = Color.gray
-    font = Font(35, "Arial", false)
+    //font = Font(35, "Arial", false)
   }
 }
 
@@ -20,7 +20,7 @@ class TabItemStyle : LabelStyle
 class TabItemHighlightStyle : LabelStyle
 {
   new make() {
-    fontColor = Color(0x5577CC)
-    font = Font(35, "Arial", true)
+    fontColor = color//Color(0x5577CC)
+    //font = Font(35, "Arial", true)
   }
 }

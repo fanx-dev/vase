@@ -53,7 +53,7 @@ abstract class Widget
   **
   //Effect? effect
 
-  Bool clip := false
+  Bool clip := true
 
   **
   ** flag for using renderCache
@@ -82,6 +82,9 @@ abstract class Widget
   **
   Insets margin := Insets.defVal
 
+  **
+  ** Layout params
+  **
   Layout layout := Layout()
 
   @Transient
@@ -117,50 +120,18 @@ abstract class Widget
   ** accept user input.  Disabled controls are "grayed out".
   **
   Bool enabled := true
-  {
-    set
-    {
-      oldVal := &enabled
-      &enabled = it
-      fireStateChange(oldVal, it, #enabled)
-    }
-  }
 
   @Transient
-  Int x := 0 {
-    protected set {
-      oldVal := &x
-      &x = it
-      fireStateChange(oldVal, it, #x)
-    }
-  }
+  Int x := 0
 
   @Transient
-  Int y := 0 {
-    protected set {
-      oldVal := &y
-      &y = it
-      fireStateChange(oldVal, it, #y)
-    }
-  }
+  Int y := 0
 
   @Transient
-  Int width := 0 {
-    protected set {
-      oldVal := &width
-      &width = it
-      fireStateChange(oldVal, it, #width)
-    }
-  }
+  Int width := 0
 
   @Transient
-  Int height := 0 {
-    protected set {
-      oldVal := &height
-      &height = it
-      fireStateChange(oldVal, it, #height)
-    }
-  }
+  Int height := 0
 
   **
   ** Size of this widget.
@@ -607,13 +578,15 @@ abstract class Widget
   **
   ** print debug info
   **
-  Void printInfo(Str msg) {
+  @NoDoc
+  protected Void printInfo(Str msg) {
     if (debug) {
       echo("$this.typeof.name,id=$id,bounds=$bounds:\t$msg")
     }
   }
 
-  static Bool debug() {
+  @NoDoc
+  protected static Bool debug() {
     if (Env.cur.runtime != "js" && Toolkit.cur.name != "Android") {
       return Widget#.pod.config("debug", "false") == "true"
     } else {

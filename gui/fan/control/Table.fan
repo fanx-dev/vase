@@ -27,7 +27,8 @@ class Table : ScrollPane
   internal WidgetGroup header := HBox {
     //it.vertical = false
     it.spacing = 0
-    //it.layout.width = Layout.wrapContent
+    it.layout.width = Layout.wrapContent
+    //it.clip = false
   }
 
   new make(|This|? f := null)

@@ -19,7 +19,7 @@ class ProgressViewStyle : WidgetStyle {
     left := widget.paddingLeft
 
     width := dpToPixel(8)
-    g.brush = foreground
+    g.brush = color
     g.pen = Pen { it.width = width }
     
     elapsed := 0
@@ -65,7 +65,7 @@ class ProgressBarStyle : WidgetStyle {
     g.fillRect(x, y, w, h)
     
     w2 := (w * p.value).toInt
-    g.brush = foreground
+    g.brush = color
     g.fillRect(x, y, w2, h)
   }
 }

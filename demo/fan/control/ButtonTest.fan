@@ -29,6 +29,11 @@ class ButtonTest : BasePage
         text = "Push Button";
         onClick { Toast("hello world").show(it) }
       },
+      Button {
+        text = "Disable Button";
+        enabled = false
+        onClick { Toast("hello world").show(it) }
+      },
       
       Label { text = "Label"; },
       ToggleButton { text = "switch" },

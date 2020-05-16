@@ -34,8 +34,16 @@ class EditText : Widget, TextInput
       onStateChanged.fire(e)
       &text = it
       caret.offset = &text.size
+      if (it.containsChar('\n')) {
+        lines = it.split('\n')
+      }
+      else {
+        lines = null
+      }
     }
   }
+  
+  internal Str[]? lines
 
   Str hint := ""
   Bool password() { inputType == TextInput.inputTypePassword }
@@ -104,11 +112,11 @@ class EditText : Widget, TextInput
 
   const Int inputType := 1
   override Int getInputType() { inputType }
-  Int multiLine := 0
   Bool editable := true
 
   private Void updateHost() {
     if (host == null) return
+    multiLine := lines == null ? 1 : lines.size
     host.setType(multiLine, editable)
     
     p := Coord(0f, 0f)
@@ -128,8 +136,8 @@ class EditText : Widget, TextInput
   protected override Size prefContentSize() {
     w := font.width(text)
     h := font.height
-    if (multiLine > 1) {
-      h *= multiLine
+    if (lines != null) {
+      h *= lines.size
     }
     return Size(w, h)
   }

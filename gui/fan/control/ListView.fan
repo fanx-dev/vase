@@ -14,7 +14,7 @@ using vaseMath
 class ListView : ScrollPane
 {
   @Transient
-  private Float rowHeight := 100f
+  private Int rowHeight := 100
 
   private Bool itemLayoutDirty := true
 
@@ -97,7 +97,7 @@ class ListView : ScrollPane
       itemH := view.bufferedPrefSize().h
       view.setLayout(x, y, w, itemH, false)
       y += itemH
-      rowHeight = itemH.toFloat
+      rowHeight = itemH
 
       if (y > h) {
         break
@@ -227,6 +227,6 @@ class SimpleListAdapter : ListAdapter
 
   protected override Widget newView(Int type) {
     //echo("new view")
-    return Label{}
+    return Label{ padding = Insets(8) }
   }
 }
