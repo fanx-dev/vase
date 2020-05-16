@@ -18,7 +18,7 @@ class SeekBarTest : BasePage
       label := Label { text = "Hello" }
       label,
       SliderBar {
-        curPos = 10f
+        curPos = 50f
         onPosChanged {
           label.text = it.toInt.toStr
         }

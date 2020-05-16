@@ -13,6 +13,9 @@ class EditTextTest : BasePage
 {
   protected override Widget view() {
     VBox {
+      margin = Insets(10)
+      layout.height = Layout.matchParent
+      
       EditText {
         hint = "EditText"
       },
@@ -23,10 +26,11 @@ class EditTextTest : BasePage
       EditText {
         inputType = TextInput.inputTypeMultiLine
         hint = "MultiLine"
-        layout.height = 400
+        layout.height = Layout.matchParent
       },
       EditText {
         hint = "EditText"
+        layout.vAlign = Align.end
       },
     }
   }

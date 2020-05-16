@@ -118,7 +118,8 @@ class SliderBarStyle : WidgetStyle
     g.brush = outlineColor
     g.fillOval(circleX, circleY, size, size)
     g.brush = buttonColor
-    csize := size - dpToPixel(lineWidth)
-    g.fillOval(circleX, circleY, csize, csize)    
+    stroke := dpToPixel(lineWidth)
+    csize := size - stroke - stroke
+    g.fillOval(circleX+stroke, circleY+stroke, csize, csize)    
   }
 }

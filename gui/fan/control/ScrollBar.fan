@@ -150,8 +150,18 @@ class ScrollBar : Widget
     super.doPaint(g)
   }
   */
+  
+  protected override Void motionEvent(MotionEvent e)
+  {
+    super.motionEvent(e)
+    if (e.type == MotionEvent.pressed) {
+        draging = true
+    }
+  }
 
   protected override Void gestureEvent(GestureEvent e) {
+    if (!draging) return
+    
     if (e.type == GestureEvent.drop || e.type == GestureEvent.fling)
     {
       draging = false
@@ -159,7 +169,6 @@ class ScrollBar : Widget
     }
     else if (e.type == GestureEvent.drag)
     {
-      draging = true
       if (vertical)
       {
         pos := toWorldCoord(e.deltaY.toFloat) + curPos

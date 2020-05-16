@@ -104,8 +104,8 @@ class DownState : GestureState {
         machine.setCurrentState(ns, e)
         e.consume
       } else {
-        lastX = e.x
-        lastY = e.y
+        //lastX = e.x
+        //lastY = e.y
       }
     } else {
       machine.onFinished(e)
@@ -212,7 +212,8 @@ class DragState : GestureState {
   Bool asFling(MotionEvent e) {
     dx := e.x - beginX
     dy := e.y - beginY
-    if (lastSpeed > 2.0) {
+    echo(lastSpeed)
+    if (lastSpeed > 0.2) {
       ge := makeEvent(e, GestureEvent.fling)
       ge.deltaX = dx
       ge.deltaY = dy
@@ -240,7 +241,7 @@ class DragState : GestureState {
       now := TimePoint.nowMillis
       Int elapsedTime := now - lastTime
       if (elapsedTime <= 0) elapsedTime = 1
-      lastSpeed = (dx*dx + dy*dy).toFloat/elapsedTime
+      lastSpeed = (dx*dx + dy*dy).toFloat.sqrt/elapsedTime
       lastSpeedX = dx.toFloat/elapsedTime
       lastSpeedY = dy.toFloat/elapsedTime
       lastTime = now

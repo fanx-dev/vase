@@ -27,7 +27,7 @@ abstract class WidgetGroup : Widget
 //////////////////////////////////////////////////////////////////////////
 
   @Transient
-  private Widget[] children := Widget[,]
+  protected Widget[] children := Widget[,]
 
 
   **

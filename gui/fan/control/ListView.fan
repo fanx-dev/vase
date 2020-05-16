@@ -80,7 +80,8 @@ class ListView : ScrollPane
     y -= topOffset
 
     Pane pane := content
-    pane.removeAll
+    pane.children.each { it.setParent(null) }
+    pane.children.clear
 
     Int count := 0
     if (i < 0) {
@@ -91,7 +92,8 @@ class ListView : ScrollPane
     {
       view := getView(i)
       view.layout.ignore = true
-      pane.add(view)
+      pane.children.add(view)
+      view.setParent(pane)
       ++count
 
       itemH := view.bufferedPrefSize().h

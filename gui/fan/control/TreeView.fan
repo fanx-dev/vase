@@ -117,9 +117,6 @@ class TreeView : ScrollPane
             dragDropItem = null
         }
     }
-    else if (e.type == MotionEvent.released) {
-        draging = false
-    }
   }
   
   private TreeItem? findItemAt(Int eventY) {
@@ -159,7 +156,8 @@ class TreeView : ScrollPane
       e.consume
       this.repaint
     }
-    else if (e.type == GestureEvent.drop) {
+    else if (e.type == GestureEvent.drop || e.type == GestureEvent.fling) {
+      draging = false
       dragDropItem = findItemAt(e.relativeY)
       model.onDragDrop(selectedItem, dragDropItem)
       dragDropItem = null

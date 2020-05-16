@@ -129,6 +129,7 @@ class TextArea : ScrollPane
     super.autoScrollContent = false
     focusable = true
     pressFocus = true
+    dragable = false
     
     onFocusChanged.add |e| {
       focused := e.data
@@ -378,7 +379,7 @@ class TextArea : ScrollPane
   protected override Void motionEvent(MotionEvent e)
   {
     super.motionEvent(e)
-    if (e.consumed) return
+    //if (e.consumed) return
 
     sx := e.relativeX - this.x
     sy := e.relativeY - this.y

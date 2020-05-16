@@ -177,6 +177,13 @@ class ScrollPane : ContentPane
 
   protected override Void motionEvent(MotionEvent e)
   {
+    if (e.type == MotionEvent.pressed) {
+      if (animation != null) {
+        animation.stop
+      }
+      //this.focus
+    }
+    
     super.motionEvent(e)
     if (e.consumed) return
 
@@ -188,12 +195,6 @@ class ScrollPane : ContentPane
       vbar.setCurPos(pos, true)
       vbar.repaint
       e.consume
-    }
-    else if (e.type == MotionEvent.pressed) {
-      if (animation != null) {
-        animation.stop
-      }
-      this.focus
     }
     else if (e.type == MotionEvent.moved) {
         if (refreshTip != null) {
@@ -233,10 +234,14 @@ class ScrollPane : ContentPane
       startAnimation(anim)
     }
   }
+  
+  Bool dragable := true
 
   protected override Void gestureEvent(GestureEvent e) {
     super.gestureEvent(e)
     if (e.consumed) return
+    
+    if (!dragable) return
     
     //if (!vbar.enabled) return
     if (e.type == GestureEvent.drag) {
