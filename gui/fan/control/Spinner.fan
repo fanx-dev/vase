@@ -4,6 +4,7 @@
 // History:
 //   2020-5-5 yangjiandong Creation
 //
+using vaseGraphics
 
 **
 ** Spinner
@@ -33,10 +34,10 @@ class Spinner : Widget
         pressFocus = true
     }
     
-    protected override Dimension prefContentSize() {
+    protected override Size prefContentSize() {
         w := dpToPixel(200)
         h := dpToPixel(lineHeight)*4
-        return Dimension(w, h)
+        return Size(w, h)
     }
     
     private Void endMove() {

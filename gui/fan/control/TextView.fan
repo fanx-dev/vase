@@ -84,7 +84,7 @@ class TextView : Widget
     return lines
   }
 
-  protected override Dimension prefContentSize() {
+  protected override Size prefContentSize() {
     lines := text.split('\n')
     w := 0
     lines.each {
@@ -92,6 +92,6 @@ class TextView : Widget
        w = w.max(lw)
     }
     h := rowHeight * lines.size
-    return Dimension(w, h)
+    return Size(w, h)
   }
 }

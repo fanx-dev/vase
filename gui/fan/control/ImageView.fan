@@ -114,10 +114,10 @@ class ImageView : Widget
     }
   }
 
-  protected override Dimension prefContentSize() {
+  protected override Size prefContentSize() {
     w := dpToPixel(imagePrefWidth)
     h := dpToPixel(imagePrefHeight)
-    return Dimension(w, h)
+    return Size(w, h)
   }
   
   protected override Void motionEvent(MotionEvent e)

@@ -64,7 +64,7 @@ class Table : ScrollPane
     set { header.x = -it; super.offsetX = it }
   }
 
-  protected override Dimension prefContentSize() {
+  protected override Size prefContentSize() {
     Int w := 0
     Int colWidth := dpToPixel(colWidth)
     model.numCols.times |c|
@@ -73,7 +73,7 @@ class Table : ScrollPane
     }
     Int h := model.numRows * dpToPixel(rowHeight) + dpToPixel(rowHeight)
 
-    return Dimension(w, h)
+    return Size(w, h)
   }
 
   protected override Float contentMaxHeight() {

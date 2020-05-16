@@ -356,16 +356,16 @@ abstract class Widget
   **
   ** preferred size with margin
   **
-  protected Dimension bufferedPrefSize(Int parentContentWidth := -1, Int parentContentHeight := -1) {
+  protected Size bufferedPrefSize(Int parentContentWidth := -1, Int parentContentHeight := -1) {
     size := prefSize(parentContentWidth, parentContentHeight)
-    return size.set(size.w+dpToPixel((margin.left + margin.right))
+    return Size(size.w+dpToPixel((margin.left + margin.right))
       , size.h+dpToPixel((margin.top + margin.bottom)))
   }
 
   **
   ** preferred size without margin
   **
-  virtual Dimension prefSize(Int parentContentWidth := -1, Int parentContentHeight := -1) {
+  virtual Size prefSize(Int parentContentWidth := -1, Int parentContentHeight := -1) {
 //    if (!prefSizeDirty) {
 //      return result.set(prefWidth, prefHeight)
 //    }
@@ -396,14 +396,14 @@ abstract class Widget
 
 //    prefWidth = w
 //    prefHeight = h
-    return Dimension(w, h)
+    return Size(w, h)
   }
 
   **
   ** preferred size of content without padding
   **
-  protected virtual Dimension prefContentSize() {
-    return Dimension(dpToPixel(50), dpToPixel(50))
+  protected virtual Size prefContentSize() {
+    return Size(dpToPixel(50), dpToPixel(50))
   }
 
   Int contentWidth() {

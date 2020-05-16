@@ -61,10 +61,10 @@ class TreeView : ScrollPane
     return w.toFloat
   }
 
-  protected override Dimension prefContentSize() {
+  protected override Size prefContentSize() {
     Int w := dpToPixel(minWidth)
     Int h := items.size * rowHeight
-    return Dimension(w, h)
+    return Size(w, h)
   }
 
   Void expanded(TreeItem item)

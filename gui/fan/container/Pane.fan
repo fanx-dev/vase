@@ -40,7 +40,7 @@ class Pane : WidgetGroup
     }
   }
 
-  protected override Dimension prefContentSize() {
+  protected override Size prefContentSize() {
     Int maxX := 0
     Int maxY := 0
     this.each |c|
@@ -65,6 +65,6 @@ class Pane : WidgetGroup
     }
 
     //echo("$maxX, $maxY")
-    return Dimension(maxX, maxY)
+    return Size(maxX, maxY)
   }
 }

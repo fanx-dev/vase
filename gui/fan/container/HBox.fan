@@ -84,7 +84,7 @@ class HBox : WidgetGroup
 
   }
 
-  protected override Dimension prefContentSize() {
+  protected override Size prefContentSize() {
     Int w := 0
     Int h := 0
     spacing := dpToPixel(this.spacing)
@@ -97,6 +97,6 @@ class HBox : WidgetGroup
       if (i > 0) w += spacing
     }
 
-    return Dimension(w, h)
+    return Size(w, h)
   }
 }

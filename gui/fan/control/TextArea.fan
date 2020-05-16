@@ -139,7 +139,7 @@ class TextArea : ScrollPane
     }
   }
 
-  protected override Dimension prefContentSize() {
+  protected override Size prefContentSize() {
     Int h := model.lineCount * rowHeight
 
     Int max := 0
@@ -155,7 +155,7 @@ class TextArea : ScrollPane
       }
     }
     w := font.width(model.line(maxIndex))
-    return Dimension(w, h)
+    return Size(w, h)
   }
 
 //////////////////////////////////////////////////////////////////////////

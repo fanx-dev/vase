@@ -125,13 +125,13 @@ class EditText : Widget, TextInput
     updateHost
   }
 
-  protected override Dimension prefContentSize() {
+  protected override Size prefContentSize() {
     w := font.width(text)
     h := font.height
     if (multiLine > 1) {
       h *= multiLine
     }
-    return Dimension(w, h)
+    return Size(w, h)
   }
 
   private Void startCaret()

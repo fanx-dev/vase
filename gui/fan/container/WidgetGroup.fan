@@ -136,7 +136,7 @@ abstract class WidgetGroup : Widget
   **
   ** get the prefer content size
   **
-  abstract protected override Dimension prefContentSize();
+  abstract protected override Size prefContentSize();
 
 //////////////////////////////////////////////////////////////////////////
 // event

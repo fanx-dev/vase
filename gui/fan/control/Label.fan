@@ -31,9 +31,9 @@ class Label : Widget
   {
   }
 
-  protected override Dimension prefContentSize() {
+  protected override Size prefContentSize() {
     w := font.width(text)
     h := font.height
-    return Dimension(w, h)
+    return Size(w, h)
   }
 }

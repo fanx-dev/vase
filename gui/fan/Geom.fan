@@ -60,54 +60,6 @@ class Coord {
 }
 
 **
-** the width and height
-**
-@Js
-class Dimension {
-  Int w
-  Int h
-
-  new make(Int w, Int h) {
-    this.w = w
-    this.h = h
-  }
-
-  This set(Int w, Int h) {
-    this.w = w
-    this.h = h
-    return this
-  }
-
-  ** Parse from string.  If invalid and checked is
-  ** true then throw ParseErr otherwise return null.
-  static Dimension? fromStr(Str s, Bool checked := true)
-  {
-    try
-    {
-      comma := s.index(",")
-      return make(s[0..<comma].trim.toInt, s[comma+1..-1].trim.toInt)
-    }
-    catch {}
-    if (checked) throw ParseErr("Invalid Size: $s")
-    return null
-  }
-
-  ** Return '"w,h"'
-  override Str toStr() { "$w,$h" }
-
-  ** Return hash of w and h.
-  override Int hash() { w.xor(h.shiftl(16)) }
-
-  ** Return if obj is same Size value.
-  override Bool equals(Obj? obj)
-  {
-    that := obj as Size
-    if (that == null) return false
-    return this.w == that.w && this.h == that.h
-  }
-}
-
-**
 ** Insets represent a number of pixels around the edge of a rectangle.
 **
 @Js

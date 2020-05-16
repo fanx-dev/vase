@@ -70,7 +70,7 @@ class VBox : WidgetGroup
     }
   }
 
-  protected override Dimension prefContentSize() {
+  protected override Size prefContentSize() {
     Int w := 0
     Int h := 0
     spacing := dpToPixel(this.spacing)
@@ -83,6 +83,6 @@ class VBox : WidgetGroup
       if (i > 0) h += spacing
     }
 
-    return Dimension(w, h)
+    return Size(w, h)
   }
 }

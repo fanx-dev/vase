@@ -57,10 +57,9 @@ class EdgeBox : WidgetGroup
 // Layout
 //////////////////////////////////////////////////////////////////////////
 
-  override Dimension prefContentSize()
+  override Size prefContentSize()
   {
-    result := Dimension(0, 0)
-    result = pref(this.top)
+    result := pref(this.top)
     top_w := result.w
     top_h := result.h
 
@@ -81,15 +80,15 @@ class EdgeBox : WidgetGroup
     w := (left_w + center.w + right_w).max(top_w).max(bottom_w)
     h := top_h + bottom_h + (left_h.max(center.h).max(right_h))
     //echo("prefW$w, center.w$center.w")
-    result.w = w
-    result.h = h
-    return result
+    //result.w = w
+    //result.h = h
+    return Size(w, h)
   }
 
-  private Dimension pref(Widget? w)
+  private Size pref(Widget? w)
   {
     if (w == null) {
-      return Dimension(0, 0)
+      return Size(0, 0)
     }
     return w.bufferedPrefSize()
   }
