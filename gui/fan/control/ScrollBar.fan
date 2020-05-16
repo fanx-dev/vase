@@ -83,8 +83,6 @@ class ScrollBar : Widget
   **
   ** touch position
   **
-  private Int lastX := -1
-  private Int lastY := -1
   private Bool draging := false
 
   Int barSize := 60
@@ -103,6 +101,9 @@ class ScrollBar : Widget
       layout.height = barSize
       layout.width = Layout.matchParent
     }
+    
+    focusable = true
+    pressFocus = true
   }
 
   **
@@ -144,62 +145,33 @@ class ScrollBar : Widget
     return ((val.toFloat /barLength.toFloat )* max)
   }
 
-  override Void onMounted()
-  {
-    rootView := this.getRootView
-    rootView.onTouchEvent.add |MotionEvent e|
-    {
-      doTouch(e)
-    }
-  }
-
   /*
   protected override Void doPaint(Graphics g) {
     super.doPaint(g)
   }
   */
 
-  private Void doTouch(MotionEvent e)
-  {
-    p := Coord(e.x.toFloat, e.y.toFloat)
-    rc := mapToRelative(p)
-    if (rc && this.contains(p.x.toInt, p.y.toInt))
-    {
-      if (e.type == MotionEvent.pressed)
-      {
-        draging = true
-        lastX = p.x.toInt
-        lastY = p.y.toInt
-        focus
-        e.consume
-        return
-      }
-    }
-
-    if (!draging) return
-    e.consume
-
-    if (e.type == MotionEvent.released)
+  protected override Void gestureEvent(GestureEvent e) {
+    if (e.type == GestureEvent.drop || e.type == GestureEvent.fling)
     {
       draging = false
-      lastX = -1
-      lastY = -1
+      repaint
     }
-    else if (e.type == MotionEvent.moved)
+    else if (e.type == GestureEvent.drag)
     {
+      draging = true
       if (vertical)
       {
-        pos := toWorldCoord((p.y - lastY).toFloat) + curPos
+        pos := toWorldCoord(e.deltaY.toFloat) + curPos
         setCurPos(pos, true)
       }
       else
       {
-        pos := toWorldCoord((p.x - lastX).toFloat) + curPos
+        pos := toWorldCoord(e.deltaX.toFloat) + curPos
         setCurPos(pos, true)
       }
       //echo("=====>$curPos")
-      lastX = p.x.toInt
-      lastY = p.y.toInt
+      e.consume
       repaint
     }
   }

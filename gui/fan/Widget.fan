@@ -222,8 +222,9 @@ abstract class Widget
   ** process motion event
   **
   protected virtual Void motionEvent(MotionEvent e) {
-    if (pressFocus && e.type == MotionEvent.pressed) {
+    if (pressFocus && e.type == MotionEvent.pressed && !e.consumed) {
       this.focus
+      e.consume
     }
   }
 

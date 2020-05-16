@@ -66,7 +66,7 @@ class Button : Label
     super.motionEvent(e)
 
     if (state == mouseOut) {
-      getRootView?.mouseCapture(this)
+      getRootView?.mouseHover(this)
     }
 
     if (e.type == MotionEvent.released)

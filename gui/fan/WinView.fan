@@ -159,9 +159,9 @@ internal class WinView : View
   override Void onMotionEvent(MotionEvent e) {
     update
     if (oldFrame == null) curFrame.motionEvent(e)
-    if (!e.consumed) {
-      gesture.onEvent(e)
-    }
+    //if (!e.consumed) {
+    gesture.onEvent(e)
+    //}
   }
 
   override Void onKeyEvent(KeyEvent e) {

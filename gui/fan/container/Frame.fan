@@ -27,7 +27,7 @@ class Frame : ContentPane
   private Widget? focusWidget { private set }
 
   @Transient
-  private Widget? mouseOverWidget
+  private Widget? mouseHoverWidget
 
   **
   ** top layer is a overlay of root view
@@ -214,8 +214,8 @@ class Frame : ContentPane
       focusIt(null)
     }
 
-    if (mouseOverWidget === w) {
-      mouseOverWidget = null
+    if (mouseHoverWidget === w) {
+      mouseHoverWidget = null
     }
 
     if (topLayer === w.parent) {
@@ -249,11 +249,11 @@ class Frame : ContentPane
   **
   ** set for dealwith mouse exit and mouse enter
   **
-  Void mouseCapture(Widget w)
+  Void mouseHover(Widget w)
   {
-    if (mouseOverWidget === w) return
-    mouseOverWidget?.mouseExit
-    this.mouseOverWidget = w
+    if (mouseHoverWidget === w) return
+    mouseHoverWidget?.mouseExit
+    this.mouseHoverWidget = w
     w.mouseEnter
   }
 
@@ -292,16 +292,15 @@ class Frame : ContentPane
     e.relativeY = e.y
 
     //fire mouse out event
-    if (mouseOverWidget != null) {
+    if (mouseHoverWidget != null) {
       p := Coord(e.x.toFloat, e.y.toFloat)
-      b := mouseOverWidget.mapToRelative(p)
-      if (!b || !mouseOverWidget.contains(p.x.toInt, p.y.toInt)) {
-        mouseOverWidget.mouseExit
-        mouseOverWidget = null
+      b := mouseHoverWidget.mapToRelative(p)
+      if (!b || !mouseHoverWidget.contains(p.x.toInt, p.y.toInt)) {
+        mouseHoverWidget.mouseExit
+        mouseHoverWidget = null
       }
     }
 
-    onTouchEvent.fire(e)
     if (e.consumed) {
       return
     }
@@ -336,11 +335,5 @@ class Frame : ContentPane
   ** Callback function when window is opended.
   **
   once EventListeners onOpened() { EventListeners() }
-
-  **
-  ** global motion event
-  **
-  @Transient
-  EventListeners onTouchEvent := EventListeners()
 
 }
