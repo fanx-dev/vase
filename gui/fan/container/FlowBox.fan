@@ -24,24 +24,46 @@ class FlowBox : WidgetGroup
     Int hintsH := contentHeight
     spacing := dpToPixel(this.spacing)
 
-    this.each |Widget c|
+    lineHeight := 0
+    this.each |Widget c, i|
     {
       size := c.bufferedPrefSize(hintsW, hintsH)
-      cx := x
-      cy := y
-
-      cw := size.w
-      ch := size.h
-    
-      c.setLayout(cx, cy, cw, ch, force)
-      if (x >= hintsW) {
+      if (x+size.w >= hintsW) {
         x = paddingLeft
-        y += ch + spacing
+        y += lineHeight + spacing
+        lineHeight = 0
+        c.setLayout(x, y, size.w, size.h, force)
       }
       else {
-        x += cw + spacing
+        c.setLayout(x, y, size.w, size.h, force)
       }
+      x += size.w + spacing
+      if (lineHeight < size.h) lineHeight = size.h
+      //echo("$hintsW,  $x, $y, $size")
     }
+  }
+  
+  override Size prefSize(Int parentContentWidth := -1, Int parentContentHeight := -1) {
+    Int x := paddingLeft
+    Int y := paddingTop
+    hintsW := parentContentWidth - dpToPixel((margin.left + margin.right))
+    hintsH := parentContentHeight - dpToPixel((margin.top + margin.bottom))
+    spacing := dpToPixel(this.spacing)
+
+    lineHeight := 0
+    this.each |Widget c, i|
+    {
+      size := c.bufferedPrefSize(hintsW, hintsH)
+      if (x+size.w >= hintsW) {
+        x = paddingLeft
+        y += lineHeight + spacing
+        lineHeight = 0
+      }
+      x += size.w + spacing
+      if (lineHeight < size.h) lineHeight = size.h
+      //echo("$x, $y, $lineHeight")
+    }
+    return Size(hintsW, y+lineHeight)
   }
 
   protected override Size prefContentSize() {

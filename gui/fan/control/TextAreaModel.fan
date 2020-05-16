@@ -384,7 +384,8 @@ class RichTextStyle
   const Color? underlineColor
 
   ** Underline style or none for no underline.
-  const RichTextUnderline underline := RichTextUnderline.none
+  ** none,single,squiggle
+  const Int underline := 0
 
   override Str toStr()
   {
@@ -392,23 +393,8 @@ class RichTextStyle
     if (fg != null) s.add("fg=$fg")
     if (bg != null) s.add(" bg=$bg")
     if (font != null) s.add(" font=$font")
-    if (underline != RichTextUnderline.none) s.add(" underline=$underline")
+    if (underline != 0) s.add(" underline=$underline")
     if (underlineColor != null) s.add(" underlineColor=$underlineColor")
     return s.toStr.trim
   }
-}
-
-**************************************************************************
-** RichTextUnderline
-**************************************************************************
-
-**
-** Defines how to paint the underline of a RichText segment.
-**
-@Js
-enum class RichTextUnderline
-{
-  none,
-  single,
-  squiggle
 }

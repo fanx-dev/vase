@@ -42,7 +42,7 @@ class Main
     pages = [null,
       ButtonTest(), ImageViewTest(), DialogTest(), ListViewTest(), ComboBoxTest(), null,
       SpinnerTest(), SeekBarTest(), ProgressViewTest(), TextViewTest(), null,
-      CardTest(), EdgeTest(), HBoxTest(), VBoxTest(), PaneTest(), null,
+      CardTest(), EdgeTest(), HBoxTest(), VBoxTest(), PaneTest(), FlowTest(), null,
       MenuTest(), TableTest(), TreeTest(), null,
       EditTextTest(), TextAreaTest(), FilePickerTest(), null,
     ]
