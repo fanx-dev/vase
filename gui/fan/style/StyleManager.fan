@@ -52,7 +52,7 @@ class StyleManager
         "dialog" : PaneStyle(),
         "tabItem" : TabItemStyle(),
         "tabItemHighlight" : TabItemHighlightStyle(),
-        "checkBox" : ToggleButtonStyle(),
+        "checkBox" : CheckBoxStyle(),
         "h1" : LabelStyle { fontInfo.size = (fontInfo.size * 2.0).toInt },
         "h2" : LabelStyle { fontInfo.size = (fontInfo.size * 1.5).toInt },
         "h3" : LabelStyle { fontInfo.size = (fontInfo.size * 1.2).toInt },

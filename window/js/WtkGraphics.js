@@ -194,7 +194,7 @@ fan.vaseWindow.WtkGraphics.prototype.clearRect = function(x, y, w, h)
 // This drawRoundRect(Int x, Int y, Int w, Int h, Int wArc, Int hArc)
 fan.vaseWindow.WtkGraphics.prototype.drawRoundRect = function(x, y, w, h, wArc, hArc)
 {
-  this.pathRoundRect(x+0.5, y+0.5, w, h, wArc*1.1, hArc*1.1)
+  this.pathRoundRect(x+0.5, y+0.5, w, h, wArc, hArc)
   this.cx.stroke();
   return this;
 }
@@ -202,7 +202,7 @@ fan.vaseWindow.WtkGraphics.prototype.drawRoundRect = function(x, y, w, h, wArc, 
 // This fillRoundRect(Int x, Int y, Int w, Int h, Int wArc, Int hArc)
 fan.vaseWindow.WtkGraphics.prototype.fillRoundRect = function(x, y, w, h, wArc, hArc)
 {
-  this.pathRoundRect(x, y, w, h, wArc*1.1, hArc*1.1)
+  this.pathRoundRect(x, y, w, h, wArc, hArc)
   this.cx.fill();
   return this;
 }
@@ -212,6 +212,33 @@ fan.vaseWindow.WtkGraphics.prototype.pathRoundRect = function(x, y, w, h, wArc, 
 {
   if (wArc > w/2) wArc = w/2
   if (hArc > h/2) hArc = h/2
+
+  if (hArc == wArc) {
+    this.cx.beginPath();
+    this.cx.moveTo(x + wArc, y);
+    this.cx.lineTo(x + w - wArc, y);
+
+    //right top
+    //this.cx.arc(x+w-wArc, y+hArc, wArc, -90*(Math.PI / 180), true);
+    this.cx.arcTo(x + w, y, x + w, y + hArc, wArc);
+    this.cx.lineTo(x + w, y + h - hArc);
+
+    //right bottom
+    //this.cx.arc(x+w-wArc, y+h-hArc, wArc, 0, 90*(Math.PI / 180), true);
+    this.cx.arcTo(x + w, y + h , x + w - wArc, y + h, wArc);
+    this.cx.lineTo(x + wArc, y + h);
+    
+    //left bottom
+    //this.cx.arc(x+wArc, y+h-hArc, wArc, 90*(Math.PI / 180), 90*(Math.PI / 180), true)
+    this.cx.arcTo(x, y + h , x, y + h - hArc, wArc);
+    this.cx.lineTo(x, y + hArc);
+
+    //left top
+    //this.cx.arc(x+wArc, y+hArc, wArc, 180*(Math.PI / 180), 90*(Math.PI / 180), true);
+    this.cx.arcTo(x, y, x + wArc, y, wArc);
+    return;
+  }
+
   this.cx.beginPath();
   this.cx.moveTo(x + wArc, y);
   this.cx.lineTo(x + w - wArc, y);

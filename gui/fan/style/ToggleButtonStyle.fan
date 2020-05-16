@@ -9,12 +9,12 @@
 using vaseGraphics
 using vaseWindow
 
+
 @Js
-class ToggleButtonStyle : WidgetStyle
+class CheckBoxStyle : WidgetStyle
 {
-  Pen outLinePen := Pen { width = dpToPixel(3) }
-  Pen contectPen := Pen { width = dpToPixel(8) }
-  Brush buttonColor := Color.white
+  Pen contectPen := Pen { width = dpToPixel(6) }
+  Pen outLinePen := Pen { width = dpToPixel(4) }
 
   new make() {
     //foreground = Color(0x51d166)
@@ -58,10 +58,11 @@ class ToggleButtonStyle : WidgetStyle
 }
 
 @Js
-class RadioButtonStyle : ToggleButtonStyle
-{
+class RadioButtonStyle : WidgetStyle
+{  
   new make() {
     //foreground = Color(0x51d166)
+    background = Color.white
   }
 
   override Void doPaint(Widget widget, Graphics g)
@@ -88,16 +89,20 @@ class RadioButtonStyle : ToggleButtonStyle
     }
     else {
       cw := (r * 0.85).toInt
-      g.brush = this.buttonColor
+      g.brush = this.background
       g.fillOval(x-cw, y-cw, cw+cw, cw+cw)
     }
   }
 }
 
 @Js
-class SwitchStyle : ToggleButtonStyle {
+class SwitchStyle : WidgetStyle {
+  Pen outLinePen := Pen { width = dpToPixel(4) }
+  Color buttonColor := Color.white
+  
   new make() {
     //foreground = Color(0x51d166)
+    background = outlineColor
   }
 
   override Void doPaint(Widget widget, Graphics g)
@@ -108,41 +113,60 @@ class SwitchStyle : ToggleButtonStyle {
     top := widget.paddingTop
     left := widget.paddingLeft
 
-    size := btn.contentHeight*2
-    r := btn.contentHeight
-    centerX := left + (widget.contentWidth) - r
-    centerY := top + (widget.contentHeight) - (r/2)
-    r = (r*0.9f).toInt
-    size = r + r
+    h := btn.contentHeight
+    centerX := left + (widget.contentWidth) - h
+    centerY := top + (widget.contentHeight) - (h/2)
+    
+    h = (h-dpToPixel(5)).toInt
+    hw := (h*0.8).toInt
+    w := hw+hw
+    r := h/2
 
-    widthHalf := (r * 0.8f).toInt
-    heightHalf := r/2
+    g.brush = btn.selected ? this.color : background
+    g.fillRoundRect(centerX-hw, centerY-r, w, h, r, r)
+    //fillRundRect(g, centerX-hw, centerY-r, w, h)
 
-    g.brush = outlineColor
-    g.fillRoundRect(centerX-widthHalf, centerY-heightHalf
-        , widthHalf+widthHalf, heightHalf+heightHalf, heightHalf, heightHalf)
+    radius := r - dpToPixel(4)
+    xOffset := ((w-r-r) * btn.animPostion).toInt
 
-//    echo("centerX$centerX, widthR$widthR")
-    widthR := (widthHalf - outLinePen.width).toInt
-    heightR := (heightHalf - outLinePen.width).toInt
-    if (btn.selected) {
-      g.brush = this.color
-    } else {
-      g.brush = this.buttonColor
-    }
-    g.fillRoundRect(centerX-widthR, centerY-heightR
-        , widthR+widthR, heightR+heightR, heightR, heightR)
-
-
-    xOffset := ((widthR+widthR-heightR-heightR) * btn.animPostion).toInt
-    height := heightR+heightR
-    g.brush = outlineColor
-    g.fillOval(centerX-widthHalf+xOffset, centerY-heightHalf, heightHalf+heightHalf, heightHalf+heightHalf)
-
-    //g.pen = outLinePen
+//    
+    cx := centerX-hw+r+xOffset
+    cy := centerY
+//    drawCircle(g, cx, cy, radius
+//        , buttonColor, outlineColor, outLinePen.width)
     g.brush = buttonColor
-    //g.drawOval(centerX-widthR+xOffset, centerY-heightR, height, height)
-    g.fillOval(centerX-widthR+xOffset, centerY-heightR, height, height)
-
+    g.fillOval(cx-radius, cy-radius, radius+radius, radius+radius)
   }
+  
+  /*
+  private Void fillRundRect(Graphics g, Int x, Int y, Int w, Int h) {
+    r := h / 2
+    h = r + r
+    g.fillRect(x+r, y, w-h, h)
+    g.fillOval(x, y, h, h)
+    g.fillOval(x+w-h, y, h, h)
+  }
+ 
+  private Void drawRoundRect(Graphics g, Int x, Int y, Int w, Int h
+    , Color color, Brush outlineColor, Int outlineSize) {
+    g.brush = outlineColor
+    arc := h / 2
+    g.fillRoundRect(x, y, w, h, arc, arc)
+    
+    g.brush = color
+    arc = (h-outlineSize-outlineSize)/2
+    g.fillRoundRect(x+outlineSize, y+outlineSize
+        , w-outlineSize-outlineSize, h-outlineSize-outlineSize, arc, arc)
+  }
+  
+  private Void drawCircle(Graphics g, Int cx, Int cy, Int radius
+    , Color color, Color outlineColor, Int outlineSize) {
+    g.brush = outlineColor
+    g.fillOval(cx-radius, cy-radius, radius+radius, radius+radius)
+    
+    g.brush = color
+    r := radius - outlineSize
+    g.fillOval(cx-r, cy-r, r+r, r+r)
+  }
+  */
 }
