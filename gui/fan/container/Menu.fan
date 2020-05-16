@@ -40,7 +40,7 @@ internal class MenuList : VBox
 
   new make()
   {
-    spacing = 0f//(dpToPixel(10f))
+    spacing = 0//(dpToPixel(10f))
     margin = Insets(3)
   }
 }
@@ -155,7 +155,7 @@ class MenuItem : Button
   {
     subMenuList.add(item)
     //item.layout.widthType = SizeType.fixed
-    item.layout.width = 500f
+    item.layout.width = 500
     item.padding = Insets(5)
     item.topLevel = false
     return this

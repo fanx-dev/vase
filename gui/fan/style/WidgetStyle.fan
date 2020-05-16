@@ -27,13 +27,13 @@ class WidgetStyle : Style
   Brush selectedColor := Color(0x8888f9)
 
   Image? backgroundImage
-  Float lineWidth := 2f
+  Int lineWidth := 2
 
   private Bool fontSizeInit := false
   override Font font := Font(35) {
     get {
       if (!fontSizeInit) {
-        &font = &font.toSize(dpToPixel(&font.size.toFloat))
+        &font = &font.toSize(dpToPixel(&font.size))
         fontSizeInit = true
       }
       return &font
@@ -48,8 +48,8 @@ class WidgetStyle : Style
 
   virtual Void doPaint(Widget widget, Graphics g) {}
 
-  protected Int dpToPixel(Float dp) {
-    DisplayMetrics.dpToPixel(dp)
+  protected Int dpToPixel(Int dp) {
+    DisplayMetrics.dpToPixel(dp.toFloat)
   }
 
   protected Void drawText(Widget widget, Graphics g, Str text, Align align, Align vAlign := Align.center) {
@@ -73,7 +73,7 @@ class WidgetStyle : Style
 
     x := left
     if (align == Align.begin) {
-      x = left + dpToPixel(2f)
+      x = left + dpToPixel(2)
     }
     else if (align == Align.center) {
       w := font.width(text)

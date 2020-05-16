@@ -12,8 +12,8 @@ using vaseWindow
 @Js
 class ToggleButtonStyle : WidgetStyle
 {
-  Pen outLinePen := Pen { width = dpToPixel(3f) }
-  Pen contectPen := Pen { width = dpToPixel(8f) }
+  Pen outLinePen := Pen { width = dpToPixel(3) }
+  Pen contectPen := Pen { width = dpToPixel(8) }
 
   new make() {
     foreground = Color(0x51d166)

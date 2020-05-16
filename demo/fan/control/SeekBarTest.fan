@@ -20,7 +20,7 @@ class SeekBarTest : BasePage
       SliderBar {
         curPos = 10f
         onPosChanged {
-          label.text = it.toStr
+          label.text = it.toInt.toStr
         }
       },
     }

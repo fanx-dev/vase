@@ -23,7 +23,7 @@ class TimeDialog : VBox, Dialog
     this.style = "dialog"
     
     hb := HBox {
-        it.spacing = 80f
+        it.spacing = 80
         Button {
           it.id = "timeDialog_ok"
           it.style = "flatButton"
@@ -62,7 +62,7 @@ class TimeDialog : VBox, Dialog
 
     //this.add(label)
     this.add(hb2)
-    this.add(RectView { it.layout.height = 3.0; it.margin = Insets(100, 0, 0, 0) })
+    this.add(RectView { it.layout.height = 3; it.margin = Insets(100, 0, 0, 0) })
     this.add(hb)
     this.layout.hAlign = Align.center
     this.layout.vAlign = Align.end
@@ -96,7 +96,7 @@ class DateDialog : VBox, Dialog
     this.style = "dialog"
     
     hb := HBox {
-        it.spacing = 80f
+        it.spacing = 80
         Button {
           it.id = "timeDialog_ok"
           it.style = "flatButton"
@@ -144,7 +144,7 @@ class DateDialog : VBox, Dialog
 
     //this.add(label)
     this.add(hb2)
-    this.add(RectView { it.layout.height = 3.0; it.margin = Insets(100, 0, 0, 0) })
+    this.add(RectView { it.layout.height = 3; it.margin = Insets(100, 0, 0, 0) })
     this.add(hb)
     this.layout.hAlign = Align.center
     this.layout.vAlign = Align.end

@@ -48,7 +48,7 @@ class ActionDialog : VBox, Dialog
     this.add(vb)
     
     if (cancelText != null) {
-        this.add(RectView { it.layout.height = 3.0 })
+        this.add(RectView { it.layout.height = 3 })
         
         bt := Button {
           it.id = "actionDialog_cancel"

@@ -19,8 +19,8 @@ class ListViewTest : BasePage
       model = SimpleListAdapter(list)
       refreshTip = ProgressView {
         layout.hAlign = Align.center
-        layout.height = 60.0
-        layout.width = 60.0
+        layout.height = 60
+        layout.width = 60
       }
     }
   }

@@ -22,7 +22,7 @@ class HBoxTest : BasePage
       HBox
       {
         align = Align.center
-        it.spacing = 20f
+        it.spacing = 20
         Button { text = "btn1"; layout.width = Layout.wrapContent },
         Button { text = "btn2"; layout.width = Layout.wrapContent },
         Button { text = "btn3"; layout.width = Layout.wrapContent },

@@ -19,14 +19,14 @@ class VBoxTest : BasePage
       Button
       {
         text = "btn1"
-        layout.offsetX = 800f
-        layout.offsetY = 500f
+        layout.offsetX = 800
+        layout.offsetY = 500
         layout.width = Layout.wrapContent
       },
       Button
       {
         text = "btn2"
-        layout.width = 600f
+        layout.width = 600
       },
       Button
       {

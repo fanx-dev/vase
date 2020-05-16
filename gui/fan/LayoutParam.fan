@@ -36,12 +36,12 @@ virtual class Layout {
   **
   ** fill parent or others define by layout pane
   **
-  static const Float matchParent := 0f
+  static const Int matchParent := 0
   
   **
   ** preferred size by prefSize()
   **
-  static const Float wrapContent := -1f
+  static const Int wrapContent := -1
 
 
   Bool ignore := false
@@ -49,12 +49,12 @@ virtual class Layout {
   **
   ** width of widget
   **
-  Float width := matchParent
+  Int width := matchParent
 
   **
   ** height of widget
   **
-  Float height := wrapContent
+  Int height := wrapContent
 
   **
   ** layout weight compare to sibling widget
@@ -64,12 +64,12 @@ virtual class Layout {
   **
   ** x position of widget.
   **
-  Float offsetX := 0.0f
+  Int offsetX := 0
 
   **
   ** y position of widget.
   **
-  Float offsetY := 0.0f
+  Int offsetY := 0
 
   **
   ** vertical Alignment

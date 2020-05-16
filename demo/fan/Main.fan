@@ -58,7 +58,7 @@ class Main
       ScrollPane {
         VBox {
           padding = Insets(40)
-          spacing = 15f
+          spacing = 15
           Label {
             text = "Vase UI"
             style = "h1"
@@ -67,7 +67,7 @@ class Main
           v := it
           pages.each |p| {
             if (p == null) {
-              v.add(RectView { layout.height = 3f })
+              v.add(RectView { layout.height = 3 })
               lret
             }
             b := Button {

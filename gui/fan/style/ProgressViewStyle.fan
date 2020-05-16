@@ -18,7 +18,7 @@ class ProgressViewStyle : WidgetStyle {
     top := widget.paddingTop
     left := widget.paddingLeft
 
-    width := dpToPixel(8f)
+    width := dpToPixel(8)
     g.brush = foreground
     g.pen = Pen { it.width = width }
     

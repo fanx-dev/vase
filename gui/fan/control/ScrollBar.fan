@@ -18,7 +18,7 @@ class ScrollBar : Widget
   **
   ** max content length
   **
-  Float max := (2000f)
+  Float max := 2000f
 
   **
   ** view size of content
@@ -87,7 +87,7 @@ class ScrollBar : Widget
   private Int lastY := -1
   private Bool draging := false
 
-  Float barSize := 60f
+  Int barSize := 60
 
   new make(|This|? f := null)
   {
@@ -212,7 +212,7 @@ class ScrollBar : Widget
 @Js
 class SliderBar : ScrollBar
 {
-  new make() : super.make(|i|{ i.vertical = false; i.barSize = 120f })
+  new make() : super.make(|i|{ i.vertical = false; i.barSize = 120 })
   {
     this.viewport = 0f
     this.max = 100f

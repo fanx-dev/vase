@@ -45,7 +45,7 @@ class ListView : ScrollPane
 
   protected override Dimension prefContentSize() {
     //r := super.prefContentSize(result)
-    return Dimension(dpToPixel(200f), contentMaxHeight.toInt)
+    return Dimension(dpToPixel(200), contentMaxHeight.toInt)
   }
 
   protected Widget getView(Int i) {

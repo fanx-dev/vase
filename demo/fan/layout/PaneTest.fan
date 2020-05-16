@@ -20,8 +20,8 @@ class PaneTest : BasePage
       Button
       {
         text = "btn1"
-        layout.offsetX = 20f
-        layout.offsetY = 30f
+        layout.offsetX = 20
+        layout.offsetY = 30
         layout.width = Layout.wrapContent
       },
       Button
@@ -37,8 +37,8 @@ class PaneTest : BasePage
         layout.width = Layout.wrapContent
         layout.hAlign = Align.end
         layout.vAlign = Align.end
-        layout.offsetX = -20f
-        layout.offsetY = -30f
+        layout.offsetX = -20
+        layout.offsetY = -30
       },
     }
   }

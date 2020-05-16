@@ -21,7 +21,7 @@ class TreeStyle : WidgetStyle
     Int fontOffset := font.ascent + font.leading
     top := widget.paddingTop
     left := widget.paddingLeft
-    bottom := dpToPixel(widget.padding.bottom.toFloat)
+    bottom := dpToPixel(widget.padding.bottom)
     
     //g.brush = Color.red
     //g.fillRect(widget.x, widget.y, widget.width, widget.height)

@@ -314,8 +314,8 @@ abstract class Widget
     //}
   }
 
-  Int dpToPixel(Float d) { DisplayMetrics.dpToPixel(d) }
-  Float pixelToDp(Int d) { DisplayMetrics.pixelToDp(d) }
+  Int dpToPixel(Int d) { DisplayMetrics.dpToPixel(d.toFloat) }
+  Int pixelToDp(Int d) { DisplayMetrics.pixelToDp(d).toInt }
 
   protected Style getStyle() {
     if (styleCache == null) {
@@ -358,8 +358,8 @@ abstract class Widget
   **
   protected Dimension bufferedPrefSize(Int parentContentWidth := -1, Int parentContentHeight := -1) {
     size := prefSize(parentContentWidth, parentContentHeight)
-    return size.set(size.w+dpToPixel((margin.left + margin.right).toFloat)
-      , size.h+dpToPixel((margin.top + margin.bottom).toFloat))
+    return size.set(size.w+dpToPixel((margin.left + margin.right))
+      , size.h+dpToPixel((margin.top + margin.bottom)))
   }
 
   **
@@ -371,8 +371,8 @@ abstract class Widget
 //    }
 //    prefSizeDirty = false
 
-    hintsWidth := parentContentWidth - dpToPixel((margin.left + margin.right).toFloat)
-    hintsHeight := parentContentHeight - dpToPixel((margin.top + margin.bottom).toFloat)
+    hintsWidth := parentContentWidth - dpToPixel((margin.left + margin.right))
+    hintsHeight := parentContentHeight - dpToPixel((margin.top + margin.bottom))
 
     Int w := -1
     Int h := -1
@@ -386,11 +386,11 @@ abstract class Widget
       s := prefContentSize()
 
       if (w < 0) {
-        w = s.w + dpToPixel((padding.left + padding.right).toFloat)
+        w = s.w + dpToPixel((padding.left + padding.right))
       }
 
       if (h < 0) {
-        h = s.h + dpToPixel((padding.top + padding.bottom).toFloat)
+        h = s.h + dpToPixel((padding.top + padding.bottom))
       }
     }
 
@@ -403,41 +403,41 @@ abstract class Widget
   ** preferred size of content without padding
   **
   protected virtual Dimension prefContentSize() {
-    return Dimension(dpToPixel(50f), dpToPixel(50f))
+    return Dimension(dpToPixel(50), dpToPixel(50))
   }
 
   Int contentWidth() {
-    width - dpToPixel((padding.left + padding.right).toFloat)
+    width - dpToPixel((padding.left + padding.right))
   }
 
   Int contentHeight() {
-    height - dpToPixel((padding.top + padding.bottom).toFloat)
+    height - dpToPixel((padding.top + padding.bottom))
   }
 
   Int bufferedWidth() {
-    width + dpToPixel((margin.left + margin.right).toFloat)
+    width + dpToPixel((margin.left + margin.right))
   }
 
   Int bufferedHeight() {
-    height + dpToPixel((margin.top + margin.bottom).toFloat)
+    height + dpToPixel((margin.top + margin.bottom))
   }
 
   Int paddingLeft() {
-    dpToPixel(padding.left.toFloat)
+    dpToPixel(padding.left)
   }
 
   Int paddingTop() {
-    dpToPixel(padding.top.toFloat)
+    dpToPixel(padding.top)
   }
 
   **
   ** layout the children
   **
   Void setLayout(Int x, Int y, Int w, Int h, Bool force) {
-    this.x = x + dpToPixel(margin.left.toFloat)
-    this.y = y + dpToPixel(margin.top.toFloat)
-    this.width = w - dpToPixel((margin.left + margin.right).toFloat)
-    this.height = h - dpToPixel((margin.top + margin.bottom).toFloat)
+    this.x = x + dpToPixel(margin.left)
+    this.y = y + dpToPixel(margin.top)
+    this.width = w - dpToPixel((margin.left + margin.right))
+    this.height = h - dpToPixel((margin.top + margin.bottom))
 
     printInfo("layout: x$this.x, y$this.y, w$this.width, h$this.height")
 

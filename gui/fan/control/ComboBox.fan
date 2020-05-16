@@ -53,7 +53,7 @@ class ComboBox : Button
       return
     }
 
-    pane := VBox { spacing = 0f }
+    pane := VBox { spacing = 0 }
     list = ScrollPane {
       it.layout.width = it.pixelToDp(this.width)
       it.layout.height = it.pixelToDp(300)

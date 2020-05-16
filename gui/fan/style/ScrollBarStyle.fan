@@ -12,7 +12,7 @@ using vaseWindow
 @Js
 class ScrollBarStyle : WidgetStyle
 {
-  Float barWidth := 8f
+  Int barWidth := 8
 
   new make()
   {
@@ -64,7 +64,7 @@ class ScrollBarStyle : WidgetStyle
 class SliderBarStyle : WidgetStyle
 {
   //Float size := (100f)
-  Float width := (8f)
+  Int width := 8
 
   new make()
   {

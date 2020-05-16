@@ -19,7 +19,7 @@ class ButtonTest : BasePage
     {
       padding = Insets(50)
       layout.height = Layout.matchParent
-      spacing = 15f
+      spacing = 15
       Button {
         text = "Flat Button"
         style = "flatButton"

@@ -31,7 +31,7 @@ class AlertDialog : VBox, Dialog
     }
     
     hb := HBox {
-        it.spacing = 80f
+        it.spacing = 80
         Button {
           it.id = "alertDialog_ok"
           it.style = "flatButton"

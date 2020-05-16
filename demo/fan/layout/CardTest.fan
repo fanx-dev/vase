@@ -67,7 +67,7 @@ class CardTest : BasePage
       },
       indicator = CardIndicator {
         layout.hAlign = Align.center
-        layout.width = 300.0
+        layout.width = 300
       },
     }
     tab.bind(card)

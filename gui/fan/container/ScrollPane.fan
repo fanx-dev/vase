@@ -24,7 +24,7 @@ class ScrollPane : ContentPane
   @Transient
   virtual Int offsetY := 0
 
-  protected Float barSize := 50f
+  protected Int barSize := 50
 
   Bool autoScrollContent := true
 
@@ -184,7 +184,7 @@ class ScrollPane : ContentPane
 
     if (e.type == MotionEvent.wheel && e.delta != null)
     {
-      pos := vbar.curPos + e.delta * dpToPixel(80f)
+      pos := vbar.curPos + e.delta * dpToPixel(80)
       vbar.setCurPos(pos, true)
       vbar.repaint
       e.consume
@@ -197,7 +197,7 @@ class ScrollPane : ContentPane
     }
     else if (e.type == MotionEvent.moved) {
         if (refreshTip != null) {
-          if (vbar.curPos < -dpToPixel(100f).toFloat) {
+          if (vbar.curPos < -dpToPixel(100).toFloat) {
             if (refreshTip.parent == null) {
               this.doAdd(refreshTip)
               this.relayout
@@ -261,7 +261,7 @@ class ScrollPane : ContentPane
       if (vbar.isOverScroll) {
         animatOverScroll
         if (vbar.curPos < 0f) {
-           if (vbar.curPos < -dpToPixel(100f).toFloat) {
+           if (vbar.curPos < -dpToPixel(100).toFloat) {
              onRefresh?.call(this)
              //echo("onRefresh")
            }

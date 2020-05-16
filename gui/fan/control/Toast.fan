@@ -14,7 +14,7 @@ class Toast : Label {
     layout.width = Layout.wrapContent
     this.layout.hAlign = Align.center
     this.layout.vAlign = Align.end
-    layout.offsetY = -50f
+    layout.offsetY = -50
 //    layout.posX.with { it.parent = 0.5f; it.anchor = 0.5f; it.offset = 0f }
 //    layout.posY.with { it.parent = 0.8f; it.anchor = 0.5f; it.offset = 0f }
     padding = Insets(20)

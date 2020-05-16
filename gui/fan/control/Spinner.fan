@@ -24,7 +24,7 @@ class Spinner : Widget
     @Transient
     protected Float offsetIndex := 0f
     
-    Float lineHeight := 60f
+    Int lineHeight := 60
     
     new make() {
         layout.width = Layout.wrapContent
@@ -34,7 +34,7 @@ class Spinner : Widget
     }
     
     protected override Dimension prefContentSize() {
-        w := dpToPixel(200f)
+        w := dpToPixel(200)
         h := dpToPixel(lineHeight)*4
         return Dimension(w, h)
     }

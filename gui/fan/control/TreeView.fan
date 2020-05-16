@@ -37,8 +37,8 @@ class TreeView : ScrollPane
     getStyle.font
   }
 
-  Float minWidth := 600f
-  Float indent := (60f)
+  Int minWidth := 600
+  Int indent := 60
 
   **
   ** Default constructor.

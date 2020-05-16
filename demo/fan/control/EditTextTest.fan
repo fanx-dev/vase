@@ -14,15 +14,19 @@ class EditTextTest : BasePage
   protected override Widget view() {
     VBox {
       EditText {
-        text = "EditText"
+        hint = "EditText"
       },
       EditText {
         inputType = TextInput.inputTypePassword
-        text = "Password"
+        hint = "Password"
       },
       EditText {
         inputType = TextInput.inputTypeMultiLine
-        text = "MultiLine"
+        hint = "MultiLine"
+        layout.height = 400
+      },
+      EditText {
+        hint = "EditText"
       },
     }
   }

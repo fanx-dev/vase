@@ -17,8 +17,8 @@ class Table : ScrollPane
     set { &model = it; init }
   }
 
-  Float colWidth := 360f
-  Float rowHeight := 60f
+  Int colWidth := 360
+  Int rowHeight := 60
 
   @Transient
   internal Int[]? colWidthCache
@@ -26,7 +26,7 @@ class Table : ScrollPane
   @Transient
   internal WidgetGroup header := HBox {
     //it.vertical = false
-    it.spacing = 0.0
+    it.spacing = 0
     //it.layout.width = Layout.wrapContent
   }
 

@@ -13,7 +13,7 @@ using vaseWindow
 @Serializable { collection = true }
 class HBox : WidgetGroup
 {
-  Float spacing := 4f
+  Int spacing := 4
   
   Align align := Align.begin
   

@@ -4,7 +4,7 @@ using vaseGraphics
 @Js
 class PaneStyle : WidgetStyle
 {
-  Float arc := 40f
+  Int arc := 40
   Bool fill := true
   Bool stroke := true
   
@@ -22,7 +22,7 @@ class PaneStyle : WidgetStyle
       g.copyImage(backgroundImage, src, dst)
     }
     
-    if (lineWidth > 0f) {
+    if (lineWidth > 0) {
       l := dpToPixel(lineWidth/2)
       x := l
       y := l

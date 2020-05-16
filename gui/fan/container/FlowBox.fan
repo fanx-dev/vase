@@ -14,7 +14,7 @@ using vaseWindow
 @Serializable { collection = true }
 class FlowBox : WidgetGroup
 {
-  Float spacing := 0f
+  Int spacing := 0
 
   override Void layoutChildren(Bool force)
   {

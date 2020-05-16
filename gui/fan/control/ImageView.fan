@@ -34,8 +34,8 @@ class ImageView : Widget
 
   Uri? uri
   
-  Float imagePrefWidth := 240f
-  Float imagePrefHeight := 240f
+  Int imagePrefWidth := 240
+  Int imagePrefHeight := 240
 
   Bool isInited := false
   protected Void init() {

@@ -115,7 +115,7 @@ class EditText : Widget, TextInput
     this.posOnWindow(p)
     host.setPos(p.x.toInt, p.y.toInt, width, height)
     //host.setStyle(font, Color.black, Color.white)
-    host.setStyle(font, Color.black, Color.gray)
+    host.setStyle(font, Color.black, Color(0xe0e0e0))
     host.setText(text)
     host.focus
   }

@@ -13,7 +13,7 @@ using vaseWindow
 @Serializable { collection = true }
 class VBox : WidgetGroup
 {
-  Float spacing := 4f
+  Int spacing := 4
 
   private Float getWeightSpace() {
     Int hintsW := contentWidth
