@@ -220,16 +220,6 @@ abstract class WidgetGroup : Widget
   {
     super.doPaint(g)
     paintChildren(g)
-
-    //debug
-    if (debug) {
-      //g.brush = Color.black
-      //g.drawLine(0, 0, width, height)
-      //g.drawLine(width, 0, 0, height)
-      g.brush = Color.red
-      g.pen = Pen { it.width = 1 }
-      g.drawRect(2, 2, width-4, height-4)
-    }
   }
 
   **

@@ -25,6 +25,7 @@ class FlatButtonStyle : LabelStyle
   new make() {
     fontColor = color//Color(0x5577CC)
     fontInfo.bold = true
+    background = Color(0xd9d9d9)
   }
   
   override Void doPaint(Widget widget, Graphics g)

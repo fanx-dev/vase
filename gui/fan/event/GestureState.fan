@@ -98,8 +98,8 @@ class DownState : GestureState {
       dx := e.x - lastX
       dy := e.y - lastY
       distance := (dx*dx + dy*dy).toFloat.sqrt
-
-      if (distance > DisplayMetrics.dpToPixel(10f).toFloat) {
+      //echo(distance)
+      if (distance > DisplayMetrics.dpToPixel(30f).toFloat) {
         ns := DragState(machine)
         machine.setCurrentState(ns, e)
         e.consume
@@ -209,25 +209,21 @@ class DragState : GestureState {
     beginTime = TimePoint.nowMillis
   }
 
-  Bool asFling(MotionEvent e) {
+  private Void fireDrop(MotionEvent e) {
     dx := e.x - beginX
     dy := e.y - beginY
-    echo(lastSpeed)
-    if (lastSpeed > 0.2) {
-      ge := makeEvent(e, GestureEvent.fling)
-      ge.deltaX = dx
-      ge.deltaY = dy
-      if (click) {
-        ge.flag = 1
-      }
-      ge.speedX = lastSpeedX
-      ge.speedY = lastSpeedY
-      machine.onGestureEvent.fire(ge)
-      e.consume
-      machine.onFinished(e)
-      return true
+    //echo(lastSpeed)
+    ge := makeEvent(e, GestureEvent.drop)
+    ge.deltaX = dx
+    ge.deltaY = dy
+    if (click) {
+      ge.flag = 1
     }
-    return false
+    ge.speedX = lastSpeedX
+    ge.speedY = lastSpeedY
+    machine.onGestureEvent.fire(ge)
+    e.consume
+    machine.onFinished(e)
   }
 
   override Void onEvent(MotionEvent e) {
@@ -257,17 +253,9 @@ class DragState : GestureState {
 
     } else if (e.type == MotionEvent.released
         || e.type == MotionEvent.cancel) {
-      if (asFling(e)) {
-        return
-      }
-      
+      fireDrop(e)
       //ge0 := makeEvent(e, GestureEvent.released)
       //machine.onGestureEvent.fire(ge0)
-      
-      ge := makeEvent(e, GestureEvent.drop)
-      machine.onGestureEvent.fire(ge)
-      e.consume
-      machine.onFinished(e)
     } else {
       machine.onFinished(e)
     }

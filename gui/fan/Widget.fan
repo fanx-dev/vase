@@ -302,6 +302,15 @@ abstract class Widget
 
   protected virtual Void doPaint(Graphics g) {
     getStyle.paint(this, g)
+    //debug
+    if (debug) {
+      //g.brush = Color.black
+      //g.drawLine(0, 0, width, height)
+      //g.drawLine(width, 0, 0, height)
+      g.brush = Color.red
+      g.pen = Pen { it.width = 1 }
+      g.drawRect(1, 1, width-2, height-2)
+    }
   }
 
   **

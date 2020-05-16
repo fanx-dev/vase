@@ -156,7 +156,7 @@ class TreeView : ScrollPane
       e.consume
       this.repaint
     }
-    else if (e.type == GestureEvent.drop || e.type == GestureEvent.fling) {
+    else if (e.type == GestureEvent.drop) {
       draging = false
       dragDropItem = findItemAt(e.relativeY)
       model.onDragDrop(selectedItem, dragDropItem)

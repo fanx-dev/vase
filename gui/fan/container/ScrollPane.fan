@@ -276,11 +276,7 @@ class ScrollPane : ContentPane
            //echo("onLoadMore")
         }
       }
-    }
-    else if (e.type == GestureEvent.fling) {
-      if (vbar.isOverScroll) {
-        animatOverScroll
-      } else {
+      else {
         anim := Animation {
           duration = 2000
           ScrollAnimChannel { target = vbar; startV = e.speedY.toFloat },

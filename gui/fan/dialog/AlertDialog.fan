@@ -31,7 +31,7 @@ class AlertDialog : VBox, Dialog
     }
     
     hb := HBox {
-        it.spacing = 80
+        it.spacing = 30
         Button {
           it.id = "alertDialog_ok"
           it.style = "flatButton"
@@ -62,8 +62,9 @@ class AlertDialog : VBox, Dialog
     this.layout.hAlign = Align.center
     this.layout.vAlign = Align.center
 
-    this.layout.width = Layout.wrapContent//dpToPixel(500f)
-    padding = Insets(30, 100)
+    this.layout.width = Layout.matchParent//dpToPixel(500f)
+    padding = Insets(30, 30)
+    margin = Insets(0, 100)
   }
   
   protected override Int animType() { 1 }

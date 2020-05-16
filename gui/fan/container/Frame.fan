@@ -268,7 +268,7 @@ class Frame : ContentPane
   }
 
   protected override Void gestureEvent(GestureEvent e) {
-    if (e.type == GestureEvent.fling || e.type == GestureEvent.drag
+    if (e.type == GestureEvent.drag
             || e.type == GestureEvent.drop || e.type == GestureEvent.multiTouch)
     {
       if (focusWidget != null) {

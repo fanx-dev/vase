@@ -12,7 +12,6 @@ using vaseWindow
 virtual class GestureEvent : Event {
   const static Int click := 1
   const static Int longPress := 2
-  const static Int fling := 3
   const static Int doubleClick := 4
   const static Int drag := 5
   const static Int drop := 6

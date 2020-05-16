@@ -162,7 +162,7 @@ class ScrollBar : Widget
   protected override Void gestureEvent(GestureEvent e) {
     if (!draging) return
     
-    if (e.type == GestureEvent.drop || e.type == GestureEvent.fling)
+    if (e.type == GestureEvent.drop)
     {
       draging = false
       repaint

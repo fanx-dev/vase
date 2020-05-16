@@ -102,7 +102,7 @@ class CardPane : Pane
         e.consume
         this.relayout
     }
-    else if (e.type == GestureEvent.drop || e.type == GestureEvent.fling) {
+    else if (e.type == GestureEvent.drop) {
         //echo("offsetIndex:$offsetIndex, selIndex:$selIndex")
         offsetIndex := this.offsetIndex
         if (offsetIndex < 0f && selIndex == (childrenSize-1)) {

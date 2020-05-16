@@ -1,9 +1,4 @@
-// To change this License template, choose Tools / Templates
-// and edit Licenses / FanDefaultLicense.txt
-//
-// History:
-//   2020Äê5ÔÂ3ÈÕ Administrator Creation
-//
+
 using vaseGraphics
 using vaseWindow
 
@@ -23,7 +18,7 @@ class CardIndicatorStyle : WidgetStyle {
     pw := (w.toFloat / p.cardBox.childrenSize)
     
     x += (pw/2)
-    minW := pw.toInt.min(h)
+    minW := (pw.toInt.min(h) * 0.8).toInt
     halfW := minW/2
     g.brush = color
     

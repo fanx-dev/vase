@@ -60,12 +60,11 @@ class Spinner : Widget
             this.repaint
         }
         else if (e.type == GestureEvent.drop) {
-            endMove
-            e.consume
-            this.repaint
-        }
-        else if (e.type == GestureEvent.fling) {
             if (offsetIndex >= items.size.toFloat || offsetIndex < 0.0) {
+                endMove
+                return
+            }
+            if (e.speedY.abs < 0.1) {
                 endMove
                 return
             }
