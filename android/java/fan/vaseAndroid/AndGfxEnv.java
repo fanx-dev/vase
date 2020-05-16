@@ -18,7 +18,7 @@ import android.graphics.Region;
 import fan.vaseGraphics.Font;
 import fan.vaseGraphics.GfxEnv;
 import fan.vaseGraphics.Image;
-import fan.vaseGraphics.Path;
+import fan.vaseGraphics.GraphicsPath;
 import fan.vaseGraphics.PointArray;
 import fan.vaseGraphics.Size;
 import fan.sys.*;
@@ -31,7 +31,7 @@ public class AndGfxEnv extends GfxEnv{
   private AndGfxEnv() {}
 
   @Override
-  public boolean contains(Path path, double x, double y) {
+  public boolean contains(GraphicsPath path, double x, double y) {
     android.graphics.Path p = AndUtil.toAndPath(path);
     Region r = new Region();
     r.setPath(p, null);

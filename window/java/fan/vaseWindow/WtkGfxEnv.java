@@ -30,7 +30,7 @@ public class WtkGfxEnv extends GfxEnv {
   private WtkGfxEnv() {}
 
   @Override
-  public boolean contains(Path path, double x, double y) {
+  public boolean contains(GraphicsPath path, double x, double y) {
     Path2D p = WtkUtil.toAwtPath(path);
     return p.contains(x, y);
   }

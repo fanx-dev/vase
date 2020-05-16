@@ -178,12 +178,12 @@ mixin Graphics
   **
   ** Draws the path described by the parameter.
   **
-  abstract This drawPath(Path path)
+  abstract This drawPath(GraphicsPath path)
 
   **
   ** Fills the path described by the parameter.
   **
-  abstract This fillPath(Path path)
+  abstract This fillPath(GraphicsPath path)
 
   **
   ** the transform that is currently being used
@@ -194,7 +194,7 @@ mixin Graphics
   ** create a new clipping region by calculating the intersection of
   ** the current clipping region and the area described by the current path
   **
-  abstract This clipPath(Path path)
+  abstract This clipPath(GraphicsPath path)
 
   **
   ** All drawing operations are affected by the four global shadow attributes

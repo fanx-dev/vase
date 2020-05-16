@@ -293,7 +293,7 @@ public class AndGraphics implements Graphics {
   }
 
   @Override
-  public Graphics clipPath(Path path) {
+  public Graphics clipPath(GraphicsPath path) {
     gc.clipPath(AndUtil.toAndPath(path));
     return this;
   }
@@ -313,7 +313,7 @@ public class AndGraphics implements Graphics {
   }
 
   @Override
-  public Graphics drawPath(Path path) {
+  public Graphics drawPath(GraphicsPath path) {
     p.setStyle(Paint.Style.STROKE);
     gc.drawPath(AndUtil.toAndPath(path), p);
     return this;
@@ -334,7 +334,7 @@ public class AndGraphics implements Graphics {
   }
 
   @Override
-  public Graphics fillPath(Path path) {
+  public Graphics fillPath(GraphicsPath path) {
     p.setStyle(Paint.Style.FILL);
     gc.drawPath(AndUtil.toAndPath(path), p);
     return this;

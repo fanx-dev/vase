@@ -48,7 +48,7 @@ class ToggleButtonStyle : WidgetStyle
       g.brush = this.color
       //g.drawLine(x-(r*0.6f).toInt, y-(r*0.15f).toInt, x, y+(r/2f).toInt)
       //g.drawLine(x+(r*1.1f).toInt, y-(r*1.1f).toInt, x, y+(r/2f).toInt)
-      path := Path()
+      path := GraphicsPath()
       path.moveTo(x-(r*0.6f), y-(r*0.15f))
           .lineTo(x.toFloat, y+(r/2f))
           .lineTo(x+(r*1.05f), y-(r*1.05f))

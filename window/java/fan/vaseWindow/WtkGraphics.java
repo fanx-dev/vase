@@ -307,7 +307,7 @@ public class WtkGraphics implements Graphics {
   }
 
   @Override
-  public Graphics clipPath(Path path) {
+  public Graphics clipPath(GraphicsPath path) {
     gc.clip(WtkUtil.toAwtPath(path));
     return this;
   }
@@ -342,13 +342,13 @@ public class WtkGraphics implements Graphics {
   }
 
   @Override
-  public Graphics drawPath(Path path) {
+  public Graphics drawPath(GraphicsPath path) {
     gc.draw(WtkUtil.toAwtPath(path));
     return this;
   }
 
   @Override
-  public Graphics fillPath(Path path) {
+  public Graphics fillPath(GraphicsPath path) {
     gc.fill(WtkUtil.toAwtPath(path));
     return this;
   }

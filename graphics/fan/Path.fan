@@ -11,9 +11,9 @@
 ** represent paths through the two-dimensional coordinate system
 **
 @Js
-class Path
+class GraphicsPath
 {
-  PathStep[] steps := [,]
+  internal PathStep[] steps := [,]
 
   This clear() { steps.clear; return this }
   Bool contains(Float x, Float y) { return GfxEnv.cur.contains(this, x, y); }

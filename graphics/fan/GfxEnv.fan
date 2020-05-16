@@ -61,7 +61,7 @@ abstract const class GfxEnv
 // Other
 //////////////////////////////////////////////////////////////////////////
 
-  abstract Bool contains(Path path, Float x, Float y)
+  abstract Bool contains(GraphicsPath path, Float x, Float y)
   abstract PointArray makePointArray(Int size)
 
 }

@@ -59,7 +59,7 @@ public class AndUtil {
     return null;
   }
 
-  static public android.graphics.Path toAndPath(Path path) {
+  static public android.graphics.Path toAndPath(GraphicsPath path) {
     int size = (int) path.steps().size();
     android.graphics.Path andPath = new android.graphics.Path();
     for (int i = 0; i < size; ++i) {

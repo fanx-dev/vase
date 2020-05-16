@@ -64,7 +64,7 @@ public class WtkUtil {
     return t;
   }
 
-  static public Path2D toAwtPath(fan.vaseGraphics.Path path) {
+  static public Path2D toAwtPath(fan.vaseGraphics.GraphicsPath path) {
     int size = (int) path.steps().size();
     Path2D swtPath = new Path2D.Float();
     for (int i = 0; i < size; ++i) {
