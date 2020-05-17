@@ -71,7 +71,7 @@ class SliderBarStyle : WidgetStyle
   {
     //outlineColor = Color(0x7c7c7c)
     //foreground = Color(0x51d166)
-    outlineColor = Color(0xd0d0d0)
+    outlineColor = Color(0xc0c0c0)
   }
 
   override Void doPaint(Widget widget, Graphics g)

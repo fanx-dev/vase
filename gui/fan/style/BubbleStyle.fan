@@ -18,7 +18,7 @@ class BubbleStyle : WidgetStyle
   Int position := topLeft
   
   new make() {
-    //background = Color.gray
+    background = color
   }
 
   override Void doPaint(Widget widget, Graphics g)

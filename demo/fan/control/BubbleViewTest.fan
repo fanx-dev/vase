@@ -12,7 +12,7 @@ class BubbleViewTest : BasePage
 {
   protected override Widget view() {
     Str[] list := [,]
-    100.times { list.add("item$it") }
+    100.times { list.add("@${it}@") }
 
     return ListView {
       model = BubbleListAdapter(list)
@@ -45,14 +45,15 @@ class BubbleListAdapter : ListAdapter
     Pane p := w
     TextView l := p.getChild(0)
     l.text = data.toStr
+    l.relayout
   }
 
   protected override Widget newView(Int type) {
     //echo("new view")
     Pane {
         style = type == 0 ? "bubbleTL" : "bubbleTR"
-        padding = Insets(40)
-        margin = Insets(40)
+        padding = Insets(30)
+        margin = Insets(30)
         layout.width = Layout.wrapContent
         layout.hAlign = type == 0 ? Align.begin : Align.end
         

@@ -25,7 +25,7 @@ class FlatButtonStyle : LabelStyle
   new make() {
     fontColor = color//Color(0x5577CC)
     fontInfo.bold = true
-    background = Color(0xf5f5f5)
+    background = Color(0xf2f2f2)
   }
   
   override Void doPaint(Widget widget, Graphics g)
@@ -77,7 +77,7 @@ class TextViewStyle : WidgetStyle {
     g.brush = fontColor
     g.font = font
     
-    //echo("$lab.text $lines")
+    //echo("paint $lab.text $lines contentWidth:$lab.contentWidth")
     for (i:=0; i<lines.size; ++i) {
         s := lines[i]
         g.drawText(s, x, y)

@@ -70,16 +70,17 @@ class TextView : Widget
     }
     lines := Str[,]
     start := 0
-    i := 0
-    for (; i<line.size; ++i) {
-        t := line[start..i]
-        if (font.width(t) > w && (i-1>start)) {
-            t0 := line[start..i-1]
+    end := 0
+    for (; end<=line.size; ++end) {
+        t := line[start..<end]
+        if (font.width(t) > w && (end-1>start)) {
+            end = end - 1
+            t0 := line[start..<end]
             lines.add(t0)
-            start = i
+            start = end
         }
     }
-    if (start < line.size-1) {
+    if (start < line.size) {
         t0 := line[start..-1]
         lines.add(t0)
     }
@@ -94,6 +95,8 @@ class TextView : Widget
        w = w.max(lw)
     }
     h := rowHeight * lines.size
+
+    //echo("prefSize:($w, $h), hintsWidth:$hintsWidth, $lines")
     return Size(w, h)
   }
 }
