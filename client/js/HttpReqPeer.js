@@ -64,7 +64,7 @@ fan.vaseClient.HttpReqPeer.doRequest = function(self, method, content, resolve)
     if (!ct) xhr.setRequestHeader("Content-Type", "text/plain");
     xhr.send(content);
   }
-  else if (content instanceof fan.sys.Buf)
+  else if (content instanceof fan.std.Buf)
   {
     // send binary
     if (!ct) xhr.setRequestHeader("Content-Type", "application/octet-stream");
@@ -76,7 +76,25 @@ fan.vaseClient.HttpReqPeer.doRequest = function(self, method, content, resolve)
   else if (content instanceof File)
   {
     // send file as raw data
-    xhr.send(content);
+    if (!ct) xhr.setRequestHeader("Content-Type", "application/octet-stream");
+    var reader = new FileReader();
+    reader.onloadend = function() { 
+      if (reader.error) { 
+        console.log(reader.error); 
+      } else {
+        //xhr.overrideMimeType("application/octet-stream");
+        xhr.send(reader.result);
+      }
+    }
+    reader.readAsBinaryString(content); 
+  }
+  else if (content instanceof fan.std.Map) {
+    if (!ct) xhr.setRequestHeader("Content-Type", "multipart/form-data");
+    var fd = new FormData();
+    content.each(function(k, v) {
+      fd.append(k, v);
+    });
+    xhr.send(fd);
   }
   else
   {

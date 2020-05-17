@@ -16,6 +16,7 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.List;
 import java.util.concurrent.*;
+import java.io.File;
 
 import fan.sys.*;
 import fan.concurrent.*;
@@ -153,6 +154,29 @@ class HttpReqPeer {
         out.close();
       }
     }
+    else if (content instanceof fan.std.Map) {
+      MultipartUtility multipart = new MultipartUtility(connection);
+      fan.std.Map map = (fan.std.Map)content;
+      map.each(new fan.sys.Func() {
+        public Object call(Object k, Object v) {
+          if (v instanceof String) {
+            multipart.addFormField((String)k, (String)v);
+          }
+          else {
+            fan.std.File file = (fan.std.File)v;
+            try {
+              multipart.addFilePart((String)k, new File(file.osPath()));
+            }
+            catch (IOException e) {
+              throw new fan.sys.Err(e);
+            }
+          }
+          return null;
+        }
+      });
+      multipart.flush();
+      //List<String> response = multipart.finish();
+    }
     else {
       connection.connect();
       OutputStream out = connection.getOutputStream();
@@ -170,7 +194,8 @@ class HttpReqPeer {
     }
   }
 
-  private Object readRes(HttpReq self, HttpRes res, HttpURLConnection connection, boolean useCache) throws IOException {
+  private Object readRes(HttpReq self, HttpRes res, HttpURLConnection connection
+      , boolean useCache) throws IOException {
     res.status = connection.getResponseCode();
 
     java.util.Map<String,List<String>> headers = connection.getHeaderFields();
