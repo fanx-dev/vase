@@ -41,7 +41,7 @@ class SpinnerStyle : WidgetStyle
     g.brush = fontColor
     r := 1f
     y -= lineHeight * 2
-    maxOffset := lineHeight * 2
+    maxOffset := lineHeight * 1.5
     curIndex := index - 2
     
     g.clip(Rect(0, 0, lab.width, lab.height))
@@ -60,7 +60,7 @@ class SpinnerStyle : WidgetStyle
     if (i1 >= 0 && i1 < widget.items.size) {
        text := widget.items[i1]
        
-       font := ofont.toSize(ofont.size - dpToPixel((r.abs*5).toInt))
+       font := ofont.toSize(ofont.size - dpToPixel((r.abs*20).toInt))
        g.font = font
        w := font.width(text)/2
        x := cx-w

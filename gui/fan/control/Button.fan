@@ -71,7 +71,7 @@ class Button : Label
 
     if (e.type == MotionEvent.released)
     {
-      state = mouseOver
+      state = mouseOut
     }
     else if (e.type == MotionEvent.pressed)
     {

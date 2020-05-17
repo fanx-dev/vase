@@ -9,7 +9,7 @@ using vaseWindow
 **
 ** TabView
 **
-class TabView : HBox
+class TabsView : HBox
 {
     Int selIndex := 0 {
       set {
@@ -35,7 +35,7 @@ class TabView : HBox
             }
         }
         this.onStateChanged.add |StateChangedEvent e|{
-            if (e.field == TabView#selIndex) {
+            if (e.field == TabsView#selIndex) {
                 card.selIndex = e.newValue
             }
         }

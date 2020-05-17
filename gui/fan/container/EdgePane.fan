@@ -57,7 +57,7 @@ class EdgeBox : WidgetGroup
 // Layout
 //////////////////////////////////////////////////////////////////////////
 
-  override Size prefContentSize()
+  override Size prefContentSize(Int hintsWidth := -1, Int hintsHeight := -1)
   {
     result := pref(this.top)
     top_w := result.w

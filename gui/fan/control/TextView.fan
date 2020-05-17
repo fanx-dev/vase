@@ -26,7 +26,7 @@ class TextView : Widget
   @Transient
   private Int lastWidth := 0
   @Transient
-  private Bool textDirty := false
+  private Bool textDirty := true
   
   Bool autoWrap := true
   
@@ -40,13 +40,15 @@ class TextView : Widget
   {
   }
   
-  Str[] wrapText() {
-    w := contentWidth
-    if (textDirty == false && lastWidth == w) return lines
+  Str[] wrapText(Int w := contentWidth) {
+    if (!textDirty && lastWidth == w) {
+        return lines
+    }
+    textDirty = false
     lastWidth = w
     
     lines = text.split('\n')
-    if (!autoWrap) return lines
+    if (!autoWrap || w <= 0) return lines
     
     nlines := Str[,]
     for (i:=0; i<lines.size; ++i) {
@@ -84,8 +86,8 @@ class TextView : Widget
     return lines
   }
 
-  protected override Size prefContentSize() {
-    lines := text.split('\n')
+  protected override Size prefContentSize(Int hintsWidth := -1, Int hintsHeight := -1) {
+    lines := wrapText(hintsWidth)
     w := 0
     lines.each {
        lw := font.width(it)

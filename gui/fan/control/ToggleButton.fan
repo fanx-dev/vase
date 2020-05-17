@@ -62,8 +62,8 @@ class ToggleButton : Button
     //this.repaint
   }
 
-  protected override Size prefContentSize() {
-    size := super.prefContentSize()
+  protected override Size prefContentSize(Int hintsWidth := -1, Int hintsHeight := -1) {
+    size := super.prefContentSize(hintsWidth, hintsHeight)
     return Size(size.w+(size.h*2), (size.h*1.3f).toInt)
   }
 }

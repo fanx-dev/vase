@@ -65,7 +65,7 @@ class Table : ScrollPane
     set { header.x = -it; super.offsetX = it }
   }
 
-  protected override Size prefContentSize() {
+  protected override Size prefContentSize(Int hintsWidth := -1, Int hintsHeight := -1) {
     Int w := 0
     Int colWidth := dpToPixel(colWidth)
     model.numCols.times |c|

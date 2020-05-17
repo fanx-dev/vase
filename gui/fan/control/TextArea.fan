@@ -140,7 +140,7 @@ class TextArea : ScrollPane
     }
   }
 
-  protected override Size prefContentSize() {
+  protected override Size prefContentSize(Int hintsWidth := -1, Int hintsHeight := -1) {
     Int h := model.lineCount * rowHeight
 
     Int max := 0

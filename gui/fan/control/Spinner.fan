@@ -34,7 +34,7 @@ class Spinner : Widget
         pressFocus = true
     }
     
-    protected override Size prefContentSize() {
+    protected override Size prefContentSize(Int hintsWidth := -1, Int hintsHeight := -1) {
         w := dpToPixel(200)
         h := dpToPixel(rowHeight)*4
         return Size(w, h)

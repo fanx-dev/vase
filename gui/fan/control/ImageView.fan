@@ -114,7 +114,7 @@ class ImageView : Widget
     }
   }
 
-  protected override Size prefContentSize() {
+  protected override Size prefContentSize(Int hintsWidth := -1, Int hintsHeight := -1) {
     w := dpToPixel(imagePrefWidth)
     h := dpToPixel(imagePrefHeight)
     return Size(w, h)

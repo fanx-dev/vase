@@ -364,7 +364,7 @@ abstract class Widget
 
     //get layout fail
     if (w < 0 || h < 0) {
-      s := prefContentSize()
+      s := prefContentSize(hintsWidth, hintsHeight)
 
       if (w < 0) {
         w = s.w + dpToPixel((padding.left + padding.right))
@@ -383,7 +383,7 @@ abstract class Widget
   **
   ** preferred size of content without padding
   **
-  protected virtual Size prefContentSize() {
+  protected virtual Size prefContentSize(Int hintsWidth := -1, Int hintsHeight := -1) {
     return Size(dpToPixel(50), dpToPixel(50))
   }
 

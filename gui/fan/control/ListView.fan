@@ -43,14 +43,13 @@ class ListView : ScrollPane
     return t.toFloat
   }
 
-  protected override Size prefContentSize() {
+  protected override Size prefContentSize(Int hintsWidth := -1, Int hintsHeight := -1) {
     //r := super.prefContentSize(result)
     return Size(dpToPixel(200), contentMaxHeight.toInt)
   }
 
   protected Widget getView(Int i) {
-    item := model.getItem(i)
-    return item.view
+    model.getView(i)
   }
 
   protected override Void onViewportChanged() { itemLayoutDirty = true }
@@ -88,6 +87,7 @@ class ListView : ScrollPane
       y += (-i * rowHeight.toInt)
       i = 0
     }
+    newHeight := 0
     for (; i< model.size; ++i)
     {
       view := getView(i)
@@ -96,22 +96,25 @@ class ListView : ScrollPane
       view.setParent(pane)
       ++count
 
-      itemH := view.bufferedPrefSize().h
-      view.setLayout(x, y, w, itemH, false)
-      y += itemH
-      rowHeight = itemH
+      itemSize := view.bufferedPrefSize(w, h)
+      cx := x + view.layout.prefX(this, w, itemSize.w)
+      view.setLayout(cx, y, itemSize.w, itemSize.h, false)
+      y += itemSize.h
+      newHeight += itemSize.h
 
       if (y > h) {
         break
       }
     }
+    
+    rowHeight = newHeight/count
 
     model.flush
   }
 }
 
 @Js
-class ListItem {
+internal class ListItem {
   Obj? data
   Widget? view
   Int type := 0
@@ -166,11 +169,13 @@ abstract class ListAdapter
 {
   private ListItemPool itemPool := ListItemPool()
 
-  private Bool dirty := true
+  //private Bool dirty := true
 
   abstract Int size()
 
-  protected abstract Void getData(Int i, ListItem out)
+  protected abstract Obj getData(Int i)
+  
+  protected virtual Int getType(Int i, Obj data) { 1 }
 
   protected abstract Void bind(Widget w, Obj data)
 
@@ -180,29 +185,31 @@ abstract class ListAdapter
     itemPool.flush
   }
 
-  virtual ListItem getItem(Int pos) {
+  protected virtual Widget getView(Int pos) {
     ListItem? item := itemPool.get(pos)
     if (item != null) {
-      if (dirty) {
-        bind(item.view, item.data)
-      }
-      return item
+      //if (dirty) {
+      //  bind(item.view, item.data)
+      //}
+      return item.view
     }
 
-    item = ListItem()
-    item.pos = pos
-    getData(pos, item)
-
-    reuseItem := itemPool.reuse(item.type)
+    Obj data = getData(pos)
+    type := getType(pos, data)
+    
+    reuseItem := itemPool.reuse(type)
     if (reuseItem != null) {
-      item.view = reuseItem.view
+      item = reuseItem
     } else {
-      item.view = newView(item.type)
+      item = ListItem()
+      item.view = newView(type)
+      item.type = type
     }
-
-    bind(item.view, item.data)
+    item.data = data
+    item.pos = pos
+    bind(item.view, data)
     itemPool.add(pos, item)
-    return item
+    return item.view
   }
 }
 
@@ -217,9 +224,8 @@ class SimpleListAdapter : ListAdapter
 
   override Int size() { list.size }
 
-  protected override Void getData(Int i, ListItem out) {
-    out.data = list[i]
-    out.type = 0
+  protected override Obj getData(Int i) {
+    list[i]
   }
 
   protected override Void bind(Widget w, Obj data) {

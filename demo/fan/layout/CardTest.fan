@@ -12,14 +12,14 @@ using vaseGui
 class CardTest : BasePage
 {
   CardPane? card
-  TabView? tab
+  TabsView? tab
   CardIndicator? indicator
 
   protected override Widget view() {
     r := VBox {
       margin = Insets(50)
       layout.height = Layout.matchParent
-      tab = TabView(["Page1", "Page2", "Page3", "Page4", "Page5"]),
+      tab = TabsView(["Page1", "Page2", "Page3", "Page4", "Page5"]),
       card = CardPane
       {
         padding = Insets(50)

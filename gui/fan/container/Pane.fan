@@ -40,13 +40,13 @@ class Pane : WidgetGroup
     }
   }
 
-  protected override Size prefContentSize() {
+  protected override Size prefContentSize(Int hintsWidth := -1, Int hintsHeight := -1) {
     Int maxX := 0
     Int maxY := 0
     this.each |c|
     {
       if (!c.layout.ignore) {
-        size := c.bufferedPrefSize()
+        size := c.bufferedPrefSize(hintsWidth, hintsHeight)
         x := size.w
         y := size.h
 

@@ -28,7 +28,7 @@ class ComboBox : Button
       this.text = items[val].toStr
     }
   }
-
+  
   private WidgetGroup? list
 
   new make()

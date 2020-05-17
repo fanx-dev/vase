@@ -43,11 +43,9 @@ class FlowBox : WidgetGroup
     }
   }
   
-  override Size prefSize(Int parentContentWidth := -1, Int parentContentHeight := -1) {
-    Int x := paddingLeft
-    Int y := paddingTop
-    hintsW := parentContentWidth - dpToPixel((margin.left + margin.right))
-    hintsH := parentContentHeight - dpToPixel((margin.top + margin.bottom))
+  protected override Size prefContentSize(Int hintsW := -1, Int hintsH := -1) {
+    x := 0
+    y := 0
     spacing := dpToPixel(this.spacing)
 
     lineHeight := 0
@@ -64,21 +62,5 @@ class FlowBox : WidgetGroup
       //echo("$x, $y, $lineHeight")
     }
     return Size(hintsW, y+lineHeight)
-  }
-
-  protected override Size prefContentSize() {
-    Int w := 0
-    Int h := 0
-    spacing := dpToPixel(this.spacing)
-    this.each |c, i|
-    {
-      size := c.bufferedPrefSize()
-      //echo("size$size")
-      h = h.max(size.h)
-      w += size.w
-      if (i > 0) w += spacing
-    }
-
-    return Size(w, h)
   }
 }

@@ -133,7 +133,7 @@ class EditText : Widget, TextInput
     updateHost
   }
 
-  protected override Size prefContentSize() {
+  protected override Size prefContentSize(Int hintsWidth := -1, Int hintsHeight := -1) {
     w := font.width(text)
     h := font.height
     if (lines != null) {

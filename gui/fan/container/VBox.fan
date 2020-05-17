@@ -70,13 +70,13 @@ class VBox : WidgetGroup
     }
   }
 
-  protected override Size prefContentSize() {
+  protected override Size prefContentSize(Int hintsWidth := -1, Int hintsHeight := -1) {
     Int w := 0
     Int h := 0
     spacing := dpToPixel(this.spacing)
     this.each |c, i|
     {
-      size := c.bufferedPrefSize()
+      size := c.bufferedPrefSize(hintsWidth, hintsHeight)
       //echo("size$size")
       w = w.max(size.w)
       h += size.h

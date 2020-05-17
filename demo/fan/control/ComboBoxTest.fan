@@ -21,6 +21,7 @@ class ComboBoxTest : BasePage
           "comboBox6","comboBox7","comboBox8","comboBox9","comboBox10"
         ]
         selIndex = -1
+        text = "ComboBox"
     }
   }
 }
