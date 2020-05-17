@@ -358,7 +358,7 @@ fan.vaseWindow.WtkWindow.prototype.textInput = function(view) {
   //jsEditText.update();
 }
 
-fan.vaseWindow.WtkWindow.prototype.fileDialog = function(accept, callback)
+fan.vaseWindow.WtkWindow.prototype.fileDialog = function(accept, callback, options)
 {
   var field = document.createElement("input");
   field.type = "file";

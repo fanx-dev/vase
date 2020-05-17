@@ -78,6 +78,6 @@ mixin Window
   abstract Void textInput(TextInput edit)
 
 
-  abstract Void fileDialog(Str accept, |Obj[]?| f)
+  abstract Void fileDialog(Str accept, |Obj[]?| f, [Str:Obj]? options := null)
 }
 

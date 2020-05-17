@@ -60,7 +60,7 @@ class SpinnerStyle : WidgetStyle
     if (i1 >= 0 && i1 < widget.items.size) {
        text := widget.items[i1]
        
-       font := ofont.toSize(ofont.size - dpToPixel((r.abs*20).toInt))
+       font := ofont.toSize(ofont.size - dpToPixel((r.abs*10).toInt))
        g.font = font
        w := font.width(text)/2
        x := cx-w

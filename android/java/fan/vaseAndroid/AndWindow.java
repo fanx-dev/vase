@@ -22,10 +22,10 @@ import fan.sys.List;
 
 public class AndWindow extends View implements Window {
   private fan.vaseWindow.View view;
-  private Context context;
+  private Activity context;
   private android.widget.FrameLayout shell;
   
-  public AndWindow(Context context, fan.vaseWindow.View view) {
+  public AndWindow(Activity context, fan.vaseWindow.View view) {
     super(context);
     this.view = view;
     this.context = context;
@@ -163,7 +163,14 @@ public class AndWindow extends View implements Window {
     return ce;
   }
 
+  public FilePicker filePicker = null;
   public void fileDialog(String accept, fan.sys.Func c) {
-    //TODO
+    fileDialog(accept, c, null);
+  }
+  public void fileDialog(String accept, fan.sys.Func c, fan.std.Map options) {
+    filePicker = new FilePicker(context);
+    if (accept != null) filePicker.mimeType = accept;
+    filePicker.fileDialogCallback = c;
+    filePicker.showDialog();
   }
 }

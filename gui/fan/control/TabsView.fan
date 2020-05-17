@@ -9,6 +9,7 @@ using vaseWindow
 **
 ** TabView
 **
+@Js
 class TabsView : HBox
 {
     Int selIndex := 0 {

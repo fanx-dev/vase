@@ -5,6 +5,7 @@ using vaseWindow
 **
 ** CardIndicatorStyle
 **
+@Js
 class CardIndicatorStyle : WidgetStyle {
   override Void doPaint(Widget widget, Graphics g) {
     CardIndicator p := widget

@@ -195,6 +195,9 @@ public class WtkWindow implements Window {
   };
 
   public void fileDialog(String accept, fan.sys.Func c) {
+    fileDialog(accept, c, null);
+  }
+  public void fileDialog(String accept, fan.sys.Func c, fan.std.Map options) {
     javax.swing.JFileChooser fileChooser = new javax.swing.JFileChooser();
     fileChooser.setMultiSelectionEnabled(true);
 

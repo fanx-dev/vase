@@ -50,7 +50,11 @@ public class AndroidEnvPeer {
   }
 
   public static void onActivityResult(Activity c, long requestCode, long resultCode, Intent data) {
-
+    Toolkit toolkit = Toolkit.cur();
+    Window w = toolkit.window(null);
+    if (w == null) return;
+    AndWindow aw = (AndWindow)w;
+    aw.filePicker.onActivityResult((int)requestCode, (int)resultCode, data);
   }
 
   static class AndToolkit extends Toolkit

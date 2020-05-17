@@ -8,3 +8,4 @@ nbproject
 *.log
 demo/cordovaDemo/www/js/demo.js
 demo/cordovaDemo/www/js/fanx.js
+android.jar

@@ -8,6 +8,7 @@
 **
 ** RectView
 **
+@Js
 class RectView : Widget
 {
   new make() {
