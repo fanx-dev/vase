@@ -19,6 +19,7 @@ class CardIndicatorStyle : WidgetStyle {
     pw := (w.toFloat / p.cardBox.childrenSize)
     
     x += (pw/2)
+    y += dpToPixel(4)
     minW := (pw.toInt.min(h) * 0.8).toInt
     halfW := minW/2
     g.brush = color

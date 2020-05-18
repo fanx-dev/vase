@@ -139,6 +139,6 @@ class CardPane : Pane
 class CardIndicator : Widget {
     CardPane? cardBox
     new make() {
-        layout.height = 20
+        layout.height = 30
     }
 }

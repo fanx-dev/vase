@@ -44,7 +44,7 @@ class Main
       SpinnerTest(), SeekBarTest(), ProgressViewTest(), TextViewTest(), null,
       CardTest(), EdgeTest(), HBoxTest(), VBoxTest(), PaneTest(), FlowTest(), null,
       MenuTest(), TableTest(), TreeTest(), null,
-      EditTextTest(), TextAreaTest(), FilePickerTest(), null,
+      EditTextTest(), FilePickerTest(), null,
     ]
     init
   }
