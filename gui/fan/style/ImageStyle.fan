@@ -24,21 +24,24 @@ class ImageStyle : WidgetStyle
     top := widget.paddingTop
     left := widget.paddingLeft
 
+
     Size srcSize := img.image.size
-    src1 := Rect(0, 0, srcSize.w, srcSize.h)
-    mp := Coord(left.toFloat, top.toFloat)
-    xp := Coord((left+w).toFloat, (top+h).toFloat)
-    img.widgetToImg(mp)
-    img.widgetToImg(xp)
-    src2 := Rect(mp.x.toInt, mp.y.toInt, (xp.x-mp.x).toInt, (xp.y-mp.y).toInt)
-    src := src1.intersection(src2)
-    
-    mp = Coord(src.x.toFloat, src.y.toFloat)
-    xp = Coord((src.x+src.w).toFloat, (src.y+src.h).toFloat)
+    mp := Coord(0.0, 0.0)
+    xp := Coord(srcSize.w.toFloat, srcSize.h.toFloat)
     img.imgToWidget(mp)
     img.imgToWidget(xp)
-    dst := Rect(mp.x.toInt, mp.y.toInt, (xp.x-mp.x).toInt, (xp.y-mp.y).toInt)
-//    echo("src$src,dst$dst")
+    projSrc := Rect(mp.x.toInt, mp.y.toInt, (xp.x-mp.x).toInt, (xp.y-mp.y).toInt)
+    dstRec := Rect(left, top, w, h)
+    dst := projSrc.intersection(dstRec)
+    
+    mp.set(left.toFloat, top.toFloat)
+    xp.set((left+w).toFloat, (top+h).toFloat)
+    img.widgetToImg(mp)
+    img.widgetToImg(xp)
+    projDst := Rect(mp.x.toInt, mp.y.toInt, (xp.x-mp.x).toInt, (xp.y-mp.y).toInt)
+    srcRec := Rect(0, 0, srcSize.w, srcSize.h)
+    src := projDst.intersection(srcRec)
+
     g.copyImage(img.image, src, dst)
   }
 }

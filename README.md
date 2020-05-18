@@ -25,7 +25,7 @@ A cross-platform framework for creating GUI app.
 ### Android
   1. copy android jar:
   ```
-  cp lib/*.jar env/lib/java/ext/
+  cp android.jar env/lib/java/ext/
   ```
   2. build demo:
   ```
