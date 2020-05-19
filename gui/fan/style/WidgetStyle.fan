@@ -11,6 +11,7 @@ using vaseWindow
 using vaseMath
 
 @Js
+@Serializable
 mixin Style
 {
   abstract Void paint(Widget widget, Graphics g)

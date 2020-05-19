@@ -43,7 +43,7 @@ class StyleManager
     defStyle = WidgetStyle()
 
     styleClassMap = [
-        "buttonBase" : ButtonBaseStyle(),
+        //"buttonBase" : ButtonBaseStyle(),
         "menuItem" : MenuItemStyle(),
         "tableHeader" : TableHeaderStyle(),
         "pane" : PaneStyle(),

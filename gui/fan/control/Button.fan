@@ -18,9 +18,11 @@ class Button : Label
 //////////////////////////////////////////////////////////////////////////
 // state
 //////////////////////////////////////////////////////////////////////////
-  const static Int mouseOver := 0
-  const static Int mouseOut := 1
+  const static Int mouseOver := 1
+  const static Int mouseOut := 0
   const static Int mouseDown := 2
+
+  private Bool pressDown := false
 
   @Transient
   Int state := mouseOut
@@ -65,17 +67,23 @@ class Button : Label
     //echo("e.type $e.type, $id")
     super.motionEvent(e)
 
-    if (state == mouseOut) {
-      getRootView?.mouseHover(this)
+    if (e.type == MotionEvent.moved) {
+      if (pressDown) {
+        state = mouseOut
+      }
+      else if (state == mouseOut) {
+        getRootView?.mouseHover(this)
+      }
     }
-
     if (e.type == MotionEvent.released)
     {
       state = mouseOut
+      pressDown = false
     }
     else if (e.type == MotionEvent.pressed)
     {
       state = mouseDown
+      pressDown = true
     }
   }
 
