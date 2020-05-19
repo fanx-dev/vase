@@ -16,10 +16,13 @@ using vaseWindow
 class Label : Widget
 {
   Align textAlign := Align.begin
+
+  @Transient private Size? sizeCache := null
   
   Str text := "Label" {
     set {
       &text = it
+      sizeCache = null
       this.repaint
     }
   }
@@ -32,8 +35,10 @@ class Label : Widget
   }
 
   protected override Size prefContentSize(Int hintsWidth := -1, Int hintsHeight := -1) {
+    if (sizeCache != null) return sizeCache
     w := font.width(text)+1
     h := font.height
-    return Size(w, h)
+    sizeCache = Size(w, h)
+    return sizeCache
   }
 }

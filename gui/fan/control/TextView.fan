@@ -17,6 +17,7 @@ class TextView : Widget
     set {
       &text = it
       textDirty = true
+      sizeCache = null
       this.repaint
     }
   }
@@ -27,6 +28,11 @@ class TextView : Widget
   private Int lastWidth := 0
   @Transient
   private Bool textDirty := true
+  @Transient
+  private Int sizeCacheWidth := -1
+  @Transient
+  private Size? sizeCache := null
+
   
   Bool autoWrap := true
   
@@ -88,6 +94,10 @@ class TextView : Widget
   }
 
   protected override Size prefContentSize(Int hintsWidth := -1, Int hintsHeight := -1) {
+
+    if (sizeCache != null && sizeCacheWidth == hintsWidth) return sizeCache
+    sizeCacheWidth = hintsWidth
+
     lines := wrapText(hintsWidth)
     w := 0
     lines.each {
@@ -97,6 +107,7 @@ class TextView : Widget
     h := rowHeight * lines.size
 
     //echo("prefSize:($w, $h), hintsWidth:$hintsWidth, $lines")
-    return Size(w, h)
+    sizeCache = Size(w, h)
+    return sizeCache
   }
 }
