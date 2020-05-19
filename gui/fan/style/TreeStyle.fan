@@ -67,8 +67,8 @@ class TreeStyle : WidgetStyle
     //text
     text := item.text
     if (item.hasChildren) {
-      if (item.expanded) text = "v " + text
-      else text = "> " + text
+      if (item.expanded) text = "- " + text
+      else text = "+ " + text
       g.drawText(text, itemX, itemY+fontOffset)
     } else {
       g.drawText("  "+text, itemX, itemY+fontOffset)

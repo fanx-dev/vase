@@ -39,8 +39,8 @@ class ScrollPane : ContentPane
   {
     clip = true
     //scroll bar
-    hbar = ScrollBar { vertical = false; it.barSize = this.barSize; it.layout.ignore = true }
-    vbar = ScrollBar { vertical = true; it.barSize = this.barSize; it.layout.ignore = true }
+    hbar = ScrollBar { vertical = false; it.barSize = this.barSize; it.layout.ignored = true }
+    vbar = ScrollBar { vertical = true; it.barSize = this.barSize; it.layout.ignored = true }
 
     hbar.onStateChanged.add |StateChangedEvent e|
     {

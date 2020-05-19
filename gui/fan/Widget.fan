@@ -58,7 +58,7 @@ abstract class Widget
   **
   ** flag for using renderCache
   **
-  Bool useRenderCache := false
+  protected Bool useRenderCache := false
 
   **
   ** render result cache in bitmap image
@@ -88,7 +88,7 @@ abstract class Widget
   Layout layout := Layout()
 
   @Transient
-  private Style? styleCache := null
+  private Style? styleObj := null
   
   @Transient
   protected |Widget|? onClickCallback := null
@@ -122,16 +122,16 @@ abstract class Widget
   Bool enabled := true
 
   @Transient
-  Int x := 0
+  protected Int x := 0
 
   @Transient
-  Int y := 0
+  protected Int y := 0
 
   @Transient
-  Int width := 0
+  protected Int width := 0
 
   @Transient
-  Int height := 0
+  protected Int height := 0
 
   **
   ** Size of this widget.
@@ -149,6 +149,7 @@ abstract class Widget
   ** Position and size of this widget relative to its parent.
   ** If this a window, this is the position on the screen.
   **
+/*
   @Transient
   Rect bounds
   {
@@ -160,6 +161,7 @@ abstract class Widget
       height = it.h
     }
   }
+*/
 
   protected Void fireStateChange(Obj? oldValue, Obj? newValue, Field? field) {
     if (oldValue == newValue) return
@@ -290,14 +292,16 @@ abstract class Widget
   Int pixelToDp(Int d) { DisplayMetrics.pixelToDp(d).toInt }
 
   protected Style getStyle() {
-    if (styleCache == null) {
-      styleCache = getRootView.findStyle(this)
+    if (styleObj == null) {
+      styleObj = getRootView.findStyle(this)
     }
-    return styleCache
+    return styleObj
   }
-  
+
+  Void setStyle(Style s) { styleObj = s }
+
   virtual Void resetStyle() {
-    styleCache = null
+    styleObj = null
   }
 
   protected virtual Void doPaint(Graphics g) {
@@ -420,7 +424,7 @@ abstract class Widget
     this.width = w - dpToPixel((margin.left + margin.right))
     this.height = h - dpToPixel((margin.top + margin.bottom))
 
-    printInfo("layout: x$this.x, y$this.y, w$this.width, h$this.height")
+    //printInfo("layout: x$this.x, y$this.y, w$this.width, h$this.height")
 
     if (layoutDirty > 0 || force) {
       layoutChildren(force || layoutDirty>1)
@@ -584,15 +588,6 @@ abstract class Widget
   **
   protected virtual Void onMounted() {}
 
-  **
-  ** print debug info
-  **
-  @NoDoc
-  protected Void printInfo(Str msg) {
-    if (debug) {
-      echo("$this.typeof.name,id=$id,bounds=$bounds:\t$msg")
-    }
-  }
 
   @NoDoc
   protected static Bool debug() {

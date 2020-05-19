@@ -44,7 +44,7 @@ virtual class Layout {
   static const Int wrapContent := -1
 
 
-  Bool ignore := false
+  Bool ignored := false
 
   **
   ** width of widget

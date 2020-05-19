@@ -27,7 +27,7 @@ class Pane : WidgetGroup
 
     this.each |Widget c|
     {
-      if (!c.layout.ignore) {
+      if (!c.layout.ignored) {
         size := c.bufferedPrefSize(hintsW, hintsH)
         posX := c.layout.prefX(this, hintsW, size.w)
         posY := c.layout.prefY(this, hintsH, size.h)
@@ -45,7 +45,7 @@ class Pane : WidgetGroup
     Int maxY := 0
     this.each |c|
     {
-      if (!c.layout.ignore) {
+      if (!c.layout.ignored) {
         size := c.bufferedPrefSize(hintsWidth, hintsHeight)
         x := size.w
         y := size.h

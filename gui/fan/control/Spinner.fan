@@ -69,7 +69,7 @@ class Spinner : Widget
                 return
             }
             
-            toIndex := offsetIndex-(e.speedY.toFloat * 5)
+            toIndex := offsetIndex-(e.speedY.toFloat * 4)
             if (toIndex >= items.size.toFloat) toIndex = items.size.toFloat
             else if (toIndex < 0.0) toIndex = 0.0
             

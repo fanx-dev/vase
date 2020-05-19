@@ -91,7 +91,7 @@ class ListView : ScrollPane
     for (; i< model.size; ++i)
     {
       view := getView(i)
-      view.layout.ignore = true
+      view.layout.ignored = true
       pane.children.add(view)
       view.setParent(pane)
       ++count

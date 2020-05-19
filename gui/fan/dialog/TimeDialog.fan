@@ -8,6 +8,7 @@
 **
 ** TimeDialog
 **
+@Js
 class TimeDialog : VBox, Dialog
 {  
   |TimeOfDay?|? onAction
@@ -76,6 +77,7 @@ class TimeDialog : VBox, Dialog
 **
 ** DateDialog
 **
+@Js
 class DateDialog : VBox, Dialog
 {  
   |Date?|? onAction
