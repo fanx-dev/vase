@@ -62,7 +62,13 @@ abstract class WidgetGroup : Widget
   **
   virtual This removeAll()
   {
-    children.dup.each |Widget kid| { remove(kid) }
+    root := getRootView
+    
+    children.each |Widget child| {
+      root?.onRemove(child)
+      child.setParent(null)
+    }
+    children.clear
     return this
   }
 

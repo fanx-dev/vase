@@ -28,6 +28,9 @@ class Frame : ContentPane
 
   @Transient
   private Widget? mouseHoverWidget
+  
+  @Transient
+  private Widget? gestureFocusWidget
 
   **
   ** top layer is a overlay of root view
@@ -211,16 +214,24 @@ class Frame : ContentPane
   ** call by detach widget
   internal Void onRemove(Widget w) {
     if (focusWidget === w) {
-      focusIt(null)
+      clearFocus
     }
 
     if (mouseHoverWidget === w) {
       mouseHoverWidget = null
     }
+    
+    if (gestureFocusWidget === w) {
+      gestureFocusWidget = null
+    }
 
     if (topLayer === w.parent) {
       modal = 0
     }
+  }
+  
+  Void clearFocus() {
+    focusIt(null)
   }
 
   **
@@ -244,6 +255,11 @@ class Frame : ContentPane
         e.data = true
         focusWidget?.onFocusChanged?.fire(e)
     }
+  }
+  
+  Void gestureFocus(Widget w) {
+    if (gestureFocusWidget === w) return
+    gestureFocusWidget = w
   }
 
   **
@@ -271,10 +287,10 @@ class Frame : ContentPane
     if (e.type == GestureEvent.drag
             || e.type == GestureEvent.drop || e.type == GestureEvent.multiTouch)
     {
-      if (focusWidget != null) {
+      if (gestureFocusWidget != null) {
         e.relativeX = e.relativeX - this.x
         e.relativeY = e.relativeY - this.y
-        focusWidget.gestureEvent(e)
+        gestureFocusWidget.gestureEvent(e)
       }
       return
     }

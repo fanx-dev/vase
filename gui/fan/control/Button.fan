@@ -54,7 +54,7 @@ class Button : Label
     //if (e.consumed) return
 
     if (e.type == GestureEvent.click) {
-      this.focus
+      getRootView.clearFocus
       clicked
       onAction.fire(e)
       e.consume
@@ -68,11 +68,11 @@ class Button : Label
     super.motionEvent(e)
 
     if (e.type == MotionEvent.moved) {
-      if (pressDown) {
-        state = mouseOut
-      }
-      else if (state == mouseOut) {
+      if (!pressDown && state == mouseOut) {
         getRootView?.mouseHover(this)
+      }
+      else {
+        state = mouseOut
       }
     }
     if (e.type == MotionEvent.released)

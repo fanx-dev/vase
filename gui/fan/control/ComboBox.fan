@@ -101,7 +101,7 @@ class ComboBox : Button
     WidgetGroup p := list.parent
     p.remove(list)
     root := this.getRootView
-    root.focusIt(null)
+    root.clearFocus
     root.modal = 0
     p.repaint
     list = null

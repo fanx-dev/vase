@@ -84,7 +84,7 @@ internal class WinView : View
       echo("nomore frame")
       return null
     }
-    curFrame.focusIt(null)
+    curFrame.clearFocus
 
     oldFrame = curFrame
     curFrame = frame

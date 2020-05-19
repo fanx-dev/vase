@@ -195,8 +195,8 @@ abstract class Widget
   ** process motion event
   **
   protected virtual Void motionEvent(MotionEvent e) {
-    if (pressFocus && e.type == MotionEvent.pressed && !e.consumed) {
-      this.focus
+    if (gestureFocusable && e.type == MotionEvent.pressed && !e.consumed) {
+      getRootView?.gestureFocus(this)
       e.consume
     }
   }
@@ -388,7 +388,7 @@ abstract class Widget
   ** preferred size of content without padding
   **
   protected virtual Size prefContentSize(Int hintsWidth := -1, Int hintsHeight := -1) {
-    return Size(dpToPixel(100), dpToPixel(100))
+    return Size(dpToPixel(50), dpToPixel(50))
   }
 
   Int contentWidth() {
@@ -547,7 +547,7 @@ abstract class Widget
 //////////////////////////////////////////////////////////////////////////
 
   Bool focusable := false
-  Bool pressFocus := false
+  Bool gestureFocusable := false
 
   **
   ** Return if this widget is the focused widget which

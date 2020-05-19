@@ -34,8 +34,7 @@ class CardPane : Pane
   }
   
   new make() {
-    focusable = true
-    pressFocus = true
+    gestureFocusable = true
     clip = true
   }
   
@@ -79,12 +78,6 @@ class CardPane : Pane
     this.getRootView.animManager.add(anim)
     anim.start
     this.relayout
-  }
-  
-  protected override Void motionEvent(MotionEvent e) {
-    if (focusable && e.type == MotionEvent.pressed) {
-      this.focus
-    }
   }
   
   protected override Void gestureEvent(GestureEvent e) {

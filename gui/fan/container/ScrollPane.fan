@@ -87,8 +87,7 @@ class ScrollPane : ContentPane
     layout.width = Layout.matchParent
     //padding = Insets(0, barSize.toInt, barSize.toInt, 0)
     padding = Insets(0, 8, 8, 0)
-    focusable = true
-    pressFocus = true
+    gestureFocusable = true
   }
 
   protected virtual Void onViewportChanged() {}

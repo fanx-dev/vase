@@ -60,8 +60,7 @@ class TabsView : HBox
             }
             this.add(bt)
         }
-        focusable = true
-        pressFocus = true
+        gestureFocusable = true
         clip = true
     }
     

@@ -13,7 +13,8 @@ class ImageViewTest : BasePage
         uri = Env.cur.runtime == "js" ? `img/image.png` : `fan://vaseDemo/res/image.png`
         scaleType = fitWidth
         mask = maskCircle
-        layout.width = Layout.wrapContent
+        layout.width = 100
+        layout.height = 100
         onClick { Toast("hello world").show(it) }
       },
       Button {

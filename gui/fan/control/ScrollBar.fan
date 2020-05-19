@@ -102,8 +102,7 @@ class ScrollBar : Widget
       layout.width = Layout.matchParent
     }
     
-    focusable = true
-    pressFocus = true
+    gestureFocusable = true
   }
 
   **
