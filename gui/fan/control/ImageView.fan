@@ -34,8 +34,8 @@ class ImageView : Widget
 
   Uri? uri
   
-  Int imagePrefWidth := 240
-  Int imagePrefHeight := 240
+  // Int imagePrefWidth := 240
+  // Int imagePrefHeight := 240
 
   Bool isInited := false
   protected Void init() {
@@ -107,18 +107,18 @@ class ImageView : Widget
         s.val.relayout
       }
     }
-    
-    if (enabled) {
-      focusable = true
-      pressFocus = true
-    }
   }
 
-  protected override Size prefContentSize(Int hintsWidth := -1, Int hintsHeight := -1) {
-    w := dpToPixel(imagePrefWidth)
-    h := dpToPixel(imagePrefHeight)
-    return Size(w, h)
+  Void setDragable() {
+    focusable = true
+    pressFocus = true
   }
+
+  // protected override Size prefContentSize(Int hintsWidth := -1, Int hintsHeight := -1) {
+  //   w := dpToPixel(imagePrefWidth)
+  //   h := dpToPixel(imagePrefHeight)
+  //   return Size(w, h)
+  // }
   
   protected override Void motionEvent(MotionEvent e)
   {

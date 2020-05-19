@@ -7,6 +7,8 @@
 //
 
 using vaseGui
+using vaseWindow
+using vaseGraphics
 
 **
 ** Win Test
@@ -27,19 +29,19 @@ class ButtonTest : BasePage
       },
       Button {
         text = "Push Button";
-        onClick { Toast("hello world").show(it) }
+        onClick { Toast("${Toolkit.cur.density}").show(it) }
       },
       Button {
         text = "Disable Button";
         enabled = false
         onClick { Toast("hello world").show(it) }
       },
-      
-      Label { text = "Label"; },
+
       ToggleButton { text = "switch" },
       ToggleButton { text = "checkBox"; style = "checkBox" },
       RadioButton { text = "radio1" },
       RadioButton { text = "radio2" },
+
     }
   }
 }

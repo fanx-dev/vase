@@ -388,7 +388,7 @@ abstract class Widget
   ** preferred size of content without padding
   **
   protected virtual Size prefContentSize(Int hintsWidth := -1, Int hintsHeight := -1) {
-    return Size(dpToPixel(50), dpToPixel(50))
+    return Size(dpToPixel(100), dpToPixel(100))
   }
 
   Int contentWidth() {

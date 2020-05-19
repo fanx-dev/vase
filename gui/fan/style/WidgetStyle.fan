@@ -62,6 +62,8 @@ class WidgetStyle : Style
   }
 
   protected Void drawText(Widget widget, Graphics g, Str text, Align align, Align vAlign := Align.center) {
+    if (text.size == 0) return
+    
     top := widget.paddingTop
     left := widget.paddingLeft
     //draw text
