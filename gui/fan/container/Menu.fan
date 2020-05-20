@@ -53,6 +53,8 @@ class MenuItem : Button
   
   new make()
   {
+    rippleEnable = false
+    
     this.onAction.add {
       if (subMenuList.childrenSize > 0) {
         layer := rootMenu.layer
@@ -156,7 +158,8 @@ class MenuItem : Button
     subMenuList.add(item)
     //item.layout.widthType = SizeType.fixed
     item.layout.width = 500
-    item.padding = Insets(5)
+    item.padding = Insets(8)
+    //item.margin = Insets(2, 0, 0)
     item.topLevel = false
     return this
   }

@@ -18,8 +18,8 @@ class ComboBoxStyle : WidgetStyle {
     //over/out/down
     colors =
     [
-      Color(0xd9dedf),
       Color(0xffffff),
+      Color(0xd9dedf),
       Color(0xcccccc)
     ]
 

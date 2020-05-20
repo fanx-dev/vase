@@ -49,6 +49,7 @@ class Table : ScrollPane
         it.text = model.header(c)
         it.style = "tableHeader"
         it.padding = Insets.defVal
+        rippleEnable = false
       }
       w := model.prefWidth(c) ?: colWidth
       colWidthCache.add(w)

@@ -102,7 +102,7 @@ class CardPane : Pane
             offsetIndex = (1+this.offsetIndex) + (childrenSize-1)
         }
         
-        if ((offsetIndex-selIndex).abs < 0.1) select(selIndex)
+        if ((offsetIndex-selIndex).abs < 0.01) select(selIndex)
         else if (offsetIndex > selIndex.toFloat) select(selIndex + 1)
         else if (offsetIndex < selIndex.toFloat) select(selIndex - 1)
         e.consume

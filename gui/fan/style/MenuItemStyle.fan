@@ -42,7 +42,11 @@ class MenuItemStyle : WidgetStyle
     //backgound
     if (btn.state == Button.mouseOver) {
       g.brush = this.mouseOverColor
-    } else {
+    }
+    else if (btn.state == Button.mouseDown) {
+      g.brush = this.color
+    }
+    else {
       g.brush = background
     }
 

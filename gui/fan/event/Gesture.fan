@@ -16,6 +16,7 @@ virtual class GestureEvent : Event {
   const static Int drag := 5
   const static Int drop := 6
   const static Int multiTouch := 7
+  const static Int shortPress := 8
 
   **
   ** X coordinates
@@ -76,8 +77,9 @@ class Gesture
   Int firstTouchTime := 0
 
   Int longPressTimeLimit := 600
+  Int shortPressTimeLimit := 80
   Int doubleClickTimeLimt := 150
-  Bool supportDoubleClick := false
+  //Bool supportDoubleClick := false
 
   EventListeners onGestureEvent := EventListeners()
 

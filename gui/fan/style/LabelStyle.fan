@@ -20,26 +20,6 @@ class LabelStyle : WidgetStyle
 }
 
 @Js
-class FlatButtonStyle : LabelStyle
-{
-  new make() {
-    fontColor = color//Color(0x5577CC)
-    fontInfo.bold = true
-    background = Color(0xf2f2f2)
-  }
-  
-  override Void doPaint(Widget widget, Graphics g)
-  {
-    Button bt := widget
-    if (bt.state == Button.mouseDown) {
-        g.brush = background
-        g.fillRect(0, 0, widget.width, widget.height)
-    }
-    super.doPaint(widget, g)
-  }
-}
-
-@Js
 class ToastStyle : WidgetStyle {
 
   new make() {

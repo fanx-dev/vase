@@ -21,8 +21,10 @@ class Button : Label
   const static Int mouseOver := 1
   const static Int mouseOut := 0
   const static Int mouseDown := 2
-
-  private Bool pressDown := false
+  
+  @NoDoc Point? ripplePoint
+  @NoDoc Float rippleSize := -1.0
+  Bool rippleEnable := true
 
   @Transient
   Int state := mouseOut
@@ -47,17 +49,39 @@ class Button : Label
 // Event
 //////////////////////////////////////////////////////////////////////////
 
+  protected Void startRipple(Int x, Int y) {
+    if (!rippleEnable) return
+    
+    ripplePoint = Point(x, y)
+    anim := Animation {
+        it.duration = 500
+        FloatPropertyAnimChannel(this, #rippleSize) {
+          from = 0.0; to = 1.0
+        },
+    }
+    anim.whenDone.add {
+        rippleSize = -1.0
+        ripplePoint = null
+    }
+    this.getRootView.animManager.add(anim)
+    anim.start
+    this.repaint
+  }
+
   protected once EventListeners onAction() { EventListeners() }
 
   protected override Void gestureEvent(GestureEvent e) {
     //super.gestureEvent(e)
     //if (e.consumed) return
 
-    if (e.type == GestureEvent.click) {
+    if (e.type == GestureEvent.click) {    
       getRootView.clearFocus
       clicked
       onAction.fire(e)
       e.consume
+    }
+    else if (e.type == GestureEvent.shortPress) {
+      startRipple(e.relativeX-this.x, e.relativeY-this.y)
     }
 //    echo("e.type $e.type")
   }
@@ -68,22 +92,17 @@ class Button : Label
     super.motionEvent(e)
 
     if (e.type == MotionEvent.moved) {
-      if (!pressDown && state == mouseOut) {
+      if (state == mouseOut) {
         getRootView?.mouseHover(this)
-      }
-      else {
-        state = mouseOut
       }
     }
     if (e.type == MotionEvent.released)
     {
       state = mouseOut
-      pressDown = false
     }
     else if (e.type == MotionEvent.pressed)
     {
       state = mouseDown
-      pressDown = true
     }
   }
 

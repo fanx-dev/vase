@@ -13,8 +13,8 @@ class ImageViewTest : BasePage
         uri = Env.cur.runtime == "js" ? `img/image.png` : `fan://vaseDemo/res/image.png`
         scaleType = fitWidth
         mask = maskCircle
-        layout.width = 100
-        layout.height = 100
+        layout.width = 200
+        layout.height = 200
         onClick { Toast("hello world").show(it) }
       },
       Button {
@@ -22,8 +22,8 @@ class ImageViewTest : BasePage
         uri := Env.cur.runtime == "js" ? `img/image.png` : `fan://vaseDemo/res/image.png`
         setStyle(ImageButtonStyle { image = Image.fromUri(uri) })
         onClick { Toast("hello world").show(it) }
-        layout.height = 250
-        layout.width = 250
+        layout.height = 200
+        layout.width = 200
         padding = Insets(50)
       },
       ImageView {

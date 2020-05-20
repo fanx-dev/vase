@@ -32,6 +32,7 @@ class ToggleButton : Button
     layout.width = Layout.matchParent
     padding = Insets.defVal
     textAlign = Align.begin
+    rippleEnable = false
   }
   
   protected Void startAnim() {

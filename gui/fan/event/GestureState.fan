@@ -54,7 +54,8 @@ class NoneState : GestureState {
 
 @Js
 class DownState : GestureState {
-  private Bool valid := true
+  private Bool longPressValid := true
+  private Bool shortPressValid := true
   Int lastX := 0
   Int lastY := 0
 
@@ -62,20 +63,26 @@ class DownState : GestureState {
   }
 
   override Void onEnter(MotionEvent e) {
-    valid = true
+    longPressValid = true
+    shortPressValid = true
     lastX = e.x
     lastY = e.y
 
     Toolkit.cur.callLater(machine.longPressTimeLimit) |->|{
-      if (machine.currentState == this && valid) {
+      if (machine.currentState === this && longPressValid) {
         ge := makeEvent(e, GestureEvent.longPress)
         machine.onGestureEvent.fire(ge)
         e.consume
         machine.onFinished(e)
       }
-      lastX = e.x
-      lastY = e.y
-      valid = false
+      longPressValid = false
+    }
+    
+    Toolkit.cur.callLater(machine.shortPressTimeLimit) |->|{
+      if (shortPressValid) {
+        ge := makeEvent(e, GestureEvent.shortPress)
+        machine.onGestureEvent.fire(ge)
+      }
     }
   }
 
@@ -84,16 +91,17 @@ class DownState : GestureState {
     if (e.type == MotionEvent.longPressed || e.type == MotionEvent.clicked) return
 
     if (e.type == MotionEvent.released) {
-      if (machine.supportDoubleClick) {
+//      if (machine.supportDoubleClick) {
         ns := OneClickState(machine)
         machine.setCurrentState(ns, e)
-      } else {
-        //send click event
-        ge := makeEvent(e, GestureEvent.click)
-        machine.onGestureEvent.fire(ge)
-        e.consume
-        machine.onFinished(e)
-      }
+//      } else {
+//        //send click event
+//        ge := makeEvent(e, GestureEvent.click)
+//        machine.onGestureEvent.fire(ge)
+//        e.consume
+//        machine.onFinished(e)
+//      }
+        longPressValid = false
     } else if (e.type == MotionEvent.moved) {
       dx := e.x - lastX
       dy := e.y - lastY
@@ -103,14 +111,12 @@ class DownState : GestureState {
         ns := DragState(machine)
         machine.setCurrentState(ns, e)
         e.consume
-      } else {
-        //lastX = e.x
-        //lastY = e.y
+        shortPressValid = false
+        longPressValid = false
       }
     } else {
       machine.onFinished(e)
     }
-    valid = false
   }
 }
 
@@ -156,7 +162,7 @@ class TwoDownState : GestureState {
   override Void onEnter(MotionEvent e) {
     valid = true
     Toolkit.cur.callLater(machine.longPressTimeLimit) |->|{
-      if (machine.currentState == this && valid) {
+      if (machine.currentState === this && valid) {
         ge := makeEvent(e, GestureEvent.longPress)
         ge.flag = 1
         machine.onGestureEvent.fire(ge)

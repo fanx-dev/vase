@@ -61,7 +61,7 @@ internal class WinView : View
 
     //animation for frame
     if (oldFrame != null) {
-      curFrame.animManager.clear
+      
       anim := TweenAnimation {
         it.duration = 300
         TranslateAnimChannel { to = Point.defVal; from = Point(oldFrame.width, 0)},
@@ -69,6 +69,7 @@ internal class WinView : View
       anim.bind(curFrame)
       anim.whenDone.add {
         oldFrame.detach
+        oldFrame.animManager.clear
         //echo("curFrame in done")
       }
       anim.start
@@ -92,7 +93,7 @@ internal class WinView : View
 
     //frame animation
     if (oldFrame != null) {
-      oldFrame.animManager.clear
+      
       anim := TweenAnimation {
         it.duration = 300
         TranslateAnimChannel { from = Point.defVal; to = Point(oldFrame.width, 0)},
@@ -100,6 +101,7 @@ internal class WinView : View
       anim.bind(oldFrame)
       anim.whenDone.add {
         oldFrame.detach
+        oldFrame.animManager.clear
         //echo("oldFrame in done")
       }
       anim.start

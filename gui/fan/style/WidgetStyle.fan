@@ -36,6 +36,7 @@ class WidgetStyle : Style
   Brush outlineColor := Color(0xe9e9e9)
   Brush fontColor := Color(0x222222)
   Brush disableColor := Color(0xb0b0b0)
+  Brush rippleColor := Color(0x999999)
 
   Image? backgroundImage
   Int lineWidth := 2
