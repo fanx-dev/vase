@@ -83,6 +83,7 @@ class DownState : GestureState {
         ge := makeEvent(e, GestureEvent.shortPress)
         machine.onGestureEvent.fire(ge)
       }
+      shortPressValid = false
     }
   }
 
@@ -91,6 +92,10 @@ class DownState : GestureState {
     if (e.type == MotionEvent.longPressed || e.type == MotionEvent.clicked) return
 
     if (e.type == MotionEvent.released) {
+        ge := makeEvent(e, GestureEvent.shortPress)
+        machine.onGestureEvent.fire(ge)
+        shortPressValid = false
+        
 //      if (machine.supportDoubleClick) {
         ns := OneClickState(machine)
         machine.setCurrentState(ns, e)

@@ -77,7 +77,7 @@ class Gesture
   Int firstTouchTime := 0
 
   Int longPressTimeLimit := 600
-  Int shortPressTimeLimit := 80
+  Int shortPressTimeLimit := 150
   Int doubleClickTimeLimt := 150
   //Bool supportDoubleClick := false
 

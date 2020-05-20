@@ -68,8 +68,8 @@ internal class WinView : View
       }
       anim.bind(curFrame)
       anim.whenDone.add {
+        //oldFrame.animManager.clear
         oldFrame.detach
-        oldFrame.animManager.clear
         //echo("curFrame in done")
       }
       anim.start
@@ -100,8 +100,8 @@ internal class WinView : View
       }
       anim.bind(oldFrame)
       anim.whenDone.add {
+        //oldFrame.animManager.clear
         oldFrame.detach
-        oldFrame.animManager.clear
         //echo("oldFrame in done")
       }
       anim.start
