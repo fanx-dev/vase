@@ -29,7 +29,7 @@ class ComboBox : Button
     }
   }
   
-  private WidgetGroup? list
+  private CtxMenu? list
 
   new make()
   {
@@ -38,74 +38,108 @@ class ComboBox : Button
     padding = Insets(15)
   }
 
-  private Void select(Button btn, Int i)
-  {
-    selIndex = i
-    this.repaint
-    hide
-  }
-
   Void show()
   {
-    if (list != null)
+    if (list == null)
     {
-      hide
-      return
-    }
-
-    pane := VBox { spacing = 0 }
-    list = ScrollPane {
-      it.layout.width = it.pixelToDp(this.width)
-      it.layout.height = it.pixelToDp(300)
-      pane,
-    }
-
-    items.each |item, i|
-    {
-      name := item.toStr
-      button := Button {
-        it.text = name;
-        it.style = "menuItem"
-        it.textAlign = Align.begin
-        it.layout.width = Layout.matchParent
-        //it.layout.widthVal = it.pixelToDp()
-        it.padding = Insets(15, 5)
-        //it.margin = Insets(2, 0, 0)
-        it.onClick { select(it, i) }
-        it.rippleEnable = false
+      list = CtxMenu {
+        it.layout.vAlign = Align.begin
+        it.layout.hAlign = Align.begin
+        it.layout.width = it.pixelToDp(this.width)
+        it.layout.height = it.pixelToDp(300)
+        it.items = this.items
+        it.onAction |i| {
+          selIndex = i
+        }
       }
-      pane.add(button)
     }
-
+    
+    if (list.parent != null) {
+        list.hide
+        return
+    }
 
     pos := Coord(0f, 0f)
     rc := posOnWindow(pos)
-    
     list.layout.offsetX = pixelToDp(pos.x.toInt)
     list.layout.offsetY = pixelToDp(pos.y.toInt + height)
+    //echo("${list.layout.offsetY},${pos.y.toInt},${height}")
+    list.show(this)
+  }
+}
 
-    list.onFocusChanged.add |e| {
-      if (e.data == false) {
-        hide
+@Js
+class CtxMenu : ScrollPane {
+    Obj[] items := [,]
+    
+    private Bool inited := false
+    private |Int|? clickCallback
+    
+    Void onAction(|Int| f) { clickCallback = f }
+    
+    new make() {
+      layout.width = 400
+      layout.height = 600
+      layout.vAlign = Align.center
+      layout.hAlign = Align.center
+      
+      this.focusable = true
+      
+      onFocusChanged.add |e| {
+        echo("onFocusChanged: $e.data")
+        if (e.data == false) {
+          hide
+        }
       }
     }
-
-    root := this.getRootView
-    overlayer := root.topOverlayer
-    overlayer.add(list)
-    overlayer.relayout
-    root.modal = 1
-  }
-
-  Void hide()
-  {
-    if (list == null || list.parent == null) return
-    WidgetGroup p := list.parent
-    p.remove(list)
-    root := this.getRootView
-    root.clearFocus
-    root.modal = 0
-    p.repaint
-    list = null
-  }
+    
+    private Void init() {
+        if (inited) return
+        inited = true
+        
+        pane := VBox { spacing = 0 }
+        items.each |item, i|
+        {
+          name := item.toStr
+          button := Button {
+            it.text = name;
+            it.style = "menuItem"
+            it.textAlign = Align.begin
+            it.layout.width = Layout.matchParent
+            //it.layout.widthVal = it.pixelToDp()
+            it.padding = Insets(15)
+            //it.margin = Insets(2, 0, 0)
+            it.onClick {
+              this.hide
+              clickCallback?.call(i)
+            }
+            it.rippleEnable = false
+          }
+          pane.add(button)
+        }
+        this.add(pane)
+    }
+    
+    Void show(Widget w) {
+        init
+        root := w.getRootView
+        overlayer := root.topOverlayer
+        overlayer.add(this)
+        this.relayout
+        overlayer.relayout
+        this.focus
+        root.modal = 1
+    }
+    
+    Void hide()
+    {
+      if (this.parent == null) return
+      
+      root := this.getRootView
+      root.clearFocus
+      root.modal = 0
+      
+      WidgetGroup p := this.parent
+      p.remove(this)
+    }
 }

@@ -16,7 +16,7 @@ mixin Dialog
     root := parent.getRootView
     overlayer := root.topOverlayer
     overlayer.add(self)
-    self.focus
+    root.clearFocus
     root.modal = 2
     overlayer.relayout
     

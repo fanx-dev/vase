@@ -28,6 +28,8 @@ abstract class BasePage {
         }
         frame.show
     }
+    
+    Void main() { run }
 }
 
 **

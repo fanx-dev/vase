@@ -562,9 +562,14 @@ abstract class Widget
   **
   ** Attempt for this widget to take the keyboard focus.
   **
-  virtual Void focus() {
+  virtual Bool focus(Bool check := true) {
     if (focusable) {
       getRootView.focusIt(this)
+      return true
+    }
+    else {
+      if (check) throw Err("try focus a unfocusable widget")
+      return false
     }
   }
 

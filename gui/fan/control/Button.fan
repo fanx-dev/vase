@@ -73,6 +73,7 @@ class Button : Label
   protected override Void gestureEvent(GestureEvent e) {
     //super.gestureEvent(e)
     //if (e.consumed) return
+    //echo("e.type $e.type")
 
     if (e.type == GestureEvent.click) {    
       getRootView.clearFocus
@@ -82,8 +83,13 @@ class Button : Label
     }
     else if (e.type == GestureEvent.shortPress) {
       startRipple(e.relativeX-this.x, e.relativeY-this.y)
+      e.consume
     }
-//    echo("e.type $e.type")
+    else if (onLongPressCallback != null && e.type == GestureEvent.longPress) {
+      //this.focus
+      onLongPressCallback.call(this)
+      e.consume
+    }
   }
 
   protected override Void motionEvent(MotionEvent e)

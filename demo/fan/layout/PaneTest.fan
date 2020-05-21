@@ -15,7 +15,7 @@ class PaneTest : BasePage
     {
       padding = Insets(50)
       margin = Insets(50)
-      style = "pane"
+      style = "shadow"
       layout.height = Layout.matchParent
       Button
       {

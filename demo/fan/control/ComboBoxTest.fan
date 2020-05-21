@@ -15,13 +15,28 @@ using vaseGui
 class ComboBoxTest : BasePage
 {
   protected override Widget view() {
-    ComboBox {
-        items = [
-          "comboBox1","comboBox2","comboBox3","comboBox4","comboBox5",
-          "comboBox6","comboBox7","comboBox8","comboBox9","comboBox10"
-        ]
-        selIndex = -1
-        text = "ComboBox"
+    VBox {
+        ComboBox {
+            items = [
+              "comboBox1","comboBox2","comboBox3","comboBox4","comboBox5",
+              "comboBox6","comboBox7","comboBox8","comboBox9","comboBox10"
+            ]
+            selIndex = -1
+            text = "ComboBox"
+        },
+        
+        Button {
+           text = "Long Press"
+           onLongPress {
+              echo("long press")
+              CtxMenu {
+                items = [
+                 "comboBox1","comboBox2","comboBox3","comboBox4","comboBox5",
+                 "comboBox6","comboBox7","comboBox8","comboBox9","comboBox10"
+                ]
+              }.show(it)
+           }
+        },
     }
   }
 }

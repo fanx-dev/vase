@@ -69,6 +69,7 @@ class DownState : GestureState {
     lastY = e.y
 
     Toolkit.cur.callLater(machine.longPressTimeLimit) |->|{
+      //echo("check longPress ${longPressValid} ${machine.currentState === this}")
       if (machine.currentState === this && longPressValid) {
         ge := makeEvent(e, GestureEvent.longPress)
         machine.onGestureEvent.fire(ge)
