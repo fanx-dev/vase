@@ -4,16 +4,48 @@ using vaseGraphics
 @Js
 class PaneStyle : WidgetStyle
 {
-  Int arc := 20
+  Int arc := 5
   Bool fill := true
   Bool stroke := true
   
+  Int shadow := 20
+  Color shadowColor := Color.gray
+  
   new make() {
     outlineColor = Color.gray
+    lineWidth = 0
   }
 
   override Void doPaint(Widget widget, Graphics g)
   {
+    l := dpToPixel(5.max(shadow))
+    x := l
+    y := l
+    w := widget.width - l - l
+    h := widget.height - l - l
+    
+    arc := dpToPixel(this.arc)
+
+    if (shadow > 0) {
+        fill = true
+        g.brush = shadowColor
+        alpha := 2
+        
+        for (i := dpToPixel(shadow).toFloat; i>1.0; i = i*0.8 ) {
+            g.alpha = alpha
+            a := (i*2).toInt
+            g.pen = Pen { width = a; cap = capRound }
+            shift := a / 6
+            //echo("draw $a, $alpha")
+            r := arc + a / 2
+            g.drawRoundRect(x+shift, y+shift, w, h, r, r)
+            //g.drawRect(x+shift, y+shift, w, h)
+            alpha = alpha + 5
+            if (alpha > 255) alpha = 255
+        }
+        g.alpha = 255
+    }
+    
     if (backgroundImage != null) {
       Size srcSize := backgroundImage.size
       src := Rect(0, 0, srcSize.w, srcSize.h)
@@ -21,28 +53,18 @@ class PaneStyle : WidgetStyle
   //    echo("src$src,dst$dst")
       g.copyImage(backgroundImage, src, dst)
     }
+    else if (fill){
+        g.brush = background
+        g.fillRoundRect(x, y, w, h, arc, arc)
+    }
     
     if (lineWidth > 0) {
-      l := dpToPixel(lineWidth/2)
-      x := l
-      y := l
-      w := widget.width - l - l
-      h := widget.height - l - l
-
-      
-      a := dpToPixel(arc)
-      
       //echo("=== $x, $y, $w, $h, $a")
-      if (fill) {
-        g.brush = background
-        //g.pen = Pen { width = dpToPixel(lineWidth) }
-        g.fillRoundRect(x, y, w, h, a, a)
-      }
       if (stroke) {
         g.brush = outlineColor
         lw := dpToPixel(lineWidth)
         g.pen = Pen { width = lw }
-        g.drawRoundRect(x, y, w-lw, h-lw, a, a)
+        g.drawRoundRect(x, y, w-lw, h-lw, arc, arc)
       }
     }
   }
