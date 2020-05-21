@@ -91,11 +91,10 @@ class Button : Label
     //echo("e.type $e.type, $id")
     super.motionEvent(e)
 
-    if (e.type == MotionEvent.moved) {
-      if (state == mouseOut) {
-        getRootView?.mouseHover(this)
-      }
+    if (state == mouseOut) {
+      getRootView?.mouseHover(this)
     }
+      
     if (e.type == MotionEvent.released)
     {
       state = mouseOut
