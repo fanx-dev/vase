@@ -9,7 +9,7 @@
 using vaseGui
 
 @Js
-class SeekBarTest : BasePage
+class SliderBarTest : BasePage
 {
   protected override Widget view() {
     VBox

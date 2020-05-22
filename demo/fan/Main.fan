@@ -43,7 +43,7 @@ class Main
   new make() {
     pages = [null,
       ButtonTest(), ImageViewTest(), DialogTest(), ListViewTest(), ComboBoxTest(), BubbleViewTest(), null,
-      SpinnerTest(), SeekBarTest(), ProgressViewTest(), TextViewTest(), null,
+      SpinnerTest(), SliderBarTest(), ProgressViewTest(), TextViewTest(), null,
       CardTest(), EdgeTest(), HBoxTest(), VBoxTest(), PaneTest(), FlowTest(), null,
       MenuTest(), TableTest(), TreeTest(), null,
       EditTextTest(), FilePickerTest(), null,

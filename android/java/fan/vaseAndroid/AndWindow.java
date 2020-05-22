@@ -20,6 +20,7 @@ import fan.vaseWindow.Window;
 import fan.vaseWindow.TextInput;
 import fan.sys.List;
 
+
 public class AndWindow extends View implements Window {
   private fan.vaseWindow.View view;
   private Activity context;
@@ -168,9 +169,14 @@ public class AndWindow extends View implements Window {
     fileDialog(accept, c, null);
   }
   public void fileDialog(String accept, fan.sys.Func c, fan.std.Map options) {
-    filePicker = new FilePicker(context);
-    if (accept != null) filePicker.mimeType = accept;
-    filePicker.fileDialogCallback = c;
-    filePicker.showDialog();
+    try {
+      filePicker = new FilePicker(context);
+      if (accept != null) filePicker.mimeType = accept;
+      filePicker.fileDialogCallback = c;
+      filePicker.showDialog();
+    }
+    catch (Exception e) {
+      e.printStackTrace();
+    }
   }
 }
