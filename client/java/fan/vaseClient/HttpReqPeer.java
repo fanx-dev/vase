@@ -158,7 +158,7 @@ class HttpReqPeer {
       MultipartUtility multipart = new MultipartUtility(connection);
       fan.std.Map map = (fan.std.Map)content;
       map.each(new fan.sys.Func() {
-        public Object call(Object k, Object v) {
+        public Object call(Object v, Object k) {
           if (v instanceof String) {
             multipart.addFormField((String)k, (String)v);
           }
@@ -174,7 +174,7 @@ class HttpReqPeer {
           return null;
         }
       });
-      multipart.flush();
+      multipart.finish();
       //List<String> response = multipart.finish();
     }
     else {

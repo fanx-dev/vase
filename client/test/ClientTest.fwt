@@ -14,7 +14,7 @@ class ClientTest {
 
     root := Frame {
       content = VBox {
-        Button { id = "button"; text = "Req"; onAction.add { request } },
+        Button { id = "button"; text = "Req"; onClick { request } },
         Label { id = "label"; text = "Res" }
       }
     }

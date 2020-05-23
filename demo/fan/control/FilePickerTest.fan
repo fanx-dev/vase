@@ -1,8 +1,12 @@
 using vaseGui
+using vaseClient
+
 
 @Js
 class FilePickerTest : BasePage
 {
+  private Obj[]? files
+
   protected override Widget view() {
     VBox {
       label := TextView { text = "Hello" }
@@ -13,9 +17,27 @@ class FilePickerTest : BasePage
           getRootView.host.fileDialog("image/*") |files| {
             label.text = files.toStr
             label.relayout
+            this.files = files
           }
         }
       },
+
+      Button {
+        text = "Upload"
+        onClick {
+          upload
+        }
+      }
     }
+  }
+
+
+  Void upload() {
+    if (files == null) return
+    url := `http://localhost:8080/util/Upload/saveFile`
+
+    multiPart := [ "file1" : files[0], "name" : "abc" ]
+    res := HttpReq { uri = url; }.post(multiPart)
+    res.then |t,e| { echo("$t, $e") }
   }
 }
