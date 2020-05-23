@@ -31,13 +31,12 @@ class FilePickerTest : BasePage
     }
   }
 
-
-  Void upload() {
+  async Void upload() {
     if (files == null) return
-    url := `http://localhost:8080/util/Upload/saveFile`
+    Uri url := `http://localhost:8080/util/Upload/saveFile`
 
     multiPart := [ "file1" : files[0], "name" : "abc" ]
-    res := HttpReq { uri = url; }.post(multiPart)
-    res.then |t,e| { echo("$t, $e") }
+    res := await HttpReq { uri = url; }.post(multiPart)
+    echo("result: $res")
   }
 }
