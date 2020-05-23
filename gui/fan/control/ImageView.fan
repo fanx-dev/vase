@@ -54,7 +54,7 @@ class ImageView : Widget
         imgOffsetY = 0.0
         imgScaleX = contentWidth / image.size.w.toFloat
         imgScaleY = contentHeight / image.size.h.toFloat
-        echo("width:$width, contentWidth:$contentWidth, size:$image.size")
+        //echo("width:$width, contentWidth:$contentWidth, size:$image.size")
     }
     else if (scaleType == fitWidth) {
         imgOffsetX = 0.0
@@ -104,6 +104,7 @@ class ImageView : Widget
     if (image == null && uri != null) {
       s := Unsafe<ImageView>(this)
       image = Image.fromUri(uri) {
+        //echo("image loaded")
         s.val.relayout
       }
     }

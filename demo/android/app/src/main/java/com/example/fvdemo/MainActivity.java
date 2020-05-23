@@ -32,6 +32,8 @@ public class MainActivity extends Activity {
 
         Log.d("fvdemo", "onCreate");
 
+        fan.vaseClient.StoragePeer.baseStorePath = this.getExternalCacheDir().getAbsolutePath();
+
         AndroidEnv.init(this);
         if (mainView == null) mainView = Main.make();
         mainView.show();

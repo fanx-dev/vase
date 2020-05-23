@@ -24,7 +24,7 @@ import fanx.interop.*;
 
 class HttpReqPeer {
 
-  Storage storage = new Storage();
+  Storage storage = StoragePeer.open(StoragePeer.baseStorePath+"httpCache/");
 
   public static boolean debug = false;
   public static boolean disconnect = false;
@@ -60,7 +60,7 @@ class HttpReqPeer {
                  res.content = c;
                }
                promise.complete(res, true);
-               //System.out.println("use cache");
+               System.out.println("use cache");
                return;
             }
           }

@@ -14,10 +14,24 @@ import fanx.interop.*;
  * @author yangjiandong
  */
 public class StoragePeer {
-  public static String storePath = "./storage/";
+  public static String baseStorePath = "./storage/";
+  
+  String storePath;
   static Storage cur;
 
-  public static StoragePeer make(Storage self) { return new StoragePeer(); }
+  public static StoragePeer make(Storage self) { return new StoragePeer(baseStorePath+"default/"); }
+
+  public static Storage open(String path) {
+    Storage storage = new Storage();
+    storage.peer = new StoragePeer(path);
+    return storage;
+  }
+
+  private StoragePeer(String path) {
+    storePath = path;
+    File f = new File(storePath);
+    if (!f.exists()) f.mkdirs();
+  }
 
   static Storage cur() {
     if (cur == null) {

@@ -9,7 +9,7 @@ class ImageViewTest : BaseTestWin
     return ImageView {
       id = "image"
       uri = `https://p.ssl.qhimg.com/t01512497e6e7151b1f.png`
-      //scaleType = stretch
+      layout.height = Layout.matchParent
     }
   }
 }
