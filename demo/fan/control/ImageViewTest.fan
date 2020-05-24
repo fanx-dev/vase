@@ -9,6 +9,7 @@ class ImageViewTest : BasePage
 {
   protected override Widget view() {
     VBox {
+      layout.height = Layout.matchParent
       ImageView {
         uri = Env.cur.runtime == "js" ? `img/image.png` : `fan://vaseDemo/res/image.png`
         scaleType = fitWidth

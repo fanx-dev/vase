@@ -58,7 +58,7 @@ class RoundButtonStyle : WidgetStyle
     
     if (btn.ripplePoint != null && btn.rippleSize > 0.0) {
         g.brush = rippleColor
-        r := (btn.rippleSize * (100+btn.width)).toInt
+        r := (btn.rippleSize * (100+btn.width.max(btn.height))).toInt
         alpha := (256 * (1-btn.rippleSize)).toInt
         if (alpha > 200) alpha = 200
         g.alpha = alpha
@@ -86,7 +86,7 @@ class FlatButtonStyle : LabelStyle
     Button btn := widget
     if (btn.ripplePoint != null && btn.rippleSize > 0.0) {
         g.brush = rippleColor
-        r := (btn.rippleSize * (100+btn.width)).toInt
+        r := (btn.rippleSize * (100+btn.width.max(btn.height))).toInt
         alpha := (256 * (1-btn.rippleSize)).toInt
         if (alpha > 200) alpha = 200
         g.alpha = alpha

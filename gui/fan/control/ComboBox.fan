@@ -46,7 +46,7 @@ class ComboBox : Button
         it.layout.vAlign = Align.begin
         it.layout.hAlign = Align.begin
         it.layout.width = it.pixelToDp(this.width)
-        it.layout.height = it.pixelToDp(300)
+        it.layout.height = 600
         it.items = this.items
         it.onAction |i| {
           selIndex = i
