@@ -6,14 +6,13 @@ class PaneStyle : WidgetStyle
 {
   Int arc := 5
   Bool fill := true
-  Bool stroke := true
+  Bool stroke := false
   
   Int shadow := 20
   Color shadowColor := Color.gray
   
   new make() {
     outlineColor = Color.gray
-    lineWidth = 0
   }
 
   override Void doPaint(Widget widget, Graphics g)
@@ -80,8 +79,8 @@ class RectViewStyle : WidgetStyle {
   {
     x := widget.paddingLeft
     y := widget.paddingTop
-    w := widget.width
-    h := widget.height
+    w := widget.contentWidth
+    h := widget.contentHeight
     g.brush = background
     g.fillRect(x, y, w, h)
   }

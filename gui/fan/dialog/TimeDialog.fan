@@ -63,7 +63,7 @@ class TimeDialog : VBox, Dialog
 
     //this.add(label)
     this.add(hb2)
-    this.add(RectView { it.layout.height = 3; it.margin = Insets(100, 0, 0, 0) })
+    this.add(RectView { it.layout.height = 3; it.margin = Insets(100, 6, 0, 6) })
     this.add(hb)
     this.layout.hAlign = Align.center
     this.layout.vAlign = Align.end
@@ -146,7 +146,7 @@ class DateDialog : VBox, Dialog
 
     //this.add(label)
     this.add(hb2)
-    this.add(RectView { it.layout.height = 3; it.margin = Insets(100, 0, 0, 0) })
+    this.add(RectView { it.layout.height = 3; it.margin = Insets(100, 6, 0, 6) })
     this.add(hb)
     this.layout.hAlign = Align.center
     this.layout.vAlign = Align.end

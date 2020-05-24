@@ -17,6 +17,7 @@ abstract class BasePage {
         frame = Frame {
             VBox() {
                 layout.height = Layout.matchParent
+                padding = Insets(8)
                 Button {
                   text = "<"
                   style = "flatButton"

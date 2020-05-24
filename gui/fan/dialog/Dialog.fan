@@ -11,7 +11,7 @@
 @Js
 mixin Dialog
 {
-  Void show(Widget parent)
+  virtual Void show(Widget parent)
   {
     root := parent.getRootView
     overlayer := root.topOverlayer

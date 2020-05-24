@@ -33,6 +33,12 @@ class DialogTest : BasePage
           DateDialog("OK", "Cancel").show(it)
         }
       },
+      Button {
+        text = "Prompt"
+        onClick {
+          PromptDialog("Input", "OK", "Cancel").show(it)
+        }
+      }
     }
   }
 }
