@@ -23,6 +23,8 @@ import fan.vaseGraphics.*;
 import fan.vaseMath.Transform2D;
 import fan.sys.ArgErr;
 import fan.sys.FanObj;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
 
 public class AndGraphics implements Graphics {
 
@@ -30,7 +32,7 @@ public class AndGraphics implements Graphics {
   Brush brush = Color.black;
   Font font;
   int alpha = 255;
-  Composite composite = Composite.copy;
+  Composite composite = Composite.srcOver;
 
   Stack<State> stack = new Stack<State>();
   Canvas gc;
@@ -361,6 +363,7 @@ public class AndGraphics implements Graphics {
     s.antialias = this.antialias();
     s.alpha = alpha;
     //s.transform = gc.getMatrix(mat);
+    s.composite = composite;
     s.clip = gc.getClipBounds();
     stack.push(s);
     gc.save();
@@ -374,6 +377,7 @@ public class AndGraphics implements Graphics {
     alpha(s.alpha);
     font(s.font);
     this.antialias(s.antialias);
+    this.composite(s.composite);
     //gc.setMatrix(s.transform);
     gc.clipRect(s.clip);
   }
@@ -390,6 +394,7 @@ public class AndGraphics implements Graphics {
     int alpha;
     Matrix transform;
     android.graphics.Rect clip;
+    fan.vaseGraphics.Composite composite;
   }
 
   @Override
@@ -399,7 +404,12 @@ public class AndGraphics implements Graphics {
 
   @Override
   public void composite(Composite cmp) {
-    // TODO Auto-generated method stub
+    PorterDuffXfermode mode = AndUtil.toAndComposite(cmp);
+    if (mode == null) {
+      p.setXfermode(null);
+      return;
+    }
+    p.setXfermode(mode);
     this.composite = cmp;
   }
 

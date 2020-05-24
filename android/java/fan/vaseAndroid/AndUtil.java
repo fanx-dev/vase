@@ -13,6 +13,8 @@ import android.graphics.Typeface;
 import fan.vaseGraphics.*;
 import fan.vaseMath.Transform2D;
 import fan.sys.List;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
 
 public class AndUtil {
 
@@ -123,4 +125,37 @@ public class AndUtil {
     return andPath;
   }
 
+  static PorterDuffXfermode toAndComposite(fan.vaseGraphics.Composite com) {
+    if (com == null) return null;
+    android.graphics.PorterDuff.Mode rule = android.graphics.PorterDuff.Mode.SRC;
+    if (com == fan.vaseGraphics.Composite.srcAtop) {
+      rule = android.graphics.PorterDuff.Mode.SRC_ATOP;
+    } else if (com == fan.vaseGraphics.Composite.srcIn) {
+      rule = android.graphics.PorterDuff.Mode.SRC_IN;
+    } else if (com == fan.vaseGraphics.Composite.srcOut) {
+      rule = android.graphics.PorterDuff.Mode.SRC_OUT;
+    } else if (com == fan.vaseGraphics.Composite.srcOver) {
+      rule = android.graphics.PorterDuff.Mode.SRC_OVER;
+    } else if (com == fan.vaseGraphics.Composite.dstAtop) {
+      rule = android.graphics.PorterDuff.Mode.DST_ATOP;
+    } else if (com == fan.vaseGraphics.Composite.dstIn) {
+      rule = android.graphics.PorterDuff.Mode.DST_IN;
+    } else if (com == fan.vaseGraphics.Composite.dstOut) {
+      rule = android.graphics.PorterDuff.Mode.DST_OUT;
+    } else if (com == fan.vaseGraphics.Composite.dstOver) {
+      rule = android.graphics.PorterDuff.Mode.DST_OVER;
+    } else if (com == fan.vaseGraphics.Composite.lighter) {
+      rule = android.graphics.PorterDuff.Mode.LIGHTEN;
+    } else if (com == fan.vaseGraphics.Composite.copy) {
+      rule = android.graphics.PorterDuff.Mode.SRC;
+    } else if (com == fan.vaseGraphics.Composite.xor) {
+      rule = android.graphics.PorterDuff.Mode.XOR;
+    } else if (com == fan.vaseGraphics.Composite.clear) {
+      rule = android.graphics.PorterDuff.Mode.CLEAR;
+    } else {
+      return null;
+    }
+
+    return new PorterDuffXfermode(rule);
+  }
 }

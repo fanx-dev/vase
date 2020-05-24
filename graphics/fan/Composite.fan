@@ -18,6 +18,7 @@ enum class Composite
   srcAtop,
   srcIn,
   srcOut,
+  srcOver,
   dstAtop,
   dstIn,
   dstOut,

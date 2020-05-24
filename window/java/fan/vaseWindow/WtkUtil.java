@@ -95,12 +95,17 @@ public class WtkUtil {
 
   static java.awt.AlphaComposite toAwtComposite(fan.vaseGraphics.Composite com, float alpha) {
     int rule = 0;
+    if (com == null) {
+      return null;
+    }
     if (com == fan.vaseGraphics.Composite.srcAtop) {
       rule = java.awt.AlphaComposite.SRC_ATOP;
     } else if (com == fan.vaseGraphics.Composite.srcIn) {
       rule = java.awt.AlphaComposite.SRC_IN;
     } else if (com == fan.vaseGraphics.Composite.srcOut) {
       rule = java.awt.AlphaComposite.SRC_OUT;
+    } else if (com == fan.vaseGraphics.Composite.srcOver) {
+      rule = java.awt.AlphaComposite.SRC_OVER;
     } else if (com == fan.vaseGraphics.Composite.dstAtop) {
       rule = java.awt.AlphaComposite.DST_ATOP;
     } else if (com == fan.vaseGraphics.Composite.dstIn) {
