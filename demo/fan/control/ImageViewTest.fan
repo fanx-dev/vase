@@ -11,7 +11,7 @@ class ImageViewTest : BasePage
     VBox {
       layout.height = Layout.matchParent
       ImageView {
-        uri = Env.cur.runtime == "js" ? `img/image.png` : `fan://vaseDemo/res/image.png`
+        uri = Env.cur.runtime == "js" ? `/pod/vaseDemo/res/image.png` : `fan://vaseDemo/res/image.png`
         scaleType = fitWidth
         mask = maskCircle
         layout.width = 200
@@ -20,7 +20,7 @@ class ImageViewTest : BasePage
       },
       Button {
         text = "Image Button"
-        uri := Env.cur.runtime == "js" ? `img/image.png` : `fan://vaseDemo/res/image.png`
+        uri := Env.cur.runtime == "js" ? `/pod/vaseDemo/res/image.png` : `fan://vaseDemo/res/image.png`
         setStyle(ImageButtonStyle { image = Image.fromUri(uri) })
         onClick { Toast("hello world").show(it) }
         layout.height = 200
@@ -28,7 +28,7 @@ class ImageViewTest : BasePage
         padding = Insets(50)
       },
       ImageView {
-        uri = Env.cur.runtime == "js" ? `img/image.png` : `fan://vaseDemo/res/image.png`
+        uri = Env.cur.runtime == "js" ? `/pod/vaseDemo/res/image.png` : `fan://vaseDemo/res/image.png`
         scaleType = fitWidth
         mask = maskCircle
         layout.height = Layout.matchParent

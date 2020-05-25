@@ -36,6 +36,7 @@ abstract class BasePage {
 **
 ** Main
 **
+@Js
 class Main
 {
   Frame? mainView
