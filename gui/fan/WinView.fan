@@ -53,8 +53,8 @@ internal class WinView : View
     }
   }
 
-  Void pushFrame(Frame frame) {
-    stack.push(curFrame)
+  Void showFrame(Frame frame, Bool push) {
+    if (push) stack.push(curFrame)
     oldFrame = curFrame
     curFrame = frame
     frameOut = false

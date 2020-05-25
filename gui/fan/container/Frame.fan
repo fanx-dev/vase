@@ -95,7 +95,7 @@ class Frame : ContentPane
   **
   ** Show View
   **
-  Void show()
+  Void show(Bool push := true)
   {
     win := Toolkit.cur.window(null)
     if (win == null) {
@@ -104,7 +104,7 @@ class Frame : ContentPane
     }
     else {
       view = win.view
-      view.pushFrame(this)
+      view.showFrame(this, push)
     }
   }
 

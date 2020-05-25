@@ -27,7 +27,7 @@ abstract class BasePage {
                 view,
             },
         }
-        frame.show
+        frame.show()
     }
     
     Void main() { run }
