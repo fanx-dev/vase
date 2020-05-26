@@ -92,6 +92,24 @@ public class ToolkitEnvPeer
       return WtkGfxEnv.instance;
     }
 
+    @Override
+    public boolean openUri(fan.std.Uri uri) { return openUri(uri, null); }
+    @Override
+    public boolean openUri(fan.std.Uri auri, fan.std.Map options) {
+      try {
+        java.awt.Desktop desktop = java.awt.Desktop.getDesktop();
+        if (desktop.isDesktopSupported()
+            && desktop.isSupported(java.awt.Desktop.Action.BROWSE)) {
+          java.net.URI uri = new java.net.URI(auri.toStr());
+          desktop.browse(uri);
+          return true;
+        }
+      } catch (Exception ex) {
+        System.out.println(ex);
+      }
+      return false;
+    }
+
     private static Clipboard m_clipboard;
 
     public Clipboard clipboard() {

@@ -71,6 +71,9 @@ abstract const class Toolkit
   ** Reference to the system clipboard for data transfer.
   **
   abstract Clipboard clipboard()
+
+
+  abstract Bool openUri(Uri uri, [Str:Str]? options := null)
 }
 
 **

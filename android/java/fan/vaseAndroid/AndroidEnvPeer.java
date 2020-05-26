@@ -135,6 +135,15 @@ public class AndroidEnvPeer {
       return density;
     }
 
+    @Override
+    public boolean openUri(fan.std.Uri uri) { return openUri(uri, null); }
+    @Override
+    public boolean openUri(fan.std.Uri u, fan.std.Map options) {
+      android.net.Uri uri = android.net.Uri.parse(u.toStr());
+      context.startActivity(new Intent(Intent.ACTION_VIEW,uri));
+      return true;
+    }
+
     private static Clipboard m_clipboard;
 
     public Clipboard clipboard() {

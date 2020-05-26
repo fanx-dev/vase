@@ -51,6 +51,12 @@ fan.vaseWindow.Toolkit.prototype.callLater = function(delay, callback)
   window.setTimeout(function(){ callback.call(); }, delay);
 }
 
+fan.vaseWindow.Toolkit.prototype.openUri = function(uri, options) {
+  window.open(uri.toStr());
+  //window.location.href=uri.toStr();
+  return true;
+}
+
 fan.vaseWindow.Toolkit.prototype.clipboard = function()
 {
   if (!fan.vaseWindow.Toolkit.m_clipboard) {
