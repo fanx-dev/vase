@@ -8,7 +8,7 @@
 
 @Js
 class ScrollAnimChannel : AnimChannel {
-  Float acceleration := -0.002f
+  Float acceleration := -0.0024f
   Float startV := 1f
 
   protected Bool backwards := false

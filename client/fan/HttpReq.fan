@@ -87,6 +87,16 @@ class HttpReq
   }
 
   **
+  ** Post by multipart protocol.
+  ** The form value is Str or File type.
+  **
+  Promise<HttpRes> postMultipart([Str:Obj] form)
+  {
+    //headers["Content-Type"] = "multipart/form-data"
+    return send("POST", form)
+  }
+
+  **
   ** Post the 'form' map as a HTML form submission.  Formats
   ** the map into a valid url-encoded content string, and sets
   ** 'Content-Type' header to 'application/x-www-form-urlencoded'.

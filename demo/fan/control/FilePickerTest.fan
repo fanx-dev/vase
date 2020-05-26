@@ -36,7 +36,7 @@ class FilePickerTest : BasePage
     Uri url := `http://localhost:8080/util/Upload/saveFile`
 
     multiPart := [ "file1" : files[0], "name" : "abc" ]
-    res := await HttpReq { uri = url; }.post(multiPart)
+    res := await HttpReq { uri = url; }.postMultipart(multiPart)
     echo("result: $res")
   }
 }
