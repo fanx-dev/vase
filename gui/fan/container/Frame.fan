@@ -146,7 +146,7 @@ class Frame : ContentPane
 
   override Void detach(Bool doRelayout := true)
   {
-    if (view.oldFrame == this) {
+    if (view?.oldFrame == this) {
       view.oldFrame = null
     }
     //view = null
@@ -164,13 +164,15 @@ class Frame : ContentPane
     renderCacheDirty = true
     //convert dirty coordinate system to realative to parent
     if (dirty != null) dirty = Rect(dirty.x + x, dirty.y + y, dirty.w, dirty.h)
-    view.host?.repaint(dirty)
+    view?.host?.repaint(dirty)
   }
 
   override Void relayout() {
     super.relayout
-    view.layoutDirty = 1
-    view.host?.repaint(null)
+    if (view != null) {
+      view.layoutDirty = 1
+      view.host?.repaint(null)
+    }
   }
 
   protected override Void doPaint(Graphics g) {

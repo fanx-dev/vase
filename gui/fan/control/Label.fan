@@ -23,7 +23,7 @@ class Label : Widget
     set {
       &text = it
       sizeCache = null
-      this.repaint
+      this.relayout
     }
   }
   protected Font font() {
@@ -32,6 +32,7 @@ class Label : Widget
 
   new make()
   {
+    padding = Insets(1)
   }
 
   protected override Size prefContentSize(Int hintsWidth := -1, Int hintsHeight := -1) {

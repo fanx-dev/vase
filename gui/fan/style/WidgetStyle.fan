@@ -58,7 +58,7 @@ class WidgetStyle : Style
 
   virtual Void doPaint(Widget widget, Graphics g) {}
 
-  protected Int dpToPixel(Int dp) {
+  Int dpToPixel(Int dp) {
     DisplayMetrics.dpToPixel(dp.toFloat)
   }
 
@@ -93,7 +93,7 @@ class WidgetStyle : Style
     }
     else if (align == Align.end) {
       w := font.width(text)
-      x = left + (widget.contentWidth) - (w/2f).toInt
+      x = left + (widget.contentWidth) - w.toInt
     }
 
     g.drawText(text, x, y)
