@@ -11,54 +11,43 @@ using concurrent
 using vaseWindow
 
 
-class AsyncRunner {
+const class UiAsyncRunner : AsyncRunner {
+  private static const UiAsyncRunner cur := UiAsyncRunner()
 
   static Void init() {
-    echo("AsyncRunner init")
-    Actor.locals["async.runner"] = |Async<Obj> s| { run(s) }
+    //echo("AsyncRunner init")
+    Actor.locals["async.runner"] = cur
   }
 
-  private static Void run(Async<Obj> s) {
-    if (s.next) {
-      awaitObj := s.awaitObj
-      echo("pause :" + awaitObj)
+  protected override Bool awaitOther(Async s, Obj? awaitObj) {
+    if (awaitObj isnot Future) {
+      return false
+    }
+    Future future := awaitObj
 
-      if (awaitObj is Promise) {
-        Promise promise = awaitObj
-        promise.then |res, err| {
-          s.awaitObj = res
-          s.err = err
-          Toolkit.cur.callLater(0) {
-            s.run
-          }
+    |->|? checkFuture := null
+    checkFuture = |->|{
+      if (future.state.isComplete) {
+        try {
+          s.awaitRes = future.get
         }
-      }
-      else if (awaitObj is Future) {
-        Future future := awaitObj
-
-        |->|? checkFuture := null
-        checkFuture = |->|{
-          if (future.state.isComplete) {
-            Obj? res := null
-            try {
-              res = future.get
-            }
-            catch (Err e) {
-              res = e
-            }
-          }
-          else {
-            Toolkit.cur.callLater(100, checkFuture)
-          }
+        catch (Err e) {
+          s.err = e
         }
-        Toolkit.cur.callLater(100, checkFuture)
+        run(s)
       }
       else {
-        Toolkit.cur.callLater(0) {
-          s.run
-        }
+        Toolkit.cur.callLater(200, checkFuture)
       }
     }
-    echo("end: $s")
+    Toolkit.cur.callLater(200, checkFuture)
+    return true
+  }
+
+  ** run in custem thread
+  override Void run(Async s) {
+    Toolkit.cur.callLater(0) {
+      s.step
+    }
   }
 }

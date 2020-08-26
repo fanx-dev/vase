@@ -37,7 +37,7 @@ abstract const class Toolkit
   internal static Void tryInitAsyncRunner() {
     client := Pod.find("vaseClient", false)
     if (client != null) {
-      client.type("AsyncRunner").method("init").call()
+      client.type("UiAsyncRunner").method("init").call()
     }
   }
 
