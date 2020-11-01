@@ -2,7 +2,7 @@ using vaseGui
 using vaseClient
 
 @Js
-class ImageViewTest : BaseTestWin
+class ImageViewTest : GuiTest
 {
   protected override Widget build() {
     ImageLoader.init

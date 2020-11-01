@@ -88,21 +88,17 @@ const class Insets
     this.left = left
   }
 
-  ** Parse from string (see `toStr`).  If invalid and checked
-  ** is true then throw ParseErr otherwise return null.  Supported
-  ** formats are:
-  **   - "len"
-  **   - "top,right,bottom,left"
+  ** Parse from comma or space separated string using CSS format:
+  **   - "top"
+  **   - "top, right" (implies bottom = top, left = right)
+  **   - "top, right, bottom" (implies left = right)
+  **   - "top, right, bottom, left"
   static Insets? fromStr(Str s, Bool checked := true)
   {
     try
     {
-      c1 := s.index(",")
-      if (c1 == null) { len := s.toInt; return make(len, len, len, len) }
-      c2 := s.index(",", c1+1)
-      c3 := s.index(",", c2+1)
-      return make(s[0..<c1].trim.toInt, s[c1+1..<c2].trim.toInt,
-                  s[c2+1..<c3].trim.toInt, s[c3+1..-1].trim.toInt)
+      cs := s.split(',').map { it.trim.toInt }
+      return make(cs[0], cs.getSafe(1), cs.getSafe(2), cs.getSafe(3))
     }
     catch {}
     if (checked) throw ParseErr("Invalid Insets: $s")
