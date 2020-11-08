@@ -1,0 +1,20 @@
+using vaseGui
+
+VBox
+{
+  style = "paneBack"
+  padding = Insets("50")
+  layout = Layout { height = Layout.matchParent }
+  spacing = 15
+
+  Label { text = "Hello"; style = "title" },
+
+  Button {
+    text = "Push Button";
+  },
+
+  ToggleButton { text = "switch" },
+  ToggleButton { text = "checkBox"; style = "checkBox" },
+  RadioButton { text = "radio1" },
+  RadioButton { text = "radio2" },
+}

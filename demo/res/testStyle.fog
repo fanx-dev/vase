@@ -1,0 +1,17 @@
+
+using vaseGui
+using vaseGraphics
+
+[
+    "title" : LabelStyle {
+        fontInfo = FontInfo {
+            size = 60
+            bold = true
+        }
+    },
+
+    "paneBack" : PaneStyle {
+        shadow = 0; arc = 30; fill = true
+        background = Color("#c9a9b9")
+    }
+]

@@ -18,15 +18,6 @@ virtual class GuiTest
   virtual Void main()
   {
     root = Frame()
-
-    if (Env.cur.args.size > 1) {
-      file := Env.cur.args[1].toUri.toFile
-      if (file.ext == "fog") {
-        [Str:Obj] style := file.readAllStr.in.readObj
-        root.styleManager.styleClassMap.setAll(style)
-      }
-    }
-
     view := build
     root.content = view
     init(root)
@@ -38,12 +29,6 @@ virtual class GuiTest
   }
 
   protected virtual Widget build() {
-    if (Env.cur.args.size > 0) {
-      file := Env.cur.args[0].toUri.toFile
-      if (file.ext == "fog") {
-        return file.readAllStr.in.readObj
-      }
-    }
     return Label{ text = "Hello "}
   }
 
