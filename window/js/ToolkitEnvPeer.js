@@ -64,3 +64,13 @@ fan.vaseWindow.Toolkit.prototype.clipboard = function()
   } 
   return fan.vaseWindow.Toolkit.m_clipboard;
 }
+
+fan.vaseWindow.Toolkit.prototype.loadResFile = function(pod, uri) {
+  var url = "/pod/"+pod+uri.toStr();
+  var xmlhttp = new XMLHttpRequest();
+  xmlhttp.open("GET", url, false);
+  xmlhttp.send();
+  var res = xmlhttp.responseText;
+  return res
+}
+

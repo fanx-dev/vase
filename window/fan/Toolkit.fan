@@ -74,6 +74,12 @@ abstract const class Toolkit
 
 
   abstract Bool openUri(Uri uri, [Str:Str]? options := null)
+
+
+  ** Look up a resource file in pod
+  virtual Obj loadResFile(Str pod, Uri uri) {
+    return Pod.find(pod).file(uri).readAllStr
+  }
 }
 
 **
