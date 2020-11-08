@@ -8,7 +8,7 @@ class PaneStyle : WidgetStyle
   Bool fill := true
   Bool stroke := false
   
-  Int shadow := 20
+  Int shadow := 0
   Color shadowColor := Color.gray
   
   new make() {
@@ -17,7 +17,7 @@ class PaneStyle : WidgetStyle
 
   override Void doPaint(Widget widget, Graphics g)
   {
-    l := dpToPixel(5.max(shadow))
+    l := dpToPixel(shadow)
     x := l
     y := l
     w := widget.width - l - l

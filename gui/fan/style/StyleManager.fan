@@ -46,7 +46,7 @@ class StyleManager
         //"buttonBase" : ButtonBaseStyle(),
         "menuItem" : MenuItemStyle(),
         "tableHeader" : TableHeaderStyle(),
-        "shadow" : PaneStyle(),
+        "shadow" : PaneStyle { shadow = 20 },
         "flatButton" : FlatButtonStyle(),
         "progressBar" : ProgressBarStyle(),
         "dialog" : PaneStyle { shadow = 0; arc = 30; stroke = true },

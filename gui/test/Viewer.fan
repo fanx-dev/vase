@@ -39,6 +39,7 @@ virtual class Viewer
   private Void reload() {
     if (styleFile != null) {
       [Str:Obj] style := styleFile.readAllStr.in.readObj
+      root.styleManager = StyleManager()
       root.styleManager.styleClassMap.setAll(style)
     }
 
