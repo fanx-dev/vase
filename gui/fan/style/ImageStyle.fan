@@ -15,6 +15,7 @@ class ImageStyle : WidgetStyle
   override Void doPaint(Widget widget, Graphics g)
   {
     ImageView img := widget
+    if (img.image == null) return
     if (!img.image.isReady) {
        return
     }

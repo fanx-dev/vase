@@ -61,10 +61,8 @@ class EditText : Widget, TextInput
   @Transient
   override TextInputPeer? host
 
-  new make(|This| f)
+  new make()
   {
-    f(this)
-
     //this.layout.width = font.height * 10
     onFocusChanged.add |e| {
       focused := e.data

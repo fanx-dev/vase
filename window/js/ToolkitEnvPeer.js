@@ -65,12 +65,18 @@ fan.vaseWindow.Toolkit.prototype.clipboard = function()
   return fan.vaseWindow.Toolkit.m_clipboard;
 }
 
+fan.vaseWindow.Toolkit.resFileCache = {}
 fan.vaseWindow.Toolkit.prototype.loadResFile = function(pod, uri) {
   var url = "/pod/"+pod+uri.toStr();
+
+  var res = fan.vaseWindow.Toolkit.resFileCache[url]
+  if (res) return res;
+
   var xmlhttp = new XMLHttpRequest();
   xmlhttp.open("GET", url, false);
   xmlhttp.send();
   var res = xmlhttp.responseText;
+  fan.vaseWindow.Toolkit.resFileCache[url] = res;
   return res
 }
 

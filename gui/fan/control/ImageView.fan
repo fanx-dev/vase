@@ -32,13 +32,14 @@ class ImageView : Widget
   static const Int maskCircle := 1
   Int mask := 0
 
-  Uri? uri
+  Uri? uri { set { &uri = it; loadImage } }
   
   // Int imagePrefWidth := 240
   // Int imagePrefHeight := 240
 
   Bool isInited := false
   protected Void init() {
+    if (image == null) return
     if (!image.isReady) return
     if (isInited) return
     isInited = true
@@ -96,11 +97,9 @@ class ImageView : Widget
     p.y = (p.y / imgScaleY) - imgOffsetY
   }
 
-  new make(|This|? f := null)
-  {
-    //layout.width = Layout.wrapContent
-    if (f != null) f(this)
+  new make() {}
 
+  private Void loadImage() {
     if (image == null && uri != null) {
       s := Unsafe<ImageView>(this)
       image = Image.fromUri(uri) {
