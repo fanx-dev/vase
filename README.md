@@ -25,7 +25,7 @@ A cross-platform framework for creating GUI app.
 ### Android
   1. copy android jar:
   ```
-  cp android.jar env/lib/java/ext/
+  cp AndroidSDK/platforms/android-23/android.jar env/lib/java/ext/
   ```
   2. build demo:
   ```
@@ -34,6 +34,8 @@ A cross-platform framework for creating GUI app.
   ```
 
 ### iOS
+  1. install (Cordava)[https://cordova.apache.org/]
+  2. run demo
   ```
   cd demo
   sh build_cordova.sh
@@ -43,10 +45,10 @@ A cross-platform framework for creating GUI app.
 
 ### Browser
   ```
-  cd test
+  cd demo
   sh runJs.sh
   ```
-  Service started on http://localhost:8080/
+  Service started on http://localhost:8080/Main
 
 ### Setting LWJGL (OpenGL support)
 1. copy all .jar to fanHome/lib/java/ext/

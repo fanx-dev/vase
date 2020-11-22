@@ -3,7 +3,7 @@ set -e
 fanb pod.props
 
 # to jar
-fan build::JarDistMain vaseDemo vaseDemo::Main.main
+fan build::Jar vaseDemo vaseDemo::Main.main
 cp vaseDemo.jar android/app/libs/
 
 # run android
