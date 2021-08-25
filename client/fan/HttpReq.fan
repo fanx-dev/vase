@@ -14,6 +14,7 @@ using concurrent
 **
 ** See [pod doc]`pod-doc#xhr` for details.
 **
+@Js
 class HttpReq
 {
   ** Create a new HttpReq instance.

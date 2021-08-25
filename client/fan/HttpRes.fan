@@ -12,6 +12,7 @@
 **
 ** See [pod doc]`pod-doc#xhr` for details.
 **
+@Js
 class HttpRes
 {
   ** Private ctor.
