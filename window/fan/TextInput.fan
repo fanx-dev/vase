@@ -58,3 +58,17 @@ mixin TextInputPeer
   abstract Void select(Int start, Int end)
   abstract Int caretPos()
 }
+
+
+internal class NEditText : TextInputPeer {
+  native override Void close()
+
+  native override Void setPos(Int x, Int y, Int w, Int h)
+  native override Void setStyle(Font font, Color textColor, Color backgroundColor)
+  native override Void setText(Str text)
+  native override Void setType(Int multiLine, Bool editable)
+  native override Void focus()
+
+  native override Void select(Int start, Int end)
+  native override Int caretPos()
+}

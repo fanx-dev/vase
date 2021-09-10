@@ -12,8 +12,7 @@ using concurrent
 **
 ** Window Toolkit
 **
-@Js
-@NoPeer
+@Js @NoPeer
 abstract const class Toolkit
 {
   **
@@ -94,21 +93,19 @@ class ToolkitEnv
   native static Void init()
 }
 
-**
-** Clipboard provides access to the system clipboard for data transfer.
-** Access is via `Desktop.clipboard`.
-**
-@Js
-abstract class Clipboard
+internal const class NToolkit : Toolkit
 {
-  **
-  ** Get the current clipboard contents as plain text or null
-  ** if clipboard doesn't contain text data.
-  **
-  abstract Str? getText(|Str?| callback)
+  override GfxEnv gfxEnv() { NGfxEnv.cur }
 
-  **
-  ** Set the clipboard contents to given plain text data.
-  **
-  abstract Void setText(Str data)
+  native override Window? window(View? view := null)
+
+  native override Void callLater(Int delay, |->| f)
+
+  native override Int dpi()
+
+  override Str name() { "native" }
+
+  override once Clipboard clipboard() { NClipboard() }
+
+  native override Bool openUri(Uri uri, [Str:Str]? options := null)
 }

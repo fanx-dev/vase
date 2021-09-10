@@ -18,7 +18,7 @@ const abstract class Font
 // Construction
 //////////////////////////////////////////////////////////////////////////
 
-  private new privateMake(|This| f) { f(this) }
+  protected new privateMake(|This| f) { f(this) }
 
   **
   ** Construct a Font with family name, size in points, and optional

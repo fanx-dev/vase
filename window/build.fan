@@ -16,7 +16,7 @@ class Build : BuildPod
     podName  = "vaseWindow"
     summary  = "Window toolkit"
     depends  = ["sys 2.0", "std 1.0", "vaseGraphics 1.0", "concurrent 1.0", "vaseMath 1.0"]
-    srcDirs  = [`fan/`, `fan/event/`]
+    srcDirs  = [`fan/`, `fan/event/`, `fan/graphics/`]
     javaDirs = [`java/`]
     jsDirs   = [`js/`]
     //docSrc   = true

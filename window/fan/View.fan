@@ -41,43 +41,4 @@ mixin View
   virtual Size getPrefSize(Int hintsWidth, Int hintsHeight)  { Size(hintsWidth, hintsHeight) }
 }
 
-**
-** native host view
-**
-@Js
-mixin Window
-{
-  abstract View view()
-  
-  **
-  ** request repaint
-  **
-  abstract Void repaint(Rect? dirty := null)
-
-  **
-  ** get current position
-  **
-  abstract Point pos()
-
-  ** get window size
-  abstract Size size()
-
-  **
-  ** return true if has focus
-  **
-  abstract Bool hasFocus()
-
-  **
-  ** request focus
-  **
-  abstract Void focus()
-
-  **
-  ** show text edit view
-  **
-  abstract Void textInput(TextInput edit)
-
-
-  abstract Void fileDialog(Str accept, |Obj[]?| f, [Str:Obj]? options := null)
-}
 

@@ -1,113 +1,107 @@
 //
-// Copyright (c) 2008, Brian Frank and Andy Frank
+// Copyright (c) 2011, chunquedong
 // Licensed under the Academic Free License version 3.0
 //
 // History:
-//   25 Jun 08  Brian Frank  Creation
-//   2012-07-02 Jed Young Modify
+//   2021-9-9  Jed Young  Creation
 //
-
 using vaseMath
+using vaseGraphics
 
-**
-** Graphics is used to draw 2D graphics.  Targets might include
-** display devices, printers, SVG/Canvas, or PDF.
-**
-** See [Fwt]`fwt::pod-doc#painting` for details.
-**
-@Js
-mixin Graphics
+internal class NGraphics : Graphics
 {
+  private Int handle
+  private GraphicsState[] stack = [,]
 
   **
   ** Current brush defines how text and shapes are filled.
   **
-  abstract Brush brush
+  override Brush brush = Color.black
 
   **
   ** Current pen defines how the shapes are stroked.
   **
-  abstract Pen pen
+  override Pen pen = Pen.defVal
 
   **
   ** Current font used for drawing text.
   **
-  abstract Font? font
+  override Font? font
 
   **
   ** Used to toggle anti-aliasing on and off.
   **
-  abstract Bool antialias
+  override Bool antialias = false
 
   **
   ** Current alpha value used to render text, images, and shapes.
   ** The value must be between 0 (transparent) and 255 (opaue).
   **
-  abstract Int alpha
+  override Int alpha = 255
 
   **
   ** current composition operation
   **
-  abstract Composite composite
+  override Composite composite = Composite.srcOver
 
   **
   ** Draw a line with the current pen and brush.
   **
-  abstract This drawLine(Int x1, Int y1, Int x2, Int y2)
+  native override This drawLine(Int x1, Int y1, Int x2, Int y2)
 
   **
   ** Draw a polyline with the current pen and brush.
   **
-  abstract This drawPolyline(PointArray ps)
+  native override This drawPolyline(PointArray ps)
 
   **
   ** Draw a polygon with the current pen and brush.
   **
-  abstract This drawPolygon(PointArray ps)
+  native override This drawPolygon(PointArray ps)
 
   **
   ** Fill a polygon with the current brush.
   **
-  abstract This fillPolygon(PointArray ps)
+  native override This fillPolygon(PointArray ps)
 
   **
   ** Draw a rectangle with the current pen and brush.
   **
-  abstract This drawRect(Int x, Int y, Int w, Int h)
+  native override This drawRect(Int x, Int y, Int w, Int h)
 
   **
   ** Fill a rectangle with the current brush.
   **
-  abstract This fillRect(Int x, Int y, Int w, Int h)
+  native override This fillRect(Int x, Int y, Int w, Int h)
 
   **
   ** clear a rectangle with the current brush.
   **
-  abstract This clearRect(Int x, Int y, Int w, Int h)
+  native override This clearRect(Int x, Int y, Int w, Int h)
 
   **
   ** Draw a rectangle with rounded corners with the current pen and brush.
   ** The ellipse of the corners is specified by wArc and hArc.
   **
-  abstract This drawRoundRect(Int x, Int y, Int w, Int h, Int wArc, Int hArc)
+  native override This drawRoundRect(Int x, Int y, Int w, Int h, Int wArc, Int hArc)
 
   **
   ** Fill a rectangle with rounded corners with the current brush.
   ** The ellipse of the corners is specified by wArc and hArc.
   **
-  abstract This fillRoundRect(Int x, Int y, Int w, Int h, Int wArc, Int hArc)
+  native override This fillRoundRect(Int x, Int y, Int w, Int h, Int wArc, Int hArc)
 
   **
   ** Draw an oval with the current pen and brush.  The
   ** oval is fit within the rectangle specified by x, y, w, h.
   **
-  abstract This drawOval(Int x, Int y, Int w, Int h)
+  native override This drawOval(Int x, Int y, Int w, Int h)
 
   **
   ** Fill an oval with the current brush.  The oval is
   ** fit within the rectangle specified by x, y, w, h.
   **
-  abstract This fillOval(Int x, Int y, Int w, Int h)
+  native override This fillOval(Int x, Int y, Int w, Int h)
 
   **
   ** Draw an arc with the current pen and brush.  The angles
@@ -115,7 +109,7 @@ mixin Graphics
   ** a counter-clockwise arcAngle.  The origin of the arc is
   ** centered within x, y, w, h.
   **
-  abstract This drawArc(Int x, Int y, Int w, Int h, Int startAngle, Int arcAngle)
+  native override This drawArc(Int x, Int y, Int w, Int h, Int startAngle, Int arcAngle)
 
   **
   ** Fill an arc with the current brush.  The angles are
@@ -123,82 +117,126 @@ mixin Graphics
   ** a counter-clockwise arcAngle.  The origin of the arc is
   ** centered within x, y, w, h.
   **
-  abstract This fillArc(Int x, Int y, Int w, Int h, Int startAngle, Int arcAngle)
+  native override This fillArc(Int x, Int y, Int w, Int h, Int startAngle, Int arcAngle)
 
   **
   ** Draw a the text string with the current brush and font.
   ** The x, y coordinate specifies the top left corner of
   ** the rectangular area where the text is to be drawn.
   **
-  abstract This drawText(Str s, Int x, Int y)
+  native override This drawText(Str s, Int x, Int y)
 
   **
   ** Draw a the image string with its top left corner at x,y.
   **
-  abstract This drawImage(Image image, Int x, Int y)
+  native override This drawImage(Image image, Int x, Int y)
 
   **
   ** Copy a rectangular region of the image to the graphics
   ** device.  If the source and destination don't have the
   ** same size, then the copy is resized.
   **
-  abstract This copyImage(Image image, Rect src, Rect dest)
+  native override This copyImage(Image image, Rect src, Rect dest)
 
   **
   ** Set the clipping area to the intersection of the
   ** current clipping region and the specified rectangle.
   ** Also see `clipBounds`.
   **
-  abstract This clip(Rect r)
+  override This clip(Rect r) {
+    this.clipRect = this.clipRect.intersection(r);
+    doClip(r)
+    return this
+  }
+  private native Void doClip(Rect r)
 
   **
   ** Get the bounding rectangle of the current clipping area.
   ** Also see `clip`.
   **
-  abstract Rect clipBounds()
+  override Rect clipBounds() { clipRect }
+  private Rect? clipRect
 
   **
   ** Push the current graphics state onto an internal
   ** stack.  Reset the state back to its current state
   ** via `pop`.
   **
-  abstract Void push()
+  override Void push() {
+    state := GraphicsState {
+      it.pen = this.pen
+      it.brush = this.brush
+      it.font = this.font
+      it.antialias = this.antialias
+      it.alpha = this.alpha
+      //it.transform = this.transform
+      it.clip = this.clipRect
+      it.composite = this.composite
+    }
+    stack.push(state)
+    pushNative
+  }
+  private native Void pushNative()
 
   **
   ** Pop the graphics stack and reset the state to the
   ** the last push.
   **
-  abstract Void pop()
+  override Void pop() {
+    popNative
+    state := stack.pop
+    this.pen = state.pen
+    this.brush = state.brush
+    this.font = state.font
+    this.antialias = state.antialias
+    this.alpha = state.alpha
+    //this.transform = state.transform
+    this.clipRect = state.clip
+    this.composite = state.composite
+  }
+  private native Void popNative()
 
   **
   ** Free any operating system resources used by this instance.
   **
-  abstract Void dispose()
+  native override Void dispose()
 
   **
   ** Draws the path described by the parameter.
   **
-  abstract This drawPath(GraphicsPath path)
+  native override This drawPath(GraphicsPath path)
 
   **
   ** Fills the path described by the parameter.
   **
-  abstract This fillPath(GraphicsPath path)
+  native override This fillPath(GraphicsPath path)
 
   **
   ** the transform that is currently being used
   **
-  abstract This transform(Transform2D mat)
+  native override This transform(Transform2D mat)
 
   **
   ** create a new clipping region by calculating the intersection of
   ** the current clipping region and the area described by the current path
   **
-  abstract This clipPath(GraphicsPath path)
+  native override This clipPath(GraphicsPath path)
 
   **
   ** All drawing operations are affected by the four global shadow attributes
   **
-  abstract This setShadow(Shadow? shadow)
+  native override This setShadow(Shadow? shadow)
 
+}
+
+internal class GraphicsState {
+  Pen pen
+  Brush brush
+  Font? font
+  Bool antialias
+  Int alpha
+  Transform2D transform
+  Rect clip
+  Composite composite
+  new make(|This| f) { f(this) }
 }
