@@ -17,19 +17,9 @@ abstract const class Toolkit
 {
   **
   ** get current instance
-  ** throw Err when not install in current thread
   **
-  static Toolkit cur()
-  {
-    Toolkit? env := instance
-    if (env != null) return env
+  native static Toolkit cur()
 
-    ToolkitEnv.init
-    return instance
-  }
-
-  @NoDoc
-  protected native static Toolkit instance()
   @NoDoc
   abstract GfxEnv gfxEnv()
 
@@ -81,17 +71,6 @@ abstract const class Toolkit
   }
 }
 
-**
-** Default Toolkit maker
-**
-@Js @NoDoc
-class ToolkitEnv
-{
-  **
-  ** install Toolkit for current thread
-  **
-  native static Void init()
-}
 
 internal const class NToolkit : Toolkit
 {

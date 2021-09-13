@@ -50,10 +50,21 @@ mixin Window
 }
 
 internal class NWindow : Window {
-  native override View view()
+  private View? _view
+  new make(View view) { _view = view }
+
+  override View view() { _view }
   native override Void repaint(Rect? dirty := null)
-  native override Point pos()
-  native override Size size()
+
+  native Void show(Size? size)
+
+  override Point pos() { Point(x, y) }
+  override Size size() { Size(w, h) }
+  native Int x()
+  native Int y()
+  native Int w()
+  native Int h()
+  
   native override Bool hasFocus()
   native override Void focus()
   native override Void textInput(TextInput edit)

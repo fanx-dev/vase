@@ -75,7 +75,7 @@ public class WtkWindow implements Window {
           canvas.setSize(shell.getWidth(), shell.getHeight());
       }});
 
-    ToolkitEnvPeer.initMainThread();
+    ToolkitPeer.initMainThread();
 
     frame.setVisible(true);
 

@@ -27,6 +27,11 @@ abstract class Clipboard
 }
 
 internal class NClipboard : Clipboard {
-	native override Str? getText(|Str?| callback)
+  native Str? getTextSync()
+	override Str? getText(|Str?| callback) {
+    t := getTextSync
+    callback.call(t)
+    return t
+  }
 	native override Void setText(Str data)
 }
