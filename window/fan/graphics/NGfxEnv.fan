@@ -12,6 +12,7 @@ using vaseGraphics
 
 const class NGfxEnv : GfxEnv
 {
+  private const Int handle
   static const NGfxEnv cur := NGfxEnv()
 
 //////////////////////////////////////////////////////////////////////////
@@ -78,4 +79,5 @@ const class NGfxEnv : GfxEnv
     NPointArray.alloc(size)
   }
 
+  protected native override Void finalize()
 }

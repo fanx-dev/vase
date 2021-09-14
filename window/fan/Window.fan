@@ -50,6 +50,7 @@ mixin Window
 }
 
 internal class NWindow : Window {
+  private Int handle
   private View? _view
   new make(View view) { _view = view }
 
@@ -69,4 +70,6 @@ internal class NWindow : Window {
   native override Void focus()
   native override Void textInput(TextInput edit)
   native override Void fileDialog(Str accept, |Obj[]?| f, [Str:Obj]? options := null)
+
+  protected native override Void finalize()
 }

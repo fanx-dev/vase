@@ -14,6 +14,7 @@ using vaseGraphics
 @Js
 rtconst class NImage : Image
 {
+  private Int handle
   private Array<Int8>? data
   Int width { private set }
   Int height { private set }
@@ -85,4 +86,6 @@ rtconst class NImage : Image
     other.width = w
     other.height = h
   }
+
+  protected override Void finalize() { dispose }
 }

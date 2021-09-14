@@ -227,6 +227,7 @@ internal class NGraphics : Graphics
   **
   native override This setShadow(Shadow? shadow)
 
+  protected override Void finalize() { dispose }
 }
 
 internal class GraphicsState {

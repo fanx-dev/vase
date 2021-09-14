@@ -20,6 +20,11 @@ abstract const class Toolkit
   **
   native static Toolkit cur()
 
+  //call by native
+  private Void onInit() {
+    Actor.locals["vaseGraphics.env"] = gfxEnv;
+  }
+
   @NoDoc
   abstract GfxEnv gfxEnv()
 

@@ -51,4 +51,6 @@ const class NFont : Font {
   ** with this font.
   **
   native override Int width(Str s)
+
+  protected override Void finalize() { dispose }
 }
