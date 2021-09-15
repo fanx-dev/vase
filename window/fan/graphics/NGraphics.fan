@@ -16,33 +16,66 @@ internal class NGraphics : Graphics
   **
   ** Current brush defines how text and shapes are filled.
   **
-  override Brush brush = Color.black
+  override Brush brush = Color.black {
+    set {
+      &brush = it
+      if (it is Color) {
+        c := (Color)it
+        setColor(c.a, c.r, c.g, c.b)
+      }
+      else if (it is Pattern) {
+        setPattern((Pattern)it)
+      }
+      else if (it is Gradient) {
+        setGradient((Gradient)it)
+      }
+      else {
+        throw UnsupportedErr("it.typeof")
+      }
+    }
+  }
+  private native Void setColor(Int a, Int r, Int g, Int b)
+  private native Void setPattern(Pattern pattern)
+  private native Void setGradient(Gradient gradient)
 
   **
   ** Current pen defines how the shapes are stroked.
   **
-  override Pen pen = Pen.defVal
+  override Pen pen = Pen.defVal {
+    set {
+      &pen = it
+      setPen(it.width, it.cap, it.join, it.dash)
+    }
+  }
+  private native Void setPen(Int width, Int cap, Int join, Int[]? dash)
 
   **
   ** Current font used for drawing text.
   **
-  override Font? font
+  override Font? font { set {
+    &font = it
+    setFont(it, ((NFont)it).handle, it.name, it.size, 0) 
+  } }
+  private native Void setFont(Font font, Int id, Str name, Int size, Int blur)
 
   **
   ** Used to toggle anti-aliasing on and off.
   **
-  override Bool antialias = false
+  override Bool antialias = false { set { &antialias = it; setAntialias(it) } }
+  private native Void setAntialias(Bool antialias)
 
   **
   ** Current alpha value used to render text, images, and shapes.
   ** The value must be between 0 (transparent) and 255 (opaue).
   **
-  override Int alpha = 255
+  override Int alpha = 255 { set { &alpha = it; setAlpha(it) } }
+  private native Void setAlpha(Int alpha)
 
   **
   ** current composition operation
   **
-  override Composite composite = Composite.srcOver
+  override Composite composite = Composite.srcOver { set { &composite = it; setComposite(it.ordinal) } }
+  private native Void setComposite(Int composite)
 
   **
   ** Draw a line with the current pen and brush.
@@ -144,18 +177,19 @@ internal class NGraphics : Graphics
   ** Also see `clipBounds`.
   **
   override This clip(Rect r) {
-    this.clipRect = this.clipRect.intersection(r);
-    doClip(r)
+    if (clipBound == null) clipBound = r
+    else this.clipBound = this.clipBound.intersection(r);
+    doClip(r.x, r.y, r.w, r.h)
     return this
   }
-  private native Void doClip(Rect r)
+  private native Void doClip(Int x, Int y, Int w, Int h)
 
   **
   ** Get the bounding rectangle of the current clipping area.
   ** Also see `clip`.
   **
-  override Rect clipBounds() { clipRect }
-  private Rect? clipRect
+  override Rect clipBounds() { clipBound }
+  private Rect? clipBound
 
   **
   ** Push the current graphics state onto an internal
@@ -170,7 +204,7 @@ internal class NGraphics : Graphics
       it.antialias = this.antialias
       it.alpha = this.alpha
       //it.transform = this.transform
-      it.clip = this.clipRect
+      it.clip = this.clipBound
       it.composite = this.composite
     }
     stack.push(state)
@@ -191,7 +225,7 @@ internal class NGraphics : Graphics
     this.antialias = state.antialias
     this.alpha = state.alpha
     //this.transform = state.transform
-    this.clipRect = state.clip
+    this.clipBound = state.clip
     this.composite = state.composite
   }
   private native Void popNative()
@@ -214,7 +248,18 @@ internal class NGraphics : Graphics
   **
   ** the transform that is currently being used
   **
-  native override This transform(Transform2D mat)
+  override This transform(Transform2D trans) {
+    doTransform(
+       trans.get(0,0),
+       trans.get(0,1),
+       trans.get(1,0),
+       trans.get(1,1),
+       trans.get(2,0),
+       trans.get(2,1)
+     )
+    return this
+  }
+  private native Void doTransform(Float a, Float b, Float c, Float d, Float e, Float f)
 
   **
   ** create a new clipping region by calculating the intersection of

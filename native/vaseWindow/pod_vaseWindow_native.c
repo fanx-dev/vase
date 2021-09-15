@@ -412,6 +412,17 @@ void vaseWindow_NWindow_fileDialog_v(fr_Env env, void *param, void *ret) {
     vaseWindow_NWindow_fileDialog(env, arg_0, arg_1, arg_2, arg_3);
 }
 
+void vaseWindow_NWindow_finalize_v(fr_Env env, void *param, void *ret) {
+    fr_Value value_0;
+    fr_Obj arg_0; 
+
+    fr_getParam(env, param, &value_0, 0, NULL);
+    arg_0 = value_0.h;
+
+
+    vaseWindow_NWindow_finalize(env, arg_0);
+}
+
 void vaseWindow_NFont_dispose_v(fr_Env env, void *param, void *ret) {
     fr_Value value_0;
     fr_Obj arg_0; 
@@ -553,6 +564,195 @@ void vaseWindow_NGfxEnv_contains_v(fr_Env env, void *param, void *ret) {
 
     retValue.b = vaseWindow_NGfxEnv_contains(env, arg_0, arg_1, arg_2, arg_3);
     *((fr_Value*)ret) = retValue;
+}
+
+void vaseWindow_NGfxEnv_finalize_v(fr_Env env, void *param, void *ret) {
+    fr_Value value_0;
+    fr_Obj arg_0; 
+
+    fr_getParam(env, param, &value_0, 0, NULL);
+    arg_0 = value_0.h;
+
+
+    vaseWindow_NGfxEnv_finalize(env, arg_0);
+}
+
+void vaseWindow_NGraphics_setColor_v(fr_Env env, void *param, void *ret) {
+    fr_Value value_0;
+    fr_Obj arg_0; 
+    fr_Value value_1;
+    fr_Int arg_1; 
+    fr_Value value_2;
+    fr_Int arg_2; 
+    fr_Value value_3;
+    fr_Int arg_3; 
+    fr_Value value_4;
+    fr_Int arg_4; 
+
+    fr_getParam(env, param, &value_4, 4, NULL);
+    arg_4 = value_4.i;
+
+    fr_getParam(env, param, &value_3, 3, NULL);
+    arg_3 = value_3.i;
+
+    fr_getParam(env, param, &value_2, 2, NULL);
+    arg_2 = value_2.i;
+
+    fr_getParam(env, param, &value_1, 1, NULL);
+    arg_1 = value_1.i;
+
+    fr_getParam(env, param, &value_0, 0, NULL);
+    arg_0 = value_0.h;
+
+
+    vaseWindow_NGraphics_setColor(env, arg_0, arg_1, arg_2, arg_3, arg_4);
+}
+
+void vaseWindow_NGraphics_setPattern_v(fr_Env env, void *param, void *ret) {
+    fr_Value value_0;
+    fr_Obj arg_0; 
+    fr_Value value_1;
+    fr_Obj arg_1; 
+
+    fr_getParam(env, param, &value_1, 1, NULL);
+    arg_1 = value_1.h;
+
+    fr_getParam(env, param, &value_0, 0, NULL);
+    arg_0 = value_0.h;
+
+
+    vaseWindow_NGraphics_setPattern(env, arg_0, arg_1);
+}
+
+void vaseWindow_NGraphics_setGradient_v(fr_Env env, void *param, void *ret) {
+    fr_Value value_0;
+    fr_Obj arg_0; 
+    fr_Value value_1;
+    fr_Obj arg_1; 
+
+    fr_getParam(env, param, &value_1, 1, NULL);
+    arg_1 = value_1.h;
+
+    fr_getParam(env, param, &value_0, 0, NULL);
+    arg_0 = value_0.h;
+
+
+    vaseWindow_NGraphics_setGradient(env, arg_0, arg_1);
+}
+
+void vaseWindow_NGraphics_setPen_v(fr_Env env, void *param, void *ret) {
+    fr_Value value_0;
+    fr_Obj arg_0; 
+    fr_Value value_1;
+    fr_Int arg_1; 
+    fr_Value value_2;
+    fr_Int arg_2; 
+    fr_Value value_3;
+    fr_Int arg_3; 
+    fr_Value value_4;
+    fr_Obj arg_4; 
+
+    fr_getParam(env, param, &value_4, 4, NULL);
+    arg_4 = value_4.h;
+
+    fr_getParam(env, param, &value_3, 3, NULL);
+    arg_3 = value_3.i;
+
+    fr_getParam(env, param, &value_2, 2, NULL);
+    arg_2 = value_2.i;
+
+    fr_getParam(env, param, &value_1, 1, NULL);
+    arg_1 = value_1.i;
+
+    fr_getParam(env, param, &value_0, 0, NULL);
+    arg_0 = value_0.h;
+
+
+    vaseWindow_NGraphics_setPen(env, arg_0, arg_1, arg_2, arg_3, arg_4);
+}
+
+void vaseWindow_NGraphics_setFont_v(fr_Env env, void *param, void *ret) {
+    fr_Value value_0;
+    fr_Obj arg_0; 
+    fr_Value value_1;
+    fr_Obj arg_1; 
+    fr_Value value_2;
+    fr_Int arg_2; 
+    fr_Value value_3;
+    fr_Obj arg_3; 
+    fr_Value value_4;
+    fr_Int arg_4; 
+    fr_Value value_5;
+    fr_Int arg_5; 
+
+    fr_getParam(env, param, &value_5, 5, NULL);
+    arg_5 = value_5.i;
+
+    fr_getParam(env, param, &value_4, 4, NULL);
+    arg_4 = value_4.i;
+
+    fr_getParam(env, param, &value_3, 3, NULL);
+    arg_3 = value_3.h;
+
+    fr_getParam(env, param, &value_2, 2, NULL);
+    arg_2 = value_2.i;
+
+    fr_getParam(env, param, &value_1, 1, NULL);
+    arg_1 = value_1.h;
+
+    fr_getParam(env, param, &value_0, 0, NULL);
+    arg_0 = value_0.h;
+
+
+    vaseWindow_NGraphics_setFont(env, arg_0, arg_1, arg_2, arg_3, arg_4, arg_5);
+}
+
+void vaseWindow_NGraphics_setAntialias_v(fr_Env env, void *param, void *ret) {
+    fr_Value value_0;
+    fr_Obj arg_0; 
+    fr_Value value_1;
+    fr_Bool arg_1; 
+
+    fr_getParam(env, param, &value_1, 1, NULL);
+    arg_1 = value_1.b;
+
+    fr_getParam(env, param, &value_0, 0, NULL);
+    arg_0 = value_0.h;
+
+
+    vaseWindow_NGraphics_setAntialias(env, arg_0, arg_1);
+}
+
+void vaseWindow_NGraphics_setAlpha_v(fr_Env env, void *param, void *ret) {
+    fr_Value value_0;
+    fr_Obj arg_0; 
+    fr_Value value_1;
+    fr_Int arg_1; 
+
+    fr_getParam(env, param, &value_1, 1, NULL);
+    arg_1 = value_1.i;
+
+    fr_getParam(env, param, &value_0, 0, NULL);
+    arg_0 = value_0.h;
+
+
+    vaseWindow_NGraphics_setAlpha(env, arg_0, arg_1);
+}
+
+void vaseWindow_NGraphics_setComposite_v(fr_Env env, void *param, void *ret) {
+    fr_Value value_0;
+    fr_Obj arg_0; 
+    fr_Value value_1;
+    fr_Int arg_1; 
+
+    fr_getParam(env, param, &value_1, 1, NULL);
+    arg_1 = value_1.i;
+
+    fr_getParam(env, param, &value_0, 0, NULL);
+    arg_0 = value_0.h;
+
+
+    vaseWindow_NGraphics_setComposite(env, arg_0, arg_1);
 }
 
 void vaseWindow_NGraphics_drawLine_v(fr_Env env, void *param, void *ret) {
@@ -1067,16 +1267,31 @@ void vaseWindow_NGraphics_doClip_v(fr_Env env, void *param, void *ret) {
     fr_Value value_0;
     fr_Obj arg_0; 
     fr_Value value_1;
-    fr_Obj arg_1; 
+    fr_Int arg_1; 
+    fr_Value value_2;
+    fr_Int arg_2; 
+    fr_Value value_3;
+    fr_Int arg_3; 
+    fr_Value value_4;
+    fr_Int arg_4; 
+
+    fr_getParam(env, param, &value_4, 4, NULL);
+    arg_4 = value_4.i;
+
+    fr_getParam(env, param, &value_3, 3, NULL);
+    arg_3 = value_3.i;
+
+    fr_getParam(env, param, &value_2, 2, NULL);
+    arg_2 = value_2.i;
 
     fr_getParam(env, param, &value_1, 1, NULL);
-    arg_1 = value_1.h;
+    arg_1 = value_1.i;
 
     fr_getParam(env, param, &value_0, 0, NULL);
     arg_0 = value_0.h;
 
 
-    vaseWindow_NGraphics_doClip(env, arg_0, arg_1);
+    vaseWindow_NGraphics_doClip(env, arg_0, arg_1, arg_2, arg_3, arg_4);
 }
 
 void vaseWindow_NGraphics_pushNative_v(fr_Env env, void *param, void *ret) {
@@ -1148,22 +1363,45 @@ void vaseWindow_NGraphics_fillPath_v(fr_Env env, void *param, void *ret) {
     *((fr_Value*)ret) = retValue;
 }
 
-void vaseWindow_NGraphics_transform_v(fr_Env env, void *param, void *ret) {
+void vaseWindow_NGraphics_doTransform_v(fr_Env env, void *param, void *ret) {
     fr_Value value_0;
     fr_Obj arg_0; 
     fr_Value value_1;
-    fr_Obj arg_1; 
-    fr_Value retValue;
+    fr_Float arg_1; 
+    fr_Value value_2;
+    fr_Float arg_2; 
+    fr_Value value_3;
+    fr_Float arg_3; 
+    fr_Value value_4;
+    fr_Float arg_4; 
+    fr_Value value_5;
+    fr_Float arg_5; 
+    fr_Value value_6;
+    fr_Float arg_6; 
+
+    fr_getParam(env, param, &value_6, 6, NULL);
+    arg_6 = value_6.f;
+
+    fr_getParam(env, param, &value_5, 5, NULL);
+    arg_5 = value_5.f;
+
+    fr_getParam(env, param, &value_4, 4, NULL);
+    arg_4 = value_4.f;
+
+    fr_getParam(env, param, &value_3, 3, NULL);
+    arg_3 = value_3.f;
+
+    fr_getParam(env, param, &value_2, 2, NULL);
+    arg_2 = value_2.f;
 
     fr_getParam(env, param, &value_1, 1, NULL);
-    arg_1 = value_1.h;
+    arg_1 = value_1.f;
 
     fr_getParam(env, param, &value_0, 0, NULL);
     arg_0 = value_0.h;
 
 
-    retValue.h = vaseWindow_NGraphics_transform(env, arg_0, arg_1);
-    *((fr_Value*)ret) = retValue;
+    vaseWindow_NGraphics_doTransform(env, arg_0, arg_1, arg_2, arg_3, arg_4, arg_5, arg_6);
 }
 
 void vaseWindow_NGraphics_clipPath_v(fr_Env env, void *param, void *ret) {

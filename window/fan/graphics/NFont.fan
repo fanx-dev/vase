@@ -9,7 +9,7 @@
 using vaseGraphics
 
 const class NFont : Font {
-  private const Int handle
+  const Int handle
 
   new privateMake(|This| f) : super.privateMake(f) {
   }

@@ -6,7 +6,6 @@
 #include "GLFW/glfw3.h"
 
 #include "nanovg.h"
-
 #define NANOVG_GL3_IMPLEMENTATION
 #include "nanovg_gl.h"
 
@@ -17,6 +16,8 @@ struct Window {
     GLFWwindow* window;
     NVGcontext *nanovg;
 };
+
+void vaseWindow_NGraphics_setNvgContext(fr_Env env, fr_Obj self, NVGcontext* r);
 
 static struct Window* getWindow(fr_Env env, fr_Obj self) {
     static fr_Field f = NULL;
@@ -50,16 +51,20 @@ static void key_callback(GLFWwindow* window, int key, int scancode, int action, 
         glfwSetWindowShouldClose(window, GLFW_TRUE);
 }
 
-void drawFrame(GLFWwindow* window, NVGcontext* vg) {
-
-    double mx, my, t, dt;
+void drawFrame(fr_Env env, fr_Obj self, GLFWwindow* window, NVGcontext* vg, fr_Obj graphics) {
     int winWidth, winHeight;
     int fbWidth, fbHeight;
     float pxRatio;
-    float gpuTimes[3];
-    int i, n;
+    
+    static fr_Method paintM;
+    static fr_Field viewF;
+    if (paintM == NULL) {
+        fr_Type type = fr_getObjType(env, self);
+        fr_Type viewType = fr_findType(env, "vaseWindow", "View");
+        paintM = fr_findMethod(env, viewType, "onPaint");
+        viewF = fr_findField(env, type, "_view");
+    }
 
-    glfwGetCursorPos(window, &mx, &my);
     glfwGetWindowSize(window, &winWidth, &winHeight);
     glfwGetFramebufferSize(window, &fbWidth, &fbHeight);
     // Calculate pixel ration for hi-dpi devices.
@@ -73,18 +78,9 @@ void drawFrame(GLFWwindow* window, NVGcontext* vg) {
 
     nvgBeginFrame(vg, winWidth, winHeight, pxRatio);
 
-    nvgBeginPath(vg);
-    nvgRect(vg, 100, 100, 150, 30);
-    nvgFillColor(vg, nvgRGBA(255, 192, 0, 255));
-    nvgFill(vg);
-
-
-    nvgFontSize(vg, 35.0f);
-    nvgFontFace(vg, "sans");
-    nvgFillColor(vg, nvgRGBA(0, 0, 0, 160));
-
-    nvgTextAlign(vg, NVG_ALIGN_LEFT | NVG_ALIGN_MIDDLE);
-    nvgText(vg, 108, 200, "北京", NULL);
+    fr_Value value;
+    fr_getInstanceField(env, self, viewF, &value);
+    fr_callMethod(env, paintM, 2, value.h, graphics);
 
     nvgEndFrame(vg);
 }
@@ -123,6 +119,8 @@ void vaseWindow_NWindow_show(fr_Env env, fr_Obj self, fr_Obj size) {
     int font = nvgCreateFont(handle->nanovg, "sans", "C:\\Windows\\Fonts\\msyh.ttc");
     assert(font != -1);
 #endif
+    fr_Obj graphics = fr_newObjS(env, "vaseWindow", "NGraphics", "make", 0);
+    vaseWindow_NGraphics_setNvgContext(env, graphics, handle->nanovg);
 
     while (!glfwWindowShouldClose(window))
     {
@@ -133,7 +131,7 @@ void vaseWindow_NWindow_show(fr_Env env, fr_Obj self, fr_Obj size) {
         glfwGetFramebufferSize(window, &width, &height);
         ratio = width / (float)height;
 
-        drawFrame(window, handle->nanovg);
+        drawFrame(env, self, window, handle->nanovg, graphics);
 
         glfwSwapBuffers(window);
         glfwPollEvents();
@@ -150,22 +148,37 @@ void vaseWindow_NWindow_show(fr_Env env, fr_Obj self, fr_Obj size) {
     exit(EXIT_SUCCESS);
 }
 fr_Int vaseWindow_NWindow_x(fr_Env env, fr_Obj self) {
-    return 0;
+    double mx, my;
+    struct Window* handle = getWindow(env, self);
+    glfwGetCursorPos(handle->window, &mx, &my);
+    return mx;
 }
 fr_Int vaseWindow_NWindow_y(fr_Env env, fr_Obj self) {
-    return 0;
+    double mx, my;
+    struct Window* handle = getWindow(env, self);
+    glfwGetCursorPos(handle->window, &mx, &my);
+    return my;
 }
 fr_Int vaseWindow_NWindow_w(fr_Env env, fr_Obj self) {
-    return 0;
+    int winWidth, winHeight;
+    struct Window* handle = getWindow(env, self);
+    glfwGetWindowSize(handle->window, &winWidth, &winHeight);
+    return winWidth;
 }
 fr_Int vaseWindow_NWindow_h(fr_Env env, fr_Obj self) {
-    return 0;
+    int winWidth, winHeight;
+    struct Window* handle = getWindow(env, self);
+    glfwGetWindowSize(handle->window, &winWidth, &winHeight);
+    return winHeight;
 }
 fr_Bool vaseWindow_NWindow_hasFocus(fr_Env env, fr_Obj self) {
-    return 0;
+    struct Window* handle = getWindow(env, self);
+    int focused = glfwGetWindowAttrib(handle->window, GLFW_FOCUSED);
+    return focused;
 }
 void vaseWindow_NWindow_focus(fr_Env env, fr_Obj self) {
-    return;
+    struct Window* handle = getWindow(env, self);
+    glfwFocusWindow(handle->window);
 }
 void vaseWindow_NWindow_textInput(fr_Env env, fr_Obj self, fr_Obj edit) {
     return;
