@@ -31,7 +31,6 @@ void vaseWindow_NFont_dispose(fr_Env env, fr_Obj self);
 fr_Int vaseWindow_NFont_height(fr_Env env, fr_Obj self);
 fr_Int vaseWindow_NFont_ascent(fr_Env env, fr_Obj self);
 fr_Int vaseWindow_NFont_descent(fr_Env env, fr_Obj self);
-fr_Int vaseWindow_NFont_leading(fr_Env env, fr_Obj self);
 fr_Int vaseWindow_NFont_width(fr_Env env, fr_Obj self, fr_Obj s);
 void vaseWindow_NGfxEnv_initFont(fr_Env env, fr_Obj self, fr_Obj font);
 fr_Obj vaseWindow_NGfxEnv_fromStream(fr_Env env, fr_Obj self, fr_Obj in);
@@ -59,8 +58,7 @@ fr_Obj vaseWindow_NGraphics_fillOval(fr_Env env, fr_Obj self, fr_Int x, fr_Int y
 fr_Obj vaseWindow_NGraphics_drawArc(fr_Env env, fr_Obj self, fr_Int x, fr_Int y, fr_Int w, fr_Int h, fr_Int startAngle, fr_Int arcAngle);
 fr_Obj vaseWindow_NGraphics_fillArc(fr_Env env, fr_Obj self, fr_Int x, fr_Int y, fr_Int w, fr_Int h, fr_Int startAngle, fr_Int arcAngle);
 fr_Obj vaseWindow_NGraphics_drawText(fr_Env env, fr_Obj self, fr_Obj s, fr_Int x, fr_Int y);
-fr_Obj vaseWindow_NGraphics_drawImage(fr_Env env, fr_Obj self, fr_Obj image, fr_Int x, fr_Int y);
-fr_Obj vaseWindow_NGraphics_copyImage(fr_Env env, fr_Obj self, fr_Obj image, fr_Obj src, fr_Obj dest);
+void vaseWindow_NGraphics_doDrawImage(fr_Env env, fr_Obj self, fr_Obj image, fr_Int srcX, fr_Int srcY, fr_Int srcW, fr_Int srcH, fr_Int dstX, fr_Int dstY, fr_Int dstW, fr_Int dstH);
 void vaseWindow_NGraphics_doClip(fr_Env env, fr_Obj self, fr_Int x, fr_Int y, fr_Int w, fr_Int h);
 void vaseWindow_NGraphics_pushNative(fr_Env env, fr_Obj self);
 void vaseWindow_NGraphics_popNative(fr_Env env, fr_Obj self);
@@ -72,5 +70,6 @@ fr_Obj vaseWindow_NGraphics_clipPath(fr_Env env, fr_Obj self, fr_Obj path);
 fr_Obj vaseWindow_NGraphics_setShadow(fr_Env env, fr_Obj self, fr_Obj shadow);
 void vaseWindow_NImage_save(fr_Env env, fr_Obj self, fr_Obj out, fr_Obj format);
 fr_Obj vaseWindow_NImage_createGraphics(fr_Env env, fr_Obj self);
+void vaseWindow_NImage_dispose(fr_Env env, fr_Obj self);
 
 CF_END

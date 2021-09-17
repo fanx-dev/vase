@@ -15,6 +15,7 @@ using vaseGraphics
 rtconst class NImage : Image
 {
   private Int handle
+  private Int flags
   private Array<Int8>? data
   Int width { private set }
   Int height { private set }
@@ -25,6 +26,12 @@ rtconst class NImage : Image
     width = w
     height = h
     data = Array<Int8>(w*h*4)
+  }
+
+  new makeData(Array<Int8> d, Int w, Int h) {
+    data = d
+    width = w
+    height = h
   }
 
   override Size size() { Size(width, height) }
@@ -73,7 +80,7 @@ rtconst class NImage : Image
   **
   ** Free any operating system resources used by this instance.
   **
-  override Void dispose() {}
+  override native Void dispose()
 
   internal Void swap(NImage other) {
     d := this.data
@@ -87,5 +94,5 @@ rtconst class NImage : Image
     other.height = h
   }
 
-  protected override Void finalize() { dispose }
+  //protected override Void finalize() { dispose }
 }

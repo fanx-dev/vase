@@ -11,6 +11,8 @@ using vaseGraphics
 internal class NGraphics : Graphics
 {
   private Int handle
+  private Int surface
+  
   private GraphicsState[] stack = [,]
 
   **
@@ -162,14 +164,23 @@ internal class NGraphics : Graphics
   **
   ** Draw a the image string with its top left corner at x,y.
   **
-  native override This drawImage(Image image, Int x, Int y)
+  override This drawImage(Image image, Int x, Int y) {
+    size := image.size
+    doDrawImage(image, 0, 0, size.w, size.h, x, y, size.w, size.h)
+    return this
+  }
 
   **
   ** Copy a rectangular region of the image to the graphics
   ** device.  If the source and destination don't have the
   ** same size, then the copy is resized.
   **
-  native override This copyImage(Image image, Rect src, Rect dest)
+  override This copyImage(Image image, Rect src, Rect dst) {
+    doDrawImage(image, src.x, src.y, src.w, src.h, dst.x, dst.y, dst.w, dst.h)
+    return this
+  }
+
+  private native Void doDrawImage(Image image, Int srcX, Int srcY, Int srcW, Int srcH, Int dstX, Int dstY, Int dstW, Int dstH)
 
   **
   ** Set the clipping area to the intersection of the
@@ -272,7 +283,7 @@ internal class NGraphics : Graphics
   **
   native override This setShadow(Shadow? shadow)
 
-  protected override Void finalize() { dispose }
+  //protected override Void finalize() { dispose }
 }
 
 internal class GraphicsState {

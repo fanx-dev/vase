@@ -30,7 +30,6 @@ void vaseWindow_NFont_dispose_v(fr_Env env, void *param, void *ret);
 void vaseWindow_NFont_height_v(fr_Env env, void *param, void *ret);
 void vaseWindow_NFont_ascent_v(fr_Env env, void *param, void *ret);
 void vaseWindow_NFont_descent_v(fr_Env env, void *param, void *ret);
-void vaseWindow_NFont_leading_v(fr_Env env, void *param, void *ret);
 void vaseWindow_NFont_width_v(fr_Env env, void *param, void *ret);
 void vaseWindow_NGfxEnv_initFont_v(fr_Env env, void *param, void *ret);
 void vaseWindow_NGfxEnv_fromStream_v(fr_Env env, void *param, void *ret);
@@ -58,8 +57,7 @@ void vaseWindow_NGraphics_fillOval_v(fr_Env env, void *param, void *ret);
 void vaseWindow_NGraphics_drawArc_v(fr_Env env, void *param, void *ret);
 void vaseWindow_NGraphics_fillArc_v(fr_Env env, void *param, void *ret);
 void vaseWindow_NGraphics_drawText_v(fr_Env env, void *param, void *ret);
-void vaseWindow_NGraphics_drawImage_v(fr_Env env, void *param, void *ret);
-void vaseWindow_NGraphics_copyImage_v(fr_Env env, void *param, void *ret);
+void vaseWindow_NGraphics_doDrawImage_v(fr_Env env, void *param, void *ret);
 void vaseWindow_NGraphics_doClip_v(fr_Env env, void *param, void *ret);
 void vaseWindow_NGraphics_pushNative_v(fr_Env env, void *param, void *ret);
 void vaseWindow_NGraphics_popNative_v(fr_Env env, void *param, void *ret);
@@ -71,6 +69,7 @@ void vaseWindow_NGraphics_clipPath_v(fr_Env env, void *param, void *ret);
 void vaseWindow_NGraphics_setShadow_v(fr_Env env, void *param, void *ret);
 void vaseWindow_NImage_save_v(fr_Env env, void *param, void *ret);
 void vaseWindow_NImage_createGraphics_v(fr_Env env, void *param, void *ret);
+void vaseWindow_NImage_dispose_v(fr_Env env, void *param, void *ret);
 
 void vaseWindow_register(fr_Fvm vm) {
     fr_registerMethod(vm, "vaseWindow_NClipboard_getTextSync", vaseWindow_NClipboard_getTextSync_v);
@@ -103,7 +102,6 @@ void vaseWindow_register(fr_Fvm vm) {
     fr_registerMethod(vm, "vaseWindow_NFont_height", vaseWindow_NFont_height_v);
     fr_registerMethod(vm, "vaseWindow_NFont_ascent", vaseWindow_NFont_ascent_v);
     fr_registerMethod(vm, "vaseWindow_NFont_descent", vaseWindow_NFont_descent_v);
-    fr_registerMethod(vm, "vaseWindow_NFont_leading", vaseWindow_NFont_leading_v);
     fr_registerMethod(vm, "vaseWindow_NFont_width", vaseWindow_NFont_width_v);
     fr_registerMethod(vm, "vaseWindow_NGfxEnv_initFont", vaseWindow_NGfxEnv_initFont_v);
     fr_registerMethod(vm, "vaseWindow_NGfxEnv_fromStream", vaseWindow_NGfxEnv_fromStream_v);
@@ -131,8 +129,7 @@ void vaseWindow_register(fr_Fvm vm) {
     fr_registerMethod(vm, "vaseWindow_NGraphics_drawArc", vaseWindow_NGraphics_drawArc_v);
     fr_registerMethod(vm, "vaseWindow_NGraphics_fillArc", vaseWindow_NGraphics_fillArc_v);
     fr_registerMethod(vm, "vaseWindow_NGraphics_drawText", vaseWindow_NGraphics_drawText_v);
-    fr_registerMethod(vm, "vaseWindow_NGraphics_drawImage", vaseWindow_NGraphics_drawImage_v);
-    fr_registerMethod(vm, "vaseWindow_NGraphics_copyImage", vaseWindow_NGraphics_copyImage_v);
+    fr_registerMethod(vm, "vaseWindow_NGraphics_doDrawImage", vaseWindow_NGraphics_doDrawImage_v);
     fr_registerMethod(vm, "vaseWindow_NGraphics_doClip", vaseWindow_NGraphics_doClip_v);
     fr_registerMethod(vm, "vaseWindow_NGraphics_pushNative", vaseWindow_NGraphics_pushNative_v);
     fr_registerMethod(vm, "vaseWindow_NGraphics_popNative", vaseWindow_NGraphics_popNative_v);
@@ -144,4 +141,5 @@ void vaseWindow_register(fr_Fvm vm) {
     fr_registerMethod(vm, "vaseWindow_NGraphics_setShadow", vaseWindow_NGraphics_setShadow_v);
     fr_registerMethod(vm, "vaseWindow_NImage_save", vaseWindow_NImage_save_v);
     fr_registerMethod(vm, "vaseWindow_NImage_createGraphics", vaseWindow_NImage_createGraphics_v);
+    fr_registerMethod(vm, "vaseWindow_NImage_dispose", vaseWindow_NImage_dispose_v);
 }

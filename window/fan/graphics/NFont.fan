@@ -44,7 +44,7 @@ const class NFont : Font {
   ** Get leading of this font which is the distance in pixels above
   ** the ascent which may include accents and other marks.
   **
-  native override Int leading()
+  override Int leading() { height - ascent - descent }
 
   **
   ** Get the width of the string in pixels when painted
@@ -52,5 +52,5 @@ const class NFont : Font {
   **
   native override Int width(Str s)
 
-  protected override Void finalize() { dispose }
+  //protected override Void finalize() { dispose }
 }

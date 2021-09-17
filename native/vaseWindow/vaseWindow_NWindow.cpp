@@ -1,23 +1,12 @@
 #include "fni_ext.h"
 #include "pod_vaseWindow_native.h"
 
-#include "GL/glew.h"
-#define GLFW_INCLUDE_NONE
-#include "GLFW/glfw3.h"
-
-#include "nanovg.h"
-#define NANOVG_GL3_IMPLEMENTATION
-#include "nanovg_gl.h"
-
 #include <stdlib.h>
 #include <stdio.h>
 
-struct Window {
-    GLFWwindow* window;
-    NVGcontext *nanovg;
-};
-
-void vaseWindow_NGraphics_setNvgContext(fr_Env env, fr_Obj self, NVGcontext* r);
+#include "GL/glew.h"
+#define GLFW_INCLUDE_NONE
+#include "GLFW/glfw3.h"
 
 static struct Window* getWindow(fr_Env env, fr_Obj self) {
     static fr_Field f = NULL;
@@ -51,7 +40,108 @@ static void key_callback(GLFWwindow* window, int key, int scancode, int action, 
         glfwSetWindowShouldClose(window, GLFW_TRUE);
 }
 
-void drawFrame(fr_Env env, fr_Obj self, GLFWwindow* window, NVGcontext* vg, fr_Obj graphics) {
+#ifdef USE_SKIA
+#define SK_GL
+#include "include/gpu/GrDirectContext.h"
+#include "include/core/SkGraphics.h"
+#include "include/gpu/GrBackendSurface.h"
+#include "include/gpu/GrDirectContext.h"
+#include "include/gpu/gl/GrGLInterface.h"
+#include "include/core/SkCanvas.h"
+#include "include/core/SkColorSpace.h"
+#include "include/core/SkSurface.h"
+
+struct Window {
+    GLFWwindow* window;
+    sk_sp<GrDirectContext> context;
+    sk_sp<SkSurface> surface;
+};
+
+fr_Obj initContext(fr_Env env, struct Window* handle) {
+    GLFWwindow* window = handle->window;
+    int winWidth, winHeight;
+    //glfwGetWindowSize(window, &winWidth, &winHeight);
+    glfwGetFramebufferSize(window, &winWidth, &winHeight);
+
+    auto interface = GrGLMakeNativeInterface();
+    auto sContext = GrDirectContext::MakeGL(interface);
+
+    GrGLFramebufferInfo framebufferInfo;
+    framebufferInfo.fFBOID = 0; // assume default framebuffer
+    // We are always using OpenGL and we use RGBA8 internal format for both RGBA and BGRA configs in OpenGL.
+    //(replace line below with this one to enable correct color spaces) framebufferInfo.fFormat = GL_SRGB8_ALPHA8;
+    framebufferInfo.fFormat = GL_RGBA8;
+
+    SkColorType colorType = kRGBA_8888_SkColorType;
+    GrBackendRenderTarget backendRenderTarget(winWidth, winHeight,
+        0, // sample count
+        0, // stencil bits
+        framebufferInfo);
+
+    //(replace line below with this one to enable correct color spaces) sSurface = SkSurface::MakeFromBackendRenderTarget(sContext, backendRenderTarget, kBottomLeft_GrSurfaceOrigin, colorType, SkColorSpace::MakeSRGB(), nullptr).release();
+    auto sSurface = SkSurface::MakeFromBackendRenderTarget(sContext.get(), backendRenderTarget, kBottomLeft_GrSurfaceOrigin, colorType, nullptr, nullptr);
+    if (sSurface.get() == nullptr) abort();
+
+    handle->context = sContext;
+    handle->surface = sSurface;
+
+    fr_Obj graphics = fr_newObjS(env, "vaseWindow", "NGraphics", "make", 0);
+    //vaseWindow_NGraphics_setNvgContext(env, graphics, handle->nanovg);
+    return graphics;
+}
+void deleteContext(fr_Env env, struct Window* handle) {
+    handle->context = nullptr;
+    handle->surface = nullptr;
+}
+void drawFrame(fr_Env env, fr_Obj self, struct Window* handle, fr_Obj graphics) {
+    SkCanvas* canvas = handle->surface->getCanvas();
+    SkPaint paint;
+    paint.setColor(SK_ColorWHITE);
+    canvas->drawPaint(paint);
+    paint.setColor(SK_ColorBLUE);
+    canvas->drawRect({ 100, 200, 300, 500 }, paint);
+    handle->context->flush();
+}
+
+#else
+
+#include "nanovg.h"
+#define NANOVG_GL3_IMPLEMENTATION
+#include "nanovg_gl.h"
+
+struct Window {
+    GLFWwindow* window;
+    NVGcontext *nanovg;
+};
+
+extern "C" {
+    NVGcontext* g_nanovg;
+    void vaseWindow_NGraphics_setNvgContext(fr_Env env, fr_Obj self, NVGcontext* r);
+}
+
+fr_Obj initContext(fr_Env env, struct Window* handle) {
+    
+    handle->nanovg = nvgCreateGL3(NVG_ANTIALIAS | NVG_STENCIL_STROKES | NVG_DEBUG);
+#if _WIN64
+    int font = nvgCreateFont(handle->nanovg, "sans", "C:\\Windows\\Fonts\\msyh.ttc");
+    assert(font != -1);
+#endif
+    g_nanovg = handle->nanovg;
+    fr_Obj graphics = fr_newObjS(env, "vaseWindow", "NGraphics", "make", 0);
+    vaseWindow_NGraphics_setNvgContext(env, graphics, handle->nanovg);
+    return graphics;
+}
+
+void deleteContext(fr_Env env, struct Window* handle) {
+    nvgDeleteGL3(handle->nanovg);
+    handle->nanovg = NULL;
+    g_nanovg = NULL;
+}
+
+void drawFrame(fr_Env env, fr_Obj self, struct Window* handle, fr_Obj graphics) {
+
+    GLFWwindow* window = handle->window;
+    NVGcontext* vg = handle->nanovg;
     int winWidth, winHeight;
     int fbWidth, fbHeight;
     float pxRatio;
@@ -85,8 +175,10 @@ void drawFrame(fr_Env env, fr_Obj self, GLFWwindow* window, NVGcontext* vg, fr_O
     nvgEndFrame(vg);
 }
 
+#endif
+
 void vaseWindow_NWindow_show(fr_Env env, fr_Obj self, fr_Obj size) {
-    struct Window* handle = malloc(sizeof(struct Window));
+    struct Window* handle = (struct Window*)malloc(sizeof(struct Window));
     GLFWwindow* window;
     //GLuint vertex_buffer, vertex_shader, fragment_shader, program;
     //GLint mvp_location, vpos_location, vcol_location;
@@ -113,14 +205,8 @@ void vaseWindow_NWindow_show(fr_Env env, fr_Obj self, fr_Obj size) {
     glfwSwapInterval(1);
 
     handle->window = window;
-    handle->nanovg = nvgCreateGL3(NVG_ANTIALIAS | NVG_STENCIL_STROKES | NVG_DEBUG);
     setWindow(env, self, handle);
-#if _WIN64
-    int font = nvgCreateFont(handle->nanovg, "sans", "C:\\Windows\\Fonts\\msyh.ttc");
-    assert(font != -1);
-#endif
-    fr_Obj graphics = fr_newObjS(env, "vaseWindow", "NGraphics", "make", 0);
-    vaseWindow_NGraphics_setNvgContext(env, graphics, handle->nanovg);
+    fr_Obj graphics = initContext(env, handle);
 
     while (!glfwWindowShouldClose(window))
     {
@@ -131,14 +217,13 @@ void vaseWindow_NWindow_show(fr_Env env, fr_Obj self, fr_Obj size) {
         glfwGetFramebufferSize(window, &width, &height);
         ratio = width / (float)height;
 
-        drawFrame(env, self, window, handle->nanovg, graphics);
+        drawFrame(env, self, handle, graphics);
 
         glfwSwapBuffers(window);
         glfwPollEvents();
     }
 
-    nvgDeleteGL3(handle->nanovg);
-    handle->nanovg = NULL;
+    deleteContext(env, handle);
     setWindow(env, self, NULL);
     free(handle);
 
@@ -187,5 +272,5 @@ void vaseWindow_NWindow_fileDialog(fr_Env env, fr_Obj self, fr_Obj accept, fr_Ob
     return;
 }
 void vaseWindow_NWindow_finalize(fr_Env env, fr_Obj self) {
-    return 0;
+    return;
 }
