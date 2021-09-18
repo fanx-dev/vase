@@ -186,7 +186,7 @@ class Frame : ContentPane
     //-------------content
     g.push
     //g.clip(it.bounds)
-    g.transform(Transform2D.make.translate(content.x.toFloat, content.y.toFloat))
+    g.transform(Transform2D.makeTranslate(content.x.toFloat, content.y.toFloat))
     content.paint(g)
 
     if (modal > 1) {
@@ -203,7 +203,7 @@ class Frame : ContentPane
     if (topLayer != null) {
       g.push
       //g.clip(it.bounds)
-      g.transform(Transform2D.make.translate(topLayer.x.toFloat, topLayer.y.toFloat))
+      g.transform(Transform2D.makeTranslate(topLayer.x.toFloat, topLayer.y.toFloat))
       topLayer.paint(g)
       g.pop
     }

@@ -1,9 +1,9 @@
 cd ./public
 jfan=fan
-$jfan widget/WidgetTest.fwt
-#$jfan widget/MenuTest.fan
-#$jfan widget/TextAreaTest.fan
-#$jfan widget/TreeTest.fan
-#$jfan widget/TableTest.fan
+$jfan graphics/DrawTextTest.fwt
+#$jfan graphics/MenuTest.fan
+#$jfan graphics/TextAreaTest.fan
+#$jfan graphics/TreeTest.fan
+#$jfan graphics/TableTest.fan
 
 echo "end"

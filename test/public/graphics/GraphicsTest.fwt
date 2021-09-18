@@ -63,14 +63,14 @@ class GraphicsView : View
   private Void paint(Graphics g)
   {
     //transform
-    trans := Transform2D().scale(0f, 0f, 3f, 3f).translate(10f, 40f).rotate(10f, 10f, -0.5f)
+    trans := Transform2D.makeScale(3f, 3f).translate(10f, 40f).rotate(-30f, 10f, 10f)
     g.transform(trans)
 
 
     g.drawImage(p, 10, 10)
 
     //path test
-    path := Path().moveTo(20f, 20f).lineTo(20f, 30f).
+    path := GraphicsPath().moveTo(20f, 20f).lineTo(20f, 30f).
       quadTo(25f, 25f, 30f, 15f).cubicTo(40f, 30f, 50f, 40f, 60f, 70f).close
 
     g.brush = Color.green

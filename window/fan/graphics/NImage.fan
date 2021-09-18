@@ -11,7 +11,6 @@ using vaseGraphics
 **
 ** Image represents a graphical image.
 **
-@Js
 rtconst class NImage : Image
 {
   private Int handle

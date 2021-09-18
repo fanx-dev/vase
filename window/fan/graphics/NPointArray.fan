@@ -10,7 +10,6 @@ using vaseGraphics
 **
 ** High Performance Point Array
 **
-@Js
 class NPointArray : PointArray
 {
   private Array<Int> data

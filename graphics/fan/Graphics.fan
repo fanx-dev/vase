@@ -7,8 +7,6 @@
 //   2012-07-02 Jed Young Modify
 //
 
-using vaseMath
-
 **
 ** Graphics is used to draw 2D graphics.  Targets might include
 ** display devices, printers, SVG/Canvas, or PDF.

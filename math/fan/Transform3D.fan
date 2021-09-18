@@ -17,7 +17,7 @@ class Transform3D
   Float get(Int x, Int y) { return matrix.get(x, y); }
   Void set(Int x, Int y, Float val) { matrix.set(x, y, val) }
   Transform3D clone() { return Transform3D { it.matrix = this.matrix.clone } }
-  This mult(Transform2D t) { matrix = matrix * t.matrix; return this }
+  This mult(Transform3D t) { matrix = matrix * t.matrix; return this }
 
 //////////////////////////////////////////////////////////////////////////
 // Transform
@@ -25,19 +25,20 @@ class Transform3D
 
   This translate(Float x, Float y, Float z)
   {
-    matrix = matrix * makeTranslate(x, y, z)
+    matrix = makeTranslate(x, y, z) * matrix
     return this
   }
 
   This scale(Float x, Float y, Float z)
   {
-    matrix = matrix * makeScale(x, y, z)
+    matrix = makeScale(x, y, z) * matrix
     return this
   }
 
+  ** degree
   This rotate(Float theta, Float x, Float y, Float z)
   {
-    matrix = matrix * makeRotate(theta * Float.pi / 180f, x, y, z)
+    matrix = makeRotate(theta * Float.pi / 180f, x, y, z) * matrix
     return this
   }
 

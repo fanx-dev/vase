@@ -23,7 +23,7 @@ class TweenAnimation : Animation {
 
   protected override Void onStart() {
     if (widget.transform == null) {
-      widget.transform = Transform2D()
+      widget.transform = Transform2D.makeIndentity()
     }
     widget.getRootView.animManager.add(this)
     widget.repaint
@@ -85,7 +85,7 @@ class RotateAnimChannel : TweenAnimChannel {
     x := widget.width /2.0f
     y := widget.height /2.0f
     lastRotate = rotate
-    widget?.transform?.rotate(x, y, drotate)
+    widget?.transform?.rotate(drotate / 180f * Float.pi , x, y)
   }
 }
 
@@ -114,7 +114,12 @@ class ScaleAnimChannel : TweenAnimChannel {
     x := widget.width /2.0f
     y := widget.height /2.0f
     lastScale = scale
-    widget?.transform?.scale(x, y, dscale, dscale)
+    if (widget != null && widget.transform != null) {
+      widget.transform = Transform2D.makeTranslate(x, y) *
+                         Transform2D.makeScale(dscale, dscale) * 
+                         Transform2D.makeTranslate(-x, -y) *
+                         widget.transform
+    }
     //echo("x$x,y$y, scale:$scale, dscale:$dscale")
     //widget.transform.matrix = Transform2D.makeScale(0f, 100f, scale, scale)
   }

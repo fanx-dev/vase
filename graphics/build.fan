@@ -19,7 +19,7 @@ class Build : BuildPod
     podName  = "vaseGraphics"
     summary  = "Graphics 2D API"
     srcDirs  = [`fan/`]
-    depends  = ["sys 2.0", "std 1.0", "concurrent 1.0", "vaseMath 1.0"]
+    depends  = ["sys 2.0", "std 1.0", "concurrent 1.0"]
     javaDirs = Uri[,]
   }
 }

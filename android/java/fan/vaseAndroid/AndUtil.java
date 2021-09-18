@@ -11,7 +11,6 @@ import android.graphics.Bitmap;
 import android.graphics.Matrix;
 import android.graphics.Typeface;
 import fan.vaseGraphics.*;
-import fan.vaseMath.Transform2D;
 import fan.sys.List;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
@@ -22,13 +21,15 @@ public class AndUtil {
     Matrix m = new Matrix();
     float[] values = new float[9];
 
-    int k = 0;
-    for (int i = 0; i < 3; i++) {
-      for (int j = 0; j < 3; j++) {
-        values[k] = (float) trans.get(j, i);
-        k++;
-      }
-    }
+    values[0] = (float)trans.a;
+    values[1] = (float)trans.b;
+    values[2] = (float)trans.c;
+    values[3] = (float)trans.d;
+    values[4] = (float)trans.e;
+    values[5] = (float)trans.f;
+    values[6] = 0;
+    values[7] = 0;
+    values[8] = 1;
 
     m.setValues(values);
     return m;
@@ -37,15 +38,7 @@ public class AndUtil {
   static public Transform2D toTransform(android.graphics.Matrix trans) {
     float[] elem = new float[9];
     trans.getValues(elem);
-    Transform2D t = Transform2D.make();
-
-    int k = 0;
-    for (int i = 0; i < 3; i++) {
-      for (int j = 0; j < 3; j++) {
-        t.set(j, i, elem[k]);
-        k++;
-      }
-    }
+    Transform2D t = Transform2D.make(elem[0], elem[1], elem[2], elem[3], elem[4], elem[5]);
     return t;
   }
 

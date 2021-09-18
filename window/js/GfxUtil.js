@@ -81,11 +81,11 @@ fan.vaseWindow.GfxUtil.doJsPath = function(cx, path)
 fan.vaseWindow.GfxUtil.doJsTransform = function(cx, trans)
 {
   cx.transform(
-       trans.get(0,0),
-       trans.get(0,1),
-       trans.get(1,0),
-       trans.get(1,1),
-       trans.get(2,0),
-       trans.get(2,1)
+       trans.m_a,
+       trans.m_b,
+       trans.m_c,
+       trans.m_d,
+       trans.m_e,
+       trans.m_f
      );
 }

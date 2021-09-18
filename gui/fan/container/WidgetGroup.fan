@@ -238,7 +238,7 @@ abstract class WidgetGroup : Widget
       if (it.visible)
       {
         g.push
-        g.transform(Transform2D.make.translate(it.x.toFloat, it.y.toFloat))
+        g.transform(Transform2D.makeTranslate(it.x.toFloat, it.y.toFloat))
         it.paint(g)
         g.pop
       }

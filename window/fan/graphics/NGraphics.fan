@@ -5,7 +5,6 @@
 // History:
 //   2021-9-9  Jed Young  Creation
 //
-using vaseMath
 using vaseGraphics
 
 internal class NGraphics : Graphics
@@ -269,12 +268,12 @@ internal class NGraphics : Graphics
   **
   override This transform(Transform2D trans) {
     doTransform(
-       trans.get(0,0),
-       trans.get(0,1),
-       trans.get(1,0),
-       trans.get(1,1),
-       trans.get(2,0),
-       trans.get(2,1)
+       trans.a,
+       trans.b,
+       trans.c,
+       trans.d,
+       trans.e,
+       trans.f
      )
     return this
   }

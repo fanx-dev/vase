@@ -12,7 +12,6 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Path2D;
 import java.awt.image.BufferedImage;
 
-import fan.vaseMath.Transform2D;
 import fan.vaseGraphics.*;
 
 public class WtkUtil {
@@ -43,24 +42,18 @@ public class WtkUtil {
 
   static public AffineTransform toAwtTransform(Transform2D trans) {
     return new AffineTransform(
-       (float)trans.get(0,0),
-       (float)trans.get(0,1),
-       (float)trans.get(1,0),
-       (float)trans.get(1,1),
-       (float)trans.get(2,0),
-       (float)trans.get(2,1));
+       (float)trans.a,
+       (float)trans.b,
+       (float)trans.c,
+       (float)trans.d,
+       (float)trans.e,
+       (float)trans.f);
   }
 
   static public Transform2D toTransform(AffineTransform trans) {
     double[] elem = new double[6];
     trans.getMatrix(elem);
-    Transform2D t = Transform2D.make();
-    t.set(0,0, elem[0]);
-    t.set(0,1, elem[1]);
-    t.set(1,0, elem[2]);
-    t.set(1,1, elem[3]);
-    t.set(2,0, elem[4]);
-    t.set(2,1, elem[5]);
+    Transform2D t = Transform2D.make(elem[0], elem[1], elem[2], elem[3], elem[4], elem[5]);
     return t;
   }
 

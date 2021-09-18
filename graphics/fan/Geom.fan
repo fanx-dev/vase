@@ -234,3 +234,60 @@ const class Rect
   ** Height
   const Int h
 }
+
+
+**************************************************************************
+** GeomUtil
+**************************************************************************
+
+@NoDoc @Js
+const class GeomUtil
+{
+  ** Split with comma or whitespace CSS/SVG styled syntax
+  static Str[] split(Str s)
+  {
+    acc := Str[,]
+    start := 0
+    for (i := 0; i<s.size; ++i)
+    {
+      c := s[i]
+      if (c == ' ' || c == ',')
+      {
+        if (start < i) acc.add(s[start..<i])
+        start = i+1
+      }
+    }
+    if (start < s.size) acc.add(s[start..-1])
+    return acc
+  }
+
+  ** Parse list comma or whitespace separated floats
+  static Float[] parseFloatList(Str s)
+  {
+    split(s).map |tok| { tok.trim.toFloat }
+  }
+
+  ** Format two floats to space separated string
+  static Str formatFloats2(Float a, Float b)
+  {
+    StrBuf()
+      .add(formatFloat(a)).addChar(' ')
+      .add(formatFloat(b)).toStr
+  }
+
+  ** Format four floats to space separated string
+  static Str formatFloats4(Float a, Float b, Float c, Float d)
+  {
+    StrBuf()
+      .add(formatFloat(a)).addChar(' ')
+      .add(formatFloat(b)).addChar(' ')
+      .add(formatFloat(c)).addChar(' ')
+      .add(formatFloat(d)).toStr
+  }
+
+  ** Format float to string
+  static Str formatFloat(Float f)
+  {
+    f.toLocale("0.###")
+  }
+}

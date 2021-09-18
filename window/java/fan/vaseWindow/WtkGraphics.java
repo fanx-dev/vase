@@ -20,7 +20,6 @@ import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.util.Stack;
 
-import fan.vaseMath.Transform2D;
 import fan.vaseGraphics.*;
 import fan.sys.ArgErr;
 import fan.sys.FanObj;

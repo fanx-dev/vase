@@ -20,7 +20,6 @@ import android.graphics.Shader;
 import android.graphics.Typeface;
 import android.graphics.PorterDuff;
 import fan.vaseGraphics.*;
-import fan.vaseMath.Transform2D;
 import fan.sys.ArgErr;
 import fan.sys.FanObj;
 import android.graphics.PorterDuff;
