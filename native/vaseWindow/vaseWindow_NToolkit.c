@@ -3,9 +3,7 @@
 
 fr_Obj vaseWindow_NToolkit_curWindow = NULL;
 
-void run() {
-
-}
+extern float desityScale;
 
 fr_Obj vaseWindow_NToolkit_window(fr_Env env, fr_Obj self, fr_Obj view) {
     if (view) {
@@ -20,7 +18,7 @@ void vaseWindow_NToolkit_callLater(fr_Env env, fr_Obj self, fr_Int delay, fr_Obj
     return;
 }
 fr_Int vaseWindow_NToolkit_dpi(fr_Env env, fr_Obj self) {
-    return 90;
+    return 90 * desityScale;
 }
 fr_Bool vaseWindow_NToolkit_openUri(fr_Env env, fr_Obj self, fr_Obj uri, fr_Obj options) {
     return 0;

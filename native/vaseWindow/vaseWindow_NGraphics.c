@@ -33,20 +33,40 @@ void vaseWindow_NGraphics_setNvgContext(fr_Env env, fr_Obj self, NVGcontext* r) 
     fr_setInstanceField(env, self, f, &val);
 }
 
-fr_Int vaseWindow_NGraphics_getSurface(fr_Env env, fr_Obj self) {
+//fr_Int vaseWindow_NGraphics_getSurface(fr_Env env, fr_Obj self) {
+//    static fr_Field f = NULL;
+//    if (f == NULL) f = fr_findField(env, fr_getObjType(env, self), "surface");
+//    fr_Value val;
+//    fr_getInstanceField(env, self, f, &val);
+//    return (val.i);
+//}
+//
+//void vaseWindow_NGraphics_setSurface(fr_Env env, fr_Obj self, fr_Int r) {
+//    static fr_Field f = NULL;
+//    if (f == NULL) f = fr_findField(env, fr_getObjType(env, self), "surface");
+//    fr_Value val;
+//    val.i = (fr_Int)r;
+//    fr_setInstanceField(env, self, f, &val);
+//}
+
+fr_Obj vaseWindow_NGraphics_getBitmap(fr_Env env, fr_Obj self) {
     static fr_Field f = NULL;
-    if (f == NULL) f = fr_findField(env, fr_getObjType(env, self), "surface");
+    if (f == NULL) f = fr_findField(env, fr_getObjType(env, self), "bitmap");
     fr_Value val;
     fr_getInstanceField(env, self, f, &val);
-    return (val.i);
+    return (val.h);
 }
 
-void vaseWindow_NGraphics_setSurface(fr_Env env, fr_Obj self, fr_Int r) {
+void vaseWindow_NGraphics_setBitmap(fr_Env env, fr_Obj self, fr_Obj r) {
     static fr_Field f = NULL;
-    if (f == NULL) f = fr_findField(env, fr_getObjType(env, self), "surface");
+    if (f == NULL) f = fr_findField(env, fr_getObjType(env, self), "bitmap");
     fr_Value val;
-    val.i = (fr_Int)r;
+    val.h = r;
     fr_setInstanceField(env, self, f, &val);
+}
+
+void vaseWindow_NGraphics_init(fr_Env env, fr_Obj self) {
+    vaseWindow_NGraphics_setColor(env, self, 255, 0, 0, 0);
 }
 
 void vaseWindow_NGraphics_setColor(fr_Env env, fr_Obj self, fr_Int a, fr_Int r, fr_Int g, fr_Int b) {
@@ -335,12 +355,12 @@ fr_Obj vaseWindow_NGraphics_drawText(fr_Env env, fr_Obj self, fr_Obj s, fr_Int x
 
 void vaseWindow_NGraphics_doDrawImage(fr_Env env, fr_Obj self, fr_Obj image, fr_Int srcX, fr_Int srcY, fr_Int srcW, fr_Int srcH, fr_Int dstX, fr_Int dstY, fr_Int dstW, fr_Int dstH) {
     NVGcontext* vg = vaseWindow_NGraphics_geNvgContext(env, self);
-    int handle = vaseWindow_NImage_getHandle(env, image);
+    fr_Int handle = vaseWindow_NImage_getHandle(env, image);
     int w, h;
     vaseWindow_NImage_getSize(env, image, &w, &h);
     if (!handle) {
-        handle = nvgCreateImageRGBA(vg, w, h, 0, vaseWindow_NImage_getData(env, self));
-        vaseWindow_NImage_setHandle(env, self, handle);
+        handle = nvgCreateImageRGBA(vg, w, h, 0, vaseWindow_NImage_getData(env, image));
+        vaseWindow_NImage_setHandle(env, image, handle);
     }
     else if (vaseWindow_NImage_getFlags(env, image)) {
         NVGLUframebuffer* fb = (NVGLUframebuffer*)handle;
@@ -349,14 +369,22 @@ void vaseWindow_NGraphics_doDrawImage(fr_Env env, fr_Obj self, fr_Obj image, fr_
 
     nvgSave(vg);
 
-    NVGpaint paint = nvgImagePattern(vg, srcX, srcY, srcW, srcH,
-        0, handle, 0);
-    nvgFillPaint(vg, paint);
-
+    NVGpaint paint = nvgImagePattern(vg, 0, 0, w, h,
+        0, handle, 1);
+    
     nvgBeginPath(vg);
-    nvgRect(vg, dstX, dstY, dstW, dstH);
-    nvgFill(vg);
+    //nvgRect(vg, dstX, dstY, dstW, dstH);
+    //nvgRect(vg, 50, 50, dstW, dstH);
 
+    float scaleX = (float)dstW / srcW;
+    float scaleY = (float)dstH / srcH;
+    nvgTranslate(vg, dstX - (srcX * scaleX), dstY - (srcY * scaleY));
+    //nvgTranslate(vg, 50, 50);
+    nvgScale(vg, scaleX, scaleY);
+    nvgRect(vg, srcX, srcY, srcW, srcH);
+
+    nvgFillPaint(vg, paint);
+    nvgFill(vg);
     nvgRestore(vg);
 }
 void vaseWindow_NGraphics_doClip(fr_Env env, fr_Obj self, fr_Int x, fr_Int y, fr_Int w, fr_Int h) {
@@ -372,11 +400,9 @@ void vaseWindow_NGraphics_popNative(fr_Env env, fr_Obj self) {
     nvgRestore(vg);
 }
 void vaseWindow_NGraphics_dispose(fr_Env env, fr_Obj self) {
-    int surface = vaseWindow_NGraphics_getSurface(env, self);
+    fr_Obj surface = vaseWindow_NGraphics_getBitmap(env, self);
     if (surface) {
-        NVGcontext* vg = vaseWindow_NGraphics_geNvgContext(env, self);
-        nvgEndFrame(vg);
-        nvgluBindFramebuffer(NULL);
+        vaseWindow_NImage_endGraphics(self, surface);
         vaseWindow_NGraphics_setNvgContext(env, self, NULL);
     }
     return;

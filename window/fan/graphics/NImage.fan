@@ -45,11 +45,11 @@ rtconst class NImage : Image
   ** Returns the pixel value at x,y
   **
   override Int getPixel(Int x, Int y) {
-    pos := width * y + x
-    a := data[pos].and(0xff)
-    r := data[pos+1].and(0xff)
-    g := data[pos+2].and(0xff)
-    b := data[pos+3].and(0xff)
+    pos := (width * y + x) * 4
+    r := data[pos].and(0xff)
+    g := data[pos+1].and(0xff)
+    b := data[pos+2].and(0xff)
+    a := data[pos+3].and(0xff)
     return a.shiftl(24).or(r.shiftl(16)).or(g.shiftl(8)).or(b)
   }
 
@@ -57,16 +57,16 @@ rtconst class NImage : Image
   ** Set the pixel value at x,y
   **
   override Void setPixel(Int x, Int y, Int p) {
-    pos := width * y + x
+    pos := (width * y + x) * 4
     a := p.and(0xff000000).shiftr(24)
     r := p.and(0x00ff0000).shiftr(16)
     g := p.and(0x0000ff00).shiftr(8)
     b := p.and(0x000000ff)
 
-    data[pos] = a
-    data[pos+1] = r
-    data[pos+2] = g
-    data[pos+3] = b
+    data[pos] = r
+    data[pos+1] = g
+    data[pos+2] = b
+    data[pos+3] = a
   }
 
   **

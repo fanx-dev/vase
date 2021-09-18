@@ -11,9 +11,17 @@ using vaseGraphics
 internal class NGraphics : Graphics
 {
   private Int handle
-  private Int surface
+  private Image? bitmap
   
   private GraphicsState[] stack = [,]
+
+
+  new make(Int handle) {
+    this.handle = handle
+    init()
+  }
+
+  private native Void init()
 
   **
   ** Current brush defines how text and shapes are filled.

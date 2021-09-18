@@ -4,15 +4,13 @@
 #include "GL/glew.h"
 #include "nanovg.h"
 #include "nanovg_gl.h"
-#define NANOVG_GL_IMPLEMENTATION
 #include "nanovg_gl_utils.h"
 
 #define STB_IMAGE_WRITE_IMPLEMENTATION
 #include "stb_image_write.h"
 
 extern NVGcontext* g_nanovg;
-void vaseWindow_NGraphics_setSurface(fr_Env env, fr_Obj self, fr_Int r);
-void vaseWindow_NGraphics_setNvgContext(fr_Env env, fr_Obj self, NVGcontext* r);
+void vaseWindow_NGraphics_setBitmap(fr_Env env, fr_Obj self, fr_Obj r);
 
 
 static void flipHorizontal(unsigned char* image, int w, int h, int stride)
@@ -36,23 +34,34 @@ char* vaseWindow_NImage_getData(fr_Env env, fr_Obj self) {
 	char* dataptr = fr_arrayData(env, data);
 	return dataptr;
 }
+void vaseWindow_NImage_getSize(fr_Env env, fr_Obj self, int* w, int* h) {
+	static fr_Field fw = NULL;
+	static fr_Field fh = NULL;
+	if (fw == NULL) {
+		fr_Type type = fr_getObjType(env, self);
+		fw = fr_findField(env, type, "width");
+		fh = fr_findField(env, type, "height");
+	}
+	fr_Value value;
+	fr_getInstanceField(env, self, fw, &value);
+	*w = value.i;
+
+	fr_getInstanceField(env, self, fh, &value);
+	*h = value.i;
+}
 
 void vaseWindow_NImage_save(fr_Env env, fr_Obj self, fr_Obj out, fr_Obj format) {
-	fr_Obj data = fr_getFieldS(env, self, "data").h;
-	char* dataptr = fr_arrayData(env, data);
+	char* dataptr = vaseWindow_NImage_getData(env, self);
 
-	int w = fr_getFieldS(env, self, "width").i;
-	int h = fr_getFieldS(env, self, "height").i;
-	glReadPixels(0, 0, w, h, GL_RGBA, GL_UNSIGNED_BYTE, dataptr);
-	flipHorizontal(dataptr, w, h, w * 4);
+	int w, h;
+	vaseWindow_NImage_getSize(env, self, &w, &h);
 	
 	int len;
 	int stride_bytes = w * 4;
-	unsigned char* png = stbi_write_png_to_mem((unsigned char*)data, stride_bytes, w, h, 4, &len);
+	unsigned char* png = stbi_write_png_to_mem((unsigned char*)dataptr, stride_bytes, w, h, 4, &len);
 
-	int size = w * h * 4;
-	fr_Obj bufdata = fr_arrayNew(env, fr_findType(env, "sys", "Array"), 1, size);
-	memcpy(bufdata, png, size);
+	fr_Obj bufdata = fr_arrayNew(env, fr_findType(env, "sys", "Int"), 1, len);
+	memcpy(fr_arrayData(env, bufdata), png, len);
 	free(png);
 
 	fr_callOnObj(env, out, "writeBytes", 1, bufdata);
@@ -64,11 +73,6 @@ fr_Int vaseWindow_NImage_getHandle(fr_Env env, fr_Obj self) {
 	fr_Value val;
 	fr_getInstanceField(env, self, f, &val);
 	return (val.i);
-}
-
-void vaseWindow_NImage_getSize(fr_Env env, fr_Obj self, int *w, int *h) {
-	*w = fr_getFieldS(env, self, "width").i;
-	*h = fr_getFieldS(env, self, "height").i;
 }
 
 void vaseWindow_NImage_setHandle(fr_Env env, fr_Obj self, fr_Int r) {
@@ -110,32 +114,65 @@ void vaseWindow_NImage_dispose(fr_Env env, fr_Obj self) {
 	return;
 }
 
+void vaseWindow_NImage_endGraphics(fr_Env env, fr_Obj self) {
+	nvgEndFrame(g_nanovg);
+
+	char* dataptr = vaseWindow_NImage_getData(env, self);
+	int w, h;
+	vaseWindow_NImage_getSize(env, self, &w, &h);
+	glReadPixels(0, 0, w, h, GL_RGBA, GL_UNSIGNED_BYTE, dataptr);
+	flipHorizontal(dataptr, w, h, w * 4);
+
+	nvgluBindFramebuffer(NULL);
+}
+
 fr_Obj vaseWindow_NImage_createGraphics(fr_Env env, fr_Obj self) {
-
-    NVGLUframebuffer* fb = NULL;
-	int w = fr_getFieldS(env, self, "width").i;
-	int h = fr_getFieldS(env, self, "height").i;
-	fb = nvgluCreateFramebuffer(g_nanovg, w, h, 0);
-	if (fb == NULL) {
-		printf("Could not create FBO.\n");
-		return -1;
+	if (g_nanovg == NULL) {
+		printf("state error\n");
+		fr_throwUnsupported(env);
+		return NULL;
 	}
 
-	if (vaseWindow_NImage_getHandle(env, self)) {
-		vaseWindow_NImage_dispose(env, self);
+	NVGLUframebuffer* fb = NULL;
+	int w, h;
+	vaseWindow_NImage_getSize(env, self, &w, &h);
+
+	if (vaseWindow_NImage_getFlags(env, self) == 0) {
+		
+		fb = nvgluCreateFramebuffer(g_nanovg, w, h, 0);
+		if (fb == NULL) {
+			printf("Could not create FBO.\n");
+			fr_throwUnsupported(env);
+			return NULL;
+		}
+
+		if (vaseWindow_NImage_getHandle(env, self)) {
+			vaseWindow_NImage_dispose(env, self);
+		}
+		vaseWindow_NImage_setHandle(env, self, fb);
+		vaseWindow_NImage_setFlags(env, self, 1);
 	}
-	vaseWindow_NImage_setHandle(env, self, fb);
-	vaseWindow_NImage_setFlags(env, self, 1);
+	else {
+		fb = vaseWindow_NImage_getHandle(env, self);
+	}
 
 	nvgluBindFramebuffer(fb);
 	glViewport(0, 0, w, h);
 	glClearColor(0, 0, 0, 0);
+	//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 	glClear(GL_COLOR_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 	nvgBeginFrame(g_nanovg, w, h, 1);
 
+	nvgUpdateImage(g_nanovg, fb->image, vaseWindow_NImage_getData(env, self));
 
-	fr_Obj graphics = fr_newObjS(env, "vaseWindow", "NGraphics", "make", 0);
-	vaseWindow_NGraphics_setNvgContext(env, graphics, g_nanovg);
-	vaseWindow_NGraphics_setSurface(env, graphics, fb);
+
+	/*nvgBeginPath(g_nanovg);
+	nvgCircle(g_nanovg, 10, 10, 10);
+	nvgCircle(g_nanovg, 100, 100, 10);
+	nvgFillColor(g_nanovg, nvgRGBA(220, 160, 0, 200));
+	nvgFill(g_nanovg);*/
+
+	fr_Obj graphics = fr_newObjS(env, "vaseWindow", "NGraphics", "make", 1, g_nanovg);
+	vaseWindow_NGraphics_setBitmap(env, graphics, self);
 	return graphics;
 }

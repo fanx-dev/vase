@@ -105,19 +105,20 @@ void drawFrame(fr_Env env, fr_Obj self, struct Window* handle, fr_Obj graphics) 
 
 #else
 
-#include "nanovg.h"
-#define NANOVG_GL3_IMPLEMENTATION
-#include "nanovg_gl.h"
+extern "C" {
+    #include "nanovg.h"
+    #define NANOVG_GL3_IMPLEMENTATION
+    #include "nanovg_gl.h"
+    #include "nanovg_gl_utils.h"
+
+    NVGcontext* g_nanovg;
+    float desityScale = 1;
+}
 
 struct Window {
     GLFWwindow* window;
-    NVGcontext *nanovg;
+    NVGcontext* nanovg;
 };
-
-extern "C" {
-    NVGcontext* g_nanovg;
-    void vaseWindow_NGraphics_setNvgContext(fr_Env env, fr_Obj self, NVGcontext* r);
-}
 
 fr_Obj initContext(fr_Env env, struct Window* handle) {
     
@@ -127,8 +128,7 @@ fr_Obj initContext(fr_Env env, struct Window* handle) {
     assert(font != -1);
 #endif
     g_nanovg = handle->nanovg;
-    fr_Obj graphics = fr_newObjS(env, "vaseWindow", "NGraphics", "make", 0);
-    vaseWindow_NGraphics_setNvgContext(env, graphics, handle->nanovg);
+    fr_Obj graphics = fr_newObjS(env, "vaseWindow", "NGraphics", "make", 1, handle->nanovg);
     return graphics;
 }
 
@@ -167,6 +167,7 @@ void drawFrame(fr_Env env, fr_Obj self, struct Window* handle, fr_Obj graphics) 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
     nvgBeginFrame(vg, winWidth, winHeight, pxRatio);
+    nvgScale(vg, desityScale, desityScale);
 
     fr_Value value;
     fr_getInstanceField(env, self, viewF, &value);
@@ -190,6 +191,12 @@ void vaseWindow_NWindow_show(fr_Env env, fr_Obj self, fr_Obj size) {
 
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 2);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
+    glfwWindowHint(GLFW_SCALE_TO_MONITOR, GLFW_TRUE);
+
+    GLFWmonitor* monitor = glfwGetPrimaryMonitor();
+    float xscale, yscale;
+    glfwGetMonitorContentScale(monitor, &xscale, &yscale);
+    desityScale = xscale > yscale ? xscale : yscale;
 
     window = glfwCreateWindow(600, 600, "Simple example", NULL, NULL);
     if (!window)
@@ -210,13 +217,6 @@ void vaseWindow_NWindow_show(fr_Env env, fr_Obj self, fr_Obj size) {
 
     while (!glfwWindowShouldClose(window))
     {
-        float ratio;
-        int width, height;
-        //mat4x4 m, p, mvp;
-
-        glfwGetFramebufferSize(window, &width, &height);
-        ratio = width / (float)height;
-
         drawFrame(env, self, handle, graphics);
 
         glfwSwapBuffers(window);

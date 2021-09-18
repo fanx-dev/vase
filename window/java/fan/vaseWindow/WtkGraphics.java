@@ -39,6 +39,7 @@ public class WtkGraphics implements Graphics {
   public WtkGraphics(Graphics2D gc)
   {
     this.gc = gc;
+    brush(brush);
   }
 
   @Override

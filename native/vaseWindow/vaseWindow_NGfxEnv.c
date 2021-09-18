@@ -14,6 +14,8 @@ void vaseWindow_NGfxEnv_initFont(fr_Env env, fr_Obj self, fr_Obj font) {
     const char* fname = fr_getStrUtf8(env, name);
     int fid = nvgFindFont(g_nanovg, fname);
 
+    if (fid == -1) fid = nvgFindFont(g_nanovg, "sans");
+
     fr_Value value;
     value.i = fid;
     fr_setFieldS(env, font, "handle", value);
@@ -28,9 +30,9 @@ struct InputStreamCtx {
 
 static int read(void* user, char* data, int size) {
     struct InputStreamCtx* ctx = (struct InputStreamCtx*)user;
-    fr_Method method = fr_findMethod(ctx->env, fr_getObjType(ctx->env, ctx->in), "readBytes");
+    fr_Method method = fr_findMethodN(ctx->env, fr_getObjType(ctx->env, ctx->in), "readBytes", 1);
 
-    fr_Obj dataArray = fr_arrayNew(ctx->env, fr_findType(ctx->env, "sys", "Array"), 1, size);
+    fr_Obj dataArray = fr_arrayNew(ctx->env, fr_findType(ctx->env, "sys", "Int"), 1, size);
 
     int readSize = fr_callMethod(ctx->env, method, 2, ctx->in, dataArray).i;
 
@@ -70,12 +72,12 @@ fr_Obj vaseWindow_NGfxEnv_fromStream(fr_Env env, fr_Obj self, fr_Obj in) {
     stbi_uc* ret = stbi_load_from_callbacks(&callbacks, &ctx, &width, &height, &components, STBI_rgb_alpha);
     if (!ret)
     {
-        fr_throwUnsupported(env);
+        fr_throwNew(env, "sys", "IOErr", "unsupported");
         return;
     }
 
     int size = width * height * components;
-    fr_Obj data = fr_arrayNew(env, fr_findType(env, "sys", "Array"), 1, size);
+    fr_Obj data = fr_arrayNew(env, fr_findType(env, "sys", "Int"), 1, size);
     char* rawdata = fr_arrayData(env, data);
     memcpy(rawdata, ret, size);
 
