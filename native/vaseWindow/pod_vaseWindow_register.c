@@ -32,9 +32,11 @@ void vaseWindow_NFont_ascent_v(fr_Env env, void *param, void *ret);
 void vaseWindow_NFont_descent_v(fr_Env env, void *param, void *ret);
 void vaseWindow_NFont_width_v(fr_Env env, void *param, void *ret);
 void vaseWindow_NGfxEnv_initFont_v(fr_Env env, void *param, void *ret);
+void vaseWindow_NGfxEnv_allocImage_v(fr_Env env, void *param, void *ret);
 void vaseWindow_NGfxEnv_fromStream_v(fr_Env env, void *param, void *ret);
 void vaseWindow_NGfxEnv_contains_v(fr_Env env, void *param, void *ret);
 void vaseWindow_NGfxEnv_finalize_v(fr_Env env, void *param, void *ret);
+void vaseWindow_NGraphics_init_v(fr_Env env, void *param, void *ret);
 void vaseWindow_NGraphics_setColor_v(fr_Env env, void *param, void *ret);
 void vaseWindow_NGraphics_setPattern_v(fr_Env env, void *param, void *ret);
 void vaseWindow_NGraphics_setGradient_v(fr_Env env, void *param, void *ret);
@@ -67,9 +69,12 @@ void vaseWindow_NGraphics_fillPath_v(fr_Env env, void *param, void *ret);
 void vaseWindow_NGraphics_doTransform_v(fr_Env env, void *param, void *ret);
 void vaseWindow_NGraphics_clipPath_v(fr_Env env, void *param, void *ret);
 void vaseWindow_NGraphics_setShadow_v(fr_Env env, void *param, void *ret);
+void vaseWindow_NImage_getPixel_v(fr_Env env, void *param, void *ret);
+void vaseWindow_NImage_setPixel_v(fr_Env env, void *param, void *ret);
 void vaseWindow_NImage_save_v(fr_Env env, void *param, void *ret);
 void vaseWindow_NImage_createGraphics_v(fr_Env env, void *param, void *ret);
 void vaseWindow_NImage_dispose_v(fr_Env env, void *param, void *ret);
+void vaseWindow_NImage_finalize_v(fr_Env env, void *param, void *ret);
 
 void vaseWindow_register(fr_Fvm vm) {
     fr_registerMethod(vm, "vaseWindow_NClipboard_getTextSync", vaseWindow_NClipboard_getTextSync_v);
@@ -104,9 +109,11 @@ void vaseWindow_register(fr_Fvm vm) {
     fr_registerMethod(vm, "vaseWindow_NFont_descent", vaseWindow_NFont_descent_v);
     fr_registerMethod(vm, "vaseWindow_NFont_width", vaseWindow_NFont_width_v);
     fr_registerMethod(vm, "vaseWindow_NGfxEnv_initFont", vaseWindow_NGfxEnv_initFont_v);
+    fr_registerMethod(vm, "vaseWindow_NGfxEnv_allocImage", vaseWindow_NGfxEnv_allocImage_v);
     fr_registerMethod(vm, "vaseWindow_NGfxEnv_fromStream", vaseWindow_NGfxEnv_fromStream_v);
     fr_registerMethod(vm, "vaseWindow_NGfxEnv_contains", vaseWindow_NGfxEnv_contains_v);
     fr_registerMethod(vm, "vaseWindow_NGfxEnv_finalize", vaseWindow_NGfxEnv_finalize_v);
+    fr_registerMethod(vm, "vaseWindow_NGraphics_init", vaseWindow_NGraphics_init_v);
     fr_registerMethod(vm, "vaseWindow_NGraphics_setColor", vaseWindow_NGraphics_setColor_v);
     fr_registerMethod(vm, "vaseWindow_NGraphics_setPattern", vaseWindow_NGraphics_setPattern_v);
     fr_registerMethod(vm, "vaseWindow_NGraphics_setGradient", vaseWindow_NGraphics_setGradient_v);
@@ -139,7 +146,10 @@ void vaseWindow_register(fr_Fvm vm) {
     fr_registerMethod(vm, "vaseWindow_NGraphics_doTransform", vaseWindow_NGraphics_doTransform_v);
     fr_registerMethod(vm, "vaseWindow_NGraphics_clipPath", vaseWindow_NGraphics_clipPath_v);
     fr_registerMethod(vm, "vaseWindow_NGraphics_setShadow", vaseWindow_NGraphics_setShadow_v);
+    fr_registerMethod(vm, "vaseWindow_NImage_getPixel", vaseWindow_NImage_getPixel_v);
+    fr_registerMethod(vm, "vaseWindow_NImage_setPixel", vaseWindow_NImage_setPixel_v);
     fr_registerMethod(vm, "vaseWindow_NImage_save", vaseWindow_NImage_save_v);
     fr_registerMethod(vm, "vaseWindow_NImage_createGraphics", vaseWindow_NImage_createGraphics_v);
     fr_registerMethod(vm, "vaseWindow_NImage_dispose", vaseWindow_NImage_dispose_v);
+    fr_registerMethod(vm, "vaseWindow_NImage_finalize", vaseWindow_NImage_finalize_v);
 }

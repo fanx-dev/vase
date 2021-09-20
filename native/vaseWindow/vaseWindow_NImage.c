@@ -30,10 +30,21 @@ static void flipHorizontal(unsigned char* image, int w, int h, int stride)
 }
 
 char* vaseWindow_NImage_getData(fr_Env env, fr_Obj self) {
-	fr_Obj data = fr_getFieldS(env, self, "data").h;
-	char* dataptr = fr_arrayData(env, data);
-	return dataptr;
+	static fr_Field f = NULL;
+	if (f == NULL) f = fr_findField(env, fr_getObjType(env, self), "data");
+	fr_Value val;
+	fr_getInstanceField(env, self, f, &val);
+	return (char*)(val.i);
 }
+
+void vaseWindow_NImage_setData(fr_Env env, fr_Obj self, char * r) {
+	static fr_Field f = NULL;
+	if (f == NULL) f = fr_findField(env, fr_getObjType(env, self), "data");
+	fr_Value val;
+	val.i = (fr_Int)r;
+	fr_setInstanceField(env, self, f, &val);
+}
+
 void vaseWindow_NImage_getSize(fr_Env env, fr_Obj self, int* w, int* h) {
 	static fr_Field fw = NULL;
 	static fr_Field fh = NULL;
@@ -99,9 +110,39 @@ void vaseWindow_NImage_setFlags(fr_Env env, fr_Obj self, fr_Int r) {
 	fr_setInstanceField(env, self, f, &val);
 }
 
+fr_Int vaseWindow_NImage_getPixel(fr_Env env, fr_Obj self, fr_Int x, fr_Int y) {
+	char* data = vaseWindow_NImage_getData(env, self);
+	int w, h;
+	vaseWindow_NImage_getSize(env, self, &w, &h);
+
+	int pos = (w * y + x) * 4;
+	int r = data[pos] & (0xff);
+	int g = data[pos + 1] & (0xff);
+	int b = data[pos + 2] & (0xff);
+	int a = data[pos + 3] & (0xff);
+	return (a << 24) | (r << 16) | (g << 8) | b;
+}
+
+void vaseWindow_NImage_setPixel(fr_Env env, fr_Obj self, fr_Int x, fr_Int y, fr_Int p) {
+	char* data = vaseWindow_NImage_getData(env, self);
+	int w, h;
+	vaseWindow_NImage_getSize(env, self, &w, &h);
+
+	int pos  = (w * y + x) * 4;
+	int a = (p & 0xff000000) >> (24);
+	int r = (p & 0x00ff0000) >> (16);
+	int g = (p & 0x0000ff00) >> (8);
+	int b = (p & 0x000000ff);
+
+	data[pos] = r;
+	data[pos + 1] = g;
+	data[pos + 2] = b;
+	data[pos + 3] = a;
+}
+
 void vaseWindow_NImage_dispose(fr_Env env, fr_Obj self) {
 	if (vaseWindow_NImage_getFlags(env, self) != 0) {
-		NVGLUframebuffer* fb = vaseWindow_NImage_getHandle(env, self);
+		NVGLUframebuffer* fb = (NVGLUframebuffer*)vaseWindow_NImage_getHandle(env, self);
 		nvgluDeleteFramebuffer(fb);
 	}
 	else {
@@ -124,6 +165,9 @@ void vaseWindow_NImage_endGraphics(fr_Env env, fr_Obj self) {
 	flipHorizontal(dataptr, w, h, w * 4);
 
 	nvgluBindFramebuffer(NULL);
+
+	nvgBeginFrame(g_nanovg, w, h, 1);
+	nvgRestore(g_nanovg);
 }
 
 fr_Obj vaseWindow_NImage_createGraphics(fr_Env env, fr_Obj self) {
@@ -132,6 +176,8 @@ fr_Obj vaseWindow_NImage_createGraphics(fr_Env env, fr_Obj self) {
 		fr_throwUnsupported(env);
 		return NULL;
 	}
+	nvgSave(g_nanovg);
+	nvgEndFrame(g_nanovg);
 
 	NVGLUframebuffer* fb = NULL;
 	int w, h;
@@ -175,4 +221,10 @@ fr_Obj vaseWindow_NImage_createGraphics(fr_Env env, fr_Obj self) {
 	fr_Obj graphics = fr_newObjS(env, "vaseWindow", "NGraphics", "make", 1, g_nanovg);
 	vaseWindow_NGraphics_setBitmap(env, graphics, self);
 	return graphics;
+}
+
+void vaseWindow_NImage_finalize(fr_Env env, fr_Obj self) {
+	char* data = vaseWindow_NImage_getData(env, self);
+	free(data);
+	vaseWindow_NImage_setData(env, self, NULL);
 }

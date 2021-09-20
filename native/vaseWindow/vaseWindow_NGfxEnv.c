@@ -5,6 +5,7 @@
 #include "nanovg.h"
 #include "stb_image.h"
 
+#include <stdlib.h>
 #include <memory.h>
 
 extern NVGcontext* g_nanovg;
@@ -57,6 +58,15 @@ static int eof(void* user) {
     return ctx->isEof;
 }
 
+fr_Obj vaseWindow_NGfxEnv_allocImage(fr_Env env, fr_Obj self, fr_Int w, fr_Int h) {
+    int components = 4;
+    int size = w * h * components;
+    char* data = (char*)calloc(1, size);
+
+    fr_Obj bitmap = fr_newObjS(env, "vaseWindow", "NImage", "makeData", 3, (fr_Int)data, (fr_Int)w, (fr_Int)h);
+    return bitmap;
+}
+
 fr_Obj vaseWindow_NGfxEnv_fromStream(fr_Env env, fr_Obj self, fr_Obj in) {
 
     stbi_io_callbacks callbacks;
@@ -69,19 +79,16 @@ fr_Obj vaseWindow_NGfxEnv_fromStream(fr_Env env, fr_Obj self, fr_Obj in) {
     ctx.isEof = false;
 
     int width, height, components;
-    stbi_uc* ret = stbi_load_from_callbacks(&callbacks, &ctx, &width, &height, &components, STBI_rgb_alpha);
-    if (!ret)
+    stbi_uc* data = stbi_load_from_callbacks(&callbacks, &ctx, &width, &height, &components, STBI_rgb_alpha);
+    if (!data)
     {
         fr_throwNew(env, "sys", "IOErr", "unsupported");
         return;
     }
 
-    int size = width * height * components;
-    fr_Obj data = fr_arrayNew(env, fr_findType(env, "sys", "Int"), 1, size);
-    char* rawdata = fr_arrayData(env, data);
-    memcpy(rawdata, ret, size);
+    //int size = width * height * components;
 
-    fr_Obj bitmap = fr_newObjS(env, "vaseWindow", "NImage", "makeData", 3, data, (fr_Int)width, (fr_Int)height);
+    fr_Obj bitmap = fr_newObjS(env, "vaseWindow", "NImage", "makeData", 3, (fr_Int)data, (fr_Int)width, (fr_Int)height);
     return bitmap;
 }
 fr_Bool vaseWindow_NGfxEnv_contains(fr_Env env, fr_Obj self, fr_Obj path, fr_Float x, fr_Float y) {

@@ -61,7 +61,8 @@ const class NGfxEnv : GfxEnv
     return image;
   }
 
-  override Image makeImage(Size size) { NImage.makeSize(size.w, size.h) }
+  override Image makeImage(Size size) { allocImage(size.w, size.h) }
+  private native Image allocImage(Int w, Int h)
 
   native override Image fromStream(InStream in)
 

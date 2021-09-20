@@ -33,9 +33,11 @@ fr_Int vaseWindow_NFont_ascent(fr_Env env, fr_Obj self);
 fr_Int vaseWindow_NFont_descent(fr_Env env, fr_Obj self);
 fr_Int vaseWindow_NFont_width(fr_Env env, fr_Obj self, fr_Obj s);
 void vaseWindow_NGfxEnv_initFont(fr_Env env, fr_Obj self, fr_Obj font);
+fr_Obj vaseWindow_NGfxEnv_allocImage(fr_Env env, fr_Obj self, fr_Int w, fr_Int h);
 fr_Obj vaseWindow_NGfxEnv_fromStream(fr_Env env, fr_Obj self, fr_Obj in);
 fr_Bool vaseWindow_NGfxEnv_contains(fr_Env env, fr_Obj self, fr_Obj path, fr_Float x, fr_Float y);
 void vaseWindow_NGfxEnv_finalize(fr_Env env, fr_Obj self);
+void vaseWindow_NGraphics_init(fr_Env env, fr_Obj self);
 void vaseWindow_NGraphics_setColor(fr_Env env, fr_Obj self, fr_Int a, fr_Int r, fr_Int g, fr_Int b);
 void vaseWindow_NGraphics_setPattern(fr_Env env, fr_Obj self, fr_Obj pattern);
 void vaseWindow_NGraphics_setGradient(fr_Env env, fr_Obj self, fr_Obj gradient);
@@ -68,8 +70,11 @@ fr_Obj vaseWindow_NGraphics_fillPath(fr_Env env, fr_Obj self, fr_Obj path);
 void vaseWindow_NGraphics_doTransform(fr_Env env, fr_Obj self, fr_Float a, fr_Float b, fr_Float c, fr_Float d, fr_Float e, fr_Float f);
 fr_Obj vaseWindow_NGraphics_clipPath(fr_Env env, fr_Obj self, fr_Obj path);
 fr_Obj vaseWindow_NGraphics_setShadow(fr_Env env, fr_Obj self, fr_Obj shadow);
+fr_Int vaseWindow_NImage_getPixel(fr_Env env, fr_Obj self, fr_Int x, fr_Int y);
+void vaseWindow_NImage_setPixel(fr_Env env, fr_Obj self, fr_Int x, fr_Int y, fr_Int p);
 void vaseWindow_NImage_save(fr_Env env, fr_Obj self, fr_Obj out, fr_Obj format);
 fr_Obj vaseWindow_NImage_createGraphics(fr_Env env, fr_Obj self);
 void vaseWindow_NImage_dispose(fr_Env env, fr_Obj self);
+void vaseWindow_NImage_finalize(fr_Env env, fr_Obj self);
 
 CF_END

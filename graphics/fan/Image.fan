@@ -69,9 +69,23 @@ rtconst abstract class Image
   protected new privateMake() {}
 
   **
+  ** create graphics context from image and paint by the given function.
+  **
+  This paint(|Graphics| f) {
+    g := graphics
+    try {
+      f(g)
+    }
+    finally {
+      g.dispose
+    }
+    return this
+  }
+
+  **
   ** get graphics context from image
   **
-  Graphics graphics() {
+  @NoDoc Graphics graphics() {
     if (_immutable) throw ReadonlyErr()
     return createGraphics
   }

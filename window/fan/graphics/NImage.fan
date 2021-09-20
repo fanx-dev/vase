@@ -15,20 +15,14 @@ rtconst class NImage : Image
 {
   private Int handle
   private Int flags
-  private Array<Int8>? data
+  private Int data
   Int width { private set }
   Int height { private set }
 
   protected new privateMake() : super.privateMake() {}
 
-  new makeSize(Int w, Int h) {
-    width = w
-    height = h
-    data = Array<Int8>(w*h*4)
-  }
-
-  new makeData(Array<Int8> d, Int w, Int h) {
-    data = d
+  new makeData(Int data, Int w, Int h) {
+    this.data = data
     width = w
     height = h
   }
@@ -38,35 +32,17 @@ rtconst class NImage : Image
   **
   ** is loaded in javascript
   **
-  override Bool isReady() { data != null }
+  override Bool isReady() { data != 0 }
 
   **
   ** Returns the pixel value at x,y
   **
-  override Int getPixel(Int x, Int y) {
-    pos := (width * y + x) * 4
-    r := data[pos].and(0xff)
-    g := data[pos+1].and(0xff)
-    b := data[pos+2].and(0xff)
-    a := data[pos+3].and(0xff)
-    return a.shiftl(24).or(r.shiftl(16)).or(g.shiftl(8)).or(b)
-  }
+  native override Int getPixel(Int x, Int y)
 
   **
   ** Set the pixel value at x,y
   **
-  override Void setPixel(Int x, Int y, Int p) {
-    pos := (width * y + x) * 4
-    a := p.and(0xff000000).shiftr(24)
-    r := p.and(0x00ff0000).shiftr(16)
-    g := p.and(0x0000ff00).shiftr(8)
-    b := p.and(0x000000ff)
-
-    data[pos] = r
-    data[pos+1] = g
-    data[pos+2] = b
-    data[pos+3] = a
-  }
+  native override Void setPixel(Int x, Int y, Int p)
 
   **
   ** Save image to outStream.
@@ -85,13 +61,16 @@ rtconst class NImage : Image
     d := this.data
     w := this.width
     h := this.height
+    hd := this.handle
     this.data = other.data
     this.width = other.width
     this.height = other.height
+    this.handle = other.handle
     other.data = d
     other.width = w
     other.height = h
+    other.handle = hd
   }
 
-  //protected override Void finalize() { dispose }
+  protected native override Void finalize()
 }

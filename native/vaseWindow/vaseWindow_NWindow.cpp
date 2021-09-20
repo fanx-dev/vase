@@ -176,6 +176,7 @@ void drawFrame(fr_Env env, fr_Obj self, struct Window* handle, fr_Obj graphics) 
     nvgEndFrame(vg);
 }
 
+
 #endif
 
 void vaseWindow_NWindow_show(fr_Env env, fr_Obj self, fr_Obj size) {

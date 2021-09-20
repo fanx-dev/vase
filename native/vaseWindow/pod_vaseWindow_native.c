@@ -507,6 +507,29 @@ void vaseWindow_NGfxEnv_initFont_v(fr_Env env, void *param, void *ret) {
     vaseWindow_NGfxEnv_initFont(env, arg_0, arg_1);
 }
 
+void vaseWindow_NGfxEnv_allocImage_v(fr_Env env, void *param, void *ret) {
+    fr_Value value_0;
+    fr_Obj arg_0; 
+    fr_Value value_1;
+    fr_Int arg_1; 
+    fr_Value value_2;
+    fr_Int arg_2; 
+    fr_Value retValue;
+
+    fr_getParam(env, param, &value_2, 2, NULL);
+    arg_2 = value_2.i;
+
+    fr_getParam(env, param, &value_1, 1, NULL);
+    arg_1 = value_1.i;
+
+    fr_getParam(env, param, &value_0, 0, NULL);
+    arg_0 = value_0.h;
+
+
+    retValue.h = vaseWindow_NGfxEnv_allocImage(env, arg_0, arg_1, arg_2);
+    *((fr_Value*)ret) = retValue;
+}
+
 void vaseWindow_NGfxEnv_fromStream_v(fr_Env env, void *param, void *ret) {
     fr_Value value_0;
     fr_Obj arg_0; 
@@ -562,6 +585,17 @@ void vaseWindow_NGfxEnv_finalize_v(fr_Env env, void *param, void *ret) {
 
 
     vaseWindow_NGfxEnv_finalize(env, arg_0);
+}
+
+void vaseWindow_NGraphics_init_v(fr_Env env, void *param, void *ret) {
+    fr_Value value_0;
+    fr_Obj arg_0; 
+
+    fr_getParam(env, param, &value_0, 0, NULL);
+    arg_0 = value_0.h;
+
+
+    vaseWindow_NGraphics_init(env, arg_0);
 }
 
 void vaseWindow_NGraphics_setColor_v(fr_Env env, void *param, void *ret) {
@@ -1427,6 +1461,55 @@ void vaseWindow_NGraphics_setShadow_v(fr_Env env, void *param, void *ret) {
     *((fr_Value*)ret) = retValue;
 }
 
+void vaseWindow_NImage_getPixel_v(fr_Env env, void *param, void *ret) {
+    fr_Value value_0;
+    fr_Obj arg_0; 
+    fr_Value value_1;
+    fr_Int arg_1; 
+    fr_Value value_2;
+    fr_Int arg_2; 
+    fr_Value retValue;
+
+    fr_getParam(env, param, &value_2, 2, NULL);
+    arg_2 = value_2.i;
+
+    fr_getParam(env, param, &value_1, 1, NULL);
+    arg_1 = value_1.i;
+
+    fr_getParam(env, param, &value_0, 0, NULL);
+    arg_0 = value_0.h;
+
+
+    retValue.i = vaseWindow_NImage_getPixel(env, arg_0, arg_1, arg_2);
+    *((fr_Value*)ret) = retValue;
+}
+
+void vaseWindow_NImage_setPixel_v(fr_Env env, void *param, void *ret) {
+    fr_Value value_0;
+    fr_Obj arg_0; 
+    fr_Value value_1;
+    fr_Int arg_1; 
+    fr_Value value_2;
+    fr_Int arg_2; 
+    fr_Value value_3;
+    fr_Int arg_3; 
+
+    fr_getParam(env, param, &value_3, 3, NULL);
+    arg_3 = value_3.i;
+
+    fr_getParam(env, param, &value_2, 2, NULL);
+    arg_2 = value_2.i;
+
+    fr_getParam(env, param, &value_1, 1, NULL);
+    arg_1 = value_1.i;
+
+    fr_getParam(env, param, &value_0, 0, NULL);
+    arg_0 = value_0.h;
+
+
+    vaseWindow_NImage_setPixel(env, arg_0, arg_1, arg_2, arg_3);
+}
+
 void vaseWindow_NImage_save_v(fr_Env env, void *param, void *ret) {
     fr_Value value_0;
     fr_Obj arg_0; 
@@ -1470,5 +1553,16 @@ void vaseWindow_NImage_dispose_v(fr_Env env, void *param, void *ret) {
 
 
     vaseWindow_NImage_dispose(env, arg_0);
+}
+
+void vaseWindow_NImage_finalize_v(fr_Env env, void *param, void *ret) {
+    fr_Value value_0;
+    fr_Obj arg_0; 
+
+    fr_getParam(env, param, &value_0, 0, NULL);
+    arg_0 = value_0.h;
+
+
+    vaseWindow_NImage_finalize(env, arg_0);
 }
 
