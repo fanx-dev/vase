@@ -1,3 +1,4 @@
+
 cd ./public
 jfan=fan
 $jfan graphics/DrawTextTest.fwt

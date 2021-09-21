@@ -1,0 +1,147 @@
+#include "fni_ext.h"
+#include "pod_vaseWindow_native.h"
+
+#import <CoreGraphics/CoreGraphics.h>
+
+#define STB_IMAGE_IMPLEMENTATION
+#include "stb_image.h"
+
+#include <stdlib.h>
+#include <memory.h>
+
+void vaseWindow_NFont_setHandle(fr_Env env, fr_Obj self, fr_Int r);
+void vaseWindow_NImage_setHandle(fr_Env env, fr_Obj self, fr_Int r);
+
+void vaseWindow_NGfxEnv_initFont(fr_Env env, fr_Obj self, fr_Obj font) {
+    fr_Obj name = fr_getFieldS(env, font, "name").h;
+    const char* fname = fr_getStrUtf8(env, name);
+
+    CFStringRef fontName = CFStringCreateWithCString(NULL, fname, CFStringGetSystemEncoding());
+    CGFontRef aFont = CGFontCreateWithFontName(fontName);
+    CFRelease(fontName);
+
+    vaseWindow_NFont_setHandle(env, font, (fr_Int)aFont);
+    return;
+}
+
+struct InputStreamCtx {
+    fr_Obj in;
+    fr_Env env;
+    bool isEof;
+};
+
+static int read(void* user, char* data, int size) {
+    struct InputStreamCtx* ctx = (struct InputStreamCtx*)user;
+    fr_Method method = fr_findMethodN(ctx->env, fr_getObjType(ctx->env, ctx->in), "readBytes", 1);
+
+    fr_Obj dataArray = fr_arrayNew(ctx->env, fr_findType(ctx->env, "sys", "Int"), 1, size);
+
+    int readSize = fr_callMethod(ctx->env, method, 2, ctx->in, dataArray).i;
+
+    if (readSize > 0) {
+        char* rawdata = fr_arrayData(ctx->env, dataArray);
+        memcpy(data, rawdata, readSize);
+    }
+
+    if (readSize != size) {
+        ctx->isEof = true;
+    }
+
+    return readSize;
+}
+
+static void skip(void* user, int n) {
+    struct InputStreamCtx* ctx = (struct InputStreamCtx*)user;
+    fr_Method method = fr_findMethod(ctx->env, fr_getObjType(ctx->env, ctx->in), "skip");
+    fr_callMethod(ctx->env, method, 2, ctx->in, (fr_Int)n);
+}
+static int eof(void* user) {
+    struct InputStreamCtx* ctx = (struct InputStreamCtx*)user;
+    return ctx->isEof;
+}
+CGContextRef makeCGBitmap(int w, int h) {
+    CGContextRef    context = NULL;
+    CGColorSpaceRef colorSpace;
+    void *          bitmapData;
+    int             bitmapByteCount;
+    int             bitmapBytesPerRow;
+ 
+    bitmapBytesPerRow   = (w * 4);// 1
+    bitmapByteCount     = (bitmapBytesPerRow * h);
+ 
+    colorSpace = CGColorSpaceCreateWithName(kCGColorSpaceGenericRGB);
+    bitmapData = calloc( bitmapByteCount, sizeof(uint8_t) );
+    context = CGBitmapContextCreate (bitmapData,// 4
+                                    w,
+                                    h,
+                                    8,      // bits per component
+                                    bitmapBytesPerRow,
+                                    colorSpace,
+                                    kCGImageAlphaLast);
+    return context;
+}
+fr_Obj vaseWindow_NGfxEnv_allocImage(fr_Env env, fr_Obj self, fr_Int w, fr_Int h) {
+    CGContextRef bitmapCtx = makeCGBitmap(w, h);
+
+    fr_Obj bitmap = fr_newObjS(env, "vaseWindow", "NImage", "makeData", 3, (fr_Int)bitmapCtx, (fr_Int)w, (fr_Int)h);
+    return bitmap;
+}
+
+CGImageRef makeCGImage(uint8_t *data, int w, int h) {
+    int componentsPerPixel = 4;
+    int bitsPerComponent = 8;
+    int bitsPerPixel = 32;
+    
+    size_t bufferLength = w * h * componentsPerPixel;
+    CGDataProviderRef provider = CGDataProviderCreateWithData(NULL, data, bufferLength, NULL);
+    size_t bytesPerRow = componentsPerPixel * w;
+    CGColorRenderingIntent renderingIntent = kCGRenderingIntentDefault;
+
+    CGImageRef iref = CGImageCreate(w,
+                                  h,
+                                  bitsPerComponent,
+                                  bitsPerPixel,
+                                  bytesPerRow,
+                                  CGColorSpaceCreateDeviceRGB(),
+                                  kCGBitmapByteOrderDefault | kCGImageAlphaLast,
+                                  provider,
+                                  NULL,
+                                  true,
+                                  renderingIntent);
+    
+    return iref;
+}
+
+fr_Obj vaseWindow_NGfxEnv_fromStream(fr_Env env, fr_Obj self, fr_Obj in) {
+
+    stbi_io_callbacks callbacks;
+    struct InputStreamCtx ctx;
+    callbacks.read = read;
+    callbacks.skip = skip;
+    callbacks.eof = eof;
+    ctx.env = env;
+    ctx.in = in;
+    ctx.isEof = false;
+
+    int width, height, components;
+    stbi_uc* data = stbi_load_from_callbacks(&callbacks, &ctx, &width, &height, &components, STBI_rgb_alpha);
+    if (!data)
+    {
+        fr_throwNew(env, "sys", "IOErr", "unsupported");
+        return NULL;
+    }
+
+    //int size = width * height * components;
+    CGImageRef image = makeCGImage(data, width, height);
+    free(data);
+
+    fr_Obj bitmap = fr_newObjS(env, "vaseWindow", "NImage", "makeData", 3, (fr_Int)NULL, (fr_Int)width, (fr_Int)height);
+    vaseWindow_NImage_setHandle(env, bitmap, (fr_Int)image);
+    return bitmap;
+}
+fr_Bool vaseWindow_NGfxEnv_contains(fr_Env env, fr_Obj self, fr_Obj path, fr_Float x, fr_Float y) {
+    return 0;
+}
+void vaseWindow_NGfxEnv_finalize(fr_Env env, fr_Obj self) {
+    return;
+}
