@@ -2,6 +2,7 @@
 #include "pod_vaseWindow_native.h"
 
 #import <CoreGraphics/CoreGraphics.h>
+#import <UIKit/UIKit.h>
 
 #include <math.h>
 #include <string.h>
@@ -344,7 +345,25 @@ fr_Obj vaseWindow_NGraphics_fillArc(fr_Env env, fr_Obj self, fr_Int x, fr_Int y,
 fr_Obj vaseWindow_NGraphics_drawText(fr_Env env, fr_Obj self, fr_Obj s, fr_Int x, fr_Int y) {
     CGContextRef vg = (CGContextRef)vaseWindow_NGraphics_getContext(env, self);
     const char* str = fr_getStrUtf8(env, s);
-    CGContextShowTextAtPoint(vg, x, y, str, strlen(str));
+    NSString *nsstr = [NSString stringWithUTF8String: str];
+    
+    fr_Obj font = fr_getFieldS(env, self, "font").h;
+    fr_Int size = fr_getFieldS(env, font, "size").i;
+    fr_Obj color = fr_getFieldS(env, self, "brush").h;
+    fr_Int icolor = 0xff000000;
+    if (fr_isInstanceOf(env, color, fr_findType(env, "vaseGraphics", "Color"))) {
+        icolor = fr_getFieldS(env, color, "argb").h;
+    }
+    int a = (icolor >> 24 ) & 0xff;
+    int r = (icolor >> 16 ) & 0xff;
+    int g = (icolor >> 8 ) & 0xff;
+    int b = (icolor >> 0 ) & 0xff;
+    
+    NSDictionary *attrs = [NSDictionary dictionaryWithObjectsAndKeys:[UIFont systemFontOfSize:size], NSFontAttributeName,
+                           [UIColor colorWithRed:r/255.0f green:g/255.0f blue:b/255.0f alpha:a/255.0f], NSForegroundColorAttributeName, nil, nil];
+    //NSDictionary *attrs = [[NSDictionary alloc] init];
+    [nsstr drawAtPoint:CGPointMake(x,y) withAttributes:attrs];
+    //CGContextShowTextAtPoint(vg, x, y, str, strlen(str));
     return self;
 }
 
@@ -352,9 +371,30 @@ void vaseWindow_NGraphics_doDrawImage(fr_Env env, fr_Obj self, fr_Obj image, fr_
     CGContextRef vg = (CGContextRef)vaseWindow_NGraphics_getContext(env, self);
     fr_Int handle = vaseWindow_NImage_getHandle(env, image);
     if (handle == 0) return;
+    CGImageRef img = (CGImageRef)handle;
+        
+    CGContextSaveGState(vg);
+    CGRect iRect = CGRectMake(0, 0, CGImageGetWidth(img), CGImageGetHeight(img));
+    CGRect sRect = CGRectMake(srcX, srcY, srcW, srcH);
+    CGRect dRect = CGRectMake(dstX, dstY, dstW, dstH);
     
-    CGRect rect = CGRectMake(srcX, srcY, srcW, srcH);
-    CGContextDrawTiledImage(vg, rect, (CGImageRef)handle);
+    float scaleX = (float)dstW / srcW;
+    float scaleY = (float)dstH / srcH;
+    CGContextTranslateCTM(vg, dstX - (srcX * scaleX), dstY - (srcY * scaleY));
+    //nvgTranslate(vg, 50, 50);
+    CGContextScaleCTM(vg, scaleX, scaleY);
+
+    CGContextTranslateCTM(vg, 0, srcH);
+    CGContextScaleCTM(vg, 1.0, -1.0);
+
+    CGContextClipToRect(vg, sRect);
+
+    CGContextDrawImage(vg, iRect, img);
+
+    CGContextRestoreGState(vg);
+    
+    //CGRect dRect = CGRectMake(dstX, dstY, dstW, dstH);
+    //CGContextDrawImage(vg, dRect, (CGImageRef)handle);
 }
 
 void vaseWindow_NGraphics_doClip(fr_Env env, fr_Obj self, fr_Int x, fr_Int y, fr_Int w, fr_Int h) {
@@ -373,7 +413,7 @@ void vaseWindow_NGraphics_popNative(fr_Env env, fr_Obj self) {
 void vaseWindow_NGraphics_dispose(fr_Env env, fr_Obj self) {
     fr_Obj surface = vaseWindow_NGraphics_getBitmap(env, self);
     if (surface) {
-        vaseWindow_NImage_endGraphics(self, surface);
+        vaseWindow_NImage_endGraphics(env, surface);
         vaseWindow_NGraphics_setContext(env, self, NULL);
     }
     return;

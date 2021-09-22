@@ -38,7 +38,7 @@ void vaseWindow_NWindow_drawFrame(fr_Env env, fr_Obj self);
     return self;
 }
 
-- (void)drawRect:(CGRect)rect {    
+- (void)drawRect:(CGRect)rect {
     fr_Env env = fr_getEnv(NULL);
     vaseWindow_NWindow_drawFrame(env, windowObj);
 }

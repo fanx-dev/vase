@@ -46,10 +46,15 @@ void vaseWindow_NWindow_repaint(fr_Env env, fr_Obj self, fr_Obj dirty) {
 void vaseWindow_NWindow_drawFrame(fr_Env env, fr_Obj self) {
     struct Window* handle = getWindow(env, self);
     fr_Obj graphics = handle->graphics;
-    
     CGContextRef ctx = UIGraphicsGetCurrentContext();
-    vaseWindow_NGraphics_setContext(env, graphics, (fr_Int)ctx);
-    
+    if (graphics == NULL) {
+        graphics = fr_newObjS(env, "vaseWindow", "NGraphics", "make", 1, (fr_Int)ctx);
+        graphics = fr_newGlobalRef(env, graphics);
+        handle->graphics = graphics;
+    }
+    else {
+        vaseWindow_NGraphics_setContext(env, graphics, (fr_Int)ctx);
+    }
     static fr_Method paintM;
     static fr_Field viewF;
     if (paintM == NULL) {
@@ -71,9 +76,8 @@ void vaseWindow_NWindow_show(fr_Env env, fr_Obj self, fr_Obj size) {
 
     handle->window = [[VaseWindow alloc] initWithObj: fr_newGlobalRef(env, self)];
     setWindow(env, self, handle);
+    handle->graphics = NULL;
     
-    fr_Obj graphics = fr_newObjS(env, "vaseWindow", "NGraphics", "make", 1, (fr_Int)0);
-    handle->graphics = fr_newGlobalRef(env, graphics);
     
     CGRect frame = g_controller.view.bounds;
     UIEdgeInsets insets = [UIApplication sharedApplication].windows.firstObject.safeAreaInsets;

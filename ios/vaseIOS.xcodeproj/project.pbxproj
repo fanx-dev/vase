@@ -128,6 +128,7 @@
 		32B7EDF826F8C53F007FB98A /* vaseWindow_NClipboard.m in Sources */ = {isa = PBXBuildFile; fileRef = 32B7EDEC26F8C53F007FB98A /* vaseWindow_NClipboard.m */; };
 		32B7EE0226F9E2F3007FB98A /* vaseGraphics.c in Sources */ = {isa = PBXBuildFile; fileRef = 32B7EDFE26F9E2F3007FB98A /* vaseGraphics.c */; };
 		32B7EE0326F9E2F3007FB98A /* vaseWindow.c in Sources */ = {isa = PBXBuildFile; fileRef = 32B7EE0026F9E2F3007FB98A /* vaseWindow.c */; };
+		32B7EE0726FAEF20007FB98A /* image.png in Resources */ = {isa = PBXBuildFile; fileRef = 32B7EE0626FAEF20007FB98A /* image.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -318,6 +319,7 @@
 		32B7EE0026F9E2F3007FB98A /* vaseWindow.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = vaseWindow.c; sourceTree = "<group>"; };
 		32B7EE0126F9E2F3007FB98A /* vaseWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = vaseWindow.h; sourceTree = "<group>"; };
 		32B7EE0426F9F49C007FB98A /* stb_image.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = stb_image.h; path = ../../native/thirdparty/stb_image.h; sourceTree = "<group>"; };
+		32B7EE0626FAEF20007FB98A /* image.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = image.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -350,6 +352,7 @@
 		32B7EC5926F878BC007FB98A /* vaseIOS */ = {
 			isa = PBXGroup;
 			children = (
+				32B7EE0526FAEF20007FB98A /* res */,
 				32B7EDE026F8C53F007FB98A /* vaseWindow */,
 				32B7EDC426F8994C007FB98A /* gc */,
 				32B7EDCB26F8994C007FB98A /* util */,
@@ -658,6 +661,14 @@
 			path = vaseWindow;
 			sourceTree = SOURCE_ROOT;
 		};
+		32B7EE0526FAEF20007FB98A /* res */ = {
+			isa = PBXGroup;
+			children = (
+				32B7EE0626FAEF20007FB98A /* image.png */,
+			);
+			path = res;
+			sourceTree = SOURCE_ROOT;
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -731,6 +742,7 @@
 				32B7ECC726F898AD007FB98A /* README.md in Resources */,
 				32B7ECD026F898AD007FB98A /* .clang-format in Resources */,
 				32B7ECBD26F898AD007FB98A /* LICENSE in Resources */,
+				32B7EE0726FAEF20007FB98A /* image.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

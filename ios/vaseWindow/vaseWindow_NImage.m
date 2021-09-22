@@ -58,7 +58,7 @@ CGContextRef vaseWindow_NImage_makeCGBitmap(int w, int h) {
                                     8,      // bits per component
                                     bitmapBytesPerRow,
                                     colorSpace,
-                                    kCGImageAlphaLast);
+                                     kCGImageAlphaPremultipliedLast);
     return context;
 }
 
@@ -85,6 +85,11 @@ CGContextRef getContext(fr_Env env, fr_Obj self) {
         vaseWindow_NImage_getSize(env, self, &w, &h);
         bitmapCtx = vaseWindow_NImage_makeCGBitmap(w, h);
         vaseWindow_NImage_setData(env, self, (fr_Int)bitmapCtx);
+        
+        CGImageRef image = (CGImageRef)vaseWindow_NImage_getHandle(env, self);
+        if (image != NULL) {
+            CGContextDrawImage(bitmapCtx, CGRectMake(0, 0, w, h), image);
+        }
     }
     return bitmapCtx;
 }

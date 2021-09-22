@@ -1,5 +1,6 @@
 #include "fni_ext.h"
 #include "pod_vaseWindow_native.h"
+#import <UIKit/UIKit.h>
 
 fr_Obj vaseWindow_NToolkit_curWindow = NULL;
 
@@ -22,4 +23,19 @@ fr_Int vaseWindow_NToolkit_dpi(fr_Env env, fr_Obj self) {
 }
 fr_Bool vaseWindow_NToolkit_openUri(fr_Env env, fr_Obj self, fr_Obj uri, fr_Obj options) {
     return 0;
+}
+fr_Obj vaseWindow_NToolkit_resFilePath(fr_Env env, fr_Obj self, fr_Obj pod, fr_Obj uri) {
+    const char *podStr = fr_getStrUtf8(env, pod);
+    const char *uriStr = fr_getStrUtf8(env, uri);
+    
+    NSString *resPath = [NSBundle.mainBundle resourcePath];
+    NSString *path;
+    if (strlen(podStr) > 0) {
+        path = [NSString stringWithFormat:@"%@/%s/%s", resPath, podStr, uriStr];
+    }
+    else {
+        path = [NSString stringWithFormat:@"%@/%s", resPath, uriStr];
+    }
+    const char * resStr = path.UTF8String;
+    return fr_newStrUtf8(env, resStr);
 }

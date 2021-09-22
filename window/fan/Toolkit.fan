@@ -74,6 +74,11 @@ abstract const class Toolkit
   virtual Obj loadResFile(Str pod, Uri uri) {
     return Pod.find(pod).file(uri).readAllStr
   }
+
+  virtual Str resFilePath(Str pod, Str uri) {
+    if (Env.cur.runtime == "js") return "/pod/$pod/res/$uri"
+    else return "fan://$pod/res/$uri"
+  }
 }
 
 
@@ -92,4 +97,10 @@ internal const class NToolkit : Toolkit
   override once Clipboard clipboard() { NClipboard() }
 
   native override Bool openUri(Uri uri, [Str:Str]? options := null)
+
+  override Obj loadResFile(Str pod, Uri uri) {
+    path := resFilePath(pod, uri.toStr)
+    return File.os(path)
+  }
+  native override Str resFilePath(Str pod, Str uri)
 }
