@@ -2,6 +2,7 @@
 #include "pod_vaseWindow_native.h"
 
 #import <CoreGraphics/CoreGraphics.h>
+#import <UIKit/UIKit.h>
 
 fr_Int vaseWindow_NFont_getHandle(fr_Env env, fr_Obj self) {
     static fr_Field f = NULL;
@@ -20,6 +21,10 @@ void vaseWindow_NFont_setHandle(fr_Env env, fr_Obj self, fr_Int r) {
 }
 
 void vaseWindow_NFont_dispose(fr_Env env, fr_Obj self) {
+    CGFontRef font = (CGFontRef)vaseWindow_NFont_getHandle(env, self);
+    if (font == NULL) return;
+    CGFontRelease(font);
+    vaseWindow_NFont_setHandle(env, self, 0);
     return;
 }
 fr_Int vaseWindow_NFont_ascent(fr_Env env, fr_Obj self) {
@@ -35,6 +40,15 @@ fr_Int vaseWindow_NFont_height(fr_Env env, fr_Obj self) {
     return CGFontGetLeading(font) + CGFontGetAscent(font) + CGFontGetDescent(font);
 }
 fr_Int vaseWindow_NFont_width(fr_Env env, fr_Obj self, fr_Obj s) {
-    //TODO
-    return 0;
+    const char* str = fr_getStrUtf8(env, s);
+    NSString *nsstr = [NSString stringWithUTF8String: str];
+    fr_Int size = fr_getFieldS(env, self, "size").i;
+    NSDictionary *attrs = [NSDictionary dictionaryWithObjectsAndKeys:[UIFont systemFontOfSize:size], NSFontAttributeName, nil, nil];
+    CGSize tsize = [nsstr sizeWithAttributes:attrs];
+    return tsize.width;
 }
+void vaseWindow_NFont_finalize(fr_Env env, fr_Obj self) {
+    vaseWindow_NFont_dispose(env, self);
+    return;
+}
+

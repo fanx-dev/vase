@@ -79,16 +79,6 @@ CGImageRef makeCGImage(uint8_t *data, int w, int h) {
     CGDataProviderRef provider = CGDataProviderCreateWithData(NULL, data, bufferLength, NULL);
     size_t bytesPerRow = componentsPerPixel * w;
     CGColorRenderingIntent renderingIntent = kCGRenderingIntentDefault;
-    
-    for (int i=0; i<h; ++i) {
-        for (int j=0; j<w; ++j) {
-            int pos = (i*w + j) * 4;
-            int r = data[pos];
-            int b = data[pos+2];
-            data[pos] = b;
-            data[pos+2] = r;
-        }
-    }
 
     CGImageRef iref = CGImageCreate(w,
                                   h,
@@ -96,7 +86,7 @@ CGImageRef makeCGImage(uint8_t *data, int w, int h) {
                                   bitsPerPixel,
                                   bytesPerRow,
                                   CGColorSpaceCreateDeviceRGB(),
-                                  kCGBitmapByteOrderDefault | kCGImageAlphaLast,
+                                  kCGBitmapByteOrder32Little | kCGImageAlphaFirst,
                                   provider,
                                   NULL,
                                   true,

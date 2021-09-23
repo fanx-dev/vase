@@ -209,11 +209,5 @@ fr_Obj vaseWindow_NImage_createGraphics(fr_Env env, fr_Obj self) {
 }
 
 void vaseWindow_NImage_finalize(fr_Env env, fr_Obj self) {
-    CGContextRef bitmapCtx = (CGContextRef)vaseWindow_NImage_getData(env, self);
-    if (bitmapCtx != NULL) {
-        char *bitmapData = (char*)CGBitmapContextGetData(bitmapCtx); // 7
-        CGContextRelease (bitmapCtx);// 8
-        if (bitmapData) free(bitmapData); // 9
-        vaseWindow_NImage_setHandle(env, self, (fr_Int)0);
-    }
+    vaseWindow_NImage_dispose(env, self);
 }

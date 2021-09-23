@@ -16,13 +16,25 @@ fr_Obj vaseWindow_NToolkit_window(fr_Env env, fr_Obj self, fr_Obj view) {
     return vaseWindow_NToolkit_curWindow;
 }
 void vaseWindow_NToolkit_callLater(fr_Env env, fr_Obj self, fr_Int delay, fr_Obj f) {
+    static fr_Method callM;
+    if (callM == NULL) {
+        callM = fr_findMethod(env, fr_getObjType(env, f), "call");
+    }
+    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delay * NSEC_PER_MSEC));
+    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+        fr_callMethod(env, callM, 1, f);
+    });
     return;
 }
 fr_Int vaseWindow_NToolkit_dpi(fr_Env env, fr_Obj self) {
     return 320 * desityScale;
 }
 fr_Bool vaseWindow_NToolkit_openUri(fr_Env env, fr_Obj self, fr_Obj uri, fr_Obj options) {
-    return 0;
+    const char *str = fr_getStrUtf8(env, uri);
+    NSString *nstr = [NSString stringWithUTF8String:str];
+    NSURL *url = [NSURL URLWithString:nstr];
+    [UIApplication.sharedApplication openURL:url options:@{} completionHandler:nil];
+    return true;
 }
 fr_Obj vaseWindow_NToolkit_resFilePath(fr_Env env, fr_Obj self, fr_Obj pod, fr_Obj uri) {
     const char *podStr = fr_getStrUtf8(env, pod);

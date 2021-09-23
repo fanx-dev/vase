@@ -52,5 +52,5 @@ const class NFont : Font {
   **
   native override Int width(Str s)
 
-  //protected override Void finalize() { dispose }
+  native protected override Void finalize()
 }
