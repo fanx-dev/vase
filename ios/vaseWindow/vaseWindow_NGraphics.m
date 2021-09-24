@@ -9,6 +9,7 @@
 
 #define MIN(a, b)  ((a) < (b) ? (a) : (b))
 #define PI 3.14159265358979323846
+extern float desityScale;
 
 void vaseWindow_NImage_endGraphics(fr_Env env, fr_Obj self);
 fr_Int vaseWindow_NImage_getHandle(fr_Env env, fr_Obj self);
@@ -348,21 +349,23 @@ fr_Obj vaseWindow_NGraphics_drawText(fr_Env env, fr_Obj self, fr_Obj s, fr_Int x
     NSString *nsstr = [NSString stringWithUTF8String: str];
     
     fr_Obj font = fr_getFieldS(env, self, "font").h;
-    fr_Int size = fr_getFieldS(env, font, "size").i;
+    fr_Int size = fr_getFieldS(env, font, "size").i / 2;
     fr_Obj color = fr_getFieldS(env, self, "brush").h;
     fr_Int icolor = 0xff000000;
     if (fr_isInstanceOf(env, color, fr_findType(env, "vaseGraphics", "Color"))) {
-        icolor = fr_getFieldS(env, color, "argb").h;
+        icolor = fr_getFieldS(env, color, "argb").i;
     }
     int a = (icolor >> 24 ) & 0xff;
     int r = (icolor >> 16 ) & 0xff;
     int g = (icolor >> 8 ) & 0xff;
     int b = (icolor >> 0 ) & 0xff;
     
-    NSDictionary *attrs = [NSDictionary dictionaryWithObjectsAndKeys:[UIFont systemFontOfSize:size], NSFontAttributeName,
+    UIFont *uifont = [UIFont systemFontOfSize:size];
+    NSDictionary *attrs = [NSDictionary dictionaryWithObjectsAndKeys:uifont, NSFontAttributeName,
                            [UIColor colorWithRed:r/255.0f green:g/255.0f blue:b/255.0f alpha:a/255.0f], NSForegroundColorAttributeName, nil, nil];
     //NSDictionary *attrs = [[NSDictionary alloc] init];
-    [nsstr drawAtPoint:CGPointMake(x,y) withAttributes:attrs];
+    int offset = uifont.ascender + uifont.leading;
+    [nsstr drawAtPoint:CGPointMake(x,y-offset) withAttributes:attrs];
     //CGContextShowTextAtPoint(vg, x, y, str, strlen(str));
     return self;
 }
@@ -414,7 +417,7 @@ void vaseWindow_NGraphics_dispose(fr_Env env, fr_Obj self) {
     fr_Obj surface = vaseWindow_NGraphics_getBitmap(env, self);
     if (surface) {
         vaseWindow_NImage_endGraphics(env, surface);
-        vaseWindow_NGraphics_setContext(env, self, NULL);
+        vaseWindow_NGraphics_setContext(env, self, 0);
     }
     return;
 }

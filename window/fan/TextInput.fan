@@ -61,14 +61,31 @@ mixin TextInputPeer
 
 
 internal class NEditText : TextInputPeer {
+  private Int handle;
+  protected TextInput textInput
+
+  new make(TextInput textInput, Int window) {
+    this.textInput = textInput
+    handle = init(textInput.getInputType, window)
+  }
+
+  native private Int init(Int inputType, Int windowHandle)
+
   native override Void close()
 
   native override Void setPos(Int x, Int y, Int w, Int h)
-  native override Void setStyle(Font font, Color textColor, Color backgroundColor)
+  
+  override Void setStyle(Font font, Color textColor, Color backgroundColor) {
+    doSetStyle(font.name, font.size, textColor.argb, backgroundColor.argb)
+  }
+  private native Void doSetStyle(Str fontName, Int fontSize, Int textColr, Int bgColor)
+
   native override Void setText(Str text)
   native override Void setType(Int multiLine, Bool editable)
   native override Void focus()
 
   native override Void select(Int start, Int end)
   native override Int caretPos()
+
+  protected native override Void finalize()
 }

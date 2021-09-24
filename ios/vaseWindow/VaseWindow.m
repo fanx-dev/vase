@@ -9,6 +9,7 @@
 
 void vaseWindow_NWindow_drawFrame(fr_Env env, fr_Obj self);
 void vaseWindow_NWindow_fireMotionEvent(fr_Env env, fr_Obj self, fr_Obj event);
+extern float desityScale;
 
 @interface VaseWindow () {
     
@@ -40,6 +41,7 @@ void vaseWindow_NWindow_fireMotionEvent(fr_Env env, fr_Obj self, fr_Obj event);
 }
 
 - (void)drawRect:(CGRect)rect {
+    //printf("drawRect\n");
     fr_Env env = fr_getEnv(NULL);
     vaseWindow_NWindow_drawFrame(env, windowObj);
 }
@@ -85,13 +87,13 @@ fr_Obj toFanTouch(fr_Env env, UIView *view, UITouch * touch, int type) {
     value.f = touch.force;
     fr_setInstanceField(env, event, pressureF, &value);
     
-    value.f = touch.majorRadius;
+    value.f = touch.majorRadius * desityScale;
     fr_setInstanceField(env, event, sizeF, &value);
     
     CGPoint pos = [touch locationInView:view];
-    value.i = pos.x;
+    value.i = pos.x * desityScale;
     fr_setInstanceField(env, event, xF, &value);
-    value.i = pos.y;
+    value.i = pos.y * desityScale;
     fr_setInstanceField(env, event, yF, &value);
     
     uint64_t pointerId = (uint64_t)touch;

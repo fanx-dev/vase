@@ -129,6 +129,9 @@
 		32B7EE0226F9E2F3007FB98A /* vaseGraphics.c in Sources */ = {isa = PBXBuildFile; fileRef = 32B7EDFE26F9E2F3007FB98A /* vaseGraphics.c */; };
 		32B7EE0326F9E2F3007FB98A /* vaseWindow.c in Sources */ = {isa = PBXBuildFile; fileRef = 32B7EE0026F9E2F3007FB98A /* vaseWindow.c */; };
 		32B7EE0726FAEF20007FB98A /* image.png in Resources */ = {isa = PBXBuildFile; fileRef = 32B7EE0626FAEF20007FB98A /* image.png */; };
+		32B7EE1126FDBB22007FB98A /* vaseGui.c in Sources */ = {isa = PBXBuildFile; fileRef = 32B7EE0B26FDBB22007FB98A /* vaseGui.c */; };
+		32B7EE1226FDBB22007FB98A /* vaseMath.c in Sources */ = {isa = PBXBuildFile; fileRef = 32B7EE0D26FDBB22007FB98A /* vaseMath.c */; };
+		32B7EE1326FDBB22007FB98A /* util.c in Sources */ = {isa = PBXBuildFile; fileRef = 32B7EE0E26FDBB22007FB98A /* util.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -320,6 +323,15 @@
 		32B7EE0126F9E2F3007FB98A /* vaseWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = vaseWindow.h; sourceTree = "<group>"; };
 		32B7EE0426F9F49C007FB98A /* stb_image.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = stb_image.h; path = ../../native/thirdparty/stb_image.h; sourceTree = "<group>"; };
 		32B7EE0626FAEF20007FB98A /* image.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = image.png; sourceTree = "<group>"; };
+		32B7EE0826FDBB22007FB98A /* util_prototype.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = util_prototype.h; sourceTree = "<group>"; };
+		32B7EE0926FDBB22007FB98A /* vaseGui.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = vaseGui.h; sourceTree = "<group>"; };
+		32B7EE0A26FDBB22007FB98A /* util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = util.h; sourceTree = "<group>"; };
+		32B7EE0B26FDBB22007FB98A /* vaseGui.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = vaseGui.c; sourceTree = "<group>"; };
+		32B7EE0C26FDBB22007FB98A /* vaseGui_prototype.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = vaseGui_prototype.h; sourceTree = "<group>"; };
+		32B7EE0D26FDBB22007FB98A /* vaseMath.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = vaseMath.c; sourceTree = "<group>"; };
+		32B7EE0E26FDBB22007FB98A /* util.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = util.c; sourceTree = "<group>"; };
+		32B7EE0F26FDBB22007FB98A /* vaseMath_prototype.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = vaseMath_prototype.h; sourceTree = "<group>"; };
+		32B7EE1026FDBB22007FB98A /* vaseMath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = vaseMath.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -583,6 +595,15 @@
 		32B7EDAC26F89928007FB98A /* temp */ = {
 			isa = PBXGroup;
 			children = (
+				32B7EE0826FDBB22007FB98A /* util_prototype.h */,
+				32B7EE0E26FDBB22007FB98A /* util.c */,
+				32B7EE0A26FDBB22007FB98A /* util.h */,
+				32B7EE0C26FDBB22007FB98A /* vaseGui_prototype.h */,
+				32B7EE0B26FDBB22007FB98A /* vaseGui.c */,
+				32B7EE0926FDBB22007FB98A /* vaseGui.h */,
+				32B7EE0F26FDBB22007FB98A /* vaseMath_prototype.h */,
+				32B7EE0D26FDBB22007FB98A /* vaseMath.c */,
+				32B7EE1026FDBB22007FB98A /* vaseMath.h */,
 				32B7EDFD26F9E2F3007FB98A /* vaseGraphics_prototype.h */,
 				32B7EDFE26F9E2F3007FB98A /* vaseGraphics.c */,
 				32B7EDFC26F9E2F3007FB98A /* vaseGraphics.h */,
@@ -759,6 +780,7 @@
 				32B7ECD326F898AD007FB98A /* unzipper.cpp in Sources */,
 				32B7ED3D26F898CD007FB98A /* std_Pod.cpp in Sources */,
 				32B7ECC526F898AD007FB98A /* ioapi_buf.c in Sources */,
+				32B7EE1226FDBB22007FB98A /* vaseMath.c in Sources */,
 				32B7ED4926F898CD007FB98A /* sys_Enum.c in Sources */,
 				32B7EDBD26F89928007FB98A /* Vm.cpp in Sources */,
 				32B7ECBC26F898AD007FB98A /* unzip.c in Sources */,
@@ -775,6 +797,7 @@
 				32B7EDEF26F8C53F007FB98A /* vaseWindow_NGfxEnv.m in Sources */,
 				32B7ED5226F898CD007FB98A /* sys_Ptr.c in Sources */,
 				32B7ED3326F898CD007FB98A /* std_Type.c in Sources */,
+				32B7EE1126FDBB22007FB98A /* vaseGui.c in Sources */,
 				32B7EDBF26F89928007FB98A /* type.cpp in Sources */,
 				32B7EDC226F89928007FB98A /* std.c in Sources */,
 				32B7ECD726F898AD007FB98A /* deflate.c in Sources */,
@@ -844,6 +867,7 @@
 				32B7ED2A26F898CD007FB98A /* std_Env.c in Sources */,
 				32B7ED4826F898CD007FB98A /* std_Math.c in Sources */,
 				32B7ECC126F898AD007FB98A /* ioapi.c in Sources */,
+				32B7EE1326FDBB22007FB98A /* util.c in Sources */,
 				32B7ECD126F898AD007FB98A /* tools.cpp in Sources */,
 				32B7ED3226F898CD007FB98A /* std_TimePoint.cpp in Sources */,
 				32B7ECDD26F898AD007FB98A /* uncompr.c in Sources */,

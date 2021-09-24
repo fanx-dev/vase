@@ -38,7 +38,8 @@ static void setWindow(fr_Env env, fr_Obj self, struct Window* r) {
 
 void vaseWindow_NWindow_repaint(fr_Env env, fr_Obj self, fr_Obj dirty) {
     struct Window* handle = getWindow(env, self);
-    [handle->window setNeedsDisplay];
+    //[handle->window setNeedsDisplay];
+    [handle->window performSelectorOnMainThread:@selector(setNeedsDisplay) withObject:nil waitUntilDone:NO];
     return;
 }
 
@@ -47,6 +48,9 @@ void vaseWindow_NWindow_drawFrame(fr_Env env, fr_Obj self) {
     struct Window* handle = getWindow(env, self);
     fr_Obj graphics = handle->graphics;
     CGContextRef ctx = UIGraphicsGetCurrentContext();
+    CGContextSaveGState(ctx);
+    CGContextScaleCTM(ctx, 1/desityScale, 1/desityScale);
+    
     if (graphics == NULL) {
         graphics = fr_newObjS(env, "vaseWindow", "NGraphics", "make", 1, (fr_Int)ctx);
         graphics = fr_newGlobalRef(env, graphics);
@@ -63,10 +67,12 @@ void vaseWindow_NWindow_drawFrame(fr_Env env, fr_Obj self) {
         paintM = fr_findMethod(env, viewType, "onPaint");
         viewF = fr_findField(env, type, "_view");
     }
-
+    
+    
     fr_Value value;
     fr_getInstanceField(env, self, viewF, &value);
     fr_callMethod(env, paintM, 2, value.h, graphics);
+    CGContextRestoreGState(ctx);
 }
 
 void vaseWindow_NWindow_show(fr_Env env, fr_Obj self, fr_Obj size) {
@@ -91,20 +97,20 @@ void vaseWindow_NWindow_show(fr_Env env, fr_Obj self, fr_Obj size) {
 
 fr_Int vaseWindow_NWindow_x(fr_Env env, fr_Obj self) {
     struct Window* handle = getWindow(env, self);
-    return [handle->window frame].origin.x;
+    return [handle->window frame].origin.x * desityScale;
 }
 fr_Int vaseWindow_NWindow_y(fr_Env env, fr_Obj self) {
     struct Window* handle = getWindow(env, self);
-    return [handle->window frame].origin.y;
+    return [handle->window frame].origin.y * desityScale;
 }
 fr_Int vaseWindow_NWindow_w(fr_Env env, fr_Obj self) {
     struct Window* handle = getWindow(env, self);
-    int winWidth = [handle->window frame].size.width;
+    int winWidth = [handle->window frame].size.width * desityScale;
     return winWidth;
 }
 fr_Int vaseWindow_NWindow_h(fr_Env env, fr_Obj self) {
     struct Window* handle = getWindow(env, self);
-    int winHeight = [handle->window frame].size.width;
+    int winHeight = [handle->window frame].size.height * desityScale;
     return winHeight;
 }
 fr_Bool vaseWindow_NWindow_hasFocus(fr_Env env, fr_Obj self) {
@@ -116,16 +122,15 @@ void vaseWindow_NWindow_focus(fr_Env env, fr_Obj self) {
     [handle->window setNeedsFocusUpdate];
     [handle->window updateFocusIfNeeded];
 }
-void vaseWindow_NWindow_textInput(fr_Env env, fr_Obj self, fr_Obj edit) {
-    return;
-}
+
 void vaseWindow_NWindow_fileDialog(fr_Env env, fr_Obj self, fr_Obj accept, fr_Obj f, fr_Obj options) {
     return;
 }
 void vaseWindow_NWindow_finalize(fr_Env env, fr_Obj self) {
     struct Window* handle = getWindow(env, self);
     fr_deleteGlobalRef(env, handle->graphics);
-    handle->window = nil;
+    handle->window = NULL;
+    handle->graphics = NULL;
     return;
 }
 void vaseWindow_NWindow_fireMotionEvent(fr_Env env, fr_Obj self, fr_Obj event) {

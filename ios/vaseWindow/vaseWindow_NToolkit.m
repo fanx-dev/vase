@@ -20,9 +20,14 @@ void vaseWindow_NToolkit_callLater(fr_Env env, fr_Obj self, fr_Int delay, fr_Obj
     if (callM == NULL) {
         callM = fr_findMethod(env, fr_getObjType(env, f), "call");
     }
+    
+    fr_Obj callback = fr_newGlobalRef(env, f);
+    
     dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delay * NSEC_PER_MSEC));
     dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-        fr_callMethod(env, callM, 1, f);
+        fr_Env env = fr_getEnv(NULL);
+        fr_callMethod(env, callM, 1, callback);
+        fr_deleteGlobalRef(env, callback);
     });
     return;
 }

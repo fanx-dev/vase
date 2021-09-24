@@ -63,7 +63,7 @@ internal class NGraphics : Graphics
   **
   override Font? font { set {
     &font = it
-    setFont(it, ((NFont)it).handle, it.name, it.size, 0) 
+    if (it != null) setFont(it, ((NFont)it).handle, it.name, it.size, 0) 
   } }
   private native Void setFont(Font font, Int id, Str name, Int size, Int blur)
 
@@ -299,7 +299,7 @@ internal class GraphicsState {
   Font? font
   Bool antialias
   Int alpha
-  Transform2D transform
+  Transform2D? transform
   Rect clip
   Composite composite
   new make(|This| f) { f(this) }
