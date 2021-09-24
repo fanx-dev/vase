@@ -128,3 +128,17 @@ void vaseWindow_NWindow_finalize(fr_Env env, fr_Obj self) {
     handle->window = nil;
     return;
 }
+void vaseWindow_NWindow_fireMotionEvent(fr_Env env, fr_Obj self, fr_Obj event) {
+    static fr_Method paintM;
+    static fr_Field viewF;
+    if (paintM == NULL) {
+        fr_Type type = fr_getObjType(env, self);
+        fr_Type viewType = fr_findType(env, "vaseWindow", "View");
+        paintM = fr_findMethod(env, viewType, "onMotionEvent");
+        viewF = fr_findField(env, type, "_view");
+    }
+
+    fr_Value value;
+    fr_getInstanceField(env, self, viewF, &value);
+    fr_callMethod(env, paintM, 2, value.h, event);
+}
