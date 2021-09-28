@@ -229,9 +229,9 @@ public class AndGraphics implements Graphics {
     gc.clipRect(x, y, x + w, y + h);
     if (brush instanceof Color) {
       Color ca = (Color) brush;
-      gc.drawColor((int) ca.argb, PorterDuff.Mode.SRC);
+      gc.drawColor((int) ca.argb, PorterDuff.Mode.CLEAR);
     } else {
-      gc.drawColor(0, PorterDuff.Mode.SRC);
+      gc.drawColor(0, PorterDuff.Mode.CLEAR);
     }
     gc.restore();
     return this;

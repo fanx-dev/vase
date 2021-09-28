@@ -26,6 +26,8 @@ public class AndroidEnvPeer {
     return Looper.getMainLooper().getThread() == Thread.currentThread();
   }
 
+  public static void dummy() {}
+
   public static void init(Activity context)
   {
     Actor.locals().set("vaseGraphics.env", AndGfxEnv.instance);

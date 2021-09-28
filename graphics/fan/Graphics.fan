@@ -79,7 +79,7 @@ mixin Graphics
   abstract This fillRect(Int x, Int y, Int w, Int h)
 
   **
-  ** clear a rectangle with the current brush.
+  ** clear a rectangle color to 0.
   **
   abstract This clearRect(Int x, Int y, Int w, Int h)
 
@@ -125,8 +125,7 @@ mixin Graphics
 
   **
   ** Draw a the text string with the current brush and font.
-  ** The x, y coordinate specifies the top left corner of
-  ** the rectangular area where the text is to be drawn.
+  ** The x, y coordinate specifies the baseline where the text is to be drawn.
   **
   abstract This drawText(Str s, Int x, Int y)
 
@@ -184,7 +183,7 @@ mixin Graphics
   abstract This fillPath(GraphicsPath path)
 
   **
-  ** the transform that is currently being used
+  ** concat transform to currently
   **
   abstract This transform(Transform2D mat)
 

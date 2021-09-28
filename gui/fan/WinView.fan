@@ -9,7 +9,6 @@
 using vaseGraphics
 using vaseWindow
 using concurrent
-using vaseMath
 
 **
 ** root view

@@ -8,7 +8,6 @@
 
 using vaseGraphics
 using vaseWindow
-using vaseMath
 
 **
 ** Widget is the base class for all UI widgets.

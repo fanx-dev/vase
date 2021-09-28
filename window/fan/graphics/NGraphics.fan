@@ -288,7 +288,16 @@ internal class NGraphics : Graphics
   **
   ** All drawing operations are affected by the four global shadow attributes
   **
-  native override This setShadow(Shadow? shadow)
+  override This setShadow(Shadow? shadow) {
+    if (shadow != null) {
+      doSetShadow(true, shadow.blur, shadow.offsetX, shadow.offsetY, shadow.color.a, shadow.color.r, shadow.color.g, shadow.color.b)
+    }
+    else {
+      doSetShadow(false, 0, 0, 0, 0, 0, 0, 0)
+    }
+    return this
+  }
+  native private Void doSetShadow(Bool valide, Int blur, Int offsetX, Int offsetY, Int a, Int r, Int g, Int b)
 
   //protected override Void finalize() { dispose }
 }

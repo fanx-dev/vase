@@ -87,7 +87,6 @@ public class WtkGraphics implements Graphics {
       Color ca = (Color) brush;
       java.awt.Color color = toAwtColor(ca);
       gc.setColor(color);
-      gc.setBackground(color);
     } else if (brush instanceof Gradient) {
       // can't really map SWT model to CSS model well
       GradientPaint p = pattern((Gradient) brush, 0, 0, 100, 100);
@@ -234,6 +233,7 @@ public class WtkGraphics implements Graphics {
 
   @Override
   public Graphics clearRect(long x, long y, long w, long h) {
+    gc.setBackground(new java.awt.Color(0, 0, 0, 0));
     gc.clearRect((int) x, (int) y, (int) w, (int) h);
     return this;
   }

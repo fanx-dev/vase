@@ -6,7 +6,6 @@
 //
 
 using vaseGraphics
-using vaseMath
 
 **
 ** SpinnerStyle

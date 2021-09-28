@@ -43,6 +43,10 @@ class GraphicsPath
     steps.add(PathCubicTo { it.cx1=cx1; it.cy1=cy1; it.cx2=cx2; it.cy2=cy2; it.x=x; it.y=y })
     return this
   }
+  This arc(Float cx, Float cy, Float radius, Float startAngle, Float arcAngle) {
+    steps.add(PathArc{ it.cx = cx; it.cy = cy; it.radius = radius; it.startAngle=startAngle; it.arcAngle=arcAngle})
+    return this
+  }
 }
 
 **************************************************************************
@@ -86,4 +90,16 @@ const class PathCubicTo : PathStep
 @Js
 const class PathClose : PathStep
 {
+}
+
+@NoDoc
+@Js
+const class PathArc : PathStep
+{
+  const Float cx
+  const Float cy
+  const Float radius
+  const Float startAngle
+  const Float arcAngle
+  new make(|This| f) { f(this) }
 }

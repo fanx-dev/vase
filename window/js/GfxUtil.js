@@ -71,6 +71,11 @@ fan.vaseWindow.GfxUtil.doJsPath = function(cx, path)
     {
       cx.closePath();
     }
+    else if (s instanceof fan.vaseGraphics.PathArc) {
+      var sa  = Math.PI / 180 * s.m_startAngle;
+      var ea  = Math.PI / 180 * (s.m_startAngle + s.m_arcAngle);
+      cx.arc(s.m_cx, s.m_cy, s.m_radius, sa, ea, true);
+    }
     else
     {
       throw fan.sys.Err.make("unreachable");

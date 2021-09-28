@@ -78,6 +78,7 @@ void vaseWindow_NGraphics_setColor(fr_Env env, fr_Obj self, fr_Int a, fr_Int r, 
 
 void vaseWindow_NGraphics_setPattern(fr_Env env, fr_Obj self, fr_Obj pattern) {
     //TODO
+    //CGPatternRef cgpattern = pattern
     return;
 }
 void vaseWindow_NGraphics_setGradient(fr_Env env, fr_Obj self, fr_Obj gradient) {
@@ -434,6 +435,13 @@ void vaseWindow_NGraphics_doTransform(fr_Env env, fr_Obj self, fr_Float a, fr_Fl
 fr_Obj vaseWindow_NGraphics_clipPath(fr_Env env, fr_Obj self, fr_Obj path) {
     return 0;
 }
-fr_Obj vaseWindow_NGraphics_setShadow(fr_Env env, fr_Obj self, fr_Obj shadow) {
-    return 0;
+void vaseWindow_NGraphics_doSetShadow(fr_Env env, fr_Obj self, fr_Bool valide, fr_Int blur, fr_Int offsetX, fr_Int offsetY,
+                                        fr_Int a, fr_Int r, fr_Int g, fr_Int b) {
+    CGContextRef vg = (CGContextRef)vaseWindow_NGraphics_getContext(env, self);
+    if (valide) {
+        CGContextSetShadowWithColor(vg, CGSizeMake(offsetX, offsetY), blur, CGColorCreateGenericRGB(r/255.0, g/255.0, b/255.0, a/255.0));
+    }
+    else {
+        CGContextSetShadowWithColor(vg, CGSizeMake(0, 0), 0, NULL);
+    }
 }

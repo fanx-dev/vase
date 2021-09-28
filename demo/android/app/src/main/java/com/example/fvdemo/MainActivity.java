@@ -15,6 +15,7 @@ import android.os.Build;
 import android.content.pm.PackageManager;
 
 import fan.vaseAndroid.AndroidEnv;
+import fan.vaseAndroid.AndroidEnvPeer;
 import fan.vaseDemo.Main;
 
 public class MainActivity extends Activity {
@@ -34,7 +35,7 @@ public class MainActivity extends Activity {
 
         fan.vaseClient.StoragePeer.baseStorePath = this.getExternalCacheDir().getAbsolutePath();
 
-        AndroidEnv.init(this);
+        AndroidEnvPeer.init(this);
         if (mainView == null) mainView = Main.make();
         mainView.show();
 
@@ -47,14 +48,14 @@ public class MainActivity extends Activity {
 
     @Override
     public void onBackPressed() {
-        if (AndroidEnv.onBack(this)) return;
+        if (AndroidEnvPeer.onBack(this)) return;
         super.onBackPressed();
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        AndroidEnv.onActivityResult(this, requestCode, resultCode, data);
+        AndroidEnvPeer.onActivityResult(this, requestCode, resultCode, data);
     }
 
     public static boolean checkPermissions(Activity ac, String[] permissions) {

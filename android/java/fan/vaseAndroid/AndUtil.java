@@ -14,6 +14,7 @@ import fan.vaseGraphics.*;
 import fan.sys.List;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
+import android.graphics.RectF;
 
 public class AndUtil {
 
@@ -76,6 +77,10 @@ public class AndUtil {
             (float) s.cy2, (float) s.x, (float) s.y);
       } else if (step instanceof PathClose) {
         andPath.close();
+      } else if (step instanceof PathArc) {
+        PathArc s = (PathArc) step;
+        RectF rect = new RectF((float)(s.cx-s.radius), (float)(s.cy-s.radius), (float)(s.cx+s.radius), (float)(s.cy+s.radius));
+        andPath.addArc(rect, (float)s.startAngle, (float)s.arcAngle);
       } else {
         throw fan.sys.Err.make("unreachable");
       }

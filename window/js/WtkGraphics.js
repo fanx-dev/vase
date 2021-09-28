@@ -544,6 +544,10 @@ fan.vaseWindow.WtkGraphics.prototype.composite$ = function(c)
   {
     cmp = "xor";
   }
+  else if (c.name == "clear")
+  {
+    cmp = "clear";
+  }
 
   this.cx.globalCompositeOperation = cmp
   this.m_composite = c;

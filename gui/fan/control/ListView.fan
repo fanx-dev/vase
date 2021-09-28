@@ -8,7 +8,6 @@
 
 using vaseGraphics
 using vaseWindow
-using vaseMath
 
 @Js
 class ListView : ScrollPane

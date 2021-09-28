@@ -10,6 +10,7 @@ package fan.vaseWindow;
 import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Path2D;
+import java.awt.geom.Arc2D;
 import java.awt.image.BufferedImage;
 
 import fan.vaseGraphics.*;
@@ -79,6 +80,12 @@ public class WtkUtil {
             (float) s.cy2, (float) s.x, (float) s.y);
       } else if (step instanceof PathClose) {
         swtPath.closePath();
+      } else if (step instanceof PathArc) {
+        PathArc s = (PathArc) step;
+        Arc2D arc = new Arc2D.Float((float)(s.cx-s.radius), 
+          (float)(s.cy-s.radius), (float)(s.radius+s.radius), (float)(s.radius+s.radius),
+           (float)s.startAngle, (float)s.arcAngle, Arc2D.OPEN);
+        swtPath.append(arc, false);
       } else {
         throw fan.sys.Err.make("unreachable");
       }

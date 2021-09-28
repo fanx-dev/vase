@@ -8,7 +8,6 @@
 
 using vaseGraphics
 using vaseWindow
-using vaseMath
 
 **
 ** WidgetGroup is a Widget Container
