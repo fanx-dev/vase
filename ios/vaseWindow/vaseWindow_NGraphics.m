@@ -18,6 +18,28 @@ void vaseWindow_NImage_getSize(fr_Env env, fr_Obj self, int* w, int* h);
 char* vaseWindow_NImage_getData(fr_Env env, fr_Obj self);
 fr_Int vaseWindow_NImage_getFlags(fr_Env env, fr_Obj self);
 
+void decodeColor(fr_Int icolor, float color[4]) {
+    int a = (icolor >> 24 ) & 0xff;
+    int r = (icolor >> 16 ) & 0xff;
+    int g = (icolor >> 8 ) & 0xff;
+    int b = (icolor >> 0 ) & 0xff;
+    
+    color[0] = a / 255.0;
+    color[1] = r / 255.0;
+    color[2] = g / 255.0;
+    color[3] = b / 255.0;
+}
+
+fr_Obj curBrush(fr_Env env, fr_Obj self) {
+    static fr_Field field;
+    if (!field) {
+        field = fr_findField(env, fr_getObjType(env, self), "brush");
+    }
+    fr_Value value;
+    fr_getInstanceField(env, self, field, &value);
+    return value.h;
+}
+
 fr_Int vaseWindow_NGraphics_getContext(fr_Env env, fr_Obj self) {
     static fr_Field f = NULL;
     if (f == NULL) f = fr_findField(env, fr_getObjType(env, self), "handle");
@@ -87,8 +109,35 @@ void vaseWindow_NGraphics_setGradient(fr_Env env, fr_Obj self, fr_Obj gradient) 
 }
 void vaseWindow_NGraphics_setPen(fr_Env env, fr_Obj self, fr_Int width, fr_Int cap, fr_Int join, fr_Obj dash) {
     CGContextRef vg = (CGContextRef)vaseWindow_NGraphics_getContext(env, self);
-
+    CGContextSetLineWidth(vg, width);
     
+    CGLineJoin cgjoin = kCGLineJoinMiter;
+    switch (join) {
+        case 0:
+            cgjoin = kCGLineJoinMiter;
+            break;
+        case 1:
+            cgjoin = kCGLineJoinBevel;
+            break;
+        case 3:
+            cgjoin = kCGLineJoinRound;
+            break;
+    }
+    CGContextSetLineJoin(vg, cgjoin);
+    
+    CGLineCap cgcap = kCGLineCapSquare;
+    switch (cap) {
+        case 0:
+            cgcap = kCGLineCapSquare;
+            break;
+        case 1:
+            cgcap = kCGLineCapButt;
+            break;
+        case 3:
+            cgcap = kCGLineCapRound;
+            break;
+    }
+    CGContextSetLineCap(vg, cgcap);
     return;
 }
 void vaseWindow_NGraphics_setFont(fr_Env env, fr_Obj self, fr_Obj font, fr_Int id, fr_Obj name, fr_Int size, fr_Int blur) {
@@ -245,6 +294,59 @@ fr_Obj vaseWindow_NGraphics_drawRect(fr_Env env, fr_Obj self, fr_Int x, fr_Int y
 }
 fr_Obj vaseWindow_NGraphics_fillRect(fr_Env env, fr_Obj self, fr_Int x, fr_Int y, fr_Int w, fr_Int h) {
     CGContextRef vg = (CGContextRef)vaseWindow_NGraphics_getContext(env, self);
+    
+    fr_Obj brush = curBrush(env, self);
+    static fr_Type gradientType;
+    if (!gradientType) gradientType = fr_findType(env, "vaseGraphics", "Gradient");
+    if (fr_isInstanceOf(env, brush, gradientType)) {
+        fr_Int mode = fr_callOnObj(env, fr_getFieldS(env, brush, "mode").h, "ordinal", 0).i;
+        if (mode == 0) {
+            CGContextSaveGState(vg);
+            CGRect rect = CGRectMake(x, y, w, h);
+            CGContextClipToRect(vg, rect);
+            int x1 = (int)fr_getFieldS(env, brush, "x1").i;
+            int y1 = (int)fr_getFieldS(env, brush, "y1").i;
+            int x2 = (int)fr_getFieldS(env, brush, "x2").i;
+            int y2 = (int)fr_getFieldS(env, brush, "y2").i;
+            fr_Obj stops = fr_getFieldS(env, brush, "stops").h;
+            fr_Obj stop1 = fr_callOnObj(env, stops, "get", 1, (fr_Int)0).h;
+            fr_Obj stop2 = fr_callOnObj(env, stops, "get", 1, (fr_Int)-1).h;
+            fr_Int icolor1 = fr_getFieldS(env, fr_getFieldS(env, stop1, "color").h, "argb").i;
+            fr_Int icolor2 = fr_getFieldS(env, fr_getFieldS(env, stop2, "color").h, "argb").i;
+            
+            
+            float color1[4];
+            float color2[4];
+            decodeColor(icolor1, color1);
+            decodeColor(icolor2, color2);
+            
+            CGGradientRef myGradient;
+            CGColorSpaceRef myColorspace;
+            size_t num_locations = 2;
+            CGFloat locations[2] = { 0.0, 1.0 };
+            CGFloat components[8] = { color1[1], color1[2], color1[3], color1[0],  // Start color
+                                      color2[1], color2[2], color2[3], color2[0] }; // End color
+             
+            myColorspace = CGColorSpaceCreateWithName(kCGColorSpaceGenericRGB);
+            myGradient = CGGradientCreateWithColorComponents (myColorspace, components,
+                                      locations, num_locations);
+            
+            
+            CGPoint myStartPoint, myEndPoint;
+            myStartPoint.x = x1;
+            myStartPoint.y = y1;
+            myEndPoint.x = x2;
+            myEndPoint.y = y2;
+            CGContextDrawLinearGradient (vg, myGradient, myStartPoint, myEndPoint, 0);
+            
+            CGColorSpaceRelease(myColorspace);
+            CGGradientRelease(myGradient);
+            
+            CGContextRestoreGState(vg);
+            return self;
+        }
+    }
+    
     CGRect rect = CGRectMake(x, y, w, h);
     CGContextFillRect(vg, rect);
     return self;
@@ -351,19 +453,19 @@ fr_Obj vaseWindow_NGraphics_drawText(fr_Env env, fr_Obj self, fr_Obj s, fr_Int x
     
     fr_Obj font = fr_getFieldS(env, self, "font").h;
     fr_Int size = fr_getFieldS(env, font, "size").i / 2;
-    fr_Obj color = fr_getFieldS(env, self, "brush").h;
+    fr_Obj brush = curBrush(env, self);
+    static fr_Type colorType;
+    if (!colorType) colorType = fr_findType(env, "vaseGraphics", "Color");
     fr_Int icolor = 0xff000000;
-    if (fr_isInstanceOf(env, color, fr_findType(env, "vaseGraphics", "Color"))) {
-        icolor = fr_getFieldS(env, color, "argb").i;
+    if (fr_isInstanceOf(env, brush, colorType)) {
+        icolor = fr_getFieldS(env, brush, "argb").i;
     }
-    int a = (icolor >> 24 ) & 0xff;
-    int r = (icolor >> 16 ) & 0xff;
-    int g = (icolor >> 8 ) & 0xff;
-    int b = (icolor >> 0 ) & 0xff;
+    float color[4];
+    decodeColor(icolor, color);
     
     UIFont *uifont = [UIFont systemFontOfSize:size];
     NSDictionary *attrs = [NSDictionary dictionaryWithObjectsAndKeys:uifont, NSFontAttributeName,
-                           [UIColor colorWithRed:r/255.0f green:g/255.0f blue:b/255.0f alpha:a/255.0f], NSForegroundColorAttributeName, nil, nil];
+                           [UIColor colorWithRed:color[1] green:color[2] blue:color[3] alpha:color[3]], NSForegroundColorAttributeName, nil, nil];
     //NSDictionary *attrs = [[NSDictionary alloc] init];
     int offset = uifont.ascender + uifont.leading;
     [nsstr drawAtPoint:CGPointMake(x,y-offset) withAttributes:attrs];
@@ -422,18 +524,87 @@ void vaseWindow_NGraphics_dispose(fr_Env env, fr_Obj self) {
     }
     return;
 }
+
+void vaseWindow_NGraphics_applyPath(fr_Env env, CGContextRef vg, fr_Obj path) {
+    fr_Obj steps = fr_getFieldS(env, path, "steps").h;
+    fr_Int size = fr_callOnObj(env, steps, "size", 0).i;
+    fr_Method getM = fr_findMethod(env, fr_getObjType(env,steps), "get");
+    
+    fr_Type PathMoveTo = fr_findType(env, "vaseGraphics", "PathMoveTo");
+    fr_Type PathLineTo = fr_findType(env, "vaseGraphics", "PathLineTo");
+    fr_Type PathQuadTo = fr_findType(env, "vaseGraphics", "PathQuadTo");
+    fr_Type PathCubicTo = fr_findType(env, "vaseGraphics", "PathCubicTo");
+    fr_Type PathClose = fr_findType(env, "vaseGraphics", "PathClose");
+    fr_Type PathArc = fr_findType(env, "vaseGraphics", "PathArc");
+    for (int i=0; i<size; ++i) {
+        fr_Obj step = fr_callMethod(env, getM, 1, (fr_Int)i).h;
+        if (fr_isInstanceOf(env, step, PathMoveTo)) {
+            double x = fr_getFieldS(env, step, "x").f;
+            double y = fr_getFieldS(env, step, "y").f;
+            CGContextMoveToPoint(vg, x, y);
+        }
+        else if (fr_isInstanceOf(env, step, PathLineTo)) {
+            double x = fr_getFieldS(env, step, "x").f;
+            double y = fr_getFieldS(env, step, "y").f;
+            CGContextAddLineToPoint(vg, x, y);
+        }
+        else if (fr_isInstanceOf(env, step, PathQuadTo)) {
+            double cx = fr_getFieldS(env, step, "cx").f;
+            double cy = fr_getFieldS(env, step, "cy").f;
+            double x = fr_getFieldS(env, step, "x").f;
+            double y = fr_getFieldS(env, step, "y").f;
+            CGContextAddQuadCurveToPoint(vg, cx, cy, x, y);
+        }
+        else if (fr_isInstanceOf(env, step, PathCubicTo)) {
+            double cx1 = fr_getFieldS(env, step, "cx1").f;
+            double cy1 = fr_getFieldS(env, step, "cy1").f;
+            double cx2 = fr_getFieldS(env, step, "cx2").f;
+            double cy2 = fr_getFieldS(env, step, "cy2").f;
+            double x = fr_getFieldS(env, step, "x").f;
+            double y = fr_getFieldS(env, step, "y").f;
+            CGContextAddCurveToPoint(vg, cx1, cy1, cx2, cy2, x, y);
+        }
+        else if (fr_isInstanceOf(env, step, PathClose)) {
+            CGPDFContextClose(vg);
+        }
+        else if (fr_isInstanceOf(env, step, PathArc)) {
+            double cx = fr_getFieldS(env, step, "cx").f;
+            double cy = fr_getFieldS(env, step, "cy").f;
+            double radius = fr_getFieldS(env, step, "radius").f;
+            double startAngle = fr_getFieldS(env, step, "startAngle").f;
+            double arcAngle = fr_getFieldS(env, step, "arcAngle").f;
+            
+            double sa = startAngle * (PI / 180.0);
+            double ea = (startAngle + arcAngle) * (PI / 180.0);
+            CGContextAddArc(vg, cx, cy, radius, sa, ea, 0);
+        }
+    }
+}
+
 fr_Obj vaseWindow_NGraphics_drawPath(fr_Env env, fr_Obj self, fr_Obj path) {
-    return 0;
+    CGContextRef vg = (CGContextRef)vaseWindow_NGraphics_getContext(env, self);
+    CGContextBeginPath(vg);
+    vaseWindow_NGraphics_applyPath(env, vg, path);
+    CGContextStrokePath(vg);
+    return self;
 }
 fr_Obj vaseWindow_NGraphics_fillPath(fr_Env env, fr_Obj self, fr_Obj path) {
-    return 0;
+    CGContextRef vg = (CGContextRef)vaseWindow_NGraphics_getContext(env, self);
+    CGContextBeginPath(vg);
+    vaseWindow_NGraphics_applyPath(env, vg, path);
+    CGContextFillPath(vg);
+    return self;
 }
 void vaseWindow_NGraphics_doTransform(fr_Env env, fr_Obj self, fr_Float a, fr_Float b, fr_Float c, fr_Float d, fr_Float e, fr_Float f) {
     CGContextRef vg = (CGContextRef)vaseWindow_NGraphics_getContext(env, self);
     CGContextConcatCTM(vg, CGAffineTransformMake(a, b, c, d, e, f));
 }
 fr_Obj vaseWindow_NGraphics_clipPath(fr_Env env, fr_Obj self, fr_Obj path) {
-    return 0;
+    CGContextRef vg = (CGContextRef)vaseWindow_NGraphics_getContext(env, self);
+    CGContextBeginPath(vg);
+    vaseWindow_NGraphics_applyPath(env, vg, path);
+    CGContextClip(vg);
+    return self;
 }
 void vaseWindow_NGraphics_doSetShadow(fr_Env env, fr_Obj self, fr_Bool valide, fr_Int blur, fr_Int offsetX, fr_Int offsetY,
                                         fr_Int a, fr_Int r, fr_Int g, fr_Int b) {

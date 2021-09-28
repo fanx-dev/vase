@@ -14,6 +14,7 @@
 void vaseWindow_NFont_setHandle(fr_Env env, fr_Obj self, fr_Int r);
 void vaseWindow_NImage_setHandle(fr_Env env, fr_Obj self, fr_Int r);
 CGContextRef vaseWindow_NImage_makeCGBitmap(int w, int h);
+void vaseWindow_NGraphics_applyPath(fr_Env env, CGContextRef vg, fr_Obj path);
 
 void vaseWindow_NGfxEnv_initFont(fr_Env env, fr_Obj self, fr_Obj font) {
     fr_Obj name = fr_getFieldS(env, font, "name").h;
@@ -126,7 +127,12 @@ fr_Obj vaseWindow_NGfxEnv_fromStream(fr_Env env, fr_Obj self, fr_Obj in) {
     return bitmap;
 }
 fr_Bool vaseWindow_NGfxEnv_contains(fr_Env env, fr_Obj self, fr_Obj path, fr_Float x, fr_Float y) {
-    return 0;
+    CGContextRef ctx = UIGraphicsGetCurrentContext();
+    CGContextBeginPath(ctx);
+    vaseWindow_NGraphics_applyPath(env, ctx, path);
+    bool res = CGContextPathContainsPoint(ctx, CGPointMake(x, y), kCGPathFill);
+    CGContextBeginPath(ctx);
+    return res;
 }
 void vaseWindow_NGfxEnv_finalize(fr_Env env, fr_Obj self) {
     return;

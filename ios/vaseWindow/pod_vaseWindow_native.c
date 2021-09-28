@@ -1605,21 +1605,54 @@ void vaseWindow_NGraphics_clipPath_v(fr_Env env, void *param, void *ret) {
     *((fr_Value*)ret) = retValue;
 }
 
-void vaseWindow_NGraphics_setShadow_v(fr_Env env, void *param, void *ret) {
+void vaseWindow_NGraphics_doSetShadow_v(fr_Env env, void *param, void *ret) {
     fr_Value value_0;
     fr_Obj arg_0; 
     fr_Value value_1;
-    fr_Obj arg_1; 
-    fr_Value retValue;
+    fr_Bool arg_1; 
+    fr_Value value_2;
+    fr_Int arg_2; 
+    fr_Value value_3;
+    fr_Int arg_3; 
+    fr_Value value_4;
+    fr_Int arg_4; 
+    fr_Value value_5;
+    fr_Int arg_5; 
+    fr_Value value_6;
+    fr_Int arg_6; 
+    fr_Value value_7;
+    fr_Int arg_7; 
+    fr_Value value_8;
+    fr_Int arg_8; 
+
+    fr_getParam(env, param, &value_8, 8, NULL);
+    arg_8 = value_8.i;
+
+    fr_getParam(env, param, &value_7, 7, NULL);
+    arg_7 = value_7.i;
+
+    fr_getParam(env, param, &value_6, 6, NULL);
+    arg_6 = value_6.i;
+
+    fr_getParam(env, param, &value_5, 5, NULL);
+    arg_5 = value_5.i;
+
+    fr_getParam(env, param, &value_4, 4, NULL);
+    arg_4 = value_4.i;
+
+    fr_getParam(env, param, &value_3, 3, NULL);
+    arg_3 = value_3.i;
+
+    fr_getParam(env, param, &value_2, 2, NULL);
+    arg_2 = value_2.i;
 
     fr_getParam(env, param, &value_1, 1, NULL);
-    arg_1 = value_1.h;
+    arg_1 = value_1.b;
 
     fr_getParam(env, param, &value_0, 0, NULL);
     arg_0 = value_0.h;
 
 
-    retValue.h = vaseWindow_NGraphics_setShadow(env, arg_0, arg_1);
-    *((fr_Value*)ret) = retValue;
+    vaseWindow_NGraphics_doSetShadow(env, arg_0, arg_1, arg_2, arg_3, arg_4, arg_5, arg_6, arg_7, arg_8);
 }
 

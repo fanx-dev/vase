@@ -77,7 +77,7 @@ void vaseWindow_NGraphics_drawPath_v(fr_Env env, void *param, void *ret);
 void vaseWindow_NGraphics_fillPath_v(fr_Env env, void *param, void *ret);
 void vaseWindow_NGraphics_doTransform_v(fr_Env env, void *param, void *ret);
 void vaseWindow_NGraphics_clipPath_v(fr_Env env, void *param, void *ret);
-void vaseWindow_NGraphics_setShadow_v(fr_Env env, void *param, void *ret);
+void vaseWindow_NGraphics_doSetShadow_v(fr_Env env, void *param, void *ret);
 
 void vaseWindow_register(fr_Fvm vm) {
     fr_registerMethod(vm, "vaseWindow_NWindow_repaint", vaseWindow_NWindow_repaint_v);
@@ -157,5 +157,5 @@ void vaseWindow_register(fr_Fvm vm) {
     fr_registerMethod(vm, "vaseWindow_NGraphics_fillPath", vaseWindow_NGraphics_fillPath_v);
     fr_registerMethod(vm, "vaseWindow_NGraphics_doTransform", vaseWindow_NGraphics_doTransform_v);
     fr_registerMethod(vm, "vaseWindow_NGraphics_clipPath", vaseWindow_NGraphics_clipPath_v);
-    fr_registerMethod(vm, "vaseWindow_NGraphics_setShadow", vaseWindow_NGraphics_setShadow_v);
+    fr_registerMethod(vm, "vaseWindow_NGraphics_doSetShadow", vaseWindow_NGraphics_doSetShadow_v);
 }

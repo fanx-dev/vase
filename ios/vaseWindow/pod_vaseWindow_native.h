@@ -78,6 +78,6 @@ fr_Obj vaseWindow_NGraphics_drawPath(fr_Env env, fr_Obj self, fr_Obj path);
 fr_Obj vaseWindow_NGraphics_fillPath(fr_Env env, fr_Obj self, fr_Obj path);
 void vaseWindow_NGraphics_doTransform(fr_Env env, fr_Obj self, fr_Float a, fr_Float b, fr_Float c, fr_Float d, fr_Float e, fr_Float f);
 fr_Obj vaseWindow_NGraphics_clipPath(fr_Env env, fr_Obj self, fr_Obj path);
-fr_Obj vaseWindow_NGraphics_setShadow(fr_Env env, fr_Obj self, fr_Obj shadow);
+void vaseWindow_NGraphics_doSetShadow(fr_Env env, fr_Obj self, fr_Bool valide, fr_Int blur, fr_Int offsetX, fr_Int offsetY, fr_Int a, fr_Int r, fr_Int g, fr_Int b);
 
 CF_END
