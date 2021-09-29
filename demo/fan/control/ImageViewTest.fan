@@ -3,6 +3,7 @@
 
 using vaseGui
 using vaseGraphics
+using vaseWindow
 
 @Js
 class ImageViewTest : BasePage
@@ -11,7 +12,7 @@ class ImageViewTest : BasePage
     VBox {
       layout.height = Layout.matchParent
       ImageView {
-        uri = Env.cur.runtime == "js" ? `/pod/vaseDemo/res/image.png` : `fan://vaseDemo/res/image.png`
+        uri = Toolkit.cur.resFilePath("vaseDemo", "res/image.png").toUri
         scaleType = fitWidth
         mask = maskCircle
         layout.width = 200
@@ -20,7 +21,7 @@ class ImageViewTest : BasePage
       },
       Button {
         text = "Image Button"
-        uri := Env.cur.runtime == "js" ? `/pod/vaseDemo/res/image.png` : `fan://vaseDemo/res/image.png`
+        uri := Toolkit.cur.resFilePath("vaseDemo", "res/image.png").toUri
         setStyle(ImageButtonStyle { image = Image.fromUri(uri) })
         onClick { Toast("hello world").show(it) }
         layout.height = 200
@@ -28,9 +29,9 @@ class ImageViewTest : BasePage
         padding = Insets(50)
       },
       ImageView {
-        uri = Env.cur.runtime == "js" ? `/pod/vaseDemo/res/image.png` : `fan://vaseDemo/res/image.png`
+        uri = Toolkit.cur.resFilePath("vaseDemo", "res/image.png").toUri
         scaleType = fitWidth
-        mask = maskCircle
+        //mask = maskCircle
         layout.height = Layout.matchParent
         setDragable
       },

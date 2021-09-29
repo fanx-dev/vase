@@ -81,7 +81,7 @@ class ImageView : Widget
         //g.composite = Composite.dstIn
         g.composite = Composite.srcIn
         g.drawImage(image, 0, 0)
-        
+        g.dispose
         image = imgBuf
     }
   }

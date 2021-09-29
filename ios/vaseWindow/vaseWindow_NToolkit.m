@@ -50,10 +50,10 @@ fr_Obj vaseWindow_NToolkit_resFilePath(fr_Env env, fr_Obj self, fr_Obj pod, fr_O
     NSString *resPath = [NSBundle.mainBundle resourcePath];
     NSString *path;
     if (strlen(podStr) > 0) {
-        path = [NSString stringWithFormat:@"%@/%s/%s", resPath, podStr, uriStr];
+        path = [NSString stringWithFormat:@"%@/res/%s/%s", resPath, podStr, uriStr];
     }
     else {
-        path = [NSString stringWithFormat:@"%@/%s", resPath, uriStr];
+        path = [NSString stringWithFormat:@"%@/res/%s", resPath, uriStr];
     }
     const char * resStr = path.UTF8String;
     return fr_newStrUtf8(env, resStr);

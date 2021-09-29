@@ -481,24 +481,32 @@ void vaseWindow_NGraphics_doDrawImage(fr_Env env, fr_Obj self, fr_Obj image, fr_
     fr_Int handle = vaseWindow_NImage_getHandle(env, image);
     if (handle == 0) return;
     CGImageRef img = (CGImageRef)handle;
-        
+    
     CGContextSaveGState(vg);
     CGRect iRect = CGRectMake(0, 0, CGImageGetWidth(img), CGImageGetHeight(img));
-    CGRect sRect = CGRectMake(srcX, srcY, srcW, srcH);
+    //CGRect sRect = CGRectMake(srcX, srcY, srcW, srcH);
     CGRect dRect = CGRectMake(dstX, dstY, dstW, dstH);
+    CGRect nRect;
     
-    float scaleX = (float)dstW / srcW;
-    float scaleY = (float)dstH / srcH;
-    CGContextTranslateCTM(vg, dstX - (srcX * scaleX), dstY - (srcY * scaleY));
-    //nvgTranslate(vg, 50, 50);
-    CGContextScaleCTM(vg, scaleX, scaleY);
+    double scaleX = (double)dstW / srcW;
+    double scaleY = (double)dstH / srcH;
 
-    CGContextTranslateCTM(vg, 0, srcH);
-    CGContextScaleCTM(vg, 1.0, -1.0);
+    nRect.origin.x = (iRect.origin.x - (srcX+srcW/2.0)) * scaleX + (dstX + dstW/2.0);
+    nRect.origin.y = (iRect.origin.y - (srcY+srcH/2.0)) * scaleY + (dstY + dstH/2.0);
+    nRect.size.width = iRect.size.width * scaleX;
+    nRect.size.height = iRect.size.height * scaleY;
+    
+    fr_Obj surface = vaseWindow_NGraphics_getBitmap(env, self);
+    if (surface == NULL) {
+        double y = nRect.origin.y+nRect.size.height/2.0;
+        CGContextTranslateCTM(vg, 0, y);
+        CGContextScaleCTM(vg, 1.0, -1.0);
+        CGContextTranslateCTM(vg, 0, -y);
+    }
+    
+    CGContextClipToRect(vg, dRect);
 
-    CGContextClipToRect(vg, sRect);
-
-    CGContextDrawImage(vg, iRect, img);
+    CGContextDrawImage(vg, nRect, img);
 
     CGContextRestoreGState(vg);
     

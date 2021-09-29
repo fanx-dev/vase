@@ -15,6 +15,7 @@ class BlurEffect : Effect {
   protected Image? bufImage
   protected Graphics? originalGraphics
   protected Bool gray := false
+  protected Graphics? imageGraphics
 
   protected Image tryMakeImage(Image? img, Size size) {
     //SWT not support clearRect
@@ -40,6 +41,7 @@ class BlurEffect : Effect {
     imageGraphics := bufImage.graphics
     imageGraphics.brush = Color.makeArgb(0, 0, 0, 0)
     imageGraphics.clearRect(0, 0, widget.width, widget.height)
+    this.imageGraphics = imageGraphics
     return imageGraphics
   }
 
@@ -138,6 +140,7 @@ class BlurEffect : Effect {
   }
 
   override Void end(|Graphics| paint) {
+    imageGraphics.dispose
     filter(bufImage)
     originalGraphics.drawImage(bufImage, 0, 0)
   }

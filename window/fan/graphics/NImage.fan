@@ -16,10 +16,11 @@ rtconst class NImage : Image
   private Int handle
   private Int flags
   private Int data
+  private Bool isLoaded := true
   Int width { private set }
   Int height { private set }
 
-  protected new privateMake() : super.privateMake() {}
+  protected new privateMake() : super.privateMake() { isLoaded = false }
 
   new makeData(Int data, Int w, Int h) {
     this.data = data
@@ -32,7 +33,7 @@ rtconst class NImage : Image
   **
   ** is loaded in javascript
   **
-  override Bool isReady() { data != 0 }
+  override Bool isReady() { isLoaded }
 
   **
   ** Returns the pixel value at x,y
@@ -62,14 +63,17 @@ rtconst class NImage : Image
     w := this.width
     h := this.height
     hd := this.handle
+    ld := this.isLoaded
     this.data = other.data
     this.width = other.width
     this.height = other.height
     this.handle = other.handle
+    this.isLoaded = other.isLoaded
     other.data = d
     other.width = w
     other.height = h
     other.handle = hd
+    other.isLoaded = ld
   }
 
   protected native override Void finalize()

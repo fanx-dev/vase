@@ -100,28 +100,39 @@ CGImageRef makeCGImage(uint8_t *data, int w, int h) {
 }
 
 fr_Obj vaseWindow_NGfxEnv_fromStream(fr_Env env, fr_Obj self, fr_Obj in) {
-
-    stbi_io_callbacks callbacks;
-    struct InputStreamCtx ctx;
-    callbacks.read = data_read;
-    callbacks.skip = skip;
-    callbacks.eof = eof;
-    ctx.env = env;
-    ctx.in = in;
-    ctx.isEof = false;
-
-    int width, height, components;
-    stbi_uc* data = stbi_load_from_callbacks(&callbacks, &ctx, &width, &height, &components, STBI_rgb_alpha);
-    if (!data)
-    {
-        fr_throwNew(env, "sys", "IOErr", "unsupported");
-        return NULL;
-    }
-
-    //int size = width * height * components;
-    CGImageRef image = makeCGImage(data, width, height);
-    //free(data);
-
+    
+//    stbi_io_callbacks callbacks;
+//    struct InputStreamCtx ctx;
+//    callbacks.read = data_read;
+//    callbacks.skip = skip;
+//    callbacks.eof = eof;
+//    ctx.env = env;
+//    ctx.in = in;
+//    ctx.isEof = false;
+//
+//    int width, height, components;
+//    stbi_uc* data = stbi_load_from_callbacks(&callbacks, &ctx, &width, &height, &components, STBI_rgb_alpha);
+//    if (!data)
+//    {
+//        fr_throwNew(env, "sys", "IOErr", "unsupported");
+//        return NULL;
+//    }
+//
+//    //int size = width * height * components;
+//    CGImageRef image = makeCGImage(data, width, height);
+    
+    fr_Obj buf = fr_callOnObj(env, in, "readAllBuf", 0).h;
+    fr_Obj data = fr_callOnObj(env, buf, "unsafeArray", 0).h;
+    char* buffer = (char*)fr_arrayData(env, data);
+    int len = fr_callOnObj(env, buf, "size", 0).i;
+    
+    NSData *nsdata = [NSData dataWithBytes:buffer length:len];
+    UIImage *uiImage = [UIImage imageWithData:nsdata];
+    CGImageRef image = uiImage.CGImage;
+    CGImageRetain(image);
+    int width = uiImage.size.width;
+    int height = uiImage.size.height;
+    
     fr_Obj bitmap = fr_newObjS(env, "vaseWindow", "NImage", "makeData", 3, (fr_Int)NULL, (fr_Int)width, (fr_Int)height);
     vaseWindow_NImage_setHandle(env, bitmap, (fr_Int)image);
     return bitmap;

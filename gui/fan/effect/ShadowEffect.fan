@@ -29,10 +29,12 @@ class ShadowEffect : BlurEffect {
     imageGraphics.brush = Color.makeArgb(0, 0, 0, 0)
     imageGraphics.clearRect(0, 0, widget.width, widget.height)
     imageGraphics.brush = Color.makeArgb(255, 255, 255, 255)
+    this.imageGraphics = imageGraphics
     return imageGraphics
   }
 
   override Void end(|Graphics| paint) {
+    imageGraphics.dispose
     filter(bufImage)
     originalGraphics.drawImage(bufImage, xOffset, yOffset)
 

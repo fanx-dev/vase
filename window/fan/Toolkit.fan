@@ -76,8 +76,8 @@ abstract const class Toolkit
   }
 
   virtual Str resFilePath(Str pod, Str uri) {
-    if (Env.cur.runtime == "js") return "/pod/$pod/res/$uri"
-    else return "fan://$pod/res/$uri"
+    if (Env.cur.isJs) return "/pod/$pod/$uri"
+    else return "fan://$pod/$uri"
   }
 }
 
