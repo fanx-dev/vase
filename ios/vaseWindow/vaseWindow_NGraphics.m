@@ -238,8 +238,8 @@ fr_Obj vaseWindow_NGraphics_drawPolyline(fr_Env env, fr_Obj self, fr_Obj ps) {
     fr_Method getYM = fr_findMethod(env, ptype, "getY");
     for (int i = 0; i < size; i++)
     {
-        x = fr_callMethod(env, getXM, 1, ps).i;
-        y = fr_callMethod(env, getYM, 1, ps).i;
+        x = fr_callMethod(env, getXM, 2, ps, (fr_Int)i).i;
+        y = fr_callMethod(env, getYM, 2, ps, (fr_Int)i).i;
         if (i == 0) CGContextMoveToPoint(vg, x, y);
         else CGContextAddLineToPoint(vg, x, y);
     }
@@ -257,8 +257,8 @@ fr_Obj vaseWindow_NGraphics_drawPolygon(fr_Env env, fr_Obj self, fr_Obj ps) {
     fr_Method getYM = fr_findMethod(env, ptype, "getY");
     for (int i = 0; i < size; i++)
     {
-        x = fr_callMethod(env, getXM, 1, ps).i;
-        y = fr_callMethod(env, getYM, 1, ps).i;
+        x = fr_callMethod(env, getXM, 2, ps, (fr_Int)i).i;
+        y = fr_callMethod(env, getYM, 2, ps, (fr_Int)i).i;
         if (i == 0) CGContextMoveToPoint(vg, x, y);
         else CGContextAddLineToPoint(vg, x, y);
     }
@@ -277,8 +277,8 @@ fr_Obj vaseWindow_NGraphics_fillPolygon(fr_Env env, fr_Obj self, fr_Obj ps) {
     fr_Method getYM = fr_findMethod(env, ptype, "getY");
     for (int i = 0; i < size; i++)
     {
-        x = fr_callMethod(env, getXM, 1, ps).i;
-        y = fr_callMethod(env, getYM, 1, ps).i;
+        x = fr_callMethod(env, getXM, 2, ps, (fr_Int)i).i;
+        y = fr_callMethod(env, getYM, 2, ps, (fr_Int)i).i;
         if (i == 0) CGContextMoveToPoint(vg, x, y);
         else CGContextAddLineToPoint(vg, x, y);
     }
@@ -357,43 +357,46 @@ fr_Obj vaseWindow_NGraphics_clearRect(fr_Env env, fr_Obj self, fr_Int x, fr_Int 
     CGContextClearRect(vg, rect);
     return self;
 }
-fr_Obj vaseWindow_NGraphics_drawRoundRect(fr_Env env, fr_Obj self, fr_Int x, fr_Int y, fr_Int w, fr_Int h, fr_Int wArc, fr_Int hArc) {
-    CGContextRef vg = (CGContextRef)vaseWindow_NGraphics_getContext(env, self);
-    fr_Int r = x + w;
-    fr_Int b = y + h;
-    fr_Int radius = wArc;
+
+void pathRoundRect(CGContextRef vg, fr_Int x, fr_Int y, fr_Int w, fr_Int h, fr_Int wArc, fr_Int hArc) {
+    if (wArc > w/2) wArc = w/2;
+    if (hArc > h/2) hArc = h/2;
+    
     CGContextBeginPath(vg);
-    CGContextMoveToPoint(vg, x, y + radius);
-    CGContextAddLineToPoint(vg, x, b - radius);
-    CGContextAddArcToPoint(vg, x, b, x + radius, b, radius);
-    CGContextAddLineToPoint(vg, r - radius, b);
-    CGContextAddArcToPoint(vg, r, b, r, b - radius, radius);
-    CGContextAddLineToPoint(vg, r, y + radius);
-    CGContextAddArcToPoint(vg, r, y, r - radius, y, radius);
-    CGContextAddLineToPoint(vg, x + radius, y);
-    CGContextAddArcToPoint(vg, x, y, x, y + radius, radius);
+    
+    CGContextMoveToPoint(vg, x + wArc, y);
+    CGContextAddLineToPoint(vg, x + w - wArc, y);
+
+    //right top
+    //this.cx.arc(x+w-wArc, y+hArc, wArc, -90*(Math.PI / 180), true);
+    CGContextAddArcToPoint(vg, x + w, y, x + w, y + hArc, wArc);
+    CGContextAddLineToPoint(vg, x + w, y + h - hArc);
+
+    //right bottom
+    //this.cx.arc(x+w-wArc, y+h-hArc, wArc, 0, 90*(Math.PI / 180), true);
+    CGContextAddArcToPoint(vg, x + w, y + h , x + w - wArc, y + h, wArc);
+    CGContextAddLineToPoint(vg, x + wArc, y + h);
+    
+    //left bottom
+    //this.cx.arc(x+wArc, y+h-hArc, wArc, 90*(Math.PI / 180), 90*(Math.PI / 180), true)
+    CGContextAddArcToPoint(vg, x, y + h , x, y + h - hArc, wArc);
+    CGContextAddLineToPoint(vg, x, y + hArc);
+
+    //left top
+    //this.cx.arc(x+wArc, y+hArc, wArc, 180*(Math.PI / 180), 90*(Math.PI / 180), true);
+    CGContextAddArcToPoint(vg, x, y, x + wArc, y, wArc);
     
     CGContextClosePath(vg);
+}
+fr_Obj vaseWindow_NGraphics_drawRoundRect(fr_Env env, fr_Obj self, fr_Int x, fr_Int y, fr_Int w, fr_Int h, fr_Int wArc, fr_Int hArc) {
+    CGContextRef vg = (CGContextRef)vaseWindow_NGraphics_getContext(env, self);
+    pathRoundRect(vg, x, y, w, h, wArc, hArc);
     CGContextStrokePath(vg);
     return self;
 }
 fr_Obj vaseWindow_NGraphics_fillRoundRect(fr_Env env, fr_Obj self, fr_Int x, fr_Int y, fr_Int w, fr_Int h, fr_Int wArc, fr_Int hArc) {
     CGContextRef vg = (CGContextRef)vaseWindow_NGraphics_getContext(env, self);
-    fr_Int r = x + w;
-    fr_Int b = y + h;
-    fr_Int radius = wArc;
-    CGContextBeginPath(vg);
-    CGContextMoveToPoint(vg, x, y + radius);
-    CGContextAddLineToPoint(vg, x, b - radius);
-    CGContextAddArcToPoint(vg, x, b, x + radius, b, radius);
-    CGContextAddLineToPoint(vg, r - radius, b);
-    CGContextAddArcToPoint(vg, r, b, r, b - radius, radius);
-    CGContextAddLineToPoint(vg, r, y + radius);
-    CGContextAddArcToPoint(vg, r, y, r - radius, y, radius);
-    CGContextAddLineToPoint(vg, x + radius, y);
-    CGContextAddArcToPoint(vg, x, y, x, y + radius, radius);
-    
-    CGContextClosePath(vg);
+    pathRoundRect(vg, x, y, w, h, wArc, hArc);
     CGContextFillPath(vg);
     return self;
 }
@@ -452,7 +455,7 @@ fr_Obj vaseWindow_NGraphics_drawText(fr_Env env, fr_Obj self, fr_Obj s, fr_Int x
     NSString *nsstr = [NSString stringWithUTF8String: str];
     
     fr_Obj font = fr_getFieldS(env, self, "font").h;
-    fr_Int size = fr_getFieldS(env, font, "size").i / 2;
+    fr_Int size = fr_getFieldS(env, font, "size").i ;
     fr_Obj brush = curBrush(env, self);
     static fr_Type colorType;
     if (!colorType) colorType = fr_findType(env, "vaseGraphics", "Color");
@@ -465,7 +468,7 @@ fr_Obj vaseWindow_NGraphics_drawText(fr_Env env, fr_Obj self, fr_Obj s, fr_Int x
     
     UIFont *uifont = [UIFont systemFontOfSize:size];
     NSDictionary *attrs = [NSDictionary dictionaryWithObjectsAndKeys:uifont, NSFontAttributeName,
-                           [UIColor colorWithRed:color[1] green:color[2] blue:color[3] alpha:color[3]], NSForegroundColorAttributeName, nil, nil];
+                           [UIColor colorWithRed:color[1] green:color[2] blue:color[3] alpha:color[0]], NSForegroundColorAttributeName, nil, nil];
     //NSDictionary *attrs = [[NSDictionary alloc] init];
     int offset = uifont.ascender + uifont.leading;
     [nsstr drawAtPoint:CGPointMake(x,y-offset) withAttributes:attrs];
@@ -537,7 +540,7 @@ void vaseWindow_NGraphics_applyPath(fr_Env env, CGContextRef vg, fr_Obj path) {
     fr_Type PathClose = fr_findType(env, "vaseGraphics", "PathClose");
     fr_Type PathArc = fr_findType(env, "vaseGraphics", "PathArc");
     for (int i=0; i<size; ++i) {
-        fr_Obj step = fr_callMethod(env, getM, 1, (fr_Int)i).h;
+        fr_Obj step = fr_callMethod(env, getM, 2, steps, (fr_Int)i).h;
         if (fr_isInstanceOf(env, step, PathMoveTo)) {
             double x = fr_getFieldS(env, step, "x").f;
             double y = fr_getFieldS(env, step, "y").f;

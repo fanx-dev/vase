@@ -7,55 +7,58 @@
 //   10 Aug 10  Andy Frank  Created
 //
 
-fan.vaseClient.StoragePeer = fan.sys.Obj.$extend(fan.sys.Obj);
+fan.vaseClient.StoragePeer = function() {};
 
-//////////////////////////////////////////////////////////////////////////
-// Construction
-//////////////////////////////////////////////////////////////////////////
-
-fan.vaseClient.StoragePeer.prototype.$ctor = function(self) {}
-fan.vaseClient.StoragePeer.prototype.$instance = null;
-
-fan.vaseClient.StoragePeer.cur = function(self)
+fan.vaseClient.StoragePeer.cur = function()
 {
   if (fan.vaseClient.StoragePeer.$localStorage == null)
   {
-    fan.vaseClient.StoragePeer.$localStorage = fan.vaseClient.Storage.make();
-    fan.vaseClient.StoragePeer.$localStorage.peer.$instance = window.localStorage;
+    fan.vaseClient.StoragePeer.$localStorage = fan.vaseClient.LocalStorage.make();
   }
   return fan.vaseClient.StoragePeer.$localStorage;
+}
+
+
+fan.vaseClient.LocalStorage = fan.sys.Obj.$extend(fan.vaseClient.Storage);
+fan.vaseClient.LocalStorage.prototype.$ctor = function(self) {}
+fan.vaseClient.LocalStorage.prototype.$instance = null;
+
+fan.vaseClient.LocalStorage.make = function() {
+  self = new fan.vaseClient.LocalStorage();
+  self.$instance = window.localStorage;
+  return self;
 }
 
 //////////////////////////////////////////////////////////////////////////
 // Access
 //////////////////////////////////////////////////////////////////////////
 
-fan.vaseClient.StoragePeer.prototype.size = function(self, key)
+fan.vaseClient.LocalStorage.prototype.size = function(self, key)
 {
   return this.$instance.length;
 }
 
-fan.vaseClient.StoragePeer.prototype.key = function(self, index)
+fan.vaseClient.LocalStorage.prototype.key = function(self, index)
 {
   return this.$instance.key(index);
 }
 
-fan.vaseClient.StoragePeer.prototype.get = function(self, key, text)
+fan.vaseClient.LocalStorage.prototype.get = function(self, key, text)
 {
   return this.$instance.getItem(key);
 }
 
-fan.vaseClient.StoragePeer.prototype.set = function(self, key, val)
+fan.vaseClient.LocalStorage.prototype.set = function(self, key, val)
 {
   this.$instance.setItem(key, val);
 }
 
-fan.vaseClient.StoragePeer.prototype.remove = function(self, key)
+fan.vaseClient.LocalStorage.prototype.remove = function(self, key)
 {
   this.$instance.removeItem(key);
 }
 
-fan.vaseClient.StoragePeer.prototype.clear = function(self)
+fan.vaseClient.LocalStorage.prototype.clear = function(self)
 {
   this.$instance.clear();
 }

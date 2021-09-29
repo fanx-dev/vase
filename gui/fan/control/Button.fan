@@ -54,7 +54,7 @@ class Button : Label
     
     ripplePoint = Point(x, y)
     anim := Animation {
-        it.duration = 500
+        it.duration = 300
         FloatPropertyAnimChannel(this, #rippleSize) {
           from = 0.0; to = 1.0
         },

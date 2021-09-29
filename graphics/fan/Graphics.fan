@@ -85,15 +85,14 @@ mixin Graphics
 
   **
   ** Draw a rectangle with rounded corners with the current pen and brush.
-  ** The ellipse of the corners is specified by wArc and hArc.
   **
-  abstract This drawRoundRect(Int x, Int y, Int w, Int h, Int wArc, Int hArc)
+  abstract This drawRoundRect(Int x, Int y, Int w, Int h, Int xRadius, Int xRadius)
 
   **
   ** Fill a rectangle with rounded corners with the current brush.
   ** The ellipse of the corners is specified by wArc and hArc.
   **
-  abstract This fillRoundRect(Int x, Int y, Int w, Int h, Int wArc, Int hArc)
+  abstract This fillRoundRect(Int x, Int y, Int w, Int h, Int xRadius, Int xRadius)
 
   **
   ** Draw an oval with the current pen and brush.  The

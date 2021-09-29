@@ -3,6 +3,12 @@
 
 #import "VaseWindow.h"
 
+@interface EditTextListener : UIResponder <UITextViewDelegate, UITextFieldDelegate>
+
+@property(atomic,assign) fr_Obj neditText;
+
+@end
+
 extern float desityScale;
 
 struct Window {
@@ -13,6 +19,7 @@ struct Window {
 struct EditTextHandle {
     UIView *textView;
     bool isTextField;
+    EditTextListener *delegate;
 };
 
 static struct EditTextHandle* getEditTextHandle(fr_Env env, fr_Obj self) {
@@ -53,29 +60,51 @@ NSString* fireTextChangeEvent(fr_Obj neditText, NSString *text) {
     return [NSString stringWithUTF8String:resStr];
 }
 
-@interface EditTextListener : NSObject <UITextViewDelegate, UITextFieldDelegate>
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-@property(atomic,assign) fr_Obj neditText;
+@interface EditTextListener ()
 
 @end
 
 @implementation EditTextListener
+
+- (instancetype)init {
+    self = [super init];
+    return self;
+}
+
 - ( BOOL )textField:( UITextField  *)textField shouldChangeCharactersInRange:(NSRange )range replacementString:( NSString  *)string {
     return true;
 }
+
 - (void)textViewDidChange:(UITextView *)textView {
     NSString* t = fireTextChangeEvent(self.neditText, textView.text);
     if (t) {
         textView.text = t;
     }
 }
-- (void) textFieldDidChange:(UITextField*)textView {
-    NSString* t = fireTextChangeEvent(self.neditText, textView.text);
+
+- (BOOL)textFieldShouldBeginEditing:(UITextField *)textField {
+    return true;
+}
+
+- (void)textFieldDidBeginEditing:(UITextField *)textField {
+    
+}
+
+- (BOOL)textFieldShouldEndEditing:(UITextField *)textField {
+    return true;
+}
+
+- (void)textFieldDidEndEditing:(UITextField *)textField {
+    NSString* t = fireTextChangeEvent(self.neditText, textField.text);
     if (t) {
-        textView.text = t;
+        textField.text = t;
     }
 }
+
 @end
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 fr_Int vaseWindow_NEditText_init(fr_Env env, fr_Obj self, fr_Int inputType, fr_Int windowHandle) {
     struct Window* handle = (struct Window*)windowHandle;
@@ -117,17 +146,20 @@ fr_Int vaseWindow_NEditText_init(fr_Env env, fr_Obj self, fr_Int inputType, fr_I
     listener.neditText = fr_newGlobalRef(env, self);
     if (textField) {
         textField.delegate = listener;
-        [textField addTarget:listener action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
+        //[textField addTarget:listener action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
+        textField.returnKeyType = UIReturnKeyDone;
     }
     else {
         textView.delegate = listener;
     }
     
     [handle->window addSubview:view];
+    //((VaseWindow*)handle->window).editView = view;
     
-    struct EditTextHandle *et = (struct EditTextHandle*)malloc(sizeof(struct EditTextHandle));
+    struct EditTextHandle *et = (struct EditTextHandle*)calloc(1, sizeof(struct EditTextHandle));
     et->textView = view;
     et->isTextField = textField != nil;
+    et->delegate = listener;
     return (fr_Int)et;
 }
 
@@ -138,19 +170,19 @@ void vaseWindow_NEditText_close(fr_Env env, fr_Obj self) {
     [handle->textView removeFromSuperview];
     if (handle->isTextField) {
         UITextField *textView = (UITextField*)handle->textView;
-        EditTextListener *listener = (EditTextListener*)textView.delegate;
-        fr_deleteGlobalRef(env, listener.neditText);
-        listener.neditText = NULL;
+        fireTextChangeEvent(self, textView.text);
         textView.delegate = nil;
     }
     else {
         UITextView *textView = (UITextView*)handle->textView;
-        EditTextListener *listener = (EditTextListener*)textView.delegate;
-        fr_deleteGlobalRef(env, listener.neditText);
-        listener.neditText = NULL;
+        fireTextChangeEvent(self, textView.text);
         textView.delegate = nil;
     }
+    fr_deleteGlobalRef(env, handle->delegate.neditText);
+    handle->delegate.neditText = NULL;
     handle->textView = nil;
+    handle->delegate = nil;
+    
     
     free(handle);
     setEditTextHandle(env, self, NULL);
@@ -158,7 +190,7 @@ void vaseWindow_NEditText_close(fr_Env env, fr_Obj self) {
 }
 void vaseWindow_NEditText_setPos(fr_Env env, fr_Obj self, fr_Int x, fr_Int y, fr_Int w, fr_Int h) {
     struct EditTextHandle* handle = getEditTextHandle(env, self);
-    handle->textView.frame = CGRectMake(x*desityScale, y*desityScale, w*desityScale, h*desityScale);
+    handle->textView.frame = CGRectMake(x/desityScale, y/desityScale, w/desityScale, h/desityScale);
     return;
 }
 void vaseWindow_NEditText_doSetStyle(fr_Env env, fr_Obj self, fr_Obj fontName, fr_Int fontSize, fr_Int textColor, fr_Int backgroundColor) {

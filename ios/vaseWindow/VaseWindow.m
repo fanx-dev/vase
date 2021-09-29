@@ -123,6 +123,7 @@ fr_Obj fireTouchAll(UIView *view, NSSet<UITouch *> *touches, UIEvent* event, int
 
 -(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
     fireTouchAll(self, touches, event, 0, windowObj);
+    [self endEditing:YES];
 }
 
 -(void)touchesMoved:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
@@ -136,4 +137,5 @@ fr_Obj fireTouchAll(UIView *view, NSSet<UITouch *> *touches, UIEvent* event, int
 -(void)touchesCancelled:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
     fireTouchAll(self, touches, event, 5, windowObj);
 }
+
 @end

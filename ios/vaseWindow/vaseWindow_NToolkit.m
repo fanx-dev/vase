@@ -6,6 +6,8 @@ fr_Obj vaseWindow_NToolkit_curWindow = NULL;
 
 extern float desityScale;
 
+void vaseAndroid_AndroidEnv_dummy(fr_Env __env) { }
+
 fr_Obj vaseWindow_NToolkit_window(fr_Env env, fr_Obj self, fr_Obj view) {
     if (view) {
         fr_Obj win = fr_newObjS(env, "vaseWindow", "NWindow", "make", 1, view);
@@ -18,7 +20,7 @@ fr_Obj vaseWindow_NToolkit_window(fr_Env env, fr_Obj self, fr_Obj view) {
 void vaseWindow_NToolkit_callLater(fr_Env env, fr_Obj self, fr_Int delay, fr_Obj f) {
     static fr_Method callM;
     if (callM == NULL) {
-        callM = fr_findMethod(env, fr_getObjType(env, f), "call");
+        callM = fr_findMethodN(env, fr_findType(env, "sys", "Func"), "call", 0);
     }
     
     fr_Obj callback = fr_newGlobalRef(env, f);
@@ -32,7 +34,7 @@ void vaseWindow_NToolkit_callLater(fr_Env env, fr_Obj self, fr_Int delay, fr_Obj
     return;
 }
 fr_Int vaseWindow_NToolkit_dpi(fr_Env env, fr_Obj self) {
-    return 320 * desityScale;
+    return 160 * desityScale;
 }
 fr_Bool vaseWindow_NToolkit_openUri(fr_Env env, fr_Obj self, fr_Obj uri, fr_Obj options) {
     const char *str = fr_getStrUtf8(env, uri);

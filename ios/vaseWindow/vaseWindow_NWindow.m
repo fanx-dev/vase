@@ -76,7 +76,7 @@ void vaseWindow_NWindow_drawFrame(fr_Env env, fr_Obj self) {
 }
 
 void vaseWindow_NWindow_show(fr_Env env, fr_Obj self, fr_Obj size) {
-    struct Window* handle = (struct Window*)malloc(sizeof(struct Window));
+    struct Window* handle = (struct Window*)calloc(1, sizeof(struct Window));
     
     desityScale = [[UIScreen mainScreen] scale];
 
