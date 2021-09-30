@@ -10,7 +10,7 @@ using concurrent
 using vaseGraphics
 using vaseWindow
 
-@Js
+
 virtual class FogViewer
 {
   protected Frame? root
