@@ -23,6 +23,7 @@ abstract const class Toolkit
   //call by native
   private Void onInit() {
     Actor.locals["vaseGraphics.env"] = gfxEnv;
+    tryInitAsyncRunner
   }
 
   @NoDoc

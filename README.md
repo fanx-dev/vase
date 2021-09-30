@@ -17,13 +17,18 @@ A cross-platform framework for creating GUI app.
 ![image](https://raw.githubusercontent.com/fanx-dev/vase/master/res/architecture.png)
 
 ### Desktop
+  run demo:
+  ```
+  fan vaseDemo
+  ```
+  run script:
   ```
   cd test/public/widget
   fan WidgetTest.fwt
   ```
 
 ### Android
-  1. copy android jar:
+  1. add android jar:
   ```
   cp AndroidSDK/platforms/android-23/android.jar env/lib/java/ext/
   ```
@@ -34,13 +39,14 @@ A cross-platform framework for creating GUI app.
   ```
 
 ### iOS
-  1. install (Cordava)[https://cordova.apache.org/]
-  2. run demo
+  1. generate c code
   ```
-  cd demo
-  sh build_cordova.sh
-  cd cordovaDemo
-  cordova run ios
+  fangen -r vaseDemo
+  
+  ```
+  2. open in xcode
+  ```
+  open ios/vaseIOS.xcodeproj
   ```
 
 ### Browser
@@ -48,7 +54,12 @@ A cross-platform framework for creating GUI app.
   cd demo
   sh runJs.sh
   ```
+  Windows:
+  ```
+  sh runJs_win.sh
+  ```
   Service started on http://localhost:8080/Main
+
 
 ### Setting LWJGL (OpenGL support)
 1. copy all .jar to fanHome/lib/java/ext/

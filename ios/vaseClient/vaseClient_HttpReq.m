@@ -48,9 +48,11 @@ void writeMultiPart(fr_Env env, fr_Obj self, fr_Obj content, NSMutableURLRequest
     [request setValue:[NSString stringWithFormat:@"multipart/form-data; boundary=%@",boundary] forHTTPHeaderField:@"Content-Type"];
     
     NSMutableData *postData = [[NSMutableData alloc]init];//请求体数据
-    fr_Obj keys = fr_callOnObj(env, content, "vals", 0).h;
+    fr_Obj keys = fr_callOnObj(env, content, "keys", 0).h;
     int size = (int)fr_callOnObj(env, keys, "size", 0).i;
     fr_Type fileType = fr_findType(env, "std", "File");
+    //fr_printObj(env, content);
+    //fr_printObj(env, keys);
     for (int i=0; i<size; ++i) {
         fr_Obj key = fr_callOnObj(env, keys, "get", 1, (fr_Int)i).h;
         fr_Obj val = fr_callOnObj(env, content, "get", 1, key).h;
@@ -101,17 +103,16 @@ fr_Obj vaseClient_HttpReq_send(fr_Env env, fr_Obj self, fr_Obj method, fr_Obj co
         fr_Type fileType = fr_findType(env, "std", "File");
         fr_Type mapType = fr_findType(env, "std", "Map");
         if (fr_isInstanceOf(env, content, fileType)) {
-            [request setValue:@"application/octet-stream" forHTTPHeaderField:@"Content-Type"];
+            if ([request valueForHTTPHeaderField:@"Content-Type"] == nil) [request setValue:@"application/octet-stream" forHTTPHeaderField:@"Content-Type"];
             NSString *path = [NSString stringWithUTF8String: fr_getStrUtf8(env, fr_callOnObj(env, content, "osPath", 0).h)];
             NSData *data = [NSData dataWithContentsOfFile:path];
             request.HTTPBody = data;
         }
         else if (fr_isInstanceOf(env, content, mapType)) {
-            //[request setValue:@"application/octet-stream" forHTTPHeaderField:@"Content-Type"];
             writeMultiPart(env, self, content, request);
         }
         else {
-            [request setValue:@"text/plain" forHTTPHeaderField:@"Content-Type"];
+            if ([request valueForHTTPHeaderField:@"Content-Type"] == nil) [request setValue:@"text/plain" forHTTPHeaderField:@"Content-Type"];
             fr_Obj strObj = fr_callOnObj(env, content, "toStr", 0).h;
             const char *str = fr_getStrUtf8(env, strObj);
             request.HTTPBody = [[NSString stringWithUTF8String:str] dataUsingEncoding:NSUTF8StringEncoding];

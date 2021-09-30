@@ -43,6 +43,7 @@
 		32B7EEBD270434DB007FB98A /* vaseMath.c in Sources */ = {isa = PBXBuildFile; fileRef = 32B7EEAE270434DB007FB98A /* vaseMath.c */; };
 		32B7EEBE270434DB007FB98A /* vaseGraphics.c in Sources */ = {isa = PBXBuildFile; fileRef = 32B7EEB2270434DB007FB98A /* vaseGraphics.c */; };
 		32B7EEC427048B38007FB98A /* res in Resources */ = {isa = PBXBuildFile; fileRef = 32B7EEC327048B38007FB98A /* res */; };
+		32B7EEC6270538DB007FB98A /* ImagePicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 32B7EEC5270538DB007FB98A /* ImagePicker.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -115,6 +116,8 @@
 		32B7EEB1270434DB007FB98A /* std.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = std.h; sourceTree = "<group>"; };
 		32B7EEB2270434DB007FB98A /* vaseGraphics.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = vaseGraphics.c; sourceTree = "<group>"; };
 		32B7EEC327048B38007FB98A /* res */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = res; sourceTree = SOURCE_ROOT; };
+		32B7EEC5270538DB007FB98A /* ImagePicker.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ImagePicker.m; sourceTree = "<group>"; };
+		32B7EEC727053DA1007FB98A /* ImagePicker.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ImagePicker.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -186,6 +189,8 @@
 				32B7EDEA26F8C53F007FB98A /* vaseWindow_NImage.m */,
 				32B7EDEB26F8C53F007FB98A /* vaseWindow_Toolkit.m */,
 				32B7EDEC26F8C53F007FB98A /* vaseWindow_NClipboard.m */,
+				32B7EEC5270538DB007FB98A /* ImagePicker.m */,
+				32B7EEC727053DA1007FB98A /* ImagePicker.h */,
 			);
 			path = vaseWindow;
 			sourceTree = SOURCE_ROOT;
@@ -343,6 +348,7 @@
 				32B7EDF426F8C53F007FB98A /* vaseWindow_NFont.m in Sources */,
 				32B7EC5F26F878BC007FB98A /* SceneDelegate.m in Sources */,
 				32B7EEB7270434DB007FB98A /* vaseDemo.c in Sources */,
+				32B7EEC6270538DB007FB98A /* ImagePicker.m in Sources */,
 				32B7EE8227036CF9007FB98A /* fr_gen.cpp in Sources */,
 				32B7EEB9270434DB007FB98A /* util.c in Sources */,
 				32B7EEBE270434DB007FB98A /* vaseGraphics.c in Sources */,

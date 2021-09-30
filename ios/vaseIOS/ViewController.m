@@ -40,7 +40,11 @@ void vase_Window_setUIViewController(UIViewController *ctrl);
 
 #pragma mark : UIKeyboardWillShowNotification/UIKeyboardWillHideNotification
 - (void)keyboardWillShow:(NSNotification *)notification{
-    UIView *editView = self.view.subviews.firstObject.subviews.firstObject;
+    UIView *editView = self.view.subviews.firstObject;
+    if (!editView) return;
+    editView = editView.subviews.firstObject;
+    if (!editView) return;
+    
     CGRect rect = [editView.superview convertRect:editView.frame toView:self.view];//获取相对于self.view的位置
     NSDictionary *userInfo = [notification userInfo];
     NSValue* aValue = [userInfo objectForKey:UIKeyboardFrameEndUserInfoKey];//获取弹出键盘的fame的value值

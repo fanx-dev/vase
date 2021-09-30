@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #import "VaseWindow.h"
+#include "ImagePicker.h"
 
 void vaseWindow_NGraphics_setContext(fr_Env env, fr_Obj self, fr_Int r);
 
@@ -123,7 +124,27 @@ void vaseWindow_NWindow_focus(fr_Env env, fr_Obj self) {
     [handle->window updateFocusIfNeeded];
 }
 
+static ImagePicker *file_picker;
+static fr_Obj file_callback;
+
 void vaseWindow_NWindow_fileDialog(fr_Env env, fr_Obj self, fr_Obj accept, fr_Obj f, fr_Obj options) {
+    ImagePicker *picker = [[ImagePicker alloc]initWith:g_controller];
+    file_picker = picker;
+    file_callback = fr_newGlobalRef(env, f);
+    picker.callback = ^(NSString * filepath) {
+        fr_Obj path = fr_newStrUtf8(env, filepath.UTF8String);
+        fr_Obj list = fr_callMethodS(env, "sys", "List", "make", 1, (fr_Int)1).h;
+        fr_Obj file = fr_callMethodS(env, "std", "File", "os", 1, path).h;
+        fr_callOnObj(env, list, "add", 1, file);
+        fr_callOnObj(env, file_callback, "call", 1, list);
+        
+        //cleanup
+        file_picker.callback = nil;
+        file_picker = nil;
+        fr_deleteGlobalRef(env, file_callback);
+        file_callback = NULL;
+    };
+    [picker selectPhoto];
     return;
 }
 void vaseWindow_NWindow_finalize(fr_Env env, fr_Obj self) {
