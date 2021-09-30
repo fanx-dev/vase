@@ -23,10 +23,10 @@ public class AndUtil {
     float[] values = new float[9];
 
     values[0] = (float)trans.a;
-    values[1] = (float)trans.b;
-    values[2] = (float)trans.c;
-    values[3] = (float)trans.d;
-    values[4] = (float)trans.e;
+    values[1] = (float)trans.c;
+    values[2] = (float)trans.e;
+    values[3] = (float)trans.b;
+    values[4] = (float)trans.d;
     values[5] = (float)trans.f;
     values[6] = 0;
     values[7] = 0;
@@ -39,7 +39,7 @@ public class AndUtil {
   static public Transform2D toTransform(android.graphics.Matrix trans) {
     float[] elem = new float[9];
     trans.getValues(elem);
-    Transform2D t = Transform2D.make(elem[0], elem[1], elem[2], elem[3], elem[4], elem[5]);
+    Transform2D t = Transform2D.make(elem[0], elem[3], elem[1], elem[4], elem[2], elem[5]);
     return t;
   }
 
