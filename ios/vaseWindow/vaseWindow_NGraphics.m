@@ -17,6 +17,7 @@ void vaseWindow_NImage_setHandle(fr_Env env, fr_Obj self, fr_Int r);
 void vaseWindow_NImage_getSize(fr_Env env, fr_Obj self, int* w, int* h);
 char* vaseWindow_NImage_getData(fr_Env env, fr_Obj self);
 fr_Int vaseWindow_NImage_getFlags(fr_Env env, fr_Obj self);
+UIFont *vaseWindow_NFont_font(fr_Env env, fr_Obj self);
 
 void decodeColor(fr_Int icolor, float color[4]) {
     int a = (icolor >> 24 ) & 0xff;
@@ -455,7 +456,6 @@ fr_Obj vaseWindow_NGraphics_drawText(fr_Env env, fr_Obj self, fr_Obj s, fr_Int x
     NSString *nsstr = [NSString stringWithUTF8String: str];
     
     fr_Obj font = fr_getFieldS(env, self, "font").h;
-    fr_Int size = fr_getFieldS(env, font, "size").i ;
     fr_Obj brush = curBrush(env, self);
     static fr_Type colorType;
     if (!colorType) colorType = fr_findType(env, "vaseGraphics", "Color");
@@ -466,7 +466,7 @@ fr_Obj vaseWindow_NGraphics_drawText(fr_Env env, fr_Obj self, fr_Obj s, fr_Int x
     float color[4];
     decodeColor(icolor, color);
     
-    UIFont *uifont = [UIFont systemFontOfSize:size];
+    UIFont *uifont = vaseWindow_NFont_font(env, font);
     NSDictionary *attrs = [NSDictionary dictionaryWithObjectsAndKeys:uifont, NSFontAttributeName,
                            [UIColor colorWithRed:color[1] green:color[2] blue:color[3] alpha:color[0]], NSForegroundColorAttributeName, nil, nil];
     //NSDictionary *attrs = [[NSDictionary alloc] init];

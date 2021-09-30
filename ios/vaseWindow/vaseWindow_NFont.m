@@ -29,19 +29,50 @@ void vaseWindow_NFont_dispose(fr_Env env, fr_Obj self) {
     vaseWindow_NFont_setHandle(env, self, 0);
     return;
 }
+UIFont *vaseWindow_NFont_font(fr_Env env, fr_Obj self) {
+    static fr_Field sizeF;
+    static fr_Field boldF;
+    static fr_Field italicF;
+    if (!sizeF) {
+        fr_Type type = fr_getObjType(env, self);
+        sizeF = fr_findField(env, type, "size");
+        boldF = fr_findField(env, type, "bold");
+        italicF = fr_findField(env, type, "italic");
+    }
+    
+    fr_Value size;
+    fr_getInstanceField(env, self, sizeF, &size);
+    
+    fr_Value bold;
+    fr_getInstanceField(env, self, boldF, &bold);
+    
+    fr_Value italic;
+    fr_getInstanceField(env, self, italicF, &italic);
+    
+    UIFont *uifont;
+    if (bold.b) {
+        uifont = [UIFont boldSystemFontOfSize:size.i];
+    }
+    else if (italic.b) {
+        uifont = [UIFont italicSystemFontOfSize:size.i];
+    }
+    else {
+        uifont = [UIFont systemFontOfSize:size.i];
+    }
+    return uifont;
+}
+
 fr_Int vaseWindow_NFont_ascent(fr_Env env, fr_Obj self) {
 //    CGFontRef font = (CGFontRef)vaseWindow_NFont_getHandle(env, self);
 //    return CGFontGetAscent(font);
-    fr_Int size = fr_getFieldS(env, self, "size").i  ;
-    UIFont *uifont = [UIFont systemFontOfSize:size];
+    UIFont *uifont = vaseWindow_NFont_font(env, self);
     int h = uifont.ascender;
     return h;
 }
 fr_Int vaseWindow_NFont_descent(fr_Env env, fr_Obj self) {
 //    CGFontRef font = (CGFontRef)vaseWindow_NFont_getHandle(env, self);
 //    return CGFontGetDescent(font);
-    fr_Int size = fr_getFieldS(env, self, "size").i  ;
-    UIFont *uifont = [UIFont systemFontOfSize:size];
+    UIFont *uifont = vaseWindow_NFont_font(env, self);
     int h = -uifont.descender;
     return h;
 }
@@ -49,16 +80,15 @@ fr_Int vaseWindow_NFont_leading(fr_Env env, fr_Obj self) {
 //    CGFontRef font = (CGFontRef)vaseWindow_NFont_getHandle(env, self);
 //    int height = CGFontGetLeading(font) + CGFontGetAscent(font) + CGFontGetDescent(font);
 //    return height;
-    fr_Int size = fr_getFieldS(env, self, "size").i  ;
-    UIFont *uifont = [UIFont systemFontOfSize:size];
+    UIFont *uifont = vaseWindow_NFont_font(env, self);
     int h = uifont.leading;
     return h;
 }
 fr_Int vaseWindow_NFont_width(fr_Env env, fr_Obj self, fr_Obj s) {
     const char* str = fr_getStrUtf8(env, s);
     NSString *nsstr = [NSString stringWithUTF8String: str];
-    fr_Int size = fr_getFieldS(env, self, "size").i  ;
-    NSDictionary *attrs = [NSDictionary dictionaryWithObjectsAndKeys:[UIFont systemFontOfSize:size], NSFontAttributeName, nil, nil];
+    UIFont *uifont = vaseWindow_NFont_font(env, self);
+    NSDictionary *attrs = [NSDictionary dictionaryWithObjectsAndKeys:uifont, NSFontAttributeName, nil, nil];
     CGSize tsize = [nsstr sizeWithAttributes:attrs];
     return tsize.width;
 }
