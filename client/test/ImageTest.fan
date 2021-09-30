@@ -2,9 +2,9 @@ using vaseGui
 using vaseClient
 
 @Js
-class ImageViewTest : GuiTest
+class ImageViewTest
 {
-  protected override Widget build() {
+  Widget view() {
     ImageLoader.init
     return ImageView {
       id = "image"

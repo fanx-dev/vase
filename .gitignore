@@ -12,3 +12,4 @@ android.jar
 demo/android/.idea/
 native/skia
 xcuserdata
+client/storage

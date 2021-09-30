@@ -1,20 +1,15 @@
 ## vase
 
-A cross-platform framework for creating GUI app.
+A cross-platform framework for building beautiful natively applications.
 
 ### Feature
 - Mobile first UI toolkit
-- Cross-platform: Android/iOS/Windows/MacOS/Browser
+- Cross-platform: Android,iOS,Desktop,Web
 - 3D Graphics by OpenGL/WebGL
 
 ### Screenshot
 
 ![image](https://raw.githubusercontent.com/fanx-dev/vase/master/res/snap.png)
-
-
-### How It Works
-
-![image](https://raw.githubusercontent.com/fanx-dev/vase/master/res/architecture.png)
 
 ### Desktop
   run demo:
@@ -49,7 +44,7 @@ A cross-platform framework for creating GUI app.
   open ios/vaseIOS.xcodeproj
   ```
 
-### Browser
+### Web browser
   ```
   cd demo
   sh runJs.sh
@@ -75,3 +70,14 @@ A cross-platform framework for creating GUI app.
 2. run test3d/runJs.sh
 3. Go to http://localhost:8080/ with your browser.
 
+### Hot load tools
+```
+cd demo
+sh fogViewer.sh
+sh scriptViewer.sh
+```
+
+
+### How It Works
+
+![image](https://raw.githubusercontent.com/fanx-dev/vase/master/res/architecture.png)

@@ -11,7 +11,7 @@ using vaseGraphics
 using vaseWindow
 
 @Js
-virtual class Viewer
+virtual class FogViewer
 {
   protected Frame? root
   private File viewFile
@@ -33,7 +33,7 @@ virtual class Viewer
 
   static Void main()
   {
-    Viewer().show
+    FogViewer().show
   }
 
   private Void reload() {
