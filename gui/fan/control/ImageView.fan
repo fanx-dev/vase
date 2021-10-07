@@ -61,16 +61,15 @@ class ImageView : Widget
         imgOffsetX = 0.0
         imgScaleX = contentWidth / image.size.w.toFloat
         imgScaleY = imgScaleX
-        imgPreH := contentHeight / imgScaleX
-        imgOffsetY = (imgPreH - image.size.h.toFloat)/2
+        imgOffsetY = -(image.size.h * imgScaleX - contentHeight)/2
+        //echo("$imgOffsetY, $imgScaleX")
     }
     else if (scaleType == fitHeight) {
         imgOffsetX = 0.0
         imgOffsetY = 0.0
         imgScaleY = contentHeight / image.size.h.toFloat
         imgScaleX = imgScaleY
-        imgPreW := contentWidth / imgScaleY
-        imgOffsetX = (imgPreW - image.size.w.toFloat)/2
+        imgOffsetX = -(image.size.w * imgScaleY - contentWidth)/2
     }
     
     if (mask == maskCircle) {
@@ -88,13 +87,13 @@ class ImageView : Widget
   protected override Void layoutChildren(Bool force) { init }
   
   Void imgToWidget(Coord p) {
-    p.x = (p.x + imgOffsetX) * imgScaleX 
-    p.y = (p.y + imgOffsetY) * imgScaleY
+    p.x = (p.x * imgScaleX) + imgOffsetX
+    p.y = (p.y * imgScaleY) + imgOffsetY
   }
   
   Void widgetToImg(Coord p) {
-    p.x = (p.x / imgScaleX) - imgOffsetX
-    p.y = (p.y / imgScaleY) - imgOffsetY
+    p.x = (p.x - imgOffsetX) / imgScaleX 
+    p.y = (p.y - imgOffsetY) / imgScaleY
   }
 
   new make() {}
@@ -125,24 +124,24 @@ class ImageView : Widget
     if (e.consumed) return
     if (e.type == MotionEvent.wheel && e.delta != null) {
         scale := e.delta > 0 ? 0.8 : 1.25
-        zoom(e.relativeX.toFloat, e.relativeY.toFloat, scale)
+        coord := Coord(e.x.toFloat, e.y.toFloat)
+        mapToWidget(coord)
+        zoom(coord, scale)
     }
   }
   
-  protected Void zoom(Float vx, Float vy, Float scale) {
-    //echo("zoom:$vx, $vy, $scale")
-    pos := Coord(vx, vy)
+  protected Void zoom(Coord point, Float scale) {
+    //echo("zoom:$point, $scale")
+    pos := Coord(point.x, point.y)
     widgetToImg(pos)
-    imgX := pos.x
-    imgY := pos.y
-    
+
     imgScaleX *= scale
     imgScaleY *= scale
-    
-    xx := vx / imgScaleX
-    yy := vy / imgScaleY
-    imgOffsetX = xx - imgX
-    imgOffsetY = yy - imgY
+
+    imgToWidget(pos)
+
+    imgOffsetX -= pos.x - point.x
+    imgOffsetY -= pos.y - point.y
     //echo("imgX:$imgX, xx:$xx, imgY:$imgY, yy:$yy")
     this.repaint
   }
@@ -151,8 +150,8 @@ class ImageView : Widget
     super.gestureEvent(e)
     if (e.consumed) return
     if (e.type == GestureEvent.drag) {
-      imgOffsetX += e.deltaX/imgScaleX
-      imgOffsetY += e.deltaY/imgScaleX
+      imgOffsetX += e.deltaX
+      imgOffsetY += e.deltaY
       this.repaint
       //echo("imgScaleX:$imgScaleX, imgScaleY")
       e.consume
@@ -160,7 +159,9 @@ class ImageView : Widget
     if (e.type == GestureEvent.multiTouch) {
         MultiTouchEvent me := e
         //echo("multiTouch:$e")
-        zoom(me.centerX, me.centerY, me.scale)
+        coord := Coord(me.centerX, me.centerY)
+        mapToWidget(coord)
+        zoom(coord, me.scale)
         e.consume
     }
   }

@@ -11,23 +11,28 @@ class ImageViewTest : BasePage
   protected override Widget view() {
     VBox {
       layout.height = Layout.matchParent
+      Label { text = "Clickable Circle ImageView:" },
       ImageView {
         uri = Toolkit.cur.resFilePath("vaseDemo", "res/image.png").toUri
-        scaleType = fitWidth
+        scaleType = fitHeight
         mask = maskCircle
-        layout.width = 200
+        layout.width = 400
         layout.height = 200
         onClick { Toast("hello world").show(it) }
       },
+
+      Label { text = "Button with Image background:" },
       Button {
         text = "Image Button"
         uri := Toolkit.cur.resFilePath("vaseDemo", "res/image.png").toUri
         setStyle(ImageButtonStyle { image = Image.fromUri(uri) })
         onClick { Toast("hello world").show(it) }
         layout.height = 200
-        layout.width = 200
+        layout.width = 400
         padding = Insets(50)
       },
+
+      Label { text = "Dragable ImageView:" },
       ImageView {
         uri = Toolkit.cur.resFilePath("vaseDemo", "res/image.png").toUri
         scaleType = fitWidth
