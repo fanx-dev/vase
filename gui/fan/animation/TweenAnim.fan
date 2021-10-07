@@ -67,14 +67,16 @@ class TranslateAnimChannel : TweenAnimChannel {
     lastX = x
     lastY = y
     
-    widget?.transform?.translate(dx, dy)
+    if (widget != null && widget.transform != null) {
+      widget.transform = widget.transform.translate(dx, dy)
+    }
   }
 }
 
 @Js
 class RotateAnimChannel : TweenAnimChannel {
   Float from := 0f
-  Float to := 1f
+  Float to := 360f
 
   private Float lastRotate := 1f
 
@@ -84,7 +86,9 @@ class RotateAnimChannel : TweenAnimChannel {
     x := widget.width /2.0f
     y := widget.height /2.0f
     lastRotate = rotate
-    widget?.transform?.rotate(drotate / 180f * Float.pi , x, y)
+    if (widget != null && widget.transform != null) {
+      widget.transform = widget.transform.rotate(drotate , x, y)
+    }
   }
 }
 

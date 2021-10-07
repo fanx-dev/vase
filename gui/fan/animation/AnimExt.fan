@@ -103,7 +103,7 @@ class AnimExt {
     a := TweenAnimation() {
       it.repeat = repeat
       it.duration = time
-      RotateAnimChannel { to = -0.1; from = 0.1 },
+      RotateAnimChannel { to = -5f; from = 5f },
     }
     a.bind(self)
     return a
