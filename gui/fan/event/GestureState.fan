@@ -130,15 +130,21 @@ class DownState : GestureState {
 @Js
 class OneClickState : GestureState {
   private Bool valid := true
+  Int lastX := 0
+  Int lastY := 0
   new make(Gesture machine) : super(machine) {}
 
   override Void onEnter(MotionEvent e) {
     valid = true
+    lastX = e.x
+    lastY = e.y
+
+    ge := makeEvent(e, GestureEvent.click)
+    machine.onGestureEvent.fire(ge)
+    e.consume
+
     Toolkit.cur.callLater(machine.doubleClickTimeLimt) |->|{
       if (machine.currentState == this && valid) {
-        ge := makeEvent(e, GestureEvent.click)
-        machine.onGestureEvent.fire(ge)
-        e.consume
         machine.onFinished(e)
       }
       valid = false
@@ -152,10 +158,21 @@ class OneClickState : GestureState {
     if (e.type == MotionEvent.pressed) {
       ns := TwoDownState(machine)
       machine.setCurrentState(ns, e)
+    } else if (e.type == MotionEvent.moved) {
+      dx := e.x - lastX
+      dy := e.y - lastY
+      distance := (dx*dx + dy*dy).toFloat.sqrt
+      //echo(distance)
+      if (distance > DisplayMetrics.dpToPixel(30f).toFloat) {
+        ns := DragState(machine)
+        machine.setCurrentState(ns, e)
+        e.consume
+        valid = false
+      }
     } else {
       machine.onFinished(e)
+      valid = false
     }
-    valid = false
   }
 }
 
