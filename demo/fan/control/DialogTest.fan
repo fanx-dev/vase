@@ -35,8 +35,10 @@ class DialogTest : BasePage
       },
       Button {
         text = "Prompt"
-        onClick {
-          PromptDialog("Input", "OK", "Cancel").show(it)
+        onClick |w|{
+          PromptDialog("Input", "OK", "Cancel").show(w).onAction = |msg| {
+            Toast(msg).show(w)
+          }
         }
       }
     }

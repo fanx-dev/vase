@@ -86,7 +86,7 @@ class CtxMenu : ScrollPane {
       this.focusable = true
       
       onFocusChanged.add |e| {
-        echo("onFocusChanged: $e.data")
+        //echo("onFocusChanged: $e.data")
         if (e.data == false) {
           hide
         }

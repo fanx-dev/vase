@@ -233,6 +233,7 @@ class Frame : ContentPane
   
   Void clearFocus() {
     focusIt(null)
+    gestureFocusWidget = null
   }
 
   **
@@ -277,10 +278,10 @@ class Frame : ContentPane
   **
   ** return true if host windows has focus
   **
-  override Bool hasFocus() { view.host.hasFocus }
+  override Bool focused() { view.host.hasFocus }
 
-  Bool isFocusWidiget(Widget w) {
-    if (!hasFocus()) return false
+  Bool isFocusedWidiget(Widget w) {
+    if (!focused()) return false
     return w === focusWidget
   }
 

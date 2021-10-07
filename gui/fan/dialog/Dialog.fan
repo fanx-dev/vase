@@ -11,7 +11,7 @@
 @Js
 mixin Dialog
 {
-  virtual Void show(Widget parent)
+  virtual This show(Widget parent)
   {
     root := parent.getRootView
     overlayer := root.topOverlayer
@@ -24,6 +24,7 @@ mixin Dialog
         self.expandAnim().start
     else
         self.moveInAnim(Direction.down).start
+    return this
   }
   
   protected virtual Widget self() { (Widget)this }

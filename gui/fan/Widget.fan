@@ -194,9 +194,11 @@ abstract class Widget
   ** process motion event
   **
   protected virtual Void motionEvent(MotionEvent e) {
-    if (gestureFocusable && e.type == MotionEvent.pressed && !e.consumed) {
-      getRootView?.gestureFocus(this)
-      e.consume
+    if (e.type == MotionEvent.pressed && !e.consumed) {
+      if (gestureFocusable) {
+        getRootView?.gestureFocus(this)
+        e.consume
+      }
     }
   }
 
@@ -204,10 +206,12 @@ abstract class Widget
   ** process gesture event
   **
   protected virtual Void gestureEvent(GestureEvent e) {
-    if (onClickCallback != null && e.type == GestureEvent.click) {
+    if (e.type == GestureEvent.click) {
       //this.focus
-      clicked
-      e.consume
+      if (onClickCallback != null) {
+        clicked
+        e.consume
+      }
     }
     else if (onLongPressCallback != null && e.type == GestureEvent.longPress) {
       //this.focus
@@ -552,10 +556,10 @@ abstract class Widget
   ** Return if this widget is the focused widget which
   ** is currently receiving all keyboard input.
   **
-  virtual Bool hasFocus()
+  virtual Bool focused()
   {
     root := getRootView
-    return root.isFocusWidiget(this)
+    return root.isFocusedWidiget(this)
   }
 
   **

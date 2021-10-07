@@ -151,7 +151,7 @@ class EditText : Widget, TextInput
     //caret blink
     timer = Timer(500)|->|
     {
-      if (this.hasFocus)
+      if (this.focused)
       {
         caret.visible = !caret.visible
         repaint
