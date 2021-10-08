@@ -50,7 +50,7 @@ public class AndGfxEnv extends GfxEnv{
   @Override
   public Image fromUri(Uri uri, Func onLoad) {
 
-    if ("http".equals(uri.scheme) || "https".equals(uri.scheme)) {
+    if ("http".equals(uri.scheme()) || "https".equals(uri.scheme())) {
       onLoad = (Func) onLoad.toImmutable();
       AndImage p = new AndImage();
       loadFromWeb(p, uri, onLoad);
@@ -58,7 +58,7 @@ public class AndGfxEnv extends GfxEnv{
     }
 
     InStream fin = null;
-    if (uri.scheme != null) {
+    if (uri.scheme() != null) {
       fin = ((fan.std.File) uri.get()).in();
     }
     else {

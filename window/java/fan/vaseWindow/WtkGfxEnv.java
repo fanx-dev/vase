@@ -37,7 +37,7 @@ public class WtkGfxEnv extends GfxEnv {
 
   @Override
   public Image fromUri(Uri uri, Func onLoad) {
-    if ("http".equals(uri.scheme) || "https".equals(uri.scheme)) {
+    if ("http".equals(uri.scheme()) || "https".equals(uri.scheme())) {
       onLoad = (Func) onLoad.toImmutable();
       WtkImage p = new WtkImage();
       loadFromWeb(p, uri, onLoad);
@@ -45,7 +45,7 @@ public class WtkGfxEnv extends GfxEnv {
     }
 
     InStream fin = null;
-    if (uri.scheme != null) {
+    if (uri.scheme() != null) {
       fin = ((fan.std.File) uri.get()).in();
     }
     else {
