@@ -57,7 +57,15 @@ class ScrollAnimChannel : AnimChannel {
 
     t := frameTime
     s := (startV * t) + (acceleration * t * t / 2)
-    startV = startV + (acceleration * t)
+    endV := startV + (acceleration * t)
+
+    //diretion change
+    if (endV * startV < 0f) {
+      isFinished = true
+      return
+    }
+
+    startV = endV
 
     pos := target.curPos - s
     //echo("t:$t, a:$acceleration, vt:$startV, s:$s, pos:$pos, $allowOverScroll")

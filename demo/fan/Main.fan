@@ -21,6 +21,7 @@ abstract class BasePage {
                 Button {
                   text = "<"
                   style = "flatButton"
+                  rippleEnable = false
                   textAlign = Align.begin
                   onClick { frame.pop }
                 },

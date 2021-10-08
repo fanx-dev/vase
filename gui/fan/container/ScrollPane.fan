@@ -246,14 +246,16 @@ class ScrollPane : ContentPane
     if (e.type == GestureEvent.drag) {
       if (e.deltaY.abs > e.deltaX.abs) {
         if (vbar.enabled) {
-          pos := vbar.curPos - (e.deltaY)
+          overScrollFactor := 1-(vbar.overScrollVal.abs/200.0)
+          pos := vbar.curPos - (e.deltaY*overScrollFactor)
           vbar.setCurPos(pos, true, true)
           vbar.repaint
         }
       }
       else {
         if (hbar.enabled) {
-          pos := hbar.curPos - (e.deltaX)
+          overScrollFactor := 1-(hbar.overScrollVal.abs/200.0)
+          pos := hbar.curPos - (e.deltaX*overScrollFactor)
           hbar.setCurPos(pos, true)
           hbar.repaint
         }

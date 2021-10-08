@@ -30,6 +30,9 @@ class ScrollBar : Widget
   **
   Float curPos := 0f { set { setCurPos(it, false) } }
 
+  ** store pos value as Int perecision
+  Bool intPrecision := true
+
   Bool isActive() { draging }
 
   Bool isOverScroll() {
@@ -51,6 +54,9 @@ class ScrollBar : Widget
 
   Void setCurPos(Float pos, Bool fireEvent, Bool allowOverScroll := false) {
     val := pos
+    if (intPrecision) {
+      val = val.toInt.toFloat
+    }
 
     if (!allowOverScroll) {
       if (pos + viewport > max) {
@@ -194,6 +200,7 @@ class SliderBar : ScrollBar
 {
   new make() : super.make(|i|{ i.vertical = false; i.barSize = 120 })
   {
+    this.intPrecision = false
     this.viewport = 0f
     this.max = 100f
     this.padding = Insets(30, 50)
