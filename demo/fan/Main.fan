@@ -53,10 +53,6 @@ class Main
     ]
     init
   }
-
-  private Void doClick(BasePage frame) {
-    frame.run
-  }
   
   Void init() {
     mainView = Frame {
@@ -79,7 +75,7 @@ class Main
                 style = "flatButton"
                 textAlign = Align.begin
                 text = p.typeof.name.replace("Test", "")
-                onClick { doClick(p) }
+                onClick { p.run }
             }
             v.add(b)
           }
@@ -87,10 +83,8 @@ class Main
       },
     }
   }
-
-  Void show() { mainView.show }
   
   static Void main() {
-    Main().show
+    Main().mainView.show
   }
 }

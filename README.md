@@ -3,9 +3,11 @@
 A cross-platform framework for building beautiful natively applications.
 
 ### Feature
-- Mobile first UI toolkit
-- Cross-platform: Android,iOS,Desktop,Web
-- 3D Graphics by OpenGL/WebGL
+- cross-platform: Android,iOS,Web,Desktop
+- mobile-optimized widgets
+- flexible style and layout
+- async/await based Http client
+- declarative programming
 
 ### Screenshot
 
