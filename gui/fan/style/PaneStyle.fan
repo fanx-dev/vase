@@ -72,7 +72,7 @@ class PaneStyle : WidgetStyle
 @Js
 class RectViewStyle : WidgetStyle {
   new make() {
-    background = Color.gray
+    background = Color(0xd9d9d9)
   }
   
   override Void doPaint(Widget widget, Graphics g)

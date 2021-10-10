@@ -49,7 +49,7 @@ class StyleManager
         "shadow" : PaneStyle { shadow = 20 },
         "flatButton" : FlatButtonStyle(),
         "progressBar" : ProgressBarStyle(),
-        "dialog" : PaneStyle { shadow = 0; arc = 30; stroke = true },
+        "dialog" : PaneStyle { shadow = 4; arc = 16; stroke = false },
         "tabItem" : TabItemStyle(),
         "tabItemHighlight" : TabItemHighlightStyle(),
         "checkBox" : CheckBoxStyle(),

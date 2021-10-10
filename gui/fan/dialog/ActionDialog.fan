@@ -32,6 +32,7 @@ class ActionDialog : VBox, Dialog
     this.add(label)
     
     this.style = "dialog"
+    this.spacing = 0
     
     vb := VBox {}
     items.each |item, i|{

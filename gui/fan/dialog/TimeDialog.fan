@@ -22,6 +22,7 @@ class TimeDialog : VBox, Dialog
   new make(Str okText := "OK", Str? cancelText := null)
   {
     this.style = "dialog"
+    this.spacing = 0
     
     hb := HBox {
         it.spacing = 80
@@ -96,6 +97,7 @@ class DateDialog : VBox, Dialog
   new make(Str okText := "OK", Str? cancelText := null, Date defDate := Date.today)
   {
     this.style = "dialog"
+    this.spacing = 0
     
     hb := HBox {
         it.spacing = 80

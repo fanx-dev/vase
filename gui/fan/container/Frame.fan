@@ -191,7 +191,7 @@ class Frame : ContentPane
     if (modal > 1) {
       //g.brush = Color.fromArgb(100, 0, 0, 0)
       g.brush = Color.black
-      g.alpha = 40
+      g.alpha = 60
       g.fillRect(0, 0, width, height)
       //TODO restore this
       g.alpha = 255

@@ -56,7 +56,7 @@ class Main
     init
   }
   
-  Void init() {
+  private Void init() {
     mainView = Frame {
       ScrollPane {
         VBox {
@@ -85,8 +85,10 @@ class Main
       },
     }
   }
+
+  Void show() { mainView.show }
   
   static Void main() {
-    Main().mainView.show
+    Main().show
   }
 }
