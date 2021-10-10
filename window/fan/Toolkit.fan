@@ -101,7 +101,7 @@ internal const class NToolkit : Toolkit
 
   override Obj loadResFile(Str pod, Uri uri) {
     path := resFilePath(pod, uri.toStr)
-    return File.os(path)
+    return File.os(path).readAllStr
   }
   native override Str resFilePath(Str pod, Str uri)
 }

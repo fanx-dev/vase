@@ -13,7 +13,7 @@ class ImageViewTest : BasePage
       layout.height = Layout.matchParent
       Label { text = "Clickable Circle ImageView:" },
       ImageView {
-        uri = Toolkit.cur.resFilePath("vaseDemo", "res/image.png").toUri
+        uri = Uri("fan://vaseDemo/res/image.png")
         scaleType = fitHeight
         mask = maskCircle
         layout.width = 400
@@ -24,7 +24,7 @@ class ImageViewTest : BasePage
       Label { text = "Button with Image background:" },
       Button {
         text = "Image Button"
-        uri := Toolkit.cur.resFilePath("vaseDemo", "res/image.png").toUri
+        uri := Uri("fan://vaseDemo/res/image.png")
         setStyle(ImageButtonStyle { image = Image.fromUri(uri) })
         onClick { Toast("hello world").show(it) }
         layout.height = 200
@@ -34,7 +34,7 @@ class ImageViewTest : BasePage
 
       Label { text = "Dragable ImageView:" },
       ImageView {
-        uri = Toolkit.cur.resFilePath("vaseDemo", "res/image.png").toUri
+        uri = Uri("fan://vaseDemo/res/image.png")
         scaleType = fitWidth
         //mask = maskCircle
         layout.height = Layout.matchParent

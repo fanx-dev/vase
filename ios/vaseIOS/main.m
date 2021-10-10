@@ -9,11 +9,11 @@
 #import "AppDelegate.h"
 
 
-void fr_init(int argc, const char* argv[]);
+void fr_init(int argc, const char* argv[], const char *homeDir);
 
 int main(int argc, char * argv[]) {
-    
-    fr_init(0, NULL);
+    NSString *resPath = [NSBundle.mainBundle resourcePath];
+    fr_init(0, NULL, resPath.UTF8String);
     
     NSString * appDelegateClassName;
     @autoreleasepool {

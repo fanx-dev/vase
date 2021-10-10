@@ -12,6 +12,7 @@ abstract class BasePage {
     Frame? frame
     
     protected abstract Widget view()
+    protected virtual Void init(Frame frame) {}
     
     Void run() {
         frame = Frame {
@@ -28,6 +29,7 @@ abstract class BasePage {
                 view,
             },
         }
+        init(frame)
         frame.show()
     }
     
@@ -45,7 +47,7 @@ class Main
   
   new make() {
     pages = [null,
-      ButtonTest(), ImageViewTest(), DialogTest(), ListViewTest(), ComboBoxTest(), BubbleViewTest(), null,
+      ButtonTest(), StyleTest(), ImageViewTest(), ListViewTest(), BubbleViewTest(), ComboBoxTest(), DialogTest(), null,
       SpinnerTest(), SliderBarTest(), ProgressViewTest(), TextViewTest(), null,
       CardTest(), EdgeTest(), HBoxTest(), VBoxTest(), PaneTest(), FlowTest(), null,
       MenuTest(), TableTest(), TreeTest(), null,

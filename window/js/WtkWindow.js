@@ -205,7 +205,7 @@ fan.vaseWindow.WtkWindow.prototype.createCanvas = function(shell, size) {
   }
 
   if (!size) {
-    size = this.m_view.getPrefSize(shell.offsetWidth, shell.offsetHeight);
+    size = this.m_view.getPrefSize(shell.clientWidth, shell.clientHeight);
   }
   //console.log(size)
   this.m_size = size;
