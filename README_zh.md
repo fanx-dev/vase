@@ -12,3 +12,4 @@ vase是全新的移动端跨平台UI开发框架，一份代码同时编译运�
 - 吸引人的微动画。
 - 基于async/awit的Http客户端。
 
+[了解更多](http://fanx.info/doc/client.html)
