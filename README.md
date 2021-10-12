@@ -58,6 +58,23 @@ A cross-platform framework for building beautiful natively applications.
   Service started on http://localhost:8080/Main
 
 
+
+### Hot load tools
+```
+cd demo
+sh fogViewer.sh
+sh scriptViewer.sh
+```
+
+
+### How It Works
+
+![image](https://raw.githubusercontent.com/fanx-dev/vase/master/res/architecture.png)
+
+
+
+## OpenGL Wraps
+
 ### Setting LWJGL (OpenGL support)
 1. copy all .jar to fanHome/lib/java/ext/
 2. test3d/runJava.sh:
@@ -71,15 +88,3 @@ A cross-platform framework for building beautiful natively applications.
 1. Get a browser that support WebGL
 2. run test3d/runJs.sh
 3. Go to http://localhost:8080/ with your browser.
-
-### Hot load tools
-```
-cd demo
-sh fogViewer.sh
-sh scriptViewer.sh
-```
-
-
-### How It Works
-
-![image](https://raw.githubusercontent.com/fanx-dev/vase/master/res/architecture.png)

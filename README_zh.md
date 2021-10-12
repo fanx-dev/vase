@@ -13,3 +13,13 @@ vase是全新的移动端跨平台UI开发框架，一份代码同时编译运�
 - 基于async/awit的Http客户端。
 
 [了解更多](http://fanx.info/doc/client.html)
+
+### 截图
+
+![image](https://gitee.com/fanx-dev/vase/raw/master/res/snap.png)
+
+### 工作原理
+
+![image](https://gitee.com/fanx-dev/vase/raw/master/res/architecture.png)
+
+
