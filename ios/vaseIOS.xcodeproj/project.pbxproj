@@ -44,6 +44,8 @@
 		32B7EEBE270434DB007FB98A /* vaseGraphics.c in Sources */ = {isa = PBXBuildFile; fileRef = 32B7EEB2270434DB007FB98A /* vaseGraphics.c */; };
 		32B7EEC427048B38007FB98A /* res in Resources */ = {isa = PBXBuildFile; fileRef = 32B7EEC327048B38007FB98A /* res */; };
 		32B7EEC6270538DB007FB98A /* ImagePicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 32B7EEC5270538DB007FB98A /* ImagePicker.m */; };
+		32DD7ED2272D4EA500F3BA7A /* vaseWindow_Audio.m in Sources */ = {isa = PBXBuildFile; fileRef = 32DD7ED1272D4EA500F3BA7A /* vaseWindow_Audio.m */; };
+		32DD7ED6272D503800F3BA7A /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 32DD7ED4272D4F9A00F3BA7A /* AVFoundation.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -118,6 +120,8 @@
 		32B7EEC327048B38007FB98A /* res */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = res; sourceTree = SOURCE_ROOT; };
 		32B7EEC5270538DB007FB98A /* ImagePicker.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ImagePicker.m; sourceTree = "<group>"; };
 		32B7EEC727053DA1007FB98A /* ImagePicker.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ImagePicker.h; sourceTree = "<group>"; };
+		32DD7ED1272D4EA500F3BA7A /* vaseWindow_Audio.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = vaseWindow_Audio.m; sourceTree = "<group>"; };
+		32DD7ED4272D4F9A00F3BA7A /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -125,6 +129,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				32DD7ED6272D503800F3BA7A /* AVFoundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -136,6 +141,7 @@
 			children = (
 				32B7EC5926F878BC007FB98A /* vaseIOS */,
 				32B7EC5826F878BC007FB98A /* Products */,
+				32DD7ED3272D4F9A00F3BA7A /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -191,6 +197,7 @@
 				32B7EDEC26F8C53F007FB98A /* vaseWindow_NClipboard.m */,
 				32B7EEC5270538DB007FB98A /* ImagePicker.m */,
 				32B7EEC727053DA1007FB98A /* ImagePicker.h */,
+				32DD7ED1272D4EA500F3BA7A /* vaseWindow_Audio.m */,
 			);
 			path = vaseWindow;
 			sourceTree = SOURCE_ROOT;
@@ -247,6 +254,14 @@
 			);
 			name = temp;
 			path = ../../../fanx/runtime/gen/temp;
+			sourceTree = "<group>";
+		};
+		32DD7ED3272D4F9A00F3BA7A /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				32DD7ED4272D4F9A00F3BA7A /* AVFoundation.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -336,6 +351,7 @@
 				32B7EE8B2704184F007FB98A /* vaseClient_HttpReq.m in Sources */,
 				32B7EDF226F8C53F007FB98A /* vaseWindow_NWindow.m in Sources */,
 				32B7EC5C26F878BC007FB98A /* AppDelegate.m in Sources */,
+				32DD7ED2272D4EA500F3BA7A /* vaseWindow_Audio.m in Sources */,
 				32B7EDF626F8C53F007FB98A /* vaseWindow_NImage.m in Sources */,
 				32B7EEBA270434DB007FB98A /* std.c in Sources */,
 				32B7EC7426F87F45007FB98A /* VaseWindow.m in Sources */,

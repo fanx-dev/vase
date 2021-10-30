@@ -77,7 +77,11 @@ public class SoundPeer {
         id = soundPool.load(dstFile.osPath(), 1);
     }
 
-    void release(Sound self) {
+    void dispose(Sound self) {
+        soundPool.unload(id);
+    }
+
+    void finalize(Sound self) {
         soundPool.unload(id);
     }
 }

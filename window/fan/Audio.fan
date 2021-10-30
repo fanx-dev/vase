@@ -8,6 +8,7 @@
 
 @Js
 class Sound {
+    private Int handle
     const Uri uri
     
     new make(Uri uri) {
@@ -18,10 +19,16 @@ class Sound {
     native Void pause()
     
     native Void load()
-    native Void release()
+    
+    protected native override Void finalize()
 }
 
 @Js
 class Speech {
+  private Int handle
+  new make() { init }
+  private native Void init()
+
   native Bool speak(Str text, [Str:Obj]? options = null)
+  protected native override Void finalize()
 }

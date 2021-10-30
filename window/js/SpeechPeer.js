@@ -1,6 +1,10 @@
 
 fan.vaseWindow.SpeechPeer = function(){}
 
+fan.vaseWindow.SpeechPeer.prototype.init = function(self) {
+
+}
+
 fan.vaseWindow.SpeechPeer.prototype.speak = function(self, text, options) {
     var utter = new window.SpeechSynthesisUtterance(text);
 

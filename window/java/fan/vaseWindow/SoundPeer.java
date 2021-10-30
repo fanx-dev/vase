@@ -70,8 +70,12 @@ public class SoundPeer {
         }
     }
 
-    void release(Sound self) {
+    void dispose(Sound self) {
         clip.stop();
+        clip.close();
+    }
+
+    void finalize(Sound self) {
         clip.close();
     }
 }

@@ -25,6 +25,6 @@ fan.vaseWindow.SoundPeer.prototype.pause = function(self) {
     self.audio.pause();
 }
 
-fan.vaseWindow.SoundPeer.prototype.release = function(self) {
+fan.vaseWindow.SoundPeer.prototype.dispose = function(self) {
     self.audio.pause();
 }

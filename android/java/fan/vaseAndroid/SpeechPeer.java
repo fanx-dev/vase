@@ -25,12 +25,15 @@ public class SpeechPeer {
 
     public static SpeechPeer make(Speech self) {
         SpeechPeer peer = new SpeechPeer();
+        return peer;
+    }
 
-        peer.textToSpeech = new TextToSpeech(context, new TextToSpeech.OnInitListener() {
+    public void init(Speech self) {
+        textToSpeech = new TextToSpeech(context, new TextToSpeech.OnInitListener() {
             @Override
             public void onInit(int status) {
                 if (status == TextToSpeech.SUCCESS) {
-                    int result = peer.textToSpeech.setLanguage(Locale.getDefault());
+                    int result = textToSpeech.setLanguage(Locale.getDefault());
                     if (result == TextToSpeech.LANG_MISSING_DATA
                             || result == TextToSpeech.LANG_NOT_SUPPORTED) {
                         Toast.makeText(context, "Language not supported", Toast.LENGTH_SHORT).show();
@@ -40,9 +43,6 @@ public class SpeechPeer {
                 }
             }
         });
-
-        
-        return peer;
     }
 
     public boolean speak(Speech self, String text) {
@@ -67,5 +67,8 @@ public class SpeechPeer {
         int res = textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null, count+"");
         ++count;
         return res == TextToSpeech.SUCCESS;
+    }
+
+    void finalize(Speech self) {
     }
 }
