@@ -41,6 +41,8 @@ public class AndroidEnvPeer {
     //if (isMainThread()) {
       Toolkit.tryInitAsyncRunner();
     //}
+    fan.vaseWindow.SoundPeer.init(context);
+    fan.vaseWindow.SpeechPeer.init(context);
   }
 
   public static boolean onBack(Activity context)

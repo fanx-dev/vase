@@ -51,7 +51,7 @@ class Main
       SpinnerTest(), SliderBarTest(), ProgressViewTest(), TextViewTest(), null,
       CardTest(), EdgeTest(), HBoxTest(), VBoxTest(), PaneTest(), FlowTest(), null,
       MenuTest(), TableTest(), TreeTest(), null,
-      EditTextTest(), FilePickerTest(), null,
+      EditTextTest(), FilePickerTest(), AudioTest(), null,
     ]
     init
   }
