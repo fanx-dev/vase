@@ -43,6 +43,9 @@ virtual class Layout {
   **
   static const Int wrapContent := -1
 
+  ** Percent unit constant
+  const static Str percent := "%"
+
 
   Bool ignored := false
 
@@ -79,9 +82,25 @@ virtual class Layout {
   **
   ** horizontal Alignment
   **
-  Align hAlign := Align.begin 
+  Align hAlign := Align.begin
   
-  
+  **
+  ** the unit is percent of parent
+  **
+  Str wUnit := ""
+  Str hUnit := ""
+  Str xUnit := ""
+  Str yUnit := ""
+
+  private Int getPixel(Widget w, Int val, Str unit, Int parentSize, Int selfSize) {
+    if (unit.size == 0) {
+      return w.dpToPixel(val)
+    }
+    else if (unit == percent) {
+      return (val/100f*parentSize).toInt
+    }
+    throw ArgErr("Unknow unit: $unit")
+  }
   
   Int prefX(Widget w, Int parentWidth, Int selfWidth) {
     Float parent := 0.0f
@@ -94,7 +113,8 @@ virtual class Layout {
         parent = 1.0f
         anchor = 1.0f
     }
-    Float x := (parent * parentWidth) - (anchor * selfWidth) + w.dpToPixel(offsetX)
+    offset := getPixel(w, offsetX, xUnit, parentWidth, selfWidth)
+    Float x := (parent * parentWidth) - (anchor * selfWidth) + offset
     return x.toInt
   }
 
@@ -109,44 +129,22 @@ virtual class Layout {
         parent = 1.0f
         anchor = 1.0f
     }
-    Float y := (parent * parentHeight) - (anchor * selfHeight) + w.dpToPixel(offsetY)
+    offset := getPixel(w, offsetY, yUnit, parentHeight, selfHeight)
+    Float y := (parent * parentHeight) - (anchor * selfHeight) + offset
     return y.toInt
   }
 
   Int prefWidth(Widget w, Int parentWidth, Int selfWidth) {
     if (width == matchParent) return parentWidth
     if (width == wrapContent) return selfWidth
-    return w.dpToPixel(width)
+    return getPixel(w, width, wUnit, parentWidth, selfWidth)
   }
 
   Int prefHeight(Widget w, Int parentHeight, Int selfHeight) {
     if (height == matchParent) return parentHeight
     if (height == wrapContent) return selfHeight
-    return w.dpToPixel(height)
+    prefH := getPixel(w, height, hUnit, parentHeight, selfHeight)
+    return prefH.toInt
   }
 
-  ** Return hash of x and y.
-  override Int hash() {
-    Int hash := 17
-    //hash = 31 * hash + widthType.hash
-    //hash = 31 * hash + heightType.hash
-    hash = 31 * hash + width.hash
-    hash = 31 * hash + height.hash
-    hash = 31 * hash + offsetX.hash
-    hash = 31 * hash + offsetY.hash
-    hash = 31 * hash + weight.hash
-    return hash
-  }
-
-  ** Return if obj is same Point value.
-  override Bool equals(Obj? obj)
-  {
-    that := obj as Layout
-    if (that == null) return false
-    return this.width == that.width
-      && this.height == that.height
-      && this.weight == that.weight
-      && this.offsetX == that.offsetX
-      && this.offsetY == that.offsetY
-  }
 }
