@@ -2,7 +2,7 @@
 fan.vaseWindow.SoundPeer = function(){}
 
 
-fan.vaseWindow.SoundPeer.prototype.load = function(self) {
+fan.vaseWindow.SoundPeer.prototype.doLoad = function(self) {
     var src = fan.vaseWindow.GfxUtil.uriToImageSrc(self.m_uri)
     self.audio = new Audio();
     self.audio.preload = true;

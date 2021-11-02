@@ -54,7 +54,7 @@ public class SoundPeer {
         soundPool.stop(id);
     }
 
-    void load(Sound self) {
+    void doLoad(Sound self) {
         fan.std.Uri uri = self.uri;
         fan.std.File tempDir = null;
         if (cacheDir != null) {

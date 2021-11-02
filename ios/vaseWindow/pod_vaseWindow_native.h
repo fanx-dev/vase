@@ -3,7 +3,7 @@ CF_BEGIN
 
 fr_Bool vaseWindow_Sound_play(fr_Env env, fr_Obj self, fr_Int loop, fr_Obj options);
 void vaseWindow_Sound_pause(fr_Env env, fr_Obj self);
-void vaseWindow_Sound_load(fr_Env env, fr_Obj self);
+void vaseWindow_Sound_doLoad(fr_Env env, fr_Obj self);
 void vaseWindow_Sound_finalize(fr_Env env, fr_Obj self);
 void vaseWindow_Speech_init(fr_Env env, fr_Obj self);
 fr_Bool vaseWindow_Speech_speak(fr_Env env, fr_Obj self, fr_Obj text, fr_Obj options);

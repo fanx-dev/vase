@@ -18,7 +18,11 @@ class Sound {
     native Bool play(Int loop, [Str:Obj]? options = null)
     native Void pause()
     
-    native Void load()
+    This load() {
+      doLoad()
+      return this
+    }
+    private native Void doLoad()
     
     protected native override Void finalize()
 }

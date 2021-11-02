@@ -54,7 +54,7 @@ void vaseWindow_Sound_pause(fr_Env env, fr_Obj self) {
     AVAudioPlayer *player = sound->player;
     [player pause];
 }
-void vaseWindow_Sound_load(fr_Env env, fr_Obj self) {
+void vaseWindow_Sound_doLoad(fr_Env env, fr_Obj self) {
     fr_Obj uri = fr_getFieldS(env, self, "uri").h;
     fr_Obj scheme = fr_callOnObj(env, uri, "scheme", 0).h;
     fr_Obj file;

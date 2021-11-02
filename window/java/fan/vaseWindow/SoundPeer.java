@@ -27,10 +27,10 @@ public class SoundPeer {
     }
 
     boolean play(Sound self, long loop, fan.std.Map options) {
+        long pos = 0;
         if (options != null) {
             if (options.containsKey("pos")) {
-                long pos = (Long)options.get("pos");
-                clip.setMicrosecondPosition((int)pos);
+                pos = (Long)options.get("pos");
             }
         }
         if (loop == -1) {
@@ -38,6 +38,7 @@ public class SoundPeer {
         } else {
             clip.loop((int) loop);
         }
+        clip.setMicrosecondPosition((int)pos);
         clip.start();
         return true;
     }
@@ -46,7 +47,7 @@ public class SoundPeer {
         clip.stop();
     }
 
-    void load(Sound self) {
+    void doLoad(Sound self) {
         try {
 //            audioStream = AudioSystem.getAudioInputStream(
 //                    new File(fan.std.File.make(self.uri).osPath()));
