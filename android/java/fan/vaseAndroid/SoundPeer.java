@@ -14,15 +14,15 @@ import android.media.SoundPool;
 import android.content.Context;
 import android.media.AudioManager;
 import android.media.SoundPool.OnLoadCompleteListener;
+import fan.vaseAndroid.*;
 
 public class SoundPeer {
-    public static String cacheDir;
     static SoundPool soundPool;
 
     int id;
 
-    public static void init(Context context) {
-        cacheDir = context.getCacheDir().toString();
+    private static void init() {
+        if (soundPool != null) return;
         soundPool = new SoundPool(4, AudioManager.STREAM_MUSIC, 0);
         soundPool.setOnLoadCompleteListener(new OnLoadCompleteListener(){
             public void onLoadComplete (SoundPool soundPool, 
@@ -35,6 +35,7 @@ public class SoundPeer {
 
     public static SoundPeer make(Sound self) {
         SoundPeer peer = new SoundPeer();
+        init();
         return peer;
     }
 
@@ -56,25 +57,8 @@ public class SoundPeer {
 
     void doLoad(Sound self) {
         fan.std.Uri uri = self.uri;
-        fan.std.File tempDir = null;
-        if (cacheDir != null) {
-            tempDir = fan.std.File.os(cacheDir);
-        }
-        fan.std.File dstFile = fan.std.File.os(cacheDir+"/res/"+uri.pathStr());
-
-        fan.std.File srcFile;
-        if (uri.scheme() != null) {
-          srcFile = ((fan.std.File) uri.get());
-        }
-        else {
-          srcFile = ((fan.std.File) uri.toFile());
-        }
-
-        fan.std.Map op = fan.std.Map.make();
-        op.set("overwrite", false);
-        srcFile.copyTo(dstFile, op);
-
-        id = soundPool.load(dstFile.osPath(), 1);
+        String path = AndUtil.uriToPath(uri);
+        id = soundPool.load(path, 1);
     }
 
     void dispose(Sound self) {

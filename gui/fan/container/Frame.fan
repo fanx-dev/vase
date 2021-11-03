@@ -149,6 +149,7 @@ class Frame : ContentPane
       view.oldFrame = null
     }
     //view = null
+    this.onClosed.fire(null)
   }
 
 //////////////////////////////////////////////////////////////////////////
@@ -354,4 +355,5 @@ class Frame : ContentPane
   **
   once EventListeners onOpened() { EventListeners() }
 
+  once EventListeners onClosed() { EventListeners() }
 }

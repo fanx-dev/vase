@@ -156,4 +156,25 @@ public class AndUtil {
 
     return new PorterDuffXfermode(rule);
   }
+
+  public static String cacheDir = "/tmp";
+
+  public static String uriToPath(fan.std.Uri uri) {
+    if (uri.scheme() == null) {
+      return ((fan.std.File) uri.toFile()).osPath();
+    }
+    else if (uri.scheme().equals("file")) {
+      return uri.pathStr();
+    }
+    else if (uri.scheme().equals("fan")) {
+      fan.std.File dstFile = fan.std.File.os(cacheDir+"/res/"+uri.pathStr());
+
+      fan.std.File srcFile = ((fan.std.File) uri.get());
+      fan.std.Map op = fan.std.Map.make();
+      op.set("overwrite", false);
+      srcFile.copyTo(dstFile, op);
+      return dstFile.osPath();
+    }
+    return uri.toStr();
+  }
 }

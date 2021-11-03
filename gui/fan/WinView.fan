@@ -52,7 +52,7 @@ internal class WinView : View
     }
   }
 
-  Void showFrame(Frame frame, Bool push) {
+  Void showFrame(Frame frame, Bool push, Bool animation := true) {
     if (push) stack.push(curFrame)
     oldFrame = curFrame
     curFrame = frame
@@ -60,25 +60,29 @@ internal class WinView : View
 
     //animation for frame
     if (oldFrame != null) {
-      
-      anim := TweenAnimation {
-        it.duration = 300
-        TranslateAnimChannel { to = Point.defVal; from = Point(oldFrame.width, 0)},
+      if (animation) {
+        anim := TweenAnimation {
+          it.duration = 300
+          TranslateAnimChannel { to = Point.defVal; from = Point(oldFrame.width, 0)},
+        }
+        anim.bind(curFrame)
+        anim.whenDone.add {
+          //oldFrame.animManager.clear
+          oldFrame.detach
+          //echo("curFrame in done")
+        }
+        anim.start
       }
-      anim.bind(curFrame)
-      anim.whenDone.add {
-        //oldFrame.animManager.clear
+      else {
         oldFrame.detach
-        //echo("curFrame in done")
       }
-      anim.start
     }
 
     layoutDirty = 2
     host.repaint
   }
 
-  Frame? popFrame() {
+  Frame? popFrame(Bool animation := true) {
     frame := stack.pop
     if (frame == null) {
       echo("nomore frame")
@@ -92,18 +96,22 @@ internal class WinView : View
 
     //frame animation
     if (oldFrame != null) {
-      
-      anim := TweenAnimation {
-        it.duration = 300
-        TranslateAnimChannel { from = Point.defVal; to = Point(oldFrame.width, 0)},
+      if (animation) {
+        anim := TweenAnimation {
+          it.duration = 300
+          TranslateAnimChannel { from = Point.defVal; to = Point(oldFrame.width, 0)},
+        }
+        anim.bind(oldFrame)
+        anim.whenDone.add {
+          //oldFrame.animManager.clear
+          oldFrame.detach
+          //echo("oldFrame in done")
+        }
+        anim.start
       }
-      anim.bind(oldFrame)
-      anim.whenDone.add {
-        //oldFrame.animManager.clear
+      else {
         oldFrame.detach
-        //echo("oldFrame in done")
       }
-      anim.start
     }
 
     layoutDirty = 2

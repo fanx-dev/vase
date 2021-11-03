@@ -23,8 +23,8 @@ import fan.sys.List;
 
 public class AndWindow extends View implements Window {
   private fan.vaseWindow.View view;
-  private Activity context;
-  private android.widget.FrameLayout shell;
+  public Activity context;
+  public android.widget.FrameLayout shell;
   
   public AndWindow(Activity context, fan.vaseWindow.View view) {
     super(context);

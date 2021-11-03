@@ -41,7 +41,7 @@ public class AndroidEnvPeer {
     //if (isMainThread()) {
       Toolkit.tryInitAsyncRunner();
     //}
-    fan.vaseWindow.SoundPeer.init(context);
+    AndUtil.cacheDir = context.getCacheDir().toString();
     fan.vaseWindow.SpeechPeer.init(context);
   }
 
@@ -65,7 +65,7 @@ public class AndroidEnvPeer {
   {
     //static AndToolkit instance = null;
 
-    private Activity context;
+    Activity context;
     long dpi = 326;
     Handler handler;
     double density = 2.0f;

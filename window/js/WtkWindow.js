@@ -6,10 +6,10 @@
 //   2011-7-4  Jed Young  Creation
 //
 
-fan.vaseWindow.WtkWindow = fan.sys.Obj.$extend(fan.vaseWindow.Window);
+fan.vaseWindow.WtkWindow = fan.sys.Obj.$extend(fan.sys.Obj);
 fan.vaseWindow.WtkWindow.prototype.$ctor = function() {}
 fan.vaseWindow.WtkWindow.prototype.$typeof = function() {
-  return fan.vaseWindow.WtkWindow.$type;
+  return fan.vaseWindow.Window.$type;
 }
 
 fan.vaseWindow.WtkWindow.prototype.m_view = null;
