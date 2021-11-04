@@ -7,7 +7,7 @@ fan.vaseWindow.VideoPeer.prototype.doSetup = function(self, window) {
         self.video = document.createElement("video");
         self.video.preload = true;
         self.video.src = src;
-        self.video.controls = true;
+        self.video.controls = self.m_controller;
 
         self.video.oncanplay=function(){ self.fireEvent("prepared"); };
         self.video.onended=function(){ self.fireEvent("completion"); };

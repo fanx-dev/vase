@@ -27,7 +27,9 @@ public class VideoPeer {
 
         String path = AndUtil.uriToPath(self.uri);
         videoView.setVideoPath(path);
-        videoView.setMediaController(new MediaController(context));
+        if (self.controller) {
+            videoView.setMediaController(new MediaController(context));
+        }
         videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
             public void onPrepared(MediaPlayer mp) {

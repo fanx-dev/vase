@@ -29,6 +29,8 @@ static struct Window* getWindow(fr_Env env, fr_Obj self) {
     return raw;
 }
 
+VaseWindow* vase_Window_getWindow(fr_Env env, fr_Obj self) { return getWindow(env, self)->window; }
+
 static void setWindow(fr_Env env, fr_Obj self, struct Window* r) {
     static fr_Field f = NULL;
     if (f == NULL) f = fr_findField(env, fr_getObjType(env, self), "handle");

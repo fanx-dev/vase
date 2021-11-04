@@ -1,5 +1,18 @@
+#ifdef FR_VM
 #include "fni_ext.h"
 
+void vaseWindow_Sound_play_v(fr_Env env, void *param, void *ret);
+void vaseWindow_Sound_pause_v(fr_Env env, void *param, void *ret);
+void vaseWindow_Sound_doLoad_v(fr_Env env, void *param, void *ret);
+void vaseWindow_Sound_finalize_v(fr_Env env, void *param, void *ret);
+void vaseWindow_Speech_init_v(fr_Env env, void *param, void *ret);
+void vaseWindow_Speech_speak_v(fr_Env env, void *param, void *ret);
+void vaseWindow_Speech_finalize_v(fr_Env env, void *param, void *ret);
+void vaseWindow_Video_play_v(fr_Env env, void *param, void *ret);
+void vaseWindow_Video_pause_v(fr_Env env, void *param, void *ret);
+void vaseWindow_Video_doSetup_v(fr_Env env, void *param, void *ret);
+void vaseWindow_Video_remove_v(fr_Env env, void *param, void *ret);
+void vaseWindow_Video_finalize_v(fr_Env env, void *param, void *ret);
 void vaseWindow_NWindow_repaint_v(fr_Env env, void *param, void *ret);
 void vaseWindow_NWindow_show_v(fr_Env env, void *param, void *ret);
 void vaseWindow_NWindow_x_v(fr_Env env, void *param, void *ret);
@@ -80,6 +93,18 @@ void vaseWindow_NGraphics_clipPath_v(fr_Env env, void *param, void *ret);
 void vaseWindow_NGraphics_doSetShadow_v(fr_Env env, void *param, void *ret);
 
 void vaseWindow_register(fr_Fvm vm) {
+    fr_registerMethod(vm, "vaseWindow_Sound_play", vaseWindow_Sound_play_v);
+    fr_registerMethod(vm, "vaseWindow_Sound_pause", vaseWindow_Sound_pause_v);
+    fr_registerMethod(vm, "vaseWindow_Sound_doLoad", vaseWindow_Sound_doLoad_v);
+    fr_registerMethod(vm, "vaseWindow_Sound_finalize", vaseWindow_Sound_finalize_v);
+    fr_registerMethod(vm, "vaseWindow_Speech_init", vaseWindow_Speech_init_v);
+    fr_registerMethod(vm, "vaseWindow_Speech_speak", vaseWindow_Speech_speak_v);
+    fr_registerMethod(vm, "vaseWindow_Speech_finalize", vaseWindow_Speech_finalize_v);
+    fr_registerMethod(vm, "vaseWindow_Video_play", vaseWindow_Video_play_v);
+    fr_registerMethod(vm, "vaseWindow_Video_pause", vaseWindow_Video_pause_v);
+    fr_registerMethod(vm, "vaseWindow_Video_doSetup", vaseWindow_Video_doSetup_v);
+    fr_registerMethod(vm, "vaseWindow_Video_remove", vaseWindow_Video_remove_v);
+    fr_registerMethod(vm, "vaseWindow_Video_finalize", vaseWindow_Video_finalize_v);
     fr_registerMethod(vm, "vaseWindow_NWindow_repaint", vaseWindow_NWindow_repaint_v);
     fr_registerMethod(vm, "vaseWindow_NWindow_show", vaseWindow_NWindow_show_v);
     fr_registerMethod(vm, "vaseWindow_NWindow_x", vaseWindow_NWindow_x_v);
@@ -159,3 +184,5 @@ void vaseWindow_register(fr_Fvm vm) {
     fr_registerMethod(vm, "vaseWindow_NGraphics_clipPath", vaseWindow_NGraphics_clipPath_v);
     fr_registerMethod(vm, "vaseWindow_NGraphics_doSetShadow", vaseWindow_NGraphics_doSetShadow_v);
 }
+
+#endif //FR_VM

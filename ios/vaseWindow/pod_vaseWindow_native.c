@@ -1,4 +1,178 @@
+#ifdef FR_VM
 #include "pod_vaseWindow_native.h"
+
+void vaseWindow_Sound_play_v(fr_Env env, void *param, void *ret) {
+    fr_Value value_0;
+    fr_Obj arg_0; 
+    fr_Value value_1;
+    fr_Int arg_1; 
+    fr_Value value_2;
+    fr_Obj arg_2; 
+    fr_Value retValue;
+
+    fr_getParam(env, param, &value_2, 2, NULL);
+    arg_2 = value_2.h;
+
+    fr_getParam(env, param, &value_1, 1, NULL);
+    arg_1 = value_1.i;
+
+    fr_getParam(env, param, &value_0, 0, NULL);
+    arg_0 = value_0.h;
+
+
+    retValue.b = vaseWindow_Sound_play(env, arg_0, arg_1, arg_2);
+    *((fr_Value*)ret) = retValue;
+}
+
+void vaseWindow_Sound_pause_v(fr_Env env, void *param, void *ret) {
+    fr_Value value_0;
+    fr_Obj arg_0; 
+
+    fr_getParam(env, param, &value_0, 0, NULL);
+    arg_0 = value_0.h;
+
+
+    vaseWindow_Sound_pause(env, arg_0);
+}
+
+void vaseWindow_Sound_doLoad_v(fr_Env env, void *param, void *ret) {
+    fr_Value value_0;
+    fr_Obj arg_0; 
+
+    fr_getParam(env, param, &value_0, 0, NULL);
+    arg_0 = value_0.h;
+
+
+    vaseWindow_Sound_doLoad(env, arg_0);
+}
+
+void vaseWindow_Sound_finalize_v(fr_Env env, void *param, void *ret) {
+    fr_Value value_0;
+    fr_Obj arg_0; 
+
+    fr_getParam(env, param, &value_0, 0, NULL);
+    arg_0 = value_0.h;
+
+
+    vaseWindow_Sound_finalize(env, arg_0);
+}
+
+void vaseWindow_Speech_init_v(fr_Env env, void *param, void *ret) {
+    fr_Value value_0;
+    fr_Obj arg_0; 
+
+    fr_getParam(env, param, &value_0, 0, NULL);
+    arg_0 = value_0.h;
+
+
+    vaseWindow_Speech_init(env, arg_0);
+}
+
+void vaseWindow_Speech_speak_v(fr_Env env, void *param, void *ret) {
+    fr_Value value_0;
+    fr_Obj arg_0; 
+    fr_Value value_1;
+    fr_Obj arg_1; 
+    fr_Value value_2;
+    fr_Obj arg_2; 
+    fr_Value retValue;
+
+    fr_getParam(env, param, &value_2, 2, NULL);
+    arg_2 = value_2.h;
+
+    fr_getParam(env, param, &value_1, 1, NULL);
+    arg_1 = value_1.h;
+
+    fr_getParam(env, param, &value_0, 0, NULL);
+    arg_0 = value_0.h;
+
+
+    retValue.b = vaseWindow_Speech_speak(env, arg_0, arg_1, arg_2);
+    *((fr_Value*)ret) = retValue;
+}
+
+void vaseWindow_Speech_finalize_v(fr_Env env, void *param, void *ret) {
+    fr_Value value_0;
+    fr_Obj arg_0; 
+
+    fr_getParam(env, param, &value_0, 0, NULL);
+    arg_0 = value_0.h;
+
+
+    vaseWindow_Speech_finalize(env, arg_0);
+}
+
+void vaseWindow_Video_play_v(fr_Env env, void *param, void *ret) {
+    fr_Value value_0;
+    fr_Obj arg_0; 
+    fr_Value value_1;
+    fr_Int arg_1; 
+    fr_Value value_2;
+    fr_Obj arg_2; 
+    fr_Value retValue;
+
+    fr_getParam(env, param, &value_2, 2, NULL);
+    arg_2 = value_2.h;
+
+    fr_getParam(env, param, &value_1, 1, NULL);
+    arg_1 = value_1.i;
+
+    fr_getParam(env, param, &value_0, 0, NULL);
+    arg_0 = value_0.h;
+
+
+    retValue.b = vaseWindow_Video_play(env, arg_0, arg_1, arg_2);
+    *((fr_Value*)ret) = retValue;
+}
+
+void vaseWindow_Video_pause_v(fr_Env env, void *param, void *ret) {
+    fr_Value value_0;
+    fr_Obj arg_0; 
+
+    fr_getParam(env, param, &value_0, 0, NULL);
+    arg_0 = value_0.h;
+
+
+    vaseWindow_Video_pause(env, arg_0);
+}
+
+void vaseWindow_Video_doSetup_v(fr_Env env, void *param, void *ret) {
+    fr_Value value_0;
+    fr_Obj arg_0; 
+    fr_Value value_1;
+    fr_Obj arg_1; 
+
+    fr_getParam(env, param, &value_1, 1, NULL);
+    arg_1 = value_1.h;
+
+    fr_getParam(env, param, &value_0, 0, NULL);
+    arg_0 = value_0.h;
+
+
+    vaseWindow_Video_doSetup(env, arg_0, arg_1);
+}
+
+void vaseWindow_Video_remove_v(fr_Env env, void *param, void *ret) {
+    fr_Value value_0;
+    fr_Obj arg_0; 
+
+    fr_getParam(env, param, &value_0, 0, NULL);
+    arg_0 = value_0.h;
+
+
+    vaseWindow_Video_remove(env, arg_0);
+}
+
+void vaseWindow_Video_finalize_v(fr_Env env, void *param, void *ret) {
+    fr_Value value_0;
+    fr_Obj arg_0; 
+
+    fr_getParam(env, param, &value_0, 0, NULL);
+    arg_0 = value_0.h;
+
+
+    vaseWindow_Video_finalize(env, arg_0);
+}
 
 void vaseWindow_NWindow_repaint_v(fr_Env env, void *param, void *ret) {
     fr_Value value_0;
@@ -1656,3 +1830,5 @@ void vaseWindow_NGraphics_doSetShadow_v(fr_Env env, void *param, void *ret) {
     vaseWindow_NGraphics_doSetShadow(env, arg_0, arg_1, arg_2, arg_3, arg_4, arg_5, arg_6, arg_7, arg_8);
 }
 
+
+#endif //FR_VM

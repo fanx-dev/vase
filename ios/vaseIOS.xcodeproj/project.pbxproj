@@ -46,6 +46,7 @@
 		32B7EEC6270538DB007FB98A /* ImagePicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 32B7EEC5270538DB007FB98A /* ImagePicker.m */; };
 		32DD7ED2272D4EA500F3BA7A /* vaseWindow_Audio.m in Sources */ = {isa = PBXBuildFile; fileRef = 32DD7ED1272D4EA500F3BA7A /* vaseWindow_Audio.m */; };
 		32DD7ED6272D503800F3BA7A /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 32DD7ED4272D4F9A00F3BA7A /* AVFoundation.framework */; };
+		32DD7EDA27336F7F00F3BA7A /* vaseWindow_Video.m in Sources */ = {isa = PBXBuildFile; fileRef = 32DD7ED927336F7F00F3BA7A /* vaseWindow_Video.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -122,6 +123,7 @@
 		32B7EEC727053DA1007FB98A /* ImagePicker.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ImagePicker.h; sourceTree = "<group>"; };
 		32DD7ED1272D4EA500F3BA7A /* vaseWindow_Audio.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = vaseWindow_Audio.m; sourceTree = "<group>"; };
 		32DD7ED4272D4F9A00F3BA7A /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		32DD7ED927336F7F00F3BA7A /* vaseWindow_Video.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = vaseWindow_Video.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -198,6 +200,7 @@
 				32B7EEC5270538DB007FB98A /* ImagePicker.m */,
 				32B7EEC727053DA1007FB98A /* ImagePicker.h */,
 				32DD7ED1272D4EA500F3BA7A /* vaseWindow_Audio.m */,
+				32DD7ED927336F7F00F3BA7A /* vaseWindow_Video.m */,
 			);
 			path = vaseWindow;
 			sourceTree = SOURCE_ROOT;
@@ -353,6 +356,7 @@
 				32B7EC5C26F878BC007FB98A /* AppDelegate.m in Sources */,
 				32DD7ED2272D4EA500F3BA7A /* vaseWindow_Audio.m in Sources */,
 				32B7EDF626F8C53F007FB98A /* vaseWindow_NImage.m in Sources */,
+				32DD7EDA27336F7F00F3BA7A /* vaseWindow_Video.m in Sources */,
 				32B7EEBA270434DB007FB98A /* std.c in Sources */,
 				32B7EC7426F87F45007FB98A /* VaseWindow.m in Sources */,
 				32B7EEB5270434DB007FB98A /* vaseGui.c in Sources */,

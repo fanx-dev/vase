@@ -54,22 +54,41 @@ void vaseWindow_Sound_pause(fr_Env env, fr_Obj self) {
     AVAudioPlayer *player = sound->player;
     [player pause];
 }
-void vaseWindow_Sound_doLoad(fr_Env env, fr_Obj self) {
-    fr_Obj uri = fr_getFieldS(env, self, "uri").h;
+
+NSString *vaseWindow_uriToPath(fr_Env env, fr_Obj uri) {
     fr_Obj scheme = fr_callOnObj(env, uri, "scheme", 0).h;
-    fr_Obj file;
-    if (scheme != NULL) {
-        file = fr_callOnObj(env, uri, "get", 0).h;
+    fr_Obj path;
+    if (scheme == NULL) {
+        path = fr_callOnObj(env, uri, "pathStr", 0).h;
     }
     else {
-        file = fr_callOnObj(env, uri, "toFile", 0).h;
+        const char *schemeStr = fr_getStrUtf8(env, scheme);
+        if (strcmp(schemeStr, "fan") == 0) {
+            fr_Obj file = fr_callOnObj(env, uri, "get", 0).h;
+            if (fr_errOccurred(env)) {
+                return nil;
+            }
+            path = fr_callOnObj(env, file, "osPath", 0).h;
+        }
+        else if (strcmp(schemeStr, "file") == 0) {
+            path = fr_callOnObj(env, uri, "pathStr", 0).h;
+        }
+        else {
+            path = fr_callOnObj(env, uri, "toStr", 0).h;
+        }
     }
     if (fr_errOccurred(env)) {
-        return;
+        return nil;
     }
-    fr_Obj path = fr_callOnObj(env, file, "osPath", 0).h;
+
     const char *pathStr = fr_getStrUtf8(env, path);
     NSString *npath = [NSString stringWithUTF8String:pathStr];
+    return npath;
+}
+
+void vaseWindow_Sound_doLoad(fr_Env env, fr_Obj self) {
+    fr_Obj uri = fr_getFieldS(env, self, "uri").h;
+    NSString *npath = vaseWindow_uriToPath(env, uri);
     NSURL *url = [NSURL fileURLWithPath:npath];
     
     NSError *error = nil;
