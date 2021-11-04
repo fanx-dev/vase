@@ -49,12 +49,12 @@ abstract const class Toolkit
   **
   ** return the current devices DPI(dot per inch)
   **
-  protected virtual Int dpi() { 160 }
+  //protected virtual Int dpi() { 160 }
 
   **
   ** density base on 320 dpi
   **
-  virtual Float density() { dpi / 320.0f }
+  virtual Float density() { 0.5f }
 
   **
   ** current Env name
@@ -91,7 +91,7 @@ internal const class NToolkit : Toolkit
 
   native override Void callLater(Int delay, |->| f)
 
-  native override Int dpi()
+  native override Float density()
 
   override Str name() { "native" }
 

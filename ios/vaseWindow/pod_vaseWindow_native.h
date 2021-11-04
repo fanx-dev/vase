@@ -38,7 +38,7 @@ void vaseWindow_NEditText_finalize(fr_Env env, fr_Obj self);
 fr_Obj vaseWindow_Toolkit_cur(fr_Env env);
 fr_Obj vaseWindow_NToolkit_window(fr_Env env, fr_Obj self, fr_Obj view);
 void vaseWindow_NToolkit_callLater(fr_Env env, fr_Obj self, fr_Int delay, fr_Obj f);
-fr_Int vaseWindow_NToolkit_dpi(fr_Env env, fr_Obj self);
+fr_Float vaseWindow_NToolkit_density(fr_Env env, fr_Obj self);
 fr_Bool vaseWindow_NToolkit_openUri(fr_Env env, fr_Obj self, fr_Obj uri, fr_Obj options);
 fr_Obj vaseWindow_NToolkit_resFilePath(fr_Env env, fr_Obj self, fr_Obj pod, fr_Obj uri);
 fr_Int vaseWindow_NImage_getPixel(fr_Env env, fr_Obj self, fr_Int x, fr_Int y);

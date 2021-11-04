@@ -129,7 +129,7 @@ public class AndroidEnvPeer {
       return AndGfxEnv.instance;
     }
 
-    @Override
+    //@Override
     public long dpi() {
       return dpi;
     }

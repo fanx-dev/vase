@@ -33,8 +33,8 @@ void vaseWindow_NToolkit_callLater(fr_Env env, fr_Obj self, fr_Int delay, fr_Obj
     });
     return;
 }
-fr_Int vaseWindow_NToolkit_dpi(fr_Env env, fr_Obj self) {
-    return 160 * desityScale;
+fr_Float vaseWindow_NToolkit_density(fr_Env env, fr_Obj self) {
+    return desityScale * 0.5;
 }
 fr_Bool vaseWindow_NToolkit_openUri(fr_Env env, fr_Obj self, fr_Obj uri, fr_Obj options) {
     const char *str = fr_getStrUtf8(env, uri);
