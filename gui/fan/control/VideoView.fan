@@ -29,7 +29,7 @@ class VideoView : Widget
     if (!inited) {
       video.uri = this.uri
 
-      root.onClosed.add {
+      root.onClosing.add {
         this.close
       }
     }

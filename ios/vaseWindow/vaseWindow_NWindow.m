@@ -88,12 +88,13 @@ void vaseWindow_NWindow_show(fr_Env env, fr_Obj self, fr_Obj size) {
     handle->graphics = NULL;
     
     
-    CGRect frame = g_controller.view.bounds;
+    CGRect frame = [UIScreen mainScreen].bounds;//g_controller.view.bounds;
     UIEdgeInsets insets = [UIApplication sharedApplication].windows.firstObject.safeAreaInsets;
     frame.origin.x += insets.left;
     frame.origin.y += insets.top;
     frame.size.width -= insets.left + insets.right;
     frame.size.height -= insets.top + insets.bottom;
+    
     handle->window.frame = frame;
     [g_controller.view addSubview:handle->window];
 }

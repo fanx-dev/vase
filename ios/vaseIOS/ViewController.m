@@ -7,7 +7,9 @@
 
 #import "ViewController.h"
 #import "VaseWindow.h"
+#import "AppDelegate.h"
 #include "temp/vaseDemo.h"
+
 void vase_Window_setUIViewController(UIViewController *ctrl);
 
 @interface ViewController ()
@@ -15,9 +17,31 @@ void vase_Window_setUIViewController(UIViewController *ctrl);
 
 @implementation ViewController
 
+- (void)switchNewOrientation:(UIInterfaceOrientation)interfaceOrientation
+{
+    NSNumber *resetOrientationTarget = [NSNumber numberWithInt:UIInterfaceOrientationUnknown];
+    [[UIDevice currentDevice] setValue:resetOrientationTarget forKey:@"orientation"];
+    
+    NSNumber *orientationTarget = [NSNumber numberWithInt:interfaceOrientation];
+    [[UIDevice currentDevice] setValue:orientationTarget forKey:@"orientation"];
+}
+
+//- (BOOL)shouldAutorotate{
+//    return YES;
+//}
+//- (UIInterfaceOrientationMask)supportedInterfaceOrientations{
+//    return UIInterfaceOrientationMaskLandscape;
+//}
+
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    
+    //AppDelegate * appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    //[self switchNewOrientation:UIInterfaceOrientationLandscapeRight];
     
     fr_Env env = fr_getEnv(NULL);
     vaseDemo_init__(env);

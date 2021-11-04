@@ -60,6 +60,7 @@ internal class WinView : View
 
     //animation for frame
     if (oldFrame != null) {
+      oldFrame.onClosing.fire(null)
       if (animation) {
         anim := TweenAnimation {
           it.duration = 300
@@ -96,6 +97,7 @@ internal class WinView : View
 
     //frame animation
     if (oldFrame != null) {
+      oldFrame.onClosing.fire(null)
       if (animation) {
         anim := TweenAnimation {
           it.duration = 300
