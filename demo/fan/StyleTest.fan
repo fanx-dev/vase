@@ -13,6 +13,8 @@ using vaseGraphics
 @Js
 class StyleTest : BasePage
 {
+  Button? button
+
   protected override Void init(Frame frame) {
     styleFile := `/res/testStyle.fog`
     [Str:Obj] style = Toolkit.cur.loadResFile("vaseDemo", styleFile).toStr.in.readObj
@@ -24,7 +26,7 @@ class StyleTest : BasePage
     viewFile := `/res/testView.fog`
     Widget view = Toolkit.cur.loadResFile("vaseDemo", viewFile).toStr.in.readObj
 
-    Button button = view.findById("button")
+    Binding.inject(view, this)
     button.onClick {
       Toast("hello world").show(it)
     }
