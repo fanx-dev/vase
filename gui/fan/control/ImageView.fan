@@ -148,6 +148,7 @@ class ImageView : Widget
   
   protected override Void gestureEvent(GestureEvent e) {
     super.gestureEvent(e)
+    if (!gestureFocusable) return
     if (e.consumed) return
     if (e.type == GestureEvent.drag) {
       imgOffsetX += e.deltaX

@@ -70,6 +70,10 @@ public class VideoPeer {
         FrameLayout.LayoutParams param = new FrameLayout.LayoutParams(
                 (int)self.w, (int)self.h);
         param.setMargins((int)self.x, (int)self.y, 0, 0);
+
+        if (self.center) {
+            param.gravity = android.view.Gravity.CENTER;
+        }
         view.setLayoutParams(param);
         view.invalidate();
     }
