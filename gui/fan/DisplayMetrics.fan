@@ -8,7 +8,7 @@
 
 using vaseGraphics
 using vaseWindow
-
+using concurrent
 
 @Js
 mixin DisplayMetrics
@@ -18,7 +18,16 @@ mixin DisplayMetrics
   ** scale dp to pixel
   **
   private static Float dp() {
-    Toolkit.cur.density
+    Bool? floatDesity := Actor.locals["vaseGui.floatDesity"]
+    if (floatDesity == null || floatDesity == false) return Toolkit.cur.density
+
+    Float desityBase := Actor.locals.get("vaseGui.desityBase", 1080f)
+    win := Toolkit.cur.window
+    if (win != null) {
+      desity := (win.size.w / desityBase)
+      return desity
+    }
+    return Toolkit.cur.density
   }
 
   static Int dpToPixel(Float d) { (d * dp).toInt }

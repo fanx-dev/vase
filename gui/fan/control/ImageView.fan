@@ -38,10 +38,10 @@ class ImageView : Widget
   // Int imagePrefHeight := 240
 
   Bool isInited := false
-  protected Void init() {
+  protected Void init(Bool force) {
     if (image == null) return
     if (!image.isReady) return
-    if (isInited) return
+    if (isInited && !force) return
     isInited = true
     
     if (scaleType == keepSize) {
@@ -84,7 +84,7 @@ class ImageView : Widget
         image = imgBuf
     }
   }
-  protected override Void layoutChildren(Bool force) { init }
+  protected override Void layoutChildren(Bool force) { init(force) }
   
   Void imgToWidget(Coord p) {
     p.x = (p.x * imgScaleX) + imgOffsetX
@@ -121,6 +121,7 @@ class ImageView : Widget
   protected override Void motionEvent(MotionEvent e)
   {
     super.motionEvent(e)
+    if (!gestureFocusable) return
     if (e.consumed) return
     if (e.type == MotionEvent.wheel && e.delta != null) {
         scale := e.delta > 0 ? 0.8 : 1.25
