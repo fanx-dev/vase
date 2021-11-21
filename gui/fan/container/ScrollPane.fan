@@ -149,6 +149,8 @@ class ScrollPane : ContentPane
       vbar.visible = true
     }
 
+    moveToTop(hbar)
+    moveToTop(vbar)
   }
 
   override Void layoutChildren(Bool force)

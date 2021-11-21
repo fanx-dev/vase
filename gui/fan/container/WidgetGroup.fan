@@ -25,8 +25,8 @@ abstract class WidgetGroup : Widget
 // Widget Tree
 //////////////////////////////////////////////////////////////////////////
 
-  @Transient
-  protected Widget[] children := Widget[,]
+  @NoDoc @Transient
+  Widget[] children := Widget[,]
 
 
   **
@@ -127,6 +127,18 @@ abstract class WidgetGroup : Widget
     {
       this.add(child)
     }
+  }
+
+  override Widget? findAt(Int x, Int y) {
+    if (!contains(x, y)) return null
+    
+    res := children.eachWhile |c| {
+      r := c.findAt(x, y)
+      if (r != null) return r
+      return null
+    }
+    if (res != null) return res
+    return this
   }
 
 //////////////////////////////////////////////////////////////////////////

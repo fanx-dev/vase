@@ -454,6 +454,11 @@ abstract class Widget
 // rootView
 //////////////////////////////////////////////////////////////////////////
 
+  virtual Widget? findAt(Int x, Int y) {
+    if (!contains(x, y)) return null
+    return this
+  }
+
   **
   ** relative coordinate
   **
