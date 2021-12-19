@@ -20,7 +20,7 @@ mixin Style
 @Js
 class FontInfo {
     Int size := 35
-    Str name := "Arial"
+    Str name := "SansSerif"
     Bool bold := false
     Bool italic := false
     
