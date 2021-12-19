@@ -74,8 +74,9 @@ public class AndGraphics implements Graphics {
       Color ca = (Color) brush;
       p.setColor((int) ca.argb);
       if (ca.a() == 0xff) p.setAlpha(alpha);
+      p.setShader(null);
     } else if (brush instanceof Gradient) {
-      Shader s = pattern((Gradient) brush, 0, 0, 100, 100);
+      Shader s = pattern((Gradient) brush, 0, 0, gc.getWidth(), gc.getHeight());
       p.setShader(s);
     } else if (brush instanceof fan.vaseGraphics.Pattern) {
       fan.vaseGraphics.Pattern pattern = (fan.vaseGraphics.Pattern) brush;
