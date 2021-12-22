@@ -8,7 +8,7 @@ extern float desityScale;
 
 void vaseAndroid_AndroidEnv_dummy(fr_Env __env) { }
 
-fr_Obj vaseWindow_NToolkit_window(fr_Env env, fr_Obj self, fr_Obj view) {
+fr_Obj vaseWindow_NToolkit_window(fr_Env env, fr_Obj self, fr_Obj view, fr_Obj options) {
     if (view) {
         fr_Obj win = fr_newObjS(env, "vaseWindow", "NWindow", "make", 1, view);
         if (vaseWindow_NToolkit_curWindow) fr_deleteGlobalRef(env, vaseWindow_NToolkit_curWindow);

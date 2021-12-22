@@ -95,7 +95,7 @@ public class AndroidEnvPeer {
     }
 
     @Override
-    public Window window(fan.vaseWindow.View view)
+    public Window window(fan.vaseWindow.View view, fan.std.Map options)
     {
       if (!isMainThread()) {
         throw new RuntimeException("must call in ui thread");

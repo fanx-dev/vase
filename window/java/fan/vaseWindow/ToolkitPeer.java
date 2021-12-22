@@ -55,7 +55,7 @@ public class ToolkitPeer
     private long uiThread = -1;
 
     Timer timer = new Timer(true);
-    public WtkWindow window(View view)
+    public WtkWindow window(View view, fan.std.Map options)
     {
       if (uiThread != Thread.currentThread().getId() && !EventQueue.isDispatchThread()) {
         throw new RuntimeException("must call in ui thread");
@@ -63,7 +63,7 @@ public class ToolkitPeer
 
       if (view != null) {
         curWindow = new WtkWindow(view);
-        curWindow.show(null);
+        curWindow.show(null, options);
       }
       return curWindow;
     }

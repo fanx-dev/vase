@@ -20,7 +20,7 @@ fan.vaseWindow.ToolkitPeer.cur = function() {
 }
 
 
-fan.vaseWindow.Toolkit.prototype.window = function(view) {
+fan.vaseWindow.Toolkit.prototype.window = function(view, options) {
   if (view) {
    this.m_curWindow = fan.vaseWindow.WtkWindow.make(view);
    this.m_curWindow.show(null);

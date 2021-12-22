@@ -39,7 +39,7 @@ abstract const class Toolkit
   **
   ** get or make window
   **
-  abstract Window? window(View? view := null)
+  abstract Window? window(View? view := null, [Str:Obj]? options := null)
 
   **
   ** call on UI thread. delay on millisecond
@@ -87,7 +87,7 @@ internal const class NToolkit : Toolkit
 {
   override GfxEnv gfxEnv() { NGfxEnv.cur }
 
-  native override Window? window(View? view := null)
+  native override Window? window(View? view := null, [Str:Obj]? options := null)
 
   native override Void callLater(Int delay, |->| f)
 

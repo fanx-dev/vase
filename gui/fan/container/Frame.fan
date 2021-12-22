@@ -16,6 +16,8 @@ using concurrent
 @Js
 class Frame : ContentPane
 {
+  Str name = ""
+
   @Transient
   private WinView? view
 
@@ -99,7 +101,7 @@ class Frame : ContentPane
     win := Toolkit.cur.window(null)
     if (win == null) {
       view = WinView(this)
-      Toolkit.cur.window(view)
+      Toolkit.cur.window(view, ["name":name])
     }
     else {
       view = win.view

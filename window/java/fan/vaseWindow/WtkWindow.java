@@ -53,7 +53,14 @@ public class WtkWindow implements Window {
   public View view() { return view; }
   //public void view(View v) { view = v; }
 
-  public void show(Size s) {
+  public void show(Size s, fan.std.Map options) {
+    if (options != null) {
+      Object name = options.get("name");
+      if (name != null) {
+        frame.setTitle((String)name);
+      }
+    }
+    
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     //frame.setContentPane(canvas);
     frame.addWindowStateListener(winStateListenner);
