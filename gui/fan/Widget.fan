@@ -14,7 +14,7 @@ using vaseWindow
 **
 @Js
 @Serializable
-abstract class Widget
+abstract class Widget : Bindable
 {
   **
   ** The unique identifies of widget.
@@ -171,7 +171,7 @@ abstract class Widget
   **
   ** Callback function when Widget state changed
   **
-  once EventListeners onStateChanged() { EventListeners() }
+  override once EventListeners onStateChanged() { EventListeners() }
 
 //////////////////////////////////////////////////////////////////////////
 // Widget Tree
@@ -529,7 +529,7 @@ abstract class Widget
     Widget? x := this
     while (x != null)
     {
-      if (x is Frame) return (Frame)x
+      if (x.parent == null) return x
       x = x.parent
     }
     return null

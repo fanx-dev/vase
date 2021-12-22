@@ -133,7 +133,7 @@ abstract class WidgetGroup : Widget
     if (!contains(x, y)) return null
     
     res := children.eachWhile |c| {
-      r := c.findAt(x, y)
+      r := c.findAt(x-this.x, y-this.y)
       if (r != null) return r
       return null
     }

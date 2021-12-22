@@ -9,19 +9,28 @@ class Binding {
     ** bind model to view
     **
     static Bool bindTo(Bindable model, Field field, Widget view) {
+        val := field.get(model)
+        val = (val == null) ? "" : val.toStr
+
         if (view is EditText) {
             editText := view as EditText
-            editText.text = field.get(model)
+            editText.text = val
             editText.onFocusChanged.add |e| {
               focused := e.data
               if (!focused)
               {
-                field.set(model, editText.text)
+                if (field.type == Str#) {
+                    field.set(model, editText.text)
+                }
+                else {
+                    fromStrM := field.type.method("fromStr", false)
+                    if (fromStrM != null) field.set(model, fromStrM.call(editText.text))
+                }
               }
             }
             model.onStateChanged.add |StateChangedEvent e| {
                if (e.field == field) {
-                   editText.text = field.get(model)
+                   editText.text = val
                }
             }
             return true
@@ -44,10 +53,10 @@ class Binding {
         }
         else if (view is Label) {
             label := view as Label
-            label.text = field.get(model)
+            label.text = val
             model.onStateChanged.add |StateChangedEvent e| {
                 if (e.field == field) {
-                   label.text = field.get(model)
+                   label.text = val
                 }
             }
             return true

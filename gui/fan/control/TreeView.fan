@@ -27,9 +27,12 @@ class TreeView : ScrollPane
   @Transient
   internal TreeItem[] items := [,]
   
-  TreeItem? selectedItem
-  TreeItem? dragDropItem
-  private Bool draging := false
+  @Transient TreeItem? selectedItem
+  @Transient internal TreeItem? dragDropItem
+  @Transient private Bool draging := false
+
+  |TreeItem?|? onSelected
+  |TreeItem, TreeItem|? onDragDrop
 
   Int rowHeight() { font.height }
 
@@ -141,6 +144,7 @@ class TreeView : ScrollPane
         this.relayout
         e.consume
       }
+      onSelected?.call(item)
       selectedItem = item
       dragDropItem = null
     }
@@ -159,7 +163,9 @@ class TreeView : ScrollPane
     else if (e.type == GestureEvent.drop) {
       draging = false
       dragDropItem = findItemAt(e.relativeY)
-      model.onDragDrop(selectedItem, dragDropItem)
+      if (selectedItem != null && dragDropItem != null && selectedItem != dragDropItem) {
+        onDragDrop?.call(selectedItem, dragDropItem)
+      }
       dragDropItem = null
       this.relayout
       e.consume
@@ -178,6 +184,7 @@ class TreeItem
   private TreeView tree
 
   Obj node
+  TreeItem? parentItem
 
   Str text() { tree.model.text(node) }
   Int level := 0
@@ -198,6 +205,7 @@ class TreeItem
     tree.model.children(node).each |subNode|
     {
       item := TreeItem(tree, subNode, level+1)
+      item.parentItem = this
       list.add(item)
     }
     return list
@@ -243,9 +251,6 @@ class TreeModel
   ** return an empty list.  Default behavior is no children.
   **
   virtual Obj[] children(Obj node) { List.defVal }
-  
-  
-  virtual Void onDragDrop(Obj from, Obj to) {}
 
 }
 

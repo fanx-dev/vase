@@ -17,6 +17,9 @@ class ImageView : Widget
 {
   @Transient
   Image? image
+
+  @Transient
+  private Image? originImage
   
   Float imgScaleX := 1.0
   Float imgScaleY := 1.0
@@ -37,8 +40,8 @@ class ImageView : Widget
   // Int imagePrefWidth := 240
   // Int imagePrefHeight := 240
 
-  Bool isInited := false
-  protected Void init(Bool force) {
+  private Bool isInited := false
+  Void init(Bool force) {
     if (image == null) return
     if (!image.isReady) return
     if (isInited && !force) return
@@ -73,13 +76,14 @@ class ImageView : Widget
     }
     
     if (mask == maskCircle) {
-        imgBuf := Image.make(image.size)
+        if (originImage == null) originImage = image
+        imgBuf := Image.make(originImage.size)
         g := imgBuf.graphics
         
-        g.fillOval(0, 0, image.size.w, image.size.h)
+        g.fillOval(0, 0, originImage.size.w, originImage.size.h)
         //g.composite = Composite.dstIn
         g.composite = Composite.srcIn
-        g.drawImage(image, 0, 0)
+        g.drawImage(originImage, 0, 0)
         g.dispose
         image = imgBuf
     }
