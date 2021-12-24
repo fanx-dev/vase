@@ -105,7 +105,7 @@ class Frame : ContentPane
     }
     else {
       view = win.view
-      view.showFrame(this, push)
+      view.showFrame(this, push, push)
     }
   }
 

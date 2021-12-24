@@ -13,7 +13,7 @@ using vaseWindow
 ** WidgetGroup is a Widget Container
 **
 @Js
-@Serializable
+@Serializable { collection = true }
 abstract class WidgetGroup : Widget
 {
   new make() {
