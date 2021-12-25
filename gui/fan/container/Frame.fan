@@ -59,7 +59,7 @@ class Frame : ContentPane
   ** animation manager
   **
   @Transient
-  protected AnimManager animManager := AnimManager()
+  AnimManager animManager := AnimManager()
 
   Window? host() { view.host }
 

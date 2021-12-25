@@ -529,6 +529,16 @@ abstract class Widget : Bindable
     Widget? x := this
     while (x != null)
     {
+      if (x is Frame) return x
+      x = x.parent
+    }
+    return null
+  }
+
+  Widget? getRoot() {
+    Widget? x := this
+    while (x != null)
+    {
       if (x.parent == null) return x
       x = x.parent
     }

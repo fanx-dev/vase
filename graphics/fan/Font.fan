@@ -25,7 +25,7 @@ const abstract class Font
   ** bold/italic style.  This is internal for now, because eventually
   ** we should be able to collapse this and it-block into single ctor.
   **
-  static new make(Int size := 12, Str name := "Arial", Bool bold := false, Bool italic := false)
+  static new make(Int size := 12, Str name := "Serif", Bool bold := false, Bool italic := false)
   {
 
     func := Field.makeSetFunc([#name:name, #size:size, #bold:bold, #italic:italic])

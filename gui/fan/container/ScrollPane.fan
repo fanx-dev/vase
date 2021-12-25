@@ -97,12 +97,16 @@ class ScrollPane : ContentPane
   protected virtual Float viewportHeight() { contentHeight.toFloat }
 
   protected virtual Float contentMaxWidth() {
-    bs := prefContentSize()
+    w := this.width-dpToPixel((padding.left + padding.right))
+    h := this.height-dpToPixel((padding.top + padding.bottom))
+    bs := prefContentSize(w, h)
     return bs.w.toFloat
   }
 
   protected virtual Float contentMaxHeight() {
-    bs := prefContentSize()
+    w := this.width-dpToPixel((padding.left + padding.right))
+    h := this.height-dpToPixel((padding.top + padding.bottom))
+    bs := prefContentSize(w, h)
     return bs.h.toFloat
   }
 

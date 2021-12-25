@@ -44,9 +44,12 @@ class TextView : Widget
 
   new make()
   {
+    padding = Insets(1)
   }
   
   Str[] wrapText(Int w := contentWidth) {
+    w = w-dpToPixel((padding.left + padding.right))
+
     if (!textDirty && lastWidth == w) {
         return lines
     }
