@@ -428,12 +428,15 @@ abstract class Widget : Bindable
     this.height = h - dpToPixel((margin.top + margin.bottom))
 
     //printInfo("layout: x$this.x, y$this.y, w$this.width, h$this.height")
+    onLayout(force)
 
     if (layoutDirty > 0 || force) {
       layoutChildren(force || layoutDirty>1)
     }
     layoutDirty = 0
   }
+
+  protected virtual Void onLayout(Bool force) {}
 
   **
   ** layout the children
