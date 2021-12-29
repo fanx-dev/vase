@@ -36,11 +36,11 @@ public class WtkGfxEnv extends GfxEnv {
   }
 
   @Override
-  public Image fromUri(Uri uri, Func onLoad) {
+  public Image fromUri(Uri uri, fan.std.Map options, Func onLoad) {
     if ("http".equals(uri.scheme()) || "https".equals(uri.scheme())) {
       onLoad = (Func) onLoad.toImmutable();
       WtkImage p = new WtkImage();
-      loadFromWeb(p, uri, onLoad);
+      loadFromWeb(p, uri, options, onLoad);
       return p;
     }
 
@@ -73,11 +73,11 @@ public class WtkGfxEnv extends GfxEnv {
     ((WtkImage)newImg).setImage(b);
   }
 
-  private static void loadFromWeb(final Image p, final Uri uri,
+  private static void loadFromWeb(final Image p, final Uri uri, fan.std.Map options, 
       final Func onLoad) {
     Object v = fan.concurrent.Actor.locals().get("vaseWindow.loadImage");
     if (v == null) throw fan.sys.Err.make("not found vaseWindow.loadImage");
-    ((Func)v).call(p, uri, onLoad);
+    ((Func)v).call(p, uri, options, onLoad);
   }
 
   private static void streamToImage(InputStream jin, WtkImage p) {

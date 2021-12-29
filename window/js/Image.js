@@ -65,7 +65,7 @@ fan.vaseWindow.Image.prototype.initCanvas = function()
   return this.m_canvas;
 }
 
-fan.vaseWindow.Image.fromUri = function(uri, onLoaded)
+fan.vaseWindow.Image.fromUri = function(uri, options, onLoaded)
 {
   var p = new fan.vaseWindow.Image();
   p.m_uri = uri;

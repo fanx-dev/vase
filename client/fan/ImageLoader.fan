@@ -13,13 +13,19 @@ using concurrent
 **
 class ImageLoader
 {
-  private static Void load(Image img, Uri uri, |Image|? onLoad) {
+  private static Void load(Image img, Uri uri, [Str:Obj]? options, |Image|? onLoad) {
     task := HttpReq {
         it.uri = uri
         decoder = |InStream in->Obj?| {
             Image.fromStream(in)
         }
-        it.useCache = true
+        useCache := true
+        if (options != null) {
+          if (options.containsKey("nocache")) {
+            useCache = false
+          }
+        }
+        it.useCache = useCache
         it.headers["User-Agent"] = "vase/1.0"
     }.get
     task.then |HttpRes? res, Err? err| {
@@ -33,8 +39,8 @@ class ImageLoader
   }
   
   static Void init() {
-    loadImage := |Image img, Uri uri, |Image|? onLoad| {
-      load(img, uri, onLoad)
+    loadImage := |Image img, Uri uri, [Str:Obj]? options, |Image|? onLoad| {
+      load(img, uri, options, onLoad)
     }
     
     Actor.locals["vaseWindow.loadImage"] = loadImage

@@ -105,7 +105,7 @@ class ImageView : Widget
   private Void loadImage() {
     if (image == null && uri != null) {
       s := Unsafe<ImageView>(this)
-      image = Image.fromUri(uri) {
+      image = Image.fromUri(uri, null) {
         //echo("image loaded")
         s.val.relayout
       }

@@ -48,12 +48,12 @@ public class AndGfxEnv extends GfxEnv{
   }
 
   @Override
-  public Image fromUri(Uri uri, Func onLoad) {
+  public Image fromUri(Uri uri, fan.std.Map options, Func onLoad) {
 
     if ("http".equals(uri.scheme()) || "https".equals(uri.scheme())) {
       onLoad = (Func) onLoad.toImmutable();
       AndImage p = new AndImage();
-      loadFromWeb(p, uri, onLoad);
+      loadFromWeb(p, uri, options, onLoad);
       return p;
     }
 
@@ -79,7 +79,7 @@ public class AndGfxEnv extends GfxEnv{
     ((AndImage)newImg).setImage(b);
   }
 
-  private static void loadFromWeb(final Image p, final Uri uri,
+  private static void loadFromWeb(final Image p, final Uri uri, fan.std.Map options, 
       final Func onLoad) {
     Object v = fan.concurrent.Actor.locals().get("vaseWindow.loadImage");
     if (v == null) throw fan.sys.Err.make("not found vaseWindow.loadImage");

@@ -11,9 +11,9 @@ fan.vaseWindow.GfxEnv.prototype.$ctor = function() {}
 
 fan.vaseWindow.GfxEnv.m_instance = new fan.vaseWindow.GfxEnv();
 
-fan.vaseWindow.GfxEnv.prototype.fromUri = function(uri, onLoaded)
+fan.vaseWindow.GfxEnv.prototype.fromUri = function(uri, options, onLoaded)
 {
-  return fan.vaseWindow.Image.fromUri(uri, onLoaded);
+  return fan.vaseWindow.Image.fromUri(uri, options, onLoaded);
 }
 
 fan.vaseWindow.GfxEnv.prototype.makeImage = function(size)

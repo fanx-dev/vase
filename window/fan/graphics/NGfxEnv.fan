@@ -34,17 +34,17 @@ const class NGfxEnv : GfxEnv
 // Image op
 //////////////////////////////////////////////////////////////////////////
 
-  private static Void loadFromWeb(Image p, Uri uri, |Image|? onLoad) {
+  private static Void loadFromWeb(Image p, Uri uri, [Str:Obj]? options, |Image|? onLoad) {
     v := concurrent::Actor.locals().get("vaseWindow.loadImage");
     if (v == null) throw Err.make("not found vaseWindow.loadImage");
     ((Func)v).call(p, uri, onLoad);
   }
 
-  override Image fromUri(Uri uri, |Image|? onLoad) {
+  override Image fromUri(Uri uri, [Str:Obj]? options, |Image|? onLoad) {
     if ("http".equals(uri.scheme) || "https".equals(uri.scheme)) {
       onLoad = onLoad.toImmutable();
       Image p = NImage.privateMake();
-      loadFromWeb(p, uri, onLoad);
+      loadFromWeb(p, uri, options, onLoad);
       return p;
     }
     InStream? fin = null;

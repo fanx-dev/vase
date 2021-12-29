@@ -54,7 +54,7 @@ rtconst abstract class Image
   **
   ** make form uri
   **
-  static Image fromUri(Uri uri, |This|? onLoad := null) { GfxEnv.cur.fromUri(uri, onLoad) }
+  static Image fromUri(Uri uri, [Str:Obj]? options := null, |This|? onLoad := null) { GfxEnv.cur.fromUri(uri, options, onLoad) }
 
   **
   ** make form input stream
