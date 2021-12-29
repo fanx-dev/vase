@@ -132,6 +132,20 @@ const class Transform2D
          this.b * that.e + this.d * that.f + this.f * 1f)  // f
   }
 
+  **
+  ** transform the coordinate using current matrix.
+  ** x: xy[0], y: xy[1]. The result will rewrite the list
+  **
+  Void transform(Float[] xy)
+  {
+    x := xy[0]
+    y := xy[1]
+    x2 := a*x + c*y + e
+    y2 := b*x + d*y + f
+    xy[0] = x2
+    xy[1] = y2
+  }
+
   override Str toStr()
   {
     s := StrBuf()
