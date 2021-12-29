@@ -20,6 +20,7 @@ class ImageLoader
             Image.fromStream(in)
         }
         it.useCache = true
+        it.headers["User-Agent"] = "vase/1.0"
     }.get
     task.then |HttpRes? res, Err? err| {
       if (res != null) {

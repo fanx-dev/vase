@@ -12,4 +12,10 @@ class ImageViewTest
       layout.height = Layout.matchParent
     }
   }
+
+  Void main() {
+    Frame {
+      view,
+    }.show
+  }
 }

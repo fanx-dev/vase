@@ -238,7 +238,7 @@ class HttpReqPeer {
       e.printStackTrace();
     }
     finally {
-      is.close();
+      if (is != null) is.close();
     }
 
     return rawContent;
