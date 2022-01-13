@@ -206,6 +206,12 @@ public class WtkWindow implements Window {
   }
   public void fileDialog(String accept, fan.sys.Func c, fan.std.Map options) {
     javax.swing.JFileChooser fileChooser = new javax.swing.JFileChooser();
+    if (options != null) {
+      Object curDir = options.get("curDir");
+      if (curDir != null) {
+        fileChooser.setCurrentDirectory(new java.io.File((String)curDir));
+      }
+    }
     fileChooser.setMultiSelectionEnabled(true);
 
     int option = fileChooser.showOpenDialog(frame);

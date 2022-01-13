@@ -66,7 +66,7 @@ virtual class FogViewer
 **
 ** notify if file changed
 **
-internal const class FileWatchActor : Actor {
+const class FileWatchActor : Actor {
   static const Str storeKey := "watchActor.map"
   const File[]? fileList
   const |->|? onChanged
@@ -79,6 +79,11 @@ internal const class FileWatchActor : Actor {
 
   protected override Obj? receive(Obj? msg) {
     try {
+      if (msg == "stop") {
+        locals["stop"] = true
+        return null
+      }
+      if (locals.get("stop") == true) return null
       sendLater(checkTime, null)
 
       if (fileList == null) return null
