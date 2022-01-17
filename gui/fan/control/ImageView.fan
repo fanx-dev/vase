@@ -30,7 +30,10 @@ class ImageView : Widget
   static const Int stretch = 1
   static const Int fitWidth = 2
   static const Int fitHeight = 3
-  Int scaleType = fitWidth
+  static const Int containIn = 4
+  static const Int clipFill = 5
+
+  Int scaleType = containIn
 
   static const Int maskCircle := 1
   Int mask := 0
@@ -46,33 +49,57 @@ class ImageView : Widget
     if (!image.isReady) return
     if (isInited && !force) return
     isInited = true
-    
-    if (scaleType == keepSize) {
-        imgScaleX = 1.0
-        imgScaleY = 1.0
-        imgOffsetX = 0.0
-        imgOffsetY = 0.0
+
+    type := scaleType
+    if (scaleType == containIn || scaleType == clipFill) {
+      if (contentWidth/contentHeight.toFloat > image.size.w/image.size.h.toFloat) {
+        if (scaleType == containIn) {
+          type = fitHeight
+        }
+        else if (scaleType == clipFill) {
+          type = fitWidth
+        }
+      }
+      else {
+        if (scaleType == containIn) {
+          type = fitWidth
+        }
+        else if (scaleType == clipFill) {
+          type = fitHeight
+        }
+      }
     }
-    else if (scaleType == stretch) {
-        imgOffsetX = 0.0
-        imgOffsetY = 0.0
-        imgScaleX = contentWidth / image.size.w.toFloat
-        imgScaleY = contentHeight / image.size.h.toFloat
-        //echo("width:$width, contentWidth:$contentWidth, size:$image.size")
-    }
-    else if (scaleType == fitWidth) {
-        imgOffsetX = 0.0
-        imgScaleX = contentWidth / image.size.w.toFloat
-        imgScaleY = imgScaleX
-        imgOffsetY = -(image.size.h * imgScaleX - contentHeight)/2
-        //echo("$imgOffsetY, $imgScaleX")
-    }
-    else if (scaleType == fitHeight) {
-        imgOffsetX = 0.0
-        imgOffsetY = 0.0
-        imgScaleY = contentHeight / image.size.h.toFloat
-        imgScaleX = imgScaleY
-        imgOffsetX = -(image.size.w * imgScaleY - contentWidth)/2
+
+    switch (type) {
+    case keepSize: 
+          imgScaleX = 1.0
+          imgScaleY = 1.0
+          imgOffsetX = 0.0
+          imgOffsetY = 0.0
+      
+    case stretch: 
+          imgOffsetX = 0.0
+          imgOffsetY = 0.0
+          imgScaleX = contentWidth / image.size.w.toFloat
+          imgScaleY = contentHeight / image.size.h.toFloat
+          //echo("width:$width, contentWidth:$contentWidth, size:$image.size")
+      
+    case fitWidth: 
+          imgOffsetX = 0.0
+          imgScaleX = contentWidth / image.size.w.toFloat
+          imgScaleY = imgScaleX
+          imgOffsetY = -(image.size.h * imgScaleX - contentHeight)/2
+          //echo("$imgOffsetY, $imgScaleX")
+      
+    case fitHeight: 
+          imgOffsetX = 0.0
+          imgOffsetY = 0.0
+          imgScaleY = contentHeight / image.size.h.toFloat
+          imgScaleX = imgScaleY
+          imgOffsetX = -(image.size.w * imgScaleY - contentWidth)/2
+      
+    default:
+      throw ArgErr("unknow scaleType: $type")
     }
     
     if (mask == maskCircle) {
