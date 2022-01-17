@@ -48,7 +48,7 @@ class PaneStyle : WidgetStyle
     if (backgroundImage != null) {
       Size srcSize := backgroundImage.size
       src := Rect(0, 0, srcSize.w, srcSize.h)
-      dst := Rect(widget.x, widget.y, widget.width, widget.height)
+      dst := Rect(0, 0, widget.width, widget.height)
   //    echo("src$src,dst$dst")
       g.copyImage(backgroundImage, src, dst)
     }

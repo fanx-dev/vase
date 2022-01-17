@@ -118,13 +118,13 @@ class ImageView : Widget
   protected override Void layoutChildren(Bool force) { init(force) }
   
   Void imgToWidget(Coord p) {
-    p.x = (p.x * imgScaleX) + imgOffsetX
-    p.y = (p.y * imgScaleY) + imgOffsetY
+    p.x = (p.x * imgScaleX) + imgOffsetX + paddingLeft
+    p.y = (p.y * imgScaleY) + imgOffsetY + paddingTop
   }
   
   Void widgetToImg(Coord p) {
-    p.x = (p.x - imgOffsetX) / imgScaleX 
-    p.y = (p.y - imgOffsetY) / imgScaleY
+    p.x = (p.x - paddingLeft - imgOffsetX) / imgScaleX 
+    p.y = (p.y - paddingTop - imgOffsetY) / imgScaleY
   }
 
   new make() {}
