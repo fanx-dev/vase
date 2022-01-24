@@ -124,8 +124,9 @@ internal class WinView : View
   
   private Void update() {
     if (layoutDirty > 0) {
-      curFrame.setLayout(0, 0, width, height, layoutDirty>1)
       layoutDirty = 0
+      curFrame.setLayout(0, 0, width, height, layoutDirty>1)
+      
 
       //echo("layout $s")
 

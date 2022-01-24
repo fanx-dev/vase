@@ -15,7 +15,8 @@ public class VideoPeer {
     }
 
     void doSetup(Video self, Window win) {
-        System.out.println("unsupport video");
+        //System.out.println("unsupport video");
+        self.fireEvent("unsupport");
     }
 
     void remove(Video self) {
