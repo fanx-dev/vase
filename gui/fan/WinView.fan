@@ -36,6 +36,8 @@ internal class WinView : View
   @Transient
   private Gesture gesture := Gesture()
 
+  private Animation? frameAnimation
+
 
   private Int width := 0
   private Int height := 0
@@ -54,6 +56,13 @@ internal class WinView : View
 
   Void showFrame(Frame frame, Bool push, Bool animation := true) {
     if (push) stack.push(curFrame)
+
+    //the old animation not finised
+    if (frameAnimation != null) {
+      frameAnimation.stop
+      frameAnimation = null
+    }
+
     oldFrame = curFrame
     curFrame = frame
     frameOut = false
@@ -66,11 +75,12 @@ internal class WinView : View
           it.duration = 300
           TranslateAnimChannel { to = Point.defVal; from = Point(oldFrame.width, 0)},
         }
+        frameAnimation = anim
         anim.bind(curFrame)
         anim.whenDone.add {
           //oldFrame.animManager.clear
           oldFrame.detach
-          //echo("curFrame in done")
+          frameAnimation = null
         }
         anim.start
       }
@@ -89,6 +99,11 @@ internal class WinView : View
       echo("nomore frame")
       return null
     }
+
+    if (frameAnimation != null) {
+      frameAnimation.stop
+      frameAnimation = null
+    }
     curFrame.clearFocus
 
     oldFrame = curFrame
@@ -103,11 +118,13 @@ internal class WinView : View
           it.duration = 300
           TranslateAnimChannel { from = Point.defVal; to = Point(oldFrame.width, 0)},
         }
+        frameAnimation = anim
         anim.bind(oldFrame)
         anim.whenDone.add {
           //oldFrame.animManager.clear
           oldFrame.detach
           //echo("oldFrame in done")
+          frameAnimation = null
         }
         anim.start
       }
@@ -127,15 +144,10 @@ internal class WinView : View
       force := layoutDirty > 1
       layoutDirty = 0
       curFrame.setLayout(0, 0, width, height, force)
-      
+    }
 
-      //echo("layout $s")
-
-      if (!curFrame.inited) {
-        curFrame.inited = true
-        curFrame.onMounted
-        curFrame.onOpened.fire(null)
-      }
+    if (!curFrame.isOpened) {
+      curFrame.fireOnOpened
     }
   }
 

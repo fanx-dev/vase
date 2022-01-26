@@ -1,5 +1,7 @@
 package fan.vaseWindow;
 
+import java.awt.EventQueue;
+
 public class VideoPeer {
 
     public static VideoPeer make(Video self) {
@@ -16,7 +18,13 @@ public class VideoPeer {
 
     void doSetup(Video self, Window win) {
         //System.out.println("unsupport video");
-        self.fireEvent("unsupport");
+        EventQueue.invokeLater(new Runnable()
+          {
+            public void run()
+            {
+              self.fireEvent("unsupport");
+            }
+          });
     }
 
     void remove(Video self) {

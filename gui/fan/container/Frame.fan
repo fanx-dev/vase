@@ -75,7 +75,7 @@ class Frame : ContentPane
   Brush background := Color.white
 
   @Transient
-  internal Bool inited := false
+  private Int initState := 0
 
   **
   ** Shared dimension for layout
@@ -151,11 +151,18 @@ class Frame : ContentPane
     if (view?.oldFrame == this) {
       view.oldFrame = null
     }
-    inited = false
+    initState = -1
     //view = null
   }
 
-  Bool isOpened() { inited }
+  Bool isOpened() { initState == 1 }
+
+  internal Void fireOnOpened() {
+    isFirst := initState == 0
+    initState = 1
+    onMounted
+    onOpened.fire(Event { data = isFirst })
+  }
 
 //////////////////////////////////////////////////////////////////////////
 // frame
