@@ -9,7 +9,7 @@ using vaseWindow
 
 
 @Js
-class ScrollCard : Pane
+class PushCard : Pane
 {
 
   Float maxOffset := 1.0

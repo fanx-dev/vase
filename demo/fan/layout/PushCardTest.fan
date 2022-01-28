@@ -7,7 +7,7 @@
 //
 using vaseGui
 
-class ScrollCardTest : BasePage
+class PushCardTest : BasePage
 {
   protected override Widget view() {
     VBox {
@@ -15,11 +15,11 @@ class ScrollCardTest : BasePage
       Pane {
         layout.height = Layout.matchParent
         RectView { layout.height = 200 },
-        ScrollCard
+        PushCard
         {
           padding = Insets(50, 0, 0, 0)
           maxOffset = 0.5
-          offsetY = 0.0
+          offsetY = 0.5
           layout.height = Layout.matchParent
 
           ScrollPane {
