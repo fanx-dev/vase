@@ -256,6 +256,7 @@ class ScrollPane : ContentPane
           pos := vbar.curPos - (e.deltaY*overScrollFactor)
           vbar.setCurPos(pos, true, true)
           vbar.repaint
+          e.consume
         }
       }
       else {
@@ -264,9 +265,9 @@ class ScrollPane : ContentPane
           pos := hbar.curPos - (e.deltaX*overScrollFactor)
           hbar.setCurPos(pos, true)
           hbar.repaint
+          e.consume
         }
       }
-      e.consume
     }
     else if (e.type == GestureEvent.drop) {
       //echo("drop: $vbar.isOverScroll")
