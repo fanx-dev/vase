@@ -31,6 +31,7 @@ abstract class Widget : Bindable
       oldVal := &style
       &style = it
       fireStateChange(oldVal, it, #style)
+      styleObj = null
     }
   }
 

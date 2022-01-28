@@ -38,6 +38,7 @@ class WidgetStyle : Style
   Brush rippleColor := Color(0x999999)
 
   Image? backgroundImage
+  Uri? backgroundImageUri { set { &backgroundImageUri = it; loadImage } }
   Int lineWidth := 2
 
   FontInfo fontInfo := FontInfo()
@@ -47,6 +48,12 @@ class WidgetStyle : Style
      if (pixelFont == null) pixelFont = Font(dpToPixel(fontInfo.size)
         , fontInfo.name, fontInfo.bold, fontInfo.italic)
      return pixelFont
+  }
+
+  private Void loadImage() {
+    if (backgroundImage == null && backgroundImageUri != null) {
+      backgroundImage = Image.fromUri(backgroundImageUri, null) {}
+    }
   }
 
   final override Void paint(Widget widget, Graphics g)
