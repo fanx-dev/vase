@@ -34,6 +34,7 @@ public class VideoPeer {
             @Override
             public void onPrepared(MediaPlayer mp) {
                 self.fireEvent("prepared");
+                mp.setVolume(15, 15);
             }
         });
         videoView.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {

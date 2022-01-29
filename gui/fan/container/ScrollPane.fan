@@ -221,7 +221,7 @@ class ScrollPane : ContentPane
     if (animation != null) {
       animation.stop
     }
-    getRootView.animManager.add(anim)
+    getRootView?.animManager?.add(anim)
     anim.start
     animation = anim
     this.repaint
