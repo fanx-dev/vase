@@ -285,11 +285,20 @@ class ScrollPane : ContentPane
         }
       }
       else {
-        anim := Animation {
-          duration = 2000
-          ScrollAnimChannel { target = vbar; startV = e.speedY.toFloat },
+        if (hbar.enabled && e.speedX.abs > e.speedY.abs) {
+          anim := Animation {
+            duration = 2000
+            ScrollAnimChannel { target = hbar; startV = e.speedX.toFloat },
+          }
+          startAnimation(anim)
         }
-        startAnimation(anim)
+        else {
+          anim := Animation {
+            duration = 2000
+            ScrollAnimChannel { target = vbar; startV = e.speedY.toFloat },
+          }
+          startAnimation(anim)
+        }
       }
       vbar.repaint
     }
