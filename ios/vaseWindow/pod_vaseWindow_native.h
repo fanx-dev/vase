@@ -36,7 +36,7 @@ void vaseWindow_NEditText_select(fr_Env env, fr_Obj self, fr_Int start, fr_Int e
 fr_Int vaseWindow_NEditText_caretPos(fr_Env env, fr_Obj self);
 void vaseWindow_NEditText_finalize(fr_Env env, fr_Obj self);
 fr_Obj vaseWindow_Toolkit_cur(fr_Env env);
-fr_Obj vaseWindow_NToolkit_window(fr_Env env, fr_Obj self, fr_Obj view);
+fr_Obj vaseWindow_NToolkit_window(fr_Env env, fr_Obj self, fr_Obj view, fr_Obj options);
 void vaseWindow_NToolkit_callLater(fr_Env env, fr_Obj self, fr_Int delay, fr_Obj f);
 fr_Float vaseWindow_NToolkit_density(fr_Env env, fr_Obj self);
 fr_Bool vaseWindow_NToolkit_openUri(fr_Env env, fr_Obj self, fr_Obj uri, fr_Obj options);
