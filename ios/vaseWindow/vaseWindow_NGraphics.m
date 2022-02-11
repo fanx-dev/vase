@@ -454,8 +454,12 @@ fr_Obj vaseWindow_NGraphics_drawText(fr_Env env, fr_Obj self, fr_Obj s, fr_Int x
     CGContextRef vg = (CGContextRef)vaseWindow_NGraphics_getContext(env, self);
     const char* str = fr_getStrUtf8(env, s);
     NSString *nsstr = [NSString stringWithUTF8String: str];
-    
+        
     fr_Obj font = fr_getFieldS(env, self, "font").h;
+    if (!font) {
+        printf("ERROR: font is null\n");
+        return self;
+    }
     fr_Obj brush = curBrush(env, self);
     static fr_Type colorType;
     if (!colorType) colorType = fr_findType(env, "vaseGraphics", "Color");
@@ -486,13 +490,16 @@ void vaseWindow_NGraphics_doDrawImage(fr_Env env, fr_Obj self, fr_Obj image, fr_
     CGRect iRect = CGRectMake(0, 0, CGImageGetWidth(img), CGImageGetHeight(img));
     //CGRect sRect = CGRectMake(srcX, srcY, srcW, srcH);
     CGRect dRect = CGRectMake(dstX, dstY, dstW, dstH);
-    CGRect nRect;
     
+    CGContextClipToRect(vg, dRect);
+    
+    CGRect nRect;
     double scaleX = (double)dstW / srcW;
     double scaleY = (double)dstH / srcH;
-
-    nRect.origin.x = (iRect.origin.x - (srcX+srcW/2.0)) * scaleX + (dstX + dstW/2.0);
-    nRect.origin.y = (iRect.origin.y - (srcY+srcH/2.0)) * scaleY + (dstY + dstH/2.0);
+    //nRect.origin.x = (iRect.origin.x - (srcX+srcW/2.0)) * scaleX + (dstX + dstW/2.0);
+    //nRect.origin.y = (iRect.origin.y - (srcY+srcH/2.0)) * scaleY + (dstY + dstH/2.0);
+    nRect.origin.x = dstX - (srcX * scaleX);
+    nRect.origin.y = dstY - (srcY * scaleY);
     nRect.size.width = iRect.size.width * scaleX;
     nRect.size.height = iRect.size.height * scaleY;
     
@@ -504,8 +511,6 @@ void vaseWindow_NGraphics_doDrawImage(fr_Env env, fr_Obj self, fr_Obj image, fr_
         CGContextTranslateCTM(vg, 0, -y);
     }
     
-    CGContextClipToRect(vg, dRect);
-
     CGContextDrawImage(vg, nRect, img);
 
     CGContextRestoreGState(vg);

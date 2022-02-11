@@ -133,6 +133,12 @@ fr_Bool vaseWindow_Speech_speak(fr_Env env, fr_Obj self, fr_Obj text, fr_Obj opt
     struct Speech *speech = (struct Speech *)getHandle(env, self);
     
     NSString *ntext = [NSString stringWithUTF8String:fr_getStrUtf8(env, text)];
+    
+    if (ntext.length == 0) {
+        [speech->synth stopSpeakingAtBoundary:AVSpeechBoundaryImmediate];
+        return false;
+    }
+    
     AVSpeechUtterance *utterance = [AVSpeechUtterance speechUtteranceWithString:ntext];
     
     utterance.voice = speech->voice;
