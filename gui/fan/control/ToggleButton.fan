@@ -57,8 +57,8 @@ class ToggleButton : Button
   }
 
   protected override Void clicked() {
-    super.clicked
     selected = !selected
+    super.clicked
     startAnim
     //this.repaint
   }
@@ -88,7 +88,8 @@ class RadioButton : ToggleButton {
         }
       }
     }
-    selected = true
+    //selected = true
+    super.clicked
     startAnim
     //this.repaint
   }
