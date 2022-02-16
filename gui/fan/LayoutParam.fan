@@ -45,7 +45,10 @@ virtual class Layout {
 
   ** Percent unit constant
   const static Str percent := "%"
-
+  
+  const static Str percentW := "%w"
+  
+  const static Str percentH := "%h"
 
   Bool ignored := false
 
@@ -92,17 +95,23 @@ virtual class Layout {
   Str xUnit := ""
   Str yUnit := ""
 
-  private Int getPixel(Widget w, Int val, Str unit, Int parentSize, Int selfSize) {
+  private Int getPixel(Widget w, Int val, Str unit, Int parentSize, Int selfSize, Int parentW, Int parentH) {
     if (unit.size == 0) {
       return w.dpToPixel(val)
     }
     else if (unit == percent) {
       return (val/100f*parentSize).toInt
     }
+    else if (unit == percentW) {
+      return (val/100f*parentW).toInt
+    }
+    else if (unit == percentH) {
+      return (val/100f*parentH).toInt
+    }
     throw ArgErr("Unknow unit: $unit")
   }
   
-  Int prefX(Widget w, Int parentWidth, Int selfWidth) {
+  Int prefX(Widget w, Int parentWidth, Int parentHeight, Int selfWidth) {
     Float parent := 0.0f
     Float anchor := 0.0f
     if (hAlign == Align.center) {
@@ -113,12 +122,12 @@ virtual class Layout {
         parent = 1.0f
         anchor = 1.0f
     }
-    offset := getPixel(w, offsetX, xUnit, parentWidth, selfWidth)
+    offset := getPixel(w, offsetX, xUnit, parentWidth, selfWidth, parentWidth, parentHeight)
     Float x := (parent * parentWidth) - (anchor * selfWidth) + offset
     return x.toInt
   }
 
-  Int prefY(Widget w, Int parentHeight, Int selfHeight) {
+  Int prefY(Widget w, Int parentWidth, Int parentHeight, Int selfHeight) {
     Float parent := 0.0f
     Float anchor := 0.0f
     if (vAlign == Align.center) {
@@ -129,21 +138,21 @@ virtual class Layout {
         parent = 1.0f
         anchor = 1.0f
     }
-    offset := getPixel(w, offsetY, yUnit, parentHeight, selfHeight)
+    offset := getPixel(w, offsetY, yUnit, parentHeight, selfHeight, parentWidth, parentHeight)
     Float y := (parent * parentHeight) - (anchor * selfHeight) + offset
     return y.toInt
   }
 
-  Int prefWidth(Widget w, Int parentWidth, Int selfWidth) {
+  Int prefWidth(Widget w, Int parentWidth, Int parentHeight, Int selfWidth) {
     if (width == matchParent) return parentWidth
     if (width == wrapContent) return selfWidth
-    return getPixel(w, width, wUnit, parentWidth, selfWidth)
+    return getPixel(w, width, wUnit, parentWidth, selfWidth, parentWidth, parentHeight)
   }
 
-  Int prefHeight(Widget w, Int parentHeight, Int selfHeight) {
+  Int prefHeight(Widget w, Int parentWidth, Int parentHeight, Int selfHeight) {
     if (height == matchParent) return parentHeight
     if (height == wrapContent) return selfHeight
-    prefH := getPixel(w, height, hUnit, parentHeight, selfHeight)
+    prefH := getPixel(w, height, hUnit, parentHeight, selfHeight, parentWidth, parentHeight)
     return prefH.toInt
   }
 

@@ -29,8 +29,8 @@ class Pane : WidgetGroup
     {
       if (!c.layout.ignored) {
         size := c.bufferedPrefSize(hintsW, hintsH)
-        posX := c.layout.prefX(this, hintsW, size.w)
-        posY := c.layout.prefY(this, hintsH, size.h)
+        posX := c.layout.prefX(this, hintsW, hintsH, size.w)
+        posY := c.layout.prefY(this, hintsW, hintsH, size.h)
 
         cx := x + posX
         cy := y + posY

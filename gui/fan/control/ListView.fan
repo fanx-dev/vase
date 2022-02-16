@@ -96,7 +96,7 @@ class ListView : ScrollPane
       ++count
 
       itemSize := view.bufferedPrefSize(w, h)
-      cx := x + view.layout.prefX(this, w, itemSize.w)
+      cx := x + view.layout.prefX(this, w, h, itemSize.w)
       view.setLayout(cx, y, itemSize.w, itemSize.h, false)
       y += itemSize.h
       newHeight += itemSize.h

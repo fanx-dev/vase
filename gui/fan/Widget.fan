@@ -367,8 +367,8 @@ abstract class Widget : Bindable
     Int h := -1
 
     //using layout size
-    w = (layout.prefWidth(this, hintsWidth, -1))
-    h = (layout.prefHeight(this, hintsHeight, -1))
+    w = (layout.prefWidth(this, hintsWidth, hintsHeight, -1))
+    h = (layout.prefHeight(this, hintsWidth, hintsHeight, -1))
 
     //get layout fail
     if (w < 0 || h < 0) {

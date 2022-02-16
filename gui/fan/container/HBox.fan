@@ -77,7 +77,7 @@ class HBox : WidgetGroup
         cw = (c.layout.weight*weightSpace).toInt
       }
       x += cw + spacing
-      cy += c.layout.prefY(this, hintsH, size.h)
+      cy += c.layout.prefY(this, hintsW, hintsH, size.h)
     
       c.setLayout(cx, cy, cw, ch, force)
     }
