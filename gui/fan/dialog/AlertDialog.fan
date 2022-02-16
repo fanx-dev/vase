@@ -63,9 +63,8 @@ class AlertDialog : VBox, Dialog
     this.layout.hAlign = Align.center
     this.layout.vAlign = Align.center
 
-    this.layout.width = Layout.matchParent//dpToPixel(500f)
+    this.layout.width = dpToPixel(1500)
     padding = Insets(30, 30)
-    margin = Insets(0, 100)
   }
   
   protected override Int animType() { 1 }

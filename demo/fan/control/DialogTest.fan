@@ -37,7 +37,7 @@ class DialogTest : BasePage
         text = "Prompt"
         onClick |w|{
           PromptDialog("Input", "OK", "Cancel").show(w).onAction = |msg| {
-            Toast(msg).show(w)
+            Toast("$msg").show(w)
           }
         }
       }
