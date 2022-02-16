@@ -24,6 +24,7 @@ class CardTest : BasePage
       {
         padding = Insets(50)
         layout.height = Layout.matchParent
+        pageWidthScale = 0.3
         Label
         {
           text = "page1"

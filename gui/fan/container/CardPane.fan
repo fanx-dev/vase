@@ -6,6 +6,7 @@
 //
 
 using vaseWindow
+using vaseGraphics
 
 **
 ** lays out child elements as a stack of cards
@@ -32,6 +33,8 @@ class CardPane : Pane
       &offsetIndex = it
     }
   }
+  
+  Float pageWidthScale := 0.4
   
   new make() {
     gestureFocusable = true
@@ -113,16 +116,39 @@ class CardPane : Pane
   override Void layoutChildren(Bool force)
   {
     super.layoutChildren(force)
+    pageWidth := this.width * pageWidthScale
     this.each |Widget c, i|
     {
+        dscale := 1.0
         if (i == childrenSize-1 && offsetIndex < 0f) {
-            pageOffset := (1+offsetIndex) * this.width
-            c.x = paddingLeft-pageOffset.toInt
+            pageOffset := -(1+offsetIndex) * pageWidth
+            c.x += pageOffset.toInt
             //echo("offsetIndex:$offsetIndex, $c.x")
+            dscale = 0.1/((childrenSize+offsetIndex)-i).abs + 0.3
         }
         else {
-            pageOffset := (i-offsetIndex) * this.width
+            pageOffset := (i-offsetIndex) * pageWidth
             c.x += pageOffset.toInt
+            
+            if ((offsetIndex-i).abs <= 0.1) {
+                c.transform = null
+            }
+            else {
+                dscale = 0.1/(offsetIndex-i).abs + 0.3
+            }
+        }
+        
+        x := c.width /2.0f
+        y := c.height /2.0f
+        //dscale := 0.1/(offsetIndex-i).abs + 0.3
+
+        if (dscale > 0.9) {
+            c.transform = null
+        }
+        else {
+            c.transform = Transform2D.makeTranslate(x, y) *
+                             Transform2D.makeScale(dscale, dscale) * 
+                             Transform2D.makeTranslate(-x, -y)
         }
     }
   }
