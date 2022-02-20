@@ -67,19 +67,24 @@ class CardPane : Pane
     }
     
     //echo("from$fromIndex -> to:$endIndex, std:$stdIndex")
-    
-    anim := Animation {
-      it.duration = 300
-      FloatPropertyAnimChannel(this, #offsetIndex) {
-        from = fromIndex; to = endIndex
-      },
+    if (this.getRootView != null) {
+        anim := Animation {
+          it.duration = 300
+          FloatPropertyAnimChannel(this, #offsetIndex) {
+            from = fromIndex; to = endIndex
+          },
+        }
+        anim.whenDone.add {
+            this.&offsetIndex = stdIndex.toFloat
+            if (updateWhenDone) this.selIndex = stdIndex
+        }
+        this.getRootView.animManager.add(anim)
+        anim.start
     }
-    anim.whenDone.add {
-        this.&offsetIndex = stdIndex.toFloat
+    else {
+        offsetIndex = stdIndex.toFloat
         if (updateWhenDone) this.selIndex = stdIndex
     }
-    this.getRootView.animManager.add(anim)
-    anim.start
     this.relayout
   }
   
@@ -142,7 +147,7 @@ class CardPane : Pane
         y := c.height /2.0f
         //dscale := 0.1/(offsetIndex-i).abs + 0.3
 
-        if (dscale > 0.9) {
+        if (dscale > 0.99) {
             c.transform = null
         }
         else {
