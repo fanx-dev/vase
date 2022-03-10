@@ -16,6 +16,8 @@ class FlowBox : WidgetGroup
 {
   Int spacing := 0
 
+  Align hAlign := Align.begin
+
   override Void layoutChildren(Bool force)
   {
     Int x := paddingLeft
@@ -24,12 +26,31 @@ class FlowBox : WidgetGroup
     Int hintsH := contentHeight
     spacing := dpToPixel(this.spacing)
 
+    //calculate alignOffset
+    Int alignOffset = 0
+    Int maxW = 0
+    if (hAlign == Align.center) {
+      tx := 0
+      this.each |Widget c, i|
+      {
+        size := c.bufferedPrefSize(hintsW, hintsH)
+        if (tx+size.w > hintsW) {
+          if (tx-spacing > maxW) maxW = tx-spacing
+          tx = 0
+        }
+        tx += size.w + spacing
+      }
+      if (tx-spacing > maxW) maxW = tx-spacing
+      alignOffset = (hintsW-maxW)/2
+    }
+
+    x += alignOffset
     lineHeight := 0
     this.each |Widget c, i|
     {
       size := c.bufferedPrefSize(hintsW, hintsH)
-      if (x+size.w >= hintsW) {
-        x = paddingLeft
+      if (x+size.w > hintsW) {
+        x = paddingLeft + alignOffset
         y += lineHeight + spacing
         lineHeight = 0
         c.setLayout(x, y, size.w, size.h, force)
@@ -52,7 +73,7 @@ class FlowBox : WidgetGroup
     this.each |Widget c, i|
     {
       size := c.bufferedPrefSize(hintsW, hintsH)
-      if (x+size.w >= hintsW) {
+      if (x+size.w > hintsW) {
         x = paddingLeft
         y += lineHeight + spacing
         lineHeight = 0

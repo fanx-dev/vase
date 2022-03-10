@@ -17,8 +17,8 @@ class HBox : WidgetGroup
   
   Align align := Align.begin
   
-  private Float weightSpace
-  private Int alignOffset
+  @Transient private Float weightSpace
+  @Transient private Int alignOffset
 
   private Void calSpace() {
     Int hintsW := contentWidth
@@ -31,8 +31,13 @@ class HBox : WidgetGroup
     this.each |c, i|{
       if (c.layout.width == Layout.matchParent) {
         allWeight += c.layout.weight
-      } else {
+      }
+      else if (c.layout.width == Layout.wrapContent) {
         size := c.bufferedPrefSize(-1, -1)
+        spaceUsage += size.w
+      }
+      else {
+        size := c.bufferedPrefSize(hintsW, hintsH)
         spaceUsage += size.w
       }
       if (i > 0) spaceUsage += spacing
@@ -52,7 +57,7 @@ class HBox : WidgetGroup
     }
     else if (align == Align.end) {
         alignOffset = (hintsW - spaceUsage)
-    } 
+    }
   }
 
   override Void layoutChildren(Bool force)

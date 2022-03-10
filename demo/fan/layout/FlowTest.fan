@@ -16,8 +16,9 @@ class FlowTest : BasePage
     FlowBox
     {
       margin = Insets(50)
+      hAlign = Align.center
       p := it
-      10.times |i|{
+      20.times |i|{
         p.add(Button{
           text = "$i"
           layout.width = 100
