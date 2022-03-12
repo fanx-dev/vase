@@ -93,7 +93,7 @@ class CardPane : Pane
     if (e.consumed) return
     
     if (e.type == GestureEvent.drag) {
-        r := e.deltaX.toFloat/width
+        r := e.deltaX.toFloat/(this.width * pageWidthScale)
         t := offsetIndex - r
         if (t > (childrenSize-1).toFloat) {
             t = (t - (childrenSize-1)) - 1
@@ -109,10 +109,16 @@ class CardPane : Pane
         if (offsetIndex < 0f && selIndex == (childrenSize-1)) {
             offsetIndex = (1+this.offsetIndex) + (childrenSize-1)
         }
-        
-        if ((offsetIndex-selIndex).abs < 0.01) select(selIndex)
-        else if (offsetIndex > selIndex.toFloat) select(selIndex + 1)
-        else if (offsetIndex < selIndex.toFloat) select(selIndex - 1)
+
+        baseOffset := 0
+        if (e.deltaX < 0) {
+            baseOffset = (offsetIndex+0.99).toInt
+        }
+        else {
+            baseOffset = (offsetIndex).toInt
+        }
+        select(baseOffset)
+
         e.consume
         this.relayout
     }
@@ -155,6 +161,28 @@ class CardPane : Pane
                              Transform2D.makeScale(dscale, dscale) * 
                              Transform2D.makeTranslate(-x, -y)
         }
+    }
+  }
+
+  protected override Void paintChildren(Graphics g)
+  {
+    children.each |c, i|
+    {
+      if (c.visible && i != selIndex)
+      {
+        g.push
+        g.transform(Transform2D.makeTranslate(c.x.toFloat, c.y.toFloat))
+        c.paint(g)
+        g.pop
+      }
+    }
+
+    c := children[selIndex]
+    if (c.visible) {
+        g.push
+        g.transform(Transform2D.makeTranslate(c.x.toFloat, c.y.toFloat))
+        c.paint(g)
+        g.pop
     }
   }
 }

@@ -10,6 +10,7 @@ class PaneStyle : WidgetStyle
   
   Int shadow := 0
   Color shadowColor := Color.gray
+  Int alpha := 255
   
   new make() {
     outlineColor = Color.gray
@@ -44,6 +45,8 @@ class PaneStyle : WidgetStyle
         }
         g.alpha = 255
     }
+
+    g.alpha = alpha
     
     if (backgroundImage != null) {
       Size srcSize := backgroundImage.size
@@ -66,6 +69,8 @@ class PaneStyle : WidgetStyle
         g.drawRoundRect(x, y, w-lw, h-lw, arc, arc)
       }
     }
+
+    g.alpha = 255
   }
 }
 
