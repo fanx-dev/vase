@@ -29,11 +29,16 @@ class AlertDialog : VBox, Dialog
       it.text = msg
       it.margin = Insets(20)
       it.textAlign = Align.center
+      it.layout.width = Layout.wrapContent
+      it.layout.hAlign = Align.center
     }
     
     hb := HBox {
         it.spacing = 30
+        it.align = Align.center
+        it.layout.width = Layout.wrapContent
         Button {
+          it.layout.width = 300
           it.id = "alertDialog_ok"
           it.style = "flatButton"
           it.onClick {
@@ -46,6 +51,7 @@ class AlertDialog : VBox, Dialog
     
     if (cancelText != null) {
         bt := Button {
+          it.layout.width = 300
           it.id = "alertDialog_cancel"
           it.style = "flatButton"
           it.onClick {
@@ -63,7 +69,7 @@ class AlertDialog : VBox, Dialog
     this.layout.hAlign = Align.center
     this.layout.vAlign = Align.center
 
-    this.layout.width = dpToPixel(1500)
+    this.layout.width = Layout.wrapContent
     padding = Insets(30, 30)
   }
   

@@ -35,6 +35,7 @@ class PromptDialog : VBox, Dialog
     
     hb := HBox {
         it.spacing = 30
+        //it.align = Align.center
         Button {
           it.id = "alertDialog_ok"
           it.style = "flatButton"
@@ -68,7 +69,7 @@ class PromptDialog : VBox, Dialog
     this.layout.hAlign = Align.center
     this.layout.vAlign = Align.center
 
-    this.layout.width = dpToPixel(1500)
+    this.layout.width = 600
     padding = Insets(30, 30)
   }
   
