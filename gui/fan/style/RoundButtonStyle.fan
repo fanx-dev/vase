@@ -14,6 +14,8 @@ class RoundButtonStyle : WidgetStyle
 {
   Brush overColor := Color(0x33b5e5)
   Int arc := 10
+  Bool stroke := false
+  Bool fill := true
 
   new make(|This|? f := null)
   {
@@ -53,9 +55,10 @@ class RoundButtonStyle : WidgetStyle
       g.brush = disableColor
     }
 
-    g.fillRoundRect(offsetR, offsetR, width, height, arc, arc)
-    
-    
+    if (fill || btn.state == Button.mouseOver) {
+        g.fillRoundRect(offsetR, offsetR, width, height, arc, arc)
+    }
+
     if (btn.ripplePoint != null && btn.rippleSize > 0.0) {
         g.brush = rippleColor
         r := (btn.rippleSize * (100+btn.width.max(btn.height))).toInt
@@ -65,6 +68,13 @@ class RoundButtonStyle : WidgetStyle
         w := r+r
         g.fillOval(btn.ripplePoint.x-r, btn.ripplePoint.y-r, w, w)
         g.alpha = 255
+    }
+
+    if (lineWidth > 0 && stroke) {
+        g.brush = outlineColor
+        lw := dpToPixel(lineWidth)
+        g.pen = Pen { it.width = lw }
+        g.drawRoundRect(offsetR, offsetR, width-lw, height-lw, arc, arc)
     }
 
     drawText(widget, g, btn.text, btn.textAlign)
