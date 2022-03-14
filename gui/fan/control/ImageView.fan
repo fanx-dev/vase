@@ -130,10 +130,11 @@ class ImageView : Widget
   new make() {}
 
   private Void loadImage() {
-    if (image == null && uri != null) {
+    if (uri != null) {
       s := Unsafe<ImageView>(this)
       image = Image.fromUri(uri, null) {
         //echo("image loaded")
+        isInited = false
         s.val.relayout
       }
     }
