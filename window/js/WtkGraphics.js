@@ -21,6 +21,7 @@ fan.vaseWindow.WtkGraphics.prototype.widget = null;
 fan.vaseWindow.WtkGraphics.prototype.size = null;
 fan.vaseWindow.WtkGraphics.prototype.cx = null;
 fan.vaseWindow.WtkGraphics.prototype.m_clip = null;
+fan.vaseWindow.WtkGraphics.prototype.m_needPop = false;
 
 // canvas - <canvas> element
 // bounds - fan.gfx.Rect
@@ -387,7 +388,10 @@ fan.vaseWindow.WtkGraphics.prototype.pop = function ()
 // Void dispose()
 fan.vaseWindow.WtkGraphics.prototype.dispose = function ()
 {
-  // no-op
+  if (this.m_needPop) {
+    this.pop();
+    this.m_needPop = false;
+  }
 }
 
 // state for fields in push/pop

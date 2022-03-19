@@ -161,7 +161,16 @@ fan.vaseWindow.Image.prototype.createGraphics = function()
     var g = new fan.vaseWindow.WtkGraphics();
     var rect = new fan.vaseGraphics.Rect.make(0,0, this.m_size.m_w, this.m_size.m_h);
     g.init(this.context(), rect);
+    g.push();
+    g.m_needPop = true;
     this.m_graphics = g;
+  }
+  else {
+    var g = this.m_graphics;
+    if (g.m_needPop == false) {
+      g.push();
+      g.m_needPop = true;
+    }
   }
   return this.m_graphics;
 }
