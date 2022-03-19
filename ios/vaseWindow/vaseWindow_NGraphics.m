@@ -13,10 +13,8 @@ extern float desityScale;
 
 void vaseWindow_NImage_endGraphics(fr_Env env, fr_Obj self);
 fr_Int vaseWindow_NImage_getHandle(fr_Env env, fr_Obj self);
-void vaseWindow_NImage_setHandle(fr_Env env, fr_Obj self, fr_Int r);
 void vaseWindow_NImage_getSize(fr_Env env, fr_Obj self, int* w, int* h);
-char* vaseWindow_NImage_getData(fr_Env env, fr_Obj self);
-fr_Int vaseWindow_NImage_getFlags(fr_Env env, fr_Obj self);
+void vaseWindow_NImage_flush(fr_Env env, fr_Obj self);
 UIFont *vaseWindow_NFont_font(fr_Env env, fr_Obj self);
 
 void decodeColor(fr_Int icolor, float color[4]) {
@@ -482,6 +480,7 @@ fr_Obj vaseWindow_NGraphics_drawText(fr_Env env, fr_Obj self, fr_Obj s, fr_Int x
 
 void vaseWindow_NGraphics_doDrawImage(fr_Env env, fr_Obj self, fr_Obj image, fr_Int srcX, fr_Int srcY, fr_Int srcW, fr_Int srcH, fr_Int dstX, fr_Int dstY, fr_Int dstW, fr_Int dstH) {
     CGContextRef vg = (CGContextRef)vaseWindow_NGraphics_getContext(env, self);
+    vaseWindow_NImage_flush(env, image);
     fr_Int handle = vaseWindow_NImage_getHandle(env, image);
     if (handle == 0) return;
     CGImageRef img = (CGImageRef)handle;
@@ -581,7 +580,7 @@ void vaseWindow_NGraphics_applyPath(fr_Env env, CGContextRef vg, fr_Obj path) {
             CGContextAddCurveToPoint(vg, cx1, cy1, cx2, cy2, x, y);
         }
         else if (fr_isInstanceOf(env, step, PathClose)) {
-            CGPDFContextClose(vg);
+            CGContextClosePath(vg);
         }
         else if (fr_isInstanceOf(env, step, PathArc)) {
             double cx = fr_getFieldS(env, step, "cx").f;

@@ -173,6 +173,26 @@ void vaseWindow_NImage_setPixel(fr_Env env, fr_Obj self, fr_Int x, fr_Int y, fr_
 	data[pos + 1] = g;
 	data[pos + 2] = b;
 	data[pos + 3] = a;
+    
+    vaseWindow_NImage_setFlags(env, self, 1);
+}
+
+void vaseWindow_NImage_flush(fr_Env env, fr_Obj self) {
+    fr_Int flag = vaseWindow_NImage_getFlags(env, self);
+    if (flag == 1) {
+        CGImageRef image = (CGImageRef)vaseWindow_NImage_getHandle(env, self);
+        if (image != NULL) {
+            CGImageRelease(image);
+            vaseWindow_NImage_setHandle(env, self, (fr_Int)0);
+        }
+        
+        CGContextRef bitmapCtx = (CGContextRef)vaseWindow_NImage_getData(env, self);
+        if (bitmapCtx != NULL) {
+            image = CGBitmapContextCreateImage (bitmapCtx);
+            vaseWindow_NImage_setHandle(env, self, (fr_Int)image);
+        }
+        vaseWindow_NImage_setFlags(env, self, 0);
+    }
 }
 
 void vaseWindow_NImage_dispose(fr_Env env, fr_Obj self) {
