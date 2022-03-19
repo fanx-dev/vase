@@ -110,7 +110,7 @@ class TextArea : ScrollPane
   NativeCaret caret := NativeCaret(this) { private set }
 
   internal Font font() {
-    getStyle.font
+    getStyle.font(this)
   }
 
 

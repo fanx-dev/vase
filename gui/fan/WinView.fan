@@ -67,6 +67,8 @@ internal class WinView : View
     curFrame = frame
     frameOut = false
 
+    DisplayMetrics.cur.autoScale = curFrame.autoScale
+
     //animation for frame
     if (oldFrame != null) {
       oldFrame.onClosing.fire(null)
@@ -109,6 +111,8 @@ internal class WinView : View
     oldFrame = curFrame
     curFrame = frame
     frameOut = true
+
+    DisplayMetrics.cur.autoScale = curFrame.autoScale
 
     //frame animation
     if (oldFrame != null) {
@@ -161,14 +165,17 @@ internal class WinView : View
       this.height = s.h
       //echo("layout $s")
       layoutDirty = 2
+      DisplayMetrics.cur.updateDensity(s.w, s.h)
     }
     update
 
     oldFrame?.onUpdate
     if (!frameOut && oldFrame != null) {
+      DisplayMetrics.cur.autoScale = oldFrame.autoScale
       g.push
       oldFrame.paint(g)
       g.pop
+      DisplayMetrics.cur.autoScale = curFrame.autoScale
     }
     
     curFrame.onUpdate

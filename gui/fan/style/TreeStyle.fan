@@ -24,6 +24,7 @@ class TreeStyle : WidgetStyle
     TreeView tree := widget
     Int start := tree.offsetY / tree.rowHeight
     Int topOffset := tree.offsetY - (start * tree.rowHeight)
+    font := this.font(widget)
     Int fontOffset := font.ascent + font.leading
     top := widget.paddingTop
     left := widget.paddingLeft

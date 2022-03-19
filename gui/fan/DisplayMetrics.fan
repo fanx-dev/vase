@@ -11,28 +11,55 @@ using vaseWindow
 using concurrent
 
 @Js
-mixin DisplayMetrics
+class DisplayMetrics
 {
+
+  private Float density = 0.0
+
+  internal Bool autoScale = false {
+    set {
+      changed := &autoScale != it
+      if (changed) {
+        &autoScale = it
+        if (Toolkit.cur.window != null) {
+          winSize := Toolkit.cur.window.size
+          updateDensity(winSize.w, winSize.h)
+        }
+      }
+    }
+  }
+
+  internal Float densityBase = 1080f
+
+  private static const Unsafe<DisplayMetrics> instance = Unsafe<DisplayMetrics>(make())
+
+  static DisplayMetrics cur() { instance.val }
+
+  internal new make() {
+    density = Toolkit.cur.density
+  }
+
   **
   ** a dp pixel size.
   ** scale dp to pixel
   **
-  private static Float dp() {
-    Bool? floatDesity := Actor.locals["vaseGui.floatDesity"]
-    if (floatDesity == null || floatDesity == false) return Toolkit.cur.density
-
-    Float desityBase := Actor.locals.get("vaseGui.desityBase", 1080f)
-    win := Toolkit.cur.window
-    if (win != null) {
-      desity := (win.size.w / desityBase)
-      return desity
-    }
-    return Toolkit.cur.density
+  private Float dp() {
+    return density
   }
 
-  static Int dpToPixel(Float d) { (d * dp).toInt }
+  internal Void updateDensity(Int w, Int h) {
+    if (autoScale) {
+      m := w.min(h)
+      density = m / densityBase
+    }
+    else {
+      density = Toolkit.cur.density
+    }
+  }
 
-  static Float pixelToDp(Int p) { (p / dp) }
+  Int dpToPixel(Float d) { (d * dp).toInt }
+
+  Float pixelToDp(Int p) { (p / dp) }
 
 }
 

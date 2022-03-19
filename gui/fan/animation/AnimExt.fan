@@ -160,7 +160,7 @@ class AnimExt {
   }
 
   static extension Animation offsetAnim(Widget self, Float offset := 5f, Int time := 300) {
-    px := DisplayMetrics.dpToPixel(offset)
+    px := self.dpToPixel(offset.toInt)
     a := TweenAnimation() {
       it.duration = time
       TranslateAnimChannel { to = Point.defVal; from = Point(px, px)},

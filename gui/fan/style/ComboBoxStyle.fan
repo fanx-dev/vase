@@ -51,7 +51,7 @@ class ComboBoxStyle : WidgetStyle {
 
     g.drawLine(left, bottom, right-1, bottom)
 
-    cornerSize := (font.height * 0.6f).toInt
+    cornerSize := (font(widget).height * 0.6f).toInt
     pa := PointArray(3)
     pa.setX(0, right-cornerSize)
     pa.setY(0, bottom)

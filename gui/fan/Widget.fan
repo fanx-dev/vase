@@ -292,8 +292,8 @@ abstract class Widget : Bindable
     //}
   }
 
-  Int dpToPixel(Int d) { DisplayMetrics.dpToPixel(d.toFloat) }
-  Int pixelToDp(Int d) { DisplayMetrics.pixelToDp(d).toInt }
+  Int dpToPixel(Int d) { DisplayMetrics.cur.dpToPixel(d.toFloat) }
+  Int pixelToDp(Int d) { DisplayMetrics.cur.pixelToDp(d).toInt }
 
   protected Style getStyle() {
     if (styleObj == null) {

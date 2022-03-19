@@ -17,6 +17,7 @@ class TextAreaStyle : WidgetStyle
     TextArea area := widget
     top := widget.paddingTop
     left := widget.paddingLeft
+    font := this.font(widget)
     g.font = font
 
     Int start := area.offsetY / area.rowHeight
@@ -114,6 +115,7 @@ class TextAreaStyle : WidgetStyle
         Int y := (lineIndex - start) * area.rowHeight
         Str line := area.model.line(lineIndex)
         Int xOffset := area.caret.offset
+        font := this.font(area)
         Int x := font.width(line[0..<xOffset]) -area.offsetX
         //echo("x $x, offsetX:${area.offsetX} ${line[0..<xOffset]}")
         g.drawLine(x, y, x, y + area.rowHeight)

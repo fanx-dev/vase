@@ -37,7 +37,7 @@ class TextView : Widget
   Bool autoWrap := true
   
   protected Font font() {
-    return getStyle.font
+    return getStyle.font(this)
   }
   
   Int rowHeight() { font.height }

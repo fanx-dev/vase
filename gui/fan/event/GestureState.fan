@@ -33,6 +33,8 @@ abstract class GestureState
   virtual Void onExit(MotionEvent e) {}
 
   abstract Void onEvent(MotionEvent e)
+
+  protected Int dpToPixel(Float d) { (d * Toolkit.cur.density).toInt }
 }
 
 @Js
@@ -114,7 +116,7 @@ class DownState : GestureState {
       dy := e.y - lastY
       distance := (dx*dx + dy*dy).toFloat.sqrt
       //echo(distance)
-      if (distance > DisplayMetrics.dpToPixel(30f).toFloat) {
+      if (distance > dpToPixel(30f).toFloat) {
         ns := DragState(machine)
         machine.setCurrentState(ns, e)
         e.consume
@@ -163,7 +165,7 @@ class OneClickState : GestureState {
       dy := e.y - lastY
       distance := (dx*dx + dy*dy).toFloat.sqrt
       //echo(distance)
-      if (distance > DisplayMetrics.dpToPixel(30f).toFloat) {
+      if (distance > dpToPixel(30f).toFloat) {
         ns := DragState(machine)
         machine.setCurrentState(ns, e)
         e.consume

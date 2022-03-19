@@ -39,6 +39,7 @@ class TableStyle : WidgetStyle
     Table tab := widget
     top := widget.paddingTop
     left := widget.paddingLeft
+    font := this.font(widget)
     g.font = font
     Int rowHeight := dpToPixel(tab.rowHeight)
 

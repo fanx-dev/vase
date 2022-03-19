@@ -51,6 +51,7 @@ class TextViewStyle : WidgetStyle {
     x := widget.paddingLeft
     y := widget.paddingTop
     
+    font := this.font(widget)
     offset := font.ascent + font.leading
     y += offset
     

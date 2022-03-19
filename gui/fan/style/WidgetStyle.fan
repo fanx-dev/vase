@@ -14,7 +14,7 @@ using vaseWindow
 mixin Style
 {
   abstract Void paint(Widget widget, Graphics g)
-  abstract Font font()
+  abstract Font font(Widget widget)
 }
 
 @Js
@@ -42,11 +42,20 @@ class WidgetStyle : Style
   Int lineWidth := 2
 
   FontInfo fontInfo := FontInfo()
-  @Transient
-  private Font? pixelFont
-  override Font font() {
-     if (pixelFont == null) pixelFont = Font(dpToPixel(fontInfo.size)
-        , fontInfo.name, fontInfo.bold, fontInfo.italic)
+  @Transient private Font? pixelFont
+  @Transient private Int fontCacheSize
+  
+  override Font font(Widget widget) {
+     fontSize := widget.dpToPixel(fontInfo.size)
+     if (pixelFont != null) {
+        if (fontSize != fontCacheSize) {
+            pixelFont = null
+        }
+     }
+     if (pixelFont == null) {
+        pixelFont = Font(fontSize, fontInfo.name, fontInfo.bold, fontInfo.italic)
+        fontCacheSize = fontSize
+     }
      return pixelFont
   }
 
@@ -64,8 +73,8 @@ class WidgetStyle : Style
 
   virtual Void doPaint(Widget widget, Graphics g) {}
 
-  Int dpToPixel(Int dp) {
-    DisplayMetrics.dpToPixel(dp.toFloat)
+  protected Int dpToPixel(Int dp) {
+    DisplayMetrics.cur.dpToPixel(dp.toFloat)
   }
 
   protected Void drawText(Widget widget, Graphics g, Str text, Align align, Align vAlign := Align.center) {
@@ -75,6 +84,7 @@ class WidgetStyle : Style
     left := widget.paddingLeft
     //draw text
     g.brush = fontColor
+    font := this.font(widget)
     g.font = font
 
     offset := font.ascent + font.leading

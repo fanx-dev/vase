@@ -18,6 +18,7 @@ class Label : Widget
   Align textAlign := Align.begin
 
   @Transient private Size? sizeCache := null
+  @Transient private Font? fontCache := null
   
   Str text := "Label" {
     set {
@@ -27,7 +28,7 @@ class Label : Widget
     }
   }
   protected Font font() {
-    return getStyle.font
+    return getStyle.font(this)
   }
 
   new make()
@@ -36,7 +37,11 @@ class Label : Widget
   }
 
   protected override Size prefContentSize(Int hintsWidth := -1, Int hintsHeight := -1) {
-    if (sizeCache != null) return sizeCache
+    if (sizeCache != null) {
+      if (fontCache === font) {
+        return sizeCache
+      }
+    }
     w := font.width(text)+1
     h := font.height
     sizeCache = Size(w, h)

@@ -29,6 +29,7 @@ class SpinnerStyle : WidgetStyle
     cx := left + (lab.contentWidth/2.toFloat).round.toInt
     cy := top + (lab.contentHeight/2.toFloat).round.toInt
     
+    font := this.font(widget)
     fontOffset := font.ascent + font.leading
     cy += (fontOffset/2.toFloat).toInt
     

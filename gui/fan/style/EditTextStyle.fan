@@ -37,7 +37,7 @@ class EditTextStyle : WidgetStyle
     g.drawLine(lineLeft, bottom, lineLeft, bottom-upSize)
     g.drawLine(right-lWidth, bottom, right-lWidth, bottom-upSize)
 
-
+    font := this.font(widget)
     g.font = font
     offset := font.ascent + font.leading
     x := left

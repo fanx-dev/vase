@@ -13,9 +13,6 @@ using vaseWindow
 @Js
 class CheckBoxStyle : WidgetStyle
 {
-  Pen contectPen := Pen { width = dpToPixel(6) }
-  Pen outLinePen := Pen { width = dpToPixel(4) }
-
   new make() {
     //foreground = Color(0x51d166)
     background = Color.white
@@ -39,12 +36,12 @@ class CheckBoxStyle : WidgetStyle
     g.fillRect(x-r, y-r, size, size)
 
     g.brush = this.outlineColor
-    g.pen = outLinePen
+    g.pen = Pen { width = dpToPixel(4) }
     g.drawRect(x-r, y-r, size, size)
     if (btn.selected)
     {
       r = (r * btn.animPostion).toInt
-      g.pen = contectPen
+      g.pen = Pen { width = dpToPixel(6) }
       g.brush = this.color
       //g.drawLine(x-(r*0.6f).toInt, y-(r*0.15f).toInt, x, y+(r/2f).toInt)
       //g.drawLine(x+(r*1.1f).toInt, y-(r*1.1f).toInt, x, y+(r/2f).toInt)
@@ -97,7 +94,6 @@ class RadioButtonStyle : WidgetStyle
 
 @Js
 class SwitchStyle : WidgetStyle {
-  Pen outLinePen := Pen { width = dpToPixel(4) }
   Color buttonColor := Color.white
   
   new make() {

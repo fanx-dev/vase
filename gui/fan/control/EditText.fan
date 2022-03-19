@@ -49,7 +49,7 @@ class EditText : Widget, TextInput
   Bool password() { inputType == TextInput.inputTypePassword }
 
   Font font() {
-    getStyle.font
+    getStyle.font(this)
   }
 
   @Transient

@@ -83,6 +83,8 @@ class Frame : ContentPane
   //@Transient
   //private Dimension sharedDimension := Dimension(0, 0)
 
+  Bool autoScale = false
+
   **
   ** ctor
   **

@@ -37,7 +37,7 @@ class TreeView : ScrollPane
   Int rowHeight() { font.height }
 
   private Font font() {
-    getStyle.font
+    getStyle.font(this)
   }
 
   Int minWidth := 600
