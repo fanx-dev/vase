@@ -106,7 +106,7 @@ class CardPane : Pane
     else if (e.type == GestureEvent.drop) {
         //echo("offsetIndex:$offsetIndex, selIndex:$selIndex")
         offsetIndex := this.offsetIndex
-        if (offsetIndex < 0f && selIndex == (childrenSize-1)) {
+        if (offsetIndex < 0f) {
             offsetIndex = (1+this.offsetIndex) + (childrenSize-1)
         }
 
