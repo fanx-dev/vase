@@ -21,6 +21,8 @@ class TextView : Widget
       this.repaint
     }
   }
+
+  Float lineHeightScale := 1.3
   
   @Transient
   private Str[] lines := [,]
@@ -40,7 +42,7 @@ class TextView : Widget
     return getStyle.font(this)
   }
   
-  Int rowHeight() { font.height }
+  Int rowHeight() { (font.height * lineHeightScale).toInt }
 
   new make()
   {

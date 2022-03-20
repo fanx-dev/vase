@@ -74,7 +74,7 @@ internal class WinView : View
       oldFrame.onClosing.fire(null)
       if (animation) {
         anim := TweenAnimation {
-          it.duration = 300
+          it.duration = 200
           TranslateAnimChannel { to = Point.defVal; from = Point(oldFrame.width, 0)},
         }
         frameAnimation = anim
@@ -119,7 +119,7 @@ internal class WinView : View
       oldFrame.onClosing.fire(null)
       if (animation) {
         anim := TweenAnimation {
-          it.duration = 300
+          it.duration = 200
           TranslateAnimChannel { from = Point.defVal; to = Point(oldFrame.width, 0)},
         }
         frameAnimation = anim

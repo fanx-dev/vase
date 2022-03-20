@@ -17,6 +17,8 @@ class Video {
     Int w := 300
     Int h := 300
     Bool center := false
+    [Str:Obj]? options
+    Bool fullScreen := false
 
     protected Void fireEvent(Str event) {
         onEvent?.call(event)
