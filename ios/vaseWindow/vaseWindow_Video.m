@@ -40,6 +40,7 @@ static void setHandle(fr_Env env, fr_Obj self, fr_Int r) {
 struct Video {
     AVPlayerViewController *playerVC;
     VideoListener *listener;
+    UIButton *returnButton;
 };
 
 fr_Bool vaseWindow_Video_play(fr_Env env, fr_Obj self, fr_Int loop, fr_Obj options) {
@@ -103,11 +104,33 @@ void vaseWindow_Video_doSetup(fr_Env env, fr_Obj self, fr_Obj win) {
         playerVC.player = [AVPlayer playerWithURL:url];
         playerVC.showsPlaybackControls = fr_getFieldS(env, self, "controller").b;
         
-        video->listener = [[VideoListener alloc]init:self player: playerVC];
-        
-
+        bool fullScreen = fr_getFieldS(env, self, "fullScreen").b;
         VaseWindow *window = vase_Window_getWindow(env, win);
+
+        video->listener = [[VideoListener alloc]init:self player: playerVC];
         [window addSubview:playerVC.view];
+        
+        
+        if (fullScreen) {
+            playerVC.entersFullScreenWhenPlaybackBegins = YES;
+            playerVC.exitsFullScreenWhenPlaybackEnds = YES;
+            playerVC.modalPresentationStyle = UIModalPresentationOverFullScreen;
+            
+            UIImage *backButtonImage = [UIImage imageNamed:@"res/return.png"];
+            UIButton *button = [[UIButton alloc]init];
+            [button setBackgroundImage:backButtonImage forState:UIControlStateNormal];
+            button.frame = CGRectMake(5, 5, 30, 30);
+            [window addSubview:button];
+            [button addTarget:window action:@selector(onBack) forControlEvents:UIControlEventTouchUpInside];
+            video->returnButton = button;
+        }
+        else {
+            video->returnButton = NULL;
+        }
+        
+        if (fr_getFieldS(env, self, "options").h != NULL) {
+            playerVC.view.backgroundColor = [[UIColor alloc] initWithRed:1 green:1 blue:1 alpha:1];
+        }
         
         video->playerVC = playerVC;
         setHandle(env, self, (fr_Int)video);
@@ -122,12 +145,17 @@ void vaseWindow_Video_doSetup(fr_Env env, fr_Obj self, fr_Obj win) {
 }
 void vaseWindow_Video_remove(fr_Env env, fr_Obj self) {
     struct Video *video = (struct Video *)getHandle(env, self);
+    [video->playerVC.player pause];
     [video->playerVC.view removeFromSuperview];
+    if (video->returnButton) {
+        [video->returnButton removeFromSuperview];
+    }
 }
 void vaseWindow_Video_finalize(fr_Env env, fr_Obj self) {
     struct Video *video = (struct Video *)getHandle(env, self);
     video->playerVC = nil;
     video->listener = nil;
+    video->returnButton = nil;
     free(video);
     setHandle(env, self, 0);
 }

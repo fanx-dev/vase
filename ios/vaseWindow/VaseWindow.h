@@ -15,6 +15,9 @@
 }
 
 - (instancetype)initWithObj: (fr_Obj)winObj;
+
+- (void)onBack;
+
 @end
 
 #endif /* VaseWindow_h */
