@@ -105,6 +105,7 @@ NSString* fireTextChangeEvent(fr_Obj neditText, NSString *text) {
 
 @end
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+void vaseWindow_NEditText_finalize(fr_Env env, fr_Obj self);
 
 fr_Int vaseWindow_NEditText_init(fr_Env env, fr_Obj self, fr_Int inputType, fr_Int windowHandle) {
     struct Window* handle = (struct Window*)windowHandle;
@@ -160,6 +161,10 @@ fr_Int vaseWindow_NEditText_init(fr_Env env, fr_Obj self, fr_Int inputType, fr_I
     et->textView = view;
     et->isTextField = textField != nil;
     et->delegate = listener;
+    
+    fr_Type type = fr_getObjType(env, self);
+    fr_registerDestructor(env, type, vaseWindow_NEditText_finalize);
+    
     return (fr_Int)et;
 }
 

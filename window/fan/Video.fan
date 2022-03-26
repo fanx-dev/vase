@@ -35,5 +35,5 @@ class Video {
 
     native Void remove()
     
-    protected native override Void finalize()
+    //protected native override Void finalize()
 }

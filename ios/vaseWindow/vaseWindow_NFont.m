@@ -14,12 +14,17 @@ fr_Int vaseWindow_NFont_getHandle(fr_Env env, fr_Obj self) {
     return (val.i);
 }
 
+void vaseWindow_NFont_finalize(fr_Env env, fr_Obj self);
+
 void vaseWindow_NFont_setHandle(fr_Env env, fr_Obj self, fr_Int r) {
     static fr_Field f = NULL;
     if (f == NULL) f = fr_findField(env, fr_getObjType(env, self), "handle");
     fr_Value val;
     val.i = (fr_Int)r;
     fr_setInstanceField(env, self, f, &val);
+    
+    fr_Type type = fr_getObjType(env, self);
+    fr_registerDestructor(env, type, vaseWindow_NFont_finalize);
 }
 
 void vaseWindow_NFont_dispose(fr_Env env, fr_Obj self) {

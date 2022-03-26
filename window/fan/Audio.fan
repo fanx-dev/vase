@@ -24,7 +24,7 @@ class Sound {
     }
     private native Void doLoad()
     
-    protected native override Void finalize()
+    //protected native override Void finalize()
 }
 
 @Js
@@ -34,5 +34,5 @@ class Speech {
   private native Void init()
 
   native Bool speak(Str text, [Str:Obj]? options = null)
-  protected native override Void finalize()
+  //protected native override Void finalize()
 }

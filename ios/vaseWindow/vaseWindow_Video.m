@@ -91,6 +91,8 @@ void vaseWindow_Video_pause(fr_Env env, fr_Obj self) {
 }
 @end
 
+void vaseWindow_Video_finalize(fr_Env env, fr_Obj self);
+
 void vaseWindow_Video_doSetup(fr_Env env, fr_Obj self, fr_Obj win) {
     struct Video *video = (struct Video *)getHandle(env, self);
     if (video == NULL) {
@@ -134,6 +136,9 @@ void vaseWindow_Video_doSetup(fr_Env env, fr_Obj self, fr_Obj win) {
         
         video->playerVC = playerVC;
         setHandle(env, self, (fr_Int)video);
+        
+        fr_Type type = fr_getObjType(env, self);
+        fr_registerDestructor(env, type, vaseWindow_Video_finalize);
     }
     
     CGRect frame;

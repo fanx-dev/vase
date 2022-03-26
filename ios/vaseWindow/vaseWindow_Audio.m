@@ -86,6 +86,8 @@ NSString *vaseWindow_uriToPath(fr_Env env, fr_Obj uri) {
     return npath;
 }
 
+void vaseWindow_Sound_finalize(fr_Env env, fr_Obj self);
+
 void vaseWindow_Sound_doLoad(fr_Env env, fr_Obj self) {
     fr_Obj uri = fr_getFieldS(env, self, "uri").h;
     NSString *npath = vaseWindow_uriToPath(env, uri);
@@ -99,6 +101,8 @@ void vaseWindow_Sound_doLoad(fr_Env env, fr_Obj self) {
     sound->player = player;
     
     setHandle(env, self, (fr_Int)sound);
+    fr_Type type = fr_getObjType(env, self);
+    fr_registerDestructor(env, type, vaseWindow_Sound_finalize);
 }
 void vaseWindow_Sound_release(fr_Env env, fr_Obj self) {
     struct Sound *sound = (struct Sound*)getHandle(env, self);
@@ -118,6 +122,8 @@ struct Speech {
     AVSpeechSynthesisVoice *voice;
 };
 
+void vaseWindow_Speech_finalize(fr_Env env, fr_Obj self);
+
 void vaseWindow_Speech_init(fr_Env env, fr_Obj self) {
     struct Speech *speech = calloc(1, sizeof(struct Speech));
     speech->synth = [[AVSpeechSynthesizer alloc]init];
@@ -127,6 +133,9 @@ void vaseWindow_Speech_init(fr_Env env, fr_Obj self) {
     speech->voice = [AVSpeechSynthesisVoice voiceWithLanguage:currentLanguage];
     
     setHandle(env, self, (fr_Int)speech);
+    
+    fr_Type type = fr_getObjType(env, self);
+    fr_registerDestructor(env, type, vaseWindow_Speech_finalize);
 }
 
 fr_Bool vaseWindow_Speech_speak(fr_Env env, fr_Obj self, fr_Obj text, fr_Obj options) {

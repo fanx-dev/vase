@@ -76,5 +76,5 @@ rtconst class NImage : Image
     other.isLoaded = ld
   }
 
-  protected native override Void finalize()
+  //protected native override Void finalize()
 }

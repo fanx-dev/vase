@@ -31,12 +31,17 @@ static struct Window* getWindow(fr_Env env, fr_Obj self) {
 
 VaseWindow* vase_Window_getWindow(fr_Env env, fr_Obj self) { return getWindow(env, self)->window; }
 
+void vaseWindow_NWindow_finalize(fr_Env env, fr_Obj self);
+
 static void setWindow(fr_Env env, fr_Obj self, struct Window* r) {
     static fr_Field f = NULL;
     if (f == NULL) f = fr_findField(env, fr_getObjType(env, self), "handle");
     fr_Value val;
     val.i = (fr_Int)r;
     fr_setInstanceField(env, self, f, &val);
+    
+    fr_Type type = fr_getObjType(env, self);
+    fr_registerDestructor(env, type, vaseWindow_NWindow_finalize);
 }
 
 void vaseWindow_NWindow_repaint(fr_Env env, fr_Obj self, fr_Obj dirty) {

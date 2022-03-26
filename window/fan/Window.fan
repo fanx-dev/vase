@@ -79,5 +79,5 @@ internal class NWindow : Window {
 
   native override Void fileDialog(Str accept, |Obj[]?| f, [Str:Obj]? options := null)
 
-  protected native override Void finalize()
+  //protected native override Void finalize()
 }

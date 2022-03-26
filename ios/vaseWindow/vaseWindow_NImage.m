@@ -6,7 +6,7 @@
 #import <MobileCoreServices/MobileCoreServices.h>
 
 void vaseWindow_NGraphics_setBitmap(fr_Env env, fr_Obj self, fr_Obj r);
-
+void vaseWindow_NImage_finalize(fr_Env env, fr_Obj self);
 
 fr_Int vaseWindow_NImage_getHandle(fr_Env env, fr_Obj self) {
     static fr_Field f = NULL;
@@ -22,6 +22,9 @@ void vaseWindow_NImage_setHandle(fr_Env env, fr_Obj self, fr_Int r) {
     fr_Value val;
     val.i = (fr_Int)r;
     fr_setInstanceField(env, self, f, &val);
+    
+    fr_Type type = fr_getObjType(env, self);
+    fr_registerDestructor(env, type, vaseWindow_NImage_finalize);
 }
 
 fr_Int vaseWindow_NImage_getData(fr_Env env, fr_Obj self) {
@@ -38,6 +41,9 @@ void vaseWindow_NImage_setData(fr_Env env, fr_Obj self, fr_Int r) {
     fr_Value val;
     val.i = (fr_Int)r;
     fr_setInstanceField(env, self, f, &val);
+    
+    fr_Type type = fr_getObjType(env, self);
+    fr_registerDestructor(env, type, vaseWindow_NImage_finalize);
 }
 
 CGContextRef vaseWindow_NImage_makeCGBitmap(int w, int h) {

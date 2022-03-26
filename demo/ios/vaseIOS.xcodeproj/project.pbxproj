@@ -20,7 +20,6 @@
 		3230741E27B5547500423934 /* util.c in Sources */ = {isa = PBXBuildFile; fileRef = 323073F927B5547500423934 /* util.c */; };
 		3230741F27B5547500423934 /* std.c in Sources */ = {isa = PBXBuildFile; fileRef = 323073FF27B5547500423934 /* std.c */; };
 		3230742027B5547500423934 /* vaseClient.c in Sources */ = {isa = PBXBuildFile; fileRef = 3230740027B5547500423934 /* vaseClient.c */; };
-		3230742127B5547500423934 /* ax_weight.c in Sources */ = {isa = PBXBuildFile; fileRef = 3230740327B5547500423934 /* ax_weight.c */; };
 		3230742227B5547500423934 /* concurrent.c in Sources */ = {isa = PBXBuildFile; fileRef = 3230741227B5547500423934 /* concurrent.c */; };
 		3230742327B5547500423934 /* vaseMath.c in Sources */ = {isa = PBXBuildFile; fileRef = 3230741327B5547500423934 /* vaseMath.c */; };
 		3230742427B5547500423934 /* vaseGraphics.c in Sources */ = {isa = PBXBuildFile; fileRef = 3230741727B5547500423934 /* vaseGraphics.c */; };
@@ -63,7 +62,6 @@
 		323073F227B5547500423934 /* vaseGraphics_prototype.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = vaseGraphics_prototype.h; sourceTree = "<group>"; };
 		323073F327B5547500423934 /* vaseWindow.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = vaseWindow.c; sourceTree = "<group>"; };
 		323073F427B5547500423934 /* vaseGui.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = vaseGui.c; sourceTree = "<group>"; };
-		323073F527B5547500423934 /* ax_weight.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ax_weight.h; sourceTree = "<group>"; };
 		323073F627B5547500423934 /* vaseAndroid.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = vaseAndroid.c; sourceTree = "<group>"; };
 		323073F727B5547500423934 /* vaseDemo.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = vaseDemo.c; sourceTree = "<group>"; };
 		323073F827B5547500423934 /* sys.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = sys.c; sourceTree = "<group>"; };
@@ -76,8 +74,6 @@
 		323073FF27B5547500423934 /* std.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = std.c; sourceTree = "<group>"; };
 		3230740027B5547500423934 /* vaseClient.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = vaseClient.c; sourceTree = "<group>"; };
 		3230740127B5547500423934 /* vaseAndroid_prototype.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = vaseAndroid_prototype.h; sourceTree = "<group>"; };
-		3230740227B5547500423934 /* ax_weight_prototype.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ax_weight_prototype.h; sourceTree = "<group>"; };
-		3230740327B5547500423934 /* ax_weight.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ax_weight.c; sourceTree = "<group>"; };
 		3230740427B5547500423934 /* vaseGui.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = vaseGui.h; sourceTree = "<group>"; };
 		3230740527B5547500423934 /* vaseClient_prototype.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = vaseClient_prototype.h; sourceTree = "<group>"; };
 		3230740627B5547500423934 /* concurrent_prototype.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = concurrent_prototype.h; sourceTree = "<group>"; };
@@ -156,7 +152,6 @@
 				323073F227B5547500423934 /* vaseGraphics_prototype.h */,
 				323073F327B5547500423934 /* vaseWindow.c */,
 				323073F427B5547500423934 /* vaseGui.c */,
-				323073F527B5547500423934 /* ax_weight.h */,
 				323073F627B5547500423934 /* vaseAndroid.c */,
 				323073F727B5547500423934 /* vaseDemo.c */,
 				323073F827B5547500423934 /* sys.c */,
@@ -169,8 +164,6 @@
 				323073FF27B5547500423934 /* std.c */,
 				3230740027B5547500423934 /* vaseClient.c */,
 				3230740127B5547500423934 /* vaseAndroid_prototype.h */,
-				3230740227B5547500423934 /* ax_weight_prototype.h */,
-				3230740327B5547500423934 /* ax_weight.c */,
 				3230740427B5547500423934 /* vaseGui.h */,
 				3230740527B5547500423934 /* vaseClient_prototype.h */,
 				3230740627B5547500423934 /* concurrent_prototype.h */,
@@ -384,7 +377,6 @@
 				3230744527B5548700423934 /* VaseWindow.m in Sources */,
 				3230744C27B5548700423934 /* vaseWindow_NWindow.m in Sources */,
 				3230744427B5548700423934 /* vaseWindow_NGraphics.m in Sources */,
-				3230742127B5547500423934 /* ax_weight.c in Sources */,
 				3230741827B5547500423934 /* baseTest.c in Sources */,
 				3230742427B5547500423934 /* vaseGraphics.c in Sources */,
 				32B7EC6D26F878BD007FB98A /* main.m in Sources */,

@@ -87,5 +87,5 @@ internal class NEditText : TextInputPeer {
   native override Void select(Int start, Int end)
   native override Int caretPos()
 
-  protected native override Void finalize()
+  //protected native override Void finalize()
 }

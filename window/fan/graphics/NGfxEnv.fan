@@ -80,5 +80,5 @@ const class NGfxEnv : GfxEnv
     NPointArray.alloc(size)
   }
 
-  protected native override Void finalize()
+  //protected native override Void finalize()
 }
