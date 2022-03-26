@@ -95,11 +95,13 @@ void vaseWindow_NWindow_show(fr_Env env, fr_Obj self, fr_Obj size) {
     
     CGRect frame = [UIScreen mainScreen].bounds;//g_controller.view.bounds;
     
-#ifndef NO_SAFE_AREA
+
+#ifdef SAFE_AREA_TOP
     UIEdgeInsets insets = [UIApplication sharedApplication].windows.firstObject.safeAreaInsets;
-#ifdef NO_SAFE_AREA_TOP
-    insets.bottom = 0;
-#endif
+    frame.origin.y += insets.top;
+    frame.size.height -= insets.top;
+#elif defined(SAFE_AREA)
+    UIEdgeInsets insets = [UIApplication sharedApplication].windows.firstObject.safeAreaInsets;
     frame.origin.x += insets.left;
     frame.origin.y += insets.top;
     frame.size.width -= insets.left + insets.right;
