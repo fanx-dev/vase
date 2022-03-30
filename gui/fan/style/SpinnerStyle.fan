@@ -14,6 +14,7 @@ using vaseGraphics
 class SpinnerStyle : WidgetStyle
 {
   Bool drawCursor := false
+  Int? cursorWidth
 
   override Void doPaint(Widget widget, Graphics g)
   {
@@ -60,13 +61,25 @@ class SpinnerStyle : WidgetStyle
     }
 
     if (drawCursor) {
-      maxFontW += dpToPixel(10)
-      if (maxFontW < lineHeight) maxFontW = lineHeight
+      cWidth := 0
+      if (cursorWidth != null) cWidth = dpToPixel(cursorWidth)
+      else if (cursorWidth == 0) {
+        cWidth = lab.contentWidth
+      }
+      else {
+        p20 := dpToPixel(30)
+        cWidth = maxFontW + p20
+        if (cWidth < lineHeight+p20) cWidth = lineHeight + p20
+      }
 
-      px := cx - maxFontW/2
+      g.brush = outlineColor
+      lw := dpToPixel(lineWidth)
+      g.pen = Pen { width = lw }
+
+      px := cx - cWidth/2
       py := (top + (lab.contentHeight/2.0) - (lineHeight/2.0) + 1).toInt
       arc := dpToPixel(8)
-      g.drawRoundRect(px, py, maxFontW, lineHeight, arc, arc)
+      g.drawRoundRect(px, py, cWidth, lineHeight, arc, arc)
     }
   }
   
@@ -82,7 +95,7 @@ class SpinnerStyle : WidgetStyle
        
        alpha := ((1-r.abs)*255).toInt
        if (alpha > 255) alpha = 255
-       else if (alpha < 0) alpha = 0
+       else if (alpha < 30) alpha = 30
        g.alpha = alpha
        
        //scale := (1-(r.abs*0.5))
