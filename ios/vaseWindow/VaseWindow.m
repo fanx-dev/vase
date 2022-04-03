@@ -90,10 +90,12 @@ fr_Obj toFanTouch(fr_Env env, UIView *view, UITouch * touch, int type) {
     }
     fr_Obj event = fr_callMethod(env, makeM, 1, (fr_Int)type).h;//fr_newObjS(env, "vaseWindow", "MotionEvent", "make", 1, (fr_Int)type);
     fr_Value value;
-    value.f = touch.force;
+    value.f = touch.force/touch.maximumPossibleForce;
+    value.h = fr_box(env, &value, fr_vtFloat);
     fr_setInstanceField(env, event, pressureF, &value);
     
     value.f = touch.majorRadius * desityScale;
+    value.h = fr_box(env, &value, fr_vtFloat);
     fr_setInstanceField(env, event, sizeF, &value);
     
     CGPoint pos = [touch locationInView:view];
@@ -101,6 +103,8 @@ fr_Obj toFanTouch(fr_Env env, UIView *view, UITouch * touch, int type) {
     fr_setInstanceField(env, event, xF, &value);
     value.i = pos.y * desityScale;
     fr_setInstanceField(env, event, yF, &value);
+    
+    //printf("touch:%f, %f, %f\n", touch.force, touch.majorRadius, touch.maximumPossibleForce);
     
     uint64_t pointerId = (uint64_t)touch;
     value.i = pointerId;
