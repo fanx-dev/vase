@@ -44,6 +44,12 @@ extern float desityScale;
     //printf("drawRect\n");
     fr_Env env = fr_getEnv(NULL);
     vaseWindow_NWindow_drawFrame(env, windowObj);
+    
+    if (fr_errOccurred(env)) {
+        fr_Obj error = fr_getErr(env);
+        fr_clearErr(env);
+        fr_printErr(env, error);
+    }
 }
 
 fr_Obj toFanTouch(fr_Env env, UIView *view, UITouch * touch, int type) {
@@ -118,6 +124,12 @@ fr_Obj fireTouchAll(UIView *view, NSSet<UITouch *> *touches, UIEvent* event, int
     fr_setFieldS(env, mainE, "pointers", value);
     
     vaseWindow_NWindow_fireMotionEvent(env, winObj, mainE);
+    
+    if (fr_errOccurred(env)) {
+        fr_Obj error = fr_getErr(env);
+        fr_clearErr(env);
+        fr_printErr(env, error);
+    }
     return mainE;
 }
 

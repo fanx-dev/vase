@@ -121,7 +121,7 @@ void vaseWindow_Video_doSetup(fr_Env env, fr_Obj self, fr_Obj win) {
             UIImage *backButtonImage = [UIImage imageNamed:@"res/return.png"];
             UIButton *button = [[UIButton alloc]init];
             [button setBackgroundImage:backButtonImage forState:UIControlStateNormal];
-            button.frame = CGRectMake(5, 5, 30, 30);
+            button.frame = CGRectMake(15, 25, 30, 30);
             [window addSubview:button];
             [button addTarget:window action:@selector(onBack) forControlEvents:UIControlEventTouchUpInside];
             video->returnButton = button;

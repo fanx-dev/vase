@@ -16,6 +16,8 @@ class VBoxTest : BasePage
     VBox
     {
       margin = Insets(50)
+      layout.height = Layout.matchParent
+      
       Button
       {
         text = "btn1"
@@ -27,6 +29,7 @@ class VBoxTest : BasePage
       {
         text = "btn2"
         layout.width = 600
+        layout.height = Layout.matchParent
       },
       Button
       {

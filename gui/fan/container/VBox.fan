@@ -31,6 +31,9 @@ class VBox : WidgetGroup
     this.each |c, i|{
       if (c.layout.height == Layout.matchParent) {
         allWeight += c.layout.weight
+        if (this.layout.height == Layout.wrapContent) {
+          throw ArgErr("parent size depends on chilren")
+        }
       }
       else if (c.layout.height == Layout.wrapContent) {
         size := c.bufferedPrefSize(-1, -1)
