@@ -372,7 +372,7 @@ abstract class Widget : Bindable
 
     //get layout fail
     if (w < 0 || h < 0) {
-      s := prefContentSize(hintsWidth, hintsHeight)
+      s := prefContentSize(w < 0 ? hintsWidth : w, h<0 ? hintsHeight : h)
 
       if (w < 0) {
         w = s.w + dpToPixel((padding.left + padding.right))
