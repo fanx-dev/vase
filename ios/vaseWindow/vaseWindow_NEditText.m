@@ -42,7 +42,7 @@ static void setEditTextHandle(fr_Env env, fr_Obj self, struct EditTextHandle* r)
 NSString* fireTextChangeEvent(fr_Obj neditText, NSString *text) {
     static fr_Method paintM;
     static fr_Field viewF;
-    fr_Env env = fr_getEnv(NULL);
+    fr_Env env = fr_getEnv(NULL, NULL);
     if (paintM == NULL) {
         fr_Type type = fr_getObjType(env, neditText);
         fr_Type viewType = fr_findType(env, "vaseWindow", "TextInput");

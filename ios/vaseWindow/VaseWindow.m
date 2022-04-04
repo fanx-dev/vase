@@ -27,7 +27,7 @@ extern float desityScale;
 }
 
 - (void)dealloc {
-    fr_Env env = fr_getEnv(NULL);
+    fr_Env env = fr_getEnv(NULL, NULL);
     fr_deleteGlobalRef(env, windowObj);
     //[super dealloc];
 }
@@ -42,7 +42,7 @@ extern float desityScale;
 
 - (void)drawRect:(CGRect)rect {
     //printf("drawRect\n");
-    fr_Env env = fr_getEnv(NULL);
+    fr_Env env = fr_getEnv(NULL, NULL);
     vaseWindow_NWindow_drawFrame(env, windowObj);
     
     if (fr_errOccurred(env)) {
@@ -116,7 +116,7 @@ fr_Obj fireTouchAll(UIView *view, NSSet<UITouch *> *touches, UIEvent* event, int
     UITouch *touch = touches.anyObject;
     NSSet *all = event.allTouches;
     
-    fr_Env env = fr_getEnv(NULL);
+    fr_Env env = fr_getEnv(NULL, NULL);
     fr_Obj mainE = toFanTouch(env, view, touch, type);
     fr_Obj list = fr_newObjS(env, "sys", "List", "make", 1, (fr_Int)(all.count));
     for (UITouch *t in all) {
@@ -154,7 +154,7 @@ fr_Obj fireTouchAll(UIView *view, NSSet<UITouch *> *touches, UIEvent* event, int
     fireTouchAll(self, touches, event, 5, windowObj);
 }
 - (void)onBack {
-    fr_Env env = fr_getEnv(NULL);
+    fr_Env env = fr_getEnv(NULL, NULL);
     fr_Obj view = fr_callOnObj(env, windowObj, "view", 0).h;
     fr_callOnObj(env, view, "onBack", 0);
 }

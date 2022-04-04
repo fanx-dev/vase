@@ -61,7 +61,7 @@ void vaseWindow_Video_pause(fr_Env env, fr_Obj self) {
 @implementation VideoListener
 - (instancetype)init:(fr_Obj)video player: (AVPlayerViewController *)playerVC {
     self = [super init];
-    fr_Env env = fr_getEnv(NULL);
+    fr_Env env = fr_getEnv(NULL, NULL);
     self.video = fr_newGlobalRef(env, video);
     
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -76,15 +76,15 @@ void vaseWindow_Video_pause(fr_Env env, fr_Obj self) {
     return self;
 }
 - (void)playerDidFinished:(NSNotification *)notification {
-    fr_Env env = fr_getEnv(NULL);
+    fr_Env env = fr_getEnv(NULL, NULL);
     fr_callOnObj(env, _video, "fireEvent", 1, fr_newStrUtf8(env, "completion"));
 }
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
-    fr_Env env = fr_getEnv(NULL);
+    fr_Env env = fr_getEnv(NULL, NULL);
     fr_callOnObj(env, _video, "fireEvent", 1, fr_newStrUtf8(env, "prepared"));
 }
 - (void)dealloc {
-    fr_Env env = fr_getEnv(NULL);
+    fr_Env env = fr_getEnv(NULL, NULL);
     fr_deleteGlobalRef(env, _video);
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [_playerVC.player.currentItem removeObserver:self forKeyPath:@"status"];
