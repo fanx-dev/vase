@@ -65,6 +65,11 @@ CGContextRef vaseWindow_NImage_makeCGBitmap(int w, int h) {
                                     bitmapBytesPerRow,
                                     colorSpace,
                                      kCGImageAlphaPremultipliedLast);
+    
+    CGContextTranslateCTM(context, 0, h/2);
+    CGContextScaleCTM(context, 1.0, -1.0);
+    CGContextTranslateCTM(context, 0, -h/2);
+    
     return context;
 }
 
@@ -94,7 +99,12 @@ CGContextRef getContext(fr_Env env, fr_Obj self) {
         
         CGImageRef image = (CGImageRef)vaseWindow_NImage_getHandle(env, self);
         if (image != NULL) {
+            CGContextSaveGState(bitmapCtx);
+            CGContextTranslateCTM(bitmapCtx, 0, h/2);
+            CGContextScaleCTM(bitmapCtx, 1.0, -1.0);
+            CGContextTranslateCTM(bitmapCtx, 0, -h/2);
             CGContextDrawImage(bitmapCtx, CGRectMake(0, 0, w, h), image);
+            CGContextRestoreGState(bitmapCtx);
         }
     }
     return bitmapCtx;
@@ -219,12 +229,20 @@ void vaseWindow_NImage_dispose(fr_Env env, fr_Obj self) {
 }
 
 void vaseWindow_NImage_endGraphics(fr_Env env, fr_Obj self) {
-    CGContextRef bitmapCtx = (CGContextRef)vaseWindow_NImage_getData(env, self);
     
-    if (bitmapCtx != NULL) {
-        CGImageRef image = CGBitmapContextCreateImage (bitmapCtx);
-        vaseWindow_NImage_setHandle(env, self, (fr_Int)image);
-    }
+    vaseWindow_NImage_setFlags(env, self, 1);
+    
+//    CGContextRef bitmapCtx = (CGContextRef)vaseWindow_NImage_getData(env, self);
+//    if (bitmapCtx != NULL) {
+//
+//        CGImageRef image = (CGImageRef)vaseWindow_NImage_getHandle(env, self);
+//        if (image != NULL) {
+//            CGImageRelease(image);
+//            vaseWindow_NImage_setHandle(env, self, (fr_Int)0);
+//        }
+//        CGImageRef image = CGBitmapContextCreateImage (bitmapCtx);
+//        vaseWindow_NImage_setHandle(env, self, (fr_Int)image);
+//    }
 }
 
 fr_Obj vaseWindow_NImage_createGraphics(fr_Env env, fr_Obj self) {

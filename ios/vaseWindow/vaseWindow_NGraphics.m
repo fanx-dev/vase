@@ -502,8 +502,9 @@ void vaseWindow_NGraphics_doDrawImage(fr_Env env, fr_Obj self, fr_Obj image, fr_
     nRect.size.width = iRect.size.width * scaleX;
     nRect.size.height = iRect.size.height * scaleY;
     
-    fr_Obj surface = vaseWindow_NGraphics_getBitmap(env, self);
-    if (surface == NULL) {
+//    fr_Obj surface = vaseWindow_NGraphics_getBitmap(env, self);
+//    if (surface == NULL)
+    {
         double y = nRect.origin.y+nRect.size.height/2.0;
         CGContextTranslateCTM(vg, 0, y);
         CGContextScaleCTM(vg, 1.0, -1.0);

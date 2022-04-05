@@ -43,7 +43,7 @@ void vase_Window_setUIViewController(UIViewController *ctrl);
     //AppDelegate * appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
     //[self switchNewOrientation:UIInterfaceOrientationLandscapeRight];
     
-    fr_Env env = fr_getEnv(NULL);
+    fr_Env env = fr_getEnv(NULL, NULL);
     vaseDemo_init__(env);
     vase_Window_setUIViewController(self);
     vaseDemo_Main_main(env);

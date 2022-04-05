@@ -18,6 +18,7 @@ abstract class BasePage {
         frame = Frame {
             VBox() {
                 layout.height = Layout.matchParent
+                margin = Insets(40, 0, 0, 0)
                 padding = Insets(8)
                 Button {
                   text = "<"
@@ -51,7 +52,7 @@ class Main
       SpinnerTest(), SliderBarTest(), ProgressViewTest(), TextViewTest(), null,
       CardTest(), EdgeTest(), HBoxTest(), VBoxTest(), PaneTest(), FlowTest(), PushCardTest(), PercentTest(), AutoScaleTest(), null,
       MenuTest(), TableTest(), TreeTest(), null,
-      EditTextTest(), FilePickerTest(), AudioTest(), VideoTest(), BindingTest(), null,
+      EditTextTest(), FilePickerTest(), AudioTest(), VideoTest(), BindingTest(), GraphicsTest(), null,
     ]
     init
   }
@@ -60,6 +61,7 @@ class Main
     mainView = Frame {
       ScrollPane {
         VBox {
+          margin = Insets(40, 0, 0, 0)
           padding = Insets(40)
           spacing = 15
           Label {

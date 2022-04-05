@@ -309,7 +309,7 @@ internal class GraphicsState {
   Bool antialias
   Int alpha
   Transform2D? transform
-  Rect clip
+  Rect? clip
   Composite composite
   new make(|This| f) { f(this) }
 }
