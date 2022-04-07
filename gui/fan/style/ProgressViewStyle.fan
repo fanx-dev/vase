@@ -46,7 +46,9 @@ class ProgressViewStyle : WidgetStyle {
     }
 
     s := (w.min(h) - width - width).toInt
-    g.drawArc(top+width, left+width, s, s, start, sweep)
+    cx := w/2-s/2
+    cy := h/2-s/2
+    g.drawArc(top+cx, left+cy, s, s, start, sweep)
 
     p.repaint
   }

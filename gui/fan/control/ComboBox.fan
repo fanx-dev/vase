@@ -128,7 +128,7 @@ class CtxMenu : ScrollPane {
         this.relayout
         overlayer.relayout
         this.focus
-        root.modal = 1
+        root.setModal(1, this)
     }
     
     Void hide()
@@ -137,7 +137,7 @@ class CtxMenu : ScrollPane {
       
       root := this.getRootView
       root.clearFocus
-      root.modal = 0
+      root.setModal(0, this)
       
       WidgetGroup p := this.parent
       p.remove(this)

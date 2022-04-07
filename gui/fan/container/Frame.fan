@@ -67,7 +67,8 @@ class Frame : ContentPane
   ** has modal dialog
   **
   @Transient
-  Int modal := 0
+  private Int modal := 0
+  private Widget? modalWidget
 
   **
   ** root background color
@@ -135,6 +136,17 @@ class Frame : ContentPane
     topLayer.x = 0
     topLayer.y = 0
     return topLayer
+  }
+
+  Void setModal(Int modal, Widget modalWidget) {
+    if (modal == 0) {
+      if (this.modalWidget === modalWidget) {
+        this.modal = 0
+      }
+      return
+    }
+    this.modal = modal
+    this.modalWidget = modalWidget
   }
 
 //////////////////////////////////////////////////////////////////////////
@@ -206,7 +218,7 @@ class Frame : ContentPane
     if (modal > 1) {
       //g.brush = Color.fromArgb(100, 0, 0, 0)
       g.brush = Color.black
-      g.alpha = 60
+      g.alpha = 100
       g.fillRect(0, 0, width, height)
       //TODO restore this
       g.alpha = 255
@@ -241,8 +253,9 @@ class Frame : ContentPane
       gestureFocusWidget = null
     }
 
-    if (topLayer === w.parent) {
+    if (modalWidget === w) {
       modal = 0
+      modalWidget = null
     }
   }
   
@@ -315,6 +328,7 @@ class Frame : ContentPane
     if (modal > 0) {
       topLayer.gestureEvent(e)
     }
+
     if (modal < 2 && !e.consumed) {
       super.gestureEvent(e)
     }

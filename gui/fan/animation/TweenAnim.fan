@@ -24,7 +24,8 @@ class TweenAnimation : Animation {
     if (widget.transform == null) {
       widget.transform = Transform2D.makeIndentity()
     }
-    widget.getRootView.animManager.add(this)
+    root := widget.getRootView
+    if (root != null) root.animManager.add(this)
     widget.repaint
   }
 

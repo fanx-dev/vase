@@ -19,7 +19,7 @@ class AlertDialog : VBox, Dialog
   
   |Bool|? onAction
 
-  new make(Str msg, Str okText := "OK", Str? cancelText := null)
+  new make(Str msg, Str? okText := "OK", Str? cancelText := null)
   {
     this.style = "dialog"
     this.spacing = 0
@@ -32,12 +32,16 @@ class AlertDialog : VBox, Dialog
       it.layout.width = Layout.wrapContent
       it.layout.hAlign = Align.center
     }
+    this.add(label)
     
     hb := HBox {
         it.spacing = 30
         it.align = Align.center
         it.layout.width = Layout.wrapContent
-        Button {
+    }
+
+    if (okText != null) {
+        bt := Button {
           it.layout.width = 300
           it.id = "alertDialog_ok"
           it.style = "flatButton"
@@ -46,8 +50,15 @@ class AlertDialog : VBox, Dialog
             onAction?.call(true)
           };
           it.text = okText
-        },
+        }
+        hb.add(bt)
     }
+    else {
+      this.add(ProgressView {
+        it.layout.width = 300
+      })
+    }
+
     
     if (cancelText != null) {
         bt := Button {
@@ -63,7 +74,7 @@ class AlertDialog : VBox, Dialog
         hb.add(bt)
     }
 
-    this.add(label)
+    
     //this.add(RectView { it.layout.height = 3.0; it.margin = Insets(30, 0) })
     this.add(hb)
     this.layout.hAlign = Align.center

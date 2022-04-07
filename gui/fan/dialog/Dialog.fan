@@ -17,7 +17,7 @@ mixin Dialog
     overlayer := root.topOverlayer
     overlayer.add(self)
     root.clearFocus
-    root.modal = 2
+    root.setModal(2, self)
     overlayer.relayout
     
     if (animType == 1)

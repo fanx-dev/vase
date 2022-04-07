@@ -2,6 +2,7 @@
 
 
 using vaseGui
+using vaseWindow
 
 @Js
 class DialogTest : BasePage
@@ -13,6 +14,17 @@ class DialogTest : BasePage
         text = "Alert"
         onClick {
           AlertDialog("HI", "OK", "Cancel").show(it)
+        }
+      },
+      Button {
+        text = "Alert2"
+        onClick {
+          a := AlertDialog("HI", null)
+          a.show(it)
+          Toolkit.cur.callLater(3000) {
+            echo("close")
+            a.close()
+          }
         }
       },
       Button {
