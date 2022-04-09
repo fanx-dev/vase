@@ -15,6 +15,13 @@ import fan.sys.List;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.RectF;
+import android.content.Context;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 public class AndUtil {
 
@@ -167,14 +174,54 @@ public class AndUtil {
       return uri.pathStr();
     }
     else if (uri.scheme().equals("fan")) {
-      fan.std.File dstFile = fan.std.File.os(cacheDir+"/res/"+uri.pathStr());
 
       fan.std.File srcFile = ((fan.std.File) uri.get());
+      String osPath = srcFile.osPath();
+      if (osPath != null) return osPath;
+
+      fan.std.File dstFile = fan.std.File.os(cacheDir+"/res/"+uri.pathStr());
       fan.std.Map op = fan.std.Map.make();
       op.set("overwrite", false);
       srcFile.copyTo(dstFile, op);
       return dstFile.osPath();
     }
     return uri.toStr();
+  }
+
+  public static String copyAsset(Context context, String name) {
+    BufferedInputStream in = null;
+    BufferedOutputStream ou = null;
+    String dst = cacheDir+"/" + name;
+    File dstFile = new File(dst);
+    if (dstFile.exists()) return dst;
+    
+    try {
+      in = new BufferedInputStream(context.getAssets().open(name));
+      ou = new BufferedOutputStream(new FileOutputStream(dst));
+      byte[] buffer = new byte[8192];
+      int read = 0;
+      while ((read = in.read(buffer)) != -1) {
+        ou.write(buffer, 0, read);
+      }
+    }
+    catch (IOException e) {
+      return null;
+    }
+    finally {
+      if (in != null) {
+        try {
+          in.close();
+        } catch (Exception e) {
+        }
+      }
+
+      if (ou != null) {
+        try {
+          ou.close();
+        } catch (Exception e) {
+        }
+      }
+    }
+    return dst;
   }
 }

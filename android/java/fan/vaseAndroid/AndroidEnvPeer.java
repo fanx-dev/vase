@@ -42,6 +42,17 @@ public class AndroidEnvPeer {
       Toolkit.tryInitAsyncRunner();
     //}
     AndUtil.cacheDir = context.getCacheDir().toString();
+
+    fan.std.Env.cur().fileResolver = new fan.sys.Func() {
+      public Object call(Object a) {
+        fan.std.Uri uri = (fan.std.Uri)a;
+        String path = uri.pathStr();
+        String file = AndUtil.copyAsset(context, path);
+        if (file == null) return null;
+        return fan.std.File.os(file);
+      }
+    };
+
     fan.vaseWindow.SpeechPeer.init(context);
   }
 
