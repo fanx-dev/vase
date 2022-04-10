@@ -194,6 +194,8 @@ public class AndUtil {
     String dst = cacheDir+"/" + name;
     File dstFile = new File(dst);
     if (dstFile.exists()) return dst;
+    File parent = dstFile.getParentFile();
+    if (!parent.exists()) parent.mkdirs();
     
     try {
       in = new BufferedInputStream(context.getAssets().open(name));
@@ -205,6 +207,7 @@ public class AndUtil {
       }
     }
     catch (IOException e) {
+      e.printStackTrace();
       return null;
     }
     finally {

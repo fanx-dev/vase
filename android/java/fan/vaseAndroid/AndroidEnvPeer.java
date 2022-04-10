@@ -47,6 +47,7 @@ public class AndroidEnvPeer {
       public Object call(Object a) {
         fan.std.Uri uri = (fan.std.Uri)a;
         String path = uri.pathStr();
+        //System.out.println("fileResolver:"+path);
         String file = AndUtil.copyAsset(context, path);
         if (file == null) return null;
         return fan.std.File.os(file);
