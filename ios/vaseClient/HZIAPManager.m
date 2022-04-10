@@ -49,6 +49,7 @@
 
 - (void)restoreIAPWithProductID:(NSString *)productID  completeHandle: (IAPCompletionHandle)handle {
     _handle = handle;
+    _productID = productID;
     [[SKPaymentQueue defaultQueue] restoreCompletedTransactions];
 }
 
@@ -173,10 +174,22 @@
             default:
                 break;
         }
-        
-        
     }
-    
+}
+
+- (void)paymentQueue:(SKPaymentQueue *)queue restoreCompletedTransactionsFailedWithError:(NSError *)error {
+    NSLog(@"restoreCompletedTransactionsFailedWithError--");
+    [self handleActionWithType:IAPResultFailed data:nil];
+}
+- (void)paymentQueueRestoreCompletedTransactionsFinished:(SKPaymentQueue *)queue {
+    if (queue.transactions.count == 0) {
+        NSLog(@"paymentQueueRestoreCompletedTransactionsFinished0--");
+        [self handleActionWithType:IAPResultFailed data:nil];
+    }
+    else {
+        NSLog(@"paymentQueueRestoreCompletedTransactionsFinished1--");
+        [self handleActionWithType:IAPResultVerSuccess data:nil];
+    }
 }
 
 /**
