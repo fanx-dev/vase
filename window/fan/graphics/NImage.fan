@@ -17,8 +17,8 @@ rtconst class NImage : Image
   private Int flags
   private Int data
   private Bool isLoaded := true
-  Int width { private set }
-  Int height { private set }
+  override Int width { private set }
+  override Int height { private set }
 
   protected new privateMake() : super.privateMake() { isLoaded = false }
 
@@ -27,8 +27,6 @@ rtconst class NImage : Image
     width = w
     height = h
   }
-
-  override Size size() { Size(width, height) }
 
   **
   ** is loaded in javascript

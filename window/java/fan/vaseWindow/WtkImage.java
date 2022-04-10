@@ -35,6 +35,14 @@ public class WtkImage extends Image
       return Size.make(image.getWidth(null), image.getHeight(null));
     }
 
+    public long width() {
+      return image.getWidth(null);
+    }
+
+    public long height() {
+      return image.getHeight(null);
+    }
+
     public long getPixel(long x, long y)
     {
       return image.getRGB((int)x, (int)y);

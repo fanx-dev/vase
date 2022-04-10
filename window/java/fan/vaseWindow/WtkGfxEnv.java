@@ -91,8 +91,8 @@ public class WtkGfxEnv extends GfxEnv {
   }
 
   @Override
-  public Image makeImage(Size size) {
-    BufferedImage image = new BufferedImage((int) size.w, (int) size.h,
+  public Image makeImage(long w, long h) {
+    BufferedImage image = new BufferedImage((int) w, (int) h,
         BufferedImage.TYPE_INT_ARGB);
     WtkImage p = new WtkImage();
     p.setImage(image);

@@ -22,7 +22,9 @@ rtconst abstract class Image
     return this
   }
 
-  abstract Size size()
+  @NoDoc virtual Size size() { Size(width, height) }
+  abstract Int width()
+  abstract Int height()
 
   **
   ** is loaded in javascript
@@ -64,7 +66,8 @@ rtconst abstract class Image
   **
   ** make an empty image
   **
-  static Image make(Size size) { GfxEnv.cur.makeImage(size); }
+  static Image make(Size size) { GfxEnv.cur.makeImage(size.w, size.h); }
+  static Image makeSize(Int w, Int h) { GfxEnv.cur.makeImage(w, h); }
 
   protected new privateMake() {}
 

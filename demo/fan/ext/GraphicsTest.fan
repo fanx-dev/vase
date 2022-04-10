@@ -12,11 +12,17 @@ class Canvas : Widget {
   Image? image2
   Image? image3
   Image? image4
+  Bool inited = false
+
+  new make() {
+    image0 = Image.fromUri(Uri("fan://vaseDemo/res/image.png"))
+    image4 = Image.fromUri(Uri("fan://vaseDemo/res/image.png"))
+  }
 
   override protected  Void doPaint(Graphics canvas) {
 
-      if (image0 == null) {
-        image0 = Image.fromUri(Uri("fan://vaseDemo/res/image.png"))
+      if (!inited && image0.isReady && image4.isReady) {
+        inited = true;
         c := image0.getPixel(76, 30)
         echo(c.toHex)
 
@@ -48,12 +54,12 @@ class Canvas : Widget {
         c3 := image3.getPixel(76, 30)
         echo(c3.toHex)
 
-
-        image4 = Image.fromUri(Uri("fan://vaseDemo/res/image.png"))
         for (i:= 0; i<100; ++i) {
           image4.setPixel(i, i, 0xFF_CC_88_00)
         }
       }
+
+      if (!inited) return
 
       canvas.drawImage(image0, 0, 0)
       canvas.drawImage(image1, 300, 0)

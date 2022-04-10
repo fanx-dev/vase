@@ -53,7 +53,7 @@ abstract const class GfxEnv
 
   abstract Image fromUri(Uri uri, [Str:Obj]? options, |Image|? onLoad)
   //abstract ConstImage makeConstImage(Uri uri)
-  abstract Image makeImage(Size size)
+  abstract Image makeImage(Int w, Int h)
   abstract Image fromStream(InStream in)
   abstract Void _swapImage(Image dscImg, Image newImg)
 

@@ -16,9 +16,9 @@ fan.vaseWindow.GfxEnv.prototype.fromUri = function(uri, options, onLoaded)
   return fan.vaseWindow.Image.fromUri(uri, options, onLoaded);
 }
 
-fan.vaseWindow.GfxEnv.prototype.makeImage = function(size)
+fan.vaseWindow.GfxEnv.prototype.makeImage = function(w, h)
 {
-  return fan.vaseWindow.Image.make(size);
+  return fan.vaseWindow.Image.make(w, h);
 }
 
 fan.vaseWindow.GfxEnv.prototype.contains = function(path, x, y)

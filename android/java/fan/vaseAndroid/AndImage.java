@@ -26,6 +26,12 @@ public class AndImage extends Image {
     image = img;
   }
 
+  private void toMutable() {
+    if (image == null) return;
+    if (image.isMutable()) return;
+    image = image.copy(Bitmap.Config.ARGB_8888, true);
+  }
+
   @Override
   public long getPixel(long x, long y) {
     int argb = image.getPixel((int)x, (int)y);
@@ -67,12 +73,21 @@ public class AndImage extends Image {
 
   @Override
   public void setPixel(long x, long y, long value) {
+    toMutable();
     image.setPixel((int)x, (int)y, (int)value);
   }
 
-  @Override
+  
   public Size size() {
     return Size.make(image.getWidth(), image.getHeight());
+  }
+  @Override
+  public long width() {
+    return image.getWidth();
+  }
+  @Override
+  public long height() {
+    return image.getHeight();
   }
 
   // @Override

@@ -1,9 +1,11 @@
 using vaseWindow
 
+@Js
 mixin Bindable {
     abstract EventListeners onStateChanged()
 }
 
+@Js
 class Binding {
     **
     ** bind model to view

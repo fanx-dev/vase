@@ -32,8 +32,11 @@ fan.vaseWindow.Image.prototype.m_uri = null;
 fan.vaseWindow.Image.prototype.m_imageChanged = false;
 
 //size
-fan.vaseWindow.Image.prototype.m_size = null;
-fan.vaseWindow.Image.prototype.size = function() { return this.m_size; }
+fan.vaseWindow.Image.prototype.m_w = null;
+fan.vaseWindow.Image.prototype.m_h = null;
+fan.vaseWindow.Image.prototype.size = function() { return fan.vaseGraphics.Size.make(this.m_w, this.m_h); }
+fan.vaseWindow.Image.prototype.width = function() { return this.m_w; }
+fan.vaseWindow.Image.prototype.height = function() { return this.m_h; }
 
 //////////////////////////////////////////////////////////////////////////
 // Image Load
@@ -52,11 +55,12 @@ fan.vaseWindow.Image.prototype.getImage = function()
 fan.vaseWindow.Image.prototype.initCanvas = function()
 {
   if (this.m_canvas) return this.m_canvas;
+  if (!this.m_isLoaded) return null;
 
   this.m_canvas = document.createElement("canvas");
   //if (!this.m_size) this.m_size = fan.vaseGraphics.Size.make(this.m_image.width, this.m_image.height);
-  this.m_canvas.width = this.m_size.m_w;
-  this.m_canvas.height = this.m_size.m_h;
+  this.m_canvas.width = this.width();
+  this.m_canvas.height = this.height();
 
   if (!this.m_uri) this.m_uri = this.m_canvas.toDataURL();
 
@@ -72,11 +76,13 @@ fan.vaseWindow.Image.fromUri = function(uri, options, onLoaded)
   p.m_isLoaded = false;
   var image = new Image();
   p.m_image = image;
-  p.m_size = fan.vaseGraphics.Size.make(0, 0);
+  p.m_w = 0;
+  p.m_h = 0;
 
   fan.vaseWindow.GfxUtil.addEventListener(image, "load", function(){
     //p.initFromImage(image);
-    p.m_size = fan.vaseGraphics.Size.make(p.m_image.width, p.m_image.height);
+    p.m_w = p.m_image.width;
+    p.m_h = p.m_image.height;
     p.m_isLoaded = true;
     if (onLoaded) onLoaded.call(p);
   });
@@ -101,13 +107,14 @@ fan.vaseWindow.Image.prototype.getImageData = function()
 {
   if (!this.m_imageData)
   {
-    this.m_imageData = this.context().getImageData(0, 0, this.m_size.m_w, this.m_size.m_h);
+    this.m_imageData = this.context().getImageData(0, 0, this.width(), this.height());
   }
   return this.m_imageData;
 }
 
 fan.vaseWindow.Image.prototype.getPixel = function(x, y)
 {
+  if (!this.m_isLoaded) return 0;
   var index = (y * this.getImageData().width + x)*4;
   var r = this.getImageData().data[index];
   var g = this.getImageData().data[index +1];
@@ -119,6 +126,7 @@ fan.vaseWindow.Image.prototype.getPixel = function(x, y)
 
 fan.vaseWindow.Image.prototype.setPixel = function(x, y, value)
 {
+  if (!this.m_isLoaded) return;
   var index = (y * this.getImageData().width + x)*4;
   var r = (value >> 16) & 0xff;
   var g = (value >> 8) & 0xff;
@@ -142,10 +150,11 @@ fan.vaseWindow.Image.prototype.context = function()
   return this.m_context;
 }
 
-fan.vaseWindow.Image.make = function(size)
+fan.vaseWindow.Image.make = function(w, h)
 {
   var p = new fan.vaseWindow.Image();
-  p.m_size = size;
+  p.m_w = w;
+  p.m_h = h;
   p.m_isLoaded = true;
   p.initCanvas();
   return p;
@@ -153,13 +162,14 @@ fan.vaseWindow.Image.make = function(size)
 
 fan.vaseWindow.Image.prototype.createGraphics = function()
 {
+  if (!this.m_isLoaded) return null;
   this.initCanvas();
   this.flush();
   if (!this.m_graphics)
   {
     //create cx
     var g = new fan.vaseWindow.WtkGraphics();
-    var rect = new fan.vaseGraphics.Rect.make(0,0, this.m_size.m_w, this.m_size.m_h);
+    var rect = new fan.vaseGraphics.Rect.make(0,0, this.width(), this.height());
     g.init(this.context(), rect);
     g.push();
     g.m_needPop = true;
