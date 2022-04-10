@@ -31,7 +31,7 @@ abstract class Widget : Bindable
       oldVal := &style
       &style = it
       fireStateChange(oldVal, it, #style)
-      styleObj = null
+      styleCache = null
     }
   }
 
@@ -88,7 +88,8 @@ abstract class Widget : Bindable
   Layout layout := Layout()
 
   @Transient
-  private Style? styleObj := null
+  private Style? styleCache := null
+  Style? inlineStyle
   
   @Transient
   protected |Widget|? onClickCallback := null
@@ -296,16 +297,18 @@ abstract class Widget : Bindable
   Int pixelToDp(Int d) { DisplayMetrics.cur.pixelToDp(d).toInt }
 
   protected Style getStyle() {
-    if (styleObj == null) {
-      styleObj = getRootView.findStyle(this)
+    if (inlineStyle != null) return inlineStyle
+
+    if (styleCache == null) {
+      styleCache = getRootView.findStyle(this)
     }
-    return styleObj
+    return styleCache
   }
 
-  Void setStyle(Style s) { styleObj = s }
+  @NoDoc Void setStyle(Style s) { inlineStyle = s }
 
   virtual Void resetStyle() {
-    styleObj = null
+    styleCache = null
   }
 
   protected virtual Void doPaint(Graphics g) {
