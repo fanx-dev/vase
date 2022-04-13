@@ -22,7 +22,6 @@ import fan.vaseGraphics.Font;
 import fan.vaseGraphics.Point;
 import fan.vaseGraphics.Size;
 import fan.vaseWindow.TextInput;
-import fan.vaseWindow.TextInputPeer;
 import fan.vaseWindow.Window;
 import fan.vaseWindow.KeyEvent;
 import fan.vaseWindow.Key;
@@ -31,19 +30,14 @@ import android.view.ViewGroup;
 //import android.view.KeyEvent;
 import android.view.View;
 
-public class AndEditText extends EditText implements TextInputPeer {
-	fan.vaseWindow.TextInput view;
-  android.view.ViewGroup parent;
+public class AndEditText extends TextInput {
+  
+  EditText editText;
 
-	public AndEditText(Context context, fan.vaseWindow.TextInput view, android.view.ViewGroup parent) {
-		super(context);
-		this.view = view;
-    this.parent = parent;
+	public AndEditText(Context context, long inputType, android.view.ViewGroup parent) {
+    this.editText = new EditText(context);
 
-    long inputType = view.getInputType();
-    this.setInputType(inputType);
-
-		this.addTextChangedListener(new TextWatcher() {
+		editText.addTextChangedListener(new TextWatcher() {
 			@Override
 			public void afterTextChanged(Editable e) {
 				// AndEditText.this.view.didTextChange(e.toString());
@@ -58,11 +52,11 @@ public class AndEditText extends EditText implements TextInputPeer {
 			@Override
 			public void onTextChanged(CharSequence str, int arg1, int arg2,
 					int arg3) {
-				AndEditText.this.view.textChange(str.toString());
+				AndEditText.this.textChange(str.toString());
 			}
 		});
 
-    this.setOnKeyListener(new View.OnKeyListener() {
+    editText.setOnKeyListener(new View.OnKeyListener() {
     	@Override
     	public boolean onKey(View self, int keyCode, android.view.KeyEvent event) {
           KeyEvent ce = null;
@@ -78,7 +72,7 @@ public class AndEditText extends EditText implements TextInputPeer {
 
           ce.keyChar((long)event.getUnicodeChar());
           ce.key(keyCodeToKey(event.getKeyCode()));
-          view.onKeyEvent(ce);
+          AndEditText.this.onKeyEvent(ce);
           
           return ce.consumed();
        }
@@ -96,80 +90,52 @@ public class AndEditText extends EditText implements TextInputPeer {
 //	}
 	
 	private void showInputMethod() {
-		InputMethodManager imm = (InputMethodManager)this.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-		imm.showSoftInput(this, InputMethodManager.SHOW_IMPLICIT);
+		InputMethodManager imm = (InputMethodManager)editText.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+		imm.showSoftInput(editText, InputMethodManager.SHOW_IMPLICIT);
 	}
 
 	private void hideInputMethod() {
-	  InputMethodManager imm = (InputMethodManager)this.getContext().getSystemService(Context.INPUT_METHOD_SERVICE); 
-	  imm.hideSoftInputFromWindow(this.getWindowToken(),0);
+	  InputMethodManager imm = (InputMethodManager)editText.getContext().getSystemService(Context.INPUT_METHOD_SERVICE); 
+	  imm.hideSoftInputFromWindow(editText.getWindowToken(),0);
   }
 
   @Override
   public void close() {
-    if (this.parent != null) {
-      this.parent.removeView(this);
+    if (this.editText.getParent() != null) {
+    	android.view.ViewGroup parent = (android.view.ViewGroup)this.editText.getParent();
+      parent.removeView(editText);
     }
   	hideInputMethod();
   }
-/*
-  @Override
-  public void update() {
-  	setInputType(view.inputType());
-
-  	Typeface tf = AndUtil.toAndFont(view.font());
-		this.setTypeface(tf);
-		this.setTextSize(0, (float)view.font().size);
-
-		super.setBackgroundColor((int)view.backgroundColor().argb);
-  	super.setTextColor((int)view.textColor().argb);
-
-  	Point pos = view.getPos();
-  	Size size = view.getSize();
-  	setBound(pos.x, pos.y, size.w, size.h);
-
-  	//TODO
-  	//this.setTextIsSelectable(view.selectable());
-  	this.setSingleLine(view.singleLine());
-
-  	String text = view.text();
-  	super.setText(text);
-		//super.setTextKeepState(t);
-		//super.setSelection(text.length());
-
-		this.requestFocus();
-		showInputMethod();
-  }
-*/
 
   @Override
   public void setPos(long x, long y, long w, long h) {
-    setBound((int)x, (int)y, (int)w, (int)h);
+    this.setBound((int)x, (int)y, (int)w, (int)h);
   }
   @Override
   public void setStyle(Font font, Color textColor, Color backgroundColor) {
     Typeface tf = AndUtil.toAndFont(font);
     try {
-      this.setTypeface(tf);
+      editText.setTypeface(tf);
     } catch (Exception e) {}
 
-    this.setTextSize(0, (float)font.size);
+    editText.setTextSize(0, (float)font.size);
 
-    super.setBackgroundColor((int)backgroundColor.argb);
-    super.setTextColor((int)textColor.argb);
+    editText.setBackgroundColor((int)backgroundColor.argb);
+    editText.setTextColor((int)textColor.argb);
   }
   @Override
   public void setText(String text) {
-    super.setText(text);
+    editText.setText(text);
   }
   @Override
   public void setType(long multiLine, boolean editable) {
     //this.setSingleLine(multiLine <= 1);
-    this.setFocusableInTouchMode(editable);
+    editText.setFocusableInTouchMode(editable);
   }
   @Override
   public void focus() {
-    this.requestFocus();
+    editText.requestFocus();
     showInputMethod();
   }
 
@@ -198,7 +164,7 @@ public class AndEditText extends EditText implements TextInputPeer {
     case inputTypeMultiLine:
       type = InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_MULTI_LINE;
 		}
-		super.setInputType(type);
+		editText.setInputType(type);
 	}
 
 	/*
@@ -208,23 +174,23 @@ public class AndEditText extends EditText implements TextInputPeer {
 	*/
 	
 	private void setBound(long x, long y, long w, long h) {
-		this.setWidth((int)w);
-		this.setHeight((int)h);
+		editText.setWidth((int)w);
+		editText.setHeight((int)h);
 		FrameLayout.LayoutParams param = new FrameLayout.LayoutParams(
 				(int)w, (int)h);
 		param.setMargins((int)x, (int)y, 0, 0);
-		this.setLayoutParams(param);
-    this.invalidate();
+		editText.setLayoutParams(param);
+    editText.invalidate();
 	}
 
   @Override
   public void select(long start, long end) {
-    super.setSelection((int)start, (int)end);
+    editText.setSelection((int)start, (int)end);
   }
 
   @Override
   public long caretPos() {
-    return super.getSelectionStart();
+    return editText.getSelectionStart();
   }
 
   static Key keyCodeToKey(int keyCode)

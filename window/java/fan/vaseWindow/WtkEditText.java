@@ -5,7 +5,6 @@ import fan.vaseGraphics.Font;
 import fan.vaseGraphics.Point;
 import fan.vaseGraphics.Size;
 import fan.vaseWindow.TextInput;
-import fan.vaseWindow.TextInputPeer;
 import fan.vaseWindow.Window;
 
 import javax.swing.text.JTextComponent;
@@ -19,18 +18,18 @@ import javax.swing.text.Document;
 import javax.swing.event.DocumentListener;
 import javax.swing.event.DocumentEvent;
 import javax.swing.text.BadLocationException;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 
-class WtkEditText implements TextInputPeer {
+
+class WtkEditText extends TextInput {
   JTextComponent textComp;
-  TextInput view;
 
-  WtkEditText(TextInput textInput) {
-    this.view = textInput;
-    long inputType = textInput.getInputType();
-    if (inputType == TextInput$.inputTypePassword) {
+  WtkEditText(long inputType) {
+    if (inputType == TextInput.inputTypePassword) {
       textComp = new JPasswordField();
     }
-    else if (inputType == TextInput$.inputTypeMultiLine) {
+    else if (inputType == TextInput.inputTypeMultiLine) {
       textComp = new JTextArea();
     }
     else {
@@ -43,7 +42,7 @@ class WtkEditText implements TextInputPeer {
     if (textComp instanceof JTextField) {
       ((JTextField)textComp).addActionListener(new ActionListener(){
         public void actionPerformed(ActionEvent ev){
-          view.keyAction(textComp.getText()); 
+          WtkEditText.super.keyAction(textComp.getText()); 
         }
       });
     }
@@ -66,7 +65,7 @@ class WtkEditText implements TextInputPeer {
 
       private void sendKeyEvent(java.awt.event.KeyEvent e, long type) {
         KeyEvent ce = ComponentUtils.keyEventToFan(e, type);
-        view.onKeyEvent(ce);
+        WtkEditText.super.onKeyEvent(ce);
         if (ce.consumed()) e.consume();
       }
     });
@@ -82,13 +81,22 @@ class WtkEditText implements TextInputPeer {
         docChange(e);
       }
     });
+
+    // FocusAdapter focus = new FocusAdapter() {
+    //     @Override
+    //     public void focusLost(FocusEvent e) {
+    //        System.out.println("lost: " + textComp.getText());
+    //     }
+    // };
+    // textComp.addFocusListener(focus);
+
   }
 
   private void docChange(DocumentEvent e) {
     try {
       //Document doc = e.getDocument();
       //String txt = doc.getText(0, doc.getLength());
-      String txt = view.textChange(textComp.getText());
+      String txt = this.textChange(textComp.getText());
       //textComp.setText(txt);
     } catch (Exception ex) {
       ex.printStackTrace();
@@ -98,36 +106,7 @@ class WtkEditText implements TextInputPeer {
   public JTextComponent comp() {
     return textComp;
   }
-/*
-  //@Override
-  public void update() {
-    //setInputType(view.inputType());
 
-    Point pos = view.getPos();
-    Size size = view.getSize();
-    textComp.setSize((int)size.w, (int)size.h);
-    textComp.setLocation((int)pos.x, (int)pos.y);
-    //textComp.setBound(pos.x, pos.y, size.w, size.h);
-    if (onlyPos) {
-      return;
-    }
-
-    textComp.setFont(WtkUtil.toFont(view.font()));
-    textComp.setBackground(WtkUtil.toAwtColor(view.backgroundColor()));
-    textComp.setForeground(WtkUtil.toAwtColor(view.textColor()));
-
-    //TODO
-    //this.setTextIsSelectable(view.selectable());
-    //this.setSingleLine(view.singleLine());
-
-    String text = view.text();
-    textComp.setText(text);
-    //super.setTextKeepState(t);
-    //super.setSelection(text.length());
-
-    textComp.requestFocus();
-  }
-*/
   @Override
   public void setPos(long x, long y, long w, long h) {
     textComp.setSize((int)w, (int)h);
@@ -141,6 +120,7 @@ class WtkEditText implements TextInputPeer {
     textComp.setFont(WtkUtil.toFont(font));
     textComp.setBackground(WtkUtil.toAwtColor(backgroundColor));
     textComp.setForeground(WtkUtil.toAwtColor(textColor));
+    //System.out.println("set Style");
   }
   @Override
   public void setText(String text) {

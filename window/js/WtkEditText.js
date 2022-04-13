@@ -6,19 +6,16 @@
 //   2011-7-4  Jed Young  Creation
 //
 
-fan.vaseWindow.WtkEditText = fan.sys.Obj.$extend(fan.vaseWindow.TextInputPeer);
+fan.vaseWindow.WtkEditText = fan.sys.Obj.$extend(fan.vaseWindow.TextInput);
 fan.vaseWindow.WtkEditText.prototype.$ctor = function() {}
 fan.vaseWindow.WtkEditText.prototype.$typeof = function() {
   return fan.vaseWindow.WtkEditText.$type;
 }
 
-fan.vaseWindow.WtkEditText.prototype.view = null;
 fan.vaseWindow.WtkEditText.prototype.elem = null;
 
-fan.vaseWindow.WtkEditText.prototype.make = function(view) {
-  this.view = view;
+fan.vaseWindow.WtkEditText.make = function(inputType) {
   //view.host$(this);
-  var inputType = view.getInputType();
   var field = null;
   if (inputType == fan.vaseWindow.TextInput.m_inputTypePassword) {
     field = document.createElement("input");
@@ -32,12 +29,14 @@ fan.vaseWindow.WtkEditText.prototype.make = function(view) {
     field = document.createElement("input");
     field.type = "text";
   }
-  this.elem = field;
-  this.init(field);
+  var self = new fan.vaseWindow.WtkEditText();
+  self.elem = field;
+  self.init(field);
+  return self;
 }
 
 fan.vaseWindow.WtkEditText.prototype.init = function(field) {
-  var view = this.view;
+  var view = this;
   field.style.position = "absolute";
   field.style.border = "0";
   field.style.outline = "0";
@@ -53,7 +52,7 @@ fan.vaseWindow.WtkEditText.prototype.init = function(field) {
 
 fan.vaseWindow.WtkEditText.prototype.addKeyEvent = function(elem, type, id)
 {
-  var view = this.view;
+  var view = this;
   var mouseEvent = function(e)
   {
     //console.log(e);
@@ -74,32 +73,7 @@ fan.vaseWindow.WtkEditText.prototype.addKeyEvent = function(elem, type, id)
   };
   fan.vaseWindow.GfxUtil.addEventListener(elem, type, mouseEvent);
 }
-/*
-fan.vaseWindow.WtkEditText.prototype.update = function(type) {
-  var view = this.view;
-  var pos = view.getPos();
-  var size = view.getSize();
-  
-  this.elem.style.left = pos.m_x + "px";
-  this.elem.style.top = pos.m_y + "px";
-  this.elem.style.width = size.m_w + "px";
-  this.elem.style.height = size.m_h + "px";
-  this.elem.style.margin = 0;
-  this.elem.style.padding = 0;
 
-  this.elem.disabled = !view.editable();
-  this.elem.inputType = view.inputType();
-  this.elem.singleLine = view.singleLine();
-
-  this.elem.style.background = view.backgroundColor().toCss();
-  this.elem.style.color = view.textColor().toCss();
-  this.elem.style.font = fan.vaseWindow.GfxUtil.fontToCss(view.font());
-
-  this.elem.value = view.text();
-
-  this.elem.focus();
-}
-*/
 fan.vaseWindow.WtkEditText.prototype.focus = function() {
   this.elem.focus();
 

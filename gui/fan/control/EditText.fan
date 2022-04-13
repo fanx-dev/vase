@@ -24,7 +24,7 @@ virtual class Caret
 ** EditText.
 **
 @Js
-class EditText : Widget, TextInput
+class EditText : Widget
 {
   Str text := ""
   {
@@ -59,7 +59,7 @@ class EditText : Widget, TextInput
   private Timer? timer
 
   @Transient
-  override TextInputPeer? host
+  protected TextInput? host
 
   new make()
   {
@@ -68,7 +68,14 @@ class EditText : Widget, TextInput
       focused := e.data
       if (focused)
       {
-        this.getRootView.host?.textInput(this)
+        host = this.getRootView.host?.textInput(inputType)
+        host.onTextChange = |text->Str| {
+            this.text = text
+            return text;
+        }
+        host.onKeyAction = |text| {
+            this.text = text
+        }
         updateHost
         if (host == null) {
           startCaret
@@ -80,6 +87,7 @@ class EditText : Widget, TextInput
         caret.visible = false
         if (host != null) {
           host.close
+          host = null
         }
         repaint
       }
@@ -88,28 +96,8 @@ class EditText : Widget, TextInput
     focusable = true
   }
 
-  override Str textChange(Str text) {
-    this.text = text
-    return text;
-  }
-
-  override Void keyAction(Str text) {
-    this.text = text;
-  }
-/*
-  override Point getPos() { Point(x, y) }
-  override Size getSize() { super.size }
-
-  override Int inputType() { 1 }
-  override Bool singleLine() { true }
-  override Bool editable() { true }
-
-  override Color textColor() { Color.black }
-  override Color backgroundColor() { Color.white }
-*/
-
   const Int inputType := 1
-  override Int getInputType() { inputType }
+  //override Int getInputType() { inputType }
   Bool editable := true
 
   private Void updateHost() {
@@ -162,8 +150,6 @@ class EditText : Widget, TextInput
 
   private Void stopCaret() { timer?.cancel }
 
-  override Void onKeyEvent(KeyEvent e) {
-  }
 
   override Void keyEvent(KeyEvent e)
   {

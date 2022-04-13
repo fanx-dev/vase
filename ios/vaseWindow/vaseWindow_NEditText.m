@@ -41,18 +41,14 @@ static void setEditTextHandle(fr_Env env, fr_Obj self, struct EditTextHandle* r)
 
 NSString* fireTextChangeEvent(fr_Obj neditText, NSString *text) {
     static fr_Method paintM;
-    static fr_Field viewF;
     fr_Env env = fr_getEnv(NULL, NULL);
     if (paintM == NULL) {
         fr_Type type = fr_getObjType(env, neditText);
         fr_Type viewType = fr_findType(env, "vaseWindow", "TextInput");
         paintM = fr_findMethod(env, viewType, "textChange");
-        viewF = fr_findField(env, type, "textInput");
     }
 
-    fr_Value value;
-    fr_getInstanceField(env, neditText, viewF, &value);
-    fr_Obj res = fr_callMethod(env, paintM, 2, value.h, fr_newStrUtf8(env, text.UTF8String)).h;
+    fr_Obj res = fr_callMethod(env, paintM, 2, neditText, fr_newStrUtf8(env, text.UTF8String)).h;
     const char *resStr = fr_getStrUtf8(env, res);
     if (resStr == NULL || strcmp(resStr, text.UTF8String) == 0) {
         return nil;

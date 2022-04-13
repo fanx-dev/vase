@@ -43,7 +43,7 @@ mixin Window
   **
   ** show text edit view
   **
-  abstract Void textInput(TextInput edit)
+  abstract TextInput? textInput(Int inputType)
 
 
   abstract Void fileDialog(Str accept, |Obj[]?| f, [Str:Obj]? options := null)
@@ -72,9 +72,8 @@ internal class NWindow : Window {
   native override Bool hasFocus()
   native override Void focus()
   
-  override Void textInput(TextInput edit) {
-    tp := NEditText(edit, handle)
-    edit.host = tp
+  override TextInput? textInput(Int inputType) {
+    return NEditText(inputType, handle)
   }
 
   native override Void fileDialog(Str accept, |Obj[]?| f, [Str:Obj]? options := null)

@@ -69,7 +69,16 @@ void vase_Window_setUIViewController(UIViewController *ctrl);
     editView = editView.subviews.firstObject;
     if (!editView) return;
     
-    CGRect rect = [editView.superview convertRect:editView.frame toView:self.view];//获取相对于self.view的位置
+    CGRect rect;
+    if ([editView isKindOfClass:[UITextView class]]) {
+        UITextView *textView = (UITextView*)editView;
+        CGRect caretRect = [textView caretRectForPosition:textView.selectedTextRange.end];
+        rect = [textView convertRect:caretRect toView:nil];
+    }
+    else {
+        rect = [editView.superview convertRect:editView.frame toView:self.view];//获取相对于self.view的位置
+    }
+    
     NSDictionary *userInfo = [notification userInfo];
     NSValue* aValue = [userInfo objectForKey:UIKeyboardFrameEndUserInfoKey];//获取弹出键盘的fame的value值
     CGRect keyboardRect = [aValue CGRectValue];

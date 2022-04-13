@@ -9,44 +9,15 @@
 using vaseGraphics
 using concurrent
 
-**
-** root view
-**
 @Js
-mixin TextInput
+abstract class TextInput
 {
-  abstract TextInputPeer? host
-
   const static Int inputTypeText := 1
   const static Int inputTypeIntNumber := 2
   const static Int inputTypeFloatNumber := 3
   const static Int inputTypePassword := 4
   const static Int inputTypeMultiLine := 5
-/*
-  abstract Point getPos()
-  abstract Size getSize()
-
-  abstract Int inputType()
-  abstract Bool singleLine()
-  abstract Bool editable()
-
-  abstract Color textColor()
-  abstract Color backgroundColor()
-  abstract Font font()
   
-  abstract Str text()
-*/
-  abstract Int getInputType()
-
-  abstract Str textChange(Str text)
-  abstract Void keyAction(Str text)
-
-  abstract Void onKeyEvent(KeyEvent e)
-}
-
-@Js
-mixin TextInputPeer
-{
   abstract Void close()
 
   abstract Void setPos(Int x, Int y, Int w, Int h)
@@ -57,16 +28,27 @@ mixin TextInputPeer
 
   abstract Void select(Int start, Int end)
   abstract Int caretPos()
+  
+  |Str->Str|? onTextChange
+  |Str|? onKeyAction
+  |KeyEvent|? onKeyPress
+
+  protected Str textChange(Str text) {
+    if (onTextChange != null) {
+      onTextChange.call(text)
+    }
+    return text
+  }
+  protected Void keyAction(Str text) { onKeyAction?.call(text) }
+  protected Void onKeyEvent(KeyEvent e) { onKeyPress?.call(e) }
 }
 
 
-internal class NEditText : TextInputPeer {
+internal class NEditText : TextInput {
   private Int handle;
-  protected TextInput textInput
 
-  new make(TextInput textInput, Int window) {
-    this.textInput = textInput
-    handle = init(textInput.getInputType, window)
+  new make(Int inputType, Int window) {
+    handle = init(inputType, window)
   }
 
   native private Int init(Int inputType, Int windowHandle)

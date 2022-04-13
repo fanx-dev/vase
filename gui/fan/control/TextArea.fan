@@ -10,7 +10,7 @@ using vaseGraphics
 using vaseWindow
 
 @Js
-class NativeCaret : Caret, TextInput {
+class NativeCaret : Caret {
 
   Int x
   Int y
@@ -21,26 +21,26 @@ class NativeCaret : Caret, TextInput {
 
   new make(TextArea area) { this.area = area }
 
-  override TextInputPeer? host
-  override Int getInputType() { 1 }
-/*
-  override Point getPos() {
-    c := Coord(0, 0)
-    area.posOnWindow(c)
-    return Point(c.x+x, c.y+y)
+  protected TextInput? host
+  
+  private Void init() {
+    if (host != null) return
+    Int inputType = 1
+    host = area.getRootView?.host?.textInput(inputType)
+    if (host == null) return
+    
+    host.onTextChange = |Str text->Str| {
+        area.model.modifyLine(lineIndex, text, false)
+        area.repaint
+        return text
+    }
+    host.onKeyPress = |e| {
+        area.keyEvent(e)
+    }
   }
-  override Size getSize() { Size(1, area.rowHeight) }
-
-  override Int inputType() { 1 }
-  override Bool singleLine() { true }
-  override Bool editable() { true }
-
-  override Color textColor() { Color.blue }
-  override Color backgroundColor() { Color.white }
-  override Font font() { area.font }
-*/
 
   internal Void updateHost(Bool all := true) {
+    init
     if (host == null) return
 
     if (!all) {
@@ -63,22 +63,11 @@ class NativeCaret : Caret, TextInput {
   }
   
   private Str text() { area.model.line(lineIndex) }
-
-  override Str textChange(Str text) {
-    area.model.modifyLine(lineIndex, text, false)
-    area.repaint
-    return text
-  }
-  override Void keyAction(Str text) {
-    //TODO
-  }
-  override Void onKeyEvent(KeyEvent e) {
-    area.keyEvent(e)
-  }
   
   Void hide() {
     if (host != null) {
       host.close
+      host = null
     }
   }
 }
@@ -318,7 +307,6 @@ class TextArea : ScrollPane
     caret.visible = true
     caret.offset = column
 
-    this.getRootView.host?.textInput(caret)
     caret.updateHost(updateAll)
     //echo("updateCaretAt: $row, $column")
     //Err().trace

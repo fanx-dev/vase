@@ -94,20 +94,10 @@ public class WtkWindow implements Window {
     }
   }
 
-  public void textInput(TextInput textInput) {
-    if (textInput.host() == null) {
-      WtkEditText edit = new WtkEditText(textInput);
-      textInput.host(edit);
-    }
-    
-    WtkEditText edit = (WtkEditText)textInput.host();
-    if (edit.comp().getParent() == null) {
-      shell.add(edit.comp(), 0);
-      //System.out.println("show "+edit.comp());
-    }
-
-    //edit.update();
-    return;
+  public TextInput textInput(long textInputType) {
+    WtkEditText edit = new WtkEditText(textInputType);
+    shell.add(edit.comp(), 0);
+    return edit;
   }
 
   @Override

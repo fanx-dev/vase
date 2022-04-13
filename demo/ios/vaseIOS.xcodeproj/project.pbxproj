@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3229363E2806FE800026FC2C /* vaseClient_Purchase.m in Sources */ = {isa = PBXBuildFile; fileRef = 3229363B2806FE800026FC2C /* vaseClient_Purchase.m */; };
+		3229363F2806FE800026FC2C /* HZIAPManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3229363C2806FE800026FC2C /* HZIAPManager.m */; };
 		323073EC27B5545400423934 /* fr_gen.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 323073E827B5545400423934 /* fr_gen.cpp */; };
 		323073ED27B5545400423934 /* corelib.c in Sources */ = {isa = PBXBuildFile; fileRef = 323073E927B5545400423934 /* corelib.c */; };
 		323073EE27B5545400423934 /* corelib.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 323073EA27B5545400423934 /* corelib.cpp */; };
@@ -54,6 +56,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3229363B2806FE800026FC2C /* vaseClient_Purchase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = vaseClient_Purchase.m; sourceTree = "<group>"; };
+		3229363C2806FE800026FC2C /* HZIAPManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HZIAPManager.m; sourceTree = "<group>"; };
+		3229363D2806FE800026FC2C /* HZIAPManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HZIAPManager.h; sourceTree = "<group>"; };
 		323073E827B5545400423934 /* fr_gen.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = fr_gen.cpp; path = ../../../../fanx/runtime/gen/fr_gen.cpp; sourceTree = "<group>"; };
 		323073E927B5545400423934 /* corelib.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = corelib.c; path = ../../../../fanx/runtime/fni/corelib.c; sourceTree = "<group>"; };
 		323073EA27B5545400423934 /* corelib.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = corelib.cpp; path = ../../../../fanx/runtime/fni/corelib.cpp; sourceTree = "<group>"; };
@@ -192,6 +197,9 @@
 		3230742527B5548700423934 /* vaseClient */ = {
 			isa = PBXGroup;
 			children = (
+				3229363D2806FE800026FC2C /* HZIAPManager.h */,
+				3229363C2806FE800026FC2C /* HZIAPManager.m */,
+				3229363B2806FE800026FC2C /* vaseClient_Purchase.m */,
 				3230742627B5548700423934 /* pod_vaseClient_native.h */,
 				3230742727B5548700423934 /* vaseClient_Storage.m */,
 				3230742827B5548700423934 /* vaseClient_HttpReq.m */,
@@ -373,6 +381,7 @@
 				3230744827B5548700423934 /* vaseWindow_NEditText.m in Sources */,
 				323073ED27B5545400423934 /* corelib.c in Sources */,
 				3230741B27B5547500423934 /* vaseAndroid.c in Sources */,
+				3229363E2806FE800026FC2C /* vaseClient_Purchase.m in Sources */,
 				323073EF27B5545400423934 /* fr_gen.c in Sources */,
 				3230744527B5548700423934 /* VaseWindow.m in Sources */,
 				3230744C27B5548700423934 /* vaseWindow_NWindow.m in Sources */,
@@ -386,6 +395,7 @@
 				3230744927B5548700423934 /* ImagePicker.m in Sources */,
 				3230744227B5548700423934 /* vaseWindow_NGfxEnv.m in Sources */,
 				3230742027B5547500423934 /* vaseClient.c in Sources */,
+				3229363F2806FE800026FC2C /* HZIAPManager.m in Sources */,
 				32B7EC5F26F878BC007FB98A /* SceneDelegate.m in Sources */,
 				3230744F27B5548700423934 /* pod_vaseWindow_register.c in Sources */,
 			);
@@ -533,6 +543,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = DU2B8RW9DL;
 				HEADER_SEARCH_PATHS = (
 					../../../fanx/runtime/common,
 					../../../fanx/runtime/gen,
@@ -558,6 +569,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = DU2B8RW9DL;
 				HEADER_SEARCH_PATHS = (
 					../../../fanx/runtime/common,
 					../../../fanx/runtime/gen,

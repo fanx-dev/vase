@@ -132,7 +132,7 @@ void vaseWindow_NGraphics_setPen(fr_Env env, fr_Obj self, fr_Int width, fr_Int c
         case 1:
             cgcap = kCGLineCapButt;
             break;
-        case 3:
+        case 2:
             cgcap = kCGLineCapRound;
             break;
     }

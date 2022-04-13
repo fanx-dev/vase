@@ -343,19 +343,10 @@ fan.vaseWindow.WtkWindow.prototype.show = function(size)
   });
 }
 
-fan.vaseWindow.WtkWindow.prototype.textInput = function(view) {
-  if (!view.host()) {
-    var jsEditText = new fan.vaseWindow.WtkEditText();
-    jsEditText.make(view);
-    view.host$(jsEditText);
-  }
-
-  var jsEditText = view.host();
-  if (!jsEditText.elem.parentNode) {
+fan.vaseWindow.WtkWindow.prototype.textInput = function(inputType) {
+    var jsEditText = fan.vaseWindow.WtkEditText.make(inputType);
     this.shell.appendChild(jsEditText.elem);
-  }
-  
-  //jsEditText.update();
+    return jsEditText;
 }
 
 fan.vaseWindow.WtkWindow.prototype.fileDialog = function(accept, callback, options)
