@@ -29,6 +29,7 @@ import fan.vaseWindow.Key;
 import android.view.ViewGroup;
 //import android.view.KeyEvent;
 import android.view.View;
+import android.view.Gravity;
 
 public class AndEditText extends TextInput {
   
@@ -36,7 +37,8 @@ public class AndEditText extends TextInput {
 
 	public AndEditText(Context context, long inputType, android.view.ViewGroup parent) {
     this.editText = new EditText(context);
-
+    setInputType(inputType);
+    
 		editText.addTextChangedListener(new TextWatcher() {
 			@Override
 			public void afterTextChanged(Editable e) {
@@ -163,6 +165,7 @@ public class AndEditText extends TextInput {
 			break;
     case inputTypeMultiLine:
       type = InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_MULTI_LINE;
+      editText.setGravity(Gravity.TOP);
 		}
 		editText.setInputType(type);
 	}
