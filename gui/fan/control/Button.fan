@@ -26,6 +26,12 @@ class Button : Label
   @NoDoc Float rippleSize := -1.0
   Bool rippleEnable := true
 
+  ** displays a small popup when the mouse hovers over
+  Str? tooltip
+  Int tooltipDelay := 750
+  private Bool tooltipValid = false
+  private Label? tooltipLabel
+
   @Transient
   Int state := mouseOut
   {
@@ -119,9 +125,37 @@ class Button : Label
     }
   }
 
-  override Void mouseExit() { state = mouseOut }
+  override Void mouseExit() {
+    state = mouseOut
+    tooltipValid = false
+    if (tooltipLabel != null) {
+      tooltipLabel.detach
+      tooltipLabel = null
+    }
+  }
 
-  override Void mouseEnter() { state = mouseOver }
+  override Void mouseEnter() {
+    state = mouseOver
+    if (tooltip != null && tooltipLabel == null) {
+      tooltipValid = true
+      Toolkit.cur.callLater(tooltipDelay) {
+          if (tooltipValid && tooltipLabel == null) {
+              pos := Coord(0.0, 0.0)
+              rc := posOnWindow(pos)
+              tooltipLabel = Label {
+                it.layout.offsetX = this.pixelToDp(pos.x.toInt)
+                it.layout.offsetY = this.pixelToDp(pos.y.toInt + this.height)
+                it.layout.width = Layout.wrapContent
+                it.padding = Insets(10, 30)
+                it.text = tooltip
+                it.style = "tooltip"
+              }
+              this.getRootView.topOverlayer.add(tooltipLabel)
+              tooltipLabel.relayout
+          }
+      }
+    }
+  }
 
   override Void keyEvent(KeyEvent e)
   {

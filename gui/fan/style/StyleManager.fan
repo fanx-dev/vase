@@ -59,6 +59,7 @@ class StyleManager
         "h4" : LabelStyle { fontInfo.size = (fontInfo.size * 1.0).toInt },
         "h5" : LabelStyle { fontInfo.size = (fontInfo.size * 0.83).toInt },
         "h6" : LabelStyle { fontInfo.size = (fontInfo.size * 0.75).toInt },
+        "tooltip" : LabelStyle { fill = true; },
         "bubbleTL" : BubbleStyle { position = topLeft },
         "bubbleTR" : BubbleStyle { position = topRight },
         "bubbleBL" : BubbleStyle { position = bottomLeft },

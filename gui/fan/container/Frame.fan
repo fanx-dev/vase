@@ -325,12 +325,10 @@ class Frame : ContentPane
       return
     }
     
-    if (modal > 0) {
-      topLayer.gestureEvent(e)
-    }
-
+    topLayer?.gestureEvent(e)
+    
     if (modal < 2 && !e.consumed) {
-      super.gestureEvent(e)
+      content.gestureEvent(e)
     }
   }
 
@@ -352,16 +350,15 @@ class Frame : ContentPane
       return
     }
 
-    if (modal > 0) {
-      topLayer.motionEvent(e)
-    }
+
+    topLayer?.motionEvent(e)
     if (e.consumed) {
       return
     }
     if (modal == 1 && focusWidget != null) return
     
     if (modal < 2) {
-        super.motionEvent(e)
+      content.motionEvent(e)
     }
     //echo("type$e.type, x$e.x,y$e.y")
   }

@@ -12,9 +12,17 @@ using vaseWindow
 @Js
 class LabelStyle : WidgetStyle
 {
+  Bool fill := false
+
   override Void doPaint(Widget widget, Graphics g)
   {
     Label lab := widget
+    if (fill) {
+      width := widget.width
+      height := widget.height
+      g.brush = background
+      g.fillRect(0, 0, width, height)
+    }
     drawText(widget, g, lab.text, lab.textAlign)
   }
 }
