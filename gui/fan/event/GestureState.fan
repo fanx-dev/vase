@@ -142,6 +142,7 @@ class OneClickState : GestureState {
     lastY = e.y
 
     ge := makeEvent(e, GestureEvent.click)
+    ge.button = e.button
     machine.onGestureEvent.fire(ge)
     e.consume
 
@@ -288,6 +289,7 @@ class DragState : GestureState {
       fireDrop(e)
       //ge0 := makeEvent(e, GestureEvent.released)
       //machine.onGestureEvent.fire(ge0)
+      echo("fireDrop")
     } else {
       machine.onFinished(e)
     }

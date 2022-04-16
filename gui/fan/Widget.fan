@@ -99,6 +99,10 @@ abstract class Widget : Bindable
   protected |Widget|? onLongPressCallback := null
   Void onLongPress(|Widget| c) { onLongPressCallback =  c }
 
+  @Transient
+  protected |Widget, GestureEvent|? onRightClickCallback := null
+  Void onRightClick(|Widget, GestureEvent| c) { onRightClickCallback =  c }
+
 //////////////////////////////////////////////////////////////////////////
 // State
 //////////////////////////////////////////////////////////////////////////
@@ -209,10 +213,19 @@ abstract class Widget : Bindable
   **
   protected virtual Void gestureEvent(GestureEvent e) {
     if (e.type == GestureEvent.click) {
-      //this.focus
-      if (onClickCallback != null) {
-        clicked
-        e.consume
+      if (e.button == 3) {
+        if (onRightClickCallback != null) {
+          try {
+            onRightClickCallback.call(this, e)
+          }
+          catch(Err err){ err.trace }
+        }
+      }
+      else {
+        if (onClickCallback != null) {
+          clicked
+          e.consume
+        }
       }
     }
     else if (onLongPressCallback != null && e.type == GestureEvent.longPress) {

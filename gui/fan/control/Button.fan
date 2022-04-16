@@ -81,7 +81,7 @@ class Button : Label
     //if (e.consumed) return
     //echo("e.type $e.type")
 
-    if (e.type == GestureEvent.click) {    
+    if (e.type == GestureEvent.click && e.button != 3) {    
       getRootView.clearFocus
       clicked
       onAction.fire(e)
@@ -91,9 +91,8 @@ class Button : Label
       startRipple(e.relativeX-this.x, e.relativeY-this.y)
       e.consume
     }
-    else if (onLongPressCallback != null && e.type == GestureEvent.longPress) {
-      //this.focus
-      onLongPressCallback.call(this)
+    else {
+      super.gestureEvent(e)
       e.consume
     }
   }

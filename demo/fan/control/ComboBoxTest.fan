@@ -37,6 +37,24 @@ class ComboBoxTest : BasePage
               }.show(it)
            }
         },
+
+        Button {
+           text = "Context Menu"
+           onRightClick |w, e| {
+              echo("right click: $e.x, $e.y")
+              CtxMenu {
+                layout.vAlign = Align.begin
+                layout.hAlign = Align.begin
+                layout.offsetX = w.pixelToDp(e.x)
+                layout.offsetY = w.pixelToDp(e.y)
+
+                items = [
+                 "comboBox1","comboBox2","comboBox3","comboBox4","comboBox5",
+                 "comboBox6","comboBox7","comboBox8","comboBox9","comboBox10"
+                ]
+              }.show(w)
+           }
+        },
     }
   }
 }

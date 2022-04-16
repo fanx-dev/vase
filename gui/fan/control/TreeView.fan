@@ -135,7 +135,7 @@ class TreeView : ScrollPane
 
   protected override Void gestureEvent(GestureEvent e)
   {
-    if (e.type == GestureEvent.click)
+    if (e.type == GestureEvent.click && e.button != 3)
     {
       item := findItemAt(e.relativeY)
       if (item != null)

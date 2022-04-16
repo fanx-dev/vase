@@ -51,6 +51,7 @@ fan.vaseWindow.WtkWindow.prototype.bindEvent = function(elem)
   this.addKeyEvent(this.elem, "keypress",   fan.vaseWindow.KeyEvent.m_typed);
   //this.addEvent(this.elem, "blur",       fan.vaseWindow.InputEvent.m_blur);
   //this.addEvent(this.elem, "focus",      fan.vaseWindow.InputEvent.m_focus);
+  this.addMotionEvent(this.elem, "contextmenu", fan.vaseWindow.MotionEvent.m_released);
 }
 
 fan.vaseWindow.WtkWindow.toMotionEvent = function(e, typeStr, type) {
@@ -62,6 +63,10 @@ fan.vaseWindow.WtkWindow.toMotionEvent = function(e, typeStr, type) {
   {
     event.m_delta = fan.vaseWindow.Event.toWheelDelta(e);
   }
+  if (e.button) {
+    event.m_button = e.button+1;
+  }
+
   event.m_key = fan.vaseWindow.Event.toKey(e); 
   return event
 }
@@ -82,6 +87,12 @@ fan.vaseWindow.WtkWindow.prototype.addMotionEvent = function(elem, typeStr, type
       if (this.m_ismousedown) {
         ntype = fan.vaseWindow.MotionEvent.m_moved;
       }
+    }
+    else if (typeStr == "contextmenu") {
+      e.stopPropagation();
+      e.preventDefault();
+      e.cancelBubble = true;
+      return false;
     }
 
     //console.log(e);

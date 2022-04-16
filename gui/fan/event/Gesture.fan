@@ -58,6 +58,7 @@ virtual class GestureEvent : Event {
   Int relativeX := 0
   Int relativeY := 0
 
+  Int? button
 
   new make(Int type)
   {
