@@ -5,6 +5,7 @@ using vaseGraphics
 class ImageButtonStyle : WidgetStyle
 {
   Image? image
+  Color selectColor = Color(0x666666)
   
   new make() {
     background = Color(0xf2f2f2)
@@ -21,6 +22,16 @@ class ImageButtonStyle : WidgetStyle
     }
 
     Button btn := widget
+
+    if (btn is ToggleButton) {
+      ToggleButton tb := btn
+      if (tb.selected) {
+        g.brush = selectColor
+        Int arc := dpToPixel(4)
+        g.fillRoundRect(btn.paddingLeft, btn.paddingTop, widget.contentWidth, widget.contentHeight, arc, arc)
+      }
+    }
+
     if (btn.state == Button.mouseDown) {
         g.brush = background
         g.alpha = 100
