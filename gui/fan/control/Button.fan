@@ -93,7 +93,6 @@ class Button : Label
     }
     else {
       super.gestureEvent(e)
-      e.consume
     }
   }
 

@@ -60,6 +60,7 @@ class MenuItem : Button
         layer := rootMenu.layer
         if (layer.parent == null) {
             getRootView.topOverlayer.add(layer)
+            getRootView.setModal(1, layer)
         }
         expand(layer)
         //getRootView.modal = true

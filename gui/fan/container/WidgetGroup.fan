@@ -44,13 +44,14 @@ abstract class WidgetGroup : Widget
   {
     if (child == null) return this
 
+    child.setParent(null)
+
     root := getRootView
     root?.onRemove(child)
 
     if (children.removeSame(child) == null) {
       throw ArgErr("not my child: $child, parent$child.parent")
     }
-    child.setParent(null)
 
     if (doRelayout && root != null) this.relayout
     return this

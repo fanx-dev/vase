@@ -8,11 +8,9 @@
 
 using vaseGui
 
-**
-** Win Test
-**
+
 @Js
-class ComboBoxTest : BasePage
+class CtxMenuTest : BasePage
 {
   protected override Widget view() {
     VBox {

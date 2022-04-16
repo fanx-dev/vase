@@ -219,6 +219,7 @@ abstract class Widget : Bindable
             onRightClickCallback.call(this, e)
           }
           catch(Err err){ err.trace }
+          e.consume
         }
       }
       else {
