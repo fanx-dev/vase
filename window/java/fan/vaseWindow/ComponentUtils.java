@@ -41,7 +41,7 @@ public class ComponentUtils {
 
       @Override
       public void mouseExited(MouseEvent e) {
-        //view.onMotionEvent(toCEvent(e, MotionEvent.mouseExit));
+        view.onMotionEvent(toCEvent(e, MotionEvent.mouseOut));
       }
 
       @Override
@@ -64,7 +64,7 @@ public class ComponentUtils {
 
       @Override
       public void mouseMoved(MouseEvent e) {
-        view.onMotionEvent(toCEvent(e, MotionEvent.moved));
+        view.onMotionEvent(toCEvent(e, MotionEvent.mouseMove));
       }
     });
 

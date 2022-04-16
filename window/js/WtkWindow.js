@@ -17,7 +17,7 @@ fan.vaseWindow.WtkWindow.prototype.m_size = null;
 fan.vaseWindow.WtkWindow.prototype.elem = null;
 fan.vaseWindow.WtkWindow.prototype.needRepaint = true;
 fan.vaseWindow.WtkWindow.prototype.graphics = null;
-
+fan.vaseWindow.WtkWindow.prototype.m_ismousedown = false;
 
 //////////////////////////////////////////////////////////////////////////
 // cavans
@@ -42,9 +42,10 @@ fan.vaseWindow.WtkWindow.prototype.bindEvent = function(elem)
   this.addMotionEvent(this.elem, "touchend",    fan.vaseWindow.MotionEvent.m_released);
 
   this.addMotionEvent(this.elem, "mousedown",  fan.vaseWindow.MotionEvent.m_pressed);
-  this.addMotionEvent(this.elem, "mousemove",  fan.vaseWindow.MotionEvent.m_moved);
+  this.addMotionEvent(this.elem, "mousemove",  fan.vaseWindow.MotionEvent.m_mouseMove);
   this.addMotionEvent(this.elem, "mouseup",    fan.vaseWindow.MotionEvent.m_released);
   this.addMotionEvent(this.elem, "mousewheel", fan.vaseWindow.MotionEvent.m_wheel);
+  this.addMotionEvent(this.elem, "mouseout",    fan.vaseWindow.MotionEvent.m_mouseOut);
   this.addKeyEvent(this.elem, "keydown",    fan.vaseWindow.KeyEvent.m_pressed);
   this.addKeyEvent(this.elem, "keyup",      fan.vaseWindow.KeyEvent.m_released);
   this.addKeyEvent(this.elem, "keypress",   fan.vaseWindow.KeyEvent.m_typed);
@@ -70,6 +71,19 @@ fan.vaseWindow.WtkWindow.prototype.addMotionEvent = function(elem, typeStr, type
   var view = this.m_view;
   var mouseEvent = function(e)
   {
+    var ntype = type
+    if (typeStr == "mousedown") {
+      this.m_ismousedown = true;
+    }
+    else if (typeStr == "mouseup" || typeStr == "mouseout") {
+      this.m_ismousedown = false;
+    }
+    else if (typeStr == "mousemove") {
+      if (this.m_ismousedown) {
+        ntype = fan.vaseWindow.MotionEvent.m_moved;
+      }
+    }
+
     //console.log(e);
     var event;
     if (e.touches || e.changedTouches) {
@@ -78,14 +92,14 @@ fan.vaseWindow.WtkWindow.prototype.addMotionEvent = function(elem, typeStr, type
 
       for (var i=0; i<e.changedTouches.length; ++i) {
         var t = e.changedTouches[i];
-        var te = fan.vaseWindow.WtkWindow.toMotionEvent(t, typeStr, type)
+        var te = fan.vaseWindow.WtkWindow.toMotionEvent(t, typeStr, ntype)
         ps.add(te);
         map[te.m_id] = te
       }
 
       for (var i=0; i<e.touches.length; ++i) {
         var t = e.touches[i];
-        var te = fan.vaseWindow.WtkWindow.toMotionEvent(t, typeStr, type)
+        var te = fan.vaseWindow.WtkWindow.toMotionEvent(t, typeStr, ntype)
         
         if (te.m_id in map) continue;
         map[te.m_id] = te;
@@ -96,7 +110,7 @@ fan.vaseWindow.WtkWindow.prototype.addMotionEvent = function(elem, typeStr, type
       event.pointers$(ps);
     }
     else {
-      event = fan.vaseWindow.WtkWindow.toMotionEvent(e, typeStr, type)
+      event = fan.vaseWindow.WtkWindow.toMotionEvent(e, typeStr, ntype)
       //event.m_widget = this.elem;
     }
 

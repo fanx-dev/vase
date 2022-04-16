@@ -89,12 +89,15 @@ class MotionEvent : Event
 
   const static Int pressed := 0
   const static Int released := 1
+  //dragMove
   const static Int moved := 2
   const static Int longPressed := 3
   const static Int clicked := 4
   const static Int cancel := 5
   const static Int wheel := 6
   const static Int other := 7
+  const static Int mouseMove := 8
+  const static Int mouseOut := 9
 
   override Str toStr()
   {
