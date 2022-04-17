@@ -34,6 +34,8 @@ class TableHeaderStyle : WidgetStyle
 @Js
 class TableStyle : WidgetStyle
 {
+  Color selectedColor = Color(0xa6a6a6)
+  
   override Void doPaint(Widget widget, Graphics g)
   {
     Table tab := widget
@@ -57,10 +59,13 @@ class TableStyle : WidgetStyle
     {
       if (i >= 0) {
         Int x := -tab.offsetX + left
+        
+        isSelected := i == tab.selectedRow
+        
         for (j := 0; j<numCols; ++j)
         {
           Str text := tab.model.text(j, i)
-          drawCell(g, x, y, tab.colWidthCache[j], rowHeight, text, fontOffset)
+          drawCell(g, x, y, tab.colWidthCache[j], rowHeight, text, fontOffset, isSelected)
           x += tab.colWidthCache[j]
           if (x > rightLine) {
             break
@@ -75,10 +80,10 @@ class TableStyle : WidgetStyle
     }
   }
 
-  protected virtual Void drawCell(Graphics g, Int x, Int y, Int w, Int h, Str text, Int fontOffset)
+  protected virtual Void drawCell(Graphics g, Int x, Int y, Int w, Int h, Str text, Int fontOffset, Bool selected)
   {
     //backgound
-    g.brush = background
+    g.brush = selected ? selectedColor : background
     g.fillRect(x, y, w, h)
     g.brush = color
     g.drawRect(x, y, w, h)

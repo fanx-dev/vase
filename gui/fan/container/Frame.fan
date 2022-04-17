@@ -290,6 +290,9 @@ class Frame : ContentPane
   Void gestureFocus(Widget w) {
     if (gestureFocusWidget === w) return
     gestureFocusWidget = w
+    if (focusWidget !== w) {
+        focusIt(null)
+    }
   }
 
   **

@@ -16,6 +16,15 @@ class Table : ScrollPane
   TableModel model := TableModel() {
     set { &model = it; init }
   }
+  
+  Int selectedRow = -1 {
+      set {
+        oldVal := &selectedRow
+        &selectedRow = it
+        fireStateChange(oldVal, it, #selectedRow)
+        this.repaint
+      }
+  }
 
   Int colWidth := 360
   Int rowHeight := 60
@@ -87,6 +96,16 @@ class Table : ScrollPane
     t := super.viewportHeight - dpToPixel(rowHeight)
     //echo("viewportHeight$t, headerHeight$headerHeight, super.viewportHeight$super.viewportHeight")
     return t.toFloat
+  }
+  
+  protected override Void gestureEvent(GestureEvent e)
+  {
+    if (e.type == GestureEvent.click) {
+        y := e.relativeY - this.y + this.offsetY
+        r := ((y.toFloat / dpToPixel(rowHeight))).toInt - 1
+        selectedRow = r
+    }
+    super.gestureEvent(e)
   }
 }
 

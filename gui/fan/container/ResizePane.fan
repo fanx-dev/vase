@@ -48,6 +48,7 @@ class ResizePane : Pane {
             getRootView?.gestureFocus(this)
         }
         else if (e.type == MotionEvent.released || e.type == MotionEvent.mouseOut || e.type == MotionEvent.cancel) {
+            relayout(2)
             mode = 0
         }
         else if (e.type == MotionEvent.mouseMove) {
