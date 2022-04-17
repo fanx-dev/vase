@@ -103,6 +103,8 @@ abstract class Widget : Bindable
   protected |Widget, GestureEvent|? onRightClickCallback := null
   Void onRightClick(|Widget, GestureEvent| c) { onRightClickCallback =  c }
 
+  Bool clickAnimation = true
+
 //////////////////////////////////////////////////////////////////////////
 // State
 //////////////////////////////////////////////////////////////////////////
@@ -238,7 +240,7 @@ abstract class Widget : Bindable
   
   protected virtual Void clicked() {
     try {
-      this.scaleAnim(0.95).start
+      if (clickAnimation) this.scaleAnim(0.95).start
       onClickCallback?.call(this)
     } catch (Err e) {
       e.trace

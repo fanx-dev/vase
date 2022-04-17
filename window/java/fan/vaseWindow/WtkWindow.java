@@ -71,7 +71,7 @@ public class WtkWindow implements Window {
     frame.add(shell);
 
     if (s == null) {
-      s = view.getPrefSize(600, 600);
+      s = view.getPrefSize(900, 600);
     }
     //canvas.setSize((int)s.w, (int)s.h);
     shell.setPreferredSize(new Dimension((int)s.w, (int)s.h));
