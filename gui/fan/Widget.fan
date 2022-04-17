@@ -464,8 +464,8 @@ abstract class Widget : Bindable
   **
   ** Requset relayout this widget
   **
-  virtual Void relayout() {
-    this.layoutDirty = 1
+  virtual Void relayout(Int dirty = 1) {
+    this.layoutDirty = dirty
     //this.prefSizeDirty = true
     this.renderCacheDirty = true
     this.parent?.relayout

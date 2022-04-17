@@ -35,6 +35,9 @@ class ScrollPane : ContentPane
   |Widget|? onLoadMore
   Widget? refreshTip
 
+  @Transient
+  private Bool actived = false
+
   new make()
   {
     clip = true
@@ -187,6 +190,7 @@ class ScrollPane : ContentPane
         animation.stop
       }
       //this.focus
+      actived = true
     }
     
     super.motionEvent(e)
@@ -247,6 +251,7 @@ class ScrollPane : ContentPane
     if (e.consumed) return
     
     if (!dragable) return
+    if (!actived) return
     
     //if (!vbar.enabled) return
     if (e.type == GestureEvent.drag) {
@@ -270,6 +275,7 @@ class ScrollPane : ContentPane
       }
     }
     else if (e.type == GestureEvent.drop) {
+      actived = false
       //echo("drop: $vbar.isOverScroll")
       if (vbar.isOverScroll) {
         animatOverScroll

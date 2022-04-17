@@ -193,10 +193,10 @@ class Frame : ContentPane
     view?.host?.repaint(dirty)
   }
 
-  override Void relayout() {
-    super.relayout
+  override Void relayout(Int dirty = 1) {
+    super.relayout(dirty)
     if (view != null) {
-      view.layoutDirty = 1
+      view.layoutDirty = dirty
       view.host?.repaint(null)
     }
   }

@@ -90,3 +90,26 @@ class RectViewStyle : WidgetStyle {
     g.fillRect(x, y, w, h)
   }
 }
+
+@Js
+class ResizePaneStyle : PaneStyle {
+  Color highlightColor = Color.black
+
+  override Void doPaint(Widget widget, Graphics g) {
+    super.doPaint(widget, g)
+    ResizePane p := widget
+    if (p.highlight) {
+      g.brush = highlightColor
+      switch (p.mode) {
+        case 1:
+          g.fillRect(0, 0, p.width, p.paddingTop)
+        case 2:
+          g.fillRect(p.paddingLeft+p.contentWidth, 0, p.width-p.paddingLeft-p.contentWidth, p.height)
+        case 3:
+          g.fillRect(0, p.paddingTop+p.contentHeight, p.width, p.height-p.paddingTop-p.contentHeight)
+        case 4:
+          g.fillRect(0, 0, p.paddingLeft, p.height)
+      }
+    }
+  }
+}

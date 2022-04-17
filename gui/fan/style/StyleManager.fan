@@ -38,7 +38,8 @@ class StyleManager
       CardIndicator# : CardIndicatorStyle(),
       Spinner# : SpinnerStyle(),
       RectView# : RectViewStyle(),
-      TextView# : TextViewStyle()
+      TextView# : TextViewStyle(),
+      ResizePane# : ResizePaneStyle(),
     ]
     defStyle = WidgetStyle()
 

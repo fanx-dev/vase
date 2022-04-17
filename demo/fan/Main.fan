@@ -51,7 +51,7 @@ class Main
       ButtonTest(), StyleTest(), ImageViewTest(), ListViewTest(), BubbleViewTest(), CtxMenuTest(), DialogTest(), null,
       SpinnerTest(), SliderBarTest(), ProgressViewTest(), TextViewTest(), null,
       CardTest(), EdgeTest(), HBoxTest(), VBoxTest(), PaneTest(), FlowTest(), PushCardTest(), PercentTest(), AutoScaleTest(), null,
-      MenuTest(), TableTest(), TreeTest(), TooltipTest(), null,
+      MenuTest(), TableTest(), TreeTest(), TooltipTest(), ResizePaneTest(), null,
       EditTextTest(), FilePickerTest(), AudioTest(), VideoTest(), BindingTest(), GraphicsTest(), null,
     ]
     init
