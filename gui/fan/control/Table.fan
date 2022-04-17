@@ -74,6 +74,12 @@ class Table : ScrollPane
   {
     set { header.x = -it; super.offsetX = it }
   }
+  
+  override Void layoutChildren(Bool force)
+  {
+    super.layoutChildren(force)
+    header.x -= offsetX
+  }
 
   protected override Size prefContentSize(Int hintsWidth := -1, Int hintsHeight := -1) {
     Int w := 0
