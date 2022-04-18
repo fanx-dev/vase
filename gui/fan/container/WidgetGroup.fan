@@ -16,6 +16,8 @@ using vaseWindow
 @Serializable { collection = true }
 abstract class WidgetGroup : Widget
 {
+  Bool eventPass = false
+
   new make() {
     useRenderCache = false
     focusable = false
@@ -167,12 +169,14 @@ abstract class WidgetGroup : Widget
   protected override Void motionEvent(MotionEvent e) {
     px := e.relativeX
     py := e.relativeY
-    children.eachr {
-      if (it.enabled && !e.consumed) {
+    for (i:=children.size-1; i>=0 && i<children.size; --i) {
+      t := children.get(i)
+      if (t.enabled && !e.consumed) {
         e.relativeX = px - this.x
         e.relativeY = py - this.y
-        if (it.contains(e.relativeX, e.relativeY)) {
-          it.motionEvent(e)
+        if (t.contains(e.relativeX, e.relativeY)) {
+          t.motionEvent(e)
+          if (!eventPass) break
         }
       }
     }
@@ -196,6 +200,7 @@ abstract class WidgetGroup : Widget
         e.relativeY = py - this.y
         if (t.contains(e.relativeX, e.relativeY)) {
           t.gestureEvent(e)
+          if (!eventPass) break
         }
       }
     }
