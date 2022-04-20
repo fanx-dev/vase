@@ -186,6 +186,27 @@ abstract class WidgetGroup : Widget
     if (e.consumed) return
     super.motionEvent(e)
   }
+  
+  protected virtual Void onDropAt(GestureEvent e, Widget? src) {
+    px := e.relativeX
+    py := e.relativeY
+    for (i:=children.size-1; i>=0 && i<children.size; --i) {
+      t := children.get(i)
+      if (t.enabled && !e.consumed) {
+        e.relativeX = px - this.x
+        e.relativeY = py - this.y
+        if (t.contains(e.relativeX, e.relativeY)) {
+          t.onDropAt(e, src)
+          if (!eventPass) break
+        }
+      }
+    }
+    e.relativeX = px
+    e.relativeY = py
+    
+    if (e.consumed) return
+    super.onDropAt(e, src)
+  }
 
   **
   ** process gesture event
@@ -226,9 +247,11 @@ abstract class WidgetGroup : Widget
   **
   ** callback on mounted
   **
-  protected override Void onMounted()
-  {
-    children.each { it.onMounted }
+  protected override Void onOpen() {
+    children.each { it.onOpen }
+  }
+  protected override Void onDetach() {
+    children.each { it.onDetach }
   }
 
 //////////////////////////////////////////////////////////////////////////
@@ -239,25 +262,29 @@ abstract class WidgetGroup : Widget
     children.each { it.resetStyle }
   }
   
-  protected override Void doPaint(Graphics g)
+  protected override Void doPaint(Rect clip, Graphics g)
   {
-    super.doPaint(g)
-    paintChildren(g)
+    super.doPaint(clip, g)
+    localClip := Rect(clip.x-this.x, clip.y-this.y, clip.w, clip.h)
+    paintChildren(localClip, g)
   }
 
   **
   ** paint children widget
   **
-  protected virtual Void paintChildren(Graphics g)
+  protected virtual Void paintChildren(Rect localClip, Graphics g)
   {
     children.each
     {
       if (it.visible)
       {
-        g.push
-        g.transform(Transform2D.makeTranslate(it.x.toFloat, it.y.toFloat))
-        it.paint(g)
-        g.pop
+        
+        if (localClip.intersects(it.bounds)) {
+            g.push
+            g.transform(Transform2D.makeTranslate(it.x.toFloat, it.y.toFloat))
+            it.paint(localClip, g)
+            g.pop
+        }
       }
     }
   }

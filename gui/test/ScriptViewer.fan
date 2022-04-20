@@ -42,7 +42,7 @@ virtual class ScriptViewer
         root.show
       }
       else {
-        root.content = view
+        root.removeAll().add(view)
         root.relayout
       }
     } catch (Err e) {

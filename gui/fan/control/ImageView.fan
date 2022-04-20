@@ -141,7 +141,7 @@ class ImageView : Widget
   }
 
   Void setDragable() {
-    gestureFocusable = true
+    focusable = true
   }
 
   // protected override Size prefContentSize(Int hintsWidth := -1, Int hintsHeight := -1) {
@@ -153,7 +153,7 @@ class ImageView : Widget
   protected override Void motionEvent(MotionEvent e)
   {
     super.motionEvent(e)
-    if (!gestureFocusable) return
+    if (!focusable) return
     if (e.consumed) return
     if (e.type == MotionEvent.wheel && e.delta != null) {
         scale := e.delta > 0 ? 0.8 : 1.25
@@ -179,9 +179,9 @@ class ImageView : Widget
     this.repaint
   }
   
-  protected override Void gestureEvent(GestureEvent e) {
-    super.gestureEvent(e)
-    if (!gestureFocusable) return
+  protected override Void onDrag(GestureEvent e) {
+    super.onDrag(e)
+    if (!focusable) return
     if (e.consumed) return
     if (e.type == GestureEvent.drag) {
       imgOffsetX += e.deltaX

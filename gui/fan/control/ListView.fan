@@ -53,7 +53,7 @@ class ListView : ScrollPane
 
   protected override Void onViewportChanged() { itemLayoutDirty = true }
 
-  protected override Void paintChildren(Graphics g) {
+  protected override Void paintChildren(Rect clip, Graphics g) {
     //result := Dimension(-1, -1)
     
     if (itemLayoutDirty) {
@@ -64,7 +64,7 @@ class ListView : ScrollPane
     vbar.viewport = viewportHeight
     vbar.max = contentMaxHeight()
     
-    super.paintChildren(g)
+    super.paintChildren(clip, g)
   }
 
   protected virtual Void layoutItem() {

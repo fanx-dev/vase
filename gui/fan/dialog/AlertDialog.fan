@@ -85,4 +85,5 @@ class AlertDialog : VBox, Dialog
   }
   
   protected override Int animType() { 1 }
+
 }

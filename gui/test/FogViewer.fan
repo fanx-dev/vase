@@ -44,7 +44,7 @@ virtual class FogViewer
     }
 
     view := viewFile.readAllStr.in.readObj
-    root.content = view
+    root.removeAll.add(view)
     root.relayout
   }
 

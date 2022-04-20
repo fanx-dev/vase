@@ -44,16 +44,14 @@ class NativeCaret : Caret {
     if (host == null) return
 
     if (!all) {
-      c := Coord(0f, 0f)
-      area.posOnWindow(c)
+      c := area.posOnWindow
       host.setPos(c.x.toInt+x, c.y.toInt+y, 1, area.rowHeight)
       return
     }
 
     host.setType(0, true)
 
-    c := Coord(0f, 0f)
-    area.posOnWindow(c)
+    c := area.posOnWindow
     host.setPos(c.x.toInt+x, c.y.toInt+y, 1, area.rowHeight)
 
     host.setStyle(area.font, Color.black, Color.white)
@@ -117,7 +115,6 @@ class TextArea : ScrollPane
     if (f != null) f(this)
     super.autoScrollContent = false
     focusable = true
-    gestureFocusable = true
     dragable = false
     
     onFocusChanged.add |e| {
@@ -259,7 +256,7 @@ class TextArea : ScrollPane
     return model.offsetAtLine(lineIndex) + lineOffset
   }
 
-  protected override Void doPaint(Graphics g) {
+  protected override Void doPaint(Rect clip, Graphics g) {
     //update caret pos before paint
     if (caret.host != null) {
       caretPos := caret.host.caretPos
@@ -268,7 +265,7 @@ class TextArea : ScrollPane
         updateCaretAt(caret.lineIndex, caretPos, true, false)
       }
     }
-    super.doPaint(g)
+    super.doPaint(clip, g)
   }
 
   private Void updateCaretAt(Int row, Int column, Bool clipColumn := true, Bool updateAll := true) {

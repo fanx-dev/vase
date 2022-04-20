@@ -25,32 +25,38 @@ class CtxMenuTest : BasePage
         
         Button {
            text = "Long Press"
-           onLongPress {
-              echo("long press")
-              CtxMenu {
-                items = [
-                 "comboBox1","comboBox2","comboBox3","comboBox4","comboBox5",
-                 "comboBox6","comboBox7","comboBox8","comboBox9","comboBox10"
-                ]
-              }.show(it)
+           onGestureEvent.add |e|{
+              if (e.type == GestureEvent.longPress) {
+                  echo("long press")
+                  Widget w := e.src
+                  CtxMenu {
+                    items = [
+                     "comboBox1","comboBox2","comboBox3","comboBox4","comboBox5",
+                     "comboBox6","comboBox7","comboBox8","comboBox9","comboBox10"
+                    ]
+                  }.show(w)
+              }
            }
         },
 
         Button {
            text = "Context Menu"
-           onRightClick |w, e| {
-              echo("right click: $e.x, $e.y")
-              CtxMenu {
-                layout.vAlign = Align.begin
-                layout.hAlign = Align.begin
-                layout.offsetX = w.pixelToDp(e.x)
-                layout.offsetY = w.pixelToDp(e.y)
+           onGestureEvent.add |GestureEvent e| {
+              if (e.type == GestureEvent.click && e.button == 3) {
+                  echo("right click: $e.x, $e.y")
+                  Widget w := e.src
+                  CtxMenu {
+                    layout.vAlign = Align.begin
+                    layout.hAlign = Align.begin
+                    layout.offsetX = w.pixelToDp(e.x)
+                    layout.offsetY = w.pixelToDp(e.y)
 
-                items = [
-                 "comboBox1","comboBox2","comboBox3","comboBox4","comboBox5",
-                 "comboBox6","comboBox7","comboBox8","comboBox9","comboBox10"
-                ]
-              }.show(w)
+                    items = [
+                     "comboBox1","comboBox2","comboBox3","comboBox4","comboBox5",
+                     "comboBox6","comboBox7","comboBox8","comboBox9","comboBox10"
+                    ]
+                  }.show(w)
+              }
            }
         },
     }

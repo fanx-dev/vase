@@ -80,4 +80,5 @@ class PromptDialog : VBox, Dialog
     editText.focus
     return this
   }
+
 }

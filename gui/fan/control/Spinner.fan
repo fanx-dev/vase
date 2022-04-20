@@ -31,7 +31,6 @@ class Spinner : Widget
         layout.width = Layout.wrapContent
         padding = Insets(20)
         focusable = true
-        gestureFocusable = true
     }
     
     protected override Size prefContentSize(Int hintsWidth := -1, Int hintsHeight := -1) {

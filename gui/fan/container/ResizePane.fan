@@ -7,10 +7,12 @@ class ResizePane : Pane {
 
     new make() {
         padding = Insets(20, 10, 10, 10)
+        dragAware = true
+        mouseAware = true
     }
 
-    protected override Void gestureEvent(GestureEvent e) {
-        super.gestureEvent(e)
+    protected override Void onDrag(GestureEvent e) {
+        super.onDrag(e)
         //echo("e.consumed:$e.consumed,e.type:$e.type, mode:$mode")
         if (e.consumed) return
 
@@ -44,14 +46,7 @@ class ResizePane : Pane {
         //echo("e.consumed:$e.consumed,e.type:$e.type")
         if (e.consumed) return
         
-        if (e.type == MotionEvent.pressed) {
-            getRootView?.gestureFocus(this)
-        }
-        else if (e.type == MotionEvent.released || e.type == MotionEvent.mouseOut || e.type == MotionEvent.cancel) {
-            relayout(2)
-            mode = 0
-        }
-        else if (e.type == MotionEvent.mouseMove) {
+        if (e.type == MotionEvent.mouseMove) {
 
             if (e.relativeY < this.y+paddingTop) {
                 mode = 1

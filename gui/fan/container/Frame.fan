@@ -10,11 +10,45 @@ using vaseGraphics
 using vaseWindow
 using concurrent
 
+@Js
+class ModalLayer : Pane {
+    Int level
+    Int backgroundAlpha = 0
+    
+    new make(Int level) {
+        layout.width = Layout.matchParent
+        layout.height = Layout.matchParent
+        if (level > 1) backgroundAlpha = 100
+    }
+    
+    protected override Void gestureEvent(GestureEvent e) {
+        super.gestureEvent(e)
+        if (e.consumed) return
+        if (e.type == GestureEvent.click) {
+            if (level > 2) return
+            else {
+                this.detach
+            }
+        }
+    }
+    
+    protected override Void doPaint(Rect clip, Graphics g) {
+      if (backgroundAlpha > 0) {
+        g.brush = Color.black
+        g.alpha = backgroundAlpha
+        g.fillRect(0, 0, width, height)
+        //TODO restore this
+        g.alpha = 255
+      }
+      super.doPaint(clip, g)
+    }
+}
+
 **
 ** Represent a top level Widget
 **
 @Js
-class Frame : ContentPane
+class Frame : Pane
 {
   Str name = ""
 
@@ -29,16 +63,9 @@ class Frame : ContentPane
 
   @Transient
   private Widget? mouseHoverWidget
+
+  Color background := Color.white
   
-  @Transient
-  private Widget? gestureFocusWidget
-
-  **
-  ** top layer is a overlay of root view
-  **
-  @Transient
-  private WidgetGroup? topLayer
-
   **
   ** Used to toggle anti-aliasing on and off.
   **
@@ -63,26 +90,9 @@ class Frame : ContentPane
 
   Window? host() { view.host }
 
-  **
-  ** has modal dialog
-  **
-  @Transient
-  private Int modal := 0
-  private Widget? modalWidget
-
-  **
-  ** root background color
-  **
-  Brush background := Color.white
-
   @Transient
   private Int initState := 0
 
-  **
-  ** Shared dimension for layout
-  **
-  //@Transient
-  //private Dimension sharedDimension := Dimension(0, 0)
 
   Bool autoScale = false
 
@@ -120,33 +130,11 @@ class Frame : ContentPane
   **
   ** get or make a widget that layout top of root view
   **
-  WidgetGroup topOverlayer()
+  WidgetGroup topOverlayer(Int modal = 1)
   {
-    if (topLayer == null)
-    {
-      topLayer = Pane()
-      topLayer.useRenderCache = false
-      doAdd(topLayer)
-    }
-//    moveToTop(topLayerGroup)
-    topLayer.layout.width = Layout.matchParent
-    topLayer.layout.height = Layout.matchParent
-    topLayer.width = this.width
-    topLayer.height = this.height
-    topLayer.x = 0
-    topLayer.y = 0
+    topLayer := ModalLayer(modal)
+    this.add(topLayer)
     return topLayer
-  }
-
-  Void setModal(Int modal, Widget modalWidget) {
-    if (modal == 0) {
-      if (this.modalWidget === modalWidget) {
-        this.modal = 0
-      }
-      return
-    }
-    this.modal = modal
-    this.modalWidget = modalWidget
   }
 
 //////////////////////////////////////////////////////////////////////////
@@ -167,16 +155,10 @@ class Frame : ContentPane
     }
     initState = -1
     //view = null
+    this.onDetach
   }
 
   Bool isOpened() { initState == 1 }
-
-  internal Void fireOnOpened() {
-    isFirst := initState == 0
-    initState = 1
-    onMounted
-    onOpened.fire(Event { data = isFirst })
-  }
 
 //////////////////////////////////////////////////////////////////////////
 // frame
@@ -201,38 +183,12 @@ class Frame : ContentPane
     }
   }
 
-  protected override Void doPaint(Graphics g) {
+  protected override Void doPaint(Rect clip, Graphics g) {
     //beginTime := Duration.nowTicks
-    g.antialias = this.antialias
+    g.antialias = antialias
     g.brush = background
     g.fillRect(0, 0, width, height)
-    //super.paint(g)
-
-    //echo("$width $height")
-    //-------------content
-    g.push
-    //g.clip(it.bounds)
-    g.transform(Transform2D.makeTranslate(content.x.toFloat, content.y.toFloat))
-    content.paint(g)
-
-    if (modal > 1) {
-      //g.brush = Color.fromArgb(100, 0, 0, 0)
-      g.brush = Color.black
-      g.alpha = 100
-      g.fillRect(0, 0, width, height)
-      //TODO restore this
-      g.alpha = 255
-    }
-    g.pop
-
-    //-------------topLayer
-    if (topLayer != null) {
-      g.push
-      //g.clip(it.bounds)
-      g.transform(Transform2D.makeTranslate(topLayer.x.toFloat, topLayer.y.toFloat))
-      topLayer.paint(g)
-      g.pop
-    }
+    super.doPaint(clip, g)
   }
 
 //////////////////////////////////////////////////////////////////////////
@@ -248,20 +204,10 @@ class Frame : ContentPane
     if (mouseHoverWidget === w) {
       mouseHoverWidget = null
     }
-    
-    if (gestureFocusWidget === w) {
-      gestureFocusWidget = null
-    }
-
-    if (modalWidget === w) {
-      modal = 0
-      modalWidget = null
-    }
   }
   
   Void clearFocus() {
     focusIt(null)
-    gestureFocusWidget = null
   }
 
   **
@@ -286,14 +232,6 @@ class Frame : ContentPane
         focusWidget?.onFocusChanged?.fire(e)
     }
   }
-  
-  Void gestureFocus(Widget w) {
-    if (gestureFocusWidget === w) return
-    gestureFocusWidget = w
-    if (focusWidget !== w) {
-        focusIt(null)
-    }
-  }
 
   **
   ** set for dealwith mouse exit and mouse enter
@@ -315,56 +253,13 @@ class Frame : ContentPane
     if (!focused()) return false
     return w === focusWidget
   }
-
-  protected override Void gestureEvent(GestureEvent e) {
-    if (e.type == GestureEvent.drag
-            || e.type == GestureEvent.drop || e.type == GestureEvent.multiTouch)
-    {
-      if (gestureFocusWidget != null) {
-        e.relativeX = e.relativeX - this.x
-        e.relativeY = e.relativeY - this.y
-        gestureFocusWidget.gestureEvent(e)
-      }
-      return
-    }
-    
-    if (topLayer != null) {
-      topLayer.gestureEvent(e)
-
-      if (this.modal == 1 && !e.consumed) {
-        modalWidget?.detach
-      }
-    }
-
-    
-    if (modal < 2 && !e.consumed) {
-      content.gestureEvent(e)
-    }
+  
+  protected override Void onDrag(GestureEvent e){
+    if (focusWidget == null) return
+    if (focusWidget.enabled) focusWidget.onDrag(e)
   }
-
-  override Void motionEvent(MotionEvent e) {
-    e.relativeX = e.x
-    e.relativeY = e.y
-
-    //fire mouse out event
-    if (mouseHoverWidget != null) {
-      p := Coord(e.x.toFloat, e.y.toFloat)
-      b := mouseHoverWidget.mapToRelative(p)
-      if (!b || !mouseHoverWidget.contains(p.x.toInt, p.y.toInt)) {
-        mouseHoverWidget.mouseExit
-        mouseHoverWidget = null
-      }
-    }
-
-    if (e.consumed) {
-      return
-    }
-
-    topLayer?.motionEvent(e)
-    if (modal == 0 && !e.consumed) {
-      content.motionEvent(e)
-    }
-    //echo("type$e.type, x$e.x,y$e.y")
+  protected override Void onDropAt(GestureEvent e, Widget? src){
+    super.onDropAt(e, focusWidget)
   }
 
   override Void keyEvent(KeyEvent e) {
@@ -378,7 +273,17 @@ class Frame : ContentPane
   }
 
   once EventListeners onWindowStateChange() { EventListeners() }
-
+  
+  protected override Void onOpen() {
+    isFirst := initState == 0
+    initState = 1
+    onOpened.fire(Event { data = isFirst })
+    super.onOpen
+  }
+  protected override Void onDetach() {
+    onClosing.fire(null)
+    super.onDetach
+  }
   **
   ** Callback function when window is opended.
   **

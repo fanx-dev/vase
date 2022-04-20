@@ -37,8 +37,8 @@ class CardPane : Pane
   Float pageWidthScale := 0.4
   
   new make() {
-    gestureFocusable = true
-    clip = true
+    focusable = true
+    isCliped = true
   }
   
   private Void select(Int i, Bool updateWhenDone := true) {
@@ -164,16 +164,18 @@ class CardPane : Pane
     }
   }
 
-  protected override Void paintChildren(Graphics g)
+  protected override Void paintChildren(Rect clip, Graphics g)
   {
     children.each |c, i|
     {
       if (c.visible && i != selIndex)
       {
-        g.push
-        g.transform(Transform2D.makeTranslate(c.x.toFloat, c.y.toFloat))
-        c.paint(g)
-        g.pop
+        if (clip.intersects(c.bounds)) {
+            g.push
+            g.transform(Transform2D.makeTranslate(c.x.toFloat, c.y.toFloat))
+            c.paint(clip, g)
+            g.pop
+        }
       }
     }
 
@@ -181,7 +183,7 @@ class CardPane : Pane
     if (c.visible) {
         g.push
         g.transform(Transform2D.makeTranslate(c.x.toFloat, c.y.toFloat))
-        c.paint(g)
+        c.paint(clip, g)
         g.pop
     }
   }

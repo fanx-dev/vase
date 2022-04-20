@@ -59,8 +59,7 @@ class MenuItem : Button
       if (subMenuList.childrenSize > 0) {
         layer := rootMenu.layer
         if (layer.parent == null) {
-            getRootView.topOverlayer.add(layer)
-            getRootView.setModal(1, layer)
+            getRootView.topOverlayer(1).add(layer)
         }
         expand(layer)
         //getRootView.modal = true
@@ -137,8 +136,7 @@ class MenuItem : Button
       addParentTo(layer)
 
       layer.add(subMenuList)
-      pos := Coord(0f, 0f)
-      rc := this.posOnWindow(pos)
+      pos := this.posOnWindow
       if (parent is Menu)
       {
         subMenuList.layout.offsetX = pixelToDp(pos.x.toInt)

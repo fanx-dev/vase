@@ -108,7 +108,8 @@ class ScrollBar : Widget
       layout.width = Layout.matchParent
     }
     
-    gestureFocusable = true
+    focusable = true
+    dragAware = true
   }
 
   **
@@ -164,7 +165,7 @@ class ScrollBar : Widget
     }
   }
 
-  protected override Void gestureEvent(GestureEvent e) {
+  protected override Void onDrag(GestureEvent e) {
     if (!draging) return
     
     if (e.type == GestureEvent.drop)

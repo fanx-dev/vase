@@ -13,7 +13,7 @@ using vaseWindow
 class Pane : WidgetGroup
 {
   new make() {
-    clip = true
+    isCliped = true
   }
   **
   ** Frame Layout

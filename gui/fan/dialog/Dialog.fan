@@ -10,14 +10,13 @@
 **
 @Js
 mixin Dialog
-{
+{  
   virtual This show(Widget parent)
   {
     root := parent.getRootView
-    overlayer := root.topOverlayer
+    overlayer := root.topOverlayer(2)
     overlayer.add(self)
     root.clearFocus
-    root.setModal(2, self)
     overlayer.relayout
     
     if (animType == 1)
@@ -31,9 +30,15 @@ mixin Dialog
   protected virtual Int animType() { 0 }
   
   Void close() {
-    if (animType == 1)
-        self.shrinkAnim.start
-    else
-        self.moveOutAnim(Direction.down).start
+    if (animType == 1) {
+        annim := self.shrinkAnim
+        annim.whenDone.add { self.parent.detach }
+        annim.start
+    }
+    else {
+        annim := self.moveOutAnim(Direction.down)
+        annim.whenDone.add { self.parent.detach }
+        annim.start
+    }
   }
 }

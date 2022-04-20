@@ -66,4 +66,5 @@ class ActionDialog : VBox, Dialog
     this.layout.hAlign = Align.center
     this.layout.vAlign = Align.end
   }
+
 }

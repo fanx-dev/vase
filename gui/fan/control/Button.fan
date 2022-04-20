@@ -49,6 +49,7 @@ class Button : Label
     padding = Insets(25)
     textAlign = Align.center
     focusable = true
+    mouseAware = true
   }
 
 //////////////////////////////////////////////////////////////////////////
@@ -101,10 +102,6 @@ class Button : Label
     //echo("e.type $e.type, $id")
     super.motionEvent(e)
 
-    if (state == mouseOut && e.type == MotionEvent.mouseMove) {
-      getRootView?.mouseHover(this)
-    }
-      
     if (e.type == MotionEvent.released || e.type == MotionEvent.mouseOut || e.type == MotionEvent.cancel)
     {
       state = mouseOut
@@ -138,8 +135,7 @@ class Button : Label
       tooltipValid = true
       Toolkit.cur.callLater(tooltipDelay) {
           if (tooltipValid && tooltipLabel == null) {
-              pos := Coord(0.0, 0.0)
-              rc := posOnWindow(pos)
+              pos := posOnWindow
               tooltipLabel = Label {
                 it.layout.offsetX = this.pixelToDp(pos.x.toInt)
                 it.layout.offsetY = this.pixelToDp(pos.y.toInt + this.height)

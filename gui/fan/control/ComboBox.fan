@@ -59,8 +59,7 @@ class ComboBox : Button
         return
     }
 
-    pos := Coord(0f, 0f)
-    rc := posOnWindow(pos)
+    pos := posOnWindow
     list.layout.offsetX = pixelToDp(pos.x.toInt)
     list.layout.offsetY = pixelToDp(pos.y.toInt + height)
     //echo("${list.layout.offsetY},${pos.y.toInt},${height}")

@@ -105,8 +105,7 @@ class EditText : Widget
     multiLine := lines == null ? 1 : lines.size
     host.setType(multiLine, editable)
     
-    p := Coord(0f, 0f)
-    this.posOnWindow(p)
+    p := this.posOnWindow
     host.setPos(p.x.toInt, p.y.toInt, width, height)
     //host.setStyle(font, Color.black, Color.white)
     host.setStyle(font, Color.black, Color(0xe0e0e0))

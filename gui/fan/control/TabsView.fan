@@ -60,8 +60,8 @@ class TabsView : HBox
             }
             this.add(bt)
         }
-        gestureFocusable = true
-        clip = true
+        focusable = true
+        isCliped = true
     }
     
   override Void layoutChildren(Bool force)

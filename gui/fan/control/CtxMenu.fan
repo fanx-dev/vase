@@ -16,6 +16,7 @@ class CtxMenu : ScrollPane {
     
     private Bool inited := false
     private |Int|? clickCallback
+    private WidgetGroup? overlayer
     
     Void onAction(|Int| f) { clickCallback = f }
     
@@ -65,12 +66,11 @@ class CtxMenu : ScrollPane {
     Void show(Widget w) {
         init
         root := w.getRootView
-        overlayer := root.topOverlayer
+        overlayer = root.topOverlayer(1)
         overlayer.add(this)
         this.relayout
         overlayer.relayout
         this.focus
-        root.setModal(1, this)
     }
     
     Void hide()
@@ -79,7 +79,6 @@ class CtxMenu : ScrollPane {
       
       root := this.getRootView
       root.clearFocus
-      root.setModal(0, this)
-      this.detach
+      overlayer.detach
     }
 }

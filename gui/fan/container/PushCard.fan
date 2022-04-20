@@ -30,7 +30,7 @@ class PushCard : Pane
   }
   
   new make() {
-    gestureFocusable = true
+    focusable = true
   }
 
   private Void pushDrop() {
@@ -91,7 +91,7 @@ class PushCard : Pane
     super.motionEvent(e)
 
     if (pushUp > 0) {
-        this.getRootView?.gestureFocus(this)
+        this.getRootView?.focusIt(this)
     }
   }
 

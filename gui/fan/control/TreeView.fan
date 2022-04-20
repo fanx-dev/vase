@@ -132,6 +132,24 @@ class TreeView : ScrollPane
         return null
     }
   }
+  
+  protected override Void onDrag(GestureEvent e) {
+    if (e.type == GestureEvent.drag) {
+      dragDropItem = findItemAt(e.relativeY)
+      e.consume
+      this.repaint
+    }
+    else if (e.type == GestureEvent.drop) {
+      draging = false
+      dragDropItem = findItemAt(e.relativeY)
+      if (selectedItem != null && dragDropItem != null && selectedItem != dragDropItem) {
+        onDragDrop?.call(selectedItem, dragDropItem)
+      }
+      dragDropItem = null
+      this.relayout
+      e.consume
+    }
+  }
 
   protected override Void gestureEvent(GestureEvent e)
   {
@@ -153,22 +171,6 @@ class TreeView : ScrollPane
     if (!draging) {
       super.gestureEvent(e)
       return
-    }
-    
-    if (e.type == GestureEvent.drag) {
-      dragDropItem = findItemAt(e.relativeY)
-      e.consume
-      this.repaint
-    }
-    else if (e.type == GestureEvent.drop) {
-      draging = false
-      dragDropItem = findItemAt(e.relativeY)
-      if (selectedItem != null && dragDropItem != null && selectedItem != dragDropItem) {
-        onDragDrop?.call(selectedItem, dragDropItem)
-      }
-      dragDropItem = null
-      this.relayout
-      e.consume
     }
   }
 }

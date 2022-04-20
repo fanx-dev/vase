@@ -33,8 +33,7 @@ class VideoView : Widget
         this.close
       }
     }
-    p := Coord(0f, 0f)
-    this.posOnWindow(p)
+    p := this.posOnWindow
     video.x = p.x.toInt
     video.y = p.y.toInt
     video.w = this.width

@@ -50,7 +50,18 @@ internal class WinView : View
     gesture.onGestureEvent.add |GestureEvent e|{
       e.relativeX = e.x
       e.relativeY = e.y
-      if (this.oldFrame == null) this.curFrame.gestureEvent(e)
+      if (this.oldFrame == null) {
+          if (e.type == GestureEvent.drag
+            || e.type == GestureEvent.drop || e.type == GestureEvent.multiTouch)
+        {
+          this.curFrame.onDrag(e)
+          if (e.type != GestureEvent.drop) {
+            this.curFrame.onDropAt(e, null)
+          }
+          return
+        }
+        this.curFrame.gestureEvent(e)
+      }
     }
   }
 
@@ -151,7 +162,7 @@ internal class WinView : View
     }
 
     if (!curFrame.isOpened) {
-      curFrame.fireOnOpened
+      curFrame.onOpen
     }
   }
 
@@ -168,22 +179,24 @@ internal class WinView : View
       DisplayMetrics.cur.updateDensity(s.w, s.h)
     }
     update
+    
+    bounds := Rect(0, 0, this.width, this.height)
 
     oldFrame?.onUpdate
     if (!frameOut && oldFrame != null) {
       DisplayMetrics.cur.autoScale = oldFrame.autoScale
       g.push
-      oldFrame.paint(g)
+      oldFrame.paint(bounds, g)
       g.pop
       DisplayMetrics.cur.autoScale = curFrame.autoScale
     }
     
     curFrame.onUpdate
-    curFrame.paint(g)
+    curFrame.paint(bounds, g)
 
     if (frameOut && oldFrame != null) {
       g.push
-      oldFrame.paint(g)
+      oldFrame.paint(bounds, g)
       g.pop
     }
   }

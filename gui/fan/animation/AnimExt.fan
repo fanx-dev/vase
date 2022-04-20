@@ -32,8 +32,7 @@ class AnimExt {
   static extension Animation moveInAnim(Widget self, Direction orig, Int time := 300) {
     x := 0
     y := 0
-    p := Coord(0f, 0f)
-    self.posOnWindow(p)
+    p := self.posOnWindow
     root := self.getRootView
 
     switch (orig) {
@@ -59,8 +58,7 @@ class AnimExt {
 
     x := 0
     y := 0
-    p := Coord(0f, 0f)
-    self.posOnWindow(p)
+    p := self.posOnWindow
     root := self.getRootView
 
     switch (orig) {

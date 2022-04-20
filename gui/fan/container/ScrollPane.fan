@@ -35,12 +35,9 @@ class ScrollPane : ContentPane
   |Widget|? onLoadMore
   Widget? refreshTip
 
-  @Transient
-  private Bool actived = false
-
   new make()
   {
-    clip = true
+    isCliped = true
     //scroll bar
     hbar = ScrollBar { vertical = false; it.barSize = this.barSize; it.layout.ignored = true }
     vbar = ScrollBar { vertical = true; it.barSize = this.barSize; it.layout.ignored = true }
@@ -90,7 +87,8 @@ class ScrollPane : ContentPane
     layout.width = Layout.matchParent
     //padding = Insets(0, barSize.toInt, barSize.toInt, 0)
     padding = Insets(0, 8, 8, 0)
-    gestureFocusable = true
+    focusable = true
+    dragAware = true
   }
 
   protected virtual Void onViewportChanged() {}
@@ -190,7 +188,7 @@ class ScrollPane : ContentPane
         animation.stop
       }
       //this.focus
-      actived = true
+      //actived = true
     }
     
     super.motionEvent(e)
@@ -246,12 +244,11 @@ class ScrollPane : ContentPane
   
   Bool dragable := true
 
-  protected override Void gestureEvent(GestureEvent e) {
-    super.gestureEvent(e)
+  protected override Void onDrag(GestureEvent e) {
+    super.onDrag(e)
     if (e.consumed) return
     
     if (!dragable) return
-    if (!actived) return
     
     //if (!vbar.enabled) return
     if (e.type == GestureEvent.drag) {
@@ -275,7 +272,7 @@ class ScrollPane : ContentPane
       }
     }
     else if (e.type == GestureEvent.drop) {
-      actived = false
+      //actived = false
       //echo("drop: $vbar.isOverScroll")
       if (vbar.isOverScroll) {
         animatOverScroll

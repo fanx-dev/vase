@@ -19,7 +19,7 @@ class Canvas : Widget {
     image4 = Image.fromUri(Uri("fan://vaseDemo/res/image.png"))
   }
 
-  override protected  Void doPaint(Graphics canvas) {
+  override protected  Void doPaint(Rect clip, Graphics canvas) {
 
       if (!inited && image0.isReady && image4.isReady) {
         inited = true;

@@ -53,7 +53,7 @@ abstract class Widget : Bindable
   **
   //Effect? effect
 
-  Bool clip := true
+  Bool isCliped := true
 
   **
   ** flag for using renderCache
@@ -96,15 +96,13 @@ abstract class Widget : Bindable
   Void onClick(|Widget| c) { onClickCallback =  c }
   
   @Transient
-  protected |Widget|? onLongPressCallback := null
-  Void onLongPress(|Widget| c) { onLongPressCallback =  c }
-
-  @Transient
-  protected |Widget, GestureEvent|? onRightClickCallback := null
-  Void onRightClick(|Widget, GestureEvent| c) { onRightClickCallback =  c }
+  once EventListeners onGestureEvent() { EventListeners() }
 
   Bool clickAnimation = true
-
+  
+  Bool dragAware = false
+  Bool mouseAware = true
+  
 //////////////////////////////////////////////////////////////////////////
 // State
 //////////////////////////////////////////////////////////////////////////
@@ -156,7 +154,7 @@ abstract class Widget : Bindable
   ** Position and size of this widget relative to its parent.
   ** If this a window, this is the position on the screen.
   **
-/*
+
   @Transient
   Rect bounds
   {
@@ -168,7 +166,6 @@ abstract class Widget : Bindable
       height = it.h
     }
   }
-*/
 
   protected Void fireStateChange(Obj? oldValue, Obj? newValue, Field? field) {
     if (oldValue == newValue) return
@@ -202,40 +199,38 @@ abstract class Widget : Bindable
   ** process motion event
   **
   protected virtual Void motionEvent(MotionEvent e) {
-    if (e.type == MotionEvent.pressed && !e.consumed) {
-      if (gestureFocusable) {
-        getRootView?.gestureFocus(this)
+    if (e.consumed) return
+    if (e.type == MotionEvent.pressed) {
+      if (dragAware && focusable) {
+        getRootView?.focusIt(this)
         e.consume
       }
     }
+    else if (e.type == MotionEvent.mouseMove) {
+      if (mouseAware) {
+        getRootView?.mouseHover(this)
+      }
+    }
   }
+  
+  protected virtual Void onDrag(GestureEvent e){}
+  protected virtual Void onDropAt(GestureEvent e, Widget? src){}
 
   **
   ** process gesture event
   **
   protected virtual Void gestureEvent(GestureEvent e) {
     if (e.type == GestureEvent.click) {
-      if (e.button == 3) {
-        if (onRightClickCallback != null) {
-          try {
-            onRightClickCallback.call(this, e)
-          }
-          catch(Err err){ err.trace }
-          e.consume
-        }
-      }
-      else {
+      if (e.button != 3) {
         if (onClickCallback != null) {
           clicked
           e.consume
         }
       }
     }
-    else if (onLongPressCallback != null && e.type == GestureEvent.longPress) {
-      //this.focus
-      onLongPressCallback.call(this)
-      e.consume
-    }
+
+    e.src = this
+    onGestureEvent.fire(e)
   }
   
   protected virtual Void clicked() {
@@ -255,14 +250,15 @@ abstract class Widget : Bindable
   **
   ** Paints this component.
   **
-  Void paint(Graphics g) {
+  Void paint(Rect clip, Graphics g) {
     if (!visible) return
     if (width <= 0 || height <= 0) {
       return
     }
 
-    if (clip) {
+    if (isCliped) {
       g.clip(Rect(0, 0, width, height))
+      clip = clip.intersection(this.bounds)
     }
 
     if (transform != null) {
@@ -282,7 +278,7 @@ abstract class Widget : Bindable
         renderCacheDirty = false
         cg := renderCacheImage.graphics
         cg.antialias = true
-        doPaint(cg)
+        doPaint(clip, cg)
         cg.dispose
       }
       else if (renderCacheDirty) {
@@ -295,13 +291,13 @@ abstract class Widget : Bindable
         //  cg.brush = Color.makeArgb(255, 255, 255, 255)
         //}
         //cg.clearRect(0, 0, width, height)
-        doPaint(cg)
+        doPaint(clip, cg)
         cg.dispose
       }
 
       g.drawImage(renderCacheImage, 0, 0)
     } else {
-      doPaint(g)
+      doPaint(clip, g)
     }
 
     //if (effect != null) {
@@ -327,7 +323,7 @@ abstract class Widget : Bindable
     styleCache = null
   }
 
-  protected virtual Void doPaint(Graphics g) {
+  protected virtual Void doPaint(Rect clip, Graphics g) {
     getStyle.paint(this, g)
     //debug
     if (debug) {
@@ -347,6 +343,7 @@ abstract class Widget : Bindable
   {
     WidgetGroup? p := this.parent
     if (p == null) return
+    this.onDetach
     p.remove(this, doRelayout)
   }
 
@@ -499,49 +496,39 @@ abstract class Widget : Bindable
   ** Get the position of this widget relative to the window.
   ** If not on mounted on the screen then return null.
   **
-  Bool posOnWindow(Coord result)
+  Coord? posOnWindow()
   {
+    if (parent == null) return null
     if (this is Frame) {
-      result.set(0f, 0f)
-      return true
+      return Coord(0f, 0f)
     }
-    if (parent == null) return false
-    parentOnWid := parent.posOnWindow(result)
-    if (parentOnWid == false) return false
+    
+    result := parent.posOnWindow()
+    if (result == null) return null
 
     result.x += x
     result.y += y
-    return true
+    return result
   }
 
   **
   ** Translates absolute coordinates into coordinates in the coordinate space of this component.
   **
-  Bool mapToRelative(Coord p)
+  Coord? mapToRelative(Coord p)
   {
-    x := p.x
-    y := p.y
-    posOW := parent.posOnWindow(p)
-    if (posOW == false) return false
-
-    p.x = x - p.x
-    p.y = y - p.y
-    return true
+    posOW := parent.posOnWindow()
+    if (posOW == null) return null
+    return Coord( p.x - posOW.x, p.y - posOW.y)
   }
 
   **
   **  Translates absolute coordinates into relative this widget
   **
-  Bool mapToWidget(Coord p)
+  Coord? mapToWidget(Coord p)
   {
-    x := p.x
-    y := p.y
-    posOW := this.posOnWindow(p)
-    if (posOW == false) return false
-
-    p.x = x - p.x
-    p.y = y - p.y
-    return true
+    posOW := this.posOnWindow()
+    if (posOW == null) return null
+    return Coord( p.x - posOW.x, p.y - posOW.y)
   }
 
   **
@@ -558,7 +545,7 @@ abstract class Widget : Bindable
     return null
   }
 
-  Widget? getRoot() {
+  Widget? getAncestor() {
     Widget? x := this
     while (x != null)
     {
@@ -588,7 +575,6 @@ abstract class Widget : Bindable
 //////////////////////////////////////////////////////////////////////////
 
   Bool focusable := false
-  Bool gestureFocusable := false
 
   **
   ** Return if this widget is the focused widget which
@@ -632,7 +618,8 @@ abstract class Widget : Bindable
   **
   ** Callback this widget mounted.
   **
-  protected virtual Void onMounted() {}
+  protected virtual Void onOpen() {}
+  protected virtual Void onDetach() {}
 
 
   @NoDoc
