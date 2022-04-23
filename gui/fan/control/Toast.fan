@@ -24,7 +24,7 @@ class Toast : Label {
   Void show(Widget parent)
   {
     root := parent.getRootView
-    overlayer := root.topOverlayer
+    overlayer := root
     overlayer.add(this)
     overlayer.relayout
 

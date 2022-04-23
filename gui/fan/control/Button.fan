@@ -124,7 +124,7 @@ class Button : Label
     state = mouseOut
     tooltipValid = false
     if (tooltipLabel != null) {
-      tooltipLabel.detach
+      tooltipLabel.parent?.detach
       tooltipLabel = null
     }
   }

@@ -31,6 +31,7 @@ class Spinner : Widget
         layout.width = Layout.wrapContent
         padding = Insets(20)
         focusable = true
+        dragAware = true
     }
     
     protected override Size prefContentSize(Int hintsWidth := -1, Int hintsHeight := -1) {
@@ -47,8 +48,8 @@ class Spinner : Widget
         this.repaint
     }
     
-    protected override Void gestureEvent(GestureEvent e) {
-        super.gestureEvent(e)
+    protected override Void onDrag(GestureEvent e) {
+        super.onDrag(e)
         if (e.consumed) return
         
         if (e.type == GestureEvent.drag) {
@@ -86,4 +87,5 @@ class Spinner : Widget
             this.repaint
         }
     }
+
 }

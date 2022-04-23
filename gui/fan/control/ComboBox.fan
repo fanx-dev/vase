@@ -28,8 +28,6 @@ class ComboBox : Button
       this.text = items[val].toStr
     }
   }
-  
-  private CtxMenu? list
 
   new make()
   {
@@ -40,23 +38,16 @@ class ComboBox : Button
 
   Void show()
   {
-    if (list == null)
-    {
-      list = CtxMenu {
-        it.layout.vAlign = Align.begin
-        it.layout.hAlign = Align.begin
-        it.layout.width = it.pixelToDp(this.width)
-        it.layout.height = 600
-        it.items = this.items
-        it.onAction |i| {
-          selIndex = i
-        }
+
+    list := CtxMenu {
+      it.layout.vAlign = Align.begin
+      it.layout.hAlign = Align.begin
+      it.layout.width = it.pixelToDp(this.width)
+      it.layout.height = 600
+      it.items = this.items
+      it.onAction |i| {
+        selIndex = i
       }
-    }
-    
-    if (list.parent != null) {
-        list.hide
-        return
     }
 
     pos := posOnWindow

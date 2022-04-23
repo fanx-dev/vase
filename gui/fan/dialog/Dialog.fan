@@ -30,14 +30,19 @@ mixin Dialog
   protected virtual Int animType() { 0 }
   
   Void close() {
+    parent := self.parent
     if (animType == 1) {
         annim := self.shrinkAnim
-        annim.whenDone.add { self.parent.detach }
+        annim.whenDone.add {
+            parent.detach
+        }
         annim.start
     }
     else {
         annim := self.moveOutAnim(Direction.down)
-        annim.whenDone.add { self.parent.detach }
+        annim.whenDone.add {
+            parent.detach
+        }
         annim.start
     }
   }

@@ -55,12 +55,9 @@ internal class WinView : View
             || e.type == GestureEvent.drop || e.type == GestureEvent.multiTouch)
         {
           this.curFrame.onDrag(e)
-          if (e.type != GestureEvent.drop) {
-            this.curFrame.onDropAt(e, null)
-          }
           return
         }
-        this.curFrame.gestureEvent(e)
+        this.curFrame.postGestureEvent(e)
       }
     }
   }
@@ -202,8 +199,10 @@ internal class WinView : View
   }
 
   override Void onMotionEvent(MotionEvent e) {
+    e.relativeX = e.x
+    e.relativeY = e.y
     update
-    if (oldFrame == null) curFrame.motionEvent(e)
+    if (oldFrame == null) curFrame.postMotionEvent(e)
     //if (!e.consumed) {
     gesture.onEvent(e)
     //}

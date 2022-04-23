@@ -39,6 +39,7 @@ class CardPane : Pane
   new make() {
     focusable = true
     isCliped = true
+    dragAware = true
   }
   
   private Void select(Int i, Bool updateWhenDone := true) {
@@ -88,8 +89,8 @@ class CardPane : Pane
     this.relayout
   }
   
-  protected override Void gestureEvent(GestureEvent e) {
-    super.gestureEvent(e)
+  protected override Void onDrag(GestureEvent e) {
+    super.onDrag(e)
     if (e.consumed) return
     
     if (e.type == GestureEvent.drag) {

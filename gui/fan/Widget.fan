@@ -101,7 +101,8 @@ abstract class Widget : Bindable
   Bool clickAnimation = true
   
   Bool dragAware = false
-  Bool mouseAware = true
+  Bool mouseAware = false
+  Bool eventPass = false
   
 //////////////////////////////////////////////////////////////////////////
 // State
@@ -201,21 +202,22 @@ abstract class Widget : Bindable
   protected virtual Void motionEvent(MotionEvent e) {
     if (e.consumed) return
     if (e.type == MotionEvent.pressed) {
-      if (dragAware && focusable) {
-        getRootView?.focusIt(this)
+      if (dragAware) {
+        getRootView?.dragFocus(this)
         e.consume
       }
     }
     else if (e.type == MotionEvent.mouseMove) {
       if (mouseAware) {
         getRootView?.mouseHover(this)
+        e.consume
       }
     }
   }
+
   
   protected virtual Void onDrag(GestureEvent e){}
-  protected virtual Void onDropAt(GestureEvent e, Widget? src){}
-
+  
   **
   ** process gesture event
   **
@@ -231,6 +233,18 @@ abstract class Widget : Bindable
 
     e.src = this
     onGestureEvent.fire(e)
+  }
+  
+  protected virtual Void postGestureEvent(GestureEvent e) {
+    if (!this.enabled) return
+    if (!contains(e.relativeX, e.relativeY)) return
+    gestureEvent(e)
+  }
+  
+  protected virtual Void postMotionEvent(MotionEvent e) {
+    if (!this.enabled) return
+    if (!contains(e.relativeX, e.relativeY)) return
+    motionEvent(e)
   }
   
   protected virtual Void clicked() {
@@ -498,11 +512,11 @@ abstract class Widget : Bindable
   **
   Coord? posOnWindow()
   {
-    if (parent == null) return null
     if (this is Frame) {
       return Coord(0f, 0f)
     }
-    
+    if (parent == null) return null
+
     result := parent.posOnWindow()
     if (result == null) return null
 

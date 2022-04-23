@@ -135,9 +135,11 @@ class TreeView : ScrollPane
   
   protected override Void onDrag(GestureEvent e) {
     if (e.type == GestureEvent.drag) {
-      dragDropItem = findItemAt(e.relativeY)
-      e.consume
-      this.repaint
+      if (draging) {
+        dragDropItem = findItemAt(e.relativeY)
+        e.consume
+        this.repaint
+      }
     }
     else if (e.type == GestureEvent.drop) {
       draging = false

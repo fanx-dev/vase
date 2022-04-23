@@ -44,7 +44,7 @@ class ResizePane : Pane {
     protected override Void motionEvent(MotionEvent e) {
         super.motionEvent(e)
         //echo("e.consumed:$e.consumed,e.type:$e.type")
-        if (e.consumed) return
+        //if (e.consumed) return
         
         if (e.type == MotionEvent.mouseMove) {
 

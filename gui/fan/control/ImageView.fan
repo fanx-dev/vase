@@ -142,6 +142,7 @@ class ImageView : Widget
 
   Void setDragable() {
     focusable = true
+    dragAware = true
   }
 
   // protected override Size prefContentSize(Int hintsWidth := -1, Int hintsHeight := -1) {

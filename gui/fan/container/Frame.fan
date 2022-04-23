@@ -18,16 +18,19 @@ class ModalLayer : Pane {
     new make(Int level) {
         layout.width = Layout.matchParent
         layout.height = Layout.matchParent
+        this.level = level
         if (level > 1) backgroundAlpha = 100
+        if (level == 0) eventPass = true
     }
     
     protected override Void gestureEvent(GestureEvent e) {
         super.gestureEvent(e)
         if (e.consumed) return
         if (e.type == GestureEvent.click) {
-            if (level > 2) return
+            if (level > 1) return
             else {
                 this.detach
+                e.consume
             }
         }
     }
@@ -60,6 +63,9 @@ class Frame : Pane
   **
   @Transient
   private Widget? focusWidget { private set }
+  
+  @Transient
+  private Widget? dragFocusWidget { private set }
 
   @Transient
   private Widget? mouseHoverWidget
@@ -204,6 +210,11 @@ class Frame : Pane
     if (mouseHoverWidget === w) {
       mouseHoverWidget = null
     }
+    
+    if (dragFocusWidget === w) {
+      dragFocusWidget = null
+    }
+   
   }
   
   Void clearFocus() {
@@ -232,6 +243,12 @@ class Frame : Pane
         focusWidget?.onFocusChanged?.fire(e)
     }
   }
+  
+  Void dragFocus(Widget? w) {
+    if (dragFocusWidget === w) return
+    dragFocusWidget = w
+    clearFocus
+  }
 
   **
   ** set for dealwith mouse exit and mouse enter
@@ -253,13 +270,31 @@ class Frame : Pane
     if (!focused()) return false
     return w === focusWidget
   }
-  
+
   protected override Void onDrag(GestureEvent e){
-    if (focusWidget == null) return
-    if (focusWidget.enabled) focusWidget.onDrag(e)
+    if (dragFocusWidget == null) return
+    if (dragFocusWidget.enabled) dragFocusWidget.onDrag(e)
   }
-  protected override Void onDropAt(GestureEvent e, Widget? src){
-    super.onDropAt(e, focusWidget)
+
+  protected override Void postMotionEvent(MotionEvent e) {
+    //fire mouse out event
+    if (mouseHoverWidget != null) {
+      ap := Coord(e.x.toFloat, e.y.toFloat)
+      p := mouseHoverWidget.mapToRelative(ap)
+      if (p == null || !mouseHoverWidget.contains(p.x.toInt, p.y.toInt)) {
+        mouseHoverWidget.mouseExit
+        mouseHoverWidget = null
+      }
+    }
+    
+    super.postMotionEvent(e)
+  }
+  
+  protected override Void postGestureEvent(GestureEvent e) {
+    if (e.type == GestureEvent.drop) {
+        e.data = focusWidget
+    }
+    super.postGestureEvent(e)
   }
 
   override Void keyEvent(KeyEvent e) {

@@ -46,6 +46,7 @@ class StyleManager
     styleClassMap = [
         //"buttonBase" : ButtonBaseStyle(),
         "menuItem" : MenuItemStyle(),
+        "menuPane" : PaneStyle { shadow = 0; arc = 0; stroke = true; fill = true; outlineColor = Color.black; background = Color(0x535353) },
         "tableHeader" : TableHeaderStyle(),
         "shadow" : PaneStyle { shadow = 20 },
         "flatButton" : FlatButtonStyle(),

@@ -16,8 +16,6 @@ using vaseWindow
 @Serializable { collection = true }
 abstract class WidgetGroup : Widget
 {
-  Bool eventPass = false
-
   new make() {
     useRenderCache = false
     focusable = false
@@ -135,12 +133,12 @@ abstract class WidgetGroup : Widget
   override Widget? findAt(Int x, Int y) {
     if (!contains(x, y)) return null
     
-    res := children.eachWhile |c| {
-      r := c.findAt(x-this.x, y-this.y)
-      if (r != null) return r
-      return null
+    for (i:=children.size-1; i>=0 && i<children.size; --i) {
+        c := children.get(i)
+        r := c.findAt(x-this.x, y-this.y)
+        if (r != null) return r
     }
-    if (res != null) return res
+    
     return this
   }
 
@@ -162,11 +160,7 @@ abstract class WidgetGroup : Widget
 // event
 //////////////////////////////////////////////////////////////////////////
 
-
-  **
-  ** process motion event
-  **
-  protected override Void motionEvent(MotionEvent e) {
+  protected virtual Void postGestureEvent(GestureEvent e) {
     px := e.relativeX
     py := e.relativeY
     for (i:=children.size-1; i>=0 && i<children.size; --i) {
@@ -175,8 +169,8 @@ abstract class WidgetGroup : Widget
         e.relativeX = px - this.x
         e.relativeY = py - this.y
         if (t.contains(e.relativeX, e.relativeY)) {
-          t.motionEvent(e)
-          if (!eventPass) break
+          t.postGestureEvent(e)
+          if (!t.eventPass) break
         }
       }
     }
@@ -184,10 +178,10 @@ abstract class WidgetGroup : Widget
     e.relativeY = py
     
     if (e.consumed) return
-    super.motionEvent(e)
+    this.gestureEvent(e)
   }
   
-  protected virtual Void onDropAt(GestureEvent e, Widget? src) {
+  protected override Void postMotionEvent(MotionEvent e) {
     px := e.relativeX
     py := e.relativeY
     for (i:=children.size-1; i>=0 && i<children.size; --i) {
@@ -196,8 +190,8 @@ abstract class WidgetGroup : Widget
         e.relativeX = px - this.x
         e.relativeY = py - this.y
         if (t.contains(e.relativeX, e.relativeY)) {
-          t.onDropAt(e, src)
-          if (!eventPass) break
+          t.postMotionEvent(e)
+          if (!t.eventPass) break
         }
       }
     }
@@ -205,43 +199,7 @@ abstract class WidgetGroup : Widget
     e.relativeY = py
     
     if (e.consumed) return
-    super.onDropAt(e, src)
-  }
-
-  **
-  ** process gesture event
-  **
-  protected override Void gestureEvent(GestureEvent e) {
-    px := e.relativeX
-    py := e.relativeY
-    for (i:=children.size-1; i>=0 && i<children.size; --i) {
-      t := children.get(i)
-      if (t.enabled && !e.consumed) {
-        e.relativeX = px - this.x
-        e.relativeY = py - this.y
-        if (t.contains(e.relativeX, e.relativeY)) {
-          t.gestureEvent(e)
-          if (!eventPass) break
-        }
-      }
-    }
-    e.relativeX = px
-    e.relativeY = py
-    
-    if (e.consumed) return
-    super.gestureEvent(e)
-  }
-
-  protected override Void keyEvent(KeyEvent e) {
-    
-    children.eachr {
-      if (it.enabled && !e.consumed) {
-        it.keyEvent(e)
-      }
-    }
-    
-    if (e.consumed) return
-    super.keyEvent(e)
+    this.motionEvent(e)
   }
 
   **

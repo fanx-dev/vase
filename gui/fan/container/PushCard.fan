@@ -31,6 +31,7 @@ class PushCard : Pane
   
   new make() {
     focusable = true
+    dragAware = true
   }
 
   private Void pushDrop() {
@@ -95,7 +96,7 @@ class PushCard : Pane
     }
   }
 
-  protected override Void gestureEvent(GestureEvent e) {
+  protected override Void onDrag(GestureEvent e) {
     //echo("gestureEvent:$e")
     if (e.type == GestureEvent.drag) {
         pushOffset(e.deltaY)
@@ -108,7 +109,7 @@ class PushCard : Pane
         e.consume
     }
     else {
-        super.gestureEvent(e)
+        super.onDrag(e)
     }
   }
   

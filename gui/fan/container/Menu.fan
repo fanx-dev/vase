@@ -15,20 +15,19 @@ using vaseWindow
 @Js
 class Menu : HBox
 {
-  Pane layer
+  Pane? layer
   
   new make()
   {
     //vertical = false
     layout.height = Layout.wrapContent
     layout.width = Layout.matchParent
-    layer = Pane { it.layout.height = Layout.matchParent }
   }
 
   Void close()
   {
-    layer.removeAll
-    layer.detach
+    layer?.detach
+    layer = null
   }
 }
 
@@ -40,8 +39,10 @@ internal class MenuList : VBox
 
   new make()
   {
-    spacing = 0//(dpToPixel(10f))
+    spacing = 2
     margin = Insets(3)
+    style = "menuPane"
+    layout.width = Layout.wrapContent
   }
 }
 
@@ -57,11 +58,8 @@ class MenuItem : Button
     
     this.onAction.add {
       if (subMenuList.childrenSize > 0) {
-        layer := rootMenu.layer
-        if (layer.parent == null) {
-            getRootView.topOverlayer(1).add(layer)
-        }
-        expand(layer)
+        rootMenu.layer = getRootView.topOverlayer(0)
+        expand(rootMenu.layer)
         //getRootView.modal = true
       }
       else {
@@ -74,13 +72,10 @@ class MenuItem : Button
       root := rootMenu
       if (root == null) return
       layer := root.layer
-      if (layer.parent != null && e.field == Button#state) {
+      if (layer != null && e.field == Button#state) {
         newVal := ((Int)e.newValue)
         if (newVal == Button.mouseOver) {
           if (subMenuList.childrenSize > 0) {
-            if (layer.parent == null) {
-                getRootView.topOverlayer.add(layer)
-            }
             expand(layer)
             //getRootView.modal = true
           }
@@ -117,6 +112,9 @@ class MenuItem : Button
     MenuList? list := this.parent as MenuList
     while (list != null)
     {
+      if (list.parent != null) {
+        list.detach
+      }
       layer.add(list)
       MenuItem owner := list.owner
       list = owner.parent as MenuList
@@ -125,28 +123,25 @@ class MenuItem : Button
 
   Void expand(WidgetGroup layer)
   {
-    if (subMenuList.parent != null)
-    {
+    if (subMenuList.parent != null) {
       subMenuList.detach
+    }
+
+    //reset
+    layer.removeAll
+    addParentTo(layer)
+
+    layer.add(subMenuList)
+    pos := this.posOnWindow
+    if (parent is Menu)
+    {
+      subMenuList.layout.offsetX = pixelToDp(pos.x.toInt)
+      subMenuList.layout.offsetY = pixelToDp(pos.y.toInt + this.height)
     }
     else
     {
-      //reset
-      layer.removeAll
-      addParentTo(layer)
-
-      layer.add(subMenuList)
-      pos := this.posOnWindow
-      if (parent is Menu)
-      {
-        subMenuList.layout.offsetX = pixelToDp(pos.x.toInt)
-        subMenuList.layout.offsetY = pixelToDp(pos.y.toInt + this.height)
-      }
-      else
-      {
-        subMenuList.layout.offsetX = pixelToDp(pos.x.toInt + this.width)
-        subMenuList.layout.offsetY = pixelToDp(pos.y.toInt)
-      }
+      subMenuList.layout.offsetX = pixelToDp(pos.x.toInt + this.width)
+      subMenuList.layout.offsetY = pixelToDp(pos.y.toInt)
     }
 
     layer.relayout

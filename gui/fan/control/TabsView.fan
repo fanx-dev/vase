@@ -62,6 +62,7 @@ class TabsView : HBox
         }
         focusable = true
         isCliped = true
+        dragAware = true
     }
     
   override Void layoutChildren(Bool force)

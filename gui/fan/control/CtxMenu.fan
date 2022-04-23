@@ -28,12 +28,12 @@ class CtxMenu : ScrollPane {
       
       this.focusable = true
       
-      onFocusChanged.add |e| {
-        //echo("onFocusChanged: $e.data")
-        if (e.data == false) {
-          hide
-        }
-      }
+//      onFocusChanged.add |e| {
+//        //echo("onFocusChanged: $e.data")
+//        if (e.data == false) {
+//          hide
+//        }
+//      }
     }
     
     private Void init() {
@@ -78,7 +78,7 @@ class CtxMenu : ScrollPane {
       if (this.parent == null) return
       
       root := this.getRootView
-      root.clearFocus
+      root?.clearFocus
       overlayer.detach
     }
 }
