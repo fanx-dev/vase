@@ -17,7 +17,7 @@ const class Pen
   **
   ** Width of the stroke, default is 1.
   **
-  const Int width := 1
+  @NoDoc const Int width := 1
 
   **
   ** Defines how two ends of unjoined segements are stroked.
