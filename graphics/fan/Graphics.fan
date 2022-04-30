@@ -44,6 +44,11 @@ mixin Graphics
   abstract Int alpha
 
   **
+  ** Width of the stroke, default is 1.
+  **
+  abstract Float lineWidth
+
+  **
   ** current composition operation
   **
   abstract Composite composite

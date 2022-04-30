@@ -160,7 +160,7 @@ abstract class WidgetGroup : Widget
 // event
 //////////////////////////////////////////////////////////////////////////
 
-  protected virtual Void postGestureEvent(GestureEvent e) {
+  protected override Void postGestureEvent(GestureEvent e) {
     px := e.relativeX
     py := e.relativeY
     for (i:=children.size-1; i>=0 && i<children.size; --i) {

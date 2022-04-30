@@ -141,6 +141,15 @@ fan.vaseWindow.WtkGraphics.prototype.alpha$  = function(a)
   this.cx.globalAlpha = a / 255;
 }
 
+// Float lineWidth
+fan.vaseWindow.WtkGraphics.prototype.m_lineWidth = 1.0;
+fan.vaseWindow.WtkGraphics.prototype.lineWidth   = function() { return this.m_lineWidth }
+fan.vaseWindow.WtkGraphics.prototype.lineWidth$  = function(a)
+{
+  this.m_lineWidth = a;
+  this.cx.lineWidth = a;
+}
+
 // This drawLine(Int x1, Int y1, Int x2, Int y2)
 fan.vaseWindow.WtkGraphics.prototype.drawLine = function(x1, y1, x2, y2)
 {
@@ -365,6 +374,7 @@ fan.vaseWindow.WtkGraphics.prototype.push = function ()
   state.pen       = this.m_pen;
   state.font      = this.m_font;
   state.antialias = this.m_antialias;
+  state.lineWidth = this.m_lineWidth;
   state.alpha     = this.m_alpha;
   state.clip      = this.m_clip;
   //state.transform = this.m_transform.clone();
@@ -380,6 +390,7 @@ fan.vaseWindow.WtkGraphics.prototype.pop = function ()
   this.m_pen       = state.pen;
   this.m_font      = state.font;
   this.m_antialias = state.antialias;
+  this.m_lineWidth = state.lineWidth;
   this.m_alpha     = state.alpha;
   this.m_clip      = state.clip;
   //this.m_transform = state.transform;

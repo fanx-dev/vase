@@ -80,6 +80,9 @@ internal class NGraphics : Graphics
   override Int alpha = 255 { set { &alpha = it; setAlpha(it) } }
   private native Void setAlpha(Int alpha)
 
+  override Float lineWidth = 1.0 { set { &lineWidth = it; setLineWidth(it) } }
+  private native Void setLineWidth(Float w)
+
   **
   ** current composition operation
   **
@@ -221,6 +224,7 @@ internal class NGraphics : Graphics
       it.font = this.font
       it.antialias = this.antialias
       it.alpha = this.alpha
+      it.lineWidth = this.lineWidth
       //it.transform = this.transform
       it.clip = this.clipBound
       it.composite = this.composite
@@ -242,6 +246,7 @@ internal class NGraphics : Graphics
     this.font = state.font
     this.antialias = state.antialias
     this.alpha = state.alpha
+    this.lineWidth = state.lineWidth
     //this.transform = state.transform
     this.clipBound = state.clip
     this.composite = state.composite
@@ -308,6 +313,7 @@ internal class GraphicsState {
   Font? font
   Bool antialias
   Int alpha
+  Float lineWidth
   Transform2D? transform
   Rect? clip
   Composite composite

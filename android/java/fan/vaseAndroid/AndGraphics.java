@@ -31,6 +31,7 @@ public class AndGraphics implements Graphics {
   Brush brush = Color.black;
   Font font;
   int alpha = 255;
+  double lineWidth = 1.0;
   Composite composite = Composite.srcOver;
 
   Stack<State> stack = new Stack<State>();
@@ -50,6 +51,17 @@ public class AndGraphics implements Graphics {
   public void alpha(long a) {
     alpha = (int)a;
     p.setAlpha(alpha);
+  }
+
+  @Override
+  public double lineWidth() {
+    return lineWidth;
+  }
+
+  @Override
+  public void lineWidth(double w) {
+    lineWidth = (int)w;
+    p.setStrokeWidth((float)w);
   }
 
   @Override
@@ -361,6 +373,7 @@ public class AndGraphics implements Graphics {
     s.brush = brush;
     s.font = font;
     s.antialias = this.antialias();
+    s.lineWidth = this.lineWidth;
     s.alpha = alpha;
     //s.transform = gc.getMatrix(mat);
     s.composite = composite;
@@ -377,6 +390,7 @@ public class AndGraphics implements Graphics {
     alpha(s.alpha);
     font(s.font);
     this.antialias(s.antialias);
+    this.lineWidth(s.lineWidth);
     this.composite(s.composite);
     //gc.setMatrix(s.transform);
     gc.clipRect(s.clip);
@@ -392,6 +406,7 @@ public class AndGraphics implements Graphics {
     Font font;
     boolean antialias;
     int alpha;
+    double lineWidth;
     Matrix transform;
     android.graphics.Rect clip;
     fan.vaseGraphics.Composite composite;

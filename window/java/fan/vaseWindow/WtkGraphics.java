@@ -31,6 +31,7 @@ public class WtkGraphics implements Graphics {
   Brush brush = Color.black;
   Font font;
   int alpha = 255;
+  double lineWidth = 1.0;
   fan.vaseGraphics.Composite composite;
 
   Stack<State> stack = new Stack<State>();
@@ -57,6 +58,29 @@ public class WtkGraphics implements Graphics {
     else {
       composite(composite);
     }
+  }
+
+  @Override
+  public double lineWidth() {
+    return this.lineWidth;
+  }
+
+  @Override
+  public void lineWidth(double w) {
+    this.lineWidth = w;
+    float width = (float)lineWidth;
+    int cap = penCap(pen.cap);
+    int join = penJoin(pen.join);
+    float[] dash = pen.dash != null ? GfxUtil.toFloats(pen.dash)
+        : null;
+
+    BasicStroke stroke;
+    if (dash != null)
+      stroke = new BasicStroke(width, cap, join, 1, dash, 0);
+    else
+      stroke = new BasicStroke(width, cap, join);
+
+    gc.setStroke(stroke);
   }
 
   @Override
@@ -366,6 +390,7 @@ public class WtkGraphics implements Graphics {
     s.font = font;
     s.antialias = this.antialias();
     s.alpha = alpha;
+    s.lineWidth = lineWidth;
     s.transform = gc.getTransform();
     s.clip = gc.getClip();
     s.composite = composite;
@@ -377,6 +402,7 @@ public class WtkGraphics implements Graphics {
     alpha(s.alpha);
     composite(s.composite);
     pen(s.pen);
+    lineWidth(s.lineWidth);
     brush(s.brush);
     font(s.font);
     this.antialias(s.antialias);
@@ -394,6 +420,7 @@ public class WtkGraphics implements Graphics {
     Font font;
     boolean antialias;
     int alpha;
+    double lineWidth;
     AffineTransform transform;
     Shape clip;
     fan.vaseGraphics.Composite composite;

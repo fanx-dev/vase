@@ -67,7 +67,8 @@ class Canvas : Widget {
       canvas.drawImage(image3, 300, 300)
       canvas.drawImage(image4, 0, 600)
 
-      canvas.pen = Pen { it.width = 4 }
+      //canvas.pen = Pen { it.width = 4 }
+      canvas.lineWidth = 4.0;
       canvas.brush = Color.red
       canvas.drawLine(0, 300, 600, 300)
       canvas.drawLine(300, 0, 300, 600)

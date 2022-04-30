@@ -156,6 +156,11 @@ void vaseWindow_NGraphics_setAlpha(fr_Env env, fr_Obj self, fr_Int alpha) {
     CGContextSetAlpha(vg, alpha / 255.0);
     return;
 }
+void vaseWindow_NGraphics_setLineWidth(fr_Env env, fr_Obj self, fr_Float w) {
+    CGContextRef vg = (CGContextRef)vaseWindow_NGraphics_getContext(env, self);
+    CGContextSetLineWidth(vg, w);
+    return;
+}
 /*
 * srcAtop, 0
   srcIn, 1
