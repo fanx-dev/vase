@@ -10,13 +10,12 @@ package fan.vaseWindow;
 import fan.vaseGraphics.Point;
 
 public class GfxUtil {
-  public static float[] toFloats(fan.sys.List points) {
-    int size = (int) points.size() * 2;
+  public static float[] toFloats(fan.sys.List ints) {
+    int size = (int) ints.size();
     float[] a = new float[size];
-    for (int i = 0; i < size; i += 2) {
-      Point p = (Point) points.get(i / 2);
-      a[i] = (float) p.x;
-      a[i + 1] = (float) p.y;
+    for (int i = 0; i < size; i += 1) {
+      long p = (Long) ints.get(i);
+      a[i] = (float) p;
     }
     return a;
   }

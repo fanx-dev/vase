@@ -75,7 +75,7 @@ class Button : Label
     this.repaint
   }
 
-  protected once EventListeners onAction() { EventListeners() }
+  once EventListeners onAction() { EventListeners() }
 
   protected override Void gestureEvent(GestureEvent e) {
     //super.gestureEvent(e)

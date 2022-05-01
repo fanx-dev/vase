@@ -24,6 +24,7 @@ import fan.sys.ArgErr;
 import fan.sys.FanObj;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
+import android.graphics.DashPathEffect;
 
 public class AndGraphics implements Graphics {
 
@@ -283,7 +284,9 @@ public class AndGraphics implements Graphics {
     p.setStrokeCap(penCap(pen.cap));
     p.setStrokeJoin(penJoin(pen.join));
 
-    // TODO Dash mode
+    if (pen.dash != null) {
+      p.setPathEffect(new DashPathEffect(AndUtil.toFloats(pen.dash), 0));
+    }
   }
 
   private static Paint.Cap penCap(long cap) {

@@ -25,7 +25,7 @@ class ToggleButton : Button
     }
   }
   
-  internal Float animPostion := 0f
+  internal Float animPostion := 1.0
 
   new make() {
     text = "ToggleButton"

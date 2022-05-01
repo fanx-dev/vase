@@ -111,7 +111,9 @@ fan.vaseWindow.WtkGraphics.prototype.pen$  = function(p)
   this.cx.lineWidth = p.m_width;
   this.cx.lineCap   = p.capToStr();
   this.cx.lineJoin  = p.joinToStr();
-  // dashes not supported
+  if (p.dash() != null) {
+    this.cx.setLineDash(p.dash().toJs());
+  }
 }
 
 // Font font

@@ -25,6 +25,16 @@ import java.io.IOException;
 
 public class AndUtil {
 
+  public static float[] toFloats(fan.sys.List ints) {
+    int size = (int) ints.size();
+    float[] a = new float[size];
+    for (int i = 0; i < size; i += 1) {
+      long p = (Long) ints.get(i);
+      a[i] = (float) p;
+    }
+    return a;
+  }
+
   static public android.graphics.Matrix toAndTransform(Transform2D trans) {
     Matrix m = new Matrix();
     float[] values = new float[9];

@@ -137,6 +137,16 @@ void vaseWindow_NGraphics_setPen(fr_Env env, fr_Obj self, fr_Int width, fr_Int c
             break;
     }
     CGContextSetLineCap(vg, cgcap);
+
+    if (dash != NULL) {
+        CGFloat cgDash[1024];
+        fr_Int* rawdata = fr_arrayData(env, dash);
+        fr_Int len = fr_arrayLen(env, dash);
+        for (int i=0; i< len; ++i) {
+            cgDash[i] = rawdata[i];
+        }
+        CGContextSetLineDash(vg, 0, cgDash, (size_t )len);
+    }
     return;
 }
 void vaseWindow_NGraphics_setFont(fr_Env env, fr_Obj self, fr_Obj font, fr_Int id, fr_Obj name, fr_Int size, fr_Int blur) {

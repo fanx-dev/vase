@@ -11,34 +11,15 @@ using vaseWindow
 
 @Js
 class ComboBoxStyle : WidgetStyle {
-  Color[] colors
 
   new make()
   {
-    //over/out/down
-    colors =
-    [
-      Color(0xffffff),
-      Color(0xd9dedf),
-      Color(0xcccccc)
-    ]
-
     outlineColor = Color(0x7f7f7f)
   }
 
   override Void doPaint(Widget widget, Graphics g)
   {
     Button btn := widget
-    if (btn.state < 3)
-    {
-      g.brush = colors[btn.state]
-    }
-    else
-    {
-      g.brush = background
-    }
-
-    g.fillRect(0, 0, widget.width, widget.height)
 
     g.brush = outlineColor
     lWidth := dpToPixel(lineWidth)

@@ -120,6 +120,15 @@ class SliderBarStyle : WidgetStyle
     g.brush = buttonColor
     stroke := dpToPixel(lineWidth)
     csize := size - stroke - stroke
-    g.fillOval(circleX+stroke, circleY+stroke, csize, csize)    
+    g.fillOval(circleX+stroke, circleY+stroke, csize, csize)
+
+    if (bar.isActive) {
+      str := bar.curPos.toLocale(".0")
+      font := font(bar)
+      fw := font.width(str)
+      g.font = font
+      g.brush = fontColor
+      g.drawText(str, circleX-fw/2, cy)
+    }
   }
 }
