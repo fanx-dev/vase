@@ -30,7 +30,7 @@ class ModalLayer : Pane {
             if (level > 1) return
             else {
                 this.detach
-                e.consume
+                if (level > 0) e.consume
             }
         }
     }

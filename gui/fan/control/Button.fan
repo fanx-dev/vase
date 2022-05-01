@@ -144,7 +144,7 @@ class Button : Label
                 it.text = tooltip
                 it.style = "tooltip"
               }
-              this.getRootView.topOverlayer.add(tooltipLabel)
+              this.getRootView.topOverlayer(0).add(tooltipLabel)
               tooltipLabel.relayout
           }
       }

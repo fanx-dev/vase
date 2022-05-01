@@ -25,7 +25,7 @@ internal class ColorLine : Widget {
     }
 
     protected override Void motionEvent(MotionEvent e) {
-
+        if (e.consumed) return
         if (e.type == MotionEvent.released || e.type == MotionEvent.moved) {
             w := this.contentWidth
             h := this.contentHeight
@@ -34,6 +34,7 @@ internal class ColorLine : Widget {
             value = (e.relativeX-x-ox) * 360.0 / w
             value = value.clamp(0.0, 360.0)
             (parent as ColorPicker).update
+            e.consume
         }
     }
 }
@@ -71,6 +72,7 @@ internal class ColorRect : Widget {
     }
 
     protected override Void motionEvent(MotionEvent e) {
+        if (e.consumed) return
         if (e.type == MotionEvent.released || e.type == MotionEvent.moved) {
             w := this.contentWidth
             h := this.contentHeight
@@ -81,6 +83,7 @@ internal class ColorRect : Widget {
             valueX = valueX.clamp(0.0, 1.0)
             valueY = valueY.clamp(0.0, 1.0)
             (parent as ColorPicker).update
+            e.consume
         }
     }
 }
