@@ -32,8 +32,8 @@ class CheckBoxStyle : WidgetStyle
     r = (r*0.7f).toInt
     size = r + r
 
-    g.brush = this.background
-    g.fillRect(x-r, y-r, size, size)
+    //g.brush = this.background
+    //g.fillRect(x-r, y-r, size, size)
 
     g.brush = this.outlineColor
     g.pen = Pen { width = dpToPixel(4) }

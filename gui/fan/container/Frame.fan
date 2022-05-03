@@ -292,7 +292,7 @@ class Frame : Pane
   
   protected override Void postGestureEvent(GestureEvent e) {
     if (e.type == GestureEvent.drop) {
-        e.data = focusWidget
+        e.data = dragFocusWidget
     }
     super.postGestureEvent(e)
   }

@@ -201,6 +201,20 @@ public class WtkWindow implements Window {
       if (curDir != null) {
         fileChooser.setCurrentDirectory(new java.io.File((String)curDir));
       }
+
+      if (accept != null) {
+        fileChooser.setFileFilter(new javax.swing.filechooser.FileFilter() {
+          public boolean accept(java.io.File f) {
+            if(f.getName().endsWith(accept)) {
+              return true;
+            }
+            return false;
+          }
+          public String getDescription() {
+            return accept;
+          }
+        });
+      }
     }
     fileChooser.setMultiSelectionEnabled(true);
 

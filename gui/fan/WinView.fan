@@ -51,11 +51,10 @@ internal class WinView : View
       e.relativeX = e.x
       e.relativeY = e.y
       if (this.oldFrame == null) {
-          if (e.type == GestureEvent.drag
-            || e.type == GestureEvent.drop || e.type == GestureEvent.multiTouch)
-        {
+        if (e.type == GestureEvent.drag
+            || e.type == GestureEvent.drop || e.type == GestureEvent.multiTouch) {
           this.curFrame.onDrag(e)
-          return
+          if (e.type != GestureEvent.drop) return
         }
         this.curFrame.postGestureEvent(e)
       }
