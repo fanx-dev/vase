@@ -187,6 +187,7 @@ fan.vaseWindow.WtkWindow.prototype.repaint = function(r) {
 }
 
 fan.vaseWindow.WtkWindow.prototype.repaintNow = function(r) {
+  this.graphics.reset();
   this.graphics.push();
   this.m_view.onPaint(this.graphics);
   this.graphics.pop();

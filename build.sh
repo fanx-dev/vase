@@ -2,8 +2,9 @@
 
 fan math/build.fan
 fan graphics/build.fan
-fan window/build.fan
-fan gui/build.fan
+
+fanb window/pod.props
+fanb gui/pod.props
 
 fanb client/pod.props
 fan android/build.fan

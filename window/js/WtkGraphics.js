@@ -31,18 +31,15 @@ fan.vaseWindow.WtkGraphics.prototype.init = function(cx, bounds)
   this.size = bounds.size();
   this.m_clip = bounds;
   this.cx = cx;
-  //this.cx.save();
-  //this.cx.lineWidth = 1;
-  this.cx.lineCap = "square";
-  //this.cx.lineJoin = "miter";
-  //this.cx.textBaseline = "top";
-  //this.cx.font = fan.vaseWindow.GfxUtil.fontToCss(fan.fwt.DesktopPeer.$sysFont);
+  this.reset();
+}
 
+fan.vaseWindow.WtkGraphics.prototype.reset = function() {
+  this.stack = new Array();
+  this.cx.lineCap = "square";
+  this.cx.lineWidth = 1;
   this.brush$(fan.vaseGraphics.Color.m_black);
   this.pen$(fan.vaseGraphics.Pen.m_defVal);
-  //this.font$(fan.fwt.Desktop.sysFont());
-  //f(this);
-  //this.cx.restore();
 }
 
 // Brush brush
@@ -111,8 +108,8 @@ fan.vaseWindow.WtkGraphics.prototype.pen$  = function(p)
   this.cx.lineWidth = p.m_width;
   this.cx.lineCap   = p.capToStr();
   this.cx.lineJoin  = p.joinToStr();
-  if (p.dash() != null) {
-    this.cx.setLineDash(p.dash().toJs());
+  if (p.m_dash != null) {
+    this.cx.setLineDash(p.m_dash.toJs());
   }
 }
 
@@ -408,7 +405,7 @@ fan.vaseWindow.WtkGraphics.prototype.dispose = function ()
 }
 
 // state for fields in push/pop
-fan.vaseWindow.WtkGraphics.prototype.stack = new Array();
+fan.vaseWindow.WtkGraphics.prototype.stack = null;
 
 
 

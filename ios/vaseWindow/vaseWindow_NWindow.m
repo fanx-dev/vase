@@ -13,7 +13,7 @@ UIViewController *g_controller;
 
 struct Window {
     VaseWindow* window;
-    fr_Obj graphics;
+    //fr_Obj graphics;
 };
 
 void vase_Window_setUIViewController(UIViewController *ctrl) {
@@ -53,20 +53,19 @@ void vaseWindow_NWindow_repaint(fr_Env env, fr_Obj self, fr_Obj dirty) {
 
 
 void vaseWindow_NWindow_drawFrame(fr_Env env, fr_Obj self) {
-    struct Window* handle = getWindow(env, self);
-    fr_Obj graphics = handle->graphics;
+    //struct Window* handle = getWindow(env, self);
+    //fr_Obj graphics = handle->graphics;
+    fr_Obj graphics = NULL;
     CGContextRef ctx = UIGraphicsGetCurrentContext();
     CGContextSaveGState(ctx);
     CGContextScaleCTM(ctx, 1/desityScale, 1/desityScale);
     
-    if (graphics == NULL) {
+    //if (graphics == NULL) {
         graphics = fr_newObjS(env, "vaseWindow", "NGraphics", "make", 1, (fr_Int)ctx);
-        graphics = fr_newGlobalRef(env, graphics);
-        handle->graphics = graphics;
-    }
-    else {
-        vaseWindow_NGraphics_setContext(env, graphics, (fr_Int)ctx);
-    }
+        //graphics = fr_newGlobalRef(env, graphics);
+        //handle->graphics = graphics;
+    //}
+    
     static fr_Method paintM;
     static fr_Field viewF;
     if (paintM == NULL) {
@@ -81,6 +80,8 @@ void vaseWindow_NWindow_drawFrame(fr_Env env, fr_Obj self) {
     fr_getInstanceField(env, self, viewF, &value);
     fr_callMethod(env, paintM, 2, value.h, graphics);
     CGContextRestoreGState(ctx);
+    
+    vaseWindow_NGraphics_setContext(env, graphics, 0);
 }
 
 void vaseWindow_NWindow_show(fr_Env env, fr_Obj self, fr_Obj size) {
@@ -90,7 +91,7 @@ void vaseWindow_NWindow_show(fr_Env env, fr_Obj self, fr_Obj size) {
 
     handle->window = [[VaseWindow alloc] initWithObj: fr_newGlobalRef(env, self)];
     setWindow(env, self, handle);
-    handle->graphics = NULL;
+    //handle->graphics = NULL;
     
     
     CGRect frame = [UIScreen mainScreen].bounds;//g_controller.view.bounds;
@@ -165,9 +166,9 @@ void vaseWindow_NWindow_fileDialog(fr_Env env, fr_Obj self, fr_Obj accept, fr_Ob
 }
 void vaseWindow_NWindow_finalize(fr_Env env, fr_Obj self) {
     struct Window* handle = getWindow(env, self);
-    fr_deleteGlobalRef(env, handle->graphics);
+    //fr_deleteGlobalRef(env, handle->graphics);
     handle->window = NULL;
-    handle->graphics = NULL;
+    //handle->graphics = NULL;
     return;
 }
 void vaseWindow_NWindow_fireMotionEvent(fr_Env env, fr_Obj self, fr_Obj event) {

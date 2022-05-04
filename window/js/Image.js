@@ -177,6 +177,7 @@ fan.vaseWindow.Image.prototype.createGraphics = function()
   }
   else {
     var g = this.m_graphics;
+    g.reset();
     if (g.m_needPop == false) {
       g.push();
       g.m_needPop = true;
