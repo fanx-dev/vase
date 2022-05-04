@@ -15,6 +15,7 @@ class MenuStyle : WidgetStyle {
   new make()
   {
     background = Color(0x434343)
+    fontInfo.size = 30
   }
 
   override Void doPaint(Widget widget, Graphics g)
@@ -33,6 +34,7 @@ class MenuItemStyle : WidgetStyle
   {
     background = Color(0x434343)
     fontColor = Color.white
+    fontInfo.size = 30
   }
 
   override Void doPaint(Widget widget, Graphics g)

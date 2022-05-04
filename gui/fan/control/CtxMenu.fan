@@ -40,7 +40,7 @@ class CtxMenu : ScrollPane {
         if (inited) return
         inited = true
         
-        pane := VBox { spacing = 0 }
+        pane := VBox { spacing = 2; it.style = "menuPane" }
         items.each |item, i|
         {
           name := item.toStr

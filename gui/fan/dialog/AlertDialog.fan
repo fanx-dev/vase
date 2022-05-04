@@ -38,6 +38,7 @@ class AlertDialog : VBox, Dialog
         it.spacing = 30
         it.align = Align.center
         it.layout.width = Layout.wrapContent
+        it.layout.hAlign = Align.center
     }
 
     if (okText != null) {

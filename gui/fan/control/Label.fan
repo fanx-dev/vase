@@ -42,7 +42,7 @@ class Label : Widget
         return sizeCache
       }
     }
-    w := font.width(text)+1
+    w := font.width(text)+5
     h := font.height
     sizeCache = Size(w, h)
     return sizeCache

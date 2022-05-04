@@ -92,6 +92,9 @@ public class ToolkitPeer
     }
 
 
+    public double density() { return 0.4; }
+
+
     @Override
     public fan.vaseGraphics.GfxEnv gfxEnv() {
       return WtkGfxEnv.instance;

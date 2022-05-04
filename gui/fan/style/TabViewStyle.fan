@@ -9,7 +9,7 @@ class TabItemStyle : FlatButtonStyle
     fontColor = Color.gray
     //font = Font(35, "Arial", false)
     fontInfo.bold = false
-    fontInfo.size = 32
+    fontInfo.size = 30
     background = Color(0xe0e0e0)
   }
 }
@@ -21,7 +21,7 @@ class TabItemHighlightStyle : FlatButtonStyle
     fontColor = color//Color(0x5577CC)
     //font = Font(35, "Arial", true)
     fontInfo.bold = false
-    fontInfo.size = 32
+    fontInfo.size = 30
     background = Color(0xe0e0e0)
   }
 }

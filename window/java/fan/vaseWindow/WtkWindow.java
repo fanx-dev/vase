@@ -205,7 +205,7 @@ public class WtkWindow implements Window {
       if (accept != null) {
         fileChooser.setFileFilter(new javax.swing.filechooser.FileFilter() {
           public boolean accept(java.io.File f) {
-            if(f.getName().endsWith(accept)) {
+            if(f.getName().endsWith(accept) || f.isDirectory()) {
               return true;
             }
             return false;
