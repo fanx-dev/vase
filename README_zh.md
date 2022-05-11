@@ -9,10 +9,9 @@ vase是全新的移动端跨平台UI开发框架，一份代码同时编译运�
 - 丰富的UI控件。
 - 简单强大的布局容器。
 - 灵活的样式系统。
-- 吸引人的微动画。
 - 基于async/awit的Http客户端。
 
-[了解更多](http://fanx.info/doc/client.html)
+[了解更多](http://fanx.dev/doc/client.html)
 
 ### 截图
 
@@ -23,3 +22,14 @@ vase是全新的移动端跨平台UI开发框架，一份代码同时编译运�
 ![image](https://gitee.com/fanx-dev/vase/raw/master/res/architecture.png)
 
 
+### 构建
+fanx自带的版本较老，可从源码编译。
+
+1. 安装[fanx运行时](https://github.com/fanx-dev/fanx/blob/master/doc/QuickStart.md) 
+2. 运行下面的构建脚本（window上可使用git bash运行）
+```
+   sh build.sh
+```
+
+### 运行demo
+见README.md文件。

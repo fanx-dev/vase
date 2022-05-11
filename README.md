@@ -13,6 +13,15 @@ A cross-platform framework for building beautiful natively applications.
 
 ![image](https://raw.githubusercontent.com/fanx-dev/vase/master/res/snap.png)
 
+
+### Build
+1. install [fanx runtime](https://github.com/fanx-dev/fanx/blob/master/doc/QuickStart.md) 
+2. run build script：
+```
+   sh build.sh
+```
+
+
 ### Desktop
   run demo:
   ```
