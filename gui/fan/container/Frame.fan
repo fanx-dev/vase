@@ -96,6 +96,18 @@ class Frame : Pane
 
   Window? host() { view.host }
 
+
+  **
+  ** get current top frame
+  **
+  static Frame? cur() {
+    win := Toolkit.cur.window()
+    if (win == null) return null
+    WinView view := win.view
+    return view.curFrame
+  }
+
+
   @Transient
   private Int initState := 0
 

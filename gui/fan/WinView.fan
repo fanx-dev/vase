@@ -21,7 +21,7 @@ internal class WinView : View
   **
   override Window? host
 
-  private Frame curFrame
+  internal Frame curFrame
   internal Frame? oldFrame
   private Bool frameOut := false
 

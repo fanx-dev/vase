@@ -75,7 +75,7 @@ class PromptDialog : VBox, Dialog
   
   protected override Int animType() { 1 }
   
-  override This show(Widget parent) {
+  override This show(Widget parent = Frame.cur) {
     Dialog.super.show(parent)
     editText.focus
     return this

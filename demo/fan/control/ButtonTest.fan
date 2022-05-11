@@ -29,7 +29,7 @@ class ButtonTest : BasePage
       },
       Button {
         text = "Push Button";
-        onClick { Toast("${Toolkit.cur.density}").show(it) }
+        onClick { Toast("${Toolkit.cur.density}").show() }
       },
       Button {
         text = "Disable Button";

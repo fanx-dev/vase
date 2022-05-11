@@ -11,7 +11,7 @@
 @Js
 mixin Dialog
 {  
-  virtual This show(Widget parent)
+  virtual This show(Widget parent = Frame.cur)
   {
     root := parent.getRootView
     overlayer := root.topOverlayer(2)

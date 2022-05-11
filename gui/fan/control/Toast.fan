@@ -21,7 +21,7 @@ class Toast : Label {
     textAlign = Align.center
   }
 
-  Void show(Widget parent)
+  Void show(Widget parent = Frame.cur)
   {
     root := parent.getRootView
     overlayer := root
