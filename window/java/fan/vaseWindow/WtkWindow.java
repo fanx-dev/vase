@@ -102,12 +102,12 @@ public class WtkWindow implements Window {
 
   @Override
   public void focus() {
-    canvas.requestFocus();
+    shell.requestFocus();
   }
 
   @Override
   public boolean hasFocus() {
-    return canvas.hasFocus();
+    return shell.hasFocus();
   }
 
   @Override
@@ -122,13 +122,13 @@ public class WtkWindow implements Window {
 
   @Override
   public void repaint() {
-    canvas.repaint();
+    shell.repaint();
   }
 
   @Override
   public void repaint(Rect r) {
-    if (r == null) canvas.repaint();
-    else canvas.repaint((int)r.x, (int)r.y, (int)r.w, (int)r.h);
+    if (r == null) shell.repaint();
+    else shell.repaint((int)r.x, (int)r.y, (int)r.w, (int)r.h);
   }
 
 //////////////////////////////////////////////////////////////////////////
