@@ -12,8 +12,19 @@ fan.vaseClient.HttpReqPeer = fan.sys.Obj.$extend(fan.sys.Obj);
 
 fan.vaseClient.HttpReqPeer.prototype.$ctor = function(self) {}
 
-fan.vaseClient.HttpReqPeer.prototype.send = function(self, method, content, f)
+fan.vaseClient.HttpReqPeer.prototype.send = function(self, method, content)
 {
+  if (Promise.prototype._then == undefined) {
+    Promise.prototype._then = Promise.prototype.then;
+    Promise.prototype.then = function(callback) {
+      if (callback instanceof fan.sys.Func) {
+        this._then(function(a){ callback.call(a); });
+      }
+      else {
+        this._then(callback);
+      }
+    }
+  }
   return new Promise(function(resolve, reject) {
     fan.vaseClient.HttpReqPeer.doRequest(self, method, content, resolve);
   });
