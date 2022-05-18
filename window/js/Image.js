@@ -20,7 +20,6 @@ fan.vaseWindow.Image.prototype.m_canvas = null;
 fan.vaseWindow.Image.prototype.m_imageData = null; //image data
 fan.vaseWindow.Image.prototype.m_image = null; //image element
 fan.vaseWindow.Image.prototype.m_context  = null; //canvas rendering context
-fan.vaseWindow.Image.prototype.m_graphics = null; //vaseGraphics graphics context
 
 //loaded info
 fan.vaseWindow.Image.prototype.m_isLoaded = false;
@@ -165,25 +164,17 @@ fan.vaseWindow.Image.prototype.createGraphics = function()
   if (!this.m_isLoaded) return null;
   this.initCanvas();
   this.flush();
-  if (!this.m_graphics)
-  {
-    //create cx
-    var g = new fan.vaseWindow.WtkGraphics();
-    var rect = new fan.vaseGraphics.Rect.make(0,0, this.width(), this.height());
-    g.init(this.context(), rect);
-    g.push();
-    g.m_needPop = true;
-    this.m_graphics = g;
-  }
-  else {
-    var g = this.m_graphics;
-    g.reset();
-    if (g.m_needPop == false) {
-      g.push();
-      g.m_needPop = true;
-    }
-  }
-  return this.m_graphics;
+
+  //reset context
+  this.m_context.resetTransform();
+
+  //create cx
+  var g = new fan.vaseWindow.WtkGraphics();
+  var rect = new fan.vaseGraphics.Rect.make(0,0, this.width(), this.height());
+  g.init(this.context(), rect);
+  g.push();
+  g.m_needPop = true;
+  return g;
 }
 
 //////////////////////////////////////////////////////////////////////////
