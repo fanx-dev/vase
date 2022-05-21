@@ -136,7 +136,7 @@ fan.vaseWindow.WtkWindow.prototype.addMotionEvent = function(elem, typeStr, type
 
     //if (event.m_consumed) {
       e.stopPropagation();
-      if (typeStr != "mousewheel")  e.preventDefault();
+      e.preventDefault();
       e.cancelBubble = true;
     //}
   };
@@ -326,7 +326,7 @@ fan.vaseWindow.WtkWindow.prototype.show = function(size)
   var shell = document.createElement("div")
   with (shell.style)
   {
-    position   = "absolute";//this.root === document.body ? "fixed" : "absolute";
+    position   = this.root === document.body ? "absolute" : "relative";
     top        = "0";
     left       = "0";
     width      = "100%";

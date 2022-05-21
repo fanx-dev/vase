@@ -34,8 +34,23 @@ fan.vaseWindow.GfxUtil.addEventListener = function(obj, type, func)
   }
   else {
     if (type == "mousewheel") {
-      obj.addEventListener("DOMMouseScroll", func, false);
-      window.onmousewheel = document.onmousewheel = func;
+      var passiveSupported = false;
+      try {
+          var options = Object.defineProperty({}, "passive", {
+              get: function() {
+                  passiveSupported = true;
+              }
+          });
+          window.addEventListener("test", null, options);
+      } catch(err) {}
+
+      try {
+        obj.addEventListener("mousewheel", func, passiveSupported ? { passive: false } : false)
+      }
+      catch(err) {
+        obj.addEventListener("DOMMouseScroll", func, false);
+        window.onmousewheel = document.onmousewheel = func;
+      }
     }
     else {
       obj.addEventListener(type, func, false);
