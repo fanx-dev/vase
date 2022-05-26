@@ -12,6 +12,7 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Path2D;
 import java.awt.geom.Arc2D;
 import java.awt.image.BufferedImage;
+import java.awt.RenderingHints;
 
 import fan.vaseGraphics.*;
 
@@ -22,6 +23,8 @@ public class WtkUtil {
     if (scratchG == null) {
       BufferedImage bufferedImage =  new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);
       scratchG = bufferedImage.createGraphics();
+
+      scratchG.setRenderingHint(RenderingHints.KEY_FRACTIONALMETRICS, RenderingHints.VALUE_FRACTIONALMETRICS_ON);
     }
     return scratchG;
   }

@@ -340,7 +340,13 @@ fan.vaseWindow.WtkGraphics.prototype.fillArc = function(x, y, w, h, startAngle, 
 // This drawText(Str s, Int x, Int y)
 fan.vaseWindow.WtkGraphics.prototype.drawText = function (s, x, y)
 {
-  this.cx.fillText(s, x, y)
+  this.cx.fillText(s, x, y);
+  return this;
+}
+
+fan.vaseWindow.WtkGraphics.prototype.drawTextOutline = function (s, x, y)
+{
+  this.cx.strokeText(s, x, y);
   return this;
 }
 

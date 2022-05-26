@@ -482,6 +482,10 @@ fr_Obj vaseWindow_NGraphics_drawText(fr_Env env, fr_Obj self, fr_Obj s, fr_Int x
     }
     float color[4];
     decodeColor(icolor, color);
+
+    CGContextSetTextDrawingMode(vg, kCGTextFill);
+
+    UIGraphicsPushContext(vg);
     
     UIFont *uifont = vaseWindow_NFont_font(env, font);
     NSDictionary *attrs = [NSDictionary dictionaryWithObjectsAndKeys:uifont, NSFontAttributeName,
@@ -490,8 +494,48 @@ fr_Obj vaseWindow_NGraphics_drawText(fr_Env env, fr_Obj self, fr_Obj s, fr_Int x
     int offset = uifont.ascender + uifont.leading;
     [nsstr drawAtPoint:CGPointMake(x,y-offset) withAttributes:attrs];
     //CGContextShowTextAtPoint(vg, x, y, str, strlen(str));
+
+    UIGraphicsPopContext();
     return self;
 }
+
+
+fr_Obj vaseWindow_NGraphics_drawTextOutline(fr_Env env, fr_Obj self, fr_Obj s, fr_Int x, fr_Int y) {
+    CGContextRef vg = (CGContextRef)vaseWindow_NGraphics_getContext(env, self);
+    const char* str = fr_getStrUtf8(env, s);
+    NSString *nsstr = [NSString stringWithUTF8String: str];
+        
+    fr_Obj font = fr_getFieldS(env, self, "font").h;
+    if (!font) {
+        printf("ERROR: font is null\n");
+        return self;
+    }
+    fr_Obj brush = curBrush(env, self);
+    static fr_Type colorType;
+    if (!colorType) colorType = fr_findType(env, "vaseGraphics", "Color");
+    fr_Int icolor = 0xff000000;
+    if (fr_isInstanceOf(env, brush, colorType)) {
+        icolor = fr_getFieldS(env, brush, "argb").i;
+    }
+    float color[4];
+    decodeColor(icolor, color);
+
+    CGContextSetTextDrawingMode(vg, kCGTextStroke);
+
+    UIGraphicsPushContext(vg);
+    
+    UIFont *uifont = vaseWindow_NFont_font(env, font);
+    NSDictionary *attrs = [NSDictionary dictionaryWithObjectsAndKeys:uifont, NSFontAttributeName,
+                           [UIColor colorWithRed:color[1] green:color[2] blue:color[3] alpha:color[0]], NSForegroundColorAttributeName, nil, nil];
+    //NSDictionary *attrs = [[NSDictionary alloc] init];
+    int offset = uifont.ascender + uifont.leading;
+    [nsstr drawAtPoint:CGPointMake(x,y-offset) withAttributes:attrs];
+    //CGContextShowTextAtPoint(vg, x, y, str, strlen(str));
+
+    UIGraphicsPopContext();
+    return self;
+}
+
 
 void vaseWindow_NGraphics_doDrawImage(fr_Env env, fr_Obj self, fr_Obj image, fr_Int srcX, fr_Int srcY, fr_Int srcW, fr_Int srcH, fr_Int dstX, fr_Int dstY, fr_Int dstW, fr_Int dstH) {
     CGContextRef vg = (CGContextRef)vaseWindow_NGraphics_getContext(env, self);

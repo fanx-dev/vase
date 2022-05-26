@@ -97,6 +97,10 @@ public class WtkGraphics implements Graphics {
     Object h = a ? RenderingHints.VALUE_ANTIALIAS_ON
         : RenderingHints.VALUE_ANTIALIAS_OFF;
     gc.setRenderingHint(RenderingHints.KEY_ANTIALIASING, h);
+
+    Object th = a ? RenderingHints.VALUE_TEXT_ANTIALIAS_ON
+        : RenderingHints.VALUE_TEXT_ANTIALIAS_OFF;
+    gc.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, th);
   }
 
   @Override
@@ -227,6 +231,18 @@ public class WtkGraphics implements Graphics {
   @Override
   public Graphics drawText(String str, long x, long y) {
     gc.drawString(str, (int) x, (int) y);
+    return this;
+  }
+
+  @Override
+  public Graphics drawTextOutline(String str, long x, long y) {
+    java.awt.Font f = this.gc.getFont();
+    java.awt.font.GlyphVector v = f.createGlyphVector(gc.getFontMetrics(f).getFontRenderContext(), str);
+    java.awt.Shape shape = v.getOutline();
+
+    gc.translate((int) x, (int) y);
+    gc.draw(shape);
+    gc.translate((int) -x, (int) -y);
     return this;
   }
 

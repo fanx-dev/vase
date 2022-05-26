@@ -132,6 +132,8 @@ mixin Graphics
   **
   abstract This drawText(Str s, Int x, Int y)
 
+  abstract This drawTextOutline(Str s, Int x, Int y)
+
   **
   ** Draw a the image string with its top left corner at x,y.
   **

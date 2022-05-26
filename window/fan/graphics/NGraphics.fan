@@ -171,6 +171,8 @@ internal class NGraphics : Graphics
   **
   native override This drawText(Str s, Int x, Int y)
 
+  native override This drawTextOutline(Str s, Int x, Int y)
+
   **
   ** Draw a the image string with its top left corner at x,y.
   **

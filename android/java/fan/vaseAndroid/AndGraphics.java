@@ -215,6 +215,13 @@ public class AndGraphics implements Graphics {
   }
 
   @Override
+  public Graphics drawTextOutline(String str, long x, long y) {
+    p.setStyle(Paint.Style.STROKE);
+    gc.drawText(str, x, y, p);
+    return this;
+  }
+
+  @Override
   public Graphics fillArc(long x, long y, long w, long h, long s, long a) {
     RectF r = new RectF(x, y, x + w, y + h);
     p.setStyle(Paint.Style.FILL);

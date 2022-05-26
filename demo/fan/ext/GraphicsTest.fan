@@ -72,6 +72,10 @@ class Canvas : Widget {
       canvas.brush = Color.red
       canvas.drawLine(0, 300, 600, 300)
       canvas.drawLine(300, 0, 300, 600)
+
+      canvas.font = Font(34)
+      canvas.lineWidth = 1.0
+      canvas.drawTextOutline("Hi", 250, 35)
   }
 }
 
