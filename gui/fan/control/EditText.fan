@@ -107,8 +107,12 @@ class EditText : Widget
     
     p := this.posOnWindow
     host.setPos(p.x.toInt, p.y.toInt, width, height)
-    //host.setStyle(font, Color.black, Color.white)
-    host.setStyle(font, Color.black, Color(0xe0e0e0))
+
+    WidgetStyle style = getStyle
+    color := style.fontColor
+    bgColor := style.background
+    host.setStyle(font, color, bgColor)
+    //host.setStyle(font, Color.black, Color(0xe0e0e0))
     host.setText(text)
     host.focus
   }
