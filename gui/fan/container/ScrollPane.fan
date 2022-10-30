@@ -28,6 +28,8 @@ class ScrollPane : ContentPane
 
   Bool autoScrollContent := true
 
+  Bool autoResetOffset := false
+
   @Transient
   private Animation? animation
   
@@ -165,6 +167,10 @@ class ScrollPane : ContentPane
 
     super.layoutChildren(force)
     layoutScroolBar()
+    if (autoResetOffset) {
+      if (!vbar.visible) offsetY = 0
+      if (!hbar.visible) offsetX = 0
+    }
     //offset children
     if (autoScrollContent) {
       adjustContent
