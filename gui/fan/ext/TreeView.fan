@@ -31,7 +31,7 @@ class TreeView : ScrollPane
   @Transient internal TreeItem? dragDropItem
   @Transient private Bool draging := false
 
-  |TreeItem?|? onSelected
+  |TreeItem?, Int|? onSelected
   |TreeItem, TreeItem|? onDragDrop
 
   Int rowHeight() { font.height }
@@ -155,7 +155,7 @@ class TreeView : ScrollPane
 
   protected override Void gestureEvent(GestureEvent e)
   {
-    if (e.type == GestureEvent.click && e.button != 3)
+    if ((e.type == GestureEvent.click || e.type == GestureEvent.doubleClick) && e.button != 3)
     {
       item := findItemAt(e.relativeY)
       if (item != null)
@@ -164,7 +164,7 @@ class TreeView : ScrollPane
         this.relayout
         e.consume
       }
-      onSelected?.call(item)
+      onSelected?.call(item, e.type)
       selectedItem = item
       dragDropItem = null
     }

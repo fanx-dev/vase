@@ -85,6 +85,22 @@ abstract class WidgetGroup : Widget
     return this
   }
 
+  virtual This replaceAt(Int at, Widget child, Bool doRelayout := true) {
+    c := children[at]
+    c.setParent(null)
+
+    root := getRootView
+    root?.onRemove(c)
+
+    if (child.parent != null)
+      throw ArgErr("Child already parented: $child")
+    child.setParent(this)
+    children[at] = child
+
+    if (doRelayout && root != null) this.relayout
+    return this
+  }
+
   Int indexSame(Widget child)
   {
     return children.indexSame(child)

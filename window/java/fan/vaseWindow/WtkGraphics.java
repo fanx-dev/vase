@@ -300,6 +300,7 @@ public class WtkGraphics implements Graphics {
     else
     {
       this.gc.setFont(((WtkFont)f).getNFont());
+      ((WtkFont)f).bind(this.gc);
     }
   }
 

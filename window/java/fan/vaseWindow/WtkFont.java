@@ -25,6 +25,13 @@ public class WtkFont extends Font {
     return nfont;
   }
 
+  void bind(java.awt.Graphics2D g) {
+    fontMetrics = g.getFontMetrics(getNFont());
+  }
+
+  void unbind() {
+    fontMetrics = null;
+  }
 
   public java.awt.FontMetrics getFontMetrics() {
     if (fontMetrics == null) {
