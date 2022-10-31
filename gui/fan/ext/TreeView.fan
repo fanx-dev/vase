@@ -50,6 +50,7 @@ class TreeView : ScrollPane
   {
     if (f != null) f(this)
     super.autoScrollContent = false
+    autoResetOffset = true
   }
 
   protected override Float contentMaxWidth() {

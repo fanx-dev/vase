@@ -4,7 +4,7 @@ using vaseGraphics
 @Js
 class PaneStyle : WidgetStyle
 {
-  Int arc := 5
+  Int arc := 0
   Bool fill := true
   Bool stroke := false
   
