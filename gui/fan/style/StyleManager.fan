@@ -30,7 +30,7 @@ class StyleManager
       ComboBox# : ComboBoxStyle(),
       Table# : TableStyle(),
       TreeView# : TreeStyle(),
-      TextArea# : TextAreaStyle(),
+      //TextArea# : TextAreaStyle(),
       MenuItem# : MenuItemStyle(),
       Menu# :  MenuStyle(),
       Toast# : ToastStyle(),
