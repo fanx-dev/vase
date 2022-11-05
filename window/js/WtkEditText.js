@@ -48,12 +48,24 @@ fan.vaseWindow.WtkEditText.prototype.init = function(field) {
   this.addKeyEvent(field, "keydown",    fan.vaseWindow.KeyEvent.m_pressed);
   this.addKeyEvent(field, "keyup",      fan.vaseWindow.KeyEvent.m_released);
   this.addKeyEvent(field, "keypress",   fan.vaseWindow.KeyEvent.m_typed);
+
+  fan.vaseWindow.GfxUtil.addEventListener(field, "compositionend", function(e) {
+    var event = fan.vaseWindow.KeyEvent.make(fan.vaseWindow.KeyEvent.m_typed);
+    event.m_widget = this.elem;
+
+    //simulate java key event
+    for (let i=0; i<e.data.length; ++i) {
+      event.m_keyChar = e.data.charCodeAt(i);
+      event.m_key = null;//fan.vaseWindow.Key.m_enter;
+      view.onKeyEvent(event);
+    }
+  });
 }
 
 fan.vaseWindow.WtkEditText.prototype.addKeyEvent = function(elem, type, id)
 {
   var view = this;
-  var mouseEvent = function(e)
+  var keyEvent = function(e)
   {
     //console.log(e);
     var event = fan.vaseWindow.KeyEvent.make(id);
@@ -71,7 +83,7 @@ fan.vaseWindow.WtkEditText.prototype.addKeyEvent = function(elem, type, id)
       e.cancelBubble = true;
     }
   };
-  fan.vaseWindow.GfxUtil.addEventListener(elem, type, mouseEvent);
+  fan.vaseWindow.GfxUtil.addEventListener(elem, type, keyEvent);
 }
 
 fan.vaseWindow.WtkEditText.prototype.focus = function() {
