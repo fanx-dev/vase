@@ -90,6 +90,13 @@ class WtkEditText extends TextInput {
     // };
     // textComp.addFocusListener(focus);
 
+    //remove tab key binding
+    textComp.setFocusTraversalKeys(
+      java.awt.KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS, 
+      java.util.Collections.EMPTY_SET);
+    textComp.setFocusTraversalKeys(
+      java.awt.KeyboardFocusManager.BACKWARD_TRAVERSAL_KEYS, 
+      java.util.Collections.EMPTY_SET);
   }
 
   private void docChange(DocumentEvent e) {

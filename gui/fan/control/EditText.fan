@@ -17,6 +17,8 @@ using vaseWindow
 virtual class Caret
 {
   Bool visible := false
+  
+  ** offset of line
   Int offset := 0
 }
 

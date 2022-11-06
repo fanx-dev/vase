@@ -129,6 +129,10 @@ public class ComponentUtils {
       case java.awt.event.KeyEvent.VK_BACK_SLASH : return Key.backSlash;
       case java.awt.event.KeyEvent.VK_CLOSE_BRACKET : return Key.closeBracket;
       case java.awt.event.KeyEvent.VK_QUOTE : return Key.quote;
+      case java.awt.event.KeyEvent.VK_CONTROL : return Key.ctrl;
+      case java.awt.event.KeyEvent.VK_ALT : return Key.alt;
+      case java.awt.event.KeyEvent.VK_SHIFT : return Key.shift;
+      case java.awt.event.KeyEvent.VK_WINDOWS : return Key.command;
       default:  return Key.fromMask(keyCode);
     }
   }
