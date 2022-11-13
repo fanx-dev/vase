@@ -285,7 +285,7 @@ class Frame : Pane
 
   protected override Void onDrag(GestureEvent e){
     if (dragFocusWidget == null) return
-    pos := dragFocusWidget.posOnWindow
+    pos := dragFocusWidget.parent?.posOnWindow
     if (pos != null) {
         e.relativeX = e.x - pos.x.toInt
         e.relativeY = e.y - pos.y.toInt

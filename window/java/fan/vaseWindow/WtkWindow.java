@@ -85,6 +85,7 @@ public class WtkWindow implements Window {
     ToolkitPeer.initMainThread();
 
     frame.setVisible(true);
+    canvas.repaint();
 
     try {
       //bloking for thread safe
