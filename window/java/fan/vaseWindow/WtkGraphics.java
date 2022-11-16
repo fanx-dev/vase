@@ -40,6 +40,11 @@ public class WtkGraphics implements Graphics {
   {
     this.gc = gc;
     brush(brush);
+
+    java.util.Map desktophints = (java.util.Map)(java.awt.Toolkit.getDefaultToolkit().getDesktopProperty("awt.font.desktophints"));
+    if (desktophints != null) {
+        gc.addRenderingHints(desktophints);
+    }
   }
 
   @Override
@@ -97,10 +102,6 @@ public class WtkGraphics implements Graphics {
     Object h = a ? RenderingHints.VALUE_ANTIALIAS_ON
         : RenderingHints.VALUE_ANTIALIAS_OFF;
     gc.setRenderingHint(RenderingHints.KEY_ANTIALIASING, h);
-
-    Object th = a ? RenderingHints.VALUE_TEXT_ANTIALIAS_ON
-        : RenderingHints.VALUE_TEXT_ANTIALIAS_OFF;
-    gc.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, th);
   }
 
   @Override
