@@ -1,4 +1,5 @@
 
+sh ./jstub.sh
 
 fan math/build.fan
 fan graphics/build.fan
