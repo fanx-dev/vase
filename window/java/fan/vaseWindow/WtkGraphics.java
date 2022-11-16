@@ -230,7 +230,18 @@ public class WtkGraphics implements Graphics {
 
   @Override
   public Graphics drawText(String str, long x, long y) {
-    gc.drawString(str, (int) x, (int) y);
+    int i = gc.getFont().canDisplayUpTo(str);
+    Font cur = this.font();
+    if (i != -1 && cur != null) {
+      java.awt.Font last = gc.getFont();
+      java.awt.Font fallback = ((WtkFont)cur).getFallbackFont();
+      gc.setFont(fallback);
+      gc.drawString(str, (int) x, (int) y);
+      gc.setFont(last);
+    }
+    else {
+      gc.drawString(str, (int) x, (int) y);
+    }
     return this;
   }
 

@@ -30,6 +30,10 @@ public class WtkUtil {
   }
 
   public static java.awt.Font toFont(Font f) {
+    return toFont(f, null);
+  }
+
+  public static java.awt.Font toFont(Font f, String name) {
     if (f == null) return null;
     int style = 0;
     if (f.bold)
@@ -37,7 +41,8 @@ public class WtkUtil {
     if (f.italic)
       style |= java.awt.Font.ITALIC;
 
-    return new java.awt.Font(f.name, style, (int) f.size);
+    if (name == null) name = f.name;
+    return new java.awt.Font(name, style, (int) f.size);
   }
 
   public static java.awt.Color toAwtColor(Color ca) {

@@ -8,6 +8,8 @@ public class WtkFont extends Font {
 
   private java.awt.Font nfont = null;
   private java.awt.FontMetrics fontMetrics = null;
+  private java.awt.FontMetrics fallbackMetrics = null;
+  private java.awt.Font fallback = null;
 
   public static Font makeAwtFont(Func func)
   {
@@ -25,8 +27,19 @@ public class WtkFont extends Font {
     return nfont;
   }
 
+  public java.awt.Font getFallbackFont() {
+    if (fallback == null) {
+      Object v = fan.concurrent.Actor.locals().get("vaseWindow.font.fallback");
+      String name = "Monospaced";
+      if (v != null) name = (String)v;
+      fallback = WtkUtil.toFont(this, name);
+    }
+    return fallback;
+  }
+
   void bind(java.awt.Graphics2D g) {
     fontMetrics = g.getFontMetrics(getNFont());
+    fallbackMetrics = g.getFontMetrics(getFallbackFont());
   }
 
   void unbind() {
@@ -40,6 +53,12 @@ public class WtkFont extends Font {
     return fontMetrics;
   }
 
+  public java.awt.FontMetrics getFallbackMetrics() {
+    if (fallbackMetrics == null) {
+      fallbackMetrics = WtkUtil.scratchG().getFontMetrics(getFallbackFont());
+    }
+    return fallbackMetrics;
+  }
 
   @Override
   public long ascent() {
@@ -67,6 +86,10 @@ public class WtkFont extends Font {
 
   @Override
   public long width(String s) {
+    int i = getNFont().canDisplayUpTo(s);
+    if (i != -1) {
+      return getFallbackMetrics().stringWidth(s);
+    }
     return getFontMetrics().stringWidth(s);
   }
 
