@@ -59,6 +59,9 @@ internal class WinView : View
         this.curFrame.postGestureEvent(e)
       }
     }
+    
+    DisplayMetrics.cur.autoScale = curFrame.autoScale
+    layoutDirty = 2
   }
 
   Void showFrame(Frame frame, Bool push, Bool animation := true) {

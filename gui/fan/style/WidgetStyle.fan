@@ -36,6 +36,7 @@ class WidgetStyle : Style
   Brush fontColor := Color(0x222222)
   Brush disableColor := Color(0xb0b0b0)
   Brush rippleColor := Color(0x999999)
+  Int fontStrokeType := 0
 
   Image? backgroundImage
   Uri? backgroundImageUri { set { &backgroundImageUri = it; loadImage } }
@@ -112,6 +113,21 @@ class WidgetStyle : Style
       x = left + (widget.contentWidth) - w.toInt
     }
 
-    g.drawText(text, x, y)
+    if (fontStrokeType == 1) {
+      g.lineWidth = dpToPixel(lineWidth).toFloat
+      g.brush = outlineColor
+      g.drawTextOutline(text, x, y)
+      
+      g.brush = fontColor
+      g.drawText(text, x, y)
+    }
+    else if (fontStrokeType == 2) {
+      g.lineWidth = dpToPixel(lineWidth).toFloat
+      g.brush = outlineColor
+      g.drawTextOutline(text, x, y)
+    }
+    else {
+      g.drawText(text, x, y)
+    }
   }
 }
