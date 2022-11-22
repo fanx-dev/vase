@@ -13,15 +13,21 @@ using vaseWindow
 class LabelStyle : WidgetStyle
 {
   Bool fill := false
+  Int arc = 0
+  Int backgroundAlpha = 255
 
   override Void doPaint(Widget widget, Graphics g)
   {
     Label lab := widget
     if (fill) {
+      g.push
       width := widget.width
       height := widget.height
       g.brush = background
-      g.fillRect(0, 0, width, height)
+      g.alpha = backgroundAlpha
+      parc := dpToPixel(arc)
+      g.fillRoundRect(0, 0, width, height, parc, parc)
+      g.pop
     }
     drawText(widget, g, lab.text, lab.textAlign)
   }

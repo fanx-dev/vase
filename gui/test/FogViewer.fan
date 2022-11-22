@@ -9,31 +9,29 @@
 using concurrent
 using vaseGraphics
 using vaseWindow
+using util
 
 
-virtual class FogViewer
+virtual class FogViewer : AbstractMain
 {
   protected Frame? root
-  private File viewFile
-  private File? styleFile
 
-  new make() {
-    viewFile = Env.cur.args[0].toUri.toFile
-    if (Env.cur.args.size > 1) {
-      styleFile = Env.cur.args[1].toUri.toFile
-    }
-  }
+  @Arg { help = "view file" }
+  File? viewFile
 
-  Void show() {
-    root = Frame()
+  @Opt { help = "style file"; aliases=["s"] }
+  File? styleFile
+
+  @Opt { help = "auto scale"; aliases=["a"] }
+  Bool autoScale = false
+
+
+  override Int run() {
+    root = Frame { it.autoScale = this.autoScale }
     reload
     watchFile
     root.show
-  }
-
-  static Void main()
-  {
-    FogViewer().show
+    return 0
   }
 
   private Void reload() {

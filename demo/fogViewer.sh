@@ -1,1 +1,1 @@
-fan vaseGui::FogViewer res/testView.fog res/testStyle.fog
+fan vaseGui::FogViewer -s res/testStyle.fog -a res/testView.fog
