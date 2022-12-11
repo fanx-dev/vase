@@ -29,7 +29,8 @@ class DisplayMetrics
     }
   }
 
-  internal Float densityBase = 1080f
+  internal Float densityBaseW = 1080f
+  internal Float densityBaseH = 1920f
 
   private static const Unsafe<DisplayMetrics> instance = Unsafe<DisplayMetrics>(make())
 
@@ -48,13 +49,23 @@ class DisplayMetrics
   }
 
   internal Void updateDensity(Int w, Int h) {
-    if (autoScale) {
-      m := w.min(h)
-      density = m / densityBase
+    if (!autoScale) {
+      density = Toolkit.cur.density
+      return
+    }
+
+    m := 1.0
+    if (w < h) {
+      m1 := w / densityBaseW
+      m2 := h / densityBaseH
+      m = m1.min(m2)
     }
     else {
-      density = Toolkit.cur.density
+      m1 := w / densityBaseH
+      m2 := h / densityBaseW
+      m = m1.min(m2)
     }
+    density = m
   }
 
   Int dpToPixel(Float d) { (d * dp).toInt }

@@ -50,6 +50,8 @@ virtual class Layout {
   
   const static Str percentH := "%h"
 
+  const static Str percentMin := "%min"
+
   Bool ignored := false
 
   **
@@ -108,6 +110,11 @@ virtual class Layout {
     else if (unit == percentH) {
       return (val/100f*parentH).toInt
     }
+    else if (unit == percentMin) {
+      min := parentW.min(parentH)
+      return (val/100f*min).toInt
+    }
+
     throw ArgErr("Unknow unit: $unit")
   }
   
