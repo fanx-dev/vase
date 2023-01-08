@@ -217,6 +217,8 @@ class SimpleListAdapter : ListAdapter
 {
   protected Obj[] list
 
+  |Obj|? onClick := null
+
   new make(Obj[] list) {
     this.list = list
   }
@@ -230,6 +232,7 @@ class SimpleListAdapter : ListAdapter
   protected override Void bind(Widget w, Obj data) {
     Label l := w
     l.text = data.toStr
+    l.onClick { if (this.onClick != null) this.onClick.call(data) }
   }
 
   protected override Widget newView(Int type) {
