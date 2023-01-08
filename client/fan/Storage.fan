@@ -49,13 +49,20 @@ internal class FileStorage : Storage {
 
   new make(Str path) {
     storeDir = File.os(path)
+    if (!storeDir.isDir) {
+      throw ArgErr("$path is not Dir")
+    }
+    if (!storeDir.exists) {
+      storeDir.create
+    }
   }
 
   protected static Str nameEncode(Str n) {
      BufCrypto.toBase64Uri(Buf.make().print(n))
   }
   protected static Str nameDecode(Str n) {
-     BufCrypto.fromBase64(n).readAllStr
+     buf := BufCrypto.fromBase64(n)
+     return buf.readAllStr
   }
 
   ** Return the number of items in storage.
@@ -65,7 +72,8 @@ internal class FileStorage : Storage {
   ** than or equal to 'size' returns null.
   override Str? key(Int index) {
     list :=  storeDir.list
-    if (index < list.size) return nameDecode(list[index].name)
+    file := list[index]
+    if (index < list.size) return nameDecode(file.name)
     return null
   }
 

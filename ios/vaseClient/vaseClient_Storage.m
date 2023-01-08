@@ -9,7 +9,7 @@ fr_Obj vaseClient_Storage_cur(fr_Env env) {
     if (vaseClient_Storage_instance == NULL) {
         NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
         NSString *documentFilePath = paths.firstObject;
-        documentFilePath = [documentFilePath stringByAppendingString:@"/defaultStorage"];
+        documentFilePath = [documentFilePath stringByAppendingString:@"/defaultStorage/"];
         fr_Obj path = fr_newStrUtf8(env, documentFilePath.UTF8String);
         
         fr_Obj starage = fr_newObjS(env, "vaseClient", "FileStorage", "make", 1, path);
