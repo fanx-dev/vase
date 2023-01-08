@@ -24,7 +24,7 @@ public class StoragePeer {
 
   static Storage cur() {
     if (cur == null) {
-      cur = open(baseStorePath + "defaultStorage");
+      cur = open(baseStorePath + "defaultStorage/");
     }
     return cur;
   }
