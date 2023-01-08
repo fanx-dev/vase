@@ -75,7 +75,12 @@ class TextViewStyle : WidgetStyle {
     //echo("paint $lab.text $lines contentWidth:$lab.contentWidth")
     for (i:=0; i<lines.size; ++i) {
         s := lines[i]
-        g.drawText(s, x, y)
+        xoffset := 0
+        if (lab.textAlign == Align.center) {
+          w := g.font.width(s)
+          xoffset = (lab.contentWidth - w)/2
+        }
+        g.drawText(s, x+xoffset, y)
         y += lab.rowHeight
     }
   }

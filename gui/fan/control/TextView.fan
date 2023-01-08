@@ -35,7 +35,7 @@ class TextView : Widget
   @Transient
   private Size? sizeCache := null
 
-  
+  Align textAlign := Align.begin
   Bool autoWrap := true
   
   protected Font font() {
@@ -106,7 +106,7 @@ class TextView : Widget
     lines := wrapText(hintsWidth)
     w := 0
     lines.each {
-       lw := font.width(it)
+       lw := font.width(it)+5
        w = w.max(lw)
     }
     h := rowHeight * lines.size
