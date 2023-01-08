@@ -280,7 +280,7 @@ class ScrollPane : ContentPane
     else if (e.type == GestureEvent.drop) {
       //actived = false
       //echo("drop: $vbar.isOverScroll")
-      if (vbar.isOverScroll) {
+      if (vbar.enabled && vbar.isOverScroll) {
         animatOverScroll
         if (vbar.curPos < 0f) {
            if (vbar.curPos < -dpToPixel(100).toFloat) {
@@ -301,7 +301,7 @@ class ScrollPane : ContentPane
           }
           startAnimation(anim)
         }
-        else {
+        else if (vbar.enabled) {
           anim := Animation {
             duration = 2000
             ScrollAnimChannel { target = vbar; startV = e.speedY.toFloat },

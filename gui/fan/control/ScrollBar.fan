@@ -36,6 +36,8 @@ class ScrollBar : Widget
   Bool isActive() { draging }
 
   Bool isOverScroll() {
+    if (curPos == 0.0) return false
+    
     if (curPos < 0f) {
       return true
     }
