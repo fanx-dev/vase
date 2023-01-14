@@ -110,16 +110,25 @@ CGContextRef getContext(fr_Env env, fr_Obj self) {
     return bitmapCtx;
 }
 
+#ifdef SAVE_ALBUM
+extern void saveToAlbum(CGImageRef image);
+#endif
 
 void vaseWindow_NImage_save(fr_Env env, fr_Obj self, fr_Obj out, fr_Obj format) {
     CGImageRef image = (CGImageRef)vaseWindow_NImage_getHandle(env, self);
-    
-    CFMutableDataRef cfdata = CFDataCreateMutable(NULL, 0);
     
     CFStringRef cfFormat = kUTTypePNG;
     if (strcmp(fr_getStrUtf8(env, format), "jpg") == 0 || strcmp(fr_getStrUtf8(env, format), "jpeg") == 0) {
         cfFormat = kUTTypeJPEG;
     }
+    else if (strcmp(fr_getStrUtf8(env, format), "album") == 0) {
+#ifdef SAVE_ALBUM
+        saveToAlbum(image);
+#endif
+        return;
+    }
+             
+    CFMutableDataRef cfdata = CFDataCreateMutable(NULL, 0);
     
     CGImageDestinationRef destination = CGImageDestinationCreateWithData(cfdata, cfFormat, 1, NULL);
     CGImageDestinationAddImage(destination, image, NULL);

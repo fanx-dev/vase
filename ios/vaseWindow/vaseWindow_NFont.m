@@ -38,11 +38,13 @@ UIFont *vaseWindow_NFont_font(fr_Env env, fr_Obj self) {
     static fr_Field sizeF;
     static fr_Field boldF;
     static fr_Field italicF;
+    static fr_Field nameF;
     if (!sizeF) {
         fr_Type type = fr_getObjType(env, self);
         sizeF = fr_findField(env, type, "size");
         boldF = fr_findField(env, type, "bold");
         italicF = fr_findField(env, type, "italic");
+        nameF = fr_findField(env, type, "name");
     }
     
     fr_Value size;
@@ -53,6 +55,14 @@ UIFont *vaseWindow_NFont_font(fr_Env env, fr_Obj self) {
     
     fr_Value italic;
     fr_getInstanceField(env, self, italicF, &italic);
+    
+    fr_Value name;
+    fr_getInstanceField(env, self, nameF, &name);
+    
+    const char *cname = fr_getStrUtf8(env, name.h);
+    if (strcmp(cname, "slideyouran-Regular") == 0) {
+       return [UIFont fontWithDescriptor:[UIFontDescriptor fontDescriptorWithName:[NSString stringWithUTF8String:cname] size:size.i] size:size.i];
+    }
     
     UIFont *uifont;
     if (bold.b) {
